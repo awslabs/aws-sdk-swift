@@ -75,8 +75,6 @@ class AWSClientConfigurationTests: XCTestCase {
 }
 
 struct TestAWSServiceSpecificConfiguration: AWSServiceSpecificConfiguration {
-    var authSchemes: Array<ClientRuntime.AuthScheme>
-    
     var authSchemeResolver: ClientRuntime.AuthSchemeResolver
     
     struct EndpointResolver {}
@@ -86,11 +84,9 @@ struct TestAWSServiceSpecificConfiguration: AWSServiceSpecificConfiguration {
     var endpointResolver: EndpointResolver
 
     init(endpointResolver: EndpointResolver?,
-         authSchemeResolver: ClientRuntime.AuthSchemeResolver?,
-         authSchemes: [ClientRuntime.AuthScheme]?
+         authSchemeResolver: ClientRuntime.AuthSchemeResolver?
     ) throws {
         self.endpointResolver = endpointResolver ?? EndpointResolver()
-        self.authSchemes = authSchemes ?? []
         self.authSchemeResolver = authSchemeResolver ?? TestAuthSchemeResolver()
     }
 
