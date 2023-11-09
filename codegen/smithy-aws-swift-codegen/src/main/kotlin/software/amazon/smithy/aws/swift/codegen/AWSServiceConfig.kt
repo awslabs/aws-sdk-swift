@@ -5,9 +5,7 @@
 
 package software.amazon.smithy.aws.swift.codegen
 
-import software.amazon.smithy.aws.traits.auth.SigV4Trait
 import software.amazon.smithy.codegen.core.Symbol
-import software.amazon.smithy.model.knowledge.ServiceIndex
 import software.amazon.smithy.model.shapes.ShapeType
 import software.amazon.smithy.rulesengine.traits.ClientContextParamsTrait
 import software.amazon.smithy.swift.codegen.SwiftTypes
@@ -15,7 +13,6 @@ import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.ConfigField
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.ServiceConfig
-import software.amazon.smithy.swift.codegen.integration.ServiceTypes
 import software.amazon.smithy.swift.codegen.model.buildSymbol
 import software.amazon.smithy.swift.codegen.model.getTrait
 import software.amazon.smithy.swift.codegen.utils.clientName
@@ -53,7 +50,7 @@ class AWSServiceConfig(writer: SwiftWriter, val ctx: ProtocolGenerator.Generatio
                 writer.write("")
                 writer.openBlock(
                     "public init(endpointResolver: EndpointResolver? = nil, " +
-                        "authSchemeResolver: ${serviceName.clientName()}AuthSchemeResolver? = nil",
+                        "authSchemeResolver: ${serviceName.clientName()}AuthSchemeResolver? = nil) throws {",
                     "}"
                 ) {
                     writer.write("self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()")
