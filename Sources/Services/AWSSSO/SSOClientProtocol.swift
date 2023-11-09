@@ -8,7 +8,7 @@ public protocol SSOClientProtocol {
     ///
     /// - Parameter GetRoleCredentialsInput : [no documentation found]
     ///
-    /// - Returns: `GetRoleCredentialsOutputResponse` : [no documentation found]
+    /// - Returns: `GetRoleCredentialsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -17,12 +17,12 @@ public protocol SSOClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `TooManyRequestsException` : Indicates that the request is being made too frequently and is more than what the server can handle.
     /// - `UnauthorizedException` : Indicates that the request is not authorized. This can happen due to an invalid access token in the request.
-    func getRoleCredentials(input: GetRoleCredentialsInput) async throws -> GetRoleCredentialsOutputResponse
+    func getRoleCredentials(input: GetRoleCredentialsInput) async throws -> GetRoleCredentialsOutput
     /// Lists all roles that are assigned to the user for a given AWS account.
     ///
     /// - Parameter ListAccountRolesInput : [no documentation found]
     ///
-    /// - Returns: `ListAccountRolesOutputResponse` : [no documentation found]
+    /// - Returns: `ListAccountRolesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -31,12 +31,12 @@ public protocol SSOClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `TooManyRequestsException` : Indicates that the request is being made too frequently and is more than what the server can handle.
     /// - `UnauthorizedException` : Indicates that the request is not authorized. This can happen due to an invalid access token in the request.
-    func listAccountRoles(input: ListAccountRolesInput) async throws -> ListAccountRolesOutputResponse
+    func listAccountRoles(input: ListAccountRolesInput) async throws -> ListAccountRolesOutput
     /// Lists all AWS accounts assigned to the user. These AWS accounts are assigned by the administrator of the account. For more information, see [Assign User Access](https://docs.aws.amazon.com/singlesignon/latest/userguide/useraccess.html#assignusers) in the IAM Identity Center User Guide. This operation returns a paginated response.
     ///
     /// - Parameter ListAccountsInput : [no documentation found]
     ///
-    /// - Returns: `ListAccountsOutputResponse` : [no documentation found]
+    /// - Returns: `ListAccountsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -45,12 +45,12 @@ public protocol SSOClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `TooManyRequestsException` : Indicates that the request is being made too frequently and is more than what the server can handle.
     /// - `UnauthorizedException` : Indicates that the request is not authorized. This can happen due to an invalid access token in the request.
-    func listAccounts(input: ListAccountsInput) async throws -> ListAccountsOutputResponse
+    func listAccounts(input: ListAccountsInput) async throws -> ListAccountsOutput
     /// Removes the locally stored SSO tokens from the client-side cache and sends an API call to the IAM Identity Center service to invalidate the corresponding server-side IAM Identity Center sign in session. If a user uses IAM Identity Center to access the AWS CLI, the user’s IAM Identity Center sign in session is used to obtain an IAM session, as specified in the corresponding IAM Identity Center permission set. More specifically, IAM Identity Center assumes an IAM role in the target account on behalf of the user, and the corresponding temporary AWS credentials are returned to the client. After user logout, any existing IAM role sessions that were created by using IAM Identity Center permission sets continue based on the duration configured in the permission set. For more information, see [User authentications](https://docs.aws.amazon.com/singlesignon/latest/userguide/authconcept.html) in the IAM Identity Center User Guide.
     ///
     /// - Parameter LogoutInput : [no documentation found]
     ///
-    /// - Returns: `LogoutOutputResponse` : [no documentation found]
+    /// - Returns: `LogoutOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -58,7 +58,7 @@ public protocol SSOClientProtocol {
     /// - `InvalidRequestException` : Indicates that a problem occurred with the input to the request. For example, a required parameter might be missing or out of range.
     /// - `TooManyRequestsException` : Indicates that the request is being made too frequently and is more than what the server can handle.
     /// - `UnauthorizedException` : Indicates that the request is not authorized. This can happen due to an invalid access token in the request.
-    func logout(input: LogoutInput) async throws -> LogoutOutputResponse
+    func logout(input: LogoutInput) async throws -> LogoutOutput
 }
 
 public enum SSOClientTypes {}

@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension SWFClient {
-    /// Paginate over `[GetWorkflowExecutionHistoryOutputResponse]` results.
+    /// Paginate over `[GetWorkflowExecutionHistoryOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[GetWorkflowExecutionHistoryInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `GetWorkflowExecutionHistoryOutputResponse`
-    public func getWorkflowExecutionHistoryPaginated(input: GetWorkflowExecutionHistoryInput) -> ClientRuntime.PaginatorSequence<GetWorkflowExecutionHistoryInput, GetWorkflowExecutionHistoryOutputResponse> {
-        return ClientRuntime.PaginatorSequence<GetWorkflowExecutionHistoryInput, GetWorkflowExecutionHistoryOutputResponse>(input: input, inputKey: \GetWorkflowExecutionHistoryInput.nextPageToken, outputKey: \GetWorkflowExecutionHistoryOutputResponse.nextPageToken, paginationFunction: self.getWorkflowExecutionHistory(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `GetWorkflowExecutionHistoryOutput`
+    public func getWorkflowExecutionHistoryPaginated(input: GetWorkflowExecutionHistoryInput) -> ClientRuntime.PaginatorSequence<GetWorkflowExecutionHistoryInput, GetWorkflowExecutionHistoryOutput> {
+        return ClientRuntime.PaginatorSequence<GetWorkflowExecutionHistoryInput, GetWorkflowExecutionHistoryOutput>(input: input, inputKey: \GetWorkflowExecutionHistoryInput.nextPageToken, outputKey: \GetWorkflowExecutionHistoryOutput.nextPageToken, paginationFunction: self.getWorkflowExecutionHistory(input:))
     }
 }
 
@@ -27,7 +27,7 @@ extension GetWorkflowExecutionHistoryInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == GetWorkflowExecutionHistoryInput, Output == GetWorkflowExecutionHistoryOutputResponse {
+extension PaginatorSequence where Input == GetWorkflowExecutionHistoryInput, Output == GetWorkflowExecutionHistoryOutput {
     /// This paginator transforms the `AsyncSequence` returned by `getWorkflowExecutionHistoryPaginated`
     /// to access the nested member `[SWFClientTypes.HistoryEvent]`
     /// - Returns: `[SWFClientTypes.HistoryEvent]`
@@ -36,16 +36,16 @@ extension PaginatorSequence where Input == GetWorkflowExecutionHistoryInput, Out
     }
 }
 extension SWFClient {
-    /// Paginate over `[ListActivityTypesOutputResponse]` results.
+    /// Paginate over `[ListActivityTypesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListActivityTypesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListActivityTypesOutputResponse`
-    public func listActivityTypesPaginated(input: ListActivityTypesInput) -> ClientRuntime.PaginatorSequence<ListActivityTypesInput, ListActivityTypesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListActivityTypesInput, ListActivityTypesOutputResponse>(input: input, inputKey: \ListActivityTypesInput.nextPageToken, outputKey: \ListActivityTypesOutputResponse.nextPageToken, paginationFunction: self.listActivityTypes(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListActivityTypesOutput`
+    public func listActivityTypesPaginated(input: ListActivityTypesInput) -> ClientRuntime.PaginatorSequence<ListActivityTypesInput, ListActivityTypesOutput> {
+        return ClientRuntime.PaginatorSequence<ListActivityTypesInput, ListActivityTypesOutput>(input: input, inputKey: \ListActivityTypesInput.nextPageToken, outputKey: \ListActivityTypesOutput.nextPageToken, paginationFunction: self.listActivityTypes(input:))
     }
 }
 
@@ -61,7 +61,7 @@ extension ListActivityTypesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListActivityTypesInput, Output == ListActivityTypesOutputResponse {
+extension PaginatorSequence where Input == ListActivityTypesInput, Output == ListActivityTypesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listActivityTypesPaginated`
     /// to access the nested member `[SWFClientTypes.ActivityTypeInfo]`
     /// - Returns: `[SWFClientTypes.ActivityTypeInfo]`
@@ -70,16 +70,16 @@ extension PaginatorSequence where Input == ListActivityTypesInput, Output == Lis
     }
 }
 extension SWFClient {
-    /// Paginate over `[ListClosedWorkflowExecutionsOutputResponse]` results.
+    /// Paginate over `[ListClosedWorkflowExecutionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListClosedWorkflowExecutionsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListClosedWorkflowExecutionsOutputResponse`
-    public func listClosedWorkflowExecutionsPaginated(input: ListClosedWorkflowExecutionsInput) -> ClientRuntime.PaginatorSequence<ListClosedWorkflowExecutionsInput, ListClosedWorkflowExecutionsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListClosedWorkflowExecutionsInput, ListClosedWorkflowExecutionsOutputResponse>(input: input, inputKey: \ListClosedWorkflowExecutionsInput.nextPageToken, outputKey: \ListClosedWorkflowExecutionsOutputResponse.nextPageToken, paginationFunction: self.listClosedWorkflowExecutions(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListClosedWorkflowExecutionsOutput`
+    public func listClosedWorkflowExecutionsPaginated(input: ListClosedWorkflowExecutionsInput) -> ClientRuntime.PaginatorSequence<ListClosedWorkflowExecutionsInput, ListClosedWorkflowExecutionsOutput> {
+        return ClientRuntime.PaginatorSequence<ListClosedWorkflowExecutionsInput, ListClosedWorkflowExecutionsOutput>(input: input, inputKey: \ListClosedWorkflowExecutionsInput.nextPageToken, outputKey: \ListClosedWorkflowExecutionsOutput.nextPageToken, paginationFunction: self.listClosedWorkflowExecutions(input:))
     }
 }
 
@@ -99,7 +99,7 @@ extension ListClosedWorkflowExecutionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListClosedWorkflowExecutionsInput, Output == ListClosedWorkflowExecutionsOutputResponse {
+extension PaginatorSequence where Input == ListClosedWorkflowExecutionsInput, Output == ListClosedWorkflowExecutionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listClosedWorkflowExecutionsPaginated`
     /// to access the nested member `[SWFClientTypes.WorkflowExecutionInfo]`
     /// - Returns: `[SWFClientTypes.WorkflowExecutionInfo]`
@@ -108,16 +108,16 @@ extension PaginatorSequence where Input == ListClosedWorkflowExecutionsInput, Ou
     }
 }
 extension SWFClient {
-    /// Paginate over `[ListDomainsOutputResponse]` results.
+    /// Paginate over `[ListDomainsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListDomainsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListDomainsOutputResponse`
-    public func listDomainsPaginated(input: ListDomainsInput) -> ClientRuntime.PaginatorSequence<ListDomainsInput, ListDomainsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListDomainsInput, ListDomainsOutputResponse>(input: input, inputKey: \ListDomainsInput.nextPageToken, outputKey: \ListDomainsOutputResponse.nextPageToken, paginationFunction: self.listDomains(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDomainsOutput`
+    public func listDomainsPaginated(input: ListDomainsInput) -> ClientRuntime.PaginatorSequence<ListDomainsInput, ListDomainsOutput> {
+        return ClientRuntime.PaginatorSequence<ListDomainsInput, ListDomainsOutput>(input: input, inputKey: \ListDomainsInput.nextPageToken, outputKey: \ListDomainsOutput.nextPageToken, paginationFunction: self.listDomains(input:))
     }
 }
 
@@ -131,7 +131,7 @@ extension ListDomainsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListDomainsInput, Output == ListDomainsOutputResponse {
+extension PaginatorSequence where Input == ListDomainsInput, Output == ListDomainsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listDomainsPaginated`
     /// to access the nested member `[SWFClientTypes.DomainInfo]`
     /// - Returns: `[SWFClientTypes.DomainInfo]`
@@ -140,16 +140,16 @@ extension PaginatorSequence where Input == ListDomainsInput, Output == ListDomai
     }
 }
 extension SWFClient {
-    /// Paginate over `[ListOpenWorkflowExecutionsOutputResponse]` results.
+    /// Paginate over `[ListOpenWorkflowExecutionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListOpenWorkflowExecutionsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListOpenWorkflowExecutionsOutputResponse`
-    public func listOpenWorkflowExecutionsPaginated(input: ListOpenWorkflowExecutionsInput) -> ClientRuntime.PaginatorSequence<ListOpenWorkflowExecutionsInput, ListOpenWorkflowExecutionsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListOpenWorkflowExecutionsInput, ListOpenWorkflowExecutionsOutputResponse>(input: input, inputKey: \ListOpenWorkflowExecutionsInput.nextPageToken, outputKey: \ListOpenWorkflowExecutionsOutputResponse.nextPageToken, paginationFunction: self.listOpenWorkflowExecutions(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListOpenWorkflowExecutionsOutput`
+    public func listOpenWorkflowExecutionsPaginated(input: ListOpenWorkflowExecutionsInput) -> ClientRuntime.PaginatorSequence<ListOpenWorkflowExecutionsInput, ListOpenWorkflowExecutionsOutput> {
+        return ClientRuntime.PaginatorSequence<ListOpenWorkflowExecutionsInput, ListOpenWorkflowExecutionsOutput>(input: input, inputKey: \ListOpenWorkflowExecutionsInput.nextPageToken, outputKey: \ListOpenWorkflowExecutionsOutput.nextPageToken, paginationFunction: self.listOpenWorkflowExecutions(input:))
     }
 }
 
@@ -167,7 +167,7 @@ extension ListOpenWorkflowExecutionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListOpenWorkflowExecutionsInput, Output == ListOpenWorkflowExecutionsOutputResponse {
+extension PaginatorSequence where Input == ListOpenWorkflowExecutionsInput, Output == ListOpenWorkflowExecutionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listOpenWorkflowExecutionsPaginated`
     /// to access the nested member `[SWFClientTypes.WorkflowExecutionInfo]`
     /// - Returns: `[SWFClientTypes.WorkflowExecutionInfo]`
@@ -176,16 +176,16 @@ extension PaginatorSequence where Input == ListOpenWorkflowExecutionsInput, Outp
     }
 }
 extension SWFClient {
-    /// Paginate over `[ListWorkflowTypesOutputResponse]` results.
+    /// Paginate over `[ListWorkflowTypesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListWorkflowTypesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListWorkflowTypesOutputResponse`
-    public func listWorkflowTypesPaginated(input: ListWorkflowTypesInput) -> ClientRuntime.PaginatorSequence<ListWorkflowTypesInput, ListWorkflowTypesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListWorkflowTypesInput, ListWorkflowTypesOutputResponse>(input: input, inputKey: \ListWorkflowTypesInput.nextPageToken, outputKey: \ListWorkflowTypesOutputResponse.nextPageToken, paginationFunction: self.listWorkflowTypes(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListWorkflowTypesOutput`
+    public func listWorkflowTypesPaginated(input: ListWorkflowTypesInput) -> ClientRuntime.PaginatorSequence<ListWorkflowTypesInput, ListWorkflowTypesOutput> {
+        return ClientRuntime.PaginatorSequence<ListWorkflowTypesInput, ListWorkflowTypesOutput>(input: input, inputKey: \ListWorkflowTypesInput.nextPageToken, outputKey: \ListWorkflowTypesOutput.nextPageToken, paginationFunction: self.listWorkflowTypes(input:))
     }
 }
 
@@ -201,7 +201,7 @@ extension ListWorkflowTypesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListWorkflowTypesInput, Output == ListWorkflowTypesOutputResponse {
+extension PaginatorSequence where Input == ListWorkflowTypesInput, Output == ListWorkflowTypesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listWorkflowTypesPaginated`
     /// to access the nested member `[SWFClientTypes.WorkflowTypeInfo]`
     /// - Returns: `[SWFClientTypes.WorkflowTypeInfo]`
@@ -210,16 +210,16 @@ extension PaginatorSequence where Input == ListWorkflowTypesInput, Output == Lis
     }
 }
 extension SWFClient {
-    /// Paginate over `[PollForDecisionTaskOutputResponse]` results.
+    /// Paginate over `[PollForDecisionTaskOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[PollForDecisionTaskInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `PollForDecisionTaskOutputResponse`
-    public func pollForDecisionTaskPaginated(input: PollForDecisionTaskInput) -> ClientRuntime.PaginatorSequence<PollForDecisionTaskInput, PollForDecisionTaskOutputResponse> {
-        return ClientRuntime.PaginatorSequence<PollForDecisionTaskInput, PollForDecisionTaskOutputResponse>(input: input, inputKey: \PollForDecisionTaskInput.nextPageToken, outputKey: \PollForDecisionTaskOutputResponse.nextPageToken, paginationFunction: self.pollForDecisionTask(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `PollForDecisionTaskOutput`
+    public func pollForDecisionTaskPaginated(input: PollForDecisionTaskInput) -> ClientRuntime.PaginatorSequence<PollForDecisionTaskInput, PollForDecisionTaskOutput> {
+        return ClientRuntime.PaginatorSequence<PollForDecisionTaskInput, PollForDecisionTaskOutput>(input: input, inputKey: \PollForDecisionTaskInput.nextPageToken, outputKey: \PollForDecisionTaskOutput.nextPageToken, paginationFunction: self.pollForDecisionTask(input:))
     }
 }
 
@@ -236,7 +236,7 @@ extension PollForDecisionTaskInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == PollForDecisionTaskInput, Output == PollForDecisionTaskOutputResponse {
+extension PaginatorSequence where Input == PollForDecisionTaskInput, Output == PollForDecisionTaskOutput {
     /// This paginator transforms the `AsyncSequence` returned by `pollForDecisionTaskPaginated`
     /// to access the nested member `[SWFClientTypes.HistoryEvent]`
     /// - Returns: `[SWFClientTypes.HistoryEvent]`

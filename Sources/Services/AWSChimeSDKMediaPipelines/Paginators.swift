@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension ChimeSDKMediaPipelinesClient {
-    /// Paginate over `[ListMediaCapturePipelinesOutputResponse]` results.
+    /// Paginate over `[ListMediaCapturePipelinesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListMediaCapturePipelinesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListMediaCapturePipelinesOutputResponse`
-    public func listMediaCapturePipelinesPaginated(input: ListMediaCapturePipelinesInput) -> ClientRuntime.PaginatorSequence<ListMediaCapturePipelinesInput, ListMediaCapturePipelinesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListMediaCapturePipelinesInput, ListMediaCapturePipelinesOutputResponse>(input: input, inputKey: \ListMediaCapturePipelinesInput.nextToken, outputKey: \ListMediaCapturePipelinesOutputResponse.nextToken, paginationFunction: self.listMediaCapturePipelines(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListMediaCapturePipelinesOutput`
+    public func listMediaCapturePipelinesPaginated(input: ListMediaCapturePipelinesInput) -> ClientRuntime.PaginatorSequence<ListMediaCapturePipelinesInput, ListMediaCapturePipelinesOutput> {
+        return ClientRuntime.PaginatorSequence<ListMediaCapturePipelinesInput, ListMediaCapturePipelinesOutput>(input: input, inputKey: \ListMediaCapturePipelinesInput.nextToken, outputKey: \ListMediaCapturePipelinesOutput.nextToken, paginationFunction: self.listMediaCapturePipelines(input:))
     }
 }
 
@@ -24,16 +24,16 @@ extension ListMediaCapturePipelinesInput: ClientRuntime.PaginateToken {
         )}
 }
 extension ChimeSDKMediaPipelinesClient {
-    /// Paginate over `[ListMediaInsightsPipelineConfigurationsOutputResponse]` results.
+    /// Paginate over `[ListMediaInsightsPipelineConfigurationsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListMediaInsightsPipelineConfigurationsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListMediaInsightsPipelineConfigurationsOutputResponse`
-    public func listMediaInsightsPipelineConfigurationsPaginated(input: ListMediaInsightsPipelineConfigurationsInput) -> ClientRuntime.PaginatorSequence<ListMediaInsightsPipelineConfigurationsInput, ListMediaInsightsPipelineConfigurationsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListMediaInsightsPipelineConfigurationsInput, ListMediaInsightsPipelineConfigurationsOutputResponse>(input: input, inputKey: \ListMediaInsightsPipelineConfigurationsInput.nextToken, outputKey: \ListMediaInsightsPipelineConfigurationsOutputResponse.nextToken, paginationFunction: self.listMediaInsightsPipelineConfigurations(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListMediaInsightsPipelineConfigurationsOutput`
+    public func listMediaInsightsPipelineConfigurationsPaginated(input: ListMediaInsightsPipelineConfigurationsInput) -> ClientRuntime.PaginatorSequence<ListMediaInsightsPipelineConfigurationsInput, ListMediaInsightsPipelineConfigurationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListMediaInsightsPipelineConfigurationsInput, ListMediaInsightsPipelineConfigurationsOutput>(input: input, inputKey: \ListMediaInsightsPipelineConfigurationsInput.nextToken, outputKey: \ListMediaInsightsPipelineConfigurationsOutput.nextToken, paginationFunction: self.listMediaInsightsPipelineConfigurations(input:))
     }
 }
 
@@ -45,16 +45,16 @@ extension ListMediaInsightsPipelineConfigurationsInput: ClientRuntime.PaginateTo
         )}
 }
 extension ChimeSDKMediaPipelinesClient {
-    /// Paginate over `[ListMediaPipelineKinesisVideoStreamPoolsOutputResponse]` results.
+    /// Paginate over `[ListMediaPipelineKinesisVideoStreamPoolsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListMediaPipelineKinesisVideoStreamPoolsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListMediaPipelineKinesisVideoStreamPoolsOutputResponse`
-    public func listMediaPipelineKinesisVideoStreamPoolsPaginated(input: ListMediaPipelineKinesisVideoStreamPoolsInput) -> ClientRuntime.PaginatorSequence<ListMediaPipelineKinesisVideoStreamPoolsInput, ListMediaPipelineKinesisVideoStreamPoolsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListMediaPipelineKinesisVideoStreamPoolsInput, ListMediaPipelineKinesisVideoStreamPoolsOutputResponse>(input: input, inputKey: \ListMediaPipelineKinesisVideoStreamPoolsInput.nextToken, outputKey: \ListMediaPipelineKinesisVideoStreamPoolsOutputResponse.nextToken, paginationFunction: self.listMediaPipelineKinesisVideoStreamPools(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListMediaPipelineKinesisVideoStreamPoolsOutput`
+    public func listMediaPipelineKinesisVideoStreamPoolsPaginated(input: ListMediaPipelineKinesisVideoStreamPoolsInput) -> ClientRuntime.PaginatorSequence<ListMediaPipelineKinesisVideoStreamPoolsInput, ListMediaPipelineKinesisVideoStreamPoolsOutput> {
+        return ClientRuntime.PaginatorSequence<ListMediaPipelineKinesisVideoStreamPoolsInput, ListMediaPipelineKinesisVideoStreamPoolsOutput>(input: input, inputKey: \ListMediaPipelineKinesisVideoStreamPoolsInput.nextToken, outputKey: \ListMediaPipelineKinesisVideoStreamPoolsOutput.nextToken, paginationFunction: self.listMediaPipelineKinesisVideoStreamPools(input:))
     }
 }
 
@@ -66,16 +66,16 @@ extension ListMediaPipelineKinesisVideoStreamPoolsInput: ClientRuntime.PaginateT
         )}
 }
 extension ChimeSDKMediaPipelinesClient {
-    /// Paginate over `[ListMediaPipelinesOutputResponse]` results.
+    /// Paginate over `[ListMediaPipelinesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListMediaPipelinesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListMediaPipelinesOutputResponse`
-    public func listMediaPipelinesPaginated(input: ListMediaPipelinesInput) -> ClientRuntime.PaginatorSequence<ListMediaPipelinesInput, ListMediaPipelinesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListMediaPipelinesInput, ListMediaPipelinesOutputResponse>(input: input, inputKey: \ListMediaPipelinesInput.nextToken, outputKey: \ListMediaPipelinesOutputResponse.nextToken, paginationFunction: self.listMediaPipelines(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListMediaPipelinesOutput`
+    public func listMediaPipelinesPaginated(input: ListMediaPipelinesInput) -> ClientRuntime.PaginatorSequence<ListMediaPipelinesInput, ListMediaPipelinesOutput> {
+        return ClientRuntime.PaginatorSequence<ListMediaPipelinesInput, ListMediaPipelinesOutput>(input: input, inputKey: \ListMediaPipelinesInput.nextToken, outputKey: \ListMediaPipelinesOutput.nextToken, paginationFunction: self.listMediaPipelines(input:))
     }
 }
 

@@ -28,7 +28,7 @@ public protocol WorkDocsClientProtocol {
     ///
     /// - Parameter AbortDocumentVersionUploadInput : [no documentation found]
     ///
-    /// - Returns: `AbortDocumentVersionUploadOutputResponse` : [no documentation found]
+    /// - Returns: `AbortDocumentVersionUploadOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -40,12 +40,12 @@ public protocol WorkDocsClientProtocol {
     /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
     /// - `UnauthorizedOperationException` : The operation is not permitted.
     /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
-    func abortDocumentVersionUpload(input: AbortDocumentVersionUploadInput) async throws -> AbortDocumentVersionUploadOutputResponse
+    func abortDocumentVersionUpload(input: AbortDocumentVersionUploadInput) async throws -> AbortDocumentVersionUploadOutput
     /// Activates the specified user. Only active users can access Amazon WorkDocs.
     ///
     /// - Parameter ActivateUserInput : [no documentation found]
     ///
-    /// - Returns: `ActivateUserOutputResponse` : [no documentation found]
+    /// - Returns: `ActivateUserOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -55,12 +55,12 @@ public protocol WorkDocsClientProtocol {
     /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
     /// - `UnauthorizedOperationException` : The operation is not permitted.
     /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
-    func activateUser(input: ActivateUserInput) async throws -> ActivateUserOutputResponse
+    func activateUser(input: ActivateUserInput) async throws -> ActivateUserOutput
     /// Creates a set of permissions for the specified folder or document. The resource permissions are overwritten if the principals already have different permissions.
     ///
     /// - Parameter AddResourcePermissionsInput : [no documentation found]
     ///
-    /// - Returns: `AddResourcePermissionsOutputResponse` : [no documentation found]
+    /// - Returns: `AddResourcePermissionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -70,12 +70,12 @@ public protocol WorkDocsClientProtocol {
     /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
     /// - `UnauthorizedOperationException` : The operation is not permitted.
     /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
-    func addResourcePermissions(input: AddResourcePermissionsInput) async throws -> AddResourcePermissionsOutputResponse
+    func addResourcePermissions(input: AddResourcePermissionsInput) async throws -> AddResourcePermissionsOutput
     /// Adds a new comment to the specified document version.
     ///
     /// - Parameter CreateCommentInput : [no documentation found]
     ///
-    /// - Returns: `CreateCommentOutputResponse` : [no documentation found]
+    /// - Returns: `CreateCommentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -88,12 +88,12 @@ public protocol WorkDocsClientProtocol {
     /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
     /// - `UnauthorizedOperationException` : The operation is not permitted.
     /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
-    func createComment(input: CreateCommentInput) async throws -> CreateCommentOutputResponse
+    func createComment(input: CreateCommentInput) async throws -> CreateCommentOutput
     /// Adds one or more custom properties to the specified resource (a folder, document, or version).
     ///
     /// - Parameter CreateCustomMetadataInput : [no documentation found]
     ///
-    /// - Returns: `CreateCustomMetadataOutputResponse` : [no documentation found]
+    /// - Returns: `CreateCustomMetadataOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -105,12 +105,12 @@ public protocol WorkDocsClientProtocol {
     /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
     /// - `UnauthorizedOperationException` : The operation is not permitted.
     /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
-    func createCustomMetadata(input: CreateCustomMetadataInput) async throws -> CreateCustomMetadataOutputResponse
+    func createCustomMetadata(input: CreateCustomMetadataInput) async throws -> CreateCustomMetadataOutput
     /// Creates a folder with the specified name and parent folder.
     ///
     /// - Parameter CreateFolderInput : [no documentation found]
     ///
-    /// - Returns: `CreateFolderOutputResponse` : [no documentation found]
+    /// - Returns: `CreateFolderOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -125,12 +125,12 @@ public protocol WorkDocsClientProtocol {
     /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
     /// - `UnauthorizedOperationException` : The operation is not permitted.
     /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
-    func createFolder(input: CreateFolderInput) async throws -> CreateFolderOutputResponse
+    func createFolder(input: CreateFolderInput) async throws -> CreateFolderOutput
     /// Adds the specified list of labels to the given resource (a document or folder)
     ///
     /// - Parameter CreateLabelsInput : [no documentation found]
     ///
-    /// - Returns: `CreateLabelsOutputResponse` : [no documentation found]
+    /// - Returns: `CreateLabelsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -141,12 +141,12 @@ public protocol WorkDocsClientProtocol {
     /// - `TooManyLabelsException` : The limit has been reached on the number of labels for the specified resource.
     /// - `UnauthorizedOperationException` : The operation is not permitted.
     /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
-    func createLabels(input: CreateLabelsInput) async throws -> CreateLabelsOutputResponse
+    func createLabels(input: CreateLabelsInput) async throws -> CreateLabelsOutput
     /// Configure Amazon WorkDocs to use Amazon SNS notifications. The endpoint receives a confirmation message, and must confirm the subscription. For more information, see [Setting up notifications for an IAM user or role](https://docs.aws.amazon.com/workdocs/latest/developerguide/manage-notifications.html) in the Amazon WorkDocs Developer Guide.
     ///
     /// - Parameter CreateNotificationSubscriptionInput : [no documentation found]
     ///
-    /// - Returns: `CreateNotificationSubscriptionOutputResponse` : [no documentation found]
+    /// - Returns: `CreateNotificationSubscriptionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -155,12 +155,12 @@ public protocol WorkDocsClientProtocol {
     /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
     /// - `TooManySubscriptionsException` : You've reached the limit on the number of subscriptions for the WorkDocs instance.
     /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
-    func createNotificationSubscription(input: CreateNotificationSubscriptionInput) async throws -> CreateNotificationSubscriptionOutputResponse
+    func createNotificationSubscription(input: CreateNotificationSubscriptionInput) async throws -> CreateNotificationSubscriptionOutput
     /// Creates a user in a Simple AD or Microsoft AD directory. The status of a newly created user is "ACTIVE". New users can access Amazon WorkDocs.
     ///
     /// - Parameter CreateUserInput : [no documentation found]
     ///
-    /// - Returns: `CreateUserOutputResponse` : [no documentation found]
+    /// - Returns: `CreateUserOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -170,12 +170,12 @@ public protocol WorkDocsClientProtocol {
     /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
     /// - `UnauthorizedOperationException` : The operation is not permitted.
     /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
-    func createUser(input: CreateUserInput) async throws -> CreateUserOutputResponse
+    func createUser(input: CreateUserInput) async throws -> CreateUserOutput
     /// Deactivates the specified user, which revokes the user's access to Amazon WorkDocs.
     ///
     /// - Parameter DeactivateUserInput : [no documentation found]
     ///
-    /// - Returns: `DeactivateUserOutputResponse` : [no documentation found]
+    /// - Returns: `DeactivateUserOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -185,12 +185,12 @@ public protocol WorkDocsClientProtocol {
     /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
     /// - `UnauthorizedOperationException` : The operation is not permitted.
     /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
-    func deactivateUser(input: DeactivateUserInput) async throws -> DeactivateUserOutputResponse
+    func deactivateUser(input: DeactivateUserInput) async throws -> DeactivateUserOutput
     /// Deletes the specified comment from the document version.
     ///
     /// - Parameter DeleteCommentInput : [no documentation found]
     ///
-    /// - Returns: `DeleteCommentOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteCommentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -202,12 +202,12 @@ public protocol WorkDocsClientProtocol {
     /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
     /// - `UnauthorizedOperationException` : The operation is not permitted.
     /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
-    func deleteComment(input: DeleteCommentInput) async throws -> DeleteCommentOutputResponse
+    func deleteComment(input: DeleteCommentInput) async throws -> DeleteCommentOutput
     /// Deletes custom metadata from the specified resource.
     ///
     /// - Parameter DeleteCustomMetadataInput : [no documentation found]
     ///
-    /// - Returns: `DeleteCustomMetadataOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteCustomMetadataOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -218,12 +218,12 @@ public protocol WorkDocsClientProtocol {
     /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
     /// - `UnauthorizedOperationException` : The operation is not permitted.
     /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
-    func deleteCustomMetadata(input: DeleteCustomMetadataInput) async throws -> DeleteCustomMetadataOutputResponse
+    func deleteCustomMetadata(input: DeleteCustomMetadataInput) async throws -> DeleteCustomMetadataOutput
     /// Permanently deletes the specified document and its associated metadata.
     ///
     /// - Parameter DeleteDocumentInput : [no documentation found]
     ///
-    /// - Returns: `DeleteDocumentOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteDocumentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -237,12 +237,12 @@ public protocol WorkDocsClientProtocol {
     /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
     /// - `UnauthorizedOperationException` : The operation is not permitted.
     /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
-    func deleteDocument(input: DeleteDocumentInput) async throws -> DeleteDocumentOutputResponse
+    func deleteDocument(input: DeleteDocumentInput) async throws -> DeleteDocumentOutput
     /// Deletes a specific version of a document.
     ///
     /// - Parameter DeleteDocumentVersionInput : [no documentation found]
     ///
-    /// - Returns: `DeleteDocumentVersionOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteDocumentVersionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -255,12 +255,12 @@ public protocol WorkDocsClientProtocol {
     /// - `ProhibitedStateException` : The specified document version is not in the INITIALIZED state.
     /// - `UnauthorizedOperationException` : The operation is not permitted.
     /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
-    func deleteDocumentVersion(input: DeleteDocumentVersionInput) async throws -> DeleteDocumentVersionOutputResponse
+    func deleteDocumentVersion(input: DeleteDocumentVersionInput) async throws -> DeleteDocumentVersionOutput
     /// Permanently deletes the specified folder and its contents.
     ///
     /// - Parameter DeleteFolderInput : [no documentation found]
     ///
-    /// - Returns: `DeleteFolderOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteFolderOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -274,12 +274,12 @@ public protocol WorkDocsClientProtocol {
     /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
     /// - `UnauthorizedOperationException` : The operation is not permitted.
     /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
-    func deleteFolder(input: DeleteFolderInput) async throws -> DeleteFolderOutputResponse
+    func deleteFolder(input: DeleteFolderInput) async throws -> DeleteFolderOutput
     /// Deletes the contents of the specified folder.
     ///
     /// - Parameter DeleteFolderContentsInput : [no documentation found]
     ///
-    /// - Returns: `DeleteFolderContentsOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteFolderContentsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -291,12 +291,12 @@ public protocol WorkDocsClientProtocol {
     /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
     /// - `UnauthorizedOperationException` : The operation is not permitted.
     /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
-    func deleteFolderContents(input: DeleteFolderContentsInput) async throws -> DeleteFolderContentsOutputResponse
+    func deleteFolderContents(input: DeleteFolderContentsInput) async throws -> DeleteFolderContentsOutput
     /// Deletes the specified list of labels from a resource.
     ///
     /// - Parameter DeleteLabelsInput : [no documentation found]
     ///
-    /// - Returns: `DeleteLabelsOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteLabelsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -307,12 +307,12 @@ public protocol WorkDocsClientProtocol {
     /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
     /// - `UnauthorizedOperationException` : The operation is not permitted.
     /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
-    func deleteLabels(input: DeleteLabelsInput) async throws -> DeleteLabelsOutputResponse
+    func deleteLabels(input: DeleteLabelsInput) async throws -> DeleteLabelsOutput
     /// Deletes the specified subscription from the specified organization.
     ///
     /// - Parameter DeleteNotificationSubscriptionInput : [no documentation found]
     ///
-    /// - Returns: `DeleteNotificationSubscriptionOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteNotificationSubscriptionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -321,12 +321,12 @@ public protocol WorkDocsClientProtocol {
     /// - `ProhibitedStateException` : The specified document version is not in the INITIALIZED state.
     /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
     /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
-    func deleteNotificationSubscription(input: DeleteNotificationSubscriptionInput) async throws -> DeleteNotificationSubscriptionOutputResponse
+    func deleteNotificationSubscription(input: DeleteNotificationSubscriptionInput) async throws -> DeleteNotificationSubscriptionOutput
     /// Deletes the specified user from a Simple AD or Microsoft AD directory. Deleting a user immediately and permanently deletes all content in that user's folder structure. Site retention policies do NOT apply to this type of deletion.
     ///
     /// - Parameter DeleteUserInput : [no documentation found]
     ///
-    /// - Returns: `DeleteUserOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteUserOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -336,12 +336,12 @@ public protocol WorkDocsClientProtocol {
     /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
     /// - `UnauthorizedOperationException` : The operation is not permitted.
     /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
-    func deleteUser(input: DeleteUserInput) async throws -> DeleteUserOutputResponse
+    func deleteUser(input: DeleteUserInput) async throws -> DeleteUserOutput
     /// Describes the user activities in a specified time period.
     ///
     /// - Parameter DescribeActivitiesInput : [no documentation found]
     ///
-    /// - Returns: `DescribeActivitiesOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeActivitiesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -351,12 +351,12 @@ public protocol WorkDocsClientProtocol {
     /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
     /// - `UnauthorizedOperationException` : The operation is not permitted.
     /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
-    func describeActivities(input: DescribeActivitiesInput) async throws -> DescribeActivitiesOutputResponse
+    func describeActivities(input: DescribeActivitiesInput) async throws -> DescribeActivitiesOutput
     /// List all the comments for the specified document version.
     ///
     /// - Parameter DescribeCommentsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeCommentsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeCommentsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -367,12 +367,12 @@ public protocol WorkDocsClientProtocol {
     /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
     /// - `UnauthorizedOperationException` : The operation is not permitted.
     /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
-    func describeComments(input: DescribeCommentsInput) async throws -> DescribeCommentsOutputResponse
+    func describeComments(input: DescribeCommentsInput) async throws -> DescribeCommentsOutput
     /// Retrieves the document versions for the specified document. By default, only active versions are returned.
     ///
     /// - Parameter DescribeDocumentVersionsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeDocumentVersionsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeDocumentVersionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -385,12 +385,12 @@ public protocol WorkDocsClientProtocol {
     /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
     /// - `UnauthorizedOperationException` : The operation is not permitted.
     /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
-    func describeDocumentVersions(input: DescribeDocumentVersionsInput) async throws -> DescribeDocumentVersionsOutputResponse
+    func describeDocumentVersions(input: DescribeDocumentVersionsInput) async throws -> DescribeDocumentVersionsOutput
     /// Describes the contents of the specified folder, including its documents and subfolders. By default, Amazon WorkDocs returns the first 100 active document and folder metadata items. If there are more results, the response includes a marker that you can use to request the next set of results. You can also request initialized documents.
     ///
     /// - Parameter DescribeFolderContentsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeFolderContentsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeFolderContentsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -401,12 +401,12 @@ public protocol WorkDocsClientProtocol {
     /// - `ProhibitedStateException` : The specified document version is not in the INITIALIZED state.
     /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
     /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
-    func describeFolderContents(input: DescribeFolderContentsInput) async throws -> DescribeFolderContentsOutputResponse
+    func describeFolderContents(input: DescribeFolderContentsInput) async throws -> DescribeFolderContentsOutput
     /// Describes the groups specified by the query. Groups are defined by the underlying Active Directory.
     ///
     /// - Parameter DescribeGroupsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeGroupsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeGroupsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -415,12 +415,12 @@ public protocol WorkDocsClientProtocol {
     /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
     /// - `UnauthorizedOperationException` : The operation is not permitted.
     /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
-    func describeGroups(input: DescribeGroupsInput) async throws -> DescribeGroupsOutputResponse
+    func describeGroups(input: DescribeGroupsInput) async throws -> DescribeGroupsOutput
     /// Lists the specified notification subscriptions.
     ///
     /// - Parameter DescribeNotificationSubscriptionsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeNotificationSubscriptionsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeNotificationSubscriptionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -428,12 +428,12 @@ public protocol WorkDocsClientProtocol {
     /// - `EntityNotExistsException` : The resource does not exist.
     /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
     /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
-    func describeNotificationSubscriptions(input: DescribeNotificationSubscriptionsInput) async throws -> DescribeNotificationSubscriptionsOutputResponse
+    func describeNotificationSubscriptions(input: DescribeNotificationSubscriptionsInput) async throws -> DescribeNotificationSubscriptionsOutput
     /// Describes the permissions of a specified resource.
     ///
     /// - Parameter DescribeResourcePermissionsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeResourcePermissionsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeResourcePermissionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -443,12 +443,12 @@ public protocol WorkDocsClientProtocol {
     /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
     /// - `UnauthorizedOperationException` : The operation is not permitted.
     /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
-    func describeResourcePermissions(input: DescribeResourcePermissionsInput) async throws -> DescribeResourcePermissionsOutputResponse
+    func describeResourcePermissions(input: DescribeResourcePermissionsInput) async throws -> DescribeResourcePermissionsOutput
     /// Describes the current user's special folders; the RootFolder and the RecycleBin. RootFolder is the root of user's files and folders and RecycleBin is the root of recycled items. This is not a valid action for SigV4 (administrative API) clients. This action requires an authentication token. To get an authentication token, register an application with Amazon WorkDocs. For more information, see [Authentication and Access Control for User Applications](https://docs.aws.amazon.com/workdocs/latest/developerguide/wd-auth-user.html) in the Amazon WorkDocs Developer Guide.
     ///
     /// - Parameter DescribeRootFoldersInput : [no documentation found]
     ///
-    /// - Returns: `DescribeRootFoldersOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeRootFoldersOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -458,12 +458,12 @@ public protocol WorkDocsClientProtocol {
     /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
     /// - `UnauthorizedOperationException` : The operation is not permitted.
     /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
-    func describeRootFolders(input: DescribeRootFoldersInput) async throws -> DescribeRootFoldersOutputResponse
+    func describeRootFolders(input: DescribeRootFoldersInput) async throws -> DescribeRootFoldersOutput
     /// Describes the specified users. You can describe all users or filter the results (for example, by status or organization). By default, Amazon WorkDocs returns the first 24 active or pending users. If there are more results, the response includes a marker that you can use to request the next set of results.
     ///
     /// - Parameter DescribeUsersInput : [no documentation found]
     ///
-    /// - Returns: `DescribeUsersOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeUsersOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -475,12 +475,12 @@ public protocol WorkDocsClientProtocol {
     /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
     /// - `UnauthorizedOperationException` : The operation is not permitted.
     /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
-    func describeUsers(input: DescribeUsersInput) async throws -> DescribeUsersOutputResponse
+    func describeUsers(input: DescribeUsersInput) async throws -> DescribeUsersOutput
     /// Retrieves details of the current user for whom the authentication token was generated. This is not a valid action for SigV4 (administrative API) clients. This action requires an authentication token. To get an authentication token, register an application with Amazon WorkDocs. For more information, see [Authentication and Access Control for User Applications](https://docs.aws.amazon.com/workdocs/latest/developerguide/wd-auth-user.html) in the Amazon WorkDocs Developer Guide.
     ///
     /// - Parameter GetCurrentUserInput : [no documentation found]
     ///
-    /// - Returns: `GetCurrentUserOutputResponse` : [no documentation found]
+    /// - Returns: `GetCurrentUserOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -490,12 +490,12 @@ public protocol WorkDocsClientProtocol {
     /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
     /// - `UnauthorizedOperationException` : The operation is not permitted.
     /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
-    func getCurrentUser(input: GetCurrentUserInput) async throws -> GetCurrentUserOutputResponse
+    func getCurrentUser(input: GetCurrentUserInput) async throws -> GetCurrentUserOutput
     /// Retrieves details of a document.
     ///
     /// - Parameter GetDocumentInput : [no documentation found]
     ///
-    /// - Returns: `GetDocumentOutputResponse` : [no documentation found]
+    /// - Returns: `GetDocumentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -507,12 +507,12 @@ public protocol WorkDocsClientProtocol {
     /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
     /// - `UnauthorizedOperationException` : The operation is not permitted.
     /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
-    func getDocument(input: GetDocumentInput) async throws -> GetDocumentOutputResponse
+    func getDocument(input: GetDocumentInput) async throws -> GetDocumentOutput
     /// Retrieves the path information (the hierarchy from the root folder) for the requested document. By default, Amazon WorkDocs returns a maximum of 100 levels upwards from the requested document and only includes the IDs of the parent folders in the path. You can limit the maximum number of levels. You can also request the names of the parent folders.
     ///
     /// - Parameter GetDocumentPathInput : [no documentation found]
     ///
-    /// - Returns: `GetDocumentPathOutputResponse` : [no documentation found]
+    /// - Returns: `GetDocumentPathOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -522,12 +522,12 @@ public protocol WorkDocsClientProtocol {
     /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
     /// - `UnauthorizedOperationException` : The operation is not permitted.
     /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
-    func getDocumentPath(input: GetDocumentPathInput) async throws -> GetDocumentPathOutputResponse
+    func getDocumentPath(input: GetDocumentPathInput) async throws -> GetDocumentPathOutput
     /// Retrieves version metadata for the specified document.
     ///
     /// - Parameter GetDocumentVersionInput : [no documentation found]
     ///
-    /// - Returns: `GetDocumentVersionOutputResponse` : [no documentation found]
+    /// - Returns: `GetDocumentVersionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -539,12 +539,12 @@ public protocol WorkDocsClientProtocol {
     /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
     /// - `UnauthorizedOperationException` : The operation is not permitted.
     /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
-    func getDocumentVersion(input: GetDocumentVersionInput) async throws -> GetDocumentVersionOutputResponse
+    func getDocumentVersion(input: GetDocumentVersionInput) async throws -> GetDocumentVersionOutput
     /// Retrieves the metadata of the specified folder.
     ///
     /// - Parameter GetFolderInput : [no documentation found]
     ///
-    /// - Returns: `GetFolderOutputResponse` : [no documentation found]
+    /// - Returns: `GetFolderOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -556,12 +556,12 @@ public protocol WorkDocsClientProtocol {
     /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
     /// - `UnauthorizedOperationException` : The operation is not permitted.
     /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
-    func getFolder(input: GetFolderInput) async throws -> GetFolderOutputResponse
+    func getFolder(input: GetFolderInput) async throws -> GetFolderOutput
     /// Retrieves the path information (the hierarchy from the root folder) for the specified folder. By default, Amazon WorkDocs returns a maximum of 100 levels upwards from the requested folder and only includes the IDs of the parent folders in the path. You can limit the maximum number of levels. You can also request the parent folder names.
     ///
     /// - Parameter GetFolderPathInput : [no documentation found]
     ///
-    /// - Returns: `GetFolderPathOutputResponse` : [no documentation found]
+    /// - Returns: `GetFolderPathOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -571,12 +571,12 @@ public protocol WorkDocsClientProtocol {
     /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
     /// - `UnauthorizedOperationException` : The operation is not permitted.
     /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
-    func getFolderPath(input: GetFolderPathInput) async throws -> GetFolderPathOutputResponse
+    func getFolderPath(input: GetFolderPathInput) async throws -> GetFolderPathOutput
     /// Retrieves a collection of resources, including folders and documents. The only CollectionType supported is SHARED_WITH_ME.
     ///
     /// - Parameter GetResourcesInput : [no documentation found]
     ///
-    /// - Returns: `GetResourcesOutputResponse` : [no documentation found]
+    /// - Returns: `GetResourcesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -586,12 +586,12 @@ public protocol WorkDocsClientProtocol {
     /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
     /// - `UnauthorizedOperationException` : The operation is not permitted.
     /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
-    func getResources(input: GetResourcesInput) async throws -> GetResourcesOutputResponse
+    func getResources(input: GetResourcesInput) async throws -> GetResourcesOutput
     /// Creates a new document object and version object. The client specifies the parent folder ID and name of the document to upload. The ID is optionally specified when creating a new version of an existing document. This is the first step to upload a document. Next, upload the document to the URL returned from the call, and then call [UpdateDocumentVersion]. To cancel the document upload, call [AbortDocumentVersionUpload].
     ///
     /// - Parameter InitiateDocumentVersionUploadInput : [no documentation found]
     ///
-    /// - Returns: `InitiateDocumentVersionUploadOutputResponse` : [no documentation found]
+    /// - Returns: `InitiateDocumentVersionUploadOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -610,12 +610,12 @@ public protocol WorkDocsClientProtocol {
     /// - `StorageLimitWillExceedException` : The storage limit will be exceeded.
     /// - `UnauthorizedOperationException` : The operation is not permitted.
     /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
-    func initiateDocumentVersionUpload(input: InitiateDocumentVersionUploadInput) async throws -> InitiateDocumentVersionUploadOutputResponse
+    func initiateDocumentVersionUpload(input: InitiateDocumentVersionUploadInput) async throws -> InitiateDocumentVersionUploadOutput
     /// Removes all the permissions from the specified resource.
     ///
     /// - Parameter RemoveAllResourcePermissionsInput : [no documentation found]
     ///
-    /// - Returns: `RemoveAllResourcePermissionsOutputResponse` : [no documentation found]
+    /// - Returns: `RemoveAllResourcePermissionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -624,12 +624,12 @@ public protocol WorkDocsClientProtocol {
     /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
     /// - `UnauthorizedOperationException` : The operation is not permitted.
     /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
-    func removeAllResourcePermissions(input: RemoveAllResourcePermissionsInput) async throws -> RemoveAllResourcePermissionsOutputResponse
+    func removeAllResourcePermissions(input: RemoveAllResourcePermissionsInput) async throws -> RemoveAllResourcePermissionsOutput
     /// Removes the permission for the specified principal from the specified resource.
     ///
     /// - Parameter RemoveResourcePermissionInput : [no documentation found]
     ///
-    /// - Returns: `RemoveResourcePermissionOutputResponse` : [no documentation found]
+    /// - Returns: `RemoveResourcePermissionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -638,12 +638,12 @@ public protocol WorkDocsClientProtocol {
     /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
     /// - `UnauthorizedOperationException` : The operation is not permitted.
     /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
-    func removeResourcePermission(input: RemoveResourcePermissionInput) async throws -> RemoveResourcePermissionOutputResponse
+    func removeResourcePermission(input: RemoveResourcePermissionInput) async throws -> RemoveResourcePermissionOutput
     /// Recovers a deleted version of an Amazon WorkDocs document.
     ///
     /// - Parameter RestoreDocumentVersionsInput : [no documentation found]
     ///
-    /// - Returns: `RestoreDocumentVersionsOutputResponse` : [no documentation found]
+    /// - Returns: `RestoreDocumentVersionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -656,12 +656,12 @@ public protocol WorkDocsClientProtocol {
     /// - `ProhibitedStateException` : The specified document version is not in the INITIALIZED state.
     /// - `UnauthorizedOperationException` : The operation is not permitted.
     /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
-    func restoreDocumentVersions(input: RestoreDocumentVersionsInput) async throws -> RestoreDocumentVersionsOutputResponse
+    func restoreDocumentVersions(input: RestoreDocumentVersionsInput) async throws -> RestoreDocumentVersionsOutput
     /// Searches metadata and the content of folders, documents, document versions, and comments.
     ///
     /// - Parameter SearchResourcesInput : [no documentation found]
     ///
-    /// - Returns: `SearchResourcesOutputResponse` : [no documentation found]
+    /// - Returns: `SearchResourcesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -670,12 +670,12 @@ public protocol WorkDocsClientProtocol {
     /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
     /// - `UnauthorizedOperationException` : The operation is not permitted.
     /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
-    func searchResources(input: SearchResourcesInput) async throws -> SearchResourcesOutputResponse
+    func searchResources(input: SearchResourcesInput) async throws -> SearchResourcesOutput
     /// Updates the specified attributes of a document. The user must have access to both the document and its parent folder, if applicable.
     ///
     /// - Parameter UpdateDocumentInput : [no documentation found]
     ///
-    /// - Returns: `UpdateDocumentOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateDocumentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -690,12 +690,12 @@ public protocol WorkDocsClientProtocol {
     /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
     /// - `UnauthorizedOperationException` : The operation is not permitted.
     /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
-    func updateDocument(input: UpdateDocumentInput) async throws -> UpdateDocumentOutputResponse
+    func updateDocument(input: UpdateDocumentInput) async throws -> UpdateDocumentOutput
     /// Changes the status of the document version to ACTIVE. Amazon WorkDocs also sets its document container to ACTIVE. This is the last step in a document upload, after the client uploads the document to an S3-presigned URL returned by [InitiateDocumentVersionUpload].
     ///
     /// - Parameter UpdateDocumentVersionInput : [no documentation found]
     ///
-    /// - Returns: `UpdateDocumentVersionOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateDocumentVersionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -708,12 +708,12 @@ public protocol WorkDocsClientProtocol {
     /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
     /// - `UnauthorizedOperationException` : The operation is not permitted.
     /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
-    func updateDocumentVersion(input: UpdateDocumentVersionInput) async throws -> UpdateDocumentVersionOutputResponse
+    func updateDocumentVersion(input: UpdateDocumentVersionInput) async throws -> UpdateDocumentVersionOutput
     /// Updates the specified attributes of the specified folder. The user must have access to both the folder and its parent folder, if applicable.
     ///
     /// - Parameter UpdateFolderInput : [no documentation found]
     ///
-    /// - Returns: `UpdateFolderOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateFolderOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -728,12 +728,12 @@ public protocol WorkDocsClientProtocol {
     /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
     /// - `UnauthorizedOperationException` : The operation is not permitted.
     /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
-    func updateFolder(input: UpdateFolderInput) async throws -> UpdateFolderOutputResponse
+    func updateFolder(input: UpdateFolderInput) async throws -> UpdateFolderOutput
     /// Updates the specified attributes of the specified user, and grants or revokes administrative privileges to the Amazon WorkDocs site.
     ///
     /// - Parameter UpdateUserInput : [no documentation found]
     ///
-    /// - Returns: `UpdateUserOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateUserOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -747,7 +747,7 @@ public protocol WorkDocsClientProtocol {
     /// - `ServiceUnavailableException` : One or more of the dependencies is unavailable.
     /// - `UnauthorizedOperationException` : The operation is not permitted.
     /// - `UnauthorizedResourceAccessException` : The caller does not have access to perform the action on the resource.
-    func updateUser(input: UpdateUserInput) async throws -> UpdateUserOutputResponse
+    func updateUser(input: UpdateUserInput) async throws -> UpdateUserOutput
 }
 
 public enum WorkDocsClientTypes {}

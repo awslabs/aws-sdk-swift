@@ -8,7 +8,7 @@ public protocol SageMakerGeospatialClientProtocol {
     ///
     /// - Parameter DeleteEarthObservationJobInput : [no documentation found]
     ///
-    /// - Returns: `DeleteEarthObservationJobOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteEarthObservationJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -19,12 +19,12 @@ public protocol SageMakerGeospatialClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource which does not exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    func deleteEarthObservationJob(input: DeleteEarthObservationJobInput) async throws -> DeleteEarthObservationJobOutputResponse
+    func deleteEarthObservationJob(input: DeleteEarthObservationJobInput) async throws -> DeleteEarthObservationJobOutput
     /// Use this operation to delete a Vector Enrichment job.
     ///
     /// - Parameter DeleteVectorEnrichmentJobInput : [no documentation found]
     ///
-    /// - Returns: `DeleteVectorEnrichmentJobOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteVectorEnrichmentJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -35,12 +35,12 @@ public protocol SageMakerGeospatialClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource which does not exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    func deleteVectorEnrichmentJob(input: DeleteVectorEnrichmentJobInput) async throws -> DeleteVectorEnrichmentJobOutputResponse
+    func deleteVectorEnrichmentJob(input: DeleteVectorEnrichmentJobInput) async throws -> DeleteVectorEnrichmentJobOutput
     /// Use this operation to export results of an Earth Observation job and optionally source images used as input to the EOJ to an Amazon S3 location.
     ///
     /// - Parameter ExportEarthObservationJobInput : [no documentation found]
     ///
-    /// - Returns: `ExportEarthObservationJobOutputResponse` : [no documentation found]
+    /// - Returns: `ExportEarthObservationJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -52,12 +52,12 @@ public protocol SageMakerGeospatialClientProtocol {
     /// - `ServiceQuotaExceededException` : You have exceeded the service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    func exportEarthObservationJob(input: ExportEarthObservationJobInput) async throws -> ExportEarthObservationJobOutputResponse
+    func exportEarthObservationJob(input: ExportEarthObservationJobInput) async throws -> ExportEarthObservationJobOutput
     /// Use this operation to copy results of a Vector Enrichment job to an Amazon S3 location.
     ///
     /// - Parameter ExportVectorEnrichmentJobInput : [no documentation found]
     ///
-    /// - Returns: `ExportVectorEnrichmentJobOutputResponse` : [no documentation found]
+    /// - Returns: `ExportVectorEnrichmentJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -69,12 +69,12 @@ public protocol SageMakerGeospatialClientProtocol {
     /// - `ServiceQuotaExceededException` : You have exceeded the service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    func exportVectorEnrichmentJob(input: ExportVectorEnrichmentJobInput) async throws -> ExportVectorEnrichmentJobOutputResponse
+    func exportVectorEnrichmentJob(input: ExportVectorEnrichmentJobInput) async throws -> ExportVectorEnrichmentJobOutput
     /// Get the details for a previously initiated Earth Observation job.
     ///
     /// - Parameter GetEarthObservationJobInput : [no documentation found]
     ///
-    /// - Returns: `GetEarthObservationJobOutputResponse` : [no documentation found]
+    /// - Returns: `GetEarthObservationJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -84,12 +84,12 @@ public protocol SageMakerGeospatialClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource which does not exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    func getEarthObservationJob(input: GetEarthObservationJobInput) async throws -> GetEarthObservationJobOutputResponse
+    func getEarthObservationJob(input: GetEarthObservationJobInput) async throws -> GetEarthObservationJobOutput
     /// Use this operation to get details of a specific raster data collection.
     ///
     /// - Parameter GetRasterDataCollectionInput : [no documentation found]
     ///
-    /// - Returns: `GetRasterDataCollectionOutputResponse` : [no documentation found]
+    /// - Returns: `GetRasterDataCollectionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -99,12 +99,12 @@ public protocol SageMakerGeospatialClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource which does not exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    func getRasterDataCollection(input: GetRasterDataCollectionInput) async throws -> GetRasterDataCollectionOutputResponse
+    func getRasterDataCollection(input: GetRasterDataCollectionInput) async throws -> GetRasterDataCollectionOutput
     /// Gets a web mercator tile for the given Earth Observation job.
     ///
     /// - Parameter GetTileInput : [no documentation found]
     ///
-    /// - Returns: `GetTileOutputResponse` : [no documentation found]
+    /// - Returns: `GetTileOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -114,12 +114,12 @@ public protocol SageMakerGeospatialClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource which does not exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    func getTile(input: GetTileInput) async throws -> GetTileOutputResponse
+    func getTile(input: GetTileInput) async throws -> GetTileOutput
     /// Retrieves details of a Vector Enrichment Job for a given job Amazon Resource Name (ARN).
     ///
     /// - Parameter GetVectorEnrichmentJobInput : [no documentation found]
     ///
-    /// - Returns: `GetVectorEnrichmentJobOutputResponse` : [no documentation found]
+    /// - Returns: `GetVectorEnrichmentJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -129,12 +129,12 @@ public protocol SageMakerGeospatialClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource which does not exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    func getVectorEnrichmentJob(input: GetVectorEnrichmentJobInput) async throws -> GetVectorEnrichmentJobOutputResponse
+    func getVectorEnrichmentJob(input: GetVectorEnrichmentJobInput) async throws -> GetVectorEnrichmentJobOutput
     /// Use this operation to get a list of the Earth Observation jobs associated with the calling Amazon Web Services account.
     ///
     /// - Parameter ListEarthObservationJobsInput : [no documentation found]
     ///
-    /// - Returns: `ListEarthObservationJobsOutputResponse` : [no documentation found]
+    /// - Returns: `ListEarthObservationJobsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -144,12 +144,12 @@ public protocol SageMakerGeospatialClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource which does not exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    func listEarthObservationJobs(input: ListEarthObservationJobsInput) async throws -> ListEarthObservationJobsOutputResponse
+    func listEarthObservationJobs(input: ListEarthObservationJobsInput) async throws -> ListEarthObservationJobsOutput
     /// Use this operation to get raster data collections.
     ///
     /// - Parameter ListRasterDataCollectionsInput : [no documentation found]
     ///
-    /// - Returns: `ListRasterDataCollectionsOutputResponse` : [no documentation found]
+    /// - Returns: `ListRasterDataCollectionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -159,12 +159,12 @@ public protocol SageMakerGeospatialClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource which does not exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    func listRasterDataCollections(input: ListRasterDataCollectionsInput) async throws -> ListRasterDataCollectionsOutputResponse
+    func listRasterDataCollections(input: ListRasterDataCollectionsInput) async throws -> ListRasterDataCollectionsOutput
     /// Lists the tags attached to the resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -174,12 +174,12 @@ public protocol SageMakerGeospatialClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource which does not exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     /// Retrieves a list of vector enrichment jobs.
     ///
     /// - Parameter ListVectorEnrichmentJobsInput : [no documentation found]
     ///
-    /// - Returns: `ListVectorEnrichmentJobsOutputResponse` : [no documentation found]
+    /// - Returns: `ListVectorEnrichmentJobsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -189,12 +189,12 @@ public protocol SageMakerGeospatialClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource which does not exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    func listVectorEnrichmentJobs(input: ListVectorEnrichmentJobsInput) async throws -> ListVectorEnrichmentJobsOutputResponse
+    func listVectorEnrichmentJobs(input: ListVectorEnrichmentJobsInput) async throws -> ListVectorEnrichmentJobsOutput
     /// Allows you run image query on a specific raster data collection to get a list of the satellite imagery matching the selected filters.
     ///
     /// - Parameter SearchRasterDataCollectionInput : [no documentation found]
     ///
-    /// - Returns: `SearchRasterDataCollectionOutputResponse` : [no documentation found]
+    /// - Returns: `SearchRasterDataCollectionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -204,12 +204,12 @@ public protocol SageMakerGeospatialClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource which does not exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    func searchRasterDataCollection(input: SearchRasterDataCollectionInput) async throws -> SearchRasterDataCollectionOutputResponse
+    func searchRasterDataCollection(input: SearchRasterDataCollectionInput) async throws -> SearchRasterDataCollectionOutput
     /// Use this operation to create an Earth observation job.
     ///
     /// - Parameter StartEarthObservationJobInput : [no documentation found]
     ///
-    /// - Returns: `StartEarthObservationJobOutputResponse` : [no documentation found]
+    /// - Returns: `StartEarthObservationJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -221,12 +221,12 @@ public protocol SageMakerGeospatialClientProtocol {
     /// - `ServiceQuotaExceededException` : You have exceeded the service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    func startEarthObservationJob(input: StartEarthObservationJobInput) async throws -> StartEarthObservationJobOutputResponse
+    func startEarthObservationJob(input: StartEarthObservationJobInput) async throws -> StartEarthObservationJobOutput
     /// Creates a Vector Enrichment job for the supplied job type. Currently, there are two supported job types: reverse geocoding and map matching.
     ///
     /// - Parameter StartVectorEnrichmentJobInput : [no documentation found]
     ///
-    /// - Returns: `StartVectorEnrichmentJobOutputResponse` : [no documentation found]
+    /// - Returns: `StartVectorEnrichmentJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -238,12 +238,12 @@ public protocol SageMakerGeospatialClientProtocol {
     /// - `ServiceQuotaExceededException` : You have exceeded the service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    func startVectorEnrichmentJob(input: StartVectorEnrichmentJobInput) async throws -> StartVectorEnrichmentJobOutputResponse
+    func startVectorEnrichmentJob(input: StartVectorEnrichmentJobInput) async throws -> StartVectorEnrichmentJobOutput
     /// Use this operation to stop an existing earth observation job.
     ///
     /// - Parameter StopEarthObservationJobInput : [no documentation found]
     ///
-    /// - Returns: `StopEarthObservationJobOutputResponse` : [no documentation found]
+    /// - Returns: `StopEarthObservationJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -254,12 +254,12 @@ public protocol SageMakerGeospatialClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource which does not exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    func stopEarthObservationJob(input: StopEarthObservationJobInput) async throws -> StopEarthObservationJobOutputResponse
+    func stopEarthObservationJob(input: StopEarthObservationJobInput) async throws -> StopEarthObservationJobOutput
     /// Stops the Vector Enrichment job for a given job ARN.
     ///
     /// - Parameter StopVectorEnrichmentJobInput : [no documentation found]
     ///
-    /// - Returns: `StopVectorEnrichmentJobOutputResponse` : [no documentation found]
+    /// - Returns: `StopVectorEnrichmentJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -270,12 +270,12 @@ public protocol SageMakerGeospatialClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource which does not exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    func stopVectorEnrichmentJob(input: StopVectorEnrichmentJobInput) async throws -> StopVectorEnrichmentJobOutputResponse
+    func stopVectorEnrichmentJob(input: StopVectorEnrichmentJobInput) async throws -> StopVectorEnrichmentJobOutput
     /// The resource you want to tag.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -285,12 +285,12 @@ public protocol SageMakerGeospatialClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource which does not exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     /// The resource you want to untag.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -300,7 +300,7 @@ public protocol SageMakerGeospatialClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource which does not exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
 }
 
 public enum SageMakerGeospatialClientTypes {}

@@ -8,7 +8,7 @@ public protocol IdentitystoreClientProtocol {
     ///
     /// - Parameter CreateGroupInput : [no documentation found]
     ///
-    /// - Returns: `CreateGroupOutputResponse` : [no documentation found]
+    /// - Returns: `CreateGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -24,12 +24,12 @@ public protocol IdentitystoreClientProtocol {
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
     /// - `ServiceQuotaExceededException` : The request would cause the number of users or groups in the identity store to exceed the maximum allowed.
     /// - `ValidationException` : The request failed because it contains a syntax error.
-    func createGroup(input: CreateGroupInput) async throws -> CreateGroupOutputResponse
+    func createGroup(input: CreateGroupInput) async throws -> CreateGroupOutput
     /// Creates a relationship between a member and a group. The following identifiers must be specified: GroupId, IdentityStoreId, and MemberId.
     ///
     /// - Parameter CreateGroupMembershipInput : [no documentation found]
     ///
-    /// - Returns: `CreateGroupMembershipOutputResponse` : [no documentation found]
+    /// - Returns: `CreateGroupMembershipOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -45,12 +45,12 @@ public protocol IdentitystoreClientProtocol {
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
     /// - `ServiceQuotaExceededException` : The request would cause the number of users or groups in the identity store to exceed the maximum allowed.
     /// - `ValidationException` : The request failed because it contains a syntax error.
-    func createGroupMembership(input: CreateGroupMembershipInput) async throws -> CreateGroupMembershipOutputResponse
+    func createGroupMembership(input: CreateGroupMembershipInput) async throws -> CreateGroupMembershipOutput
     /// Creates a user within the specified identity store.
     ///
     /// - Parameter CreateUserInput : [no documentation found]
     ///
-    /// - Returns: `CreateUserOutputResponse` : [no documentation found]
+    /// - Returns: `CreateUserOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -66,12 +66,12 @@ public protocol IdentitystoreClientProtocol {
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
     /// - `ServiceQuotaExceededException` : The request would cause the number of users or groups in the identity store to exceed the maximum allowed.
     /// - `ValidationException` : The request failed because it contains a syntax error.
-    func createUser(input: CreateUserInput) async throws -> CreateUserOutputResponse
+    func createUser(input: CreateUserInput) async throws -> CreateUserOutput
     /// Delete a group within an identity store given GroupId.
     ///
     /// - Parameter DeleteGroupInput : [no documentation found]
     ///
-    /// - Returns: `DeleteGroupOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -86,12 +86,12 @@ public protocol IdentitystoreClientProtocol {
     /// * The requested resource was being concurrently modified by another request.
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
     /// - `ValidationException` : The request failed because it contains a syntax error.
-    func deleteGroup(input: DeleteGroupInput) async throws -> DeleteGroupOutputResponse
+    func deleteGroup(input: DeleteGroupInput) async throws -> DeleteGroupOutput
     /// Delete a membership within a group given MembershipId.
     ///
     /// - Parameter DeleteGroupMembershipInput : [no documentation found]
     ///
-    /// - Returns: `DeleteGroupMembershipOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteGroupMembershipOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -106,12 +106,12 @@ public protocol IdentitystoreClientProtocol {
     /// * The requested resource was being concurrently modified by another request.
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
     /// - `ValidationException` : The request failed because it contains a syntax error.
-    func deleteGroupMembership(input: DeleteGroupMembershipInput) async throws -> DeleteGroupMembershipOutputResponse
+    func deleteGroupMembership(input: DeleteGroupMembershipInput) async throws -> DeleteGroupMembershipOutput
     /// Deletes a user within an identity store given UserId.
     ///
     /// - Parameter DeleteUserInput : [no documentation found]
     ///
-    /// - Returns: `DeleteUserOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteUserOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -126,12 +126,12 @@ public protocol IdentitystoreClientProtocol {
     /// * The requested resource was being concurrently modified by another request.
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
     /// - `ValidationException` : The request failed because it contains a syntax error.
-    func deleteUser(input: DeleteUserInput) async throws -> DeleteUserOutputResponse
+    func deleteUser(input: DeleteUserInput) async throws -> DeleteUserOutput
     /// Retrieves the group metadata and attributes from GroupId in an identity store. If you have administrator access to a member account, you can use this API from the member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html) in the Organizations User Guide.
     ///
     /// - Parameter DescribeGroupInput : [no documentation found]
     ///
-    /// - Returns: `DescribeGroupOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -141,12 +141,12 @@ public protocol IdentitystoreClientProtocol {
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
     /// - `ValidationException` : The request failed because it contains a syntax error.
-    func describeGroup(input: DescribeGroupInput) async throws -> DescribeGroupOutputResponse
+    func describeGroup(input: DescribeGroupInput) async throws -> DescribeGroupOutput
     /// Retrieves membership metadata and attributes from MembershipId in an identity store. If you have administrator access to a member account, you can use this API from the member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html) in the Organizations User Guide.
     ///
     /// - Parameter DescribeGroupMembershipInput : [no documentation found]
     ///
-    /// - Returns: `DescribeGroupMembershipOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeGroupMembershipOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -156,12 +156,12 @@ public protocol IdentitystoreClientProtocol {
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
     /// - `ValidationException` : The request failed because it contains a syntax error.
-    func describeGroupMembership(input: DescribeGroupMembershipInput) async throws -> DescribeGroupMembershipOutputResponse
+    func describeGroupMembership(input: DescribeGroupMembershipInput) async throws -> DescribeGroupMembershipOutput
     /// Retrieves the user metadata and attributes from the UserId in an identity store. If you have administrator access to a member account, you can use this API from the member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html) in the Organizations User Guide.
     ///
     /// - Parameter DescribeUserInput : [no documentation found]
     ///
-    /// - Returns: `DescribeUserOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeUserOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -171,12 +171,12 @@ public protocol IdentitystoreClientProtocol {
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
     /// - `ValidationException` : The request failed because it contains a syntax error.
-    func describeUser(input: DescribeUserInput) async throws -> DescribeUserOutputResponse
+    func describeUser(input: DescribeUserInput) async throws -> DescribeUserOutput
     /// Retrieves GroupId in an identity store. If you have administrator access to a member account, you can use this API from the member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html) in the Organizations User Guide.
     ///
     /// - Parameter GetGroupIdInput : [no documentation found]
     ///
-    /// - Returns: `GetGroupIdOutputResponse` : [no documentation found]
+    /// - Returns: `GetGroupIdOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -186,12 +186,12 @@ public protocol IdentitystoreClientProtocol {
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
     /// - `ValidationException` : The request failed because it contains a syntax error.
-    func getGroupId(input: GetGroupIdInput) async throws -> GetGroupIdOutputResponse
+    func getGroupId(input: GetGroupIdInput) async throws -> GetGroupIdOutput
     /// Retrieves the MembershipId in an identity store. If you have administrator access to a member account, you can use this API from the member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html) in the Organizations User Guide.
     ///
     /// - Parameter GetGroupMembershipIdInput : [no documentation found]
     ///
-    /// - Returns: `GetGroupMembershipIdOutputResponse` : [no documentation found]
+    /// - Returns: `GetGroupMembershipIdOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -201,12 +201,12 @@ public protocol IdentitystoreClientProtocol {
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
     /// - `ValidationException` : The request failed because it contains a syntax error.
-    func getGroupMembershipId(input: GetGroupMembershipIdInput) async throws -> GetGroupMembershipIdOutputResponse
+    func getGroupMembershipId(input: GetGroupMembershipIdInput) async throws -> GetGroupMembershipIdOutput
     /// Retrieves the UserId in an identity store. If you have administrator access to a member account, you can use this API from the member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html) in the Organizations User Guide.
     ///
     /// - Parameter GetUserIdInput : [no documentation found]
     ///
-    /// - Returns: `GetUserIdOutputResponse` : [no documentation found]
+    /// - Returns: `GetUserIdOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -216,12 +216,12 @@ public protocol IdentitystoreClientProtocol {
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
     /// - `ValidationException` : The request failed because it contains a syntax error.
-    func getUserId(input: GetUserIdInput) async throws -> GetUserIdOutputResponse
+    func getUserId(input: GetUserIdInput) async throws -> GetUserIdOutput
     /// Checks the user's membership in all requested groups and returns if the member exists in all queried groups. If you have administrator access to a member account, you can use this API from the member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html) in the Organizations User Guide.
     ///
     /// - Parameter IsMemberInGroupsInput : [no documentation found]
     ///
-    /// - Returns: `IsMemberInGroupsOutputResponse` : [no documentation found]
+    /// - Returns: `IsMemberInGroupsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -231,12 +231,12 @@ public protocol IdentitystoreClientProtocol {
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
     /// - `ValidationException` : The request failed because it contains a syntax error.
-    func isMemberInGroups(input: IsMemberInGroupsInput) async throws -> IsMemberInGroupsOutputResponse
+    func isMemberInGroups(input: IsMemberInGroupsInput) async throws -> IsMemberInGroupsOutput
     /// For the specified group in the specified identity store, returns the list of all GroupMembership objects and returns results in paginated form. If you have administrator access to a member account, you can use this API from the member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html) in the Organizations User Guide.
     ///
     /// - Parameter ListGroupMembershipsInput : [no documentation found]
     ///
-    /// - Returns: `ListGroupMembershipsOutputResponse` : [no documentation found]
+    /// - Returns: `ListGroupMembershipsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -246,12 +246,12 @@ public protocol IdentitystoreClientProtocol {
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
     /// - `ValidationException` : The request failed because it contains a syntax error.
-    func listGroupMemberships(input: ListGroupMembershipsInput) async throws -> ListGroupMembershipsOutputResponse
+    func listGroupMemberships(input: ListGroupMembershipsInput) async throws -> ListGroupMembershipsOutput
     /// For the specified member in the specified identity store, returns the list of all GroupMembership objects and returns results in paginated form. If you have administrator access to a member account, you can use this API from the member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html) in the Organizations User Guide.
     ///
     /// - Parameter ListGroupMembershipsForMemberInput : [no documentation found]
     ///
-    /// - Returns: `ListGroupMembershipsForMemberOutputResponse` : [no documentation found]
+    /// - Returns: `ListGroupMembershipsForMemberOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -261,12 +261,12 @@ public protocol IdentitystoreClientProtocol {
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
     /// - `ValidationException` : The request failed because it contains a syntax error.
-    func listGroupMembershipsForMember(input: ListGroupMembershipsForMemberInput) async throws -> ListGroupMembershipsForMemberOutputResponse
+    func listGroupMembershipsForMember(input: ListGroupMembershipsForMemberInput) async throws -> ListGroupMembershipsForMemberOutput
     /// Lists all groups in the identity store. Returns a paginated list of complete Group objects. Filtering for a Group by the DisplayName attribute is deprecated. Instead, use the GetGroupId API action. If you have administrator access to a member account, you can use this API from the member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html) in the Organizations User Guide.
     ///
     /// - Parameter ListGroupsInput : [no documentation found]
     ///
-    /// - Returns: `ListGroupsOutputResponse` : [no documentation found]
+    /// - Returns: `ListGroupsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -276,12 +276,12 @@ public protocol IdentitystoreClientProtocol {
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
     /// - `ValidationException` : The request failed because it contains a syntax error.
-    func listGroups(input: ListGroupsInput) async throws -> ListGroupsOutputResponse
+    func listGroups(input: ListGroupsInput) async throws -> ListGroupsOutput
     /// Lists all users in the identity store. Returns a paginated list of complete User objects. Filtering for a User by the UserName attribute is deprecated. Instead, use the GetUserId API action. If you have administrator access to a member account, you can use this API from the member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html) in the Organizations User Guide.
     ///
     /// - Parameter ListUsersInput : [no documentation found]
     ///
-    /// - Returns: `ListUsersOutputResponse` : [no documentation found]
+    /// - Returns: `ListUsersOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -291,12 +291,12 @@ public protocol IdentitystoreClientProtocol {
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
     /// - `ValidationException` : The request failed because it contains a syntax error.
-    func listUsers(input: ListUsersInput) async throws -> ListUsersOutputResponse
+    func listUsers(input: ListUsersInput) async throws -> ListUsersOutput
     /// For the specified group in the specified identity store, updates the group metadata and attributes.
     ///
     /// - Parameter UpdateGroupInput : [no documentation found]
     ///
-    /// - Returns: `UpdateGroupOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -312,12 +312,12 @@ public protocol IdentitystoreClientProtocol {
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
     /// - `ServiceQuotaExceededException` : The request would cause the number of users or groups in the identity store to exceed the maximum allowed.
     /// - `ValidationException` : The request failed because it contains a syntax error.
-    func updateGroup(input: UpdateGroupInput) async throws -> UpdateGroupOutputResponse
+    func updateGroup(input: UpdateGroupInput) async throws -> UpdateGroupOutput
     /// For the specified user in the specified identity store, updates the user metadata and attributes.
     ///
     /// - Parameter UpdateUserInput : [no documentation found]
     ///
-    /// - Returns: `UpdateUserOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateUserOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -333,7 +333,7 @@ public protocol IdentitystoreClientProtocol {
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
     /// - `ServiceQuotaExceededException` : The request would cause the number of users or groups in the identity store to exceed the maximum allowed.
     /// - `ValidationException` : The request failed because it contains a syntax error.
-    func updateUser(input: UpdateUserInput) async throws -> UpdateUserOutputResponse
+    func updateUser(input: UpdateUserInput) async throws -> UpdateUserOutput
 }
 
 public enum IdentitystoreClientTypes {}

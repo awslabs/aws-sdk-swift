@@ -8,7 +8,7 @@ public protocol MediaLiveClientProtocol {
     ///
     /// - Parameter AcceptInputDeviceTransferInput : Placeholder documentation for AcceptInputDeviceTransferRequest
     ///
-    /// - Returns: `AcceptInputDeviceTransferOutputResponse` : Placeholder documentation for AcceptInputDeviceTransferResponse
+    /// - Returns: `AcceptInputDeviceTransferOutput` : Placeholder documentation for AcceptInputDeviceTransferResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -22,12 +22,12 @@ public protocol MediaLiveClientProtocol {
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
-    func acceptInputDeviceTransfer(input: AcceptInputDeviceTransferInput) async throws -> AcceptInputDeviceTransferOutputResponse
+    func acceptInputDeviceTransfer(input: AcceptInputDeviceTransferInput) async throws -> AcceptInputDeviceTransferOutput
     /// Starts delete of resources.
     ///
     /// - Parameter BatchDeleteInput : A request to delete resources
     ///
-    /// - Returns: `BatchDeleteOutputResponse` : Placeholder documentation for BatchDeleteResponse
+    /// - Returns: `BatchDeleteOutput` : Placeholder documentation for BatchDeleteResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -40,12 +40,12 @@ public protocol MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    func batchDelete(input: BatchDeleteInput) async throws -> BatchDeleteOutputResponse
+    func batchDelete(input: BatchDeleteInput) async throws -> BatchDeleteOutput
     /// Starts existing resources
     ///
     /// - Parameter BatchStartInput : A request to start resources
     ///
-    /// - Returns: `BatchStartOutputResponse` : Placeholder documentation for BatchStartResponse
+    /// - Returns: `BatchStartOutput` : Placeholder documentation for BatchStartResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -58,12 +58,12 @@ public protocol MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    func batchStart(input: BatchStartInput) async throws -> BatchStartOutputResponse
+    func batchStart(input: BatchStartInput) async throws -> BatchStartOutput
     /// Stops running resources
     ///
     /// - Parameter BatchStopInput : A request to stop resources
     ///
-    /// - Returns: `BatchStopOutputResponse` : Placeholder documentation for BatchStopResponse
+    /// - Returns: `BatchStopOutput` : Placeholder documentation for BatchStopResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -76,12 +76,12 @@ public protocol MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    func batchStop(input: BatchStopInput) async throws -> BatchStopOutputResponse
+    func batchStop(input: BatchStopInput) async throws -> BatchStopOutput
     /// Update a channel schedule
     ///
     /// - Parameter BatchUpdateScheduleInput : List of actions to create and list of actions to delete.
     ///
-    /// - Returns: `BatchUpdateScheduleOutputResponse` : Placeholder documentation for BatchUpdateScheduleResponse
+    /// - Returns: `BatchUpdateScheduleOutput` : Placeholder documentation for BatchUpdateScheduleResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -94,12 +94,12 @@ public protocol MediaLiveClientProtocol {
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
-    func batchUpdateSchedule(input: BatchUpdateScheduleInput) async throws -> BatchUpdateScheduleOutputResponse
+    func batchUpdateSchedule(input: BatchUpdateScheduleInput) async throws -> BatchUpdateScheduleOutput
     /// Cancel an input device transfer that you have requested.
     ///
     /// - Parameter CancelInputDeviceTransferInput : Placeholder documentation for CancelInputDeviceTransferRequest
     ///
-    /// - Returns: `CancelInputDeviceTransferOutputResponse` : Placeholder documentation for CancelInputDeviceTransferResponse
+    /// - Returns: `CancelInputDeviceTransferOutput` : Placeholder documentation for CancelInputDeviceTransferResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -113,12 +113,12 @@ public protocol MediaLiveClientProtocol {
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
-    func cancelInputDeviceTransfer(input: CancelInputDeviceTransferInput) async throws -> CancelInputDeviceTransferOutputResponse
+    func cancelInputDeviceTransfer(input: CancelInputDeviceTransferInput) async throws -> CancelInputDeviceTransferOutput
     /// Send a request to claim an AWS Elemental device that you have purchased from a third-party vendor. After the request succeeds, you will own the device.
     ///
     /// - Parameter ClaimDeviceInput : A request to claim an AWS Elemental device that you have purchased from a third-party vendor.
     ///
-    /// - Returns: `ClaimDeviceOutputResponse` : Placeholder documentation for ClaimDeviceResponse
+    /// - Returns: `ClaimDeviceOutput` : Placeholder documentation for ClaimDeviceResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -131,12 +131,12 @@ public protocol MediaLiveClientProtocol {
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
-    func claimDevice(input: ClaimDeviceInput) async throws -> ClaimDeviceOutputResponse
+    func claimDevice(input: ClaimDeviceInput) async throws -> ClaimDeviceOutput
     /// Creates a new channel
     ///
     /// - Parameter CreateChannelInput : A request to create a channel
     ///
-    /// - Returns: `CreateChannelOutputResponse` : Placeholder documentation for CreateChannelResponse
+    /// - Returns: `CreateChannelOutput` : Placeholder documentation for CreateChannelResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -149,12 +149,12 @@ public protocol MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
-    func createChannel(input: CreateChannelInput) async throws -> CreateChannelOutputResponse
+    func createChannel(input: CreateChannelInput) async throws -> CreateChannelOutput
     /// Create an input
     ///
     /// - Parameter CreateInputInput : The name of the input
     ///
-    /// - Returns: `CreateInputOutputResponse` : Placeholder documentation for CreateInputResponse
+    /// - Returns: `CreateInputOutput` : Placeholder documentation for CreateInputResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -165,12 +165,12 @@ public protocol MediaLiveClientProtocol {
     /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    func createInput(input: CreateInputInput) async throws -> CreateInputOutputResponse
+    func createInput(input: CreateInputInput) async throws -> CreateInputOutput
     /// Creates a Input Security Group
     ///
     /// - Parameter CreateInputSecurityGroupInput : The IPv4 CIDRs to whitelist for this Input Security Group
     ///
-    /// - Returns: `CreateInputSecurityGroupOutputResponse` : Placeholder documentation for CreateInputSecurityGroupResponse
+    /// - Returns: `CreateInputSecurityGroupOutput` : Placeholder documentation for CreateInputSecurityGroupResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -181,12 +181,12 @@ public protocol MediaLiveClientProtocol {
     /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    func createInputSecurityGroup(input: CreateInputSecurityGroupInput) async throws -> CreateInputSecurityGroupOutputResponse
+    func createInputSecurityGroup(input: CreateInputSecurityGroupInput) async throws -> CreateInputSecurityGroupOutput
     /// Create a new multiplex.
     ///
     /// - Parameter CreateMultiplexInput : A request to create a multiplex.
     ///
-    /// - Returns: `CreateMultiplexOutputResponse` : Placeholder documentation for CreateMultiplexResponse
+    /// - Returns: `CreateMultiplexOutput` : Placeholder documentation for CreateMultiplexResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -199,12 +199,12 @@ public protocol MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
-    func createMultiplex(input: CreateMultiplexInput) async throws -> CreateMultiplexOutputResponse
+    func createMultiplex(input: CreateMultiplexInput) async throws -> CreateMultiplexOutput
     /// Create a new program in the multiplex.
     ///
     /// - Parameter CreateMultiplexProgramInput : A request to create a program in a multiplex.
     ///
-    /// - Returns: `CreateMultiplexProgramOutputResponse` : Placeholder documentation for CreateMultiplexProgramResponse
+    /// - Returns: `CreateMultiplexProgramOutput` : Placeholder documentation for CreateMultiplexProgramResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -217,12 +217,12 @@ public protocol MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
-    func createMultiplexProgram(input: CreateMultiplexProgramInput) async throws -> CreateMultiplexProgramOutputResponse
+    func createMultiplexProgram(input: CreateMultiplexProgramInput) async throws -> CreateMultiplexProgramOutput
     /// Create a partner input
     ///
     /// - Parameter CreatePartnerInputInput : A request to create a partner input
     ///
-    /// - Returns: `CreatePartnerInputOutputResponse` : Placeholder documentation for CreatePartnerInputResponse
+    /// - Returns: `CreatePartnerInputOutput` : Placeholder documentation for CreatePartnerInputResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -233,12 +233,12 @@ public protocol MediaLiveClientProtocol {
     /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    func createPartnerInput(input: CreatePartnerInputInput) async throws -> CreatePartnerInputOutputResponse
+    func createPartnerInput(input: CreatePartnerInputInput) async throws -> CreatePartnerInputOutput
     /// Create tags for a resource
     ///
     /// - Parameter CreateTagsInput : Placeholder documentation for CreateTagsRequest
     ///
-    /// - Returns: `CreateTagsOutputResponse` : [no documentation found]
+    /// - Returns: `CreateTagsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -247,12 +247,12 @@ public protocol MediaLiveClientProtocol {
     /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
-    func createTags(input: CreateTagsInput) async throws -> CreateTagsOutputResponse
+    func createTags(input: CreateTagsInput) async throws -> CreateTagsOutput
     /// Starts deletion of channel. The associated outputs are also deleted.
     ///
     /// - Parameter DeleteChannelInput : Placeholder documentation for DeleteChannelRequest
     ///
-    /// - Returns: `DeleteChannelOutputResponse` : Placeholder documentation for DeleteChannelResponse
+    /// - Returns: `DeleteChannelOutput` : Placeholder documentation for DeleteChannelResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -265,12 +265,12 @@ public protocol MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    func deleteChannel(input: DeleteChannelInput) async throws -> DeleteChannelOutputResponse
+    func deleteChannel(input: DeleteChannelInput) async throws -> DeleteChannelOutput
     /// Deletes the input end point
     ///
     /// - Parameter DeleteInputInput : Placeholder documentation for DeleteInputRequest
     ///
-    /// - Returns: `DeleteInputOutputResponse` : Placeholder documentation for DeleteInputResponse
+    /// - Returns: `DeleteInputOutput` : Placeholder documentation for DeleteInputResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -283,12 +283,12 @@ public protocol MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    func deleteInput(input: DeleteInputInput) async throws -> DeleteInputOutputResponse
+    func deleteInput(input: DeleteInputInput) async throws -> DeleteInputOutput
     /// Deletes an Input Security Group
     ///
     /// - Parameter DeleteInputSecurityGroupInput : Placeholder documentation for DeleteInputSecurityGroupRequest
     ///
-    /// - Returns: `DeleteInputSecurityGroupOutputResponse` : Placeholder documentation for DeleteInputSecurityGroupResponse
+    /// - Returns: `DeleteInputSecurityGroupOutput` : Placeholder documentation for DeleteInputSecurityGroupResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -300,12 +300,12 @@ public protocol MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    func deleteInputSecurityGroup(input: DeleteInputSecurityGroupInput) async throws -> DeleteInputSecurityGroupOutputResponse
+    func deleteInputSecurityGroup(input: DeleteInputSecurityGroupInput) async throws -> DeleteInputSecurityGroupOutput
     /// Delete a multiplex. The multiplex must be idle.
     ///
     /// - Parameter DeleteMultiplexInput : Placeholder documentation for DeleteMultiplexRequest
     ///
-    /// - Returns: `DeleteMultiplexOutputResponse` : Placeholder documentation for DeleteMultiplexResponse
+    /// - Returns: `DeleteMultiplexOutput` : Placeholder documentation for DeleteMultiplexResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -318,12 +318,12 @@ public protocol MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    func deleteMultiplex(input: DeleteMultiplexInput) async throws -> DeleteMultiplexOutputResponse
+    func deleteMultiplex(input: DeleteMultiplexInput) async throws -> DeleteMultiplexOutput
     /// Delete a program from a multiplex.
     ///
     /// - Parameter DeleteMultiplexProgramInput : Placeholder documentation for DeleteMultiplexProgramRequest
     ///
-    /// - Returns: `DeleteMultiplexProgramOutputResponse` : Placeholder documentation for DeleteMultiplexProgramResponse
+    /// - Returns: `DeleteMultiplexProgramOutput` : Placeholder documentation for DeleteMultiplexProgramResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -336,12 +336,12 @@ public protocol MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    func deleteMultiplexProgram(input: DeleteMultiplexProgramInput) async throws -> DeleteMultiplexProgramOutputResponse
+    func deleteMultiplexProgram(input: DeleteMultiplexProgramInput) async throws -> DeleteMultiplexProgramOutput
     /// Delete an expired reservation.
     ///
     /// - Parameter DeleteReservationInput : Placeholder documentation for DeleteReservationRequest
     ///
-    /// - Returns: `DeleteReservationOutputResponse` : Placeholder documentation for DeleteReservationResponse
+    /// - Returns: `DeleteReservationOutput` : Placeholder documentation for DeleteReservationResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -354,12 +354,12 @@ public protocol MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    func deleteReservation(input: DeleteReservationInput) async throws -> DeleteReservationOutputResponse
+    func deleteReservation(input: DeleteReservationInput) async throws -> DeleteReservationOutput
     /// Delete all schedule actions on a channel.
     ///
     /// - Parameter DeleteScheduleInput : Placeholder documentation for DeleteScheduleRequest
     ///
-    /// - Returns: `DeleteScheduleOutputResponse` : Placeholder documentation for DeleteScheduleResponse
+    /// - Returns: `DeleteScheduleOutput` : Placeholder documentation for DeleteScheduleResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -371,12 +371,12 @@ public protocol MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    func deleteSchedule(input: DeleteScheduleInput) async throws -> DeleteScheduleOutputResponse
+    func deleteSchedule(input: DeleteScheduleInput) async throws -> DeleteScheduleOutput
     /// Removes tags for a resource
     ///
     /// - Parameter DeleteTagsInput : Placeholder documentation for DeleteTagsRequest
     ///
-    /// - Returns: `DeleteTagsOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteTagsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -385,12 +385,12 @@ public protocol MediaLiveClientProtocol {
     /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
-    func deleteTags(input: DeleteTagsInput) async throws -> DeleteTagsOutputResponse
+    func deleteTags(input: DeleteTagsInput) async throws -> DeleteTagsOutput
     /// Get account configuration
     ///
     /// - Parameter DescribeAccountConfigurationInput : Placeholder documentation for DescribeAccountConfigurationRequest
     ///
-    /// - Returns: `DescribeAccountConfigurationOutputResponse` : Placeholder documentation for DescribeAccountConfigurationResponse
+    /// - Returns: `DescribeAccountConfigurationOutput` : Placeholder documentation for DescribeAccountConfigurationResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -401,12 +401,12 @@ public protocol MediaLiveClientProtocol {
     /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    func describeAccountConfiguration(input: DescribeAccountConfigurationInput) async throws -> DescribeAccountConfigurationOutputResponse
+    func describeAccountConfiguration(input: DescribeAccountConfigurationInput) async throws -> DescribeAccountConfigurationOutput
     /// Gets details about a channel
     ///
     /// - Parameter DescribeChannelInput : Placeholder documentation for DescribeChannelRequest
     ///
-    /// - Returns: `DescribeChannelOutputResponse` : Placeholder documentation for DescribeChannelResponse
+    /// - Returns: `DescribeChannelOutput` : Placeholder documentation for DescribeChannelResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -418,12 +418,12 @@ public protocol MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    func describeChannel(input: DescribeChannelInput) async throws -> DescribeChannelOutputResponse
+    func describeChannel(input: DescribeChannelInput) async throws -> DescribeChannelOutput
     /// Produces details about an input
     ///
     /// - Parameter DescribeInputInput : Placeholder documentation for DescribeInputRequest
     ///
-    /// - Returns: `DescribeInputOutputResponse` : Placeholder documentation for DescribeInputResponse
+    /// - Returns: `DescribeInputOutput` : Placeholder documentation for DescribeInputResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -435,12 +435,12 @@ public protocol MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    func describeInput(input: DescribeInputInput) async throws -> DescribeInputOutputResponse
+    func describeInput(input: DescribeInputInput) async throws -> DescribeInputOutput
     /// Gets the details for the input device
     ///
     /// - Parameter DescribeInputDeviceInput : Placeholder documentation for DescribeInputDeviceRequest
     ///
-    /// - Returns: `DescribeInputDeviceOutputResponse` : Placeholder documentation for DescribeInputDeviceResponse
+    /// - Returns: `DescribeInputDeviceOutput` : Placeholder documentation for DescribeInputDeviceResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -452,12 +452,12 @@ public protocol MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    func describeInputDevice(input: DescribeInputDeviceInput) async throws -> DescribeInputDeviceOutputResponse
+    func describeInputDevice(input: DescribeInputDeviceInput) async throws -> DescribeInputDeviceOutput
     /// Get the latest thumbnail data for the input device.
     ///
     /// - Parameter DescribeInputDeviceThumbnailInput : Placeholder documentation for DescribeInputDeviceThumbnailRequest
     ///
-    /// - Returns: `DescribeInputDeviceThumbnailOutputResponse` : Placeholder documentation for DescribeInputDeviceThumbnailResponse
+    /// - Returns: `DescribeInputDeviceThumbnailOutput` : Placeholder documentation for DescribeInputDeviceThumbnailResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -469,12 +469,12 @@ public protocol MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    func describeInputDeviceThumbnail(input: DescribeInputDeviceThumbnailInput) async throws -> DescribeInputDeviceThumbnailOutputResponse
+    func describeInputDeviceThumbnail(input: DescribeInputDeviceThumbnailInput) async throws -> DescribeInputDeviceThumbnailOutput
     /// Produces a summary of an Input Security Group
     ///
     /// - Parameter DescribeInputSecurityGroupInput : Placeholder documentation for DescribeInputSecurityGroupRequest
     ///
-    /// - Returns: `DescribeInputSecurityGroupOutputResponse` : Placeholder documentation for DescribeInputSecurityGroupResponse
+    /// - Returns: `DescribeInputSecurityGroupOutput` : Placeholder documentation for DescribeInputSecurityGroupResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -486,12 +486,12 @@ public protocol MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    func describeInputSecurityGroup(input: DescribeInputSecurityGroupInput) async throws -> DescribeInputSecurityGroupOutputResponse
+    func describeInputSecurityGroup(input: DescribeInputSecurityGroupInput) async throws -> DescribeInputSecurityGroupOutput
     /// Gets details about a multiplex.
     ///
     /// - Parameter DescribeMultiplexInput : Placeholder documentation for DescribeMultiplexRequest
     ///
-    /// - Returns: `DescribeMultiplexOutputResponse` : Placeholder documentation for DescribeMultiplexResponse
+    /// - Returns: `DescribeMultiplexOutput` : Placeholder documentation for DescribeMultiplexResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -503,12 +503,12 @@ public protocol MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    func describeMultiplex(input: DescribeMultiplexInput) async throws -> DescribeMultiplexOutputResponse
+    func describeMultiplex(input: DescribeMultiplexInput) async throws -> DescribeMultiplexOutput
     /// Get the details for a program in a multiplex.
     ///
     /// - Parameter DescribeMultiplexProgramInput : Placeholder documentation for DescribeMultiplexProgramRequest
     ///
-    /// - Returns: `DescribeMultiplexProgramOutputResponse` : Placeholder documentation for DescribeMultiplexProgramResponse
+    /// - Returns: `DescribeMultiplexProgramOutput` : Placeholder documentation for DescribeMultiplexProgramResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -520,12 +520,12 @@ public protocol MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    func describeMultiplexProgram(input: DescribeMultiplexProgramInput) async throws -> DescribeMultiplexProgramOutputResponse
+    func describeMultiplexProgram(input: DescribeMultiplexProgramInput) async throws -> DescribeMultiplexProgramOutput
     /// Get details for an offering.
     ///
     /// - Parameter DescribeOfferingInput : Placeholder documentation for DescribeOfferingRequest
     ///
-    /// - Returns: `DescribeOfferingOutputResponse` : Placeholder documentation for DescribeOfferingResponse
+    /// - Returns: `DescribeOfferingOutput` : Placeholder documentation for DescribeOfferingResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -537,12 +537,12 @@ public protocol MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    func describeOffering(input: DescribeOfferingInput) async throws -> DescribeOfferingOutputResponse
+    func describeOffering(input: DescribeOfferingInput) async throws -> DescribeOfferingOutput
     /// Get details for a reservation.
     ///
     /// - Parameter DescribeReservationInput : Placeholder documentation for DescribeReservationRequest
     ///
-    /// - Returns: `DescribeReservationOutputResponse` : Placeholder documentation for DescribeReservationResponse
+    /// - Returns: `DescribeReservationOutput` : Placeholder documentation for DescribeReservationResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -554,12 +554,12 @@ public protocol MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    func describeReservation(input: DescribeReservationInput) async throws -> DescribeReservationOutputResponse
+    func describeReservation(input: DescribeReservationInput) async throws -> DescribeReservationOutput
     /// Get a channel schedule
     ///
     /// - Parameter DescribeScheduleInput : Placeholder documentation for DescribeScheduleRequest
     ///
-    /// - Returns: `DescribeScheduleOutputResponse` : Placeholder documentation for DescribeScheduleResponse
+    /// - Returns: `DescribeScheduleOutput` : Placeholder documentation for DescribeScheduleResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -571,12 +571,12 @@ public protocol MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    func describeSchedule(input: DescribeScheduleInput) async throws -> DescribeScheduleOutputResponse
+    func describeSchedule(input: DescribeScheduleInput) async throws -> DescribeScheduleOutput
     /// Describe the latest thumbnails data.
     ///
     /// - Parameter DescribeThumbnailsInput : Placeholder documentation for DescribeThumbnailsRequest
     ///
-    /// - Returns: `DescribeThumbnailsOutputResponse` : Placeholder documentation for DescribeThumbnailsResponse
+    /// - Returns: `DescribeThumbnailsOutput` : Placeholder documentation for DescribeThumbnailsResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -589,12 +589,12 @@ public protocol MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    func describeThumbnails(input: DescribeThumbnailsInput) async throws -> DescribeThumbnailsOutputResponse
+    func describeThumbnails(input: DescribeThumbnailsInput) async throws -> DescribeThumbnailsOutput
     /// Produces list of channels that have been created
     ///
     /// - Parameter ListChannelsInput : Placeholder documentation for ListChannelsRequest
     ///
-    /// - Returns: `ListChannelsOutputResponse` : Placeholder documentation for ListChannelsResponse
+    /// - Returns: `ListChannelsOutput` : Placeholder documentation for ListChannelsResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -605,12 +605,12 @@ public protocol MediaLiveClientProtocol {
     /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    func listChannels(input: ListChannelsInput) async throws -> ListChannelsOutputResponse
+    func listChannels(input: ListChannelsInput) async throws -> ListChannelsOutput
     /// List input devices
     ///
     /// - Parameter ListInputDevicesInput : Placeholder documentation for ListInputDevicesRequest
     ///
-    /// - Returns: `ListInputDevicesOutputResponse` : Placeholder documentation for ListInputDevicesResponse
+    /// - Returns: `ListInputDevicesOutput` : Placeholder documentation for ListInputDevicesResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -621,12 +621,12 @@ public protocol MediaLiveClientProtocol {
     /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    func listInputDevices(input: ListInputDevicesInput) async throws -> ListInputDevicesOutputResponse
+    func listInputDevices(input: ListInputDevicesInput) async throws -> ListInputDevicesOutput
     /// List input devices that are currently being transferred. List input devices that you are transferring from your AWS account or input devices that another AWS account is transferring to you.
     ///
     /// - Parameter ListInputDeviceTransfersInput : Placeholder documentation for ListInputDeviceTransfersRequest
     ///
-    /// - Returns: `ListInputDeviceTransfersOutputResponse` : Placeholder documentation for ListInputDeviceTransfersResponse
+    /// - Returns: `ListInputDeviceTransfersOutput` : Placeholder documentation for ListInputDeviceTransfersResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -638,12 +638,12 @@ public protocol MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
-    func listInputDeviceTransfers(input: ListInputDeviceTransfersInput) async throws -> ListInputDeviceTransfersOutputResponse
+    func listInputDeviceTransfers(input: ListInputDeviceTransfersInput) async throws -> ListInputDeviceTransfersOutput
     /// Produces list of inputs that have been created
     ///
     /// - Parameter ListInputsInput : Placeholder documentation for ListInputsRequest
     ///
-    /// - Returns: `ListInputsOutputResponse` : Placeholder documentation for ListInputsResponse
+    /// - Returns: `ListInputsOutput` : Placeholder documentation for ListInputsResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -654,12 +654,12 @@ public protocol MediaLiveClientProtocol {
     /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    func listInputs(input: ListInputsInput) async throws -> ListInputsOutputResponse
+    func listInputs(input: ListInputsInput) async throws -> ListInputsOutput
     /// Produces a list of Input Security Groups for an account
     ///
     /// - Parameter ListInputSecurityGroupsInput : Placeholder documentation for ListInputSecurityGroupsRequest
     ///
-    /// - Returns: `ListInputSecurityGroupsOutputResponse` : Placeholder documentation for ListInputSecurityGroupsResponse
+    /// - Returns: `ListInputSecurityGroupsOutput` : Placeholder documentation for ListInputSecurityGroupsResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -670,12 +670,12 @@ public protocol MediaLiveClientProtocol {
     /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    func listInputSecurityGroups(input: ListInputSecurityGroupsInput) async throws -> ListInputSecurityGroupsOutputResponse
+    func listInputSecurityGroups(input: ListInputSecurityGroupsInput) async throws -> ListInputSecurityGroupsOutput
     /// Retrieve a list of the existing multiplexes.
     ///
     /// - Parameter ListMultiplexesInput : Placeholder documentation for ListMultiplexesRequest
     ///
-    /// - Returns: `ListMultiplexesOutputResponse` : Placeholder documentation for ListMultiplexesResponse
+    /// - Returns: `ListMultiplexesOutput` : Placeholder documentation for ListMultiplexesResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -686,12 +686,12 @@ public protocol MediaLiveClientProtocol {
     /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    func listMultiplexes(input: ListMultiplexesInput) async throws -> ListMultiplexesOutputResponse
+    func listMultiplexes(input: ListMultiplexesInput) async throws -> ListMultiplexesOutput
     /// List the programs that currently exist for a specific multiplex.
     ///
     /// - Parameter ListMultiplexProgramsInput : Placeholder documentation for ListMultiplexProgramsRequest
     ///
-    /// - Returns: `ListMultiplexProgramsOutputResponse` : Placeholder documentation for ListMultiplexProgramsResponse
+    /// - Returns: `ListMultiplexProgramsOutput` : Placeholder documentation for ListMultiplexProgramsResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -703,12 +703,12 @@ public protocol MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    func listMultiplexPrograms(input: ListMultiplexProgramsInput) async throws -> ListMultiplexProgramsOutputResponse
+    func listMultiplexPrograms(input: ListMultiplexProgramsInput) async throws -> ListMultiplexProgramsOutput
     /// List offerings available for purchase.
     ///
     /// - Parameter ListOfferingsInput : Placeholder documentation for ListOfferingsRequest
     ///
-    /// - Returns: `ListOfferingsOutputResponse` : Placeholder documentation for ListOfferingsResponse
+    /// - Returns: `ListOfferingsOutput` : Placeholder documentation for ListOfferingsResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -719,12 +719,12 @@ public protocol MediaLiveClientProtocol {
     /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    func listOfferings(input: ListOfferingsInput) async throws -> ListOfferingsOutputResponse
+    func listOfferings(input: ListOfferingsInput) async throws -> ListOfferingsOutput
     /// List purchased reservations.
     ///
     /// - Parameter ListReservationsInput : Placeholder documentation for ListReservationsRequest
     ///
-    /// - Returns: `ListReservationsOutputResponse` : Placeholder documentation for ListReservationsResponse
+    /// - Returns: `ListReservationsOutput` : Placeholder documentation for ListReservationsResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -735,12 +735,12 @@ public protocol MediaLiveClientProtocol {
     /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    func listReservations(input: ListReservationsInput) async throws -> ListReservationsOutputResponse
+    func listReservations(input: ListReservationsInput) async throws -> ListReservationsOutput
     /// Produces list of tags that have been created for a resource
     ///
     /// - Parameter ListTagsForResourceInput : Placeholder documentation for ListTagsForResourceRequest
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : Placeholder documentation for ListTagsForResourceResponse
+    /// - Returns: `ListTagsForResourceOutput` : Placeholder documentation for ListTagsForResourceResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -749,12 +749,12 @@ public protocol MediaLiveClientProtocol {
     /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     /// Purchase an offering and create a reservation.
     ///
     /// - Parameter PurchaseOfferingInput : Placeholder documentation for PurchaseOfferingRequest
     ///
-    /// - Returns: `PurchaseOfferingOutputResponse` : Placeholder documentation for PurchaseOfferingResponse
+    /// - Returns: `PurchaseOfferingOutput` : Placeholder documentation for PurchaseOfferingResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -767,12 +767,12 @@ public protocol MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    func purchaseOffering(input: PurchaseOfferingInput) async throws -> PurchaseOfferingOutputResponse
+    func purchaseOffering(input: PurchaseOfferingInput) async throws -> PurchaseOfferingOutput
     /// Send a reboot command to the specified input device. The device will begin rebooting within a few seconds of sending the command. When the reboot is complete, the device’s connection status will change to connected.
     ///
     /// - Parameter RebootInputDeviceInput : A request to reboot an AWS Elemental device.
     ///
-    /// - Returns: `RebootInputDeviceOutputResponse` : Placeholder documentation for RebootInputDeviceResponse
+    /// - Returns: `RebootInputDeviceOutput` : Placeholder documentation for RebootInputDeviceResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -785,12 +785,12 @@ public protocol MediaLiveClientProtocol {
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
-    func rebootInputDevice(input: RebootInputDeviceInput) async throws -> RebootInputDeviceOutputResponse
+    func rebootInputDevice(input: RebootInputDeviceInput) async throws -> RebootInputDeviceOutput
     /// Reject the transfer of the specified input device to your AWS account.
     ///
     /// - Parameter RejectInputDeviceTransferInput : Placeholder documentation for RejectInputDeviceTransferRequest
     ///
-    /// - Returns: `RejectInputDeviceTransferOutputResponse` : Placeholder documentation for RejectInputDeviceTransferResponse
+    /// - Returns: `RejectInputDeviceTransferOutput` : Placeholder documentation for RejectInputDeviceTransferResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -804,12 +804,12 @@ public protocol MediaLiveClientProtocol {
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
-    func rejectInputDeviceTransfer(input: RejectInputDeviceTransferInput) async throws -> RejectInputDeviceTransferOutputResponse
+    func rejectInputDeviceTransfer(input: RejectInputDeviceTransferInput) async throws -> RejectInputDeviceTransferOutput
     /// Starts an existing channel
     ///
     /// - Parameter StartChannelInput : Placeholder documentation for StartChannelRequest
     ///
-    /// - Returns: `StartChannelOutputResponse` : Placeholder documentation for StartChannelResponse
+    /// - Returns: `StartChannelOutput` : Placeholder documentation for StartChannelResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -822,12 +822,12 @@ public protocol MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    func startChannel(input: StartChannelInput) async throws -> StartChannelOutputResponse
+    func startChannel(input: StartChannelInput) async throws -> StartChannelOutput
     /// Start an input device that is attached to a MediaConnect flow. (There is no need to start a device that is attached to a MediaLive input; MediaLive starts the device when the channel starts.)
     ///
     /// - Parameter StartInputDeviceInput : Placeholder documentation for StartInputDeviceRequest
     ///
-    /// - Returns: `StartInputDeviceOutputResponse` : Placeholder documentation for StartInputDeviceResponse
+    /// - Returns: `StartInputDeviceOutput` : Placeholder documentation for StartInputDeviceResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -840,12 +840,12 @@ public protocol MediaLiveClientProtocol {
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
-    func startInputDevice(input: StartInputDeviceInput) async throws -> StartInputDeviceOutputResponse
+    func startInputDevice(input: StartInputDeviceInput) async throws -> StartInputDeviceOutput
     /// Start a maintenance window for the specified input device. Starting a maintenance window will give the device up to two hours to install software. If the device was streaming prior to the maintenance, it will resume streaming when the software is fully installed. Devices automatically install updates while they are powered on and their MediaLive channels are stopped. A maintenance window allows you to update a device without having to stop MediaLive channels that use the device. The device must remain powered on and connected to the internet for the duration of the maintenance.
     ///
     /// - Parameter StartInputDeviceMaintenanceWindowInput : Placeholder documentation for StartInputDeviceMaintenanceWindowRequest
     ///
-    /// - Returns: `StartInputDeviceMaintenanceWindowOutputResponse` : Placeholder documentation for StartInputDeviceMaintenanceWindowResponse
+    /// - Returns: `StartInputDeviceMaintenanceWindowOutput` : Placeholder documentation for StartInputDeviceMaintenanceWindowResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -858,12 +858,12 @@ public protocol MediaLiveClientProtocol {
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
-    func startInputDeviceMaintenanceWindow(input: StartInputDeviceMaintenanceWindowInput) async throws -> StartInputDeviceMaintenanceWindowOutputResponse
+    func startInputDeviceMaintenanceWindow(input: StartInputDeviceMaintenanceWindowInput) async throws -> StartInputDeviceMaintenanceWindowOutput
     /// Start (run) the multiplex. Starting the multiplex does not start the channels. You must explicitly start each channel.
     ///
     /// - Parameter StartMultiplexInput : Placeholder documentation for StartMultiplexRequest
     ///
-    /// - Returns: `StartMultiplexOutputResponse` : Placeholder documentation for StartMultiplexResponse
+    /// - Returns: `StartMultiplexOutput` : Placeholder documentation for StartMultiplexResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -876,12 +876,12 @@ public protocol MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    func startMultiplex(input: StartMultiplexInput) async throws -> StartMultiplexOutputResponse
+    func startMultiplex(input: StartMultiplexInput) async throws -> StartMultiplexOutput
     /// Stops a running channel
     ///
     /// - Parameter StopChannelInput : Placeholder documentation for StopChannelRequest
     ///
-    /// - Returns: `StopChannelOutputResponse` : Placeholder documentation for StopChannelResponse
+    /// - Returns: `StopChannelOutput` : Placeholder documentation for StopChannelResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -894,12 +894,12 @@ public protocol MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    func stopChannel(input: StopChannelInput) async throws -> StopChannelOutputResponse
+    func stopChannel(input: StopChannelInput) async throws -> StopChannelOutput
     /// Stop an input device that is attached to a MediaConnect flow. (There is no need to stop a device that is attached to a MediaLive input; MediaLive automatically stops the device when the channel stops.)
     ///
     /// - Parameter StopInputDeviceInput : Placeholder documentation for StopInputDeviceRequest
     ///
-    /// - Returns: `StopInputDeviceOutputResponse` : Placeholder documentation for StopInputDeviceResponse
+    /// - Returns: `StopInputDeviceOutput` : Placeholder documentation for StopInputDeviceResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -912,12 +912,12 @@ public protocol MediaLiveClientProtocol {
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
-    func stopInputDevice(input: StopInputDeviceInput) async throws -> StopInputDeviceOutputResponse
+    func stopInputDevice(input: StopInputDeviceInput) async throws -> StopInputDeviceOutput
     /// Stops a running multiplex. If the multiplex isn't running, this action has no effect.
     ///
     /// - Parameter StopMultiplexInput : Placeholder documentation for StopMultiplexRequest
     ///
-    /// - Returns: `StopMultiplexOutputResponse` : Placeholder documentation for StopMultiplexResponse
+    /// - Returns: `StopMultiplexOutput` : Placeholder documentation for StopMultiplexResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -930,12 +930,12 @@ public protocol MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    func stopMultiplex(input: StopMultiplexInput) async throws -> StopMultiplexOutputResponse
+    func stopMultiplex(input: StopMultiplexInput) async throws -> StopMultiplexOutput
     /// Start an input device transfer to another AWS account. After you make the request, the other account must accept or reject the transfer.
     ///
     /// - Parameter TransferInputDeviceInput : A request to transfer an input device.
     ///
-    /// - Returns: `TransferInputDeviceOutputResponse` : Placeholder documentation for TransferInputDeviceResponse
+    /// - Returns: `TransferInputDeviceOutput` : Placeholder documentation for TransferInputDeviceResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -949,12 +949,12 @@ public protocol MediaLiveClientProtocol {
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
-    func transferInputDevice(input: TransferInputDeviceInput) async throws -> TransferInputDeviceOutputResponse
+    func transferInputDevice(input: TransferInputDeviceInput) async throws -> TransferInputDeviceOutput
     /// Update account configuration
     ///
     /// - Parameter UpdateAccountConfigurationInput : List of account configuration parameters to update.
     ///
-    /// - Returns: `UpdateAccountConfigurationOutputResponse` : Placeholder documentation for UpdateAccountConfigurationResponse
+    /// - Returns: `UpdateAccountConfigurationOutput` : Placeholder documentation for UpdateAccountConfigurationResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -966,12 +966,12 @@ public protocol MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
-    func updateAccountConfiguration(input: UpdateAccountConfigurationInput) async throws -> UpdateAccountConfigurationOutputResponse
+    func updateAccountConfiguration(input: UpdateAccountConfigurationInput) async throws -> UpdateAccountConfigurationOutput
     /// Updates a channel.
     ///
     /// - Parameter UpdateChannelInput : A request to update a channel.
     ///
-    /// - Returns: `UpdateChannelOutputResponse` : Placeholder documentation for UpdateChannelResponse
+    /// - Returns: `UpdateChannelOutput` : Placeholder documentation for UpdateChannelResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -983,12 +983,12 @@ public protocol MediaLiveClientProtocol {
     /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
-    func updateChannel(input: UpdateChannelInput) async throws -> UpdateChannelOutputResponse
+    func updateChannel(input: UpdateChannelInput) async throws -> UpdateChannelOutput
     /// Changes the class of the channel.
     ///
     /// - Parameter UpdateChannelClassInput : Channel class that the channel should be updated to.
     ///
-    /// - Returns: `UpdateChannelClassOutputResponse` : Placeholder documentation for UpdateChannelClassResponse
+    /// - Returns: `UpdateChannelClassOutput` : Placeholder documentation for UpdateChannelClassResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1002,12 +1002,12 @@ public protocol MediaLiveClientProtocol {
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
-    func updateChannelClass(input: UpdateChannelClassInput) async throws -> UpdateChannelClassOutputResponse
+    func updateChannelClass(input: UpdateChannelClassInput) async throws -> UpdateChannelClassOutput
     /// Updates an input.
     ///
     /// - Parameter UpdateInputInput : A request to update an input.
     ///
-    /// - Returns: `UpdateInputOutputResponse` : Placeholder documentation for UpdateInputResponse
+    /// - Returns: `UpdateInputOutput` : Placeholder documentation for UpdateInputResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1019,12 +1019,12 @@ public protocol MediaLiveClientProtocol {
     /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
-    func updateInput(input: UpdateInputInput) async throws -> UpdateInputOutputResponse
+    func updateInput(input: UpdateInputInput) async throws -> UpdateInputOutput
     /// Updates the parameters for the input device.
     ///
     /// - Parameter UpdateInputDeviceInput : A request to update an input device.
     ///
-    /// - Returns: `UpdateInputDeviceOutputResponse` : Placeholder documentation for UpdateInputDeviceResponse
+    /// - Returns: `UpdateInputDeviceOutput` : Placeholder documentation for UpdateInputDeviceResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1037,12 +1037,12 @@ public protocol MediaLiveClientProtocol {
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
-    func updateInputDevice(input: UpdateInputDeviceInput) async throws -> UpdateInputDeviceOutputResponse
+    func updateInputDevice(input: UpdateInputDeviceInput) async throws -> UpdateInputDeviceOutput
     /// Update an Input Security Group's Whilelists.
     ///
     /// - Parameter UpdateInputSecurityGroupInput : The request to update some combination of the Input Security Group name and the IPv4 CIDRs the Input Security Group should allow.
     ///
-    /// - Returns: `UpdateInputSecurityGroupOutputResponse` : Placeholder documentation for UpdateInputSecurityGroupResponse
+    /// - Returns: `UpdateInputSecurityGroupOutput` : Placeholder documentation for UpdateInputSecurityGroupResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1054,12 +1054,12 @@ public protocol MediaLiveClientProtocol {
     /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
-    func updateInputSecurityGroup(input: UpdateInputSecurityGroupInput) async throws -> UpdateInputSecurityGroupOutputResponse
+    func updateInputSecurityGroup(input: UpdateInputSecurityGroupInput) async throws -> UpdateInputSecurityGroupOutput
     /// Updates a multiplex.
     ///
     /// - Parameter UpdateMultiplexInput : A request to update a multiplex.
     ///
-    /// - Returns: `UpdateMultiplexOutputResponse` : Placeholder documentation for UpdateMultiplexResponse
+    /// - Returns: `UpdateMultiplexOutput` : Placeholder documentation for UpdateMultiplexResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1072,12 +1072,12 @@ public protocol MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
-    func updateMultiplex(input: UpdateMultiplexInput) async throws -> UpdateMultiplexOutputResponse
+    func updateMultiplex(input: UpdateMultiplexInput) async throws -> UpdateMultiplexOutput
     /// Update a program in a multiplex.
     ///
     /// - Parameter UpdateMultiplexProgramInput : A request to update a program in a multiplex.
     ///
-    /// - Returns: `UpdateMultiplexProgramOutputResponse` : Placeholder documentation for UpdateMultiplexProgramResponse
+    /// - Returns: `UpdateMultiplexProgramOutput` : Placeholder documentation for UpdateMultiplexProgramResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1090,12 +1090,12 @@ public protocol MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
-    func updateMultiplexProgram(input: UpdateMultiplexProgramInput) async throws -> UpdateMultiplexProgramOutputResponse
+    func updateMultiplexProgram(input: UpdateMultiplexProgramInput) async throws -> UpdateMultiplexProgramOutput
     /// Update reservation.
     ///
     /// - Parameter UpdateReservationInput : Request to update a reservation
     ///
-    /// - Returns: `UpdateReservationOutputResponse` : Placeholder documentation for UpdateReservationResponse
+    /// - Returns: `UpdateReservationOutput` : Placeholder documentation for UpdateReservationResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1108,7 +1108,7 @@ public protocol MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    func updateReservation(input: UpdateReservationInput) async throws -> UpdateReservationOutputResponse
+    func updateReservation(input: UpdateReservationInput) async throws -> UpdateReservationOutput
 }
 
 public enum MediaLiveClientTypes {}

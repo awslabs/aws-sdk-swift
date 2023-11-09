@@ -39,7 +39,7 @@ public protocol CodeStarconnectionsClientProtocol {
     ///
     /// - Parameter CreateConnectionInput : [no documentation found]
     ///
-    /// - Returns: `CreateConnectionOutputResponse` : [no documentation found]
+    /// - Returns: `CreateConnectionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -47,121 +47,121 @@ public protocol CodeStarconnectionsClientProtocol {
     /// - `LimitExceededException` : Exceeded the maximum limit for connections.
     /// - `ResourceNotFoundException` : Resource not found. Verify the connection resource ARN and try again.
     /// - `ResourceUnavailableException` : Resource not found. Verify the ARN for the host resource and try again.
-    func createConnection(input: CreateConnectionInput) async throws -> CreateConnectionOutputResponse
+    func createConnection(input: CreateConnectionInput) async throws -> CreateConnectionOutput
     /// Creates a resource that represents the infrastructure where a third-party provider is installed. The host is used when you create connections to an installed third-party provider type, such as GitHub Enterprise Server. You create one host for all connections to that provider. A host created through the CLI or the SDK is in `PENDING` status by default. You can make its status `AVAILABLE` by setting up the host in the console.
     ///
     /// - Parameter CreateHostInput : [no documentation found]
     ///
-    /// - Returns: `CreateHostOutputResponse` : [no documentation found]
+    /// - Returns: `CreateHostOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `LimitExceededException` : Exceeded the maximum limit for connections.
-    func createHost(input: CreateHostInput) async throws -> CreateHostOutputResponse
+    func createHost(input: CreateHostInput) async throws -> CreateHostOutput
     /// The connection to be deleted.
     ///
     /// - Parameter DeleteConnectionInput : [no documentation found]
     ///
-    /// - Returns: `DeleteConnectionOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteConnectionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Resource not found. Verify the connection resource ARN and try again.
-    func deleteConnection(input: DeleteConnectionInput) async throws -> DeleteConnectionOutputResponse
+    func deleteConnection(input: DeleteConnectionInput) async throws -> DeleteConnectionOutput
     /// The host to be deleted. Before you delete a host, all connections associated to the host must be deleted. A host cannot be deleted if it is in the VPC_CONFIG_INITIALIZING or VPC_CONFIG_DELETING state.
     ///
     /// - Parameter DeleteHostInput : [no documentation found]
     ///
-    /// - Returns: `DeleteHostOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteHostOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Resource not found. Verify the connection resource ARN and try again.
     /// - `ResourceUnavailableException` : Resource not found. Verify the ARN for the host resource and try again.
-    func deleteHost(input: DeleteHostInput) async throws -> DeleteHostOutputResponse
+    func deleteHost(input: DeleteHostInput) async throws -> DeleteHostOutput
     /// Returns the connection ARN and details such as status, owner, and provider type.
     ///
     /// - Parameter GetConnectionInput : [no documentation found]
     ///
-    /// - Returns: `GetConnectionOutputResponse` : [no documentation found]
+    /// - Returns: `GetConnectionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Resource not found. Verify the connection resource ARN and try again.
     /// - `ResourceUnavailableException` : Resource not found. Verify the ARN for the host resource and try again.
-    func getConnection(input: GetConnectionInput) async throws -> GetConnectionOutputResponse
+    func getConnection(input: GetConnectionInput) async throws -> GetConnectionOutput
     /// Returns the host ARN and details such as status, provider type, endpoint, and, if applicable, the VPC configuration.
     ///
     /// - Parameter GetHostInput : [no documentation found]
     ///
-    /// - Returns: `GetHostOutputResponse` : [no documentation found]
+    /// - Returns: `GetHostOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Resource not found. Verify the connection resource ARN and try again.
     /// - `ResourceUnavailableException` : Resource not found. Verify the ARN for the host resource and try again.
-    func getHost(input: GetHostInput) async throws -> GetHostOutputResponse
+    func getHost(input: GetHostInput) async throws -> GetHostOutput
     /// Lists the connections associated with your account.
     ///
     /// - Parameter ListConnectionsInput : [no documentation found]
     ///
-    /// - Returns: `ListConnectionsOutputResponse` : [no documentation found]
+    /// - Returns: `ListConnectionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Resource not found. Verify the connection resource ARN and try again.
-    func listConnections(input: ListConnectionsInput) async throws -> ListConnectionsOutputResponse
+    func listConnections(input: ListConnectionsInput) async throws -> ListConnectionsOutput
     /// Lists the hosts associated with your account.
     ///
     /// - Parameter ListHostsInput : [no documentation found]
     ///
-    /// - Returns: `ListHostsOutputResponse` : [no documentation found]
-    func listHosts(input: ListHostsInput) async throws -> ListHostsOutputResponse
+    /// - Returns: `ListHostsOutput` : [no documentation found]
+    func listHosts(input: ListHostsInput) async throws -> ListHostsOutput
     /// Gets the set of key-value pairs (metadata) that are used to manage the resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Resource not found. Verify the connection resource ARN and try again.
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     /// Adds to or modifies the tags of the given resource. Tags are metadata that can be used to manage a resource.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `LimitExceededException` : Exceeded the maximum limit for connections.
     /// - `ResourceNotFoundException` : Resource not found. Verify the connection resource ARN and try again.
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     /// Removes tags from an Amazon Web Services resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Resource not found. Verify the connection resource ARN and try again.
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
     /// Updates a specified host with the provided configurations.
     ///
     /// - Parameter UpdateHostInput : [no documentation found]
     ///
-    /// - Returns: `UpdateHostOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateHostOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -170,7 +170,7 @@ public protocol CodeStarconnectionsClientProtocol {
     /// - `ResourceNotFoundException` : Resource not found. Verify the connection resource ARN and try again.
     /// - `ResourceUnavailableException` : Resource not found. Verify the ARN for the host resource and try again.
     /// - `UnsupportedOperationException` : The operation is not supported. Check the connection status and try again.
-    func updateHost(input: UpdateHostInput) async throws -> UpdateHostOutputResponse
+    func updateHost(input: UpdateHostInput) async throws -> UpdateHostOutput
 }
 
 public enum CodeStarconnectionsClientTypes {}

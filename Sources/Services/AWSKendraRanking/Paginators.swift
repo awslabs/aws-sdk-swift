@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension KendraRankingClient {
-    /// Paginate over `[ListRescoreExecutionPlansOutputResponse]` results.
+    /// Paginate over `[ListRescoreExecutionPlansOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListRescoreExecutionPlansInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListRescoreExecutionPlansOutputResponse`
-    public func listRescoreExecutionPlansPaginated(input: ListRescoreExecutionPlansInput) -> ClientRuntime.PaginatorSequence<ListRescoreExecutionPlansInput, ListRescoreExecutionPlansOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListRescoreExecutionPlansInput, ListRescoreExecutionPlansOutputResponse>(input: input, inputKey: \ListRescoreExecutionPlansInput.nextToken, outputKey: \ListRescoreExecutionPlansOutputResponse.nextToken, paginationFunction: self.listRescoreExecutionPlans(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListRescoreExecutionPlansOutput`
+    public func listRescoreExecutionPlansPaginated(input: ListRescoreExecutionPlansInput) -> ClientRuntime.PaginatorSequence<ListRescoreExecutionPlansInput, ListRescoreExecutionPlansOutput> {
+        return ClientRuntime.PaginatorSequence<ListRescoreExecutionPlansInput, ListRescoreExecutionPlansOutput>(input: input, inputKey: \ListRescoreExecutionPlansInput.nextToken, outputKey: \ListRescoreExecutionPlansOutput.nextToken, paginationFunction: self.listRescoreExecutionPlans(input:))
     }
 }
 

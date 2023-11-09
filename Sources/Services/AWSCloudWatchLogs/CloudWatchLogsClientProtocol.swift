@@ -21,7 +21,7 @@ public protocol CloudWatchLogsClientProtocol {
     ///
     /// - Parameter AssociateKmsKeyInput : [no documentation found]
     ///
-    /// - Returns: `AssociateKmsKeyOutputResponse` : [no documentation found]
+    /// - Returns: `AssociateKmsKeyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -30,12 +30,12 @@ public protocol CloudWatchLogsClientProtocol {
     /// - `OperationAbortedException` : Multiple concurrent requests to update the same resource were in conflict.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    func associateKmsKey(input: AssociateKmsKeyInput) async throws -> AssociateKmsKeyOutputResponse
+    func associateKmsKey(input: AssociateKmsKeyInput) async throws -> AssociateKmsKeyOutput
     /// Cancels the specified export task. The task must be in the PENDING or RUNNING state.
     ///
     /// - Parameter CancelExportTaskInput : [no documentation found]
     ///
-    /// - Returns: `CancelExportTaskOutputResponse` : [no documentation found]
+    /// - Returns: `CancelExportTaskOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -44,12 +44,12 @@ public protocol CloudWatchLogsClientProtocol {
     /// - `InvalidParameterException` : A parameter is specified incorrectly.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    func cancelExportTask(input: CancelExportTaskInput) async throws -> CancelExportTaskOutputResponse
+    func cancelExportTask(input: CancelExportTaskInput) async throws -> CancelExportTaskOutput
     /// Creates an export task so that you can efficiently export data from a log group to an Amazon S3 bucket. When you perform a CreateExportTask operation, you must use credentials that have permission to write to the S3 bucket that you specify as the destination. Exporting log data to S3 buckets that are encrypted by KMS is supported. Exporting log data to Amazon S3 buckets that have S3 Object Lock enabled with a retention period is also supported. Exporting to S3 buckets that are encrypted with AES-256 is supported. This is an asynchronous call. If all the required information is provided, this operation initiates an export task and responds with the ID of the task. After the task has started, you can use [DescribeExportTasks](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_DescribeExportTasks.html) to get the status of the export task. Each account can only have one active (RUNNING or PENDING) export task at a time. To cancel an export task, use [CancelExportTask](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_CancelExportTask.html). You can export logs from multiple log groups or multiple time ranges to the same S3 bucket. To separate log data for each export task, specify a prefix to be used as the Amazon S3 key prefix for all exported objects. Time-based sorting on chunks of log data inside an exported file is not guaranteed. You can sort the exported log field data by using Linux utilities.
     ///
     /// - Parameter CreateExportTaskInput : [no documentation found]
     ///
-    /// - Returns: `CreateExportTaskOutputResponse` : [no documentation found]
+    /// - Returns: `CreateExportTaskOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -60,7 +60,7 @@ public protocol CloudWatchLogsClientProtocol {
     /// - `ResourceAlreadyExistsException` : The specified resource already exists.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    func createExportTask(input: CreateExportTaskInput) async throws -> CreateExportTaskOutputResponse
+    func createExportTask(input: CreateExportTaskInput) async throws -> CreateExportTaskOutput
     /// Creates a log group with the specified name. You can create up to 1,000,000 log groups per Region per account. You must use the following guidelines when naming a log group:
     ///
     /// * Log group names must be unique within a Region for an Amazon Web Services account.
@@ -74,7 +74,7 @@ public protocol CloudWatchLogsClientProtocol {
     ///
     /// - Parameter CreateLogGroupInput : [no documentation found]
     ///
-    /// - Returns: `CreateLogGroupOutputResponse` : [no documentation found]
+    /// - Returns: `CreateLogGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -84,7 +84,7 @@ public protocol CloudWatchLogsClientProtocol {
     /// - `OperationAbortedException` : Multiple concurrent requests to update the same resource were in conflict.
     /// - `ResourceAlreadyExistsException` : The specified resource already exists.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    func createLogGroup(input: CreateLogGroupInput) async throws -> CreateLogGroupOutputResponse
+    func createLogGroup(input: CreateLogGroupInput) async throws -> CreateLogGroupOutput
     /// Creates a log stream for the specified log group. A log stream is a sequence of log events that originate from a single source, such as an application instance or a resource that is being monitored. There is no limit on the number of log streams that you can create for a log group. There is a limit of 50 TPS on CreateLogStream operations, after which transactions are throttled. You must use the following guidelines when naming a log stream:
     ///
     /// * Log stream names must be unique within the log group.
@@ -95,7 +95,7 @@ public protocol CloudWatchLogsClientProtocol {
     ///
     /// - Parameter CreateLogStreamInput : [no documentation found]
     ///
-    /// - Returns: `CreateLogStreamOutputResponse` : [no documentation found]
+    /// - Returns: `CreateLogStreamOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -104,12 +104,12 @@ public protocol CloudWatchLogsClientProtocol {
     /// - `ResourceAlreadyExistsException` : The specified resource already exists.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    func createLogStream(input: CreateLogStreamInput) async throws -> CreateLogStreamOutputResponse
+    func createLogStream(input: CreateLogStreamInput) async throws -> CreateLogStreamOutput
     /// Deletes a CloudWatch Logs account policy. To use this operation, you must be signed on with the logs:DeleteDataProtectionPolicy and logs:DeleteAccountPolicy permissions.
     ///
     /// - Parameter DeleteAccountPolicyInput : [no documentation found]
     ///
-    /// - Returns: `DeleteAccountPolicyOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteAccountPolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -118,12 +118,12 @@ public protocol CloudWatchLogsClientProtocol {
     /// - `OperationAbortedException` : Multiple concurrent requests to update the same resource were in conflict.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    func deleteAccountPolicy(input: DeleteAccountPolicyInput) async throws -> DeleteAccountPolicyOutputResponse
+    func deleteAccountPolicy(input: DeleteAccountPolicyInput) async throws -> DeleteAccountPolicyOutput
     /// Deletes the data protection policy from the specified log group. For more information about data protection policies, see [PutDataProtectionPolicy](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDataProtectionPolicy.html).
     ///
     /// - Parameter DeleteDataProtectionPolicyInput : [no documentation found]
     ///
-    /// - Returns: `DeleteDataProtectionPolicyOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteDataProtectionPolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -132,12 +132,12 @@ public protocol CloudWatchLogsClientProtocol {
     /// - `OperationAbortedException` : Multiple concurrent requests to update the same resource were in conflict.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    func deleteDataProtectionPolicy(input: DeleteDataProtectionPolicyInput) async throws -> DeleteDataProtectionPolicyOutputResponse
+    func deleteDataProtectionPolicy(input: DeleteDataProtectionPolicyInput) async throws -> DeleteDataProtectionPolicyOutput
     /// Deletes the specified destination, and eventually disables all the subscription filters that publish to it. This operation does not delete the physical resource encapsulated by the destination.
     ///
     /// - Parameter DeleteDestinationInput : [no documentation found]
     ///
-    /// - Returns: `DeleteDestinationOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteDestinationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -146,12 +146,12 @@ public protocol CloudWatchLogsClientProtocol {
     /// - `OperationAbortedException` : Multiple concurrent requests to update the same resource were in conflict.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    func deleteDestination(input: DeleteDestinationInput) async throws -> DeleteDestinationOutputResponse
+    func deleteDestination(input: DeleteDestinationInput) async throws -> DeleteDestinationOutput
     /// Deletes the specified log group and permanently deletes all the archived log events associated with the log group.
     ///
     /// - Parameter DeleteLogGroupInput : [no documentation found]
     ///
-    /// - Returns: `DeleteLogGroupOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteLogGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -160,12 +160,12 @@ public protocol CloudWatchLogsClientProtocol {
     /// - `OperationAbortedException` : Multiple concurrent requests to update the same resource were in conflict.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    func deleteLogGroup(input: DeleteLogGroupInput) async throws -> DeleteLogGroupOutputResponse
+    func deleteLogGroup(input: DeleteLogGroupInput) async throws -> DeleteLogGroupOutput
     /// Deletes the specified log stream and permanently deletes all the archived log events associated with the log stream.
     ///
     /// - Parameter DeleteLogStreamInput : [no documentation found]
     ///
-    /// - Returns: `DeleteLogStreamOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteLogStreamOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -174,12 +174,12 @@ public protocol CloudWatchLogsClientProtocol {
     /// - `OperationAbortedException` : Multiple concurrent requests to update the same resource were in conflict.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    func deleteLogStream(input: DeleteLogStreamInput) async throws -> DeleteLogStreamOutputResponse
+    func deleteLogStream(input: DeleteLogStreamInput) async throws -> DeleteLogStreamOutput
     /// Deletes the specified metric filter.
     ///
     /// - Parameter DeleteMetricFilterInput : [no documentation found]
     ///
-    /// - Returns: `DeleteMetricFilterOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteMetricFilterOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -188,12 +188,12 @@ public protocol CloudWatchLogsClientProtocol {
     /// - `OperationAbortedException` : Multiple concurrent requests to update the same resource were in conflict.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    func deleteMetricFilter(input: DeleteMetricFilterInput) async throws -> DeleteMetricFilterOutputResponse
+    func deleteMetricFilter(input: DeleteMetricFilterInput) async throws -> DeleteMetricFilterOutput
     /// Deletes a saved CloudWatch Logs Insights query definition. A query definition contains details about a saved CloudWatch Logs Insights query. Each DeleteQueryDefinition operation can delete one query definition. You must have the logs:DeleteQueryDefinition permission to be able to perform this operation.
     ///
     /// - Parameter DeleteQueryDefinitionInput : [no documentation found]
     ///
-    /// - Returns: `DeleteQueryDefinitionOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteQueryDefinitionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -201,12 +201,12 @@ public protocol CloudWatchLogsClientProtocol {
     /// - `InvalidParameterException` : A parameter is specified incorrectly.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    func deleteQueryDefinition(input: DeleteQueryDefinitionInput) async throws -> DeleteQueryDefinitionOutputResponse
+    func deleteQueryDefinition(input: DeleteQueryDefinitionInput) async throws -> DeleteQueryDefinitionOutput
     /// Deletes a resource policy from this account. This revokes the access of the identities in that policy to put log events to this account.
     ///
     /// - Parameter DeleteResourcePolicyInput : [no documentation found]
     ///
-    /// - Returns: `DeleteResourcePolicyOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteResourcePolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -214,12 +214,12 @@ public protocol CloudWatchLogsClientProtocol {
     /// - `InvalidParameterException` : A parameter is specified incorrectly.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    func deleteResourcePolicy(input: DeleteResourcePolicyInput) async throws -> DeleteResourcePolicyOutputResponse
+    func deleteResourcePolicy(input: DeleteResourcePolicyInput) async throws -> DeleteResourcePolicyOutput
     /// Deletes the specified retention policy. Log events do not expire if they belong to log groups without a retention policy.
     ///
     /// - Parameter DeleteRetentionPolicyInput : [no documentation found]
     ///
-    /// - Returns: `DeleteRetentionPolicyOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteRetentionPolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -228,12 +228,12 @@ public protocol CloudWatchLogsClientProtocol {
     /// - `OperationAbortedException` : Multiple concurrent requests to update the same resource were in conflict.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    func deleteRetentionPolicy(input: DeleteRetentionPolicyInput) async throws -> DeleteRetentionPolicyOutputResponse
+    func deleteRetentionPolicy(input: DeleteRetentionPolicyInput) async throws -> DeleteRetentionPolicyOutput
     /// Deletes the specified subscription filter.
     ///
     /// - Parameter DeleteSubscriptionFilterInput : [no documentation found]
     ///
-    /// - Returns: `DeleteSubscriptionFilterOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteSubscriptionFilterOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -242,12 +242,12 @@ public protocol CloudWatchLogsClientProtocol {
     /// - `OperationAbortedException` : Multiple concurrent requests to update the same resource were in conflict.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    func deleteSubscriptionFilter(input: DeleteSubscriptionFilterInput) async throws -> DeleteSubscriptionFilterOutputResponse
+    func deleteSubscriptionFilter(input: DeleteSubscriptionFilterInput) async throws -> DeleteSubscriptionFilterOutput
     /// Returns a list of all CloudWatch Logs account policies in the account.
     ///
     /// - Parameter DescribeAccountPoliciesInput : [no documentation found]
     ///
-    /// - Returns: `DescribeAccountPoliciesOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeAccountPoliciesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -256,48 +256,48 @@ public protocol CloudWatchLogsClientProtocol {
     /// - `OperationAbortedException` : Multiple concurrent requests to update the same resource were in conflict.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    func describeAccountPolicies(input: DescribeAccountPoliciesInput) async throws -> DescribeAccountPoliciesOutputResponse
+    func describeAccountPolicies(input: DescribeAccountPoliciesInput) async throws -> DescribeAccountPoliciesOutput
     /// Lists all your destinations. The results are ASCII-sorted by destination name.
     ///
     /// - Parameter DescribeDestinationsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeDestinationsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeDestinationsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParameterException` : A parameter is specified incorrectly.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    func describeDestinations(input: DescribeDestinationsInput) async throws -> DescribeDestinationsOutputResponse
+    func describeDestinations(input: DescribeDestinationsInput) async throws -> DescribeDestinationsOutput
     /// Lists the specified export tasks. You can list all your export tasks or filter the results based on task ID or task status.
     ///
     /// - Parameter DescribeExportTasksInput : [no documentation found]
     ///
-    /// - Returns: `DescribeExportTasksOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeExportTasksOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParameterException` : A parameter is specified incorrectly.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    func describeExportTasks(input: DescribeExportTasksInput) async throws -> DescribeExportTasksOutputResponse
+    func describeExportTasks(input: DescribeExportTasksInput) async throws -> DescribeExportTasksOutput
     /// Lists the specified log groups. You can list all your log groups or filter the results by prefix. The results are ASCII-sorted by log group name. CloudWatch Logs doesn’t support IAM policies that control access to the DescribeLogGroups action by using the aws:ResourceTag/key-name  condition key. Other CloudWatch Logs actions do support the use of the aws:ResourceTag/key-name  condition key to control access. For more information about using tags to control access, see [Controlling access to Amazon Web Services resources using tags](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_tags.html). If you are using CloudWatch cross-account observability, you can use this operation in a monitoring account and view data from the linked source accounts. For more information, see [CloudWatch cross-account observability](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Unified-Cross-Account.html).
     ///
     /// - Parameter DescribeLogGroupsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeLogGroupsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeLogGroupsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParameterException` : A parameter is specified incorrectly.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    func describeLogGroups(input: DescribeLogGroupsInput) async throws -> DescribeLogGroupsOutputResponse
+    func describeLogGroups(input: DescribeLogGroupsInput) async throws -> DescribeLogGroupsOutput
     /// Lists the log streams for the specified log group. You can list all the log streams or filter the results by prefix. You can also control how the results are ordered. You can specify the log group to search by using either logGroupIdentifier or logGroupName. You must include one of these two parameters, but you can't include both. This operation has a limit of five transactions per second, after which transactions are throttled. If you are using CloudWatch cross-account observability, you can use this operation in a monitoring account and view data from the linked source accounts. For more information, see [CloudWatch cross-account observability](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Unified-Cross-Account.html).
     ///
     /// - Parameter DescribeLogStreamsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeLogStreamsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeLogStreamsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -305,12 +305,12 @@ public protocol CloudWatchLogsClientProtocol {
     /// - `InvalidParameterException` : A parameter is specified incorrectly.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    func describeLogStreams(input: DescribeLogStreamsInput) async throws -> DescribeLogStreamsOutputResponse
+    func describeLogStreams(input: DescribeLogStreamsInput) async throws -> DescribeLogStreamsOutput
     /// Lists the specified metric filters. You can list all of the metric filters or filter the results by log name, prefix, metric name, or metric namespace. The results are ASCII-sorted by filter name.
     ///
     /// - Parameter DescribeMetricFiltersInput : [no documentation found]
     ///
-    /// - Returns: `DescribeMetricFiltersOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeMetricFiltersOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -318,12 +318,12 @@ public protocol CloudWatchLogsClientProtocol {
     /// - `InvalidParameterException` : A parameter is specified incorrectly.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    func describeMetricFilters(input: DescribeMetricFiltersInput) async throws -> DescribeMetricFiltersOutputResponse
+    func describeMetricFilters(input: DescribeMetricFiltersInput) async throws -> DescribeMetricFiltersOutput
     /// Returns a list of CloudWatch Logs Insights queries that are scheduled, running, or have been run recently in this account. You can request all queries or limit it to queries of a specific log group or queries with a certain status.
     ///
     /// - Parameter DescribeQueriesInput : [no documentation found]
     ///
-    /// - Returns: `DescribeQueriesOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeQueriesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -331,36 +331,36 @@ public protocol CloudWatchLogsClientProtocol {
     /// - `InvalidParameterException` : A parameter is specified incorrectly.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    func describeQueries(input: DescribeQueriesInput) async throws -> DescribeQueriesOutputResponse
+    func describeQueries(input: DescribeQueriesInput) async throws -> DescribeQueriesOutput
     /// This operation returns a paginated list of your saved CloudWatch Logs Insights query definitions. You can use the queryDefinitionNamePrefix parameter to limit the results to only the query definitions that have names that start with a certain string.
     ///
     /// - Parameter DescribeQueryDefinitionsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeQueryDefinitionsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeQueryDefinitionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParameterException` : A parameter is specified incorrectly.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    func describeQueryDefinitions(input: DescribeQueryDefinitionsInput) async throws -> DescribeQueryDefinitionsOutputResponse
+    func describeQueryDefinitions(input: DescribeQueryDefinitionsInput) async throws -> DescribeQueryDefinitionsOutput
     /// Lists the resource policies in this account.
     ///
     /// - Parameter DescribeResourcePoliciesInput : [no documentation found]
     ///
-    /// - Returns: `DescribeResourcePoliciesOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeResourcePoliciesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParameterException` : A parameter is specified incorrectly.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    func describeResourcePolicies(input: DescribeResourcePoliciesInput) async throws -> DescribeResourcePoliciesOutputResponse
+    func describeResourcePolicies(input: DescribeResourcePoliciesInput) async throws -> DescribeResourcePoliciesOutput
     /// Lists the subscription filters for the specified log group. You can list all the subscription filters or filter the results by prefix. The results are ASCII-sorted by filter name.
     ///
     /// - Parameter DescribeSubscriptionFiltersInput : [no documentation found]
     ///
-    /// - Returns: `DescribeSubscriptionFiltersOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeSubscriptionFiltersOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -368,7 +368,7 @@ public protocol CloudWatchLogsClientProtocol {
     /// - `InvalidParameterException` : A parameter is specified incorrectly.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    func describeSubscriptionFilters(input: DescribeSubscriptionFiltersInput) async throws -> DescribeSubscriptionFiltersOutputResponse
+    func describeSubscriptionFilters(input: DescribeSubscriptionFiltersInput) async throws -> DescribeSubscriptionFiltersOutput
     /// Disassociates the specified KMS key from the specified log group or from all CloudWatch Logs Insights query results in the account. When you use DisassociateKmsKey, you specify either the logGroupName parameter or the resourceIdentifier parameter. You can't specify both of those parameters in the same operation.
     ///
     /// * Specify the logGroupName parameter to stop using the KMS key to encrypt future log events ingested and stored in the log group. Instead, they will be encrypted with the default CloudWatch Logs method. The log events that were ingested while the key was associated with the log group are still encrypted with that key. Therefore, CloudWatch Logs will need permissions for the key whenever that data is accessed.
@@ -380,7 +380,7 @@ public protocol CloudWatchLogsClientProtocol {
     ///
     /// - Parameter DisassociateKmsKeyInput : [no documentation found]
     ///
-    /// - Returns: `DisassociateKmsKeyOutputResponse` : [no documentation found]
+    /// - Returns: `DisassociateKmsKeyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -389,12 +389,12 @@ public protocol CloudWatchLogsClientProtocol {
     /// - `OperationAbortedException` : Multiple concurrent requests to update the same resource were in conflict.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    func disassociateKmsKey(input: DisassociateKmsKeyInput) async throws -> DisassociateKmsKeyOutputResponse
+    func disassociateKmsKey(input: DisassociateKmsKeyInput) async throws -> DisassociateKmsKeyOutput
     /// Lists log events from the specified log group. You can list all the log events or filter the results using a filter pattern, a time range, and the name of the log stream. You must have the logs:FilterLogEvents permission to perform this operation. You can specify the log group to search by using either logGroupIdentifier or logGroupName. You must include one of these two parameters, but you can't include both. By default, this operation returns as many log events as can fit in 1 MB (up to 10,000 log events) or all the events found within the specified time range. If the results include a token, that means there are more log events available. You can get additional results by specifying the token in a subsequent call. This operation can return empty results while there are more log events available through the token. The returned log events are sorted by event timestamp, the timestamp when the event was ingested by CloudWatch Logs, and the ID of the PutLogEvents request. If you are using CloudWatch cross-account observability, you can use this operation in a monitoring account and view data from the linked source accounts. For more information, see [CloudWatch cross-account observability](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Unified-Cross-Account.html).
     ///
     /// - Parameter FilterLogEventsInput : [no documentation found]
     ///
-    /// - Returns: `FilterLogEventsOutputResponse` : [no documentation found]
+    /// - Returns: `FilterLogEventsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -402,12 +402,12 @@ public protocol CloudWatchLogsClientProtocol {
     /// - `InvalidParameterException` : A parameter is specified incorrectly.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    func filterLogEvents(input: FilterLogEventsInput) async throws -> FilterLogEventsOutputResponse
+    func filterLogEvents(input: FilterLogEventsInput) async throws -> FilterLogEventsOutput
     /// Returns information about a log group data protection policy.
     ///
     /// - Parameter GetDataProtectionPolicyInput : [no documentation found]
     ///
-    /// - Returns: `GetDataProtectionPolicyOutputResponse` : [no documentation found]
+    /// - Returns: `GetDataProtectionPolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -416,12 +416,12 @@ public protocol CloudWatchLogsClientProtocol {
     /// - `OperationAbortedException` : Multiple concurrent requests to update the same resource were in conflict.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    func getDataProtectionPolicy(input: GetDataProtectionPolicyInput) async throws -> GetDataProtectionPolicyOutputResponse
+    func getDataProtectionPolicy(input: GetDataProtectionPolicyInput) async throws -> GetDataProtectionPolicyOutput
     /// Lists log events from the specified log stream. You can list all of the log events or filter using a time range. By default, this operation returns as many log events as can fit in a response size of 1MB (up to 10,000 log events). You can get additional log events by specifying one of the tokens in a subsequent call. This operation can return empty results while there are more log events available through the token. If you are using CloudWatch cross-account observability, you can use this operation in a monitoring account and view data from the linked source accounts. For more information, see [CloudWatch cross-account observability](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Unified-Cross-Account.html). You can specify the log group to search by using either logGroupIdentifier or logGroupName. You must include one of these two parameters, but you can't include both.
     ///
     /// - Parameter GetLogEventsInput : [no documentation found]
     ///
-    /// - Returns: `GetLogEventsOutputResponse` : [no documentation found]
+    /// - Returns: `GetLogEventsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -429,12 +429,12 @@ public protocol CloudWatchLogsClientProtocol {
     /// - `InvalidParameterException` : A parameter is specified incorrectly.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    func getLogEvents(input: GetLogEventsInput) async throws -> GetLogEventsOutputResponse
+    func getLogEvents(input: GetLogEventsInput) async throws -> GetLogEventsOutput
     /// Returns a list of the fields that are included in log events in the specified log group. Includes the percentage of log events that contain each field. The search is limited to a time period that you specify. You can specify the log group to search by using either logGroupIdentifier or logGroupName. You must specify one of these parameters, but you can't specify both. In the results, fields that start with @ are fields generated by CloudWatch Logs. For example, @timestamp is the timestamp of each log event. For more information about the fields that are generated by CloudWatch logs, see [Supported Logs and Discovered Fields](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CWL_AnalyzeLogData-discoverable-fields.html). The response results are sorted by the frequency percentage, starting with the highest percentage. If you are using CloudWatch cross-account observability, you can use this operation in a monitoring account and view data from the linked source accounts. For more information, see [CloudWatch cross-account observability](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Unified-Cross-Account.html).
     ///
     /// - Parameter GetLogGroupFieldsInput : [no documentation found]
     ///
-    /// - Returns: `GetLogGroupFieldsOutputResponse` : [no documentation found]
+    /// - Returns: `GetLogGroupFieldsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -443,12 +443,12 @@ public protocol CloudWatchLogsClientProtocol {
     /// - `LimitExceededException` : You have reached the maximum number of resources that can be created.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    func getLogGroupFields(input: GetLogGroupFieldsInput) async throws -> GetLogGroupFieldsOutputResponse
+    func getLogGroupFields(input: GetLogGroupFieldsInput) async throws -> GetLogGroupFieldsOutput
     /// Retrieves all of the fields and values of a single log event. All fields are retrieved, even if the original query that produced the logRecordPointer retrieved only a subset of fields. Fields are returned as field name/field value pairs. The full unparsed log event is returned within @message.
     ///
     /// - Parameter GetLogRecordInput : [no documentation found]
     ///
-    /// - Returns: `GetLogRecordOutputResponse` : [no documentation found]
+    /// - Returns: `GetLogRecordOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -457,12 +457,12 @@ public protocol CloudWatchLogsClientProtocol {
     /// - `LimitExceededException` : You have reached the maximum number of resources that can be created.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    func getLogRecord(input: GetLogRecordInput) async throws -> GetLogRecordOutputResponse
+    func getLogRecord(input: GetLogRecordInput) async throws -> GetLogRecordOutput
     /// Returns the results from the specified query. Only the fields requested in the query are returned, along with a @ptr field, which is the identifier for the log record. You can use the value of @ptr in a [GetLogRecord](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_GetLogRecord.html) operation to get the full log record. GetQueryResults does not start running a query. To run a query, use [StartQuery](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_StartQuery.html). If the value of the Status field in the output is Running, this operation returns only partial results. If you see a value of Scheduled or Running for the status, you can retry the operation later to see the final results. If you are using CloudWatch cross-account observability, you can use this operation in a monitoring account to start queries in linked source accounts. For more information, see [CloudWatch cross-account observability](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Unified-Cross-Account.html).
     ///
     /// - Parameter GetQueryResultsInput : [no documentation found]
     ///
-    /// - Returns: `GetQueryResultsOutputResponse` : [no documentation found]
+    /// - Returns: `GetQueryResultsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -470,12 +470,12 @@ public protocol CloudWatchLogsClientProtocol {
     /// - `InvalidParameterException` : A parameter is specified incorrectly.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    func getQueryResults(input: GetQueryResultsInput) async throws -> GetQueryResultsOutputResponse
+    func getQueryResults(input: GetQueryResultsInput) async throws -> GetQueryResultsOutput
     /// Displays the tags associated with a CloudWatch Logs resource. Currently, log groups and destinations support tagging.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -483,25 +483,25 @@ public protocol CloudWatchLogsClientProtocol {
     /// - `InvalidParameterException` : A parameter is specified incorrectly.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     /// The ListTagsLogGroup operation is on the path to deprecation. We recommend that you use [ListTagsForResource](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_ListTagsForResource.html) instead. Lists the tags for the specified log group.
     @available(*, deprecated, message: "Please use the generic tagging API ListTagsForResource")
     ///
     /// - Parameter ListTagsLogGroupInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsLogGroupOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsLogGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    func listTagsLogGroup(input: ListTagsLogGroupInput) async throws -> ListTagsLogGroupOutputResponse
+    func listTagsLogGroup(input: ListTagsLogGroupInput) async throws -> ListTagsLogGroupOutput
     /// Creates an account-level data protection policy that applies to all log groups in the account. A data protection policy can help safeguard sensitive data that's ingested by your log groups by auditing and masking the sensitive log data. Each account can have only one account-level policy. Sensitive data is detected and masked when it is ingested into a log group. When you set a data protection policy, log events ingested into the log groups before that time are not masked. If you use PutAccountPolicy to create a data protection policy for your whole account, it applies to both existing log groups and all log groups that are created later in this account. The account policy is applied to existing log groups with eventual consistency. It might take up to 5 minutes before sensitive data in existing log groups begins to be masked. By default, when a user views a log event that includes masked data, the sensitive data is replaced by asterisks. A user who has the logs:Unmask permission can use a [GetLogEvents](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_GetLogEvents.html) or [FilterLogEvents](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_FilterLogEvents.html) operation with the unmask parameter set to true to view the unmasked log events. Users with the logs:Unmask can also view unmasked data in the CloudWatch Logs console by running a CloudWatch Logs Insights query with the unmask query command. For more information, including a list of types of data that can be audited and masked, see [Protect sensitive log data with masking](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/mask-sensitive-log-data.html). To use the PutAccountPolicy operation, you must be signed on with the logs:PutDataProtectionPolicy and logs:PutAccountPolicy permissions. The PutAccountPolicy operation applies to all log groups in the account. You can also use [PutDataProtectionPolicy](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDataProtectionPolicy.html) to create a data protection policy that applies to just one log group. If a log group has its own data protection policy and the account also has an account-level data protection policy, then the two policies are cumulative. Any sensitive term specified in either policy is masked.
     ///
     /// - Parameter PutAccountPolicyInput : [no documentation found]
     ///
-    /// - Returns: `PutAccountPolicyOutputResponse` : [no documentation found]
+    /// - Returns: `PutAccountPolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -510,12 +510,12 @@ public protocol CloudWatchLogsClientProtocol {
     /// - `LimitExceededException` : You have reached the maximum number of resources that can be created.
     /// - `OperationAbortedException` : Multiple concurrent requests to update the same resource were in conflict.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    func putAccountPolicy(input: PutAccountPolicyInput) async throws -> PutAccountPolicyOutputResponse
+    func putAccountPolicy(input: PutAccountPolicyInput) async throws -> PutAccountPolicyOutput
     /// Creates a data protection policy for the specified log group. A data protection policy can help safeguard sensitive data that's ingested by the log group by auditing and masking the sensitive log data. Sensitive data is detected and masked when it is ingested into the log group. When you set a data protection policy, log events ingested into the log group before that time are not masked. By default, when a user views a log event that includes masked data, the sensitive data is replaced by asterisks. A user who has the logs:Unmask permission can use a [GetLogEvents](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_GetLogEvents.html) or [FilterLogEvents](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_FilterLogEvents.html) operation with the unmask parameter set to true to view the unmasked log events. Users with the logs:Unmask can also view unmasked data in the CloudWatch Logs console by running a CloudWatch Logs Insights query with the unmask query command. For more information, including a list of types of data that can be audited and masked, see [Protect sensitive log data with masking](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/mask-sensitive-log-data.html). The PutDataProtectionPolicy operation applies to only the specified log group. You can also use [PutAccountPolicy](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutAccountPolicy.html) to create an account-level data protection policy that applies to all log groups in the account, including both existing log groups and log groups that are created level. If a log group has its own data protection policy and the account also has an account-level data protection policy, then the two policies are cumulative. Any sensitive term specified in either policy is masked.
     ///
     /// - Parameter PutDataProtectionPolicyInput : [no documentation found]
     ///
-    /// - Returns: `PutDataProtectionPolicyOutputResponse` : [no documentation found]
+    /// - Returns: `PutDataProtectionPolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -525,12 +525,12 @@ public protocol CloudWatchLogsClientProtocol {
     /// - `OperationAbortedException` : Multiple concurrent requests to update the same resource were in conflict.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    func putDataProtectionPolicy(input: PutDataProtectionPolicyInput) async throws -> PutDataProtectionPolicyOutputResponse
+    func putDataProtectionPolicy(input: PutDataProtectionPolicyInput) async throws -> PutDataProtectionPolicyOutput
     /// Creates or updates a destination. This operation is used only to create destinations for cross-account subscriptions. A destination encapsulates a physical resource (such as an Amazon Kinesis stream). With a destination, you can subscribe to a real-time stream of log events for a different account, ingested using [PutLogEvents](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutLogEvents.html). Through an access policy, a destination controls what is written to it. By default, PutDestination does not set any access policy with the destination, which means a cross-account user cannot call [PutSubscriptionFilter](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutSubscriptionFilter.html) against this destination. To enable this, the destination owner must call [PutDestinationPolicy](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDestinationPolicy.html) after PutDestination. To perform a PutDestination operation, you must also have the iam:PassRole permission.
     ///
     /// - Parameter PutDestinationInput : [no documentation found]
     ///
-    /// - Returns: `PutDestinationOutputResponse` : [no documentation found]
+    /// - Returns: `PutDestinationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -538,12 +538,12 @@ public protocol CloudWatchLogsClientProtocol {
     /// - `InvalidParameterException` : A parameter is specified incorrectly.
     /// - `OperationAbortedException` : Multiple concurrent requests to update the same resource were in conflict.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    func putDestination(input: PutDestinationInput) async throws -> PutDestinationOutputResponse
+    func putDestination(input: PutDestinationInput) async throws -> PutDestinationOutput
     /// Creates or updates an access policy associated with an existing destination. An access policy is an [IAM policy document](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies_overview.html) that is used to authorize claims to register a subscription filter against a given destination.
     ///
     /// - Parameter PutDestinationPolicyInput : [no documentation found]
     ///
-    /// - Returns: `PutDestinationPolicyOutputResponse` : [no documentation found]
+    /// - Returns: `PutDestinationPolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -551,7 +551,7 @@ public protocol CloudWatchLogsClientProtocol {
     /// - `InvalidParameterException` : A parameter is specified incorrectly.
     /// - `OperationAbortedException` : Multiple concurrent requests to update the same resource were in conflict.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    func putDestinationPolicy(input: PutDestinationPolicyInput) async throws -> PutDestinationPolicyOutputResponse
+    func putDestinationPolicy(input: PutDestinationPolicyInput) async throws -> PutDestinationPolicyOutput
     /// Uploads a batch of log events to the specified log stream. The sequence token is now ignored in PutLogEvents actions. PutLogEvents actions are always accepted and never return InvalidSequenceTokenException or DataAlreadyAcceptedException even if the sequence token is not valid. You can use parallel PutLogEvents actions on the same log stream. The batch of events must satisfy the following constraints:
     ///
     /// * The maximum batch size is 1,048,576 bytes. This size is calculated as the sum of all event messages in UTF-8, plus 26 bytes for each log event.
@@ -575,7 +575,7 @@ public protocol CloudWatchLogsClientProtocol {
     ///
     /// - Parameter PutLogEventsInput : [no documentation found]
     ///
-    /// - Returns: `PutLogEventsOutputResponse` : [no documentation found]
+    /// - Returns: `PutLogEventsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -586,12 +586,12 @@ public protocol CloudWatchLogsClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
     /// - `UnrecognizedClientException` : The most likely cause is an Amazon Web Services access key ID or secret key that's not valid.
-    func putLogEvents(input: PutLogEventsInput) async throws -> PutLogEventsOutputResponse
+    func putLogEvents(input: PutLogEventsInput) async throws -> PutLogEventsOutput
     /// Creates or updates a metric filter and associates it with the specified log group. With metric filters, you can configure rules to extract metric data from log events ingested through [PutLogEvents](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutLogEvents.html). The maximum number of metric filters that can be associated with a log group is 100. When you create a metric filter, you can also optionally assign a unit and dimensions to the metric that is created. Metrics extracted from log events are charged as custom metrics. To prevent unexpected high charges, do not specify high-cardinality fields such as IPAddress or requestID as dimensions. Each different value found for a dimension is treated as a separate metric and accrues charges as a separate custom metric. CloudWatch Logs might disable a metric filter if it generates 1,000 different name/value pairs for your specified dimensions within one hour. You can also set up a billing alarm to alert you if your charges are higher than expected. For more information, see [ Creating a Billing Alarm to Monitor Your Estimated Amazon Web Services Charges](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/monitor_estimated_charges_with_cloudwatch.html).
     ///
     /// - Parameter PutMetricFilterInput : [no documentation found]
     ///
-    /// - Returns: `PutMetricFilterOutputResponse` : [no documentation found]
+    /// - Returns: `PutMetricFilterOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -601,12 +601,12 @@ public protocol CloudWatchLogsClientProtocol {
     /// - `OperationAbortedException` : Multiple concurrent requests to update the same resource were in conflict.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    func putMetricFilter(input: PutMetricFilterInput) async throws -> PutMetricFilterOutputResponse
+    func putMetricFilter(input: PutMetricFilterInput) async throws -> PutMetricFilterOutput
     /// Creates or updates a query definition for CloudWatch Logs Insights. For more information, see [Analyzing Log Data with CloudWatch Logs Insights](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/AnalyzingLogData.html). To update a query definition, specify its queryDefinitionId in your request. The values of name, queryString, and logGroupNames are changed to the values that you specify in your update operation. No current values are retained from the current query definition. For example, imagine updating a current query definition that includes log groups. If you don't specify the logGroupNames parameter in your update operation, the query definition changes to contain no log groups. You must have the logs:PutQueryDefinition permission to be able to perform this operation.
     ///
     /// - Parameter PutQueryDefinitionInput : [no documentation found]
     ///
-    /// - Returns: `PutQueryDefinitionOutputResponse` : [no documentation found]
+    /// - Returns: `PutQueryDefinitionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -615,12 +615,12 @@ public protocol CloudWatchLogsClientProtocol {
     /// - `LimitExceededException` : You have reached the maximum number of resources that can be created.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    func putQueryDefinition(input: PutQueryDefinitionInput) async throws -> PutQueryDefinitionOutputResponse
+    func putQueryDefinition(input: PutQueryDefinitionInput) async throws -> PutQueryDefinitionOutput
     /// Creates or updates a resource policy allowing other Amazon Web Services services to put log events to this account, such as Amazon Route 53. An account can have up to 10 resource policies per Amazon Web Services Region.
     ///
     /// - Parameter PutResourcePolicyInput : [no documentation found]
     ///
-    /// - Returns: `PutResourcePolicyOutputResponse` : [no documentation found]
+    /// - Returns: `PutResourcePolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -628,12 +628,12 @@ public protocol CloudWatchLogsClientProtocol {
     /// - `InvalidParameterException` : A parameter is specified incorrectly.
     /// - `LimitExceededException` : You have reached the maximum number of resources that can be created.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    func putResourcePolicy(input: PutResourcePolicyInput) async throws -> PutResourcePolicyOutputResponse
+    func putResourcePolicy(input: PutResourcePolicyInput) async throws -> PutResourcePolicyOutput
     /// Sets the retention of the specified log group. With a retention policy, you can configure the number of days for which to retain log events in the specified log group. CloudWatch Logs doesn’t immediately delete log events when they reach their retention setting. It typically takes up to 72 hours after that before log events are deleted, but in rare situations might take longer. To illustrate, imagine that you change a log group to have a longer retention setting when it contains log events that are past the expiration date, but haven’t been deleted. Those log events will take up to 72 hours to be deleted after the new retention date is reached. To make sure that log data is deleted permanently, keep a log group at its lower retention setting until 72 hours after the previous retention period ends. Alternatively, wait to change the retention setting until you confirm that the earlier log events are deleted. When log events reach their retention setting they are marked for deletion. After they are marked for deletion, they do not add to your archival storage costs anymore, even if they are not actually deleted until later. These log events marked for deletion are also not included when you use an API to retrieve the storedBytes value to see how many bytes a log group is storing.
     ///
     /// - Parameter PutRetentionPolicyInput : [no documentation found]
     ///
-    /// - Returns: `PutRetentionPolicyOutputResponse` : [no documentation found]
+    /// - Returns: `PutRetentionPolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -642,7 +642,7 @@ public protocol CloudWatchLogsClientProtocol {
     /// - `OperationAbortedException` : Multiple concurrent requests to update the same resource were in conflict.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    func putRetentionPolicy(input: PutRetentionPolicyInput) async throws -> PutRetentionPolicyOutputResponse
+    func putRetentionPolicy(input: PutRetentionPolicyInput) async throws -> PutRetentionPolicyOutput
     /// Creates or updates a subscription filter and associates it with the specified log group. With subscription filters, you can subscribe to a real-time stream of log events ingested through [PutLogEvents](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutLogEvents.html) and have them delivered to a specific destination. When log events are sent to the receiving service, they are Base64 encoded and compressed with the GZIP format. The following destinations are supported for subscription filters:
     ///
     /// * An Amazon Kinesis data stream belonging to the same account as the subscription filter, for same-account delivery.
@@ -658,7 +658,7 @@ public protocol CloudWatchLogsClientProtocol {
     ///
     /// - Parameter PutSubscriptionFilterInput : [no documentation found]
     ///
-    /// - Returns: `PutSubscriptionFilterOutputResponse` : [no documentation found]
+    /// - Returns: `PutSubscriptionFilterOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -668,12 +668,12 @@ public protocol CloudWatchLogsClientProtocol {
     /// - `OperationAbortedException` : Multiple concurrent requests to update the same resource were in conflict.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    func putSubscriptionFilter(input: PutSubscriptionFilterInput) async throws -> PutSubscriptionFilterOutputResponse
+    func putSubscriptionFilter(input: PutSubscriptionFilterInput) async throws -> PutSubscriptionFilterOutput
     /// Schedules a query of a log group using CloudWatch Logs Insights. You specify the log group and time range to query and the query string to use. For more information, see [CloudWatch Logs Insights Query Syntax](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CWL_QuerySyntax.html). After you run a query using StartQuery, the query results are stored by CloudWatch Logs. You can use [GetQueryResults](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_GetQueryResults.html) to retrieve the results of a query, using the queryId that StartQuery returns. If you have associated a KMS key with the query results in this account, then [StartQuery](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_StartQuery.html) uses that key to encrypt the results when it stores them. If no key is associated with query results, the query results are encrypted with the default CloudWatch Logs encryption method. Queries time out after 60 minutes of runtime. If your queries are timing out, reduce the time range being searched or partition your query into a number of queries. If you are using CloudWatch cross-account observability, you can use this operation in a monitoring account to start a query in a linked source account. For more information, see [CloudWatch cross-account observability](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Unified-Cross-Account.html). For a cross-account StartQuery operation, the query definition must be defined in the monitoring account. You can have up to 30 concurrent CloudWatch Logs insights queries, including queries that have been added to dashboards.
     ///
     /// - Parameter StartQueryInput : [no documentation found]
     ///
-    /// - Returns: `StartQueryOutputResponse` : [no documentation found]
+    /// - Returns: `StartQueryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -683,12 +683,12 @@ public protocol CloudWatchLogsClientProtocol {
     /// - `MalformedQueryException` : The query string is not valid. Details about this error are displayed in a QueryCompileError object. For more information, see [QueryCompileError](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_QueryCompileError.html). For more information about valid query syntax, see [CloudWatch Logs Insights Query Syntax](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CWL_QuerySyntax.html).
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    func startQuery(input: StartQueryInput) async throws -> StartQueryOutputResponse
+    func startQuery(input: StartQueryInput) async throws -> StartQueryOutput
     /// Stops a CloudWatch Logs Insights query that is in progress. If the query has already ended, the operation returns an error indicating that the specified query is not running.
     ///
     /// - Parameter StopQueryInput : [no documentation found]
     ///
-    /// - Returns: `StopQueryOutputResponse` : [no documentation found]
+    /// - Returns: `StopQueryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -696,25 +696,25 @@ public protocol CloudWatchLogsClientProtocol {
     /// - `InvalidParameterException` : A parameter is specified incorrectly.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    func stopQuery(input: StopQueryInput) async throws -> StopQueryOutputResponse
+    func stopQuery(input: StopQueryInput) async throws -> StopQueryOutput
     /// The TagLogGroup operation is on the path to deprecation. We recommend that you use [TagResource](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_TagResource.html) instead. Adds or updates the specified tags for the specified log group. To list the tags for a log group, use [ListTagsForResource](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_ListTagsForResource.html). To remove tags, use [UntagResource](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_UntagResource.html). For more information about tags, see [Tag Log Groups in Amazon CloudWatch Logs](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/Working-with-log-groups-and-streams.html#log-group-tagging) in the Amazon CloudWatch Logs User Guide. CloudWatch Logs doesn’t support IAM policies that prevent users from assigning specified tags to log groups using the aws:Resource/key-name  or aws:TagKeys condition keys. For more information about using tags to control access, see [Controlling access to Amazon Web Services resources using tags](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_tags.html).
     @available(*, deprecated, message: "Please use the generic tagging API TagResource")
     ///
     /// - Parameter TagLogGroupInput : [no documentation found]
     ///
-    /// - Returns: `TagLogGroupOutputResponse` : [no documentation found]
+    /// - Returns: `TagLogGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParameterException` : A parameter is specified incorrectly.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
-    func tagLogGroup(input: TagLogGroupInput) async throws -> TagLogGroupOutputResponse
+    func tagLogGroup(input: TagLogGroupInput) async throws -> TagLogGroupOutput
     /// Assigns one or more tags (key-value pairs) to the specified CloudWatch Logs resource. Currently, the only CloudWatch Logs resources that can be tagged are log groups and destinations. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters. You can use the TagResource action with a resource that already has tags. If you specify a new tag key for the alarm, this tag is appended to the list of tags associated with the alarm. If you specify a tag key that is already associated with the alarm, the new tag value that you specify replaces the previous value for that tag. You can associate as many as 50 tags with a CloudWatch Logs resource.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -723,36 +723,36 @@ public protocol CloudWatchLogsClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
     /// - `TooManyTagsException` : A resource can have no more than 50 tags.
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     /// Tests the filter pattern of a metric filter against a sample of log event messages. You can use this operation to validate the correctness of a metric filter pattern.
     ///
     /// - Parameter TestMetricFilterInput : [no documentation found]
     ///
-    /// - Returns: `TestMetricFilterOutputResponse` : [no documentation found]
+    /// - Returns: `TestMetricFilterOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParameterException` : A parameter is specified incorrectly.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    func testMetricFilter(input: TestMetricFilterInput) async throws -> TestMetricFilterOutputResponse
+    func testMetricFilter(input: TestMetricFilterInput) async throws -> TestMetricFilterOutput
     /// The UntagLogGroup operation is on the path to deprecation. We recommend that you use [UntagResource](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_UntagResource.html) instead. Removes the specified tags from the specified log group. To list the tags for a log group, use [ListTagsForResource](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_ListTagsForResource.html). To add tags, use [TagResource](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_TagResource.html). CloudWatch Logs doesn’t support IAM policies that prevent users from assigning specified tags to log groups using the aws:Resource/key-name  or aws:TagKeys condition keys.
     @available(*, deprecated, message: "Please use the generic tagging API UntagResource")
     ///
     /// - Parameter UntagLogGroupInput : [no documentation found]
     ///
-    /// - Returns: `UntagLogGroupOutputResponse` : [no documentation found]
+    /// - Returns: `UntagLogGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The specified resource does not exist.
-    func untagLogGroup(input: UntagLogGroupInput) async throws -> UntagLogGroupOutputResponse
+    func untagLogGroup(input: UntagLogGroupInput) async throws -> UntagLogGroupOutput
     /// Removes one or more tags from the specified resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -760,7 +760,7 @@ public protocol CloudWatchLogsClientProtocol {
     /// - `InvalidParameterException` : A parameter is specified incorrectly.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
 }
 
 public enum CloudWatchLogsClientTypes {}

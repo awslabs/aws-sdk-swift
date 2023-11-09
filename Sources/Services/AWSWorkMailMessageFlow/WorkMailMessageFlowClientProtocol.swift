@@ -8,18 +8,18 @@ public protocol WorkMailMessageFlowClientProtocol {
     ///
     /// - Parameter GetRawMessageContentInput : [no documentation found]
     ///
-    /// - Returns: `GetRawMessageContentOutputResponse` : [no documentation found]
+    /// - Returns: `GetRawMessageContentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The requested email message is not found.
-    func getRawMessageContent(input: GetRawMessageContentInput) async throws -> GetRawMessageContentOutputResponse
+    func getRawMessageContent(input: GetRawMessageContentInput) async throws -> GetRawMessageContentOutput
     /// Updates the raw content of an in-transit email message, in MIME format. This example describes how to update in-transit email message. For more information and examples for using this API, see [ Updating message content with AWS Lambda](https://docs.aws.amazon.com/workmail/latest/adminguide/update-with-lambda.html). Updates to an in-transit message only appear when you call PutRawMessageContent from an AWS Lambda function configured with a synchronous [ Run Lambda](https://docs.aws.amazon.com/workmail/latest/adminguide/lambda.html#synchronous-rules) rule. If you call PutRawMessageContent on a delivered or sent message, the message remains unchanged, even though [GetRawMessageContent](https://docs.aws.amazon.com/workmail/latest/APIReference/API_messageflow_GetRawMessageContent.html) returns an updated message.
     ///
     /// - Parameter PutRawMessageContentInput : [no documentation found]
     ///
-    /// - Returns: `PutRawMessageContentOutputResponse` : [no documentation found]
+    /// - Returns: `PutRawMessageContentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -34,7 +34,7 @@ public protocol WorkMailMessageFlowClientProtocol {
     /// - `MessageFrozen` : The requested email is not eligible for update. This is usually the case for a redirected email.
     /// - `MessageRejected` : The requested email could not be updated due to an error in the MIME content. Check the error message for more information about what caused the error.
     /// - `ResourceNotFoundException` : The requested email message is not found.
-    func putRawMessageContent(input: PutRawMessageContentInput) async throws -> PutRawMessageContentOutputResponse
+    func putRawMessageContent(input: PutRawMessageContentInput) async throws -> PutRawMessageContentOutput
 }
 
 public enum WorkMailMessageFlowClientTypes {}

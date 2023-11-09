@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension KinesisVideoArchivedMediaClient {
-    /// Paginate over `[GetImagesOutputResponse]` results.
+    /// Paginate over `[GetImagesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[GetImagesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `GetImagesOutputResponse`
-    public func getImagesPaginated(input: GetImagesInput) -> ClientRuntime.PaginatorSequence<GetImagesInput, GetImagesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<GetImagesInput, GetImagesOutputResponse>(input: input, inputKey: \GetImagesInput.nextToken, outputKey: \GetImagesOutputResponse.nextToken, paginationFunction: self.getImages(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `GetImagesOutput`
+    public func getImagesPaginated(input: GetImagesInput) -> ClientRuntime.PaginatorSequence<GetImagesInput, GetImagesOutput> {
+        return ClientRuntime.PaginatorSequence<GetImagesInput, GetImagesOutput>(input: input, inputKey: \GetImagesInput.nextToken, outputKey: \GetImagesOutput.nextToken, paginationFunction: self.getImages(input:))
     }
 }
 
@@ -34,7 +34,7 @@ extension GetImagesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == GetImagesInput, Output == GetImagesOutputResponse {
+extension PaginatorSequence where Input == GetImagesInput, Output == GetImagesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `getImagesPaginated`
     /// to access the nested member `[KinesisVideoArchivedMediaClientTypes.Image]`
     /// - Returns: `[KinesisVideoArchivedMediaClientTypes.Image]`
@@ -43,16 +43,16 @@ extension PaginatorSequence where Input == GetImagesInput, Output == GetImagesOu
     }
 }
 extension KinesisVideoArchivedMediaClient {
-    /// Paginate over `[ListFragmentsOutputResponse]` results.
+    /// Paginate over `[ListFragmentsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListFragmentsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListFragmentsOutputResponse`
-    public func listFragmentsPaginated(input: ListFragmentsInput) -> ClientRuntime.PaginatorSequence<ListFragmentsInput, ListFragmentsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListFragmentsInput, ListFragmentsOutputResponse>(input: input, inputKey: \ListFragmentsInput.nextToken, outputKey: \ListFragmentsOutputResponse.nextToken, paginationFunction: self.listFragments(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListFragmentsOutput`
+    public func listFragmentsPaginated(input: ListFragmentsInput) -> ClientRuntime.PaginatorSequence<ListFragmentsInput, ListFragmentsOutput> {
+        return ClientRuntime.PaginatorSequence<ListFragmentsInput, ListFragmentsOutput>(input: input, inputKey: \ListFragmentsInput.nextToken, outputKey: \ListFragmentsOutput.nextToken, paginationFunction: self.listFragments(input:))
     }
 }
 
@@ -67,7 +67,7 @@ extension ListFragmentsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListFragmentsInput, Output == ListFragmentsOutputResponse {
+extension PaginatorSequence where Input == ListFragmentsInput, Output == ListFragmentsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listFragmentsPaginated`
     /// to access the nested member `[KinesisVideoArchivedMediaClientTypes.Fragment]`
     /// - Returns: `[KinesisVideoArchivedMediaClientTypes.Fragment]`

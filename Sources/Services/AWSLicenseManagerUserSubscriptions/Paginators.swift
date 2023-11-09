@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension LicenseManagerUserSubscriptionsClient {
-    /// Paginate over `[ListIdentityProvidersOutputResponse]` results.
+    /// Paginate over `[ListIdentityProvidersOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListIdentityProvidersInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListIdentityProvidersOutputResponse`
-    public func listIdentityProvidersPaginated(input: ListIdentityProvidersInput) -> ClientRuntime.PaginatorSequence<ListIdentityProvidersInput, ListIdentityProvidersOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListIdentityProvidersInput, ListIdentityProvidersOutputResponse>(input: input, inputKey: \ListIdentityProvidersInput.nextToken, outputKey: \ListIdentityProvidersOutputResponse.nextToken, paginationFunction: self.listIdentityProviders(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListIdentityProvidersOutput`
+    public func listIdentityProvidersPaginated(input: ListIdentityProvidersInput) -> ClientRuntime.PaginatorSequence<ListIdentityProvidersInput, ListIdentityProvidersOutput> {
+        return ClientRuntime.PaginatorSequence<ListIdentityProvidersInput, ListIdentityProvidersOutput>(input: input, inputKey: \ListIdentityProvidersInput.nextToken, outputKey: \ListIdentityProvidersOutput.nextToken, paginationFunction: self.listIdentityProviders(input:))
     }
 }
 
@@ -24,7 +24,7 @@ extension ListIdentityProvidersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListIdentityProvidersInput, Output == ListIdentityProvidersOutputResponse {
+extension PaginatorSequence where Input == ListIdentityProvidersInput, Output == ListIdentityProvidersOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listIdentityProvidersPaginated`
     /// to access the nested member `[LicenseManagerUserSubscriptionsClientTypes.IdentityProviderSummary]`
     /// - Returns: `[LicenseManagerUserSubscriptionsClientTypes.IdentityProviderSummary]`
@@ -33,16 +33,16 @@ extension PaginatorSequence where Input == ListIdentityProvidersInput, Output ==
     }
 }
 extension LicenseManagerUserSubscriptionsClient {
-    /// Paginate over `[ListInstancesOutputResponse]` results.
+    /// Paginate over `[ListInstancesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListInstancesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListInstancesOutputResponse`
-    public func listInstancesPaginated(input: ListInstancesInput) -> ClientRuntime.PaginatorSequence<ListInstancesInput, ListInstancesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListInstancesInput, ListInstancesOutputResponse>(input: input, inputKey: \ListInstancesInput.nextToken, outputKey: \ListInstancesOutputResponse.nextToken, paginationFunction: self.listInstances(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListInstancesOutput`
+    public func listInstancesPaginated(input: ListInstancesInput) -> ClientRuntime.PaginatorSequence<ListInstancesInput, ListInstancesOutput> {
+        return ClientRuntime.PaginatorSequence<ListInstancesInput, ListInstancesOutput>(input: input, inputKey: \ListInstancesInput.nextToken, outputKey: \ListInstancesOutput.nextToken, paginationFunction: self.listInstances(input:))
     }
 }
 
@@ -55,7 +55,7 @@ extension ListInstancesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListInstancesInput, Output == ListInstancesOutputResponse {
+extension PaginatorSequence where Input == ListInstancesInput, Output == ListInstancesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listInstancesPaginated`
     /// to access the nested member `[LicenseManagerUserSubscriptionsClientTypes.InstanceSummary]`
     /// - Returns: `[LicenseManagerUserSubscriptionsClientTypes.InstanceSummary]`
@@ -64,16 +64,16 @@ extension PaginatorSequence where Input == ListInstancesInput, Output == ListIns
     }
 }
 extension LicenseManagerUserSubscriptionsClient {
-    /// Paginate over `[ListProductSubscriptionsOutputResponse]` results.
+    /// Paginate over `[ListProductSubscriptionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListProductSubscriptionsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListProductSubscriptionsOutputResponse`
-    public func listProductSubscriptionsPaginated(input: ListProductSubscriptionsInput) -> ClientRuntime.PaginatorSequence<ListProductSubscriptionsInput, ListProductSubscriptionsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListProductSubscriptionsInput, ListProductSubscriptionsOutputResponse>(input: input, inputKey: \ListProductSubscriptionsInput.nextToken, outputKey: \ListProductSubscriptionsOutputResponse.nextToken, paginationFunction: self.listProductSubscriptions(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListProductSubscriptionsOutput`
+    public func listProductSubscriptionsPaginated(input: ListProductSubscriptionsInput) -> ClientRuntime.PaginatorSequence<ListProductSubscriptionsInput, ListProductSubscriptionsOutput> {
+        return ClientRuntime.PaginatorSequence<ListProductSubscriptionsInput, ListProductSubscriptionsOutput>(input: input, inputKey: \ListProductSubscriptionsInput.nextToken, outputKey: \ListProductSubscriptionsOutput.nextToken, paginationFunction: self.listProductSubscriptions(input:))
     }
 }
 
@@ -88,7 +88,7 @@ extension ListProductSubscriptionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListProductSubscriptionsInput, Output == ListProductSubscriptionsOutputResponse {
+extension PaginatorSequence where Input == ListProductSubscriptionsInput, Output == ListProductSubscriptionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listProductSubscriptionsPaginated`
     /// to access the nested member `[LicenseManagerUserSubscriptionsClientTypes.ProductUserSummary]`
     /// - Returns: `[LicenseManagerUserSubscriptionsClientTypes.ProductUserSummary]`
@@ -97,16 +97,16 @@ extension PaginatorSequence where Input == ListProductSubscriptionsInput, Output
     }
 }
 extension LicenseManagerUserSubscriptionsClient {
-    /// Paginate over `[ListUserAssociationsOutputResponse]` results.
+    /// Paginate over `[ListUserAssociationsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListUserAssociationsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListUserAssociationsOutputResponse`
-    public func listUserAssociationsPaginated(input: ListUserAssociationsInput) -> ClientRuntime.PaginatorSequence<ListUserAssociationsInput, ListUserAssociationsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListUserAssociationsInput, ListUserAssociationsOutputResponse>(input: input, inputKey: \ListUserAssociationsInput.nextToken, outputKey: \ListUserAssociationsOutputResponse.nextToken, paginationFunction: self.listUserAssociations(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListUserAssociationsOutput`
+    public func listUserAssociationsPaginated(input: ListUserAssociationsInput) -> ClientRuntime.PaginatorSequence<ListUserAssociationsInput, ListUserAssociationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListUserAssociationsInput, ListUserAssociationsOutput>(input: input, inputKey: \ListUserAssociationsInput.nextToken, outputKey: \ListUserAssociationsOutput.nextToken, paginationFunction: self.listUserAssociations(input:))
     }
 }
 
@@ -121,7 +121,7 @@ extension ListUserAssociationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListUserAssociationsInput, Output == ListUserAssociationsOutputResponse {
+extension PaginatorSequence where Input == ListUserAssociationsInput, Output == ListUserAssociationsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listUserAssociationsPaginated`
     /// to access the nested member `[LicenseManagerUserSubscriptionsClientTypes.InstanceUserSummary]`
     /// - Returns: `[LicenseManagerUserSubscriptionsClientTypes.InstanceUserSummary]`

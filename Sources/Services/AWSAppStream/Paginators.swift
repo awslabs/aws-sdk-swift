@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension AppStreamClient {
-    /// Paginate over `[DescribeAppBlockBuilderAppBlockAssociationsOutputResponse]` results.
+    /// Paginate over `[DescribeAppBlockBuilderAppBlockAssociationsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeAppBlockBuilderAppBlockAssociationsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeAppBlockBuilderAppBlockAssociationsOutputResponse`
-    public func describeAppBlockBuilderAppBlockAssociationsPaginated(input: DescribeAppBlockBuilderAppBlockAssociationsInput) -> ClientRuntime.PaginatorSequence<DescribeAppBlockBuilderAppBlockAssociationsInput, DescribeAppBlockBuilderAppBlockAssociationsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeAppBlockBuilderAppBlockAssociationsInput, DescribeAppBlockBuilderAppBlockAssociationsOutputResponse>(input: input, inputKey: \DescribeAppBlockBuilderAppBlockAssociationsInput.nextToken, outputKey: \DescribeAppBlockBuilderAppBlockAssociationsOutputResponse.nextToken, paginationFunction: self.describeAppBlockBuilderAppBlockAssociations(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeAppBlockBuilderAppBlockAssociationsOutput`
+    public func describeAppBlockBuilderAppBlockAssociationsPaginated(input: DescribeAppBlockBuilderAppBlockAssociationsInput) -> ClientRuntime.PaginatorSequence<DescribeAppBlockBuilderAppBlockAssociationsInput, DescribeAppBlockBuilderAppBlockAssociationsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeAppBlockBuilderAppBlockAssociationsInput, DescribeAppBlockBuilderAppBlockAssociationsOutput>(input: input, inputKey: \DescribeAppBlockBuilderAppBlockAssociationsInput.nextToken, outputKey: \DescribeAppBlockBuilderAppBlockAssociationsOutput.nextToken, paginationFunction: self.describeAppBlockBuilderAppBlockAssociations(input:))
     }
 }
 
@@ -26,16 +26,16 @@ extension DescribeAppBlockBuilderAppBlockAssociationsInput: ClientRuntime.Pagina
         )}
 }
 extension AppStreamClient {
-    /// Paginate over `[DescribeAppBlockBuildersOutputResponse]` results.
+    /// Paginate over `[DescribeAppBlockBuildersOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeAppBlockBuildersInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeAppBlockBuildersOutputResponse`
-    public func describeAppBlockBuildersPaginated(input: DescribeAppBlockBuildersInput) -> ClientRuntime.PaginatorSequence<DescribeAppBlockBuildersInput, DescribeAppBlockBuildersOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeAppBlockBuildersInput, DescribeAppBlockBuildersOutputResponse>(input: input, inputKey: \DescribeAppBlockBuildersInput.nextToken, outputKey: \DescribeAppBlockBuildersOutputResponse.nextToken, paginationFunction: self.describeAppBlockBuilders(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeAppBlockBuildersOutput`
+    public func describeAppBlockBuildersPaginated(input: DescribeAppBlockBuildersInput) -> ClientRuntime.PaginatorSequence<DescribeAppBlockBuildersInput, DescribeAppBlockBuildersOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeAppBlockBuildersInput, DescribeAppBlockBuildersOutput>(input: input, inputKey: \DescribeAppBlockBuildersInput.nextToken, outputKey: \DescribeAppBlockBuildersOutput.nextToken, paginationFunction: self.describeAppBlockBuilders(input:))
     }
 }
 
@@ -48,16 +48,16 @@ extension DescribeAppBlockBuildersInput: ClientRuntime.PaginateToken {
         )}
 }
 extension AppStreamClient {
-    /// Paginate over `[DescribeImagePermissionsOutputResponse]` results.
+    /// Paginate over `[DescribeImagePermissionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeImagePermissionsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeImagePermissionsOutputResponse`
-    public func describeImagePermissionsPaginated(input: DescribeImagePermissionsInput) -> ClientRuntime.PaginatorSequence<DescribeImagePermissionsInput, DescribeImagePermissionsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeImagePermissionsInput, DescribeImagePermissionsOutputResponse>(input: input, inputKey: \DescribeImagePermissionsInput.nextToken, outputKey: \DescribeImagePermissionsOutputResponse.nextToken, paginationFunction: self.describeImagePermissions(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeImagePermissionsOutput`
+    public func describeImagePermissionsPaginated(input: DescribeImagePermissionsInput) -> ClientRuntime.PaginatorSequence<DescribeImagePermissionsInput, DescribeImagePermissionsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeImagePermissionsInput, DescribeImagePermissionsOutput>(input: input, inputKey: \DescribeImagePermissionsInput.nextToken, outputKey: \DescribeImagePermissionsOutput.nextToken, paginationFunction: self.describeImagePermissions(input:))
     }
 }
 
@@ -71,16 +71,16 @@ extension DescribeImagePermissionsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension AppStreamClient {
-    /// Paginate over `[DescribeImagesOutputResponse]` results.
+    /// Paginate over `[DescribeImagesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeImagesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeImagesOutputResponse`
-    public func describeImagesPaginated(input: DescribeImagesInput) -> ClientRuntime.PaginatorSequence<DescribeImagesInput, DescribeImagesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeImagesInput, DescribeImagesOutputResponse>(input: input, inputKey: \DescribeImagesInput.nextToken, outputKey: \DescribeImagesOutputResponse.nextToken, paginationFunction: self.describeImages(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeImagesOutput`
+    public func describeImagesPaginated(input: DescribeImagesInput) -> ClientRuntime.PaginatorSequence<DescribeImagesInput, DescribeImagesOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeImagesInput, DescribeImagesOutput>(input: input, inputKey: \DescribeImagesInput.nextToken, outputKey: \DescribeImagesOutput.nextToken, paginationFunction: self.describeImages(input:))
     }
 }
 

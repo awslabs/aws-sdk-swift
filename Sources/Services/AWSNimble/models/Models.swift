@@ -83,28 +83,11 @@ extension AcceptEulasInputBody: Swift.Decodable {
     }
 }
 
-enum AcceptEulasOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension AcceptEulasOutputResponse: ClientRuntime.HttpResponseBinding {
+extension AcceptEulasOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: AcceptEulasOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: AcceptEulasOutputBody = try responseDecoder.decode(responseBody: data)
             self.eulaAcceptances = output.eulaAcceptances
         } else {
             self.eulaAcceptances = nil
@@ -112,7 +95,7 @@ extension AcceptEulasOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AcceptEulasOutputResponse: Swift.Equatable {
+public struct AcceptEulasOutput: Swift.Equatable {
     /// A collection of EULA acceptances.
     public var eulaAcceptances: [NimbleClientTypes.EulaAcceptance]?
 
@@ -124,11 +107,11 @@ public struct AcceptEulasOutputResponse: Swift.Equatable {
     }
 }
 
-struct AcceptEulasOutputResponseBody: Swift.Equatable {
+struct AcceptEulasOutputBody: Swift.Equatable {
     let eulaAcceptances: [NimbleClientTypes.EulaAcceptance]?
 }
 
-extension AcceptEulasOutputResponseBody: Swift.Decodable {
+extension AcceptEulasOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case eulaAcceptances
     }
@@ -146,6 +129,23 @@ extension AcceptEulasOutputResponseBody: Swift.Decodable {
             }
         }
         eulaAcceptances = eulaAcceptancesDecoded0
+    }
+}
+
+enum AcceptEulasOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -717,6 +717,46 @@ extension CreateLaunchProfileInputBody: Swift.Decodable {
     }
 }
 
+extension CreateLaunchProfileOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateLaunchProfileOutputBody = try responseDecoder.decode(responseBody: data)
+            self.launchProfile = output.launchProfile
+        } else {
+            self.launchProfile = nil
+        }
+    }
+}
+
+public struct CreateLaunchProfileOutput: Swift.Equatable {
+    /// The launch profile.
+    public var launchProfile: NimbleClientTypes.LaunchProfile?
+
+    public init(
+        launchProfile: NimbleClientTypes.LaunchProfile? = nil
+    )
+    {
+        self.launchProfile = launchProfile
+    }
+}
+
+struct CreateLaunchProfileOutputBody: Swift.Equatable {
+    let launchProfile: NimbleClientTypes.LaunchProfile?
+}
+
+extension CreateLaunchProfileOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case launchProfile
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let launchProfileDecoded = try containerValues.decodeIfPresent(NimbleClientTypes.LaunchProfile.self, forKey: .launchProfile)
+        launchProfile = launchProfileDecoded
+    }
+}
+
 enum CreateLaunchProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -731,46 +771,6 @@ enum CreateLaunchProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension CreateLaunchProfileOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateLaunchProfileOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.launchProfile = output.launchProfile
-        } else {
-            self.launchProfile = nil
-        }
-    }
-}
-
-public struct CreateLaunchProfileOutputResponse: Swift.Equatable {
-    /// The launch profile.
-    public var launchProfile: NimbleClientTypes.LaunchProfile?
-
-    public init(
-        launchProfile: NimbleClientTypes.LaunchProfile? = nil
-    )
-    {
-        self.launchProfile = launchProfile
-    }
-}
-
-struct CreateLaunchProfileOutputResponseBody: Swift.Equatable {
-    let launchProfile: NimbleClientTypes.LaunchProfile?
-}
-
-extension CreateLaunchProfileOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case launchProfile
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let launchProfileDecoded = try containerValues.decodeIfPresent(NimbleClientTypes.LaunchProfile.self, forKey: .launchProfile)
-        launchProfile = launchProfileDecoded
     }
 }
 
@@ -898,6 +898,46 @@ extension CreateStreamingImageInputBody: Swift.Decodable {
     }
 }
 
+extension CreateStreamingImageOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateStreamingImageOutputBody = try responseDecoder.decode(responseBody: data)
+            self.streamingImage = output.streamingImage
+        } else {
+            self.streamingImage = nil
+        }
+    }
+}
+
+public struct CreateStreamingImageOutput: Swift.Equatable {
+    /// The streaming image.
+    public var streamingImage: NimbleClientTypes.StreamingImage?
+
+    public init(
+        streamingImage: NimbleClientTypes.StreamingImage? = nil
+    )
+    {
+        self.streamingImage = streamingImage
+    }
+}
+
+struct CreateStreamingImageOutputBody: Swift.Equatable {
+    let streamingImage: NimbleClientTypes.StreamingImage?
+}
+
+extension CreateStreamingImageOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case streamingImage
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let streamingImageDecoded = try containerValues.decodeIfPresent(NimbleClientTypes.StreamingImage.self, forKey: .streamingImage)
+        streamingImage = streamingImageDecoded
+    }
+}
+
 enum CreateStreamingImageOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -912,46 +952,6 @@ enum CreateStreamingImageOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension CreateStreamingImageOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateStreamingImageOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.streamingImage = output.streamingImage
-        } else {
-            self.streamingImage = nil
-        }
-    }
-}
-
-public struct CreateStreamingImageOutputResponse: Swift.Equatable {
-    /// The streaming image.
-    public var streamingImage: NimbleClientTypes.StreamingImage?
-
-    public init(
-        streamingImage: NimbleClientTypes.StreamingImage? = nil
-    )
-    {
-        self.streamingImage = streamingImage
-    }
-}
-
-struct CreateStreamingImageOutputResponseBody: Swift.Equatable {
-    let streamingImage: NimbleClientTypes.StreamingImage?
-}
-
-extension CreateStreamingImageOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case streamingImage
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let streamingImageDecoded = try containerValues.decodeIfPresent(NimbleClientTypes.StreamingImage.self, forKey: .streamingImage)
-        streamingImage = streamingImageDecoded
     }
 }
 
@@ -1085,6 +1085,46 @@ extension CreateStreamingSessionInputBody: Swift.Decodable {
     }
 }
 
+extension CreateStreamingSessionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateStreamingSessionOutputBody = try responseDecoder.decode(responseBody: data)
+            self.session = output.session
+        } else {
+            self.session = nil
+        }
+    }
+}
+
+public struct CreateStreamingSessionOutput: Swift.Equatable {
+    /// The session.
+    public var session: NimbleClientTypes.StreamingSession?
+
+    public init(
+        session: NimbleClientTypes.StreamingSession? = nil
+    )
+    {
+        self.session = session
+    }
+}
+
+struct CreateStreamingSessionOutputBody: Swift.Equatable {
+    let session: NimbleClientTypes.StreamingSession?
+}
+
+extension CreateStreamingSessionOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case session
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sessionDecoded = try containerValues.decodeIfPresent(NimbleClientTypes.StreamingSession.self, forKey: .session)
+        session = sessionDecoded
+    }
+}
+
 enum CreateStreamingSessionOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -1099,46 +1139,6 @@ enum CreateStreamingSessionOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension CreateStreamingSessionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateStreamingSessionOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.session = output.session
-        } else {
-            self.session = nil
-        }
-    }
-}
-
-public struct CreateStreamingSessionOutputResponse: Swift.Equatable {
-    /// The session.
-    public var session: NimbleClientTypes.StreamingSession?
-
-    public init(
-        session: NimbleClientTypes.StreamingSession? = nil
-    )
-    {
-        self.session = session
-    }
-}
-
-struct CreateStreamingSessionOutputResponseBody: Swift.Equatable {
-    let session: NimbleClientTypes.StreamingSession?
-}
-
-extension CreateStreamingSessionOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case session
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let sessionDecoded = try containerValues.decodeIfPresent(NimbleClientTypes.StreamingSession.self, forKey: .session)
-        session = sessionDecoded
     }
 }
 
@@ -1219,6 +1219,46 @@ extension CreateStreamingSessionStreamInputBody: Swift.Decodable {
     }
 }
 
+extension CreateStreamingSessionStreamOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateStreamingSessionStreamOutputBody = try responseDecoder.decode(responseBody: data)
+            self.stream = output.stream
+        } else {
+            self.stream = nil
+        }
+    }
+}
+
+public struct CreateStreamingSessionStreamOutput: Swift.Equatable {
+    /// The stream.
+    public var stream: NimbleClientTypes.StreamingSessionStream?
+
+    public init(
+        stream: NimbleClientTypes.StreamingSessionStream? = nil
+    )
+    {
+        self.stream = stream
+    }
+}
+
+struct CreateStreamingSessionStreamOutputBody: Swift.Equatable {
+    let stream: NimbleClientTypes.StreamingSessionStream?
+}
+
+extension CreateStreamingSessionStreamOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case stream
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let streamDecoded = try containerValues.decodeIfPresent(NimbleClientTypes.StreamingSessionStream.self, forKey: .stream)
+        stream = streamDecoded
+    }
+}
+
 enum CreateStreamingSessionStreamOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -1233,46 +1273,6 @@ enum CreateStreamingSessionStreamOutputError: ClientRuntime.HttpResponseErrorBin
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension CreateStreamingSessionStreamOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateStreamingSessionStreamOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.stream = output.stream
-        } else {
-            self.stream = nil
-        }
-    }
-}
-
-public struct CreateStreamingSessionStreamOutputResponse: Swift.Equatable {
-    /// The stream.
-    public var stream: NimbleClientTypes.StreamingSessionStream?
-
-    public init(
-        stream: NimbleClientTypes.StreamingSessionStream? = nil
-    )
-    {
-        self.stream = stream
-    }
-}
-
-struct CreateStreamingSessionStreamOutputResponseBody: Swift.Equatable {
-    let stream: NimbleClientTypes.StreamingSessionStream?
-}
-
-extension CreateStreamingSessionStreamOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case stream
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let streamDecoded = try containerValues.decodeIfPresent(NimbleClientTypes.StreamingSessionStream.self, forKey: .stream)
-        stream = streamDecoded
     }
 }
 
@@ -1520,6 +1520,46 @@ extension CreateStudioComponentInputBody: Swift.Decodable {
     }
 }
 
+extension CreateStudioComponentOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateStudioComponentOutputBody = try responseDecoder.decode(responseBody: data)
+            self.studioComponent = output.studioComponent
+        } else {
+            self.studioComponent = nil
+        }
+    }
+}
+
+public struct CreateStudioComponentOutput: Swift.Equatable {
+    /// Information about the studio component.
+    public var studioComponent: NimbleClientTypes.StudioComponent?
+
+    public init(
+        studioComponent: NimbleClientTypes.StudioComponent? = nil
+    )
+    {
+        self.studioComponent = studioComponent
+    }
+}
+
+struct CreateStudioComponentOutputBody: Swift.Equatable {
+    let studioComponent: NimbleClientTypes.StudioComponent?
+}
+
+extension CreateStudioComponentOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case studioComponent
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let studioComponentDecoded = try containerValues.decodeIfPresent(NimbleClientTypes.StudioComponent.self, forKey: .studioComponent)
+        studioComponent = studioComponentDecoded
+    }
+}
+
 enum CreateStudioComponentOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -1534,46 +1574,6 @@ enum CreateStudioComponentOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension CreateStudioComponentOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateStudioComponentOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.studioComponent = output.studioComponent
-        } else {
-            self.studioComponent = nil
-        }
-    }
-}
-
-public struct CreateStudioComponentOutputResponse: Swift.Equatable {
-    /// Information about the studio component.
-    public var studioComponent: NimbleClientTypes.StudioComponent?
-
-    public init(
-        studioComponent: NimbleClientTypes.StudioComponent? = nil
-    )
-    {
-        self.studioComponent = studioComponent
-    }
-}
-
-struct CreateStudioComponentOutputResponseBody: Swift.Equatable {
-    let studioComponent: NimbleClientTypes.StudioComponent?
-}
-
-extension CreateStudioComponentOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case studioComponent
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let studioComponentDecoded = try containerValues.decodeIfPresent(NimbleClientTypes.StudioComponent.self, forKey: .studioComponent)
-        studioComponent = studioComponentDecoded
     }
 }
 
@@ -1719,6 +1719,46 @@ extension CreateStudioInputBody: Swift.Decodable {
     }
 }
 
+extension CreateStudioOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateStudioOutputBody = try responseDecoder.decode(responseBody: data)
+            self.studio = output.studio
+        } else {
+            self.studio = nil
+        }
+    }
+}
+
+public struct CreateStudioOutput: Swift.Equatable {
+    /// Information about a studio.
+    public var studio: NimbleClientTypes.Studio?
+
+    public init(
+        studio: NimbleClientTypes.Studio? = nil
+    )
+    {
+        self.studio = studio
+    }
+}
+
+struct CreateStudioOutputBody: Swift.Equatable {
+    let studio: NimbleClientTypes.Studio?
+}
+
+extension CreateStudioOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case studio
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let studioDecoded = try containerValues.decodeIfPresent(NimbleClientTypes.Studio.self, forKey: .studio)
+        studio = studioDecoded
+    }
+}
+
 enum CreateStudioOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -1733,46 +1773,6 @@ enum CreateStudioOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension CreateStudioOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateStudioOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.studio = output.studio
-        } else {
-            self.studio = nil
-        }
-    }
-}
-
-public struct CreateStudioOutputResponse: Swift.Equatable {
-    /// Information about a studio.
-    public var studio: NimbleClientTypes.Studio?
-
-    public init(
-        studio: NimbleClientTypes.Studio? = nil
-    )
-    {
-        self.studio = studio
-    }
-}
-
-struct CreateStudioOutputResponseBody: Swift.Equatable {
-    let studio: NimbleClientTypes.Studio?
-}
-
-extension CreateStudioOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case studio
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let studioDecoded = try containerValues.decodeIfPresent(NimbleClientTypes.Studio.self, forKey: .studio)
-        studio = studioDecoded
     }
 }
 
@@ -1890,6 +1890,16 @@ extension DeleteLaunchProfileMemberInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteLaunchProfileMemberOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteLaunchProfileMemberOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteLaunchProfileMemberOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -1907,14 +1917,44 @@ enum DeleteLaunchProfileMemberOutputError: ClientRuntime.HttpResponseErrorBindin
     }
 }
 
-extension DeleteLaunchProfileMemberOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DeleteLaunchProfileOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DeleteLaunchProfileOutputBody = try responseDecoder.decode(responseBody: data)
+            self.launchProfile = output.launchProfile
+        } else {
+            self.launchProfile = nil
+        }
     }
 }
 
-public struct DeleteLaunchProfileMemberOutputResponse: Swift.Equatable {
+public struct DeleteLaunchProfileOutput: Swift.Equatable {
+    /// The launch profile.
+    public var launchProfile: NimbleClientTypes.LaunchProfile?
 
-    public init() { }
+    public init(
+        launchProfile: NimbleClientTypes.LaunchProfile? = nil
+    )
+    {
+        self.launchProfile = launchProfile
+    }
+}
+
+struct DeleteLaunchProfileOutputBody: Swift.Equatable {
+    let launchProfile: NimbleClientTypes.LaunchProfile?
+}
+
+extension DeleteLaunchProfileOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case launchProfile
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let launchProfileDecoded = try containerValues.decodeIfPresent(NimbleClientTypes.LaunchProfile.self, forKey: .launchProfile)
+        launchProfile = launchProfileDecoded
+    }
 }
 
 enum DeleteLaunchProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
@@ -1931,46 +1971,6 @@ enum DeleteLaunchProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension DeleteLaunchProfileOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: DeleteLaunchProfileOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.launchProfile = output.launchProfile
-        } else {
-            self.launchProfile = nil
-        }
-    }
-}
-
-public struct DeleteLaunchProfileOutputResponse: Swift.Equatable {
-    /// The launch profile.
-    public var launchProfile: NimbleClientTypes.LaunchProfile?
-
-    public init(
-        launchProfile: NimbleClientTypes.LaunchProfile? = nil
-    )
-    {
-        self.launchProfile = launchProfile
-    }
-}
-
-struct DeleteLaunchProfileOutputResponseBody: Swift.Equatable {
-    let launchProfile: NimbleClientTypes.LaunchProfile?
-}
-
-extension DeleteLaunchProfileOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case launchProfile
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let launchProfileDecoded = try containerValues.decodeIfPresent(NimbleClientTypes.LaunchProfile.self, forKey: .launchProfile)
-        launchProfile = launchProfileDecoded
     }
 }
 
@@ -2027,6 +2027,46 @@ extension DeleteStreamingImageInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteStreamingImageOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DeleteStreamingImageOutputBody = try responseDecoder.decode(responseBody: data)
+            self.streamingImage = output.streamingImage
+        } else {
+            self.streamingImage = nil
+        }
+    }
+}
+
+public struct DeleteStreamingImageOutput: Swift.Equatable {
+    /// The streaming image.
+    public var streamingImage: NimbleClientTypes.StreamingImage?
+
+    public init(
+        streamingImage: NimbleClientTypes.StreamingImage? = nil
+    )
+    {
+        self.streamingImage = streamingImage
+    }
+}
+
+struct DeleteStreamingImageOutputBody: Swift.Equatable {
+    let streamingImage: NimbleClientTypes.StreamingImage?
+}
+
+extension DeleteStreamingImageOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case streamingImage
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let streamingImageDecoded = try containerValues.decodeIfPresent(NimbleClientTypes.StreamingImage.self, forKey: .streamingImage)
+        streamingImage = streamingImageDecoded
+    }
+}
+
 enum DeleteStreamingImageOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -2041,46 +2081,6 @@ enum DeleteStreamingImageOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension DeleteStreamingImageOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: DeleteStreamingImageOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.streamingImage = output.streamingImage
-        } else {
-            self.streamingImage = nil
-        }
-    }
-}
-
-public struct DeleteStreamingImageOutputResponse: Swift.Equatable {
-    /// The streaming image.
-    public var streamingImage: NimbleClientTypes.StreamingImage?
-
-    public init(
-        streamingImage: NimbleClientTypes.StreamingImage? = nil
-    )
-    {
-        self.streamingImage = streamingImage
-    }
-}
-
-struct DeleteStreamingImageOutputResponseBody: Swift.Equatable {
-    let streamingImage: NimbleClientTypes.StreamingImage?
-}
-
-extension DeleteStreamingImageOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case streamingImage
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let streamingImageDecoded = try containerValues.decodeIfPresent(NimbleClientTypes.StreamingImage.self, forKey: .streamingImage)
-        streamingImage = streamingImageDecoded
     }
 }
 
@@ -2137,6 +2137,46 @@ extension DeleteStreamingSessionInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteStreamingSessionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DeleteStreamingSessionOutputBody = try responseDecoder.decode(responseBody: data)
+            self.session = output.session
+        } else {
+            self.session = nil
+        }
+    }
+}
+
+public struct DeleteStreamingSessionOutput: Swift.Equatable {
+    /// The session.
+    public var session: NimbleClientTypes.StreamingSession?
+
+    public init(
+        session: NimbleClientTypes.StreamingSession? = nil
+    )
+    {
+        self.session = session
+    }
+}
+
+struct DeleteStreamingSessionOutputBody: Swift.Equatable {
+    let session: NimbleClientTypes.StreamingSession?
+}
+
+extension DeleteStreamingSessionOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case session
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sessionDecoded = try containerValues.decodeIfPresent(NimbleClientTypes.StreamingSession.self, forKey: .session)
+        session = sessionDecoded
+    }
+}
+
 enum DeleteStreamingSessionOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -2151,46 +2191,6 @@ enum DeleteStreamingSessionOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension DeleteStreamingSessionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: DeleteStreamingSessionOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.session = output.session
-        } else {
-            self.session = nil
-        }
-    }
-}
-
-public struct DeleteStreamingSessionOutputResponse: Swift.Equatable {
-    /// The session.
-    public var session: NimbleClientTypes.StreamingSession?
-
-    public init(
-        session: NimbleClientTypes.StreamingSession? = nil
-    )
-    {
-        self.session = session
-    }
-}
-
-struct DeleteStreamingSessionOutputResponseBody: Swift.Equatable {
-    let session: NimbleClientTypes.StreamingSession?
-}
-
-extension DeleteStreamingSessionOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case session
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let sessionDecoded = try containerValues.decodeIfPresent(NimbleClientTypes.StreamingSession.self, forKey: .session)
-        session = sessionDecoded
     }
 }
 
@@ -2247,6 +2247,46 @@ extension DeleteStudioComponentInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteStudioComponentOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DeleteStudioComponentOutputBody = try responseDecoder.decode(responseBody: data)
+            self.studioComponent = output.studioComponent
+        } else {
+            self.studioComponent = nil
+        }
+    }
+}
+
+public struct DeleteStudioComponentOutput: Swift.Equatable {
+    /// Information about the studio component.
+    public var studioComponent: NimbleClientTypes.StudioComponent?
+
+    public init(
+        studioComponent: NimbleClientTypes.StudioComponent? = nil
+    )
+    {
+        self.studioComponent = studioComponent
+    }
+}
+
+struct DeleteStudioComponentOutputBody: Swift.Equatable {
+    let studioComponent: NimbleClientTypes.StudioComponent?
+}
+
+extension DeleteStudioComponentOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case studioComponent
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let studioComponentDecoded = try containerValues.decodeIfPresent(NimbleClientTypes.StudioComponent.self, forKey: .studioComponent)
+        studioComponent = studioComponentDecoded
+    }
+}
+
 enum DeleteStudioComponentOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -2261,46 +2301,6 @@ enum DeleteStudioComponentOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension DeleteStudioComponentOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: DeleteStudioComponentOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.studioComponent = output.studioComponent
-        } else {
-            self.studioComponent = nil
-        }
-    }
-}
-
-public struct DeleteStudioComponentOutputResponse: Swift.Equatable {
-    /// Information about the studio component.
-    public var studioComponent: NimbleClientTypes.StudioComponent?
-
-    public init(
-        studioComponent: NimbleClientTypes.StudioComponent? = nil
-    )
-    {
-        self.studioComponent = studioComponent
-    }
-}
-
-struct DeleteStudioComponentOutputResponseBody: Swift.Equatable {
-    let studioComponent: NimbleClientTypes.StudioComponent?
-}
-
-extension DeleteStudioComponentOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case studioComponent
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let studioComponentDecoded = try containerValues.decodeIfPresent(NimbleClientTypes.StudioComponent.self, forKey: .studioComponent)
-        studioComponent = studioComponentDecoded
     }
 }
 
@@ -2402,6 +2402,16 @@ extension DeleteStudioMemberInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteStudioMemberOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteStudioMemberOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteStudioMemberOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -2419,14 +2429,45 @@ enum DeleteStudioMemberOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteStudioMemberOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DeleteStudioOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DeleteStudioOutputBody = try responseDecoder.decode(responseBody: data)
+            self.studio = output.studio
+        } else {
+            self.studio = nil
+        }
     }
 }
 
-public struct DeleteStudioMemberOutputResponse: Swift.Equatable {
+public struct DeleteStudioOutput: Swift.Equatable {
+    /// Information about a studio.
+    /// This member is required.
+    public var studio: NimbleClientTypes.Studio?
 
-    public init() { }
+    public init(
+        studio: NimbleClientTypes.Studio? = nil
+    )
+    {
+        self.studio = studio
+    }
+}
+
+struct DeleteStudioOutputBody: Swift.Equatable {
+    let studio: NimbleClientTypes.Studio?
+}
+
+extension DeleteStudioOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case studio
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let studioDecoded = try containerValues.decodeIfPresent(NimbleClientTypes.Studio.self, forKey: .studio)
+        studio = studioDecoded
+    }
 }
 
 enum DeleteStudioOutputError: ClientRuntime.HttpResponseErrorBinding {
@@ -2443,47 +2484,6 @@ enum DeleteStudioOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension DeleteStudioOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: DeleteStudioOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.studio = output.studio
-        } else {
-            self.studio = nil
-        }
-    }
-}
-
-public struct DeleteStudioOutputResponse: Swift.Equatable {
-    /// Information about a studio.
-    /// This member is required.
-    public var studio: NimbleClientTypes.Studio?
-
-    public init(
-        studio: NimbleClientTypes.Studio? = nil
-    )
-    {
-        self.studio = studio
-    }
-}
-
-struct DeleteStudioOutputResponseBody: Swift.Equatable {
-    let studio: NimbleClientTypes.Studio?
-}
-
-extension DeleteStudioOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case studio
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let studioDecoded = try containerValues.decodeIfPresent(NimbleClientTypes.Studio.self, forKey: .studio)
-        studio = studioDecoded
     }
 }
 
@@ -2668,6 +2668,46 @@ extension GetEulaInputBody: Swift.Decodable {
     }
 }
 
+extension GetEulaOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetEulaOutputBody = try responseDecoder.decode(responseBody: data)
+            self.eula = output.eula
+        } else {
+            self.eula = nil
+        }
+    }
+}
+
+public struct GetEulaOutput: Swift.Equatable {
+    /// The EULA.
+    public var eula: NimbleClientTypes.Eula?
+
+    public init(
+        eula: NimbleClientTypes.Eula? = nil
+    )
+    {
+        self.eula = eula
+    }
+}
+
+struct GetEulaOutputBody: Swift.Equatable {
+    let eula: NimbleClientTypes.Eula?
+}
+
+extension GetEulaOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case eula
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let eulaDecoded = try containerValues.decodeIfPresent(NimbleClientTypes.Eula.self, forKey: .eula)
+        eula = eulaDecoded
+    }
+}
+
 enum GetEulaOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -2682,46 +2722,6 @@ enum GetEulaOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetEulaOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetEulaOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.eula = output.eula
-        } else {
-            self.eula = nil
-        }
-    }
-}
-
-public struct GetEulaOutputResponse: Swift.Equatable {
-    /// The EULA.
-    public var eula: NimbleClientTypes.Eula?
-
-    public init(
-        eula: NimbleClientTypes.Eula? = nil
-    )
-    {
-        self.eula = eula
-    }
-}
-
-struct GetEulaOutputResponseBody: Swift.Equatable {
-    let eula: NimbleClientTypes.Eula?
-}
-
-extension GetEulaOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case eula
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let eulaDecoded = try containerValues.decodeIfPresent(NimbleClientTypes.Eula.self, forKey: .eula)
-        eula = eulaDecoded
     }
 }
 
@@ -2764,28 +2764,11 @@ extension GetLaunchProfileDetailsInputBody: Swift.Decodable {
     }
 }
 
-enum GetLaunchProfileDetailsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetLaunchProfileDetailsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetLaunchProfileDetailsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetLaunchProfileDetailsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetLaunchProfileDetailsOutputBody = try responseDecoder.decode(responseBody: data)
             self.launchProfile = output.launchProfile
             self.streamingImages = output.streamingImages
             self.studioComponentSummaries = output.studioComponentSummaries
@@ -2797,7 +2780,7 @@ extension GetLaunchProfileDetailsOutputResponse: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct GetLaunchProfileDetailsOutputResponse: Swift.Equatable {
+public struct GetLaunchProfileDetailsOutput: Swift.Equatable {
     /// The launch profile.
     public var launchProfile: NimbleClientTypes.LaunchProfile?
     /// A collection of streaming images.
@@ -2817,13 +2800,13 @@ public struct GetLaunchProfileDetailsOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetLaunchProfileDetailsOutputResponseBody: Swift.Equatable {
+struct GetLaunchProfileDetailsOutputBody: Swift.Equatable {
     let launchProfile: NimbleClientTypes.LaunchProfile?
     let streamingImages: [NimbleClientTypes.StreamingImage]?
     let studioComponentSummaries: [NimbleClientTypes.StudioComponentSummary]?
 }
 
-extension GetLaunchProfileDetailsOutputResponseBody: Swift.Decodable {
+extension GetLaunchProfileDetailsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case launchProfile
         case streamingImages
@@ -2856,6 +2839,23 @@ extension GetLaunchProfileDetailsOutputResponseBody: Swift.Decodable {
             }
         }
         studioComponentSummaries = studioComponentSummariesDecoded0
+    }
+}
+
+enum GetLaunchProfileDetailsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2942,6 +2942,46 @@ extension GetLaunchProfileInitializationInputBody: Swift.Decodable {
     }
 }
 
+extension GetLaunchProfileInitializationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetLaunchProfileInitializationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.launchProfileInitialization = output.launchProfileInitialization
+        } else {
+            self.launchProfileInitialization = nil
+        }
+    }
+}
+
+public struct GetLaunchProfileInitializationOutput: Swift.Equatable {
+    /// The launch profile initialization.
+    public var launchProfileInitialization: NimbleClientTypes.LaunchProfileInitialization?
+
+    public init(
+        launchProfileInitialization: NimbleClientTypes.LaunchProfileInitialization? = nil
+    )
+    {
+        self.launchProfileInitialization = launchProfileInitialization
+    }
+}
+
+struct GetLaunchProfileInitializationOutputBody: Swift.Equatable {
+    let launchProfileInitialization: NimbleClientTypes.LaunchProfileInitialization?
+}
+
+extension GetLaunchProfileInitializationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case launchProfileInitialization
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let launchProfileInitializationDecoded = try containerValues.decodeIfPresent(NimbleClientTypes.LaunchProfileInitialization.self, forKey: .launchProfileInitialization)
+        launchProfileInitialization = launchProfileInitializationDecoded
+    }
+}
+
 enum GetLaunchProfileInitializationOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -2956,46 +2996,6 @@ enum GetLaunchProfileInitializationOutputError: ClientRuntime.HttpResponseErrorB
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetLaunchProfileInitializationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetLaunchProfileInitializationOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.launchProfileInitialization = output.launchProfileInitialization
-        } else {
-            self.launchProfileInitialization = nil
-        }
-    }
-}
-
-public struct GetLaunchProfileInitializationOutputResponse: Swift.Equatable {
-    /// The launch profile initialization.
-    public var launchProfileInitialization: NimbleClientTypes.LaunchProfileInitialization?
-
-    public init(
-        launchProfileInitialization: NimbleClientTypes.LaunchProfileInitialization? = nil
-    )
-    {
-        self.launchProfileInitialization = launchProfileInitialization
-    }
-}
-
-struct GetLaunchProfileInitializationOutputResponseBody: Swift.Equatable {
-    let launchProfileInitialization: NimbleClientTypes.LaunchProfileInitialization?
-}
-
-extension GetLaunchProfileInitializationOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case launchProfileInitialization
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let launchProfileInitializationDecoded = try containerValues.decodeIfPresent(NimbleClientTypes.LaunchProfileInitialization.self, forKey: .launchProfileInitialization)
-        launchProfileInitialization = launchProfileInitializationDecoded
     }
 }
 
@@ -3085,6 +3085,46 @@ extension GetLaunchProfileMemberInputBody: Swift.Decodable {
     }
 }
 
+extension GetLaunchProfileMemberOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetLaunchProfileMemberOutputBody = try responseDecoder.decode(responseBody: data)
+            self.member = output.member
+        } else {
+            self.member = nil
+        }
+    }
+}
+
+public struct GetLaunchProfileMemberOutput: Swift.Equatable {
+    /// The member.
+    public var member: NimbleClientTypes.LaunchProfileMembership?
+
+    public init(
+        member: NimbleClientTypes.LaunchProfileMembership? = nil
+    )
+    {
+        self.member = member
+    }
+}
+
+struct GetLaunchProfileMemberOutputBody: Swift.Equatable {
+    let member: NimbleClientTypes.LaunchProfileMembership?
+}
+
+extension GetLaunchProfileMemberOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case member
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let memberDecoded = try containerValues.decodeIfPresent(NimbleClientTypes.LaunchProfileMembership.self, forKey: .member)
+        member = memberDecoded
+    }
+}
+
 enum GetLaunchProfileMemberOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -3102,43 +3142,43 @@ enum GetLaunchProfileMemberOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetLaunchProfileMemberOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetLaunchProfileOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetLaunchProfileMemberOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.member = output.member
+            let output: GetLaunchProfileOutputBody = try responseDecoder.decode(responseBody: data)
+            self.launchProfile = output.launchProfile
         } else {
-            self.member = nil
+            self.launchProfile = nil
         }
     }
 }
 
-public struct GetLaunchProfileMemberOutputResponse: Swift.Equatable {
-    /// The member.
-    public var member: NimbleClientTypes.LaunchProfileMembership?
+public struct GetLaunchProfileOutput: Swift.Equatable {
+    /// The launch profile.
+    public var launchProfile: NimbleClientTypes.LaunchProfile?
 
     public init(
-        member: NimbleClientTypes.LaunchProfileMembership? = nil
+        launchProfile: NimbleClientTypes.LaunchProfile? = nil
     )
     {
-        self.member = member
+        self.launchProfile = launchProfile
     }
 }
 
-struct GetLaunchProfileMemberOutputResponseBody: Swift.Equatable {
-    let member: NimbleClientTypes.LaunchProfileMembership?
+struct GetLaunchProfileOutputBody: Swift.Equatable {
+    let launchProfile: NimbleClientTypes.LaunchProfile?
 }
 
-extension GetLaunchProfileMemberOutputResponseBody: Swift.Decodable {
+extension GetLaunchProfileOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case member
+        case launchProfile
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let memberDecoded = try containerValues.decodeIfPresent(NimbleClientTypes.LaunchProfileMembership.self, forKey: .member)
-        member = memberDecoded
+        let launchProfileDecoded = try containerValues.decodeIfPresent(NimbleClientTypes.LaunchProfile.self, forKey: .launchProfile)
+        launchProfile = launchProfileDecoded
     }
 }
 
@@ -3156,46 +3196,6 @@ enum GetLaunchProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetLaunchProfileOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetLaunchProfileOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.launchProfile = output.launchProfile
-        } else {
-            self.launchProfile = nil
-        }
-    }
-}
-
-public struct GetLaunchProfileOutputResponse: Swift.Equatable {
-    /// The launch profile.
-    public var launchProfile: NimbleClientTypes.LaunchProfile?
-
-    public init(
-        launchProfile: NimbleClientTypes.LaunchProfile? = nil
-    )
-    {
-        self.launchProfile = launchProfile
-    }
-}
-
-struct GetLaunchProfileOutputResponseBody: Swift.Equatable {
-    let launchProfile: NimbleClientTypes.LaunchProfile?
-}
-
-extension GetLaunchProfileOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case launchProfile
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let launchProfileDecoded = try containerValues.decodeIfPresent(NimbleClientTypes.LaunchProfile.self, forKey: .launchProfile)
-        launchProfile = launchProfileDecoded
     }
 }
 
@@ -3238,6 +3238,46 @@ extension GetStreamingImageInputBody: Swift.Decodable {
     }
 }
 
+extension GetStreamingImageOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetStreamingImageOutputBody = try responseDecoder.decode(responseBody: data)
+            self.streamingImage = output.streamingImage
+        } else {
+            self.streamingImage = nil
+        }
+    }
+}
+
+public struct GetStreamingImageOutput: Swift.Equatable {
+    /// The streaming image.
+    public var streamingImage: NimbleClientTypes.StreamingImage?
+
+    public init(
+        streamingImage: NimbleClientTypes.StreamingImage? = nil
+    )
+    {
+        self.streamingImage = streamingImage
+    }
+}
+
+struct GetStreamingImageOutputBody: Swift.Equatable {
+    let streamingImage: NimbleClientTypes.StreamingImage?
+}
+
+extension GetStreamingImageOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case streamingImage
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let streamingImageDecoded = try containerValues.decodeIfPresent(NimbleClientTypes.StreamingImage.self, forKey: .streamingImage)
+        streamingImage = streamingImageDecoded
+    }
+}
+
 enum GetStreamingImageOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -3252,46 +3292,6 @@ enum GetStreamingImageOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetStreamingImageOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetStreamingImageOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.streamingImage = output.streamingImage
-        } else {
-            self.streamingImage = nil
-        }
-    }
-}
-
-public struct GetStreamingImageOutputResponse: Swift.Equatable {
-    /// The streaming image.
-    public var streamingImage: NimbleClientTypes.StreamingImage?
-
-    public init(
-        streamingImage: NimbleClientTypes.StreamingImage? = nil
-    )
-    {
-        self.streamingImage = streamingImage
-    }
-}
-
-struct GetStreamingImageOutputResponseBody: Swift.Equatable {
-    let streamingImage: NimbleClientTypes.StreamingImage?
-}
-
-extension GetStreamingImageOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case streamingImage
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let streamingImageDecoded = try containerValues.decodeIfPresent(NimbleClientTypes.StreamingImage.self, forKey: .streamingImage)
-        streamingImage = streamingImageDecoded
     }
 }
 
@@ -3334,6 +3334,46 @@ extension GetStreamingSessionBackupInputBody: Swift.Decodable {
     }
 }
 
+extension GetStreamingSessionBackupOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetStreamingSessionBackupOutputBody = try responseDecoder.decode(responseBody: data)
+            self.streamingSessionBackup = output.streamingSessionBackup
+        } else {
+            self.streamingSessionBackup = nil
+        }
+    }
+}
+
+public struct GetStreamingSessionBackupOutput: Swift.Equatable {
+    /// Information about the streaming session backup.
+    public var streamingSessionBackup: NimbleClientTypes.StreamingSessionBackup?
+
+    public init(
+        streamingSessionBackup: NimbleClientTypes.StreamingSessionBackup? = nil
+    )
+    {
+        self.streamingSessionBackup = streamingSessionBackup
+    }
+}
+
+struct GetStreamingSessionBackupOutputBody: Swift.Equatable {
+    let streamingSessionBackup: NimbleClientTypes.StreamingSessionBackup?
+}
+
+extension GetStreamingSessionBackupOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case streamingSessionBackup
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let streamingSessionBackupDecoded = try containerValues.decodeIfPresent(NimbleClientTypes.StreamingSessionBackup.self, forKey: .streamingSessionBackup)
+        streamingSessionBackup = streamingSessionBackupDecoded
+    }
+}
+
 enum GetStreamingSessionBackupOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -3347,46 +3387,6 @@ enum GetStreamingSessionBackupOutputError: ClientRuntime.HttpResponseErrorBindin
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetStreamingSessionBackupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetStreamingSessionBackupOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.streamingSessionBackup = output.streamingSessionBackup
-        } else {
-            self.streamingSessionBackup = nil
-        }
-    }
-}
-
-public struct GetStreamingSessionBackupOutputResponse: Swift.Equatable {
-    /// Information about the streaming session backup.
-    public var streamingSessionBackup: NimbleClientTypes.StreamingSessionBackup?
-
-    public init(
-        streamingSessionBackup: NimbleClientTypes.StreamingSessionBackup? = nil
-    )
-    {
-        self.streamingSessionBackup = streamingSessionBackup
-    }
-}
-
-struct GetStreamingSessionBackupOutputResponseBody: Swift.Equatable {
-    let streamingSessionBackup: NimbleClientTypes.StreamingSessionBackup?
-}
-
-extension GetStreamingSessionBackupOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case streamingSessionBackup
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let streamingSessionBackupDecoded = try containerValues.decodeIfPresent(NimbleClientTypes.StreamingSessionBackup.self, forKey: .streamingSessionBackup)
-        streamingSessionBackup = streamingSessionBackupDecoded
     }
 }
 
@@ -3429,6 +3429,46 @@ extension GetStreamingSessionInputBody: Swift.Decodable {
     }
 }
 
+extension GetStreamingSessionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetStreamingSessionOutputBody = try responseDecoder.decode(responseBody: data)
+            self.session = output.session
+        } else {
+            self.session = nil
+        }
+    }
+}
+
+public struct GetStreamingSessionOutput: Swift.Equatable {
+    /// The session.
+    public var session: NimbleClientTypes.StreamingSession?
+
+    public init(
+        session: NimbleClientTypes.StreamingSession? = nil
+    )
+    {
+        self.session = session
+    }
+}
+
+struct GetStreamingSessionOutputBody: Swift.Equatable {
+    let session: NimbleClientTypes.StreamingSession?
+}
+
+extension GetStreamingSessionOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case session
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sessionDecoded = try containerValues.decodeIfPresent(NimbleClientTypes.StreamingSession.self, forKey: .session)
+        session = sessionDecoded
+    }
+}
+
 enum GetStreamingSessionOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -3443,46 +3483,6 @@ enum GetStreamingSessionOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetStreamingSessionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetStreamingSessionOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.session = output.session
-        } else {
-            self.session = nil
-        }
-    }
-}
-
-public struct GetStreamingSessionOutputResponse: Swift.Equatable {
-    /// The session.
-    public var session: NimbleClientTypes.StreamingSession?
-
-    public init(
-        session: NimbleClientTypes.StreamingSession? = nil
-    )
-    {
-        self.session = session
-    }
-}
-
-struct GetStreamingSessionOutputResponseBody: Swift.Equatable {
-    let session: NimbleClientTypes.StreamingSession?
-}
-
-extension GetStreamingSessionOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case session
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let sessionDecoded = try containerValues.decodeIfPresent(NimbleClientTypes.StreamingSession.self, forKey: .session)
-        session = sessionDecoded
     }
 }
 
@@ -3533,6 +3533,46 @@ extension GetStreamingSessionStreamInputBody: Swift.Decodable {
     }
 }
 
+extension GetStreamingSessionStreamOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetStreamingSessionStreamOutputBody = try responseDecoder.decode(responseBody: data)
+            self.stream = output.stream
+        } else {
+            self.stream = nil
+        }
+    }
+}
+
+public struct GetStreamingSessionStreamOutput: Swift.Equatable {
+    /// The stream.
+    public var stream: NimbleClientTypes.StreamingSessionStream?
+
+    public init(
+        stream: NimbleClientTypes.StreamingSessionStream? = nil
+    )
+    {
+        self.stream = stream
+    }
+}
+
+struct GetStreamingSessionStreamOutputBody: Swift.Equatable {
+    let stream: NimbleClientTypes.StreamingSessionStream?
+}
+
+extension GetStreamingSessionStreamOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case stream
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let streamDecoded = try containerValues.decodeIfPresent(NimbleClientTypes.StreamingSessionStream.self, forKey: .stream)
+        stream = streamDecoded
+    }
+}
+
 enum GetStreamingSessionStreamOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -3547,46 +3587,6 @@ enum GetStreamingSessionStreamOutputError: ClientRuntime.HttpResponseErrorBindin
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetStreamingSessionStreamOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetStreamingSessionStreamOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.stream = output.stream
-        } else {
-            self.stream = nil
-        }
-    }
-}
-
-public struct GetStreamingSessionStreamOutputResponse: Swift.Equatable {
-    /// The stream.
-    public var stream: NimbleClientTypes.StreamingSessionStream?
-
-    public init(
-        stream: NimbleClientTypes.StreamingSessionStream? = nil
-    )
-    {
-        self.stream = stream
-    }
-}
-
-struct GetStreamingSessionStreamOutputResponseBody: Swift.Equatable {
-    let stream: NimbleClientTypes.StreamingSessionStream?
-}
-
-extension GetStreamingSessionStreamOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case stream
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let streamDecoded = try containerValues.decodeIfPresent(NimbleClientTypes.StreamingSessionStream.self, forKey: .stream)
-        stream = streamDecoded
     }
 }
 
@@ -3629,6 +3629,46 @@ extension GetStudioComponentInputBody: Swift.Decodable {
     }
 }
 
+extension GetStudioComponentOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetStudioComponentOutputBody = try responseDecoder.decode(responseBody: data)
+            self.studioComponent = output.studioComponent
+        } else {
+            self.studioComponent = nil
+        }
+    }
+}
+
+public struct GetStudioComponentOutput: Swift.Equatable {
+    /// Information about the studio component.
+    public var studioComponent: NimbleClientTypes.StudioComponent?
+
+    public init(
+        studioComponent: NimbleClientTypes.StudioComponent? = nil
+    )
+    {
+        self.studioComponent = studioComponent
+    }
+}
+
+struct GetStudioComponentOutputBody: Swift.Equatable {
+    let studioComponent: NimbleClientTypes.StudioComponent?
+}
+
+extension GetStudioComponentOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case studioComponent
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let studioComponentDecoded = try containerValues.decodeIfPresent(NimbleClientTypes.StudioComponent.self, forKey: .studioComponent)
+        studioComponent = studioComponentDecoded
+    }
+}
+
 enum GetStudioComponentOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -3643,46 +3683,6 @@ enum GetStudioComponentOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetStudioComponentOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetStudioComponentOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.studioComponent = output.studioComponent
-        } else {
-            self.studioComponent = nil
-        }
-    }
-}
-
-public struct GetStudioComponentOutputResponse: Swift.Equatable {
-    /// Information about the studio component.
-    public var studioComponent: NimbleClientTypes.StudioComponent?
-
-    public init(
-        studioComponent: NimbleClientTypes.StudioComponent? = nil
-    )
-    {
-        self.studioComponent = studioComponent
-    }
-}
-
-struct GetStudioComponentOutputResponseBody: Swift.Equatable {
-    let studioComponent: NimbleClientTypes.StudioComponent?
-}
-
-extension GetStudioComponentOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case studioComponent
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let studioComponentDecoded = try containerValues.decodeIfPresent(NimbleClientTypes.StudioComponent.self, forKey: .studioComponent)
-        studioComponent = studioComponentDecoded
     }
 }
 
@@ -3756,6 +3756,46 @@ extension GetStudioMemberInputBody: Swift.Decodable {
     }
 }
 
+extension GetStudioMemberOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetStudioMemberOutputBody = try responseDecoder.decode(responseBody: data)
+            self.member = output.member
+        } else {
+            self.member = nil
+        }
+    }
+}
+
+public struct GetStudioMemberOutput: Swift.Equatable {
+    /// The member.
+    public var member: NimbleClientTypes.StudioMembership?
+
+    public init(
+        member: NimbleClientTypes.StudioMembership? = nil
+    )
+    {
+        self.member = member
+    }
+}
+
+struct GetStudioMemberOutputBody: Swift.Equatable {
+    let member: NimbleClientTypes.StudioMembership?
+}
+
+extension GetStudioMemberOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case member
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let memberDecoded = try containerValues.decodeIfPresent(NimbleClientTypes.StudioMembership.self, forKey: .member)
+        member = memberDecoded
+    }
+}
+
 enum GetStudioMemberOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -3773,43 +3813,44 @@ enum GetStudioMemberOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetStudioMemberOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetStudioOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetStudioMemberOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.member = output.member
+            let output: GetStudioOutputBody = try responseDecoder.decode(responseBody: data)
+            self.studio = output.studio
         } else {
-            self.member = nil
+            self.studio = nil
         }
     }
 }
 
-public struct GetStudioMemberOutputResponse: Swift.Equatable {
-    /// The member.
-    public var member: NimbleClientTypes.StudioMembership?
+public struct GetStudioOutput: Swift.Equatable {
+    /// Information about a studio.
+    /// This member is required.
+    public var studio: NimbleClientTypes.Studio?
 
     public init(
-        member: NimbleClientTypes.StudioMembership? = nil
+        studio: NimbleClientTypes.Studio? = nil
     )
     {
-        self.member = member
+        self.studio = studio
     }
 }
 
-struct GetStudioMemberOutputResponseBody: Swift.Equatable {
-    let member: NimbleClientTypes.StudioMembership?
+struct GetStudioOutputBody: Swift.Equatable {
+    let studio: NimbleClientTypes.Studio?
 }
 
-extension GetStudioMemberOutputResponseBody: Swift.Decodable {
+extension GetStudioOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case member
+        case studio
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let memberDecoded = try containerValues.decodeIfPresent(NimbleClientTypes.StudioMembership.self, forKey: .member)
-        member = memberDecoded
+        let studioDecoded = try containerValues.decodeIfPresent(NimbleClientTypes.Studio.self, forKey: .studio)
+        studio = studioDecoded
     }
 }
 
@@ -3827,47 +3868,6 @@ enum GetStudioOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetStudioOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetStudioOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.studio = output.studio
-        } else {
-            self.studio = nil
-        }
-    }
-}
-
-public struct GetStudioOutputResponse: Swift.Equatable {
-    /// Information about a studio.
-    /// This member is required.
-    public var studio: NimbleClientTypes.Studio?
-
-    public init(
-        studio: NimbleClientTypes.Studio? = nil
-    )
-    {
-        self.studio = studio
-    }
-}
-
-struct GetStudioOutputResponseBody: Swift.Equatable {
-    let studio: NimbleClientTypes.Studio?
-}
-
-extension GetStudioOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case studio
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let studioDecoded = try containerValues.decodeIfPresent(NimbleClientTypes.Studio.self, forKey: .studio)
-        studio = studioDecoded
     }
 }
 
@@ -5065,28 +5065,11 @@ extension ListEulaAcceptancesInputBody: Swift.Decodable {
     }
 }
 
-enum ListEulaAcceptancesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListEulaAcceptancesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListEulaAcceptancesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListEulaAcceptancesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListEulaAcceptancesOutputBody = try responseDecoder.decode(responseBody: data)
             self.eulaAcceptances = output.eulaAcceptances
             self.nextToken = output.nextToken
         } else {
@@ -5096,7 +5079,7 @@ extension ListEulaAcceptancesOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListEulaAcceptancesOutputResponse: Swift.Equatable {
+public struct ListEulaAcceptancesOutput: Swift.Equatable {
     /// A collection of EULA acceptances.
     public var eulaAcceptances: [NimbleClientTypes.EulaAcceptance]?
     /// The token for the next set of results, or null if there are no more results.
@@ -5112,12 +5095,12 @@ public struct ListEulaAcceptancesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListEulaAcceptancesOutputResponseBody: Swift.Equatable {
+struct ListEulaAcceptancesOutputBody: Swift.Equatable {
     let eulaAcceptances: [NimbleClientTypes.EulaAcceptance]?
     let nextToken: Swift.String?
 }
 
-extension ListEulaAcceptancesOutputResponseBody: Swift.Decodable {
+extension ListEulaAcceptancesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case eulaAcceptances
         case nextToken
@@ -5138,6 +5121,23 @@ extension ListEulaAcceptancesOutputResponseBody: Swift.Decodable {
         eulaAcceptances = eulaAcceptancesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListEulaAcceptancesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5191,28 +5191,11 @@ extension ListEulasInputBody: Swift.Decodable {
     }
 }
 
-enum ListEulasOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListEulasOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListEulasOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListEulasOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListEulasOutputBody = try responseDecoder.decode(responseBody: data)
             self.eulas = output.eulas
             self.nextToken = output.nextToken
         } else {
@@ -5222,7 +5205,7 @@ extension ListEulasOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListEulasOutputResponse: Swift.Equatable {
+public struct ListEulasOutput: Swift.Equatable {
     /// A collection of EULA resources.
     public var eulas: [NimbleClientTypes.Eula]?
     /// The token for the next set of results, or null if there are no more results.
@@ -5238,12 +5221,12 @@ public struct ListEulasOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListEulasOutputResponseBody: Swift.Equatable {
+struct ListEulasOutputBody: Swift.Equatable {
     let eulas: [NimbleClientTypes.Eula]?
     let nextToken: Swift.String?
 }
 
-extension ListEulasOutputResponseBody: Swift.Decodable {
+extension ListEulasOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case eulas
         case nextToken
@@ -5264,6 +5247,23 @@ extension ListEulasOutputResponseBody: Swift.Decodable {
         eulas = eulasDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListEulasOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5331,28 +5331,11 @@ extension ListLaunchProfileMembersInputBody: Swift.Decodable {
     }
 }
 
-enum ListLaunchProfileMembersOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListLaunchProfileMembersOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListLaunchProfileMembersOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListLaunchProfileMembersOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListLaunchProfileMembersOutputBody = try responseDecoder.decode(responseBody: data)
             self.members = output.members
             self.nextToken = output.nextToken
         } else {
@@ -5362,7 +5345,7 @@ extension ListLaunchProfileMembersOutputResponse: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct ListLaunchProfileMembersOutputResponse: Swift.Equatable {
+public struct ListLaunchProfileMembersOutput: Swift.Equatable {
     /// A list of members.
     public var members: [NimbleClientTypes.LaunchProfileMembership]?
     /// The token for the next set of results, or null if there are no more results.
@@ -5378,12 +5361,12 @@ public struct ListLaunchProfileMembersOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListLaunchProfileMembersOutputResponseBody: Swift.Equatable {
+struct ListLaunchProfileMembersOutputBody: Swift.Equatable {
     let members: [NimbleClientTypes.LaunchProfileMembership]?
     let nextToken: Swift.String?
 }
 
-extension ListLaunchProfileMembersOutputResponseBody: Swift.Decodable {
+extension ListLaunchProfileMembersOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case members
         case nextToken
@@ -5404,6 +5387,23 @@ extension ListLaunchProfileMembersOutputResponseBody: Swift.Decodable {
         members = membersDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListLaunchProfileMembersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5481,28 +5481,11 @@ extension ListLaunchProfilesInputBody: Swift.Decodable {
     }
 }
 
-enum ListLaunchProfilesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListLaunchProfilesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListLaunchProfilesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListLaunchProfilesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListLaunchProfilesOutputBody = try responseDecoder.decode(responseBody: data)
             self.launchProfiles = output.launchProfiles
             self.nextToken = output.nextToken
         } else {
@@ -5512,7 +5495,7 @@ extension ListLaunchProfilesOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListLaunchProfilesOutputResponse: Swift.Equatable {
+public struct ListLaunchProfilesOutput: Swift.Equatable {
     /// A collection of launch profiles.
     public var launchProfiles: [NimbleClientTypes.LaunchProfile]?
     /// The token for the next set of results, or null if there are no more results.
@@ -5528,12 +5511,12 @@ public struct ListLaunchProfilesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListLaunchProfilesOutputResponseBody: Swift.Equatable {
+struct ListLaunchProfilesOutputBody: Swift.Equatable {
     let launchProfiles: [NimbleClientTypes.LaunchProfile]?
     let nextToken: Swift.String?
 }
 
-extension ListLaunchProfilesOutputResponseBody: Swift.Decodable {
+extension ListLaunchProfilesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case launchProfiles
         case nextToken
@@ -5554,6 +5537,23 @@ extension ListLaunchProfilesOutputResponseBody: Swift.Decodable {
         launchProfiles = launchProfilesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListLaunchProfilesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5613,28 +5613,11 @@ extension ListStreamingImagesInputBody: Swift.Decodable {
     }
 }
 
-enum ListStreamingImagesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListStreamingImagesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListStreamingImagesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListStreamingImagesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListStreamingImagesOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.streamingImages = output.streamingImages
         } else {
@@ -5644,7 +5627,7 @@ extension ListStreamingImagesOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListStreamingImagesOutputResponse: Swift.Equatable {
+public struct ListStreamingImagesOutput: Swift.Equatable {
     /// The token for the next set of results, or null if there are no more results.
     public var nextToken: Swift.String?
     /// A collection of streaming images.
@@ -5660,12 +5643,12 @@ public struct ListStreamingImagesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListStreamingImagesOutputResponseBody: Swift.Equatable {
+struct ListStreamingImagesOutputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let streamingImages: [NimbleClientTypes.StreamingImage]?
 }
 
-extension ListStreamingImagesOutputResponseBody: Swift.Decodable {
+extension ListStreamingImagesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken
         case streamingImages
@@ -5686,6 +5669,23 @@ extension ListStreamingImagesOutputResponseBody: Swift.Decodable {
             }
         }
         streamingImages = streamingImagesDecoded0
+    }
+}
+
+enum ListStreamingImagesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5745,27 +5745,11 @@ extension ListStreamingSessionBackupsInputBody: Swift.Decodable {
     }
 }
 
-enum ListStreamingSessionBackupsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListStreamingSessionBackupsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListStreamingSessionBackupsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListStreamingSessionBackupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListStreamingSessionBackupsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.streamingSessionBackups = output.streamingSessionBackups
         } else {
@@ -5775,7 +5759,7 @@ extension ListStreamingSessionBackupsOutputResponse: ClientRuntime.HttpResponseB
     }
 }
 
-public struct ListStreamingSessionBackupsOutputResponse: Swift.Equatable {
+public struct ListStreamingSessionBackupsOutput: Swift.Equatable {
     /// The token for the next set of results, or null if there are no more results.
     public var nextToken: Swift.String?
     /// Information about the streaming session backups.
@@ -5791,12 +5775,12 @@ public struct ListStreamingSessionBackupsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListStreamingSessionBackupsOutputResponseBody: Swift.Equatable {
+struct ListStreamingSessionBackupsOutputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let streamingSessionBackups: [NimbleClientTypes.StreamingSessionBackup]?
 }
 
-extension ListStreamingSessionBackupsOutputResponseBody: Swift.Decodable {
+extension ListStreamingSessionBackupsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken
         case streamingSessionBackups
@@ -5817,6 +5801,22 @@ extension ListStreamingSessionBackupsOutputResponseBody: Swift.Decodable {
             }
         }
         streamingSessionBackups = streamingSessionBackupsDecoded0
+    }
+}
+
+enum ListStreamingSessionBackupsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5892,28 +5892,11 @@ extension ListStreamingSessionsInputBody: Swift.Decodable {
     }
 }
 
-enum ListStreamingSessionsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListStreamingSessionsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListStreamingSessionsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListStreamingSessionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListStreamingSessionsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.sessions = output.sessions
         } else {
@@ -5923,7 +5906,7 @@ extension ListStreamingSessionsOutputResponse: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct ListStreamingSessionsOutputResponse: Swift.Equatable {
+public struct ListStreamingSessionsOutput: Swift.Equatable {
     /// The token for the next set of results, or null if there are no more results.
     public var nextToken: Swift.String?
     /// A collection of streaming sessions.
@@ -5939,12 +5922,12 @@ public struct ListStreamingSessionsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListStreamingSessionsOutputResponseBody: Swift.Equatable {
+struct ListStreamingSessionsOutputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let sessions: [NimbleClientTypes.StreamingSession]?
 }
 
-extension ListStreamingSessionsOutputResponseBody: Swift.Decodable {
+extension ListStreamingSessionsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken
         case sessions
@@ -5965,6 +5948,23 @@ extension ListStreamingSessionsOutputResponseBody: Swift.Decodable {
             }
         }
         sessions = sessionsDecoded0
+    }
+}
+
+enum ListStreamingSessionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -6044,28 +6044,11 @@ extension ListStudioComponentsInputBody: Swift.Decodable {
     }
 }
 
-enum ListStudioComponentsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListStudioComponentsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListStudioComponentsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListStudioComponentsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListStudioComponentsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.studioComponents = output.studioComponents
         } else {
@@ -6075,7 +6058,7 @@ extension ListStudioComponentsOutputResponse: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct ListStudioComponentsOutputResponse: Swift.Equatable {
+public struct ListStudioComponentsOutput: Swift.Equatable {
     /// The token for the next set of results, or null if there are no more results.
     public var nextToken: Swift.String?
     /// A collection of studio components.
@@ -6091,12 +6074,12 @@ public struct ListStudioComponentsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListStudioComponentsOutputResponseBody: Swift.Equatable {
+struct ListStudioComponentsOutputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let studioComponents: [NimbleClientTypes.StudioComponent]?
 }
 
-extension ListStudioComponentsOutputResponseBody: Swift.Decodable {
+extension ListStudioComponentsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken
         case studioComponents
@@ -6117,6 +6100,23 @@ extension ListStudioComponentsOutputResponseBody: Swift.Decodable {
             }
         }
         studioComponents = studioComponentsDecoded0
+    }
+}
+
+enum ListStudioComponentsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -6176,28 +6176,11 @@ extension ListStudioMembersInputBody: Swift.Decodable {
     }
 }
 
-enum ListStudioMembersOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListStudioMembersOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListStudioMembersOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListStudioMembersOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListStudioMembersOutputBody = try responseDecoder.decode(responseBody: data)
             self.members = output.members
             self.nextToken = output.nextToken
         } else {
@@ -6207,7 +6190,7 @@ extension ListStudioMembersOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListStudioMembersOutputResponse: Swift.Equatable {
+public struct ListStudioMembersOutput: Swift.Equatable {
     /// A list of admin members.
     public var members: [NimbleClientTypes.StudioMembership]?
     /// The token for the next set of results, or null if there are no more results.
@@ -6223,12 +6206,12 @@ public struct ListStudioMembersOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListStudioMembersOutputResponseBody: Swift.Equatable {
+struct ListStudioMembersOutputBody: Swift.Equatable {
     let members: [NimbleClientTypes.StudioMembership]?
     let nextToken: Swift.String?
 }
 
-extension ListStudioMembersOutputResponseBody: Swift.Decodable {
+extension ListStudioMembersOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case members
         case nextToken
@@ -6249,6 +6232,23 @@ extension ListStudioMembersOutputResponseBody: Swift.Decodable {
         members = membersDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListStudioMembersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -6292,28 +6292,11 @@ extension ListStudiosInputBody: Swift.Decodable {
     }
 }
 
-enum ListStudiosOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListStudiosOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListStudiosOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListStudiosOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListStudiosOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.studios = output.studios
         } else {
@@ -6323,7 +6306,7 @@ extension ListStudiosOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListStudiosOutputResponse: Swift.Equatable {
+public struct ListStudiosOutput: Swift.Equatable {
     /// The token for the next set of results, or null if there are no more results.
     public var nextToken: Swift.String?
     /// A collection of studios.
@@ -6340,12 +6323,12 @@ public struct ListStudiosOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListStudiosOutputResponseBody: Swift.Equatable {
+struct ListStudiosOutputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let studios: [NimbleClientTypes.Studio]?
 }
 
-extension ListStudiosOutputResponseBody: Swift.Decodable {
+extension ListStudiosOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken
         case studios
@@ -6366,6 +6349,23 @@ extension ListStudiosOutputResponseBody: Swift.Decodable {
             }
         }
         studios = studiosDecoded0
+    }
+}
+
+enum ListStudiosOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -6400,28 +6400,11 @@ extension ListTagsForResourceInputBody: Swift.Decodable {
     }
 }
 
-enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListTagsForResourceOutputBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
         } else {
             self.tags = nil
@@ -6429,7 +6412,7 @@ extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutputResponse: Swift.Equatable {
+public struct ListTagsForResourceOutput: Swift.Equatable {
     /// A collection of labels, in the form of key-value pairs, that apply to this resource.
     public var tags: [Swift.String:Swift.String]?
 
@@ -6441,11 +6424,11 @@ public struct ListTagsForResourceOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputResponseBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody: Swift.Equatable {
     let tags: [Swift.String:Swift.String]?
 }
 
-extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
+extension ListTagsForResourceOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case tags
     }
@@ -6463,6 +6446,23 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+    }
+}
+
+enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -6663,6 +6663,16 @@ extension PutLaunchProfileMembersInputBody: Swift.Decodable {
     }
 }
 
+extension PutLaunchProfileMembersOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct PutLaunchProfileMembersOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum PutLaunchProfileMembersOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -6678,16 +6688,6 @@ enum PutLaunchProfileMembersOutputError: ClientRuntime.HttpResponseErrorBinding 
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension PutLaunchProfileMembersOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct PutLaunchProfileMembersOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension PutStudioMembersInput: Swift.Encodable {
@@ -6785,6 +6785,16 @@ extension PutStudioMembersInputBody: Swift.Decodable {
     }
 }
 
+extension PutStudioMembersOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct PutStudioMembersOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum PutStudioMembersOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -6800,16 +6810,6 @@ enum PutStudioMembersOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension PutStudioMembersOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct PutStudioMembersOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension ResourceNotFoundException {
@@ -7248,6 +7248,46 @@ extension StartStreamingSessionInputBody: Swift.Decodable {
     }
 }
 
+extension StartStreamingSessionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: StartStreamingSessionOutputBody = try responseDecoder.decode(responseBody: data)
+            self.session = output.session
+        } else {
+            self.session = nil
+        }
+    }
+}
+
+public struct StartStreamingSessionOutput: Swift.Equatable {
+    /// A streaming session is a virtual workstation created using a particular launch profile.
+    public var session: NimbleClientTypes.StreamingSession?
+
+    public init(
+        session: NimbleClientTypes.StreamingSession? = nil
+    )
+    {
+        self.session = session
+    }
+}
+
+struct StartStreamingSessionOutputBody: Swift.Equatable {
+    let session: NimbleClientTypes.StreamingSession?
+}
+
+extension StartStreamingSessionOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case session
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sessionDecoded = try containerValues.decodeIfPresent(NimbleClientTypes.StreamingSession.self, forKey: .session)
+        session = sessionDecoded
+    }
+}
+
 enum StartStreamingSessionOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -7262,46 +7302,6 @@ enum StartStreamingSessionOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension StartStreamingSessionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: StartStreamingSessionOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.session = output.session
-        } else {
-            self.session = nil
-        }
-    }
-}
-
-public struct StartStreamingSessionOutputResponse: Swift.Equatable {
-    /// A streaming session is a virtual workstation created using a particular launch profile.
-    public var session: NimbleClientTypes.StreamingSession?
-
-    public init(
-        session: NimbleClientTypes.StreamingSession? = nil
-    )
-    {
-        self.session = session
-    }
-}
-
-struct StartStreamingSessionOutputResponseBody: Swift.Equatable {
-    let session: NimbleClientTypes.StreamingSession?
-}
-
-extension StartStreamingSessionOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case session
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let sessionDecoded = try containerValues.decodeIfPresent(NimbleClientTypes.StreamingSession.self, forKey: .session)
-        session = sessionDecoded
     }
 }
 
@@ -7350,6 +7350,47 @@ extension StartStudioSSOConfigurationRepairInputBody: Swift.Decodable {
     }
 }
 
+extension StartStudioSSOConfigurationRepairOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: StartStudioSSOConfigurationRepairOutputBody = try responseDecoder.decode(responseBody: data)
+            self.studio = output.studio
+        } else {
+            self.studio = nil
+        }
+    }
+}
+
+public struct StartStudioSSOConfigurationRepairOutput: Swift.Equatable {
+    /// Information about a studio.
+    /// This member is required.
+    public var studio: NimbleClientTypes.Studio?
+
+    public init(
+        studio: NimbleClientTypes.Studio? = nil
+    )
+    {
+        self.studio = studio
+    }
+}
+
+struct StartStudioSSOConfigurationRepairOutputBody: Swift.Equatable {
+    let studio: NimbleClientTypes.Studio?
+}
+
+extension StartStudioSSOConfigurationRepairOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case studio
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let studioDecoded = try containerValues.decodeIfPresent(NimbleClientTypes.Studio.self, forKey: .studio)
+        studio = studioDecoded
+    }
+}
+
 enum StartStudioSSOConfigurationRepairOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -7364,47 +7405,6 @@ enum StartStudioSSOConfigurationRepairOutputError: ClientRuntime.HttpResponseErr
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension StartStudioSSOConfigurationRepairOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: StartStudioSSOConfigurationRepairOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.studio = output.studio
-        } else {
-            self.studio = nil
-        }
-    }
-}
-
-public struct StartStudioSSOConfigurationRepairOutputResponse: Swift.Equatable {
-    /// Information about a studio.
-    /// This member is required.
-    public var studio: NimbleClientTypes.Studio?
-
-    public init(
-        studio: NimbleClientTypes.Studio? = nil
-    )
-    {
-        self.studio = studio
-    }
-}
-
-struct StartStudioSSOConfigurationRepairOutputResponseBody: Swift.Equatable {
-    let studio: NimbleClientTypes.Studio?
-}
-
-extension StartStudioSSOConfigurationRepairOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case studio
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let studioDecoded = try containerValues.decodeIfPresent(NimbleClientTypes.Studio.self, forKey: .studio)
-        studio = studioDecoded
     }
 }
 
@@ -7485,6 +7485,46 @@ extension StopStreamingSessionInputBody: Swift.Decodable {
     }
 }
 
+extension StopStreamingSessionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: StopStreamingSessionOutputBody = try responseDecoder.decode(responseBody: data)
+            self.session = output.session
+        } else {
+            self.session = nil
+        }
+    }
+}
+
+public struct StopStreamingSessionOutput: Swift.Equatable {
+    /// A streaming session is a virtual workstation created using a particular launch profile.
+    public var session: NimbleClientTypes.StreamingSession?
+
+    public init(
+        session: NimbleClientTypes.StreamingSession? = nil
+    )
+    {
+        self.session = session
+    }
+}
+
+struct StopStreamingSessionOutputBody: Swift.Equatable {
+    let session: NimbleClientTypes.StreamingSession?
+}
+
+extension StopStreamingSessionOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case session
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sessionDecoded = try containerValues.decodeIfPresent(NimbleClientTypes.StreamingSession.self, forKey: .session)
+        session = sessionDecoded
+    }
+}
+
 enum StopStreamingSessionOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -7499,46 +7539,6 @@ enum StopStreamingSessionOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension StopStreamingSessionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: StopStreamingSessionOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.session = output.session
-        } else {
-            self.session = nil
-        }
-    }
-}
-
-public struct StopStreamingSessionOutputResponse: Swift.Equatable {
-    /// A streaming session is a virtual workstation created using a particular launch profile.
-    public var session: NimbleClientTypes.StreamingSession?
-
-    public init(
-        session: NimbleClientTypes.StreamingSession? = nil
-    )
-    {
-        self.session = session
-    }
-}
-
-struct StopStreamingSessionOutputResponseBody: Swift.Equatable {
-    let session: NimbleClientTypes.StreamingSession?
-}
-
-extension StopStreamingSessionOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case session
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let sessionDecoded = try containerValues.decodeIfPresent(NimbleClientTypes.StreamingSession.self, forKey: .session)
-        session = sessionDecoded
     }
 }
 
@@ -10609,6 +10609,16 @@ extension TagResourceInputBody: Swift.Decodable {
     }
 }
 
+extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct TagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -10624,16 +10634,6 @@ enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct TagResourceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension ThrottlingException {
@@ -10774,6 +10774,16 @@ extension UntagResourceInputBody: Swift.Decodable {
     }
 }
 
+extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UntagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -10789,16 +10799,6 @@ enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UntagResourceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension UpdateLaunchProfileInput: Swift.CustomDebugStringConvertible {
@@ -11041,6 +11041,46 @@ extension UpdateLaunchProfileMemberInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateLaunchProfileMemberOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateLaunchProfileMemberOutputBody = try responseDecoder.decode(responseBody: data)
+            self.member = output.member
+        } else {
+            self.member = nil
+        }
+    }
+}
+
+public struct UpdateLaunchProfileMemberOutput: Swift.Equatable {
+    /// The updated member.
+    public var member: NimbleClientTypes.LaunchProfileMembership?
+
+    public init(
+        member: NimbleClientTypes.LaunchProfileMembership? = nil
+    )
+    {
+        self.member = member
+    }
+}
+
+struct UpdateLaunchProfileMemberOutputBody: Swift.Equatable {
+    let member: NimbleClientTypes.LaunchProfileMembership?
+}
+
+extension UpdateLaunchProfileMemberOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case member
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let memberDecoded = try containerValues.decodeIfPresent(NimbleClientTypes.LaunchProfileMembership.self, forKey: .member)
+        member = memberDecoded
+    }
+}
+
 enum UpdateLaunchProfileMemberOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -11058,43 +11098,43 @@ enum UpdateLaunchProfileMemberOutputError: ClientRuntime.HttpResponseErrorBindin
     }
 }
 
-extension UpdateLaunchProfileMemberOutputResponse: ClientRuntime.HttpResponseBinding {
+extension UpdateLaunchProfileOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: UpdateLaunchProfileMemberOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.member = output.member
+            let output: UpdateLaunchProfileOutputBody = try responseDecoder.decode(responseBody: data)
+            self.launchProfile = output.launchProfile
         } else {
-            self.member = nil
+            self.launchProfile = nil
         }
     }
 }
 
-public struct UpdateLaunchProfileMemberOutputResponse: Swift.Equatable {
-    /// The updated member.
-    public var member: NimbleClientTypes.LaunchProfileMembership?
+public struct UpdateLaunchProfileOutput: Swift.Equatable {
+    /// The launch profile.
+    public var launchProfile: NimbleClientTypes.LaunchProfile?
 
     public init(
-        member: NimbleClientTypes.LaunchProfileMembership? = nil
+        launchProfile: NimbleClientTypes.LaunchProfile? = nil
     )
     {
-        self.member = member
+        self.launchProfile = launchProfile
     }
 }
 
-struct UpdateLaunchProfileMemberOutputResponseBody: Swift.Equatable {
-    let member: NimbleClientTypes.LaunchProfileMembership?
+struct UpdateLaunchProfileOutputBody: Swift.Equatable {
+    let launchProfile: NimbleClientTypes.LaunchProfile?
 }
 
-extension UpdateLaunchProfileMemberOutputResponseBody: Swift.Decodable {
+extension UpdateLaunchProfileOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case member
+        case launchProfile
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let memberDecoded = try containerValues.decodeIfPresent(NimbleClientTypes.LaunchProfileMembership.self, forKey: .member)
-        member = memberDecoded
+        let launchProfileDecoded = try containerValues.decodeIfPresent(NimbleClientTypes.LaunchProfile.self, forKey: .launchProfile)
+        launchProfile = launchProfileDecoded
     }
 }
 
@@ -11112,46 +11152,6 @@ enum UpdateLaunchProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension UpdateLaunchProfileOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: UpdateLaunchProfileOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.launchProfile = output.launchProfile
-        } else {
-            self.launchProfile = nil
-        }
-    }
-}
-
-public struct UpdateLaunchProfileOutputResponse: Swift.Equatable {
-    /// The launch profile.
-    public var launchProfile: NimbleClientTypes.LaunchProfile?
-
-    public init(
-        launchProfile: NimbleClientTypes.LaunchProfile? = nil
-    )
-    {
-        self.launchProfile = launchProfile
-    }
-}
-
-struct UpdateLaunchProfileOutputResponseBody: Swift.Equatable {
-    let launchProfile: NimbleClientTypes.LaunchProfile?
-}
-
-extension UpdateLaunchProfileOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case launchProfile
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let launchProfileDecoded = try containerValues.decodeIfPresent(NimbleClientTypes.LaunchProfile.self, forKey: .launchProfile)
-        launchProfile = launchProfileDecoded
     }
 }
 
@@ -11249,6 +11249,46 @@ extension UpdateStreamingImageInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateStreamingImageOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateStreamingImageOutputBody = try responseDecoder.decode(responseBody: data)
+            self.streamingImage = output.streamingImage
+        } else {
+            self.streamingImage = nil
+        }
+    }
+}
+
+public struct UpdateStreamingImageOutput: Swift.Equatable {
+    /// Represents a streaming image resource. Streaming images are used by studio users to select which operating system and software they want to use in a Nimble Studio streaming session. Amazon provides a number of streaming images that include popular 3rd-party software. You can create your own streaming images using an Amazon EC2 machine image that you create for this purpose. You can also include software that your users require.
+    public var streamingImage: NimbleClientTypes.StreamingImage?
+
+    public init(
+        streamingImage: NimbleClientTypes.StreamingImage? = nil
+    )
+    {
+        self.streamingImage = streamingImage
+    }
+}
+
+struct UpdateStreamingImageOutputBody: Swift.Equatable {
+    let streamingImage: NimbleClientTypes.StreamingImage?
+}
+
+extension UpdateStreamingImageOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case streamingImage
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let streamingImageDecoded = try containerValues.decodeIfPresent(NimbleClientTypes.StreamingImage.self, forKey: .streamingImage)
+        streamingImage = streamingImageDecoded
+    }
+}
+
 enum UpdateStreamingImageOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -11263,46 +11303,6 @@ enum UpdateStreamingImageOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension UpdateStreamingImageOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: UpdateStreamingImageOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.streamingImage = output.streamingImage
-        } else {
-            self.streamingImage = nil
-        }
-    }
-}
-
-public struct UpdateStreamingImageOutputResponse: Swift.Equatable {
-    /// Represents a streaming image resource. Streaming images are used by studio users to select which operating system and software they want to use in a Nimble Studio streaming session. Amazon provides a number of streaming images that include popular 3rd-party software. You can create your own streaming images using an Amazon EC2 machine image that you create for this purpose. You can also include software that your users require.
-    public var streamingImage: NimbleClientTypes.StreamingImage?
-
-    public init(
-        streamingImage: NimbleClientTypes.StreamingImage? = nil
-    )
-    {
-        self.streamingImage = streamingImage
-    }
-}
-
-struct UpdateStreamingImageOutputResponseBody: Swift.Equatable {
-    let streamingImage: NimbleClientTypes.StreamingImage?
-}
-
-extension UpdateStreamingImageOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case streamingImage
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let streamingImageDecoded = try containerValues.decodeIfPresent(NimbleClientTypes.StreamingImage.self, forKey: .streamingImage)
-        streamingImage = streamingImageDecoded
     }
 }
 
@@ -11532,6 +11532,46 @@ extension UpdateStudioComponentInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateStudioComponentOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateStudioComponentOutputBody = try responseDecoder.decode(responseBody: data)
+            self.studioComponent = output.studioComponent
+        } else {
+            self.studioComponent = nil
+        }
+    }
+}
+
+public struct UpdateStudioComponentOutput: Swift.Equatable {
+    /// Information about the studio component.
+    public var studioComponent: NimbleClientTypes.StudioComponent?
+
+    public init(
+        studioComponent: NimbleClientTypes.StudioComponent? = nil
+    )
+    {
+        self.studioComponent = studioComponent
+    }
+}
+
+struct UpdateStudioComponentOutputBody: Swift.Equatable {
+    let studioComponent: NimbleClientTypes.StudioComponent?
+}
+
+extension UpdateStudioComponentOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case studioComponent
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let studioComponentDecoded = try containerValues.decodeIfPresent(NimbleClientTypes.StudioComponent.self, forKey: .studioComponent)
+        studioComponent = studioComponentDecoded
+    }
+}
+
 enum UpdateStudioComponentOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -11546,46 +11586,6 @@ enum UpdateStudioComponentOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension UpdateStudioComponentOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: UpdateStudioComponentOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.studioComponent = output.studioComponent
-        } else {
-            self.studioComponent = nil
-        }
-    }
-}
-
-public struct UpdateStudioComponentOutputResponse: Swift.Equatable {
-    /// Information about the studio component.
-    public var studioComponent: NimbleClientTypes.StudioComponent?
-
-    public init(
-        studioComponent: NimbleClientTypes.StudioComponent? = nil
-    )
-    {
-        self.studioComponent = studioComponent
-    }
-}
-
-struct UpdateStudioComponentOutputResponseBody: Swift.Equatable {
-    let studioComponent: NimbleClientTypes.StudioComponent?
-}
-
-extension UpdateStudioComponentOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case studioComponent
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let studioComponentDecoded = try containerValues.decodeIfPresent(NimbleClientTypes.StudioComponent.self, forKey: .studioComponent)
-        studioComponent = studioComponentDecoded
     }
 }
 
@@ -11687,6 +11687,47 @@ extension UpdateStudioInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateStudioOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateStudioOutputBody = try responseDecoder.decode(responseBody: data)
+            self.studio = output.studio
+        } else {
+            self.studio = nil
+        }
+    }
+}
+
+public struct UpdateStudioOutput: Swift.Equatable {
+    /// Information about a studio.
+    /// This member is required.
+    public var studio: NimbleClientTypes.Studio?
+
+    public init(
+        studio: NimbleClientTypes.Studio? = nil
+    )
+    {
+        self.studio = studio
+    }
+}
+
+struct UpdateStudioOutputBody: Swift.Equatable {
+    let studio: NimbleClientTypes.Studio?
+}
+
+extension UpdateStudioOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case studio
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let studioDecoded = try containerValues.decodeIfPresent(NimbleClientTypes.Studio.self, forKey: .studio)
+        studio = studioDecoded
+    }
+}
+
 enum UpdateStudioOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -11701,47 +11742,6 @@ enum UpdateStudioOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension UpdateStudioOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: UpdateStudioOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.studio = output.studio
-        } else {
-            self.studio = nil
-        }
-    }
-}
-
-public struct UpdateStudioOutputResponse: Swift.Equatable {
-    /// Information about a studio.
-    /// This member is required.
-    public var studio: NimbleClientTypes.Studio?
-
-    public init(
-        studio: NimbleClientTypes.Studio? = nil
-    )
-    {
-        self.studio = studio
-    }
-}
-
-struct UpdateStudioOutputResponseBody: Swift.Equatable {
-    let studio: NimbleClientTypes.Studio?
-}
-
-extension UpdateStudioOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case studio
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let studioDecoded = try containerValues.decodeIfPresent(NimbleClientTypes.Studio.self, forKey: .studio)
-        studio = studioDecoded
     }
 }
 

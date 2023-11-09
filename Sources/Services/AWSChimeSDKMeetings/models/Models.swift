@@ -365,30 +365,11 @@ extension BatchCreateAttendeeInputBody: Swift.Decodable {
     }
 }
 
-enum BatchCreateAttendeeOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnprocessableEntityException": return try await UnprocessableEntityException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension BatchCreateAttendeeOutputResponse: ClientRuntime.HttpResponseBinding {
+extension BatchCreateAttendeeOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: BatchCreateAttendeeOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: BatchCreateAttendeeOutputBody = try responseDecoder.decode(responseBody: data)
             self.attendees = output.attendees
             self.errors = output.errors
         } else {
@@ -398,7 +379,7 @@ extension BatchCreateAttendeeOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchCreateAttendeeOutputResponse: Swift.Equatable {
+public struct BatchCreateAttendeeOutput: Swift.Equatable {
     /// The attendee information, including attendees' IDs and join tokens.
     public var attendees: [ChimeSDKMeetingsClientTypes.Attendee]?
     /// If the action fails for one or more of the attendees in the request, a list of the attendees is returned, along with error codes and error messages.
@@ -414,12 +395,12 @@ public struct BatchCreateAttendeeOutputResponse: Swift.Equatable {
     }
 }
 
-struct BatchCreateAttendeeOutputResponseBody: Swift.Equatable {
+struct BatchCreateAttendeeOutputBody: Swift.Equatable {
     let attendees: [ChimeSDKMeetingsClientTypes.Attendee]?
     let errors: [ChimeSDKMeetingsClientTypes.CreateAttendeeError]?
 }
 
-extension BatchCreateAttendeeOutputResponseBody: Swift.Decodable {
+extension BatchCreateAttendeeOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case attendees = "Attendees"
         case errors = "Errors"
@@ -449,6 +430,25 @@ extension BatchCreateAttendeeOutputResponseBody: Swift.Decodable {
             }
         }
         errors = errorsDecoded0
+    }
+}
+
+enum BatchCreateAttendeeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnprocessableEntityException": return try await UnprocessableEntityException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -543,6 +543,16 @@ extension BatchUpdateAttendeeCapabilitiesExceptInputBody: Swift.Decodable {
     }
 }
 
+extension BatchUpdateAttendeeCapabilitiesExceptOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct BatchUpdateAttendeeCapabilitiesExceptOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum BatchUpdateAttendeeCapabilitiesExceptOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -559,16 +569,6 @@ enum BatchUpdateAttendeeCapabilitiesExceptOutputError: ClientRuntime.HttpRespons
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension BatchUpdateAttendeeCapabilitiesExceptOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct BatchUpdateAttendeeCapabilitiesExceptOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension ConflictException {
@@ -784,6 +784,46 @@ extension CreateAttendeeInputBody: Swift.Decodable {
     }
 }
 
+extension CreateAttendeeOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateAttendeeOutputBody = try responseDecoder.decode(responseBody: data)
+            self.attendee = output.attendee
+        } else {
+            self.attendee = nil
+        }
+    }
+}
+
+public struct CreateAttendeeOutput: Swift.Equatable {
+    /// The attendee information, including attendee ID and join token.
+    public var attendee: ChimeSDKMeetingsClientTypes.Attendee?
+
+    public init(
+        attendee: ChimeSDKMeetingsClientTypes.Attendee? = nil
+    )
+    {
+        self.attendee = attendee
+    }
+}
+
+struct CreateAttendeeOutputBody: Swift.Equatable {
+    let attendee: ChimeSDKMeetingsClientTypes.Attendee?
+}
+
+extension CreateAttendeeOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case attendee = "Attendee"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let attendeeDecoded = try containerValues.decodeIfPresent(ChimeSDKMeetingsClientTypes.Attendee.self, forKey: .attendee)
+        attendee = attendeeDecoded
+    }
+}
+
 enum CreateAttendeeOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -800,46 +840,6 @@ enum CreateAttendeeOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "UnprocessableEntityException": return try await UnprocessableEntityException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension CreateAttendeeOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateAttendeeOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.attendee = output.attendee
-        } else {
-            self.attendee = nil
-        }
-    }
-}
-
-public struct CreateAttendeeOutputResponse: Swift.Equatable {
-    /// The attendee information, including attendee ID and join token.
-    public var attendee: ChimeSDKMeetingsClientTypes.Attendee?
-
-    public init(
-        attendee: ChimeSDKMeetingsClientTypes.Attendee? = nil
-    )
-    {
-        self.attendee = attendee
-    }
-}
-
-struct CreateAttendeeOutputResponseBody: Swift.Equatable {
-    let attendee: ChimeSDKMeetingsClientTypes.Attendee?
-}
-
-extension CreateAttendeeOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case attendee = "Attendee"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let attendeeDecoded = try containerValues.decodeIfPresent(ChimeSDKMeetingsClientTypes.Attendee.self, forKey: .attendee)
-        attendee = attendeeDecoded
     }
 }
 
@@ -1080,6 +1080,46 @@ extension CreateMeetingInputBody: Swift.Decodable {
     }
 }
 
+extension CreateMeetingOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateMeetingOutputBody = try responseDecoder.decode(responseBody: data)
+            self.meeting = output.meeting
+        } else {
+            self.meeting = nil
+        }
+    }
+}
+
+public struct CreateMeetingOutput: Swift.Equatable {
+    /// The meeting information, including the meeting ID and MediaPlacement.
+    public var meeting: ChimeSDKMeetingsClientTypes.Meeting?
+
+    public init(
+        meeting: ChimeSDKMeetingsClientTypes.Meeting? = nil
+    )
+    {
+        self.meeting = meeting
+    }
+}
+
+struct CreateMeetingOutputBody: Swift.Equatable {
+    let meeting: ChimeSDKMeetingsClientTypes.Meeting?
+}
+
+extension CreateMeetingOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case meeting = "Meeting"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let meetingDecoded = try containerValues.decodeIfPresent(ChimeSDKMeetingsClientTypes.Meeting.self, forKey: .meeting)
+        meeting = meetingDecoded
+    }
+}
+
 enum CreateMeetingOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -1095,46 +1135,6 @@ enum CreateMeetingOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension CreateMeetingOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateMeetingOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.meeting = output.meeting
-        } else {
-            self.meeting = nil
-        }
-    }
-}
-
-public struct CreateMeetingOutputResponse: Swift.Equatable {
-    /// The meeting information, including the meeting ID and MediaPlacement.
-    public var meeting: ChimeSDKMeetingsClientTypes.Meeting?
-
-    public init(
-        meeting: ChimeSDKMeetingsClientTypes.Meeting? = nil
-    )
-    {
-        self.meeting = meeting
-    }
-}
-
-struct CreateMeetingOutputResponseBody: Swift.Equatable {
-    let meeting: ChimeSDKMeetingsClientTypes.Meeting?
-}
-
-extension CreateMeetingOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case meeting = "Meeting"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let meetingDecoded = try containerValues.decodeIfPresent(ChimeSDKMeetingsClientTypes.Meeting.self, forKey: .meeting)
-        meeting = meetingDecoded
     }
 }
 
@@ -1348,29 +1348,11 @@ extension CreateMeetingWithAttendeesInputBody: Swift.Decodable {
     }
 }
 
-enum CreateMeetingWithAttendeesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreateMeetingWithAttendeesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateMeetingWithAttendeesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateMeetingWithAttendeesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateMeetingWithAttendeesOutputBody = try responseDecoder.decode(responseBody: data)
             self.attendees = output.attendees
             self.errors = output.errors
             self.meeting = output.meeting
@@ -1382,7 +1364,7 @@ extension CreateMeetingWithAttendeesOutputResponse: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct CreateMeetingWithAttendeesOutputResponse: Swift.Equatable {
+public struct CreateMeetingWithAttendeesOutput: Swift.Equatable {
     /// The attendee information, including attendees' IDs and join tokens.
     public var attendees: [ChimeSDKMeetingsClientTypes.Attendee]?
     /// If the action fails for one or more of the attendees in the request, a list of the attendees is returned, along with error codes and error messages.
@@ -1402,13 +1384,13 @@ public struct CreateMeetingWithAttendeesOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateMeetingWithAttendeesOutputResponseBody: Swift.Equatable {
+struct CreateMeetingWithAttendeesOutputBody: Swift.Equatable {
     let meeting: ChimeSDKMeetingsClientTypes.Meeting?
     let attendees: [ChimeSDKMeetingsClientTypes.Attendee]?
     let errors: [ChimeSDKMeetingsClientTypes.CreateAttendeeError]?
 }
 
-extension CreateMeetingWithAttendeesOutputResponseBody: Swift.Decodable {
+extension CreateMeetingWithAttendeesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case attendees = "Attendees"
         case errors = "Errors"
@@ -1441,6 +1423,24 @@ extension CreateMeetingWithAttendeesOutputResponseBody: Swift.Decodable {
             }
         }
         errors = errorsDecoded0
+    }
+}
+
+enum CreateMeetingWithAttendeesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1483,6 +1483,16 @@ extension DeleteAttendeeInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteAttendeeOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteAttendeeOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteAttendeeOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -1498,16 +1508,6 @@ enum DeleteAttendeeOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteAttendeeOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteAttendeeOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteMeetingInput: ClientRuntime.URLPathProvider {
@@ -1541,6 +1541,16 @@ extension DeleteMeetingInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteMeetingOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteMeetingOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteMeetingOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -1556,16 +1566,6 @@ enum DeleteMeetingOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteMeetingOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteMeetingOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension ChimeSDKMeetingsClientTypes.EngineTranscribeMedicalSettings: Swift.Codable {
@@ -1954,6 +1954,46 @@ extension GetAttendeeInputBody: Swift.Decodable {
     }
 }
 
+extension GetAttendeeOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetAttendeeOutputBody = try responseDecoder.decode(responseBody: data)
+            self.attendee = output.attendee
+        } else {
+            self.attendee = nil
+        }
+    }
+}
+
+public struct GetAttendeeOutput: Swift.Equatable {
+    /// The Amazon Chime SDK attendee information.
+    public var attendee: ChimeSDKMeetingsClientTypes.Attendee?
+
+    public init(
+        attendee: ChimeSDKMeetingsClientTypes.Attendee? = nil
+    )
+    {
+        self.attendee = attendee
+    }
+}
+
+struct GetAttendeeOutputBody: Swift.Equatable {
+    let attendee: ChimeSDKMeetingsClientTypes.Attendee?
+}
+
+extension GetAttendeeOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case attendee = "Attendee"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let attendeeDecoded = try containerValues.decodeIfPresent(ChimeSDKMeetingsClientTypes.Attendee.self, forKey: .attendee)
+        attendee = attendeeDecoded
+    }
+}
+
 enum GetAttendeeOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -1968,46 +2008,6 @@ enum GetAttendeeOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetAttendeeOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetAttendeeOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.attendee = output.attendee
-        } else {
-            self.attendee = nil
-        }
-    }
-}
-
-public struct GetAttendeeOutputResponse: Swift.Equatable {
-    /// The Amazon Chime SDK attendee information.
-    public var attendee: ChimeSDKMeetingsClientTypes.Attendee?
-
-    public init(
-        attendee: ChimeSDKMeetingsClientTypes.Attendee? = nil
-    )
-    {
-        self.attendee = attendee
-    }
-}
-
-struct GetAttendeeOutputResponseBody: Swift.Equatable {
-    let attendee: ChimeSDKMeetingsClientTypes.Attendee?
-}
-
-extension GetAttendeeOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case attendee = "Attendee"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let attendeeDecoded = try containerValues.decodeIfPresent(ChimeSDKMeetingsClientTypes.Attendee.self, forKey: .attendee)
-        attendee = attendeeDecoded
     }
 }
 
@@ -2042,6 +2042,46 @@ extension GetMeetingInputBody: Swift.Decodable {
     }
 }
 
+extension GetMeetingOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetMeetingOutputBody = try responseDecoder.decode(responseBody: data)
+            self.meeting = output.meeting
+        } else {
+            self.meeting = nil
+        }
+    }
+}
+
+public struct GetMeetingOutput: Swift.Equatable {
+    /// The Amazon Chime SDK meeting information.
+    public var meeting: ChimeSDKMeetingsClientTypes.Meeting?
+
+    public init(
+        meeting: ChimeSDKMeetingsClientTypes.Meeting? = nil
+    )
+    {
+        self.meeting = meeting
+    }
+}
+
+struct GetMeetingOutputBody: Swift.Equatable {
+    let meeting: ChimeSDKMeetingsClientTypes.Meeting?
+}
+
+extension GetMeetingOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case meeting = "Meeting"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let meetingDecoded = try containerValues.decodeIfPresent(ChimeSDKMeetingsClientTypes.Meeting.self, forKey: .meeting)
+        meeting = meetingDecoded
+    }
+}
+
 enum GetMeetingOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -2056,46 +2096,6 @@ enum GetMeetingOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetMeetingOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetMeetingOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.meeting = output.meeting
-        } else {
-            self.meeting = nil
-        }
-    }
-}
-
-public struct GetMeetingOutputResponse: Swift.Equatable {
-    /// The Amazon Chime SDK meeting information.
-    public var meeting: ChimeSDKMeetingsClientTypes.Meeting?
-
-    public init(
-        meeting: ChimeSDKMeetingsClientTypes.Meeting? = nil
-    )
-    {
-        self.meeting = meeting
-    }
-}
-
-struct GetMeetingOutputResponseBody: Swift.Equatable {
-    let meeting: ChimeSDKMeetingsClientTypes.Meeting?
-}
-
-extension GetMeetingOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case meeting = "Meeting"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let meetingDecoded = try containerValues.decodeIfPresent(ChimeSDKMeetingsClientTypes.Meeting.self, forKey: .meeting)
-        meeting = meetingDecoded
     }
 }
 
@@ -2229,28 +2229,11 @@ extension ListAttendeesInputBody: Swift.Decodable {
     }
 }
 
-enum ListAttendeesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListAttendeesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListAttendeesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListAttendeesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListAttendeesOutputBody = try responseDecoder.decode(responseBody: data)
             self.attendees = output.attendees
             self.nextToken = output.nextToken
         } else {
@@ -2260,7 +2243,7 @@ extension ListAttendeesOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAttendeesOutputResponse: Swift.Equatable {
+public struct ListAttendeesOutput: Swift.Equatable {
     /// The Amazon Chime SDK attendee information.
     public var attendees: [ChimeSDKMeetingsClientTypes.Attendee]?
     /// The token to use to retrieve the next page of results.
@@ -2276,12 +2259,12 @@ public struct ListAttendeesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListAttendeesOutputResponseBody: Swift.Equatable {
+struct ListAttendeesOutputBody: Swift.Equatable {
     let attendees: [ChimeSDKMeetingsClientTypes.Attendee]?
     let nextToken: Swift.String?
 }
 
-extension ListAttendeesOutputResponseBody: Swift.Decodable {
+extension ListAttendeesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case attendees = "Attendees"
         case nextToken = "NextToken"
@@ -2302,6 +2285,23 @@ extension ListAttendeesOutputResponseBody: Swift.Decodable {
         attendees = attendeesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListAttendeesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2348,29 +2348,11 @@ extension ListTagsForResourceInputBody: Swift.Decodable {
     }
 }
 
-enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListTagsForResourceOutputBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
         } else {
             self.tags = nil
@@ -2378,7 +2360,7 @@ extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutputResponse: Swift.Equatable {
+public struct ListTagsForResourceOutput: Swift.Equatable {
     /// The tags requested for the specified resource.
     public var tags: [ChimeSDKMeetingsClientTypes.Tag]?
 
@@ -2390,11 +2372,11 @@ public struct ListTagsForResourceOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputResponseBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody: Swift.Equatable {
     let tags: [ChimeSDKMeetingsClientTypes.Tag]?
 }
 
-extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
+extension ListTagsForResourceOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case tags = "Tags"
     }
@@ -2412,6 +2394,24 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+    }
+}
+
+enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3198,6 +3198,16 @@ extension StartMeetingTranscriptionInputBody: Swift.Decodable {
     }
 }
 
+extension StartMeetingTranscriptionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct StartMeetingTranscriptionOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum StartMeetingTranscriptionOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -3215,16 +3225,6 @@ enum StartMeetingTranscriptionOutputError: ClientRuntime.HttpResponseErrorBindin
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension StartMeetingTranscriptionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct StartMeetingTranscriptionOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension StopMeetingTranscriptionInput: ClientRuntime.QueryItemProvider {
@@ -3268,6 +3268,16 @@ extension StopMeetingTranscriptionInputBody: Swift.Decodable {
     }
 }
 
+extension StopMeetingTranscriptionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct StopMeetingTranscriptionOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum StopMeetingTranscriptionOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -3284,16 +3294,6 @@ enum StopMeetingTranscriptionOutputError: ClientRuntime.HttpResponseErrorBinding
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension StopMeetingTranscriptionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct StopMeetingTranscriptionOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension ChimeSDKMeetingsClientTypes.Tag: Swift.Codable {
@@ -3426,6 +3426,16 @@ extension TagResourceInputBody: Swift.Decodable {
     }
 }
 
+extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct TagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -3443,16 +3453,6 @@ enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct TagResourceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension ThrottlingException {
@@ -4331,6 +4331,16 @@ extension UntagResourceInputBody: Swift.Decodable {
     }
 }
 
+extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UntagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -4347,16 +4357,6 @@ enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UntagResourceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension UpdateAttendeeCapabilitiesInput: Swift.Encodable {
@@ -4423,6 +4423,46 @@ extension UpdateAttendeeCapabilitiesInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateAttendeeCapabilitiesOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateAttendeeCapabilitiesOutputBody = try responseDecoder.decode(responseBody: data)
+            self.attendee = output.attendee
+        } else {
+            self.attendee = nil
+        }
+    }
+}
+
+public struct UpdateAttendeeCapabilitiesOutput: Swift.Equatable {
+    /// The updated attendee data.
+    public var attendee: ChimeSDKMeetingsClientTypes.Attendee?
+
+    public init(
+        attendee: ChimeSDKMeetingsClientTypes.Attendee? = nil
+    )
+    {
+        self.attendee = attendee
+    }
+}
+
+struct UpdateAttendeeCapabilitiesOutputBody: Swift.Equatable {
+    let attendee: ChimeSDKMeetingsClientTypes.Attendee?
+}
+
+extension UpdateAttendeeCapabilitiesOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case attendee = "Attendee"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let attendeeDecoded = try containerValues.decodeIfPresent(ChimeSDKMeetingsClientTypes.Attendee.self, forKey: .attendee)
+        attendee = attendeeDecoded
+    }
+}
+
 enum UpdateAttendeeCapabilitiesOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -4438,45 +4478,5 @@ enum UpdateAttendeeCapabilitiesOutputError: ClientRuntime.HttpResponseErrorBindi
             case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension UpdateAttendeeCapabilitiesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: UpdateAttendeeCapabilitiesOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.attendee = output.attendee
-        } else {
-            self.attendee = nil
-        }
-    }
-}
-
-public struct UpdateAttendeeCapabilitiesOutputResponse: Swift.Equatable {
-    /// The updated attendee data.
-    public var attendee: ChimeSDKMeetingsClientTypes.Attendee?
-
-    public init(
-        attendee: ChimeSDKMeetingsClientTypes.Attendee? = nil
-    )
-    {
-        self.attendee = attendee
-    }
-}
-
-struct UpdateAttendeeCapabilitiesOutputResponseBody: Swift.Equatable {
-    let attendee: ChimeSDKMeetingsClientTypes.Attendee?
-}
-
-extension UpdateAttendeeCapabilitiesOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case attendee = "Attendee"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let attendeeDecoded = try containerValues.decodeIfPresent(ChimeSDKMeetingsClientTypes.Attendee.self, forKey: .attendee)
-        attendee = attendeeDecoded
     }
 }

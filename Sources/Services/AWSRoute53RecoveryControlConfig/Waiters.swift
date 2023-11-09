@@ -4,9 +4,9 @@ import ClientRuntime
 
 extension Route53RecoveryControlConfigClientProtocol {
 
-    static func clusterCreatedWaiterConfig() throws -> WaiterConfiguration<DescribeClusterInput, DescribeClusterOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeClusterInput, DescribeClusterOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeClusterInput, result: Result<DescribeClusterOutputResponse, Error>) -> Bool in
+    static func clusterCreatedWaiterConfig() throws -> WaiterConfiguration<DescribeClusterInput, DescribeClusterOutput> {
+        let acceptors: [WaiterConfiguration<DescribeClusterInput, DescribeClusterOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeClusterInput, result: Result<DescribeClusterOutput, Error>) -> Bool in
                 // JMESPath expression: "Cluster.Status"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "DEPLOYED"
@@ -15,7 +15,7 @@ extension Route53RecoveryControlConfigClientProtocol {
                 let status = cluster?.status
                 return JMESUtils.compare(status, ==, "DEPLOYED")
             }),
-            .init(state: .retry, matcher: { (input: DescribeClusterInput, result: Result<DescribeClusterOutputResponse, Error>) -> Bool in
+            .init(state: .retry, matcher: { (input: DescribeClusterInput, result: Result<DescribeClusterOutput, Error>) -> Bool in
                 // JMESPath expression: "Cluster.Status"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "PENDING"
@@ -24,12 +24,12 @@ extension Route53RecoveryControlConfigClientProtocol {
                 let status = cluster?.status
                 return JMESUtils.compare(status, ==, "PENDING")
             }),
-            .init(state: .retry, matcher: { (input: DescribeClusterInput, result: Result<DescribeClusterOutputResponse, Error>) -> Bool in
+            .init(state: .retry, matcher: { (input: DescribeClusterInput, result: Result<DescribeClusterOutput, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
                 return (error as? ServiceError)?.typeName == "InternalServerException"
             }),
         ]
-        return try WaiterConfiguration<DescribeClusterInput, DescribeClusterOutputResponse>(acceptors: acceptors, minDelay: 5.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeClusterInput, DescribeClusterOutput>(acceptors: acceptors, minDelay: 5.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the ClusterCreated event on the describeCluster operation.
@@ -43,18 +43,18 @@ extension Route53RecoveryControlConfigClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilClusterCreated(options: WaiterOptions, input: DescribeClusterInput) async throws -> WaiterOutcome<DescribeClusterOutputResponse> {
+    public func waitUntilClusterCreated(options: WaiterOptions, input: DescribeClusterInput) async throws -> WaiterOutcome<DescribeClusterOutput> {
         let waiter = Waiter(config: try Self.clusterCreatedWaiterConfig(), operation: self.describeCluster(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func clusterDeletedWaiterConfig() throws -> WaiterConfiguration<DescribeClusterInput, DescribeClusterOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeClusterInput, DescribeClusterOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeClusterInput, result: Result<DescribeClusterOutputResponse, Error>) -> Bool in
+    static func clusterDeletedWaiterConfig() throws -> WaiterConfiguration<DescribeClusterInput, DescribeClusterOutput> {
+        let acceptors: [WaiterConfiguration<DescribeClusterInput, DescribeClusterOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeClusterInput, result: Result<DescribeClusterOutput, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
                 return (error as? ServiceError)?.typeName == "ResourceNotFoundException"
             }),
-            .init(state: .retry, matcher: { (input: DescribeClusterInput, result: Result<DescribeClusterOutputResponse, Error>) -> Bool in
+            .init(state: .retry, matcher: { (input: DescribeClusterInput, result: Result<DescribeClusterOutput, Error>) -> Bool in
                 // JMESPath expression: "Cluster.Status"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "PENDING_DELETION"
@@ -63,12 +63,12 @@ extension Route53RecoveryControlConfigClientProtocol {
                 let status = cluster?.status
                 return JMESUtils.compare(status, ==, "PENDING_DELETION")
             }),
-            .init(state: .retry, matcher: { (input: DescribeClusterInput, result: Result<DescribeClusterOutputResponse, Error>) -> Bool in
+            .init(state: .retry, matcher: { (input: DescribeClusterInput, result: Result<DescribeClusterOutput, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
                 return (error as? ServiceError)?.typeName == "InternalServerException"
             }),
         ]
-        return try WaiterConfiguration<DescribeClusterInput, DescribeClusterOutputResponse>(acceptors: acceptors, minDelay: 5.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeClusterInput, DescribeClusterOutput>(acceptors: acceptors, minDelay: 5.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the ClusterDeleted event on the describeCluster operation.
@@ -82,14 +82,14 @@ extension Route53RecoveryControlConfigClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilClusterDeleted(options: WaiterOptions, input: DescribeClusterInput) async throws -> WaiterOutcome<DescribeClusterOutputResponse> {
+    public func waitUntilClusterDeleted(options: WaiterOptions, input: DescribeClusterInput) async throws -> WaiterOutcome<DescribeClusterOutput> {
         let waiter = Waiter(config: try Self.clusterDeletedWaiterConfig(), operation: self.describeCluster(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func controlPanelCreatedWaiterConfig() throws -> WaiterConfiguration<DescribeControlPanelInput, DescribeControlPanelOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeControlPanelInput, DescribeControlPanelOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeControlPanelInput, result: Result<DescribeControlPanelOutputResponse, Error>) -> Bool in
+    static func controlPanelCreatedWaiterConfig() throws -> WaiterConfiguration<DescribeControlPanelInput, DescribeControlPanelOutput> {
+        let acceptors: [WaiterConfiguration<DescribeControlPanelInput, DescribeControlPanelOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeControlPanelInput, result: Result<DescribeControlPanelOutput, Error>) -> Bool in
                 // JMESPath expression: "ControlPanel.Status"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "DEPLOYED"
@@ -98,7 +98,7 @@ extension Route53RecoveryControlConfigClientProtocol {
                 let status = controlPanel?.status
                 return JMESUtils.compare(status, ==, "DEPLOYED")
             }),
-            .init(state: .retry, matcher: { (input: DescribeControlPanelInput, result: Result<DescribeControlPanelOutputResponse, Error>) -> Bool in
+            .init(state: .retry, matcher: { (input: DescribeControlPanelInput, result: Result<DescribeControlPanelOutput, Error>) -> Bool in
                 // JMESPath expression: "ControlPanel.Status"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "PENDING"
@@ -107,12 +107,12 @@ extension Route53RecoveryControlConfigClientProtocol {
                 let status = controlPanel?.status
                 return JMESUtils.compare(status, ==, "PENDING")
             }),
-            .init(state: .retry, matcher: { (input: DescribeControlPanelInput, result: Result<DescribeControlPanelOutputResponse, Error>) -> Bool in
+            .init(state: .retry, matcher: { (input: DescribeControlPanelInput, result: Result<DescribeControlPanelOutput, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
                 return (error as? ServiceError)?.typeName == "InternalServerException"
             }),
         ]
-        return try WaiterConfiguration<DescribeControlPanelInput, DescribeControlPanelOutputResponse>(acceptors: acceptors, minDelay: 5.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeControlPanelInput, DescribeControlPanelOutput>(acceptors: acceptors, minDelay: 5.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the ControlPanelCreated event on the describeControlPanel operation.
@@ -126,18 +126,18 @@ extension Route53RecoveryControlConfigClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilControlPanelCreated(options: WaiterOptions, input: DescribeControlPanelInput) async throws -> WaiterOutcome<DescribeControlPanelOutputResponse> {
+    public func waitUntilControlPanelCreated(options: WaiterOptions, input: DescribeControlPanelInput) async throws -> WaiterOutcome<DescribeControlPanelOutput> {
         let waiter = Waiter(config: try Self.controlPanelCreatedWaiterConfig(), operation: self.describeControlPanel(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func controlPanelDeletedWaiterConfig() throws -> WaiterConfiguration<DescribeControlPanelInput, DescribeControlPanelOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeControlPanelInput, DescribeControlPanelOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeControlPanelInput, result: Result<DescribeControlPanelOutputResponse, Error>) -> Bool in
+    static func controlPanelDeletedWaiterConfig() throws -> WaiterConfiguration<DescribeControlPanelInput, DescribeControlPanelOutput> {
+        let acceptors: [WaiterConfiguration<DescribeControlPanelInput, DescribeControlPanelOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeControlPanelInput, result: Result<DescribeControlPanelOutput, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
                 return (error as? ServiceError)?.typeName == "ResourceNotFoundException"
             }),
-            .init(state: .retry, matcher: { (input: DescribeControlPanelInput, result: Result<DescribeControlPanelOutputResponse, Error>) -> Bool in
+            .init(state: .retry, matcher: { (input: DescribeControlPanelInput, result: Result<DescribeControlPanelOutput, Error>) -> Bool in
                 // JMESPath expression: "ControlPanel.Status"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "PENDING_DELETION"
@@ -146,12 +146,12 @@ extension Route53RecoveryControlConfigClientProtocol {
                 let status = controlPanel?.status
                 return JMESUtils.compare(status, ==, "PENDING_DELETION")
             }),
-            .init(state: .retry, matcher: { (input: DescribeControlPanelInput, result: Result<DescribeControlPanelOutputResponse, Error>) -> Bool in
+            .init(state: .retry, matcher: { (input: DescribeControlPanelInput, result: Result<DescribeControlPanelOutput, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
                 return (error as? ServiceError)?.typeName == "InternalServerException"
             }),
         ]
-        return try WaiterConfiguration<DescribeControlPanelInput, DescribeControlPanelOutputResponse>(acceptors: acceptors, minDelay: 5.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeControlPanelInput, DescribeControlPanelOutput>(acceptors: acceptors, minDelay: 5.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the ControlPanelDeleted event on the describeControlPanel operation.
@@ -165,14 +165,14 @@ extension Route53RecoveryControlConfigClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilControlPanelDeleted(options: WaiterOptions, input: DescribeControlPanelInput) async throws -> WaiterOutcome<DescribeControlPanelOutputResponse> {
+    public func waitUntilControlPanelDeleted(options: WaiterOptions, input: DescribeControlPanelInput) async throws -> WaiterOutcome<DescribeControlPanelOutput> {
         let waiter = Waiter(config: try Self.controlPanelDeletedWaiterConfig(), operation: self.describeControlPanel(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func routingControlCreatedWaiterConfig() throws -> WaiterConfiguration<DescribeRoutingControlInput, DescribeRoutingControlOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeRoutingControlInput, DescribeRoutingControlOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeRoutingControlInput, result: Result<DescribeRoutingControlOutputResponse, Error>) -> Bool in
+    static func routingControlCreatedWaiterConfig() throws -> WaiterConfiguration<DescribeRoutingControlInput, DescribeRoutingControlOutput> {
+        let acceptors: [WaiterConfiguration<DescribeRoutingControlInput, DescribeRoutingControlOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeRoutingControlInput, result: Result<DescribeRoutingControlOutput, Error>) -> Bool in
                 // JMESPath expression: "RoutingControl.Status"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "DEPLOYED"
@@ -181,7 +181,7 @@ extension Route53RecoveryControlConfigClientProtocol {
                 let status = routingControl?.status
                 return JMESUtils.compare(status, ==, "DEPLOYED")
             }),
-            .init(state: .retry, matcher: { (input: DescribeRoutingControlInput, result: Result<DescribeRoutingControlOutputResponse, Error>) -> Bool in
+            .init(state: .retry, matcher: { (input: DescribeRoutingControlInput, result: Result<DescribeRoutingControlOutput, Error>) -> Bool in
                 // JMESPath expression: "RoutingControl.Status"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "PENDING"
@@ -190,12 +190,12 @@ extension Route53RecoveryControlConfigClientProtocol {
                 let status = routingControl?.status
                 return JMESUtils.compare(status, ==, "PENDING")
             }),
-            .init(state: .retry, matcher: { (input: DescribeRoutingControlInput, result: Result<DescribeRoutingControlOutputResponse, Error>) -> Bool in
+            .init(state: .retry, matcher: { (input: DescribeRoutingControlInput, result: Result<DescribeRoutingControlOutput, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
                 return (error as? ServiceError)?.typeName == "InternalServerException"
             }),
         ]
-        return try WaiterConfiguration<DescribeRoutingControlInput, DescribeRoutingControlOutputResponse>(acceptors: acceptors, minDelay: 5.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeRoutingControlInput, DescribeRoutingControlOutput>(acceptors: acceptors, minDelay: 5.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the RoutingControlCreated event on the describeRoutingControl operation.
@@ -209,18 +209,18 @@ extension Route53RecoveryControlConfigClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilRoutingControlCreated(options: WaiterOptions, input: DescribeRoutingControlInput) async throws -> WaiterOutcome<DescribeRoutingControlOutputResponse> {
+    public func waitUntilRoutingControlCreated(options: WaiterOptions, input: DescribeRoutingControlInput) async throws -> WaiterOutcome<DescribeRoutingControlOutput> {
         let waiter = Waiter(config: try Self.routingControlCreatedWaiterConfig(), operation: self.describeRoutingControl(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func routingControlDeletedWaiterConfig() throws -> WaiterConfiguration<DescribeRoutingControlInput, DescribeRoutingControlOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeRoutingControlInput, DescribeRoutingControlOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeRoutingControlInput, result: Result<DescribeRoutingControlOutputResponse, Error>) -> Bool in
+    static func routingControlDeletedWaiterConfig() throws -> WaiterConfiguration<DescribeRoutingControlInput, DescribeRoutingControlOutput> {
+        let acceptors: [WaiterConfiguration<DescribeRoutingControlInput, DescribeRoutingControlOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeRoutingControlInput, result: Result<DescribeRoutingControlOutput, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
                 return (error as? ServiceError)?.typeName == "ResourceNotFoundException"
             }),
-            .init(state: .retry, matcher: { (input: DescribeRoutingControlInput, result: Result<DescribeRoutingControlOutputResponse, Error>) -> Bool in
+            .init(state: .retry, matcher: { (input: DescribeRoutingControlInput, result: Result<DescribeRoutingControlOutput, Error>) -> Bool in
                 // JMESPath expression: "RoutingControl.Status"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "PENDING_DELETION"
@@ -229,12 +229,12 @@ extension Route53RecoveryControlConfigClientProtocol {
                 let status = routingControl?.status
                 return JMESUtils.compare(status, ==, "PENDING_DELETION")
             }),
-            .init(state: .retry, matcher: { (input: DescribeRoutingControlInput, result: Result<DescribeRoutingControlOutputResponse, Error>) -> Bool in
+            .init(state: .retry, matcher: { (input: DescribeRoutingControlInput, result: Result<DescribeRoutingControlOutput, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
                 return (error as? ServiceError)?.typeName == "InternalServerException"
             }),
         ]
-        return try WaiterConfiguration<DescribeRoutingControlInput, DescribeRoutingControlOutputResponse>(acceptors: acceptors, minDelay: 5.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeRoutingControlInput, DescribeRoutingControlOutput>(acceptors: acceptors, minDelay: 5.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the RoutingControlDeleted event on the describeRoutingControl operation.
@@ -248,7 +248,7 @@ extension Route53RecoveryControlConfigClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilRoutingControlDeleted(options: WaiterOptions, input: DescribeRoutingControlInput) async throws -> WaiterOutcome<DescribeRoutingControlOutputResponse> {
+    public func waitUntilRoutingControlDeleted(options: WaiterOptions, input: DescribeRoutingControlInput) async throws -> WaiterOutcome<DescribeRoutingControlOutput> {
         let waiter = Waiter(config: try Self.routingControlDeletedWaiterConfig(), operation: self.describeRoutingControl(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }

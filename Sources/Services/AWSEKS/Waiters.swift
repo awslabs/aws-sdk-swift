@@ -4,9 +4,9 @@ import ClientRuntime
 
 extension EKSClientProtocol {
 
-    static func addonActiveWaiterConfig() throws -> WaiterConfiguration<DescribeAddonInput, DescribeAddonOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeAddonInput, DescribeAddonOutputResponse>.Acceptor] = [
-            .init(state: .failure, matcher: { (input: DescribeAddonInput, result: Result<DescribeAddonOutputResponse, Error>) -> Bool in
+    static func addonActiveWaiterConfig() throws -> WaiterConfiguration<DescribeAddonInput, DescribeAddonOutput> {
+        let acceptors: [WaiterConfiguration<DescribeAddonInput, DescribeAddonOutput>.Acceptor] = [
+            .init(state: .failure, matcher: { (input: DescribeAddonInput, result: Result<DescribeAddonOutput, Error>) -> Bool in
                 // JMESPath expression: "addon.status"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "CREATE_FAILED"
@@ -15,7 +15,7 @@ extension EKSClientProtocol {
                 let status = addon?.status
                 return JMESUtils.compare(status, ==, "CREATE_FAILED")
             }),
-            .init(state: .failure, matcher: { (input: DescribeAddonInput, result: Result<DescribeAddonOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeAddonInput, result: Result<DescribeAddonOutput, Error>) -> Bool in
                 // JMESPath expression: "addon.status"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "DEGRADED"
@@ -24,7 +24,7 @@ extension EKSClientProtocol {
                 let status = addon?.status
                 return JMESUtils.compare(status, ==, "DEGRADED")
             }),
-            .init(state: .success, matcher: { (input: DescribeAddonInput, result: Result<DescribeAddonOutputResponse, Error>) -> Bool in
+            .init(state: .success, matcher: { (input: DescribeAddonInput, result: Result<DescribeAddonOutput, Error>) -> Bool in
                 // JMESPath expression: "addon.status"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "ACTIVE"
@@ -34,7 +34,7 @@ extension EKSClientProtocol {
                 return JMESUtils.compare(status, ==, "ACTIVE")
             }),
         ]
-        return try WaiterConfiguration<DescribeAddonInput, DescribeAddonOutputResponse>(acceptors: acceptors, minDelay: 10.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeAddonInput, DescribeAddonOutput>(acceptors: acceptors, minDelay: 10.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the AddonActive event on the describeAddon operation.
@@ -48,14 +48,14 @@ extension EKSClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilAddonActive(options: WaiterOptions, input: DescribeAddonInput) async throws -> WaiterOutcome<DescribeAddonOutputResponse> {
+    public func waitUntilAddonActive(options: WaiterOptions, input: DescribeAddonInput) async throws -> WaiterOutcome<DescribeAddonOutput> {
         let waiter = Waiter(config: try Self.addonActiveWaiterConfig(), operation: self.describeAddon(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func addonDeletedWaiterConfig() throws -> WaiterConfiguration<DescribeAddonInput, DescribeAddonOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeAddonInput, DescribeAddonOutputResponse>.Acceptor] = [
-            .init(state: .failure, matcher: { (input: DescribeAddonInput, result: Result<DescribeAddonOutputResponse, Error>) -> Bool in
+    static func addonDeletedWaiterConfig() throws -> WaiterConfiguration<DescribeAddonInput, DescribeAddonOutput> {
+        let acceptors: [WaiterConfiguration<DescribeAddonInput, DescribeAddonOutput>.Acceptor] = [
+            .init(state: .failure, matcher: { (input: DescribeAddonInput, result: Result<DescribeAddonOutput, Error>) -> Bool in
                 // JMESPath expression: "addon.status"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "DELETE_FAILED"
@@ -64,12 +64,12 @@ extension EKSClientProtocol {
                 let status = addon?.status
                 return JMESUtils.compare(status, ==, "DELETE_FAILED")
             }),
-            .init(state: .success, matcher: { (input: DescribeAddonInput, result: Result<DescribeAddonOutputResponse, Error>) -> Bool in
+            .init(state: .success, matcher: { (input: DescribeAddonInput, result: Result<DescribeAddonOutput, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
                 return (error as? ServiceError)?.typeName == "ResourceNotFoundException"
             }),
         ]
-        return try WaiterConfiguration<DescribeAddonInput, DescribeAddonOutputResponse>(acceptors: acceptors, minDelay: 10.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeAddonInput, DescribeAddonOutput>(acceptors: acceptors, minDelay: 10.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the AddonDeleted event on the describeAddon operation.
@@ -83,14 +83,14 @@ extension EKSClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilAddonDeleted(options: WaiterOptions, input: DescribeAddonInput) async throws -> WaiterOutcome<DescribeAddonOutputResponse> {
+    public func waitUntilAddonDeleted(options: WaiterOptions, input: DescribeAddonInput) async throws -> WaiterOutcome<DescribeAddonOutput> {
         let waiter = Waiter(config: try Self.addonDeletedWaiterConfig(), operation: self.describeAddon(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func clusterActiveWaiterConfig() throws -> WaiterConfiguration<DescribeClusterInput, DescribeClusterOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeClusterInput, DescribeClusterOutputResponse>.Acceptor] = [
-            .init(state: .failure, matcher: { (input: DescribeClusterInput, result: Result<DescribeClusterOutputResponse, Error>) -> Bool in
+    static func clusterActiveWaiterConfig() throws -> WaiterConfiguration<DescribeClusterInput, DescribeClusterOutput> {
+        let acceptors: [WaiterConfiguration<DescribeClusterInput, DescribeClusterOutput>.Acceptor] = [
+            .init(state: .failure, matcher: { (input: DescribeClusterInput, result: Result<DescribeClusterOutput, Error>) -> Bool in
                 // JMESPath expression: "cluster.status"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "DELETING"
@@ -99,7 +99,7 @@ extension EKSClientProtocol {
                 let status = cluster?.status
                 return JMESUtils.compare(status, ==, "DELETING")
             }),
-            .init(state: .failure, matcher: { (input: DescribeClusterInput, result: Result<DescribeClusterOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeClusterInput, result: Result<DescribeClusterOutput, Error>) -> Bool in
                 // JMESPath expression: "cluster.status"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "FAILED"
@@ -108,7 +108,7 @@ extension EKSClientProtocol {
                 let status = cluster?.status
                 return JMESUtils.compare(status, ==, "FAILED")
             }),
-            .init(state: .success, matcher: { (input: DescribeClusterInput, result: Result<DescribeClusterOutputResponse, Error>) -> Bool in
+            .init(state: .success, matcher: { (input: DescribeClusterInput, result: Result<DescribeClusterOutput, Error>) -> Bool in
                 // JMESPath expression: "cluster.status"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "ACTIVE"
@@ -118,7 +118,7 @@ extension EKSClientProtocol {
                 return JMESUtils.compare(status, ==, "ACTIVE")
             }),
         ]
-        return try WaiterConfiguration<DescribeClusterInput, DescribeClusterOutputResponse>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeClusterInput, DescribeClusterOutput>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the ClusterActive event on the describeCluster operation.
@@ -132,14 +132,14 @@ extension EKSClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilClusterActive(options: WaiterOptions, input: DescribeClusterInput) async throws -> WaiterOutcome<DescribeClusterOutputResponse> {
+    public func waitUntilClusterActive(options: WaiterOptions, input: DescribeClusterInput) async throws -> WaiterOutcome<DescribeClusterOutput> {
         let waiter = Waiter(config: try Self.clusterActiveWaiterConfig(), operation: self.describeCluster(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func clusterDeletedWaiterConfig() throws -> WaiterConfiguration<DescribeClusterInput, DescribeClusterOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeClusterInput, DescribeClusterOutputResponse>.Acceptor] = [
-            .init(state: .failure, matcher: { (input: DescribeClusterInput, result: Result<DescribeClusterOutputResponse, Error>) -> Bool in
+    static func clusterDeletedWaiterConfig() throws -> WaiterConfiguration<DescribeClusterInput, DescribeClusterOutput> {
+        let acceptors: [WaiterConfiguration<DescribeClusterInput, DescribeClusterOutput>.Acceptor] = [
+            .init(state: .failure, matcher: { (input: DescribeClusterInput, result: Result<DescribeClusterOutput, Error>) -> Bool in
                 // JMESPath expression: "cluster.status"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "ACTIVE"
@@ -148,7 +148,7 @@ extension EKSClientProtocol {
                 let status = cluster?.status
                 return JMESUtils.compare(status, ==, "ACTIVE")
             }),
-            .init(state: .failure, matcher: { (input: DescribeClusterInput, result: Result<DescribeClusterOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeClusterInput, result: Result<DescribeClusterOutput, Error>) -> Bool in
                 // JMESPath expression: "cluster.status"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "CREATING"
@@ -157,7 +157,7 @@ extension EKSClientProtocol {
                 let status = cluster?.status
                 return JMESUtils.compare(status, ==, "CREATING")
             }),
-            .init(state: .failure, matcher: { (input: DescribeClusterInput, result: Result<DescribeClusterOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeClusterInput, result: Result<DescribeClusterOutput, Error>) -> Bool in
                 // JMESPath expression: "cluster.status"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "PENDING"
@@ -166,12 +166,12 @@ extension EKSClientProtocol {
                 let status = cluster?.status
                 return JMESUtils.compare(status, ==, "PENDING")
             }),
-            .init(state: .success, matcher: { (input: DescribeClusterInput, result: Result<DescribeClusterOutputResponse, Error>) -> Bool in
+            .init(state: .success, matcher: { (input: DescribeClusterInput, result: Result<DescribeClusterOutput, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
                 return (error as? ServiceError)?.typeName == "ResourceNotFoundException"
             }),
         ]
-        return try WaiterConfiguration<DescribeClusterInput, DescribeClusterOutputResponse>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeClusterInput, DescribeClusterOutput>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the ClusterDeleted event on the describeCluster operation.
@@ -185,14 +185,14 @@ extension EKSClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilClusterDeleted(options: WaiterOptions, input: DescribeClusterInput) async throws -> WaiterOutcome<DescribeClusterOutputResponse> {
+    public func waitUntilClusterDeleted(options: WaiterOptions, input: DescribeClusterInput) async throws -> WaiterOutcome<DescribeClusterOutput> {
         let waiter = Waiter(config: try Self.clusterDeletedWaiterConfig(), operation: self.describeCluster(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func fargateProfileActiveWaiterConfig() throws -> WaiterConfiguration<DescribeFargateProfileInput, DescribeFargateProfileOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeFargateProfileInput, DescribeFargateProfileOutputResponse>.Acceptor] = [
-            .init(state: .failure, matcher: { (input: DescribeFargateProfileInput, result: Result<DescribeFargateProfileOutputResponse, Error>) -> Bool in
+    static func fargateProfileActiveWaiterConfig() throws -> WaiterConfiguration<DescribeFargateProfileInput, DescribeFargateProfileOutput> {
+        let acceptors: [WaiterConfiguration<DescribeFargateProfileInput, DescribeFargateProfileOutput>.Acceptor] = [
+            .init(state: .failure, matcher: { (input: DescribeFargateProfileInput, result: Result<DescribeFargateProfileOutput, Error>) -> Bool in
                 // JMESPath expression: "fargateProfile.status"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "CREATE_FAILED"
@@ -201,7 +201,7 @@ extension EKSClientProtocol {
                 let status = fargateProfile?.status
                 return JMESUtils.compare(status, ==, "CREATE_FAILED")
             }),
-            .init(state: .success, matcher: { (input: DescribeFargateProfileInput, result: Result<DescribeFargateProfileOutputResponse, Error>) -> Bool in
+            .init(state: .success, matcher: { (input: DescribeFargateProfileInput, result: Result<DescribeFargateProfileOutput, Error>) -> Bool in
                 // JMESPath expression: "fargateProfile.status"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "ACTIVE"
@@ -211,7 +211,7 @@ extension EKSClientProtocol {
                 return JMESUtils.compare(status, ==, "ACTIVE")
             }),
         ]
-        return try WaiterConfiguration<DescribeFargateProfileInput, DescribeFargateProfileOutputResponse>(acceptors: acceptors, minDelay: 10.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeFargateProfileInput, DescribeFargateProfileOutput>(acceptors: acceptors, minDelay: 10.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the FargateProfileActive event on the describeFargateProfile operation.
@@ -225,14 +225,14 @@ extension EKSClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilFargateProfileActive(options: WaiterOptions, input: DescribeFargateProfileInput) async throws -> WaiterOutcome<DescribeFargateProfileOutputResponse> {
+    public func waitUntilFargateProfileActive(options: WaiterOptions, input: DescribeFargateProfileInput) async throws -> WaiterOutcome<DescribeFargateProfileOutput> {
         let waiter = Waiter(config: try Self.fargateProfileActiveWaiterConfig(), operation: self.describeFargateProfile(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func fargateProfileDeletedWaiterConfig() throws -> WaiterConfiguration<DescribeFargateProfileInput, DescribeFargateProfileOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeFargateProfileInput, DescribeFargateProfileOutputResponse>.Acceptor] = [
-            .init(state: .failure, matcher: { (input: DescribeFargateProfileInput, result: Result<DescribeFargateProfileOutputResponse, Error>) -> Bool in
+    static func fargateProfileDeletedWaiterConfig() throws -> WaiterConfiguration<DescribeFargateProfileInput, DescribeFargateProfileOutput> {
+        let acceptors: [WaiterConfiguration<DescribeFargateProfileInput, DescribeFargateProfileOutput>.Acceptor] = [
+            .init(state: .failure, matcher: { (input: DescribeFargateProfileInput, result: Result<DescribeFargateProfileOutput, Error>) -> Bool in
                 // JMESPath expression: "fargateProfile.status"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "DELETE_FAILED"
@@ -241,12 +241,12 @@ extension EKSClientProtocol {
                 let status = fargateProfile?.status
                 return JMESUtils.compare(status, ==, "DELETE_FAILED")
             }),
-            .init(state: .success, matcher: { (input: DescribeFargateProfileInput, result: Result<DescribeFargateProfileOutputResponse, Error>) -> Bool in
+            .init(state: .success, matcher: { (input: DescribeFargateProfileInput, result: Result<DescribeFargateProfileOutput, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
                 return (error as? ServiceError)?.typeName == "ResourceNotFoundException"
             }),
         ]
-        return try WaiterConfiguration<DescribeFargateProfileInput, DescribeFargateProfileOutputResponse>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeFargateProfileInput, DescribeFargateProfileOutput>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the FargateProfileDeleted event on the describeFargateProfile operation.
@@ -260,14 +260,14 @@ extension EKSClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilFargateProfileDeleted(options: WaiterOptions, input: DescribeFargateProfileInput) async throws -> WaiterOutcome<DescribeFargateProfileOutputResponse> {
+    public func waitUntilFargateProfileDeleted(options: WaiterOptions, input: DescribeFargateProfileInput) async throws -> WaiterOutcome<DescribeFargateProfileOutput> {
         let waiter = Waiter(config: try Self.fargateProfileDeletedWaiterConfig(), operation: self.describeFargateProfile(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func nodegroupActiveWaiterConfig() throws -> WaiterConfiguration<DescribeNodegroupInput, DescribeNodegroupOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeNodegroupInput, DescribeNodegroupOutputResponse>.Acceptor] = [
-            .init(state: .failure, matcher: { (input: DescribeNodegroupInput, result: Result<DescribeNodegroupOutputResponse, Error>) -> Bool in
+    static func nodegroupActiveWaiterConfig() throws -> WaiterConfiguration<DescribeNodegroupInput, DescribeNodegroupOutput> {
+        let acceptors: [WaiterConfiguration<DescribeNodegroupInput, DescribeNodegroupOutput>.Acceptor] = [
+            .init(state: .failure, matcher: { (input: DescribeNodegroupInput, result: Result<DescribeNodegroupOutput, Error>) -> Bool in
                 // JMESPath expression: "nodegroup.status"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "CREATE_FAILED"
@@ -276,7 +276,7 @@ extension EKSClientProtocol {
                 let status = nodegroup?.status
                 return JMESUtils.compare(status, ==, "CREATE_FAILED")
             }),
-            .init(state: .success, matcher: { (input: DescribeNodegroupInput, result: Result<DescribeNodegroupOutputResponse, Error>) -> Bool in
+            .init(state: .success, matcher: { (input: DescribeNodegroupInput, result: Result<DescribeNodegroupOutput, Error>) -> Bool in
                 // JMESPath expression: "nodegroup.status"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "ACTIVE"
@@ -286,7 +286,7 @@ extension EKSClientProtocol {
                 return JMESUtils.compare(status, ==, "ACTIVE")
             }),
         ]
-        return try WaiterConfiguration<DescribeNodegroupInput, DescribeNodegroupOutputResponse>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeNodegroupInput, DescribeNodegroupOutput>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the NodegroupActive event on the describeNodegroup operation.
@@ -300,14 +300,14 @@ extension EKSClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilNodegroupActive(options: WaiterOptions, input: DescribeNodegroupInput) async throws -> WaiterOutcome<DescribeNodegroupOutputResponse> {
+    public func waitUntilNodegroupActive(options: WaiterOptions, input: DescribeNodegroupInput) async throws -> WaiterOutcome<DescribeNodegroupOutput> {
         let waiter = Waiter(config: try Self.nodegroupActiveWaiterConfig(), operation: self.describeNodegroup(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func nodegroupDeletedWaiterConfig() throws -> WaiterConfiguration<DescribeNodegroupInput, DescribeNodegroupOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeNodegroupInput, DescribeNodegroupOutputResponse>.Acceptor] = [
-            .init(state: .failure, matcher: { (input: DescribeNodegroupInput, result: Result<DescribeNodegroupOutputResponse, Error>) -> Bool in
+    static func nodegroupDeletedWaiterConfig() throws -> WaiterConfiguration<DescribeNodegroupInput, DescribeNodegroupOutput> {
+        let acceptors: [WaiterConfiguration<DescribeNodegroupInput, DescribeNodegroupOutput>.Acceptor] = [
+            .init(state: .failure, matcher: { (input: DescribeNodegroupInput, result: Result<DescribeNodegroupOutput, Error>) -> Bool in
                 // JMESPath expression: "nodegroup.status"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "DELETE_FAILED"
@@ -316,12 +316,12 @@ extension EKSClientProtocol {
                 let status = nodegroup?.status
                 return JMESUtils.compare(status, ==, "DELETE_FAILED")
             }),
-            .init(state: .success, matcher: { (input: DescribeNodegroupInput, result: Result<DescribeNodegroupOutputResponse, Error>) -> Bool in
+            .init(state: .success, matcher: { (input: DescribeNodegroupInput, result: Result<DescribeNodegroupOutput, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
                 return (error as? ServiceError)?.typeName == "ResourceNotFoundException"
             }),
         ]
-        return try WaiterConfiguration<DescribeNodegroupInput, DescribeNodegroupOutputResponse>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeNodegroupInput, DescribeNodegroupOutput>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the NodegroupDeleted event on the describeNodegroup operation.
@@ -335,7 +335,7 @@ extension EKSClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilNodegroupDeleted(options: WaiterOptions, input: DescribeNodegroupInput) async throws -> WaiterOutcome<DescribeNodegroupOutputResponse> {
+    public func waitUntilNodegroupDeleted(options: WaiterOptions, input: DescribeNodegroupInput) async throws -> WaiterOutcome<DescribeNodegroupOutput> {
         let waiter = Waiter(config: try Self.nodegroupDeletedWaiterConfig(), operation: self.describeNodegroup(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }

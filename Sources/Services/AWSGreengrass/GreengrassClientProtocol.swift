@@ -8,988 +8,988 @@ public protocol GreengrassClientProtocol {
     ///
     /// - Parameter AssociateRoleToGroupInput : [no documentation found]
     ///
-    /// - Returns: `AssociateRoleToGroupOutputResponse` : [no documentation found]
+    /// - Returns: `AssociateRoleToGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
     /// - `InternalServerErrorException` : General error information.
-    func associateRoleToGroup(input: AssociateRoleToGroupInput) async throws -> AssociateRoleToGroupOutputResponse
+    func associateRoleToGroup(input: AssociateRoleToGroupInput) async throws -> AssociateRoleToGroupOutput
     /// Associates a role with your account. AWS IoT Greengrass will use the role to access your Lambda functions and AWS IoT resources. This is necessary for deployments to succeed. The role must have at least minimum permissions in the policy ''AWSGreengrassResourceAccessRolePolicy''.
     ///
     /// - Parameter AssociateServiceRoleToAccountInput : [no documentation found]
     ///
-    /// - Returns: `AssociateServiceRoleToAccountOutputResponse` : [no documentation found]
+    /// - Returns: `AssociateServiceRoleToAccountOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
     /// - `InternalServerErrorException` : General error information.
-    func associateServiceRoleToAccount(input: AssociateServiceRoleToAccountInput) async throws -> AssociateServiceRoleToAccountOutputResponse
+    func associateServiceRoleToAccount(input: AssociateServiceRoleToAccountInput) async throws -> AssociateServiceRoleToAccountOutput
     /// Creates a connector definition. You may provide the initial version of the connector definition now or use ''CreateConnectorDefinitionVersion'' at a later time.
     ///
     /// - Parameter CreateConnectorDefinitionInput : [no documentation found]
     ///
-    /// - Returns: `CreateConnectorDefinitionOutputResponse` : [no documentation found]
+    /// - Returns: `CreateConnectorDefinitionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    func createConnectorDefinition(input: CreateConnectorDefinitionInput) async throws -> CreateConnectorDefinitionOutputResponse
+    func createConnectorDefinition(input: CreateConnectorDefinitionInput) async throws -> CreateConnectorDefinitionOutput
     /// Creates a version of a connector definition which has already been defined.
     ///
     /// - Parameter CreateConnectorDefinitionVersionInput : [no documentation found]
     ///
-    /// - Returns: `CreateConnectorDefinitionVersionOutputResponse` : [no documentation found]
+    /// - Returns: `CreateConnectorDefinitionVersionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    func createConnectorDefinitionVersion(input: CreateConnectorDefinitionVersionInput) async throws -> CreateConnectorDefinitionVersionOutputResponse
+    func createConnectorDefinitionVersion(input: CreateConnectorDefinitionVersionInput) async throws -> CreateConnectorDefinitionVersionOutput
     /// Creates a core definition. You may provide the initial version of the core definition now or use ''CreateCoreDefinitionVersion'' at a later time. Greengrass groups must each contain exactly one Greengrass core.
     ///
     /// - Parameter CreateCoreDefinitionInput : Information needed to create a core definition.
     ///
-    /// - Returns: `CreateCoreDefinitionOutputResponse` : [no documentation found]
+    /// - Returns: `CreateCoreDefinitionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    func createCoreDefinition(input: CreateCoreDefinitionInput) async throws -> CreateCoreDefinitionOutputResponse
+    func createCoreDefinition(input: CreateCoreDefinitionInput) async throws -> CreateCoreDefinitionOutput
     /// Creates a version of a core definition that has already been defined. Greengrass groups must each contain exactly one Greengrass core.
     ///
     /// - Parameter CreateCoreDefinitionVersionInput : [no documentation found]
     ///
-    /// - Returns: `CreateCoreDefinitionVersionOutputResponse` : [no documentation found]
+    /// - Returns: `CreateCoreDefinitionVersionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    func createCoreDefinitionVersion(input: CreateCoreDefinitionVersionInput) async throws -> CreateCoreDefinitionVersionOutputResponse
+    func createCoreDefinitionVersion(input: CreateCoreDefinitionVersionInput) async throws -> CreateCoreDefinitionVersionOutput
     /// Creates a deployment. ''CreateDeployment'' requests are idempotent with respect to the ''X-Amzn-Client-Token'' token and the request parameters.
     ///
     /// - Parameter CreateDeploymentInput : [no documentation found]
     ///
-    /// - Returns: `CreateDeploymentOutputResponse` : [no documentation found]
+    /// - Returns: `CreateDeploymentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    func createDeployment(input: CreateDeploymentInput) async throws -> CreateDeploymentOutputResponse
+    func createDeployment(input: CreateDeploymentInput) async throws -> CreateDeploymentOutput
     /// Creates a device definition. You may provide the initial version of the device definition now or use ''CreateDeviceDefinitionVersion'' at a later time.
     ///
     /// - Parameter CreateDeviceDefinitionInput : [no documentation found]
     ///
-    /// - Returns: `CreateDeviceDefinitionOutputResponse` : [no documentation found]
+    /// - Returns: `CreateDeviceDefinitionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    func createDeviceDefinition(input: CreateDeviceDefinitionInput) async throws -> CreateDeviceDefinitionOutputResponse
+    func createDeviceDefinition(input: CreateDeviceDefinitionInput) async throws -> CreateDeviceDefinitionOutput
     /// Creates a version of a device definition that has already been defined.
     ///
     /// - Parameter CreateDeviceDefinitionVersionInput : [no documentation found]
     ///
-    /// - Returns: `CreateDeviceDefinitionVersionOutputResponse` : [no documentation found]
+    /// - Returns: `CreateDeviceDefinitionVersionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    func createDeviceDefinitionVersion(input: CreateDeviceDefinitionVersionInput) async throws -> CreateDeviceDefinitionVersionOutputResponse
+    func createDeviceDefinitionVersion(input: CreateDeviceDefinitionVersionInput) async throws -> CreateDeviceDefinitionVersionOutput
     /// Creates a Lambda function definition which contains a list of Lambda functions and their configurations to be used in a group. You can create an initial version of the definition by providing a list of Lambda functions and their configurations now, or use ''CreateFunctionDefinitionVersion'' later.
     ///
     /// - Parameter CreateFunctionDefinitionInput : [no documentation found]
     ///
-    /// - Returns: `CreateFunctionDefinitionOutputResponse` : [no documentation found]
+    /// - Returns: `CreateFunctionDefinitionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    func createFunctionDefinition(input: CreateFunctionDefinitionInput) async throws -> CreateFunctionDefinitionOutputResponse
+    func createFunctionDefinition(input: CreateFunctionDefinitionInput) async throws -> CreateFunctionDefinitionOutput
     /// Creates a version of a Lambda function definition that has already been defined.
     ///
     /// - Parameter CreateFunctionDefinitionVersionInput : Information needed to create a function definition version.
     ///
-    /// - Returns: `CreateFunctionDefinitionVersionOutputResponse` : [no documentation found]
+    /// - Returns: `CreateFunctionDefinitionVersionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    func createFunctionDefinitionVersion(input: CreateFunctionDefinitionVersionInput) async throws -> CreateFunctionDefinitionVersionOutputResponse
+    func createFunctionDefinitionVersion(input: CreateFunctionDefinitionVersionInput) async throws -> CreateFunctionDefinitionVersionOutput
     /// Creates a group. You may provide the initial version of the group or use ''CreateGroupVersion'' at a later time. Tip: You can use the ''gg_group_setup'' package (https://github.com/awslabs/aws-greengrass-group-setup) as a library or command-line application to create and deploy Greengrass groups.
     ///
     /// - Parameter CreateGroupInput : [no documentation found]
     ///
-    /// - Returns: `CreateGroupOutputResponse` : [no documentation found]
+    /// - Returns: `CreateGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    func createGroup(input: CreateGroupInput) async throws -> CreateGroupOutputResponse
+    func createGroup(input: CreateGroupInput) async throws -> CreateGroupOutput
     /// Creates a CA for the group. If a CA already exists, it will rotate the existing CA.
     ///
     /// - Parameter CreateGroupCertificateAuthorityInput : [no documentation found]
     ///
-    /// - Returns: `CreateGroupCertificateAuthorityOutputResponse` : [no documentation found]
+    /// - Returns: `CreateGroupCertificateAuthorityOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
     /// - `InternalServerErrorException` : General error information.
-    func createGroupCertificateAuthority(input: CreateGroupCertificateAuthorityInput) async throws -> CreateGroupCertificateAuthorityOutputResponse
+    func createGroupCertificateAuthority(input: CreateGroupCertificateAuthorityInput) async throws -> CreateGroupCertificateAuthorityOutput
     /// Creates a version of a group which has already been defined.
     ///
     /// - Parameter CreateGroupVersionInput : [no documentation found]
     ///
-    /// - Returns: `CreateGroupVersionOutputResponse` : [no documentation found]
+    /// - Returns: `CreateGroupVersionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    func createGroupVersion(input: CreateGroupVersionInput) async throws -> CreateGroupVersionOutputResponse
+    func createGroupVersion(input: CreateGroupVersionInput) async throws -> CreateGroupVersionOutput
     /// Creates a logger definition. You may provide the initial version of the logger definition now or use ''CreateLoggerDefinitionVersion'' at a later time.
     ///
     /// - Parameter CreateLoggerDefinitionInput : [no documentation found]
     ///
-    /// - Returns: `CreateLoggerDefinitionOutputResponse` : [no documentation found]
+    /// - Returns: `CreateLoggerDefinitionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    func createLoggerDefinition(input: CreateLoggerDefinitionInput) async throws -> CreateLoggerDefinitionOutputResponse
+    func createLoggerDefinition(input: CreateLoggerDefinitionInput) async throws -> CreateLoggerDefinitionOutput
     /// Creates a version of a logger definition that has already been defined.
     ///
     /// - Parameter CreateLoggerDefinitionVersionInput : [no documentation found]
     ///
-    /// - Returns: `CreateLoggerDefinitionVersionOutputResponse` : [no documentation found]
+    /// - Returns: `CreateLoggerDefinitionVersionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    func createLoggerDefinitionVersion(input: CreateLoggerDefinitionVersionInput) async throws -> CreateLoggerDefinitionVersionOutputResponse
+    func createLoggerDefinitionVersion(input: CreateLoggerDefinitionVersionInput) async throws -> CreateLoggerDefinitionVersionOutput
     /// Creates a resource definition which contains a list of resources to be used in a group. You can create an initial version of the definition by providing a list of resources now, or use ''CreateResourceDefinitionVersion'' later.
     ///
     /// - Parameter CreateResourceDefinitionInput : [no documentation found]
     ///
-    /// - Returns: `CreateResourceDefinitionOutputResponse` : [no documentation found]
+    /// - Returns: `CreateResourceDefinitionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    func createResourceDefinition(input: CreateResourceDefinitionInput) async throws -> CreateResourceDefinitionOutputResponse
+    func createResourceDefinition(input: CreateResourceDefinitionInput) async throws -> CreateResourceDefinitionOutput
     /// Creates a version of a resource definition that has already been defined.
     ///
     /// - Parameter CreateResourceDefinitionVersionInput : [no documentation found]
     ///
-    /// - Returns: `CreateResourceDefinitionVersionOutputResponse` : [no documentation found]
+    /// - Returns: `CreateResourceDefinitionVersionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    func createResourceDefinitionVersion(input: CreateResourceDefinitionVersionInput) async throws -> CreateResourceDefinitionVersionOutputResponse
+    func createResourceDefinitionVersion(input: CreateResourceDefinitionVersionInput) async throws -> CreateResourceDefinitionVersionOutput
     /// Creates a software update for a core or group of cores (specified as an IoT thing group.) Use this to update the OTA Agent as well as the Greengrass core software. It makes use of the IoT Jobs feature which provides additional commands to manage a Greengrass core software update job.
     ///
     /// - Parameter CreateSoftwareUpdateJobInput : [no documentation found]
     ///
-    /// - Returns: `CreateSoftwareUpdateJobOutputResponse` : [no documentation found]
+    /// - Returns: `CreateSoftwareUpdateJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
     /// - `InternalServerErrorException` : General error information.
-    func createSoftwareUpdateJob(input: CreateSoftwareUpdateJobInput) async throws -> CreateSoftwareUpdateJobOutputResponse
+    func createSoftwareUpdateJob(input: CreateSoftwareUpdateJobInput) async throws -> CreateSoftwareUpdateJobOutput
     /// Creates a subscription definition. You may provide the initial version of the subscription definition now or use ''CreateSubscriptionDefinitionVersion'' at a later time.
     ///
     /// - Parameter CreateSubscriptionDefinitionInput : [no documentation found]
     ///
-    /// - Returns: `CreateSubscriptionDefinitionOutputResponse` : [no documentation found]
+    /// - Returns: `CreateSubscriptionDefinitionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    func createSubscriptionDefinition(input: CreateSubscriptionDefinitionInput) async throws -> CreateSubscriptionDefinitionOutputResponse
+    func createSubscriptionDefinition(input: CreateSubscriptionDefinitionInput) async throws -> CreateSubscriptionDefinitionOutput
     /// Creates a version of a subscription definition which has already been defined.
     ///
     /// - Parameter CreateSubscriptionDefinitionVersionInput : [no documentation found]
     ///
-    /// - Returns: `CreateSubscriptionDefinitionVersionOutputResponse` : [no documentation found]
+    /// - Returns: `CreateSubscriptionDefinitionVersionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    func createSubscriptionDefinitionVersion(input: CreateSubscriptionDefinitionVersionInput) async throws -> CreateSubscriptionDefinitionVersionOutputResponse
+    func createSubscriptionDefinitionVersion(input: CreateSubscriptionDefinitionVersionInput) async throws -> CreateSubscriptionDefinitionVersionOutput
     /// Deletes a connector definition.
     ///
     /// - Parameter DeleteConnectorDefinitionInput : [no documentation found]
     ///
-    /// - Returns: `DeleteConnectorDefinitionOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteConnectorDefinitionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    func deleteConnectorDefinition(input: DeleteConnectorDefinitionInput) async throws -> DeleteConnectorDefinitionOutputResponse
+    func deleteConnectorDefinition(input: DeleteConnectorDefinitionInput) async throws -> DeleteConnectorDefinitionOutput
     /// Deletes a core definition.
     ///
     /// - Parameter DeleteCoreDefinitionInput : [no documentation found]
     ///
-    /// - Returns: `DeleteCoreDefinitionOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteCoreDefinitionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    func deleteCoreDefinition(input: DeleteCoreDefinitionInput) async throws -> DeleteCoreDefinitionOutputResponse
+    func deleteCoreDefinition(input: DeleteCoreDefinitionInput) async throws -> DeleteCoreDefinitionOutput
     /// Deletes a device definition.
     ///
     /// - Parameter DeleteDeviceDefinitionInput : [no documentation found]
     ///
-    /// - Returns: `DeleteDeviceDefinitionOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteDeviceDefinitionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    func deleteDeviceDefinition(input: DeleteDeviceDefinitionInput) async throws -> DeleteDeviceDefinitionOutputResponse
+    func deleteDeviceDefinition(input: DeleteDeviceDefinitionInput) async throws -> DeleteDeviceDefinitionOutput
     /// Deletes a Lambda function definition.
     ///
     /// - Parameter DeleteFunctionDefinitionInput : [no documentation found]
     ///
-    /// - Returns: `DeleteFunctionDefinitionOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteFunctionDefinitionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    func deleteFunctionDefinition(input: DeleteFunctionDefinitionInput) async throws -> DeleteFunctionDefinitionOutputResponse
+    func deleteFunctionDefinition(input: DeleteFunctionDefinitionInput) async throws -> DeleteFunctionDefinitionOutput
     /// Deletes a group.
     ///
     /// - Parameter DeleteGroupInput : [no documentation found]
     ///
-    /// - Returns: `DeleteGroupOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    func deleteGroup(input: DeleteGroupInput) async throws -> DeleteGroupOutputResponse
+    func deleteGroup(input: DeleteGroupInput) async throws -> DeleteGroupOutput
     /// Deletes a logger definition.
     ///
     /// - Parameter DeleteLoggerDefinitionInput : [no documentation found]
     ///
-    /// - Returns: `DeleteLoggerDefinitionOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteLoggerDefinitionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    func deleteLoggerDefinition(input: DeleteLoggerDefinitionInput) async throws -> DeleteLoggerDefinitionOutputResponse
+    func deleteLoggerDefinition(input: DeleteLoggerDefinitionInput) async throws -> DeleteLoggerDefinitionOutput
     /// Deletes a resource definition.
     ///
     /// - Parameter DeleteResourceDefinitionInput : [no documentation found]
     ///
-    /// - Returns: `DeleteResourceDefinitionOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteResourceDefinitionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    func deleteResourceDefinition(input: DeleteResourceDefinitionInput) async throws -> DeleteResourceDefinitionOutputResponse
+    func deleteResourceDefinition(input: DeleteResourceDefinitionInput) async throws -> DeleteResourceDefinitionOutput
     /// Deletes a subscription definition.
     ///
     /// - Parameter DeleteSubscriptionDefinitionInput : [no documentation found]
     ///
-    /// - Returns: `DeleteSubscriptionDefinitionOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteSubscriptionDefinitionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    func deleteSubscriptionDefinition(input: DeleteSubscriptionDefinitionInput) async throws -> DeleteSubscriptionDefinitionOutputResponse
+    func deleteSubscriptionDefinition(input: DeleteSubscriptionDefinitionInput) async throws -> DeleteSubscriptionDefinitionOutput
     /// Disassociates the role from a group.
     ///
     /// - Parameter DisassociateRoleFromGroupInput : [no documentation found]
     ///
-    /// - Returns: `DisassociateRoleFromGroupOutputResponse` : [no documentation found]
+    /// - Returns: `DisassociateRoleFromGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
     /// - `InternalServerErrorException` : General error information.
-    func disassociateRoleFromGroup(input: DisassociateRoleFromGroupInput) async throws -> DisassociateRoleFromGroupOutputResponse
+    func disassociateRoleFromGroup(input: DisassociateRoleFromGroupInput) async throws -> DisassociateRoleFromGroupOutput
     /// Disassociates the service role from your account. Without a service role, deployments will not work.
     ///
     /// - Parameter DisassociateServiceRoleFromAccountInput : [no documentation found]
     ///
-    /// - Returns: `DisassociateServiceRoleFromAccountOutputResponse` : [no documentation found]
+    /// - Returns: `DisassociateServiceRoleFromAccountOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerErrorException` : General error information.
-    func disassociateServiceRoleFromAccount(input: DisassociateServiceRoleFromAccountInput) async throws -> DisassociateServiceRoleFromAccountOutputResponse
+    func disassociateServiceRoleFromAccount(input: DisassociateServiceRoleFromAccountInput) async throws -> DisassociateServiceRoleFromAccountOutput
     /// Retrieves the role associated with a particular group.
     ///
     /// - Parameter GetAssociatedRoleInput : [no documentation found]
     ///
-    /// - Returns: `GetAssociatedRoleOutputResponse` : [no documentation found]
+    /// - Returns: `GetAssociatedRoleOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
     /// - `InternalServerErrorException` : General error information.
-    func getAssociatedRole(input: GetAssociatedRoleInput) async throws -> GetAssociatedRoleOutputResponse
+    func getAssociatedRole(input: GetAssociatedRoleInput) async throws -> GetAssociatedRoleOutput
     /// Returns the status of a bulk deployment.
     ///
     /// - Parameter GetBulkDeploymentStatusInput : [no documentation found]
     ///
-    /// - Returns: `GetBulkDeploymentStatusOutputResponse` : [no documentation found]
+    /// - Returns: `GetBulkDeploymentStatusOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    func getBulkDeploymentStatus(input: GetBulkDeploymentStatusInput) async throws -> GetBulkDeploymentStatusOutputResponse
+    func getBulkDeploymentStatus(input: GetBulkDeploymentStatusInput) async throws -> GetBulkDeploymentStatusOutput
     /// Retrieves the connectivity information for a core.
     ///
     /// - Parameter GetConnectivityInfoInput : [no documentation found]
     ///
-    /// - Returns: `GetConnectivityInfoOutputResponse` : [no documentation found]
+    /// - Returns: `GetConnectivityInfoOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
     /// - `InternalServerErrorException` : General error information.
-    func getConnectivityInfo(input: GetConnectivityInfoInput) async throws -> GetConnectivityInfoOutputResponse
+    func getConnectivityInfo(input: GetConnectivityInfoInput) async throws -> GetConnectivityInfoOutput
     /// Retrieves information about a connector definition.
     ///
     /// - Parameter GetConnectorDefinitionInput : [no documentation found]
     ///
-    /// - Returns: `GetConnectorDefinitionOutputResponse` : [no documentation found]
+    /// - Returns: `GetConnectorDefinitionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    func getConnectorDefinition(input: GetConnectorDefinitionInput) async throws -> GetConnectorDefinitionOutputResponse
+    func getConnectorDefinition(input: GetConnectorDefinitionInput) async throws -> GetConnectorDefinitionOutput
     /// Retrieves information about a connector definition version, including the connectors that the version contains. Connectors are prebuilt modules that interact with local infrastructure, device protocols, AWS, and other cloud services.
     ///
     /// - Parameter GetConnectorDefinitionVersionInput : [no documentation found]
     ///
-    /// - Returns: `GetConnectorDefinitionVersionOutputResponse` : [no documentation found]
+    /// - Returns: `GetConnectorDefinitionVersionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    func getConnectorDefinitionVersion(input: GetConnectorDefinitionVersionInput) async throws -> GetConnectorDefinitionVersionOutputResponse
+    func getConnectorDefinitionVersion(input: GetConnectorDefinitionVersionInput) async throws -> GetConnectorDefinitionVersionOutput
     /// Retrieves information about a core definition version.
     ///
     /// - Parameter GetCoreDefinitionInput : [no documentation found]
     ///
-    /// - Returns: `GetCoreDefinitionOutputResponse` : [no documentation found]
+    /// - Returns: `GetCoreDefinitionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    func getCoreDefinition(input: GetCoreDefinitionInput) async throws -> GetCoreDefinitionOutputResponse
+    func getCoreDefinition(input: GetCoreDefinitionInput) async throws -> GetCoreDefinitionOutput
     /// Retrieves information about a core definition version.
     ///
     /// - Parameter GetCoreDefinitionVersionInput : [no documentation found]
     ///
-    /// - Returns: `GetCoreDefinitionVersionOutputResponse` : [no documentation found]
+    /// - Returns: `GetCoreDefinitionVersionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    func getCoreDefinitionVersion(input: GetCoreDefinitionVersionInput) async throws -> GetCoreDefinitionVersionOutputResponse
+    func getCoreDefinitionVersion(input: GetCoreDefinitionVersionInput) async throws -> GetCoreDefinitionVersionOutput
     /// Returns the status of a deployment.
     ///
     /// - Parameter GetDeploymentStatusInput : [no documentation found]
     ///
-    /// - Returns: `GetDeploymentStatusOutputResponse` : [no documentation found]
+    /// - Returns: `GetDeploymentStatusOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    func getDeploymentStatus(input: GetDeploymentStatusInput) async throws -> GetDeploymentStatusOutputResponse
+    func getDeploymentStatus(input: GetDeploymentStatusInput) async throws -> GetDeploymentStatusOutput
     /// Retrieves information about a device definition.
     ///
     /// - Parameter GetDeviceDefinitionInput : [no documentation found]
     ///
-    /// - Returns: `GetDeviceDefinitionOutputResponse` : [no documentation found]
+    /// - Returns: `GetDeviceDefinitionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    func getDeviceDefinition(input: GetDeviceDefinitionInput) async throws -> GetDeviceDefinitionOutputResponse
+    func getDeviceDefinition(input: GetDeviceDefinitionInput) async throws -> GetDeviceDefinitionOutput
     /// Retrieves information about a device definition version.
     ///
     /// - Parameter GetDeviceDefinitionVersionInput : [no documentation found]
     ///
-    /// - Returns: `GetDeviceDefinitionVersionOutputResponse` : [no documentation found]
+    /// - Returns: `GetDeviceDefinitionVersionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    func getDeviceDefinitionVersion(input: GetDeviceDefinitionVersionInput) async throws -> GetDeviceDefinitionVersionOutputResponse
+    func getDeviceDefinitionVersion(input: GetDeviceDefinitionVersionInput) async throws -> GetDeviceDefinitionVersionOutput
     /// Retrieves information about a Lambda function definition, including its creation time and latest version.
     ///
     /// - Parameter GetFunctionDefinitionInput : [no documentation found]
     ///
-    /// - Returns: `GetFunctionDefinitionOutputResponse` : [no documentation found]
+    /// - Returns: `GetFunctionDefinitionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    func getFunctionDefinition(input: GetFunctionDefinitionInput) async throws -> GetFunctionDefinitionOutputResponse
+    func getFunctionDefinition(input: GetFunctionDefinitionInput) async throws -> GetFunctionDefinitionOutput
     /// Retrieves information about a Lambda function definition version, including which Lambda functions are included in the version and their configurations.
     ///
     /// - Parameter GetFunctionDefinitionVersionInput : [no documentation found]
     ///
-    /// - Returns: `GetFunctionDefinitionVersionOutputResponse` : [no documentation found]
+    /// - Returns: `GetFunctionDefinitionVersionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    func getFunctionDefinitionVersion(input: GetFunctionDefinitionVersionInput) async throws -> GetFunctionDefinitionVersionOutputResponse
+    func getFunctionDefinitionVersion(input: GetFunctionDefinitionVersionInput) async throws -> GetFunctionDefinitionVersionOutput
     /// Retrieves information about a group.
     ///
     /// - Parameter GetGroupInput : [no documentation found]
     ///
-    /// - Returns: `GetGroupOutputResponse` : [no documentation found]
+    /// - Returns: `GetGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    func getGroup(input: GetGroupInput) async throws -> GetGroupOutputResponse
+    func getGroup(input: GetGroupInput) async throws -> GetGroupOutput
     /// Retreives the CA associated with a group. Returns the public key of the CA.
     ///
     /// - Parameter GetGroupCertificateAuthorityInput : [no documentation found]
     ///
-    /// - Returns: `GetGroupCertificateAuthorityOutputResponse` : [no documentation found]
+    /// - Returns: `GetGroupCertificateAuthorityOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
     /// - `InternalServerErrorException` : General error information.
-    func getGroupCertificateAuthority(input: GetGroupCertificateAuthorityInput) async throws -> GetGroupCertificateAuthorityOutputResponse
+    func getGroupCertificateAuthority(input: GetGroupCertificateAuthorityInput) async throws -> GetGroupCertificateAuthorityOutput
     /// Retrieves the current configuration for the CA used by the group.
     ///
     /// - Parameter GetGroupCertificateConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `GetGroupCertificateConfigurationOutputResponse` : [no documentation found]
+    /// - Returns: `GetGroupCertificateConfigurationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
     /// - `InternalServerErrorException` : General error information.
-    func getGroupCertificateConfiguration(input: GetGroupCertificateConfigurationInput) async throws -> GetGroupCertificateConfigurationOutputResponse
+    func getGroupCertificateConfiguration(input: GetGroupCertificateConfigurationInput) async throws -> GetGroupCertificateConfigurationOutput
     /// Retrieves information about a group version.
     ///
     /// - Parameter GetGroupVersionInput : [no documentation found]
     ///
-    /// - Returns: `GetGroupVersionOutputResponse` : [no documentation found]
+    /// - Returns: `GetGroupVersionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    func getGroupVersion(input: GetGroupVersionInput) async throws -> GetGroupVersionOutputResponse
+    func getGroupVersion(input: GetGroupVersionInput) async throws -> GetGroupVersionOutput
     /// Retrieves information about a logger definition.
     ///
     /// - Parameter GetLoggerDefinitionInput : [no documentation found]
     ///
-    /// - Returns: `GetLoggerDefinitionOutputResponse` : [no documentation found]
+    /// - Returns: `GetLoggerDefinitionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    func getLoggerDefinition(input: GetLoggerDefinitionInput) async throws -> GetLoggerDefinitionOutputResponse
+    func getLoggerDefinition(input: GetLoggerDefinitionInput) async throws -> GetLoggerDefinitionOutput
     /// Retrieves information about a logger definition version.
     ///
     /// - Parameter GetLoggerDefinitionVersionInput : [no documentation found]
     ///
-    /// - Returns: `GetLoggerDefinitionVersionOutputResponse` : [no documentation found]
+    /// - Returns: `GetLoggerDefinitionVersionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    func getLoggerDefinitionVersion(input: GetLoggerDefinitionVersionInput) async throws -> GetLoggerDefinitionVersionOutputResponse
+    func getLoggerDefinitionVersion(input: GetLoggerDefinitionVersionInput) async throws -> GetLoggerDefinitionVersionOutput
     /// Retrieves information about a resource definition, including its creation time and latest version.
     ///
     /// - Parameter GetResourceDefinitionInput : [no documentation found]
     ///
-    /// - Returns: `GetResourceDefinitionOutputResponse` : [no documentation found]
+    /// - Returns: `GetResourceDefinitionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    func getResourceDefinition(input: GetResourceDefinitionInput) async throws -> GetResourceDefinitionOutputResponse
+    func getResourceDefinition(input: GetResourceDefinitionInput) async throws -> GetResourceDefinitionOutput
     /// Retrieves information about a resource definition version, including which resources are included in the version.
     ///
     /// - Parameter GetResourceDefinitionVersionInput : [no documentation found]
     ///
-    /// - Returns: `GetResourceDefinitionVersionOutputResponse` : [no documentation found]
+    /// - Returns: `GetResourceDefinitionVersionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    func getResourceDefinitionVersion(input: GetResourceDefinitionVersionInput) async throws -> GetResourceDefinitionVersionOutputResponse
+    func getResourceDefinitionVersion(input: GetResourceDefinitionVersionInput) async throws -> GetResourceDefinitionVersionOutput
     /// Retrieves the service role that is attached to your account.
     ///
     /// - Parameter GetServiceRoleForAccountInput : [no documentation found]
     ///
-    /// - Returns: `GetServiceRoleForAccountOutputResponse` : [no documentation found]
+    /// - Returns: `GetServiceRoleForAccountOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerErrorException` : General error information.
-    func getServiceRoleForAccount(input: GetServiceRoleForAccountInput) async throws -> GetServiceRoleForAccountOutputResponse
+    func getServiceRoleForAccount(input: GetServiceRoleForAccountInput) async throws -> GetServiceRoleForAccountOutput
     /// Retrieves information about a subscription definition.
     ///
     /// - Parameter GetSubscriptionDefinitionInput : [no documentation found]
     ///
-    /// - Returns: `GetSubscriptionDefinitionOutputResponse` : [no documentation found]
+    /// - Returns: `GetSubscriptionDefinitionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    func getSubscriptionDefinition(input: GetSubscriptionDefinitionInput) async throws -> GetSubscriptionDefinitionOutputResponse
+    func getSubscriptionDefinition(input: GetSubscriptionDefinitionInput) async throws -> GetSubscriptionDefinitionOutput
     /// Retrieves information about a subscription definition version.
     ///
     /// - Parameter GetSubscriptionDefinitionVersionInput : [no documentation found]
     ///
-    /// - Returns: `GetSubscriptionDefinitionVersionOutputResponse` : [no documentation found]
+    /// - Returns: `GetSubscriptionDefinitionVersionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    func getSubscriptionDefinitionVersion(input: GetSubscriptionDefinitionVersionInput) async throws -> GetSubscriptionDefinitionVersionOutputResponse
+    func getSubscriptionDefinitionVersion(input: GetSubscriptionDefinitionVersionInput) async throws -> GetSubscriptionDefinitionVersionOutput
     /// Get the runtime configuration of a thing.
     ///
     /// - Parameter GetThingRuntimeConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `GetThingRuntimeConfigurationOutputResponse` : [no documentation found]
+    /// - Returns: `GetThingRuntimeConfigurationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
     /// - `InternalServerErrorException` : General error information.
-    func getThingRuntimeConfiguration(input: GetThingRuntimeConfigurationInput) async throws -> GetThingRuntimeConfigurationOutputResponse
+    func getThingRuntimeConfiguration(input: GetThingRuntimeConfigurationInput) async throws -> GetThingRuntimeConfigurationOutput
     /// Gets a paginated list of the deployments that have been started in a bulk deployment operation, and their current deployment status.
     ///
     /// - Parameter ListBulkDeploymentDetailedReportsInput : [no documentation found]
     ///
-    /// - Returns: `ListBulkDeploymentDetailedReportsOutputResponse` : [no documentation found]
+    /// - Returns: `ListBulkDeploymentDetailedReportsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    func listBulkDeploymentDetailedReports(input: ListBulkDeploymentDetailedReportsInput) async throws -> ListBulkDeploymentDetailedReportsOutputResponse
+    func listBulkDeploymentDetailedReports(input: ListBulkDeploymentDetailedReportsInput) async throws -> ListBulkDeploymentDetailedReportsOutput
     /// Returns a list of bulk deployments.
     ///
     /// - Parameter ListBulkDeploymentsInput : [no documentation found]
     ///
-    /// - Returns: `ListBulkDeploymentsOutputResponse` : [no documentation found]
+    /// - Returns: `ListBulkDeploymentsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    func listBulkDeployments(input: ListBulkDeploymentsInput) async throws -> ListBulkDeploymentsOutputResponse
+    func listBulkDeployments(input: ListBulkDeploymentsInput) async throws -> ListBulkDeploymentsOutput
     /// Retrieves a list of connector definitions.
     ///
     /// - Parameter ListConnectorDefinitionsInput : [no documentation found]
     ///
-    /// - Returns: `ListConnectorDefinitionsOutputResponse` : [no documentation found]
-    func listConnectorDefinitions(input: ListConnectorDefinitionsInput) async throws -> ListConnectorDefinitionsOutputResponse
+    /// - Returns: `ListConnectorDefinitionsOutput` : [no documentation found]
+    func listConnectorDefinitions(input: ListConnectorDefinitionsInput) async throws -> ListConnectorDefinitionsOutput
     /// Lists the versions of a connector definition, which are containers for connectors. Connectors run on the Greengrass core and contain built-in integration with local infrastructure, device protocols, AWS, and other cloud services.
     ///
     /// - Parameter ListConnectorDefinitionVersionsInput : [no documentation found]
     ///
-    /// - Returns: `ListConnectorDefinitionVersionsOutputResponse` : [no documentation found]
+    /// - Returns: `ListConnectorDefinitionVersionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    func listConnectorDefinitionVersions(input: ListConnectorDefinitionVersionsInput) async throws -> ListConnectorDefinitionVersionsOutputResponse
+    func listConnectorDefinitionVersions(input: ListConnectorDefinitionVersionsInput) async throws -> ListConnectorDefinitionVersionsOutput
     /// Retrieves a list of core definitions.
     ///
     /// - Parameter ListCoreDefinitionsInput : [no documentation found]
     ///
-    /// - Returns: `ListCoreDefinitionsOutputResponse` : [no documentation found]
-    func listCoreDefinitions(input: ListCoreDefinitionsInput) async throws -> ListCoreDefinitionsOutputResponse
+    /// - Returns: `ListCoreDefinitionsOutput` : [no documentation found]
+    func listCoreDefinitions(input: ListCoreDefinitionsInput) async throws -> ListCoreDefinitionsOutput
     /// Lists the versions of a core definition.
     ///
     /// - Parameter ListCoreDefinitionVersionsInput : [no documentation found]
     ///
-    /// - Returns: `ListCoreDefinitionVersionsOutputResponse` : [no documentation found]
+    /// - Returns: `ListCoreDefinitionVersionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    func listCoreDefinitionVersions(input: ListCoreDefinitionVersionsInput) async throws -> ListCoreDefinitionVersionsOutputResponse
+    func listCoreDefinitionVersions(input: ListCoreDefinitionVersionsInput) async throws -> ListCoreDefinitionVersionsOutput
     /// Returns a history of deployments for the group.
     ///
     /// - Parameter ListDeploymentsInput : [no documentation found]
     ///
-    /// - Returns: `ListDeploymentsOutputResponse` : [no documentation found]
+    /// - Returns: `ListDeploymentsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    func listDeployments(input: ListDeploymentsInput) async throws -> ListDeploymentsOutputResponse
+    func listDeployments(input: ListDeploymentsInput) async throws -> ListDeploymentsOutput
     /// Retrieves a list of device definitions.
     ///
     /// - Parameter ListDeviceDefinitionsInput : [no documentation found]
     ///
-    /// - Returns: `ListDeviceDefinitionsOutputResponse` : [no documentation found]
-    func listDeviceDefinitions(input: ListDeviceDefinitionsInput) async throws -> ListDeviceDefinitionsOutputResponse
+    /// - Returns: `ListDeviceDefinitionsOutput` : [no documentation found]
+    func listDeviceDefinitions(input: ListDeviceDefinitionsInput) async throws -> ListDeviceDefinitionsOutput
     /// Lists the versions of a device definition.
     ///
     /// - Parameter ListDeviceDefinitionVersionsInput : [no documentation found]
     ///
-    /// - Returns: `ListDeviceDefinitionVersionsOutputResponse` : [no documentation found]
+    /// - Returns: `ListDeviceDefinitionVersionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    func listDeviceDefinitionVersions(input: ListDeviceDefinitionVersionsInput) async throws -> ListDeviceDefinitionVersionsOutputResponse
+    func listDeviceDefinitionVersions(input: ListDeviceDefinitionVersionsInput) async throws -> ListDeviceDefinitionVersionsOutput
     /// Retrieves a list of Lambda function definitions.
     ///
     /// - Parameter ListFunctionDefinitionsInput : [no documentation found]
     ///
-    /// - Returns: `ListFunctionDefinitionsOutputResponse` : [no documentation found]
-    func listFunctionDefinitions(input: ListFunctionDefinitionsInput) async throws -> ListFunctionDefinitionsOutputResponse
+    /// - Returns: `ListFunctionDefinitionsOutput` : [no documentation found]
+    func listFunctionDefinitions(input: ListFunctionDefinitionsInput) async throws -> ListFunctionDefinitionsOutput
     /// Lists the versions of a Lambda function definition.
     ///
     /// - Parameter ListFunctionDefinitionVersionsInput : [no documentation found]
     ///
-    /// - Returns: `ListFunctionDefinitionVersionsOutputResponse` : [no documentation found]
+    /// - Returns: `ListFunctionDefinitionVersionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    func listFunctionDefinitionVersions(input: ListFunctionDefinitionVersionsInput) async throws -> ListFunctionDefinitionVersionsOutputResponse
+    func listFunctionDefinitionVersions(input: ListFunctionDefinitionVersionsInput) async throws -> ListFunctionDefinitionVersionsOutput
     /// Retrieves the current CAs for a group.
     ///
     /// - Parameter ListGroupCertificateAuthoritiesInput : [no documentation found]
     ///
-    /// - Returns: `ListGroupCertificateAuthoritiesOutputResponse` : [no documentation found]
+    /// - Returns: `ListGroupCertificateAuthoritiesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
     /// - `InternalServerErrorException` : General error information.
-    func listGroupCertificateAuthorities(input: ListGroupCertificateAuthoritiesInput) async throws -> ListGroupCertificateAuthoritiesOutputResponse
+    func listGroupCertificateAuthorities(input: ListGroupCertificateAuthoritiesInput) async throws -> ListGroupCertificateAuthoritiesOutput
     /// Retrieves a list of groups.
     ///
     /// - Parameter ListGroupsInput : [no documentation found]
     ///
-    /// - Returns: `ListGroupsOutputResponse` : [no documentation found]
-    func listGroups(input: ListGroupsInput) async throws -> ListGroupsOutputResponse
+    /// - Returns: `ListGroupsOutput` : [no documentation found]
+    func listGroups(input: ListGroupsInput) async throws -> ListGroupsOutput
     /// Lists the versions of a group.
     ///
     /// - Parameter ListGroupVersionsInput : [no documentation found]
     ///
-    /// - Returns: `ListGroupVersionsOutputResponse` : [no documentation found]
+    /// - Returns: `ListGroupVersionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    func listGroupVersions(input: ListGroupVersionsInput) async throws -> ListGroupVersionsOutputResponse
+    func listGroupVersions(input: ListGroupVersionsInput) async throws -> ListGroupVersionsOutput
     /// Retrieves a list of logger definitions.
     ///
     /// - Parameter ListLoggerDefinitionsInput : [no documentation found]
     ///
-    /// - Returns: `ListLoggerDefinitionsOutputResponse` : [no documentation found]
-    func listLoggerDefinitions(input: ListLoggerDefinitionsInput) async throws -> ListLoggerDefinitionsOutputResponse
+    /// - Returns: `ListLoggerDefinitionsOutput` : [no documentation found]
+    func listLoggerDefinitions(input: ListLoggerDefinitionsInput) async throws -> ListLoggerDefinitionsOutput
     /// Lists the versions of a logger definition.
     ///
     /// - Parameter ListLoggerDefinitionVersionsInput : [no documentation found]
     ///
-    /// - Returns: `ListLoggerDefinitionVersionsOutputResponse` : [no documentation found]
+    /// - Returns: `ListLoggerDefinitionVersionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    func listLoggerDefinitionVersions(input: ListLoggerDefinitionVersionsInput) async throws -> ListLoggerDefinitionVersionsOutputResponse
+    func listLoggerDefinitionVersions(input: ListLoggerDefinitionVersionsInput) async throws -> ListLoggerDefinitionVersionsOutput
     /// Retrieves a list of resource definitions.
     ///
     /// - Parameter ListResourceDefinitionsInput : [no documentation found]
     ///
-    /// - Returns: `ListResourceDefinitionsOutputResponse` : [no documentation found]
-    func listResourceDefinitions(input: ListResourceDefinitionsInput) async throws -> ListResourceDefinitionsOutputResponse
+    /// - Returns: `ListResourceDefinitionsOutput` : [no documentation found]
+    func listResourceDefinitions(input: ListResourceDefinitionsInput) async throws -> ListResourceDefinitionsOutput
     /// Lists the versions of a resource definition.
     ///
     /// - Parameter ListResourceDefinitionVersionsInput : [no documentation found]
     ///
-    /// - Returns: `ListResourceDefinitionVersionsOutputResponse` : [no documentation found]
+    /// - Returns: `ListResourceDefinitionVersionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    func listResourceDefinitionVersions(input: ListResourceDefinitionVersionsInput) async throws -> ListResourceDefinitionVersionsOutputResponse
+    func listResourceDefinitionVersions(input: ListResourceDefinitionVersionsInput) async throws -> ListResourceDefinitionVersionsOutput
     /// Retrieves a list of subscription definitions.
     ///
     /// - Parameter ListSubscriptionDefinitionsInput : [no documentation found]
     ///
-    /// - Returns: `ListSubscriptionDefinitionsOutputResponse` : [no documentation found]
-    func listSubscriptionDefinitions(input: ListSubscriptionDefinitionsInput) async throws -> ListSubscriptionDefinitionsOutputResponse
+    /// - Returns: `ListSubscriptionDefinitionsOutput` : [no documentation found]
+    func listSubscriptionDefinitions(input: ListSubscriptionDefinitionsInput) async throws -> ListSubscriptionDefinitionsOutput
     /// Lists the versions of a subscription definition.
     ///
     /// - Parameter ListSubscriptionDefinitionVersionsInput : [no documentation found]
     ///
-    /// - Returns: `ListSubscriptionDefinitionVersionsOutputResponse` : [no documentation found]
+    /// - Returns: `ListSubscriptionDefinitionVersionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    func listSubscriptionDefinitionVersions(input: ListSubscriptionDefinitionVersionsInput) async throws -> ListSubscriptionDefinitionVersionsOutputResponse
+    func listSubscriptionDefinitionVersions(input: ListSubscriptionDefinitionVersionsInput) async throws -> ListSubscriptionDefinitionVersionsOutput
     /// Retrieves a list of resource tags for a resource arn.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     /// Resets a group's deployments.
     ///
     /// - Parameter ResetDeploymentsInput : Information needed to reset deployments.
     ///
-    /// - Returns: `ResetDeploymentsOutputResponse` : [no documentation found]
+    /// - Returns: `ResetDeploymentsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    func resetDeployments(input: ResetDeploymentsInput) async throws -> ResetDeploymentsOutputResponse
+    func resetDeployments(input: ResetDeploymentsInput) async throws -> ResetDeploymentsOutput
     /// Deploys multiple groups in one operation. This action starts the bulk deployment of a specified set of group versions. Each group version deployment will be triggered with an adaptive rate that has a fixed upper limit. We recommend that you include an ''X-Amzn-Client-Token'' token in every ''StartBulkDeployment'' request. These requests are idempotent with respect to the token and the request parameters.
     ///
     /// - Parameter StartBulkDeploymentInput : [no documentation found]
     ///
-    /// - Returns: `StartBulkDeploymentOutputResponse` : [no documentation found]
+    /// - Returns: `StartBulkDeploymentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    func startBulkDeployment(input: StartBulkDeploymentInput) async throws -> StartBulkDeploymentOutputResponse
+    func startBulkDeployment(input: StartBulkDeploymentInput) async throws -> StartBulkDeploymentOutput
     /// Stops the execution of a bulk deployment. This action returns a status of ''Stopping'' until the deployment is stopped. You cannot start a new bulk deployment while a previous deployment is in the ''Stopping'' state. This action doesn't rollback completed deployments or cancel pending deployments.
     ///
     /// - Parameter StopBulkDeploymentInput : [no documentation found]
     ///
-    /// - Returns: `StopBulkDeploymentOutputResponse` : [no documentation found]
+    /// - Returns: `StopBulkDeploymentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    func stopBulkDeployment(input: StopBulkDeploymentInput) async throws -> StopBulkDeploymentOutputResponse
+    func stopBulkDeployment(input: StopBulkDeploymentInput) async throws -> StopBulkDeploymentOutput
     /// Adds tags to a Greengrass resource. Valid resources are 'Group', 'ConnectorDefinition', 'CoreDefinition', 'DeviceDefinition', 'FunctionDefinition', 'LoggerDefinition', 'SubscriptionDefinition', 'ResourceDefinition', and 'BulkDeployment'.
     ///
     /// - Parameter TagResourceInput : A map of the key-value pairs for the resource tag.
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     /// Remove resource tags from a Greengrass Resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
     /// Updates the connectivity information for the core. Any devices that belong to the group which has this core will receive this information in order to find the location of the core and connect to it.
     ///
     /// - Parameter UpdateConnectivityInfoInput : Connectivity information.
     ///
-    /// - Returns: `UpdateConnectivityInfoOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateConnectivityInfoOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
     /// - `InternalServerErrorException` : General error information.
-    func updateConnectivityInfo(input: UpdateConnectivityInfoInput) async throws -> UpdateConnectivityInfoOutputResponse
+    func updateConnectivityInfo(input: UpdateConnectivityInfoInput) async throws -> UpdateConnectivityInfoOutput
     /// Updates a connector definition.
     ///
     /// - Parameter UpdateConnectorDefinitionInput : [no documentation found]
     ///
-    /// - Returns: `UpdateConnectorDefinitionOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateConnectorDefinitionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    func updateConnectorDefinition(input: UpdateConnectorDefinitionInput) async throws -> UpdateConnectorDefinitionOutputResponse
+    func updateConnectorDefinition(input: UpdateConnectorDefinitionInput) async throws -> UpdateConnectorDefinitionOutput
     /// Updates a core definition.
     ///
     /// - Parameter UpdateCoreDefinitionInput : [no documentation found]
     ///
-    /// - Returns: `UpdateCoreDefinitionOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateCoreDefinitionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    func updateCoreDefinition(input: UpdateCoreDefinitionInput) async throws -> UpdateCoreDefinitionOutputResponse
+    func updateCoreDefinition(input: UpdateCoreDefinitionInput) async throws -> UpdateCoreDefinitionOutput
     /// Updates a device definition.
     ///
     /// - Parameter UpdateDeviceDefinitionInput : [no documentation found]
     ///
-    /// - Returns: `UpdateDeviceDefinitionOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateDeviceDefinitionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    func updateDeviceDefinition(input: UpdateDeviceDefinitionInput) async throws -> UpdateDeviceDefinitionOutputResponse
+    func updateDeviceDefinition(input: UpdateDeviceDefinitionInput) async throws -> UpdateDeviceDefinitionOutput
     /// Updates a Lambda function definition.
     ///
     /// - Parameter UpdateFunctionDefinitionInput : [no documentation found]
     ///
-    /// - Returns: `UpdateFunctionDefinitionOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateFunctionDefinitionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    func updateFunctionDefinition(input: UpdateFunctionDefinitionInput) async throws -> UpdateFunctionDefinitionOutputResponse
+    func updateFunctionDefinition(input: UpdateFunctionDefinitionInput) async throws -> UpdateFunctionDefinitionOutput
     /// Updates a group.
     ///
     /// - Parameter UpdateGroupInput : [no documentation found]
     ///
-    /// - Returns: `UpdateGroupOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    func updateGroup(input: UpdateGroupInput) async throws -> UpdateGroupOutputResponse
+    func updateGroup(input: UpdateGroupInput) async throws -> UpdateGroupOutput
     /// Updates the Certificate expiry time for a group.
     ///
     /// - Parameter UpdateGroupCertificateConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `UpdateGroupCertificateConfigurationOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateGroupCertificateConfigurationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
     /// - `InternalServerErrorException` : General error information.
-    func updateGroupCertificateConfiguration(input: UpdateGroupCertificateConfigurationInput) async throws -> UpdateGroupCertificateConfigurationOutputResponse
+    func updateGroupCertificateConfiguration(input: UpdateGroupCertificateConfigurationInput) async throws -> UpdateGroupCertificateConfigurationOutput
     /// Updates a logger definition.
     ///
     /// - Parameter UpdateLoggerDefinitionInput : [no documentation found]
     ///
-    /// - Returns: `UpdateLoggerDefinitionOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateLoggerDefinitionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    func updateLoggerDefinition(input: UpdateLoggerDefinitionInput) async throws -> UpdateLoggerDefinitionOutputResponse
+    func updateLoggerDefinition(input: UpdateLoggerDefinitionInput) async throws -> UpdateLoggerDefinitionOutput
     /// Updates a resource definition.
     ///
     /// - Parameter UpdateResourceDefinitionInput : [no documentation found]
     ///
-    /// - Returns: `UpdateResourceDefinitionOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateResourceDefinitionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    func updateResourceDefinition(input: UpdateResourceDefinitionInput) async throws -> UpdateResourceDefinitionOutputResponse
+    func updateResourceDefinition(input: UpdateResourceDefinitionInput) async throws -> UpdateResourceDefinitionOutput
     /// Updates a subscription definition.
     ///
     /// - Parameter UpdateSubscriptionDefinitionInput : [no documentation found]
     ///
-    /// - Returns: `UpdateSubscriptionDefinitionOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateSubscriptionDefinitionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
-    func updateSubscriptionDefinition(input: UpdateSubscriptionDefinitionInput) async throws -> UpdateSubscriptionDefinitionOutputResponse
+    func updateSubscriptionDefinition(input: UpdateSubscriptionDefinitionInput) async throws -> UpdateSubscriptionDefinitionOutput
     /// Updates the runtime configuration of a thing.
     ///
     /// - Parameter UpdateThingRuntimeConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `UpdateThingRuntimeConfigurationOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateThingRuntimeConfigurationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
     /// - `InternalServerErrorException` : General error information.
-    func updateThingRuntimeConfiguration(input: UpdateThingRuntimeConfigurationInput) async throws -> UpdateThingRuntimeConfigurationOutputResponse
+    func updateThingRuntimeConfiguration(input: UpdateThingRuntimeConfigurationInput) async throws -> UpdateThingRuntimeConfigurationOutput
 }
 
 public enum GreengrassClientTypes {}

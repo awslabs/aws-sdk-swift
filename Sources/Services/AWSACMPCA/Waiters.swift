@@ -4,9 +4,9 @@ import ClientRuntime
 
 extension ACMPCAClientProtocol {
 
-    static func auditReportCreatedWaiterConfig() throws -> WaiterConfiguration<DescribeCertificateAuthorityAuditReportInput, DescribeCertificateAuthorityAuditReportOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeCertificateAuthorityAuditReportInput, DescribeCertificateAuthorityAuditReportOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeCertificateAuthorityAuditReportInput, result: Result<DescribeCertificateAuthorityAuditReportOutputResponse, Error>) -> Bool in
+    static func auditReportCreatedWaiterConfig() throws -> WaiterConfiguration<DescribeCertificateAuthorityAuditReportInput, DescribeCertificateAuthorityAuditReportOutput> {
+        let acceptors: [WaiterConfiguration<DescribeCertificateAuthorityAuditReportInput, DescribeCertificateAuthorityAuditReportOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeCertificateAuthorityAuditReportInput, result: Result<DescribeCertificateAuthorityAuditReportOutput, Error>) -> Bool in
                 // JMESPath expression: "AuditReportStatus"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "SUCCESS"
@@ -14,7 +14,7 @@ extension ACMPCAClientProtocol {
                 let auditReportStatus = output.auditReportStatus
                 return JMESUtils.compare(auditReportStatus, ==, "SUCCESS")
             }),
-            .init(state: .failure, matcher: { (input: DescribeCertificateAuthorityAuditReportInput, result: Result<DescribeCertificateAuthorityAuditReportOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeCertificateAuthorityAuditReportInput, result: Result<DescribeCertificateAuthorityAuditReportOutput, Error>) -> Bool in
                 // JMESPath expression: "AuditReportStatus"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "FAILED"
@@ -23,7 +23,7 @@ extension ACMPCAClientProtocol {
                 return JMESUtils.compare(auditReportStatus, ==, "FAILED")
             }),
         ]
-        return try WaiterConfiguration<DescribeCertificateAuthorityAuditReportInput, DescribeCertificateAuthorityAuditReportOutputResponse>(acceptors: acceptors, minDelay: 3.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeCertificateAuthorityAuditReportInput, DescribeCertificateAuthorityAuditReportOutput>(acceptors: acceptors, minDelay: 3.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the AuditReportCreated event on the describeCertificateAuthorityAuditReport operation.
@@ -37,25 +37,25 @@ extension ACMPCAClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilAuditReportCreated(options: WaiterOptions, input: DescribeCertificateAuthorityAuditReportInput) async throws -> WaiterOutcome<DescribeCertificateAuthorityAuditReportOutputResponse> {
+    public func waitUntilAuditReportCreated(options: WaiterOptions, input: DescribeCertificateAuthorityAuditReportInput) async throws -> WaiterOutcome<DescribeCertificateAuthorityAuditReportOutput> {
         let waiter = Waiter(config: try Self.auditReportCreatedWaiterConfig(), operation: self.describeCertificateAuthorityAuditReport(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func certificateIssuedWaiterConfig() throws -> WaiterConfiguration<GetCertificateInput, GetCertificateOutputResponse> {
-        let acceptors: [WaiterConfiguration<GetCertificateInput, GetCertificateOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: GetCertificateInput, result: Result<GetCertificateOutputResponse, Error>) -> Bool in
+    static func certificateIssuedWaiterConfig() throws -> WaiterConfiguration<GetCertificateInput, GetCertificateOutput> {
+        let acceptors: [WaiterConfiguration<GetCertificateInput, GetCertificateOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: GetCertificateInput, result: Result<GetCertificateOutput, Error>) -> Bool in
                 switch result {
                     case .success: return true
                     case .failure: return false
                 }
             }),
-            .init(state: .retry, matcher: { (input: GetCertificateInput, result: Result<GetCertificateOutputResponse, Error>) -> Bool in
+            .init(state: .retry, matcher: { (input: GetCertificateInput, result: Result<GetCertificateOutput, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
                 return (error as? ServiceError)?.typeName == "RequestInProgressException"
             }),
         ]
-        return try WaiterConfiguration<GetCertificateInput, GetCertificateOutputResponse>(acceptors: acceptors, minDelay: 3.0, maxDelay: 120.0)
+        return try WaiterConfiguration<GetCertificateInput, GetCertificateOutput>(acceptors: acceptors, minDelay: 3.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the CertificateIssued event on the getCertificate operation.
@@ -69,25 +69,25 @@ extension ACMPCAClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilCertificateIssued(options: WaiterOptions, input: GetCertificateInput) async throws -> WaiterOutcome<GetCertificateOutputResponse> {
+    public func waitUntilCertificateIssued(options: WaiterOptions, input: GetCertificateInput) async throws -> WaiterOutcome<GetCertificateOutput> {
         let waiter = Waiter(config: try Self.certificateIssuedWaiterConfig(), operation: self.getCertificate(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func certificateAuthorityCSRCreatedWaiterConfig() throws -> WaiterConfiguration<GetCertificateAuthorityCsrInput, GetCertificateAuthorityCsrOutputResponse> {
-        let acceptors: [WaiterConfiguration<GetCertificateAuthorityCsrInput, GetCertificateAuthorityCsrOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: GetCertificateAuthorityCsrInput, result: Result<GetCertificateAuthorityCsrOutputResponse, Error>) -> Bool in
+    static func certificateAuthorityCSRCreatedWaiterConfig() throws -> WaiterConfiguration<GetCertificateAuthorityCsrInput, GetCertificateAuthorityCsrOutput> {
+        let acceptors: [WaiterConfiguration<GetCertificateAuthorityCsrInput, GetCertificateAuthorityCsrOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: GetCertificateAuthorityCsrInput, result: Result<GetCertificateAuthorityCsrOutput, Error>) -> Bool in
                 switch result {
                     case .success: return true
                     case .failure: return false
                 }
             }),
-            .init(state: .retry, matcher: { (input: GetCertificateAuthorityCsrInput, result: Result<GetCertificateAuthorityCsrOutputResponse, Error>) -> Bool in
+            .init(state: .retry, matcher: { (input: GetCertificateAuthorityCsrInput, result: Result<GetCertificateAuthorityCsrOutput, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
                 return (error as? ServiceError)?.typeName == "RequestInProgressException"
             }),
         ]
-        return try WaiterConfiguration<GetCertificateAuthorityCsrInput, GetCertificateAuthorityCsrOutputResponse>(acceptors: acceptors, minDelay: 3.0, maxDelay: 120.0)
+        return try WaiterConfiguration<GetCertificateAuthorityCsrInput, GetCertificateAuthorityCsrOutput>(acceptors: acceptors, minDelay: 3.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the CertificateAuthorityCSRCreated event on the getCertificateAuthorityCsr operation.
@@ -101,7 +101,7 @@ extension ACMPCAClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilCertificateAuthorityCSRCreated(options: WaiterOptions, input: GetCertificateAuthorityCsrInput) async throws -> WaiterOutcome<GetCertificateAuthorityCsrOutputResponse> {
+    public func waitUntilCertificateAuthorityCSRCreated(options: WaiterOptions, input: GetCertificateAuthorityCsrInput) async throws -> WaiterOutcome<GetCertificateAuthorityCsrOutput> {
         let waiter = Waiter(config: try Self.certificateAuthorityCSRCreatedWaiterConfig(), operation: self.getCertificateAuthorityCsr(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }

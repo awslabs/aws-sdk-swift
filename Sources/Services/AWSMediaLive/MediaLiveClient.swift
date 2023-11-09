@@ -71,7 +71,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     ///
     /// - Parameter AcceptInputDeviceTransferInput : Placeholder documentation for AcceptInputDeviceTransferRequest
     ///
-    /// - Returns: `AcceptInputDeviceTransferOutputResponse` : Placeholder documentation for AcceptInputDeviceTransferResponse
+    /// - Returns: `AcceptInputDeviceTransferOutput` : Placeholder documentation for AcceptInputDeviceTransferResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -85,7 +85,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
-    public func acceptInputDeviceTransfer(input: AcceptInputDeviceTransferInput) async throws -> AcceptInputDeviceTransferOutputResponse
+    public func acceptInputDeviceTransfer(input: AcceptInputDeviceTransferInput) async throws -> AcceptInputDeviceTransferOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -101,17 +101,17 @@ extension MediaLiveClient: MediaLiveClientProtocol {
                       .withSigningName(value: "medialive")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<AcceptInputDeviceTransferInput, AcceptInputDeviceTransferOutputResponse, AcceptInputDeviceTransferOutputError>(id: "acceptInputDeviceTransfer")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AcceptInputDeviceTransferInput, AcceptInputDeviceTransferOutputResponse, AcceptInputDeviceTransferOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AcceptInputDeviceTransferInput, AcceptInputDeviceTransferOutputResponse>())
+        var operation = ClientRuntime.OperationStack<AcceptInputDeviceTransferInput, AcceptInputDeviceTransferOutput, AcceptInputDeviceTransferOutputError>(id: "acceptInputDeviceTransfer")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AcceptInputDeviceTransferInput, AcceptInputDeviceTransferOutput, AcceptInputDeviceTransferOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AcceptInputDeviceTransferInput, AcceptInputDeviceTransferOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AcceptInputDeviceTransferOutputResponse, AcceptInputDeviceTransferOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AcceptInputDeviceTransferOutput, AcceptInputDeviceTransferOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AcceptInputDeviceTransferOutputResponse, AcceptInputDeviceTransferOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AcceptInputDeviceTransferOutput, AcceptInputDeviceTransferOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AcceptInputDeviceTransferOutputResponse, AcceptInputDeviceTransferOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AcceptInputDeviceTransferOutputResponse, AcceptInputDeviceTransferOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AcceptInputDeviceTransferOutputResponse, AcceptInputDeviceTransferOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AcceptInputDeviceTransferOutput, AcceptInputDeviceTransferOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AcceptInputDeviceTransferOutput, AcceptInputDeviceTransferOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AcceptInputDeviceTransferOutput, AcceptInputDeviceTransferOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -120,7 +120,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     ///
     /// - Parameter BatchDeleteInput : A request to delete resources
     ///
-    /// - Returns: `BatchDeleteOutputResponse` : Placeholder documentation for BatchDeleteResponse
+    /// - Returns: `BatchDeleteOutput` : Placeholder documentation for BatchDeleteResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -133,7 +133,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    public func batchDelete(input: BatchDeleteInput) async throws -> BatchDeleteOutputResponse
+    public func batchDelete(input: BatchDeleteInput) async throws -> BatchDeleteOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -149,20 +149,20 @@ extension MediaLiveClient: MediaLiveClientProtocol {
                       .withSigningName(value: "medialive")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<BatchDeleteInput, BatchDeleteOutputResponse, BatchDeleteOutputError>(id: "batchDelete")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchDeleteInput, BatchDeleteOutputResponse, BatchDeleteOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchDeleteInput, BatchDeleteOutputResponse>())
+        var operation = ClientRuntime.OperationStack<BatchDeleteInput, BatchDeleteOutput, BatchDeleteOutputError>(id: "batchDelete")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchDeleteInput, BatchDeleteOutput, BatchDeleteOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchDeleteInput, BatchDeleteOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchDeleteOutputResponse, BatchDeleteOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchDeleteOutput, BatchDeleteOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<BatchDeleteInput, BatchDeleteOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<BatchDeleteInput, BatchDeleteOutputResponse>(xmlName: "BatchDeleteRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<BatchDeleteInput, BatchDeleteOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<BatchDeleteInput, BatchDeleteOutput>(xmlName: "BatchDeleteRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, BatchDeleteOutputResponse, BatchDeleteOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, BatchDeleteOutput, BatchDeleteOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchDeleteOutputResponse, BatchDeleteOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchDeleteOutputResponse, BatchDeleteOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchDeleteOutputResponse, BatchDeleteOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchDeleteOutput, BatchDeleteOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchDeleteOutput, BatchDeleteOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchDeleteOutput, BatchDeleteOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -171,7 +171,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     ///
     /// - Parameter BatchStartInput : A request to start resources
     ///
-    /// - Returns: `BatchStartOutputResponse` : Placeholder documentation for BatchStartResponse
+    /// - Returns: `BatchStartOutput` : Placeholder documentation for BatchStartResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -184,7 +184,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    public func batchStart(input: BatchStartInput) async throws -> BatchStartOutputResponse
+    public func batchStart(input: BatchStartInput) async throws -> BatchStartOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -200,20 +200,20 @@ extension MediaLiveClient: MediaLiveClientProtocol {
                       .withSigningName(value: "medialive")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<BatchStartInput, BatchStartOutputResponse, BatchStartOutputError>(id: "batchStart")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchStartInput, BatchStartOutputResponse, BatchStartOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchStartInput, BatchStartOutputResponse>())
+        var operation = ClientRuntime.OperationStack<BatchStartInput, BatchStartOutput, BatchStartOutputError>(id: "batchStart")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchStartInput, BatchStartOutput, BatchStartOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchStartInput, BatchStartOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchStartOutputResponse, BatchStartOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchStartOutput, BatchStartOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<BatchStartInput, BatchStartOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<BatchStartInput, BatchStartOutputResponse>(xmlName: "BatchStartRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<BatchStartInput, BatchStartOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<BatchStartInput, BatchStartOutput>(xmlName: "BatchStartRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, BatchStartOutputResponse, BatchStartOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, BatchStartOutput, BatchStartOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchStartOutputResponse, BatchStartOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchStartOutputResponse, BatchStartOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchStartOutputResponse, BatchStartOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchStartOutput, BatchStartOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchStartOutput, BatchStartOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchStartOutput, BatchStartOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -222,7 +222,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     ///
     /// - Parameter BatchStopInput : A request to stop resources
     ///
-    /// - Returns: `BatchStopOutputResponse` : Placeholder documentation for BatchStopResponse
+    /// - Returns: `BatchStopOutput` : Placeholder documentation for BatchStopResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -235,7 +235,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    public func batchStop(input: BatchStopInput) async throws -> BatchStopOutputResponse
+    public func batchStop(input: BatchStopInput) async throws -> BatchStopOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -251,20 +251,20 @@ extension MediaLiveClient: MediaLiveClientProtocol {
                       .withSigningName(value: "medialive")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<BatchStopInput, BatchStopOutputResponse, BatchStopOutputError>(id: "batchStop")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchStopInput, BatchStopOutputResponse, BatchStopOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchStopInput, BatchStopOutputResponse>())
+        var operation = ClientRuntime.OperationStack<BatchStopInput, BatchStopOutput, BatchStopOutputError>(id: "batchStop")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchStopInput, BatchStopOutput, BatchStopOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchStopInput, BatchStopOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchStopOutputResponse, BatchStopOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchStopOutput, BatchStopOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<BatchStopInput, BatchStopOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<BatchStopInput, BatchStopOutputResponse>(xmlName: "BatchStopRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<BatchStopInput, BatchStopOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<BatchStopInput, BatchStopOutput>(xmlName: "BatchStopRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, BatchStopOutputResponse, BatchStopOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, BatchStopOutput, BatchStopOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchStopOutputResponse, BatchStopOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchStopOutputResponse, BatchStopOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchStopOutputResponse, BatchStopOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchStopOutput, BatchStopOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchStopOutput, BatchStopOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchStopOutput, BatchStopOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -273,7 +273,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     ///
     /// - Parameter BatchUpdateScheduleInput : List of actions to create and list of actions to delete.
     ///
-    /// - Returns: `BatchUpdateScheduleOutputResponse` : Placeholder documentation for BatchUpdateScheduleResponse
+    /// - Returns: `BatchUpdateScheduleOutput` : Placeholder documentation for BatchUpdateScheduleResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -286,7 +286,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
-    public func batchUpdateSchedule(input: BatchUpdateScheduleInput) async throws -> BatchUpdateScheduleOutputResponse
+    public func batchUpdateSchedule(input: BatchUpdateScheduleInput) async throws -> BatchUpdateScheduleOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -302,20 +302,20 @@ extension MediaLiveClient: MediaLiveClientProtocol {
                       .withSigningName(value: "medialive")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<BatchUpdateScheduleInput, BatchUpdateScheduleOutputResponse, BatchUpdateScheduleOutputError>(id: "batchUpdateSchedule")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchUpdateScheduleInput, BatchUpdateScheduleOutputResponse, BatchUpdateScheduleOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchUpdateScheduleInput, BatchUpdateScheduleOutputResponse>())
+        var operation = ClientRuntime.OperationStack<BatchUpdateScheduleInput, BatchUpdateScheduleOutput, BatchUpdateScheduleOutputError>(id: "batchUpdateSchedule")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchUpdateScheduleInput, BatchUpdateScheduleOutput, BatchUpdateScheduleOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchUpdateScheduleInput, BatchUpdateScheduleOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchUpdateScheduleOutputResponse, BatchUpdateScheduleOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchUpdateScheduleOutput, BatchUpdateScheduleOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<BatchUpdateScheduleInput, BatchUpdateScheduleOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<BatchUpdateScheduleInput, BatchUpdateScheduleOutputResponse>(xmlName: "BatchUpdateScheduleRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<BatchUpdateScheduleInput, BatchUpdateScheduleOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<BatchUpdateScheduleInput, BatchUpdateScheduleOutput>(xmlName: "BatchUpdateScheduleRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, BatchUpdateScheduleOutputResponse, BatchUpdateScheduleOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, BatchUpdateScheduleOutput, BatchUpdateScheduleOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchUpdateScheduleOutputResponse, BatchUpdateScheduleOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchUpdateScheduleOutputResponse, BatchUpdateScheduleOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchUpdateScheduleOutputResponse, BatchUpdateScheduleOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchUpdateScheduleOutput, BatchUpdateScheduleOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchUpdateScheduleOutput, BatchUpdateScheduleOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchUpdateScheduleOutput, BatchUpdateScheduleOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -324,7 +324,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     ///
     /// - Parameter CancelInputDeviceTransferInput : Placeholder documentation for CancelInputDeviceTransferRequest
     ///
-    /// - Returns: `CancelInputDeviceTransferOutputResponse` : Placeholder documentation for CancelInputDeviceTransferResponse
+    /// - Returns: `CancelInputDeviceTransferOutput` : Placeholder documentation for CancelInputDeviceTransferResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -338,7 +338,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
-    public func cancelInputDeviceTransfer(input: CancelInputDeviceTransferInput) async throws -> CancelInputDeviceTransferOutputResponse
+    public func cancelInputDeviceTransfer(input: CancelInputDeviceTransferInput) async throws -> CancelInputDeviceTransferOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -354,17 +354,17 @@ extension MediaLiveClient: MediaLiveClientProtocol {
                       .withSigningName(value: "medialive")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CancelInputDeviceTransferInput, CancelInputDeviceTransferOutputResponse, CancelInputDeviceTransferOutputError>(id: "cancelInputDeviceTransfer")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CancelInputDeviceTransferInput, CancelInputDeviceTransferOutputResponse, CancelInputDeviceTransferOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CancelInputDeviceTransferInput, CancelInputDeviceTransferOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CancelInputDeviceTransferInput, CancelInputDeviceTransferOutput, CancelInputDeviceTransferOutputError>(id: "cancelInputDeviceTransfer")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CancelInputDeviceTransferInput, CancelInputDeviceTransferOutput, CancelInputDeviceTransferOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CancelInputDeviceTransferInput, CancelInputDeviceTransferOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CancelInputDeviceTransferOutputResponse, CancelInputDeviceTransferOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CancelInputDeviceTransferOutput, CancelInputDeviceTransferOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CancelInputDeviceTransferOutputResponse, CancelInputDeviceTransferOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CancelInputDeviceTransferOutput, CancelInputDeviceTransferOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CancelInputDeviceTransferOutputResponse, CancelInputDeviceTransferOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CancelInputDeviceTransferOutputResponse, CancelInputDeviceTransferOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CancelInputDeviceTransferOutputResponse, CancelInputDeviceTransferOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CancelInputDeviceTransferOutput, CancelInputDeviceTransferOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CancelInputDeviceTransferOutput, CancelInputDeviceTransferOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CancelInputDeviceTransferOutput, CancelInputDeviceTransferOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -373,7 +373,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     ///
     /// - Parameter ClaimDeviceInput : A request to claim an AWS Elemental device that you have purchased from a third-party vendor.
     ///
-    /// - Returns: `ClaimDeviceOutputResponse` : Placeholder documentation for ClaimDeviceResponse
+    /// - Returns: `ClaimDeviceOutput` : Placeholder documentation for ClaimDeviceResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -386,7 +386,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
-    public func claimDevice(input: ClaimDeviceInput) async throws -> ClaimDeviceOutputResponse
+    public func claimDevice(input: ClaimDeviceInput) async throws -> ClaimDeviceOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -402,20 +402,20 @@ extension MediaLiveClient: MediaLiveClientProtocol {
                       .withSigningName(value: "medialive")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ClaimDeviceInput, ClaimDeviceOutputResponse, ClaimDeviceOutputError>(id: "claimDevice")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ClaimDeviceInput, ClaimDeviceOutputResponse, ClaimDeviceOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ClaimDeviceInput, ClaimDeviceOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ClaimDeviceInput, ClaimDeviceOutput, ClaimDeviceOutputError>(id: "claimDevice")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ClaimDeviceInput, ClaimDeviceOutput, ClaimDeviceOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ClaimDeviceInput, ClaimDeviceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ClaimDeviceOutputResponse, ClaimDeviceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ClaimDeviceOutput, ClaimDeviceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ClaimDeviceInput, ClaimDeviceOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ClaimDeviceInput, ClaimDeviceOutputResponse>(xmlName: "ClaimDeviceRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ClaimDeviceInput, ClaimDeviceOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ClaimDeviceInput, ClaimDeviceOutput>(xmlName: "ClaimDeviceRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ClaimDeviceOutputResponse, ClaimDeviceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ClaimDeviceOutput, ClaimDeviceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ClaimDeviceOutputResponse, ClaimDeviceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ClaimDeviceOutputResponse, ClaimDeviceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ClaimDeviceOutputResponse, ClaimDeviceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ClaimDeviceOutput, ClaimDeviceOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ClaimDeviceOutput, ClaimDeviceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ClaimDeviceOutput, ClaimDeviceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -424,7 +424,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     ///
     /// - Parameter CreateChannelInput : A request to create a channel
     ///
-    /// - Returns: `CreateChannelOutputResponse` : Placeholder documentation for CreateChannelResponse
+    /// - Returns: `CreateChannelOutput` : Placeholder documentation for CreateChannelResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -437,7 +437,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
-    public func createChannel(input: CreateChannelInput) async throws -> CreateChannelOutputResponse
+    public func createChannel(input: CreateChannelInput) async throws -> CreateChannelOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -453,28 +453,21 @@ extension MediaLiveClient: MediaLiveClientProtocol {
                       .withSigningName(value: "medialive")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateChannelInput, CreateChannelOutputResponse, CreateChannelOutputError>(id: "createChannel")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateChannelOutputResponse> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.requestId == nil {
-                copiedInput.requestId = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateChannelInput, CreateChannelOutputResponse, CreateChannelOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateChannelInput, CreateChannelOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateChannelInput, CreateChannelOutput, CreateChannelOutputError>(id: "createChannel")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateChannelInput, CreateChannelOutput, CreateChannelOutputError>(keyPath: \.requestId))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateChannelInput, CreateChannelOutput, CreateChannelOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateChannelInput, CreateChannelOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateChannelOutputResponse, CreateChannelOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateChannelOutput, CreateChannelOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateChannelInput, CreateChannelOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateChannelInput, CreateChannelOutputResponse>(xmlName: "CreateChannelRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateChannelInput, CreateChannelOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateChannelInput, CreateChannelOutput>(xmlName: "CreateChannelRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateChannelOutputResponse, CreateChannelOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateChannelOutput, CreateChannelOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateChannelOutputResponse, CreateChannelOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateChannelOutputResponse, CreateChannelOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateChannelOutputResponse, CreateChannelOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateChannelOutput, CreateChannelOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateChannelOutput, CreateChannelOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateChannelOutput, CreateChannelOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -483,7 +476,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     ///
     /// - Parameter CreateInputInput : The name of the input
     ///
-    /// - Returns: `CreateInputOutputResponse` : Placeholder documentation for CreateInputResponse
+    /// - Returns: `CreateInputOutput` : Placeholder documentation for CreateInputResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -494,7 +487,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    public func createInput(input: CreateInputInput) async throws -> CreateInputOutputResponse
+    public func createInput(input: CreateInputInput) async throws -> CreateInputOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -510,28 +503,21 @@ extension MediaLiveClient: MediaLiveClientProtocol {
                       .withSigningName(value: "medialive")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateInputInput, CreateInputOutputResponse, CreateInputOutputError>(id: "createInput")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateInputOutputResponse> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.requestId == nil {
-                copiedInput.requestId = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateInputInput, CreateInputOutputResponse, CreateInputOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateInputInput, CreateInputOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateInputInput, CreateInputOutput, CreateInputOutputError>(id: "createInput")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateInputInput, CreateInputOutput, CreateInputOutputError>(keyPath: \.requestId))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateInputInput, CreateInputOutput, CreateInputOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateInputInput, CreateInputOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateInputOutputResponse, CreateInputOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateInputOutput, CreateInputOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateInputInput, CreateInputOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateInputInput, CreateInputOutputResponse>(xmlName: "CreateInputRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateInputInput, CreateInputOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateInputInput, CreateInputOutput>(xmlName: "CreateInputRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateInputOutputResponse, CreateInputOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateInputOutput, CreateInputOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateInputOutputResponse, CreateInputOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateInputOutputResponse, CreateInputOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateInputOutputResponse, CreateInputOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateInputOutput, CreateInputOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateInputOutput, CreateInputOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateInputOutput, CreateInputOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -540,7 +526,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     ///
     /// - Parameter CreateInputSecurityGroupInput : The IPv4 CIDRs to whitelist for this Input Security Group
     ///
-    /// - Returns: `CreateInputSecurityGroupOutputResponse` : Placeholder documentation for CreateInputSecurityGroupResponse
+    /// - Returns: `CreateInputSecurityGroupOutput` : Placeholder documentation for CreateInputSecurityGroupResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -551,7 +537,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    public func createInputSecurityGroup(input: CreateInputSecurityGroupInput) async throws -> CreateInputSecurityGroupOutputResponse
+    public func createInputSecurityGroup(input: CreateInputSecurityGroupInput) async throws -> CreateInputSecurityGroupOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -567,20 +553,20 @@ extension MediaLiveClient: MediaLiveClientProtocol {
                       .withSigningName(value: "medialive")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateInputSecurityGroupInput, CreateInputSecurityGroupOutputResponse, CreateInputSecurityGroupOutputError>(id: "createInputSecurityGroup")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateInputSecurityGroupInput, CreateInputSecurityGroupOutputResponse, CreateInputSecurityGroupOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateInputSecurityGroupInput, CreateInputSecurityGroupOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateInputSecurityGroupInput, CreateInputSecurityGroupOutput, CreateInputSecurityGroupOutputError>(id: "createInputSecurityGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateInputSecurityGroupInput, CreateInputSecurityGroupOutput, CreateInputSecurityGroupOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateInputSecurityGroupInput, CreateInputSecurityGroupOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateInputSecurityGroupOutputResponse, CreateInputSecurityGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateInputSecurityGroupOutput, CreateInputSecurityGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateInputSecurityGroupInput, CreateInputSecurityGroupOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateInputSecurityGroupInput, CreateInputSecurityGroupOutputResponse>(xmlName: "CreateInputSecurityGroupRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateInputSecurityGroupInput, CreateInputSecurityGroupOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateInputSecurityGroupInput, CreateInputSecurityGroupOutput>(xmlName: "CreateInputSecurityGroupRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateInputSecurityGroupOutputResponse, CreateInputSecurityGroupOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateInputSecurityGroupOutput, CreateInputSecurityGroupOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateInputSecurityGroupOutputResponse, CreateInputSecurityGroupOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateInputSecurityGroupOutputResponse, CreateInputSecurityGroupOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateInputSecurityGroupOutputResponse, CreateInputSecurityGroupOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateInputSecurityGroupOutput, CreateInputSecurityGroupOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateInputSecurityGroupOutput, CreateInputSecurityGroupOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateInputSecurityGroupOutput, CreateInputSecurityGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -589,7 +575,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     ///
     /// - Parameter CreateMultiplexInput : A request to create a multiplex.
     ///
-    /// - Returns: `CreateMultiplexOutputResponse` : Placeholder documentation for CreateMultiplexResponse
+    /// - Returns: `CreateMultiplexOutput` : Placeholder documentation for CreateMultiplexResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -602,7 +588,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
-    public func createMultiplex(input: CreateMultiplexInput) async throws -> CreateMultiplexOutputResponse
+    public func createMultiplex(input: CreateMultiplexInput) async throws -> CreateMultiplexOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -618,28 +604,21 @@ extension MediaLiveClient: MediaLiveClientProtocol {
                       .withSigningName(value: "medialive")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateMultiplexInput, CreateMultiplexOutputResponse, CreateMultiplexOutputError>(id: "createMultiplex")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateMultiplexOutputResponse> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.requestId == nil {
-                copiedInput.requestId = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateMultiplexInput, CreateMultiplexOutputResponse, CreateMultiplexOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateMultiplexInput, CreateMultiplexOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateMultiplexInput, CreateMultiplexOutput, CreateMultiplexOutputError>(id: "createMultiplex")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateMultiplexInput, CreateMultiplexOutput, CreateMultiplexOutputError>(keyPath: \.requestId))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateMultiplexInput, CreateMultiplexOutput, CreateMultiplexOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateMultiplexInput, CreateMultiplexOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateMultiplexOutputResponse, CreateMultiplexOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateMultiplexOutput, CreateMultiplexOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateMultiplexInput, CreateMultiplexOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateMultiplexInput, CreateMultiplexOutputResponse>(xmlName: "CreateMultiplexRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateMultiplexInput, CreateMultiplexOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateMultiplexInput, CreateMultiplexOutput>(xmlName: "CreateMultiplexRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateMultiplexOutputResponse, CreateMultiplexOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateMultiplexOutput, CreateMultiplexOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateMultiplexOutputResponse, CreateMultiplexOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateMultiplexOutputResponse, CreateMultiplexOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateMultiplexOutputResponse, CreateMultiplexOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateMultiplexOutput, CreateMultiplexOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateMultiplexOutput, CreateMultiplexOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateMultiplexOutput, CreateMultiplexOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -648,7 +627,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     ///
     /// - Parameter CreateMultiplexProgramInput : A request to create a program in a multiplex.
     ///
-    /// - Returns: `CreateMultiplexProgramOutputResponse` : Placeholder documentation for CreateMultiplexProgramResponse
+    /// - Returns: `CreateMultiplexProgramOutput` : Placeholder documentation for CreateMultiplexProgramResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -661,7 +640,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
-    public func createMultiplexProgram(input: CreateMultiplexProgramInput) async throws -> CreateMultiplexProgramOutputResponse
+    public func createMultiplexProgram(input: CreateMultiplexProgramInput) async throws -> CreateMultiplexProgramOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -677,28 +656,21 @@ extension MediaLiveClient: MediaLiveClientProtocol {
                       .withSigningName(value: "medialive")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateMultiplexProgramInput, CreateMultiplexProgramOutputResponse, CreateMultiplexProgramOutputError>(id: "createMultiplexProgram")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateMultiplexProgramOutputResponse> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.requestId == nil {
-                copiedInput.requestId = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateMultiplexProgramInput, CreateMultiplexProgramOutputResponse, CreateMultiplexProgramOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateMultiplexProgramInput, CreateMultiplexProgramOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateMultiplexProgramInput, CreateMultiplexProgramOutput, CreateMultiplexProgramOutputError>(id: "createMultiplexProgram")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateMultiplexProgramInput, CreateMultiplexProgramOutput, CreateMultiplexProgramOutputError>(keyPath: \.requestId))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateMultiplexProgramInput, CreateMultiplexProgramOutput, CreateMultiplexProgramOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateMultiplexProgramInput, CreateMultiplexProgramOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateMultiplexProgramOutputResponse, CreateMultiplexProgramOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateMultiplexProgramOutput, CreateMultiplexProgramOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateMultiplexProgramInput, CreateMultiplexProgramOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateMultiplexProgramInput, CreateMultiplexProgramOutputResponse>(xmlName: "CreateMultiplexProgramRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateMultiplexProgramInput, CreateMultiplexProgramOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateMultiplexProgramInput, CreateMultiplexProgramOutput>(xmlName: "CreateMultiplexProgramRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateMultiplexProgramOutputResponse, CreateMultiplexProgramOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateMultiplexProgramOutput, CreateMultiplexProgramOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateMultiplexProgramOutputResponse, CreateMultiplexProgramOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateMultiplexProgramOutputResponse, CreateMultiplexProgramOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateMultiplexProgramOutputResponse, CreateMultiplexProgramOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateMultiplexProgramOutput, CreateMultiplexProgramOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateMultiplexProgramOutput, CreateMultiplexProgramOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateMultiplexProgramOutput, CreateMultiplexProgramOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -707,7 +679,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     ///
     /// - Parameter CreatePartnerInputInput : A request to create a partner input
     ///
-    /// - Returns: `CreatePartnerInputOutputResponse` : Placeholder documentation for CreatePartnerInputResponse
+    /// - Returns: `CreatePartnerInputOutput` : Placeholder documentation for CreatePartnerInputResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -718,7 +690,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    public func createPartnerInput(input: CreatePartnerInputInput) async throws -> CreatePartnerInputOutputResponse
+    public func createPartnerInput(input: CreatePartnerInputInput) async throws -> CreatePartnerInputOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -734,28 +706,21 @@ extension MediaLiveClient: MediaLiveClientProtocol {
                       .withSigningName(value: "medialive")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreatePartnerInputInput, CreatePartnerInputOutputResponse, CreatePartnerInputOutputError>(id: "createPartnerInput")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreatePartnerInputOutputResponse> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.requestId == nil {
-                copiedInput.requestId = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreatePartnerInputInput, CreatePartnerInputOutputResponse, CreatePartnerInputOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreatePartnerInputInput, CreatePartnerInputOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreatePartnerInputInput, CreatePartnerInputOutput, CreatePartnerInputOutputError>(id: "createPartnerInput")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreatePartnerInputInput, CreatePartnerInputOutput, CreatePartnerInputOutputError>(keyPath: \.requestId))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreatePartnerInputInput, CreatePartnerInputOutput, CreatePartnerInputOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreatePartnerInputInput, CreatePartnerInputOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreatePartnerInputOutputResponse, CreatePartnerInputOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreatePartnerInputOutput, CreatePartnerInputOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreatePartnerInputInput, CreatePartnerInputOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreatePartnerInputInput, CreatePartnerInputOutputResponse>(xmlName: "CreatePartnerInputRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreatePartnerInputInput, CreatePartnerInputOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreatePartnerInputInput, CreatePartnerInputOutput>(xmlName: "CreatePartnerInputRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreatePartnerInputOutputResponse, CreatePartnerInputOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreatePartnerInputOutput, CreatePartnerInputOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreatePartnerInputOutputResponse, CreatePartnerInputOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreatePartnerInputOutputResponse, CreatePartnerInputOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreatePartnerInputOutputResponse, CreatePartnerInputOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreatePartnerInputOutput, CreatePartnerInputOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreatePartnerInputOutput, CreatePartnerInputOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreatePartnerInputOutput, CreatePartnerInputOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -764,7 +729,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     ///
     /// - Parameter CreateTagsInput : Placeholder documentation for CreateTagsRequest
     ///
-    /// - Returns: `CreateTagsOutputResponse` : [no documentation found]
+    /// - Returns: `CreateTagsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -773,7 +738,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
-    public func createTags(input: CreateTagsInput) async throws -> CreateTagsOutputResponse
+    public func createTags(input: CreateTagsInput) async throws -> CreateTagsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -789,20 +754,20 @@ extension MediaLiveClient: MediaLiveClientProtocol {
                       .withSigningName(value: "medialive")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateTagsInput, CreateTagsOutputResponse, CreateTagsOutputError>(id: "createTags")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateTagsInput, CreateTagsOutputResponse, CreateTagsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateTagsInput, CreateTagsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateTagsInput, CreateTagsOutput, CreateTagsOutputError>(id: "createTags")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateTagsInput, CreateTagsOutput, CreateTagsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateTagsInput, CreateTagsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateTagsOutputResponse, CreateTagsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateTagsOutput, CreateTagsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateTagsInput, CreateTagsOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateTagsInput, CreateTagsOutputResponse>(xmlName: "CreateTagsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateTagsInput, CreateTagsOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateTagsInput, CreateTagsOutput>(xmlName: "CreateTagsRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateTagsOutputResponse, CreateTagsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateTagsOutput, CreateTagsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateTagsOutputResponse, CreateTagsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateTagsOutputResponse, CreateTagsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateTagsOutputResponse, CreateTagsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateTagsOutput, CreateTagsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateTagsOutput, CreateTagsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateTagsOutput, CreateTagsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -811,7 +776,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     ///
     /// - Parameter DeleteChannelInput : Placeholder documentation for DeleteChannelRequest
     ///
-    /// - Returns: `DeleteChannelOutputResponse` : Placeholder documentation for DeleteChannelResponse
+    /// - Returns: `DeleteChannelOutput` : Placeholder documentation for DeleteChannelResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -824,7 +789,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    public func deleteChannel(input: DeleteChannelInput) async throws -> DeleteChannelOutputResponse
+    public func deleteChannel(input: DeleteChannelInput) async throws -> DeleteChannelOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -840,17 +805,17 @@ extension MediaLiveClient: MediaLiveClientProtocol {
                       .withSigningName(value: "medialive")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteChannelInput, DeleteChannelOutputResponse, DeleteChannelOutputError>(id: "deleteChannel")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteChannelInput, DeleteChannelOutputResponse, DeleteChannelOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteChannelInput, DeleteChannelOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteChannelInput, DeleteChannelOutput, DeleteChannelOutputError>(id: "deleteChannel")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteChannelInput, DeleteChannelOutput, DeleteChannelOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteChannelInput, DeleteChannelOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteChannelOutputResponse, DeleteChannelOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteChannelOutput, DeleteChannelOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteChannelOutputResponse, DeleteChannelOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteChannelOutput, DeleteChannelOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteChannelOutputResponse, DeleteChannelOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteChannelOutputResponse, DeleteChannelOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteChannelOutputResponse, DeleteChannelOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteChannelOutput, DeleteChannelOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteChannelOutput, DeleteChannelOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteChannelOutput, DeleteChannelOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -859,7 +824,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     ///
     /// - Parameter DeleteInputInput : Placeholder documentation for DeleteInputRequest
     ///
-    /// - Returns: `DeleteInputOutputResponse` : Placeholder documentation for DeleteInputResponse
+    /// - Returns: `DeleteInputOutput` : Placeholder documentation for DeleteInputResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -872,7 +837,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    public func deleteInput(input: DeleteInputInput) async throws -> DeleteInputOutputResponse
+    public func deleteInput(input: DeleteInputInput) async throws -> DeleteInputOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -888,17 +853,17 @@ extension MediaLiveClient: MediaLiveClientProtocol {
                       .withSigningName(value: "medialive")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteInputInput, DeleteInputOutputResponse, DeleteInputOutputError>(id: "deleteInput")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteInputInput, DeleteInputOutputResponse, DeleteInputOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteInputInput, DeleteInputOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteInputInput, DeleteInputOutput, DeleteInputOutputError>(id: "deleteInput")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteInputInput, DeleteInputOutput, DeleteInputOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteInputInput, DeleteInputOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteInputOutputResponse, DeleteInputOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteInputOutput, DeleteInputOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteInputOutputResponse, DeleteInputOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteInputOutput, DeleteInputOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteInputOutputResponse, DeleteInputOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteInputOutputResponse, DeleteInputOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteInputOutputResponse, DeleteInputOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteInputOutput, DeleteInputOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteInputOutput, DeleteInputOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteInputOutput, DeleteInputOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -907,7 +872,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     ///
     /// - Parameter DeleteInputSecurityGroupInput : Placeholder documentation for DeleteInputSecurityGroupRequest
     ///
-    /// - Returns: `DeleteInputSecurityGroupOutputResponse` : Placeholder documentation for DeleteInputSecurityGroupResponse
+    /// - Returns: `DeleteInputSecurityGroupOutput` : Placeholder documentation for DeleteInputSecurityGroupResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -919,7 +884,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    public func deleteInputSecurityGroup(input: DeleteInputSecurityGroupInput) async throws -> DeleteInputSecurityGroupOutputResponse
+    public func deleteInputSecurityGroup(input: DeleteInputSecurityGroupInput) async throws -> DeleteInputSecurityGroupOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -935,17 +900,17 @@ extension MediaLiveClient: MediaLiveClientProtocol {
                       .withSigningName(value: "medialive")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteInputSecurityGroupInput, DeleteInputSecurityGroupOutputResponse, DeleteInputSecurityGroupOutputError>(id: "deleteInputSecurityGroup")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteInputSecurityGroupInput, DeleteInputSecurityGroupOutputResponse, DeleteInputSecurityGroupOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteInputSecurityGroupInput, DeleteInputSecurityGroupOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteInputSecurityGroupInput, DeleteInputSecurityGroupOutput, DeleteInputSecurityGroupOutputError>(id: "deleteInputSecurityGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteInputSecurityGroupInput, DeleteInputSecurityGroupOutput, DeleteInputSecurityGroupOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteInputSecurityGroupInput, DeleteInputSecurityGroupOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteInputSecurityGroupOutputResponse, DeleteInputSecurityGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteInputSecurityGroupOutput, DeleteInputSecurityGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteInputSecurityGroupOutputResponse, DeleteInputSecurityGroupOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteInputSecurityGroupOutput, DeleteInputSecurityGroupOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteInputSecurityGroupOutputResponse, DeleteInputSecurityGroupOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteInputSecurityGroupOutputResponse, DeleteInputSecurityGroupOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteInputSecurityGroupOutputResponse, DeleteInputSecurityGroupOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteInputSecurityGroupOutput, DeleteInputSecurityGroupOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteInputSecurityGroupOutput, DeleteInputSecurityGroupOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteInputSecurityGroupOutput, DeleteInputSecurityGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -954,7 +919,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     ///
     /// - Parameter DeleteMultiplexInput : Placeholder documentation for DeleteMultiplexRequest
     ///
-    /// - Returns: `DeleteMultiplexOutputResponse` : Placeholder documentation for DeleteMultiplexResponse
+    /// - Returns: `DeleteMultiplexOutput` : Placeholder documentation for DeleteMultiplexResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -967,7 +932,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    public func deleteMultiplex(input: DeleteMultiplexInput) async throws -> DeleteMultiplexOutputResponse
+    public func deleteMultiplex(input: DeleteMultiplexInput) async throws -> DeleteMultiplexOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -983,17 +948,17 @@ extension MediaLiveClient: MediaLiveClientProtocol {
                       .withSigningName(value: "medialive")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteMultiplexInput, DeleteMultiplexOutputResponse, DeleteMultiplexOutputError>(id: "deleteMultiplex")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteMultiplexInput, DeleteMultiplexOutputResponse, DeleteMultiplexOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteMultiplexInput, DeleteMultiplexOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteMultiplexInput, DeleteMultiplexOutput, DeleteMultiplexOutputError>(id: "deleteMultiplex")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteMultiplexInput, DeleteMultiplexOutput, DeleteMultiplexOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteMultiplexInput, DeleteMultiplexOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteMultiplexOutputResponse, DeleteMultiplexOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteMultiplexOutput, DeleteMultiplexOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteMultiplexOutputResponse, DeleteMultiplexOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteMultiplexOutput, DeleteMultiplexOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteMultiplexOutputResponse, DeleteMultiplexOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteMultiplexOutputResponse, DeleteMultiplexOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteMultiplexOutputResponse, DeleteMultiplexOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteMultiplexOutput, DeleteMultiplexOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteMultiplexOutput, DeleteMultiplexOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteMultiplexOutput, DeleteMultiplexOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1002,7 +967,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     ///
     /// - Parameter DeleteMultiplexProgramInput : Placeholder documentation for DeleteMultiplexProgramRequest
     ///
-    /// - Returns: `DeleteMultiplexProgramOutputResponse` : Placeholder documentation for DeleteMultiplexProgramResponse
+    /// - Returns: `DeleteMultiplexProgramOutput` : Placeholder documentation for DeleteMultiplexProgramResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1015,7 +980,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    public func deleteMultiplexProgram(input: DeleteMultiplexProgramInput) async throws -> DeleteMultiplexProgramOutputResponse
+    public func deleteMultiplexProgram(input: DeleteMultiplexProgramInput) async throws -> DeleteMultiplexProgramOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1031,17 +996,17 @@ extension MediaLiveClient: MediaLiveClientProtocol {
                       .withSigningName(value: "medialive")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteMultiplexProgramInput, DeleteMultiplexProgramOutputResponse, DeleteMultiplexProgramOutputError>(id: "deleteMultiplexProgram")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteMultiplexProgramInput, DeleteMultiplexProgramOutputResponse, DeleteMultiplexProgramOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteMultiplexProgramInput, DeleteMultiplexProgramOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteMultiplexProgramInput, DeleteMultiplexProgramOutput, DeleteMultiplexProgramOutputError>(id: "deleteMultiplexProgram")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteMultiplexProgramInput, DeleteMultiplexProgramOutput, DeleteMultiplexProgramOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteMultiplexProgramInput, DeleteMultiplexProgramOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteMultiplexProgramOutputResponse, DeleteMultiplexProgramOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteMultiplexProgramOutput, DeleteMultiplexProgramOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteMultiplexProgramOutputResponse, DeleteMultiplexProgramOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteMultiplexProgramOutput, DeleteMultiplexProgramOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteMultiplexProgramOutputResponse, DeleteMultiplexProgramOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteMultiplexProgramOutputResponse, DeleteMultiplexProgramOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteMultiplexProgramOutputResponse, DeleteMultiplexProgramOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteMultiplexProgramOutput, DeleteMultiplexProgramOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteMultiplexProgramOutput, DeleteMultiplexProgramOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteMultiplexProgramOutput, DeleteMultiplexProgramOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1050,7 +1015,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     ///
     /// - Parameter DeleteReservationInput : Placeholder documentation for DeleteReservationRequest
     ///
-    /// - Returns: `DeleteReservationOutputResponse` : Placeholder documentation for DeleteReservationResponse
+    /// - Returns: `DeleteReservationOutput` : Placeholder documentation for DeleteReservationResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1063,7 +1028,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    public func deleteReservation(input: DeleteReservationInput) async throws -> DeleteReservationOutputResponse
+    public func deleteReservation(input: DeleteReservationInput) async throws -> DeleteReservationOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1079,17 +1044,17 @@ extension MediaLiveClient: MediaLiveClientProtocol {
                       .withSigningName(value: "medialive")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteReservationInput, DeleteReservationOutputResponse, DeleteReservationOutputError>(id: "deleteReservation")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteReservationInput, DeleteReservationOutputResponse, DeleteReservationOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteReservationInput, DeleteReservationOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteReservationInput, DeleteReservationOutput, DeleteReservationOutputError>(id: "deleteReservation")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteReservationInput, DeleteReservationOutput, DeleteReservationOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteReservationInput, DeleteReservationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteReservationOutputResponse, DeleteReservationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteReservationOutput, DeleteReservationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteReservationOutputResponse, DeleteReservationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteReservationOutput, DeleteReservationOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteReservationOutputResponse, DeleteReservationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteReservationOutputResponse, DeleteReservationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteReservationOutputResponse, DeleteReservationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteReservationOutput, DeleteReservationOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteReservationOutput, DeleteReservationOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteReservationOutput, DeleteReservationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1098,7 +1063,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     ///
     /// - Parameter DeleteScheduleInput : Placeholder documentation for DeleteScheduleRequest
     ///
-    /// - Returns: `DeleteScheduleOutputResponse` : Placeholder documentation for DeleteScheduleResponse
+    /// - Returns: `DeleteScheduleOutput` : Placeholder documentation for DeleteScheduleResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1110,7 +1075,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    public func deleteSchedule(input: DeleteScheduleInput) async throws -> DeleteScheduleOutputResponse
+    public func deleteSchedule(input: DeleteScheduleInput) async throws -> DeleteScheduleOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1126,17 +1091,17 @@ extension MediaLiveClient: MediaLiveClientProtocol {
                       .withSigningName(value: "medialive")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteScheduleInput, DeleteScheduleOutputResponse, DeleteScheduleOutputError>(id: "deleteSchedule")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteScheduleInput, DeleteScheduleOutputResponse, DeleteScheduleOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteScheduleInput, DeleteScheduleOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteScheduleInput, DeleteScheduleOutput, DeleteScheduleOutputError>(id: "deleteSchedule")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteScheduleInput, DeleteScheduleOutput, DeleteScheduleOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteScheduleInput, DeleteScheduleOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteScheduleOutputResponse, DeleteScheduleOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteScheduleOutput, DeleteScheduleOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteScheduleOutputResponse, DeleteScheduleOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteScheduleOutput, DeleteScheduleOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteScheduleOutputResponse, DeleteScheduleOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteScheduleOutputResponse, DeleteScheduleOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteScheduleOutputResponse, DeleteScheduleOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteScheduleOutput, DeleteScheduleOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteScheduleOutput, DeleteScheduleOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteScheduleOutput, DeleteScheduleOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1145,7 +1110,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     ///
     /// - Parameter DeleteTagsInput : Placeholder documentation for DeleteTagsRequest
     ///
-    /// - Returns: `DeleteTagsOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteTagsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1154,7 +1119,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
-    public func deleteTags(input: DeleteTagsInput) async throws -> DeleteTagsOutputResponse
+    public func deleteTags(input: DeleteTagsInput) async throws -> DeleteTagsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1170,18 +1135,18 @@ extension MediaLiveClient: MediaLiveClientProtocol {
                       .withSigningName(value: "medialive")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteTagsInput, DeleteTagsOutputResponse, DeleteTagsOutputError>(id: "deleteTags")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteTagsInput, DeleteTagsOutputResponse, DeleteTagsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteTagsInput, DeleteTagsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteTagsInput, DeleteTagsOutput, DeleteTagsOutputError>(id: "deleteTags")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteTagsInput, DeleteTagsOutput, DeleteTagsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteTagsInput, DeleteTagsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteTagsOutputResponse, DeleteTagsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteTagsOutput, DeleteTagsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DeleteTagsInput, DeleteTagsOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteTagsOutputResponse, DeleteTagsOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DeleteTagsInput, DeleteTagsOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteTagsOutput, DeleteTagsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteTagsOutputResponse, DeleteTagsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteTagsOutputResponse, DeleteTagsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteTagsOutputResponse, DeleteTagsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteTagsOutput, DeleteTagsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteTagsOutput, DeleteTagsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteTagsOutput, DeleteTagsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1190,7 +1155,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     ///
     /// - Parameter DescribeAccountConfigurationInput : Placeholder documentation for DescribeAccountConfigurationRequest
     ///
-    /// - Returns: `DescribeAccountConfigurationOutputResponse` : Placeholder documentation for DescribeAccountConfigurationResponse
+    /// - Returns: `DescribeAccountConfigurationOutput` : Placeholder documentation for DescribeAccountConfigurationResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1201,7 +1166,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    public func describeAccountConfiguration(input: DescribeAccountConfigurationInput) async throws -> DescribeAccountConfigurationOutputResponse
+    public func describeAccountConfiguration(input: DescribeAccountConfigurationInput) async throws -> DescribeAccountConfigurationOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1217,17 +1182,17 @@ extension MediaLiveClient: MediaLiveClientProtocol {
                       .withSigningName(value: "medialive")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeAccountConfigurationInput, DescribeAccountConfigurationOutputResponse, DescribeAccountConfigurationOutputError>(id: "describeAccountConfiguration")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAccountConfigurationInput, DescribeAccountConfigurationOutputResponse, DescribeAccountConfigurationOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAccountConfigurationInput, DescribeAccountConfigurationOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeAccountConfigurationInput, DescribeAccountConfigurationOutput, DescribeAccountConfigurationOutputError>(id: "describeAccountConfiguration")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAccountConfigurationInput, DescribeAccountConfigurationOutput, DescribeAccountConfigurationOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAccountConfigurationInput, DescribeAccountConfigurationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeAccountConfigurationOutputResponse, DescribeAccountConfigurationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeAccountConfigurationOutput, DescribeAccountConfigurationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeAccountConfigurationOutputResponse, DescribeAccountConfigurationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeAccountConfigurationOutput, DescribeAccountConfigurationOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAccountConfigurationOutputResponse, DescribeAccountConfigurationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAccountConfigurationOutputResponse, DescribeAccountConfigurationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAccountConfigurationOutputResponse, DescribeAccountConfigurationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAccountConfigurationOutput, DescribeAccountConfigurationOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAccountConfigurationOutput, DescribeAccountConfigurationOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAccountConfigurationOutput, DescribeAccountConfigurationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1236,7 +1201,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     ///
     /// - Parameter DescribeChannelInput : Placeholder documentation for DescribeChannelRequest
     ///
-    /// - Returns: `DescribeChannelOutputResponse` : Placeholder documentation for DescribeChannelResponse
+    /// - Returns: `DescribeChannelOutput` : Placeholder documentation for DescribeChannelResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1248,7 +1213,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    public func describeChannel(input: DescribeChannelInput) async throws -> DescribeChannelOutputResponse
+    public func describeChannel(input: DescribeChannelInput) async throws -> DescribeChannelOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1264,17 +1229,17 @@ extension MediaLiveClient: MediaLiveClientProtocol {
                       .withSigningName(value: "medialive")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeChannelInput, DescribeChannelOutputResponse, DescribeChannelOutputError>(id: "describeChannel")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeChannelInput, DescribeChannelOutputResponse, DescribeChannelOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeChannelInput, DescribeChannelOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeChannelInput, DescribeChannelOutput, DescribeChannelOutputError>(id: "describeChannel")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeChannelInput, DescribeChannelOutput, DescribeChannelOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeChannelInput, DescribeChannelOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeChannelOutputResponse, DescribeChannelOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeChannelOutput, DescribeChannelOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeChannelOutputResponse, DescribeChannelOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeChannelOutput, DescribeChannelOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeChannelOutputResponse, DescribeChannelOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeChannelOutputResponse, DescribeChannelOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeChannelOutputResponse, DescribeChannelOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeChannelOutput, DescribeChannelOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeChannelOutput, DescribeChannelOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeChannelOutput, DescribeChannelOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1283,7 +1248,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     ///
     /// - Parameter DescribeInputInput : Placeholder documentation for DescribeInputRequest
     ///
-    /// - Returns: `DescribeInputOutputResponse` : Placeholder documentation for DescribeInputResponse
+    /// - Returns: `DescribeInputOutput` : Placeholder documentation for DescribeInputResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1295,7 +1260,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    public func describeInput(input: DescribeInputInput) async throws -> DescribeInputOutputResponse
+    public func describeInput(input: DescribeInputInput) async throws -> DescribeInputOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1311,17 +1276,17 @@ extension MediaLiveClient: MediaLiveClientProtocol {
                       .withSigningName(value: "medialive")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeInputInput, DescribeInputOutputResponse, DescribeInputOutputError>(id: "describeInput")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeInputInput, DescribeInputOutputResponse, DescribeInputOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeInputInput, DescribeInputOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeInputInput, DescribeInputOutput, DescribeInputOutputError>(id: "describeInput")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeInputInput, DescribeInputOutput, DescribeInputOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeInputInput, DescribeInputOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeInputOutputResponse, DescribeInputOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeInputOutput, DescribeInputOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeInputOutputResponse, DescribeInputOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeInputOutput, DescribeInputOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeInputOutputResponse, DescribeInputOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeInputOutputResponse, DescribeInputOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeInputOutputResponse, DescribeInputOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeInputOutput, DescribeInputOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeInputOutput, DescribeInputOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeInputOutput, DescribeInputOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1330,7 +1295,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     ///
     /// - Parameter DescribeInputDeviceInput : Placeholder documentation for DescribeInputDeviceRequest
     ///
-    /// - Returns: `DescribeInputDeviceOutputResponse` : Placeholder documentation for DescribeInputDeviceResponse
+    /// - Returns: `DescribeInputDeviceOutput` : Placeholder documentation for DescribeInputDeviceResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1342,7 +1307,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    public func describeInputDevice(input: DescribeInputDeviceInput) async throws -> DescribeInputDeviceOutputResponse
+    public func describeInputDevice(input: DescribeInputDeviceInput) async throws -> DescribeInputDeviceOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1358,17 +1323,17 @@ extension MediaLiveClient: MediaLiveClientProtocol {
                       .withSigningName(value: "medialive")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeInputDeviceInput, DescribeInputDeviceOutputResponse, DescribeInputDeviceOutputError>(id: "describeInputDevice")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeInputDeviceInput, DescribeInputDeviceOutputResponse, DescribeInputDeviceOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeInputDeviceInput, DescribeInputDeviceOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeInputDeviceInput, DescribeInputDeviceOutput, DescribeInputDeviceOutputError>(id: "describeInputDevice")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeInputDeviceInput, DescribeInputDeviceOutput, DescribeInputDeviceOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeInputDeviceInput, DescribeInputDeviceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeInputDeviceOutputResponse, DescribeInputDeviceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeInputDeviceOutput, DescribeInputDeviceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeInputDeviceOutputResponse, DescribeInputDeviceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeInputDeviceOutput, DescribeInputDeviceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeInputDeviceOutputResponse, DescribeInputDeviceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeInputDeviceOutputResponse, DescribeInputDeviceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeInputDeviceOutputResponse, DescribeInputDeviceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeInputDeviceOutput, DescribeInputDeviceOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeInputDeviceOutput, DescribeInputDeviceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeInputDeviceOutput, DescribeInputDeviceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1377,7 +1342,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     ///
     /// - Parameter DescribeInputDeviceThumbnailInput : Placeholder documentation for DescribeInputDeviceThumbnailRequest
     ///
-    /// - Returns: `DescribeInputDeviceThumbnailOutputResponse` : Placeholder documentation for DescribeInputDeviceThumbnailResponse
+    /// - Returns: `DescribeInputDeviceThumbnailOutput` : Placeholder documentation for DescribeInputDeviceThumbnailResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1389,7 +1354,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    public func describeInputDeviceThumbnail(input: DescribeInputDeviceThumbnailInput) async throws -> DescribeInputDeviceThumbnailOutputResponse
+    public func describeInputDeviceThumbnail(input: DescribeInputDeviceThumbnailInput) async throws -> DescribeInputDeviceThumbnailOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1405,18 +1370,18 @@ extension MediaLiveClient: MediaLiveClientProtocol {
                       .withSigningName(value: "medialive")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeInputDeviceThumbnailInput, DescribeInputDeviceThumbnailOutputResponse, DescribeInputDeviceThumbnailOutputError>(id: "describeInputDeviceThumbnail")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeInputDeviceThumbnailInput, DescribeInputDeviceThumbnailOutputResponse, DescribeInputDeviceThumbnailOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeInputDeviceThumbnailInput, DescribeInputDeviceThumbnailOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeInputDeviceThumbnailInput, DescribeInputDeviceThumbnailOutput, DescribeInputDeviceThumbnailOutputError>(id: "describeInputDeviceThumbnail")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeInputDeviceThumbnailInput, DescribeInputDeviceThumbnailOutput, DescribeInputDeviceThumbnailOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeInputDeviceThumbnailInput, DescribeInputDeviceThumbnailOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeInputDeviceThumbnailOutputResponse, DescribeInputDeviceThumbnailOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeInputDeviceThumbnailOutput, DescribeInputDeviceThumbnailOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<DescribeInputDeviceThumbnailInput, DescribeInputDeviceThumbnailOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeInputDeviceThumbnailOutputResponse, DescribeInputDeviceThumbnailOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<DescribeInputDeviceThumbnailInput, DescribeInputDeviceThumbnailOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeInputDeviceThumbnailOutput, DescribeInputDeviceThumbnailOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeInputDeviceThumbnailOutputResponse, DescribeInputDeviceThumbnailOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeInputDeviceThumbnailOutputResponse, DescribeInputDeviceThumbnailOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeInputDeviceThumbnailOutputResponse, DescribeInputDeviceThumbnailOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeInputDeviceThumbnailOutput, DescribeInputDeviceThumbnailOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeInputDeviceThumbnailOutput, DescribeInputDeviceThumbnailOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeInputDeviceThumbnailOutput, DescribeInputDeviceThumbnailOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1425,7 +1390,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     ///
     /// - Parameter DescribeInputSecurityGroupInput : Placeholder documentation for DescribeInputSecurityGroupRequest
     ///
-    /// - Returns: `DescribeInputSecurityGroupOutputResponse` : Placeholder documentation for DescribeInputSecurityGroupResponse
+    /// - Returns: `DescribeInputSecurityGroupOutput` : Placeholder documentation for DescribeInputSecurityGroupResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1437,7 +1402,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    public func describeInputSecurityGroup(input: DescribeInputSecurityGroupInput) async throws -> DescribeInputSecurityGroupOutputResponse
+    public func describeInputSecurityGroup(input: DescribeInputSecurityGroupInput) async throws -> DescribeInputSecurityGroupOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1453,17 +1418,17 @@ extension MediaLiveClient: MediaLiveClientProtocol {
                       .withSigningName(value: "medialive")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeInputSecurityGroupInput, DescribeInputSecurityGroupOutputResponse, DescribeInputSecurityGroupOutputError>(id: "describeInputSecurityGroup")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeInputSecurityGroupInput, DescribeInputSecurityGroupOutputResponse, DescribeInputSecurityGroupOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeInputSecurityGroupInput, DescribeInputSecurityGroupOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeInputSecurityGroupInput, DescribeInputSecurityGroupOutput, DescribeInputSecurityGroupOutputError>(id: "describeInputSecurityGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeInputSecurityGroupInput, DescribeInputSecurityGroupOutput, DescribeInputSecurityGroupOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeInputSecurityGroupInput, DescribeInputSecurityGroupOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeInputSecurityGroupOutputResponse, DescribeInputSecurityGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeInputSecurityGroupOutput, DescribeInputSecurityGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeInputSecurityGroupOutputResponse, DescribeInputSecurityGroupOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeInputSecurityGroupOutput, DescribeInputSecurityGroupOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeInputSecurityGroupOutputResponse, DescribeInputSecurityGroupOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeInputSecurityGroupOutputResponse, DescribeInputSecurityGroupOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeInputSecurityGroupOutputResponse, DescribeInputSecurityGroupOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeInputSecurityGroupOutput, DescribeInputSecurityGroupOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeInputSecurityGroupOutput, DescribeInputSecurityGroupOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeInputSecurityGroupOutput, DescribeInputSecurityGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1472,7 +1437,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     ///
     /// - Parameter DescribeMultiplexInput : Placeholder documentation for DescribeMultiplexRequest
     ///
-    /// - Returns: `DescribeMultiplexOutputResponse` : Placeholder documentation for DescribeMultiplexResponse
+    /// - Returns: `DescribeMultiplexOutput` : Placeholder documentation for DescribeMultiplexResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1484,7 +1449,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    public func describeMultiplex(input: DescribeMultiplexInput) async throws -> DescribeMultiplexOutputResponse
+    public func describeMultiplex(input: DescribeMultiplexInput) async throws -> DescribeMultiplexOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1500,17 +1465,17 @@ extension MediaLiveClient: MediaLiveClientProtocol {
                       .withSigningName(value: "medialive")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeMultiplexInput, DescribeMultiplexOutputResponse, DescribeMultiplexOutputError>(id: "describeMultiplex")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeMultiplexInput, DescribeMultiplexOutputResponse, DescribeMultiplexOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeMultiplexInput, DescribeMultiplexOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeMultiplexInput, DescribeMultiplexOutput, DescribeMultiplexOutputError>(id: "describeMultiplex")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeMultiplexInput, DescribeMultiplexOutput, DescribeMultiplexOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeMultiplexInput, DescribeMultiplexOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeMultiplexOutputResponse, DescribeMultiplexOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeMultiplexOutput, DescribeMultiplexOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeMultiplexOutputResponse, DescribeMultiplexOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeMultiplexOutput, DescribeMultiplexOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeMultiplexOutputResponse, DescribeMultiplexOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeMultiplexOutputResponse, DescribeMultiplexOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeMultiplexOutputResponse, DescribeMultiplexOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeMultiplexOutput, DescribeMultiplexOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeMultiplexOutput, DescribeMultiplexOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeMultiplexOutput, DescribeMultiplexOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1519,7 +1484,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     ///
     /// - Parameter DescribeMultiplexProgramInput : Placeholder documentation for DescribeMultiplexProgramRequest
     ///
-    /// - Returns: `DescribeMultiplexProgramOutputResponse` : Placeholder documentation for DescribeMultiplexProgramResponse
+    /// - Returns: `DescribeMultiplexProgramOutput` : Placeholder documentation for DescribeMultiplexProgramResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1531,7 +1496,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    public func describeMultiplexProgram(input: DescribeMultiplexProgramInput) async throws -> DescribeMultiplexProgramOutputResponse
+    public func describeMultiplexProgram(input: DescribeMultiplexProgramInput) async throws -> DescribeMultiplexProgramOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1547,17 +1512,17 @@ extension MediaLiveClient: MediaLiveClientProtocol {
                       .withSigningName(value: "medialive")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeMultiplexProgramInput, DescribeMultiplexProgramOutputResponse, DescribeMultiplexProgramOutputError>(id: "describeMultiplexProgram")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeMultiplexProgramInput, DescribeMultiplexProgramOutputResponse, DescribeMultiplexProgramOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeMultiplexProgramInput, DescribeMultiplexProgramOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeMultiplexProgramInput, DescribeMultiplexProgramOutput, DescribeMultiplexProgramOutputError>(id: "describeMultiplexProgram")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeMultiplexProgramInput, DescribeMultiplexProgramOutput, DescribeMultiplexProgramOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeMultiplexProgramInput, DescribeMultiplexProgramOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeMultiplexProgramOutputResponse, DescribeMultiplexProgramOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeMultiplexProgramOutput, DescribeMultiplexProgramOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeMultiplexProgramOutputResponse, DescribeMultiplexProgramOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeMultiplexProgramOutput, DescribeMultiplexProgramOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeMultiplexProgramOutputResponse, DescribeMultiplexProgramOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeMultiplexProgramOutputResponse, DescribeMultiplexProgramOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeMultiplexProgramOutputResponse, DescribeMultiplexProgramOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeMultiplexProgramOutput, DescribeMultiplexProgramOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeMultiplexProgramOutput, DescribeMultiplexProgramOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeMultiplexProgramOutput, DescribeMultiplexProgramOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1566,7 +1531,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     ///
     /// - Parameter DescribeOfferingInput : Placeholder documentation for DescribeOfferingRequest
     ///
-    /// - Returns: `DescribeOfferingOutputResponse` : Placeholder documentation for DescribeOfferingResponse
+    /// - Returns: `DescribeOfferingOutput` : Placeholder documentation for DescribeOfferingResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1578,7 +1543,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    public func describeOffering(input: DescribeOfferingInput) async throws -> DescribeOfferingOutputResponse
+    public func describeOffering(input: DescribeOfferingInput) async throws -> DescribeOfferingOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1594,17 +1559,17 @@ extension MediaLiveClient: MediaLiveClientProtocol {
                       .withSigningName(value: "medialive")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeOfferingInput, DescribeOfferingOutputResponse, DescribeOfferingOutputError>(id: "describeOffering")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeOfferingInput, DescribeOfferingOutputResponse, DescribeOfferingOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeOfferingInput, DescribeOfferingOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeOfferingInput, DescribeOfferingOutput, DescribeOfferingOutputError>(id: "describeOffering")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeOfferingInput, DescribeOfferingOutput, DescribeOfferingOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeOfferingInput, DescribeOfferingOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeOfferingOutputResponse, DescribeOfferingOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeOfferingOutput, DescribeOfferingOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeOfferingOutputResponse, DescribeOfferingOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeOfferingOutput, DescribeOfferingOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeOfferingOutputResponse, DescribeOfferingOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeOfferingOutputResponse, DescribeOfferingOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeOfferingOutputResponse, DescribeOfferingOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeOfferingOutput, DescribeOfferingOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeOfferingOutput, DescribeOfferingOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeOfferingOutput, DescribeOfferingOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1613,7 +1578,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     ///
     /// - Parameter DescribeReservationInput : Placeholder documentation for DescribeReservationRequest
     ///
-    /// - Returns: `DescribeReservationOutputResponse` : Placeholder documentation for DescribeReservationResponse
+    /// - Returns: `DescribeReservationOutput` : Placeholder documentation for DescribeReservationResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1625,7 +1590,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    public func describeReservation(input: DescribeReservationInput) async throws -> DescribeReservationOutputResponse
+    public func describeReservation(input: DescribeReservationInput) async throws -> DescribeReservationOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1641,17 +1606,17 @@ extension MediaLiveClient: MediaLiveClientProtocol {
                       .withSigningName(value: "medialive")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeReservationInput, DescribeReservationOutputResponse, DescribeReservationOutputError>(id: "describeReservation")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeReservationInput, DescribeReservationOutputResponse, DescribeReservationOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeReservationInput, DescribeReservationOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeReservationInput, DescribeReservationOutput, DescribeReservationOutputError>(id: "describeReservation")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeReservationInput, DescribeReservationOutput, DescribeReservationOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeReservationInput, DescribeReservationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeReservationOutputResponse, DescribeReservationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeReservationOutput, DescribeReservationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeReservationOutputResponse, DescribeReservationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeReservationOutput, DescribeReservationOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeReservationOutputResponse, DescribeReservationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeReservationOutputResponse, DescribeReservationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeReservationOutputResponse, DescribeReservationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeReservationOutput, DescribeReservationOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeReservationOutput, DescribeReservationOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeReservationOutput, DescribeReservationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1660,7 +1625,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     ///
     /// - Parameter DescribeScheduleInput : Placeholder documentation for DescribeScheduleRequest
     ///
-    /// - Returns: `DescribeScheduleOutputResponse` : Placeholder documentation for DescribeScheduleResponse
+    /// - Returns: `DescribeScheduleOutput` : Placeholder documentation for DescribeScheduleResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1672,7 +1637,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    public func describeSchedule(input: DescribeScheduleInput) async throws -> DescribeScheduleOutputResponse
+    public func describeSchedule(input: DescribeScheduleInput) async throws -> DescribeScheduleOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1688,18 +1653,18 @@ extension MediaLiveClient: MediaLiveClientProtocol {
                       .withSigningName(value: "medialive")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeScheduleInput, DescribeScheduleOutputResponse, DescribeScheduleOutputError>(id: "describeSchedule")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeScheduleInput, DescribeScheduleOutputResponse, DescribeScheduleOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeScheduleInput, DescribeScheduleOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeScheduleInput, DescribeScheduleOutput, DescribeScheduleOutputError>(id: "describeSchedule")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeScheduleInput, DescribeScheduleOutput, DescribeScheduleOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeScheduleInput, DescribeScheduleOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeScheduleOutputResponse, DescribeScheduleOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeScheduleOutput, DescribeScheduleOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DescribeScheduleInput, DescribeScheduleOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeScheduleOutputResponse, DescribeScheduleOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DescribeScheduleInput, DescribeScheduleOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeScheduleOutput, DescribeScheduleOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeScheduleOutputResponse, DescribeScheduleOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeScheduleOutputResponse, DescribeScheduleOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeScheduleOutputResponse, DescribeScheduleOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeScheduleOutput, DescribeScheduleOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeScheduleOutput, DescribeScheduleOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeScheduleOutput, DescribeScheduleOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1708,7 +1673,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     ///
     /// - Parameter DescribeThumbnailsInput : Placeholder documentation for DescribeThumbnailsRequest
     ///
-    /// - Returns: `DescribeThumbnailsOutputResponse` : Placeholder documentation for DescribeThumbnailsResponse
+    /// - Returns: `DescribeThumbnailsOutput` : Placeholder documentation for DescribeThumbnailsResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1721,7 +1686,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    public func describeThumbnails(input: DescribeThumbnailsInput) async throws -> DescribeThumbnailsOutputResponse
+    public func describeThumbnails(input: DescribeThumbnailsInput) async throws -> DescribeThumbnailsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1737,18 +1702,18 @@ extension MediaLiveClient: MediaLiveClientProtocol {
                       .withSigningName(value: "medialive")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeThumbnailsInput, DescribeThumbnailsOutputResponse, DescribeThumbnailsOutputError>(id: "describeThumbnails")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeThumbnailsInput, DescribeThumbnailsOutputResponse, DescribeThumbnailsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeThumbnailsInput, DescribeThumbnailsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeThumbnailsInput, DescribeThumbnailsOutput, DescribeThumbnailsOutputError>(id: "describeThumbnails")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeThumbnailsInput, DescribeThumbnailsOutput, DescribeThumbnailsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeThumbnailsInput, DescribeThumbnailsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeThumbnailsOutputResponse, DescribeThumbnailsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeThumbnailsOutput, DescribeThumbnailsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DescribeThumbnailsInput, DescribeThumbnailsOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeThumbnailsOutputResponse, DescribeThumbnailsOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DescribeThumbnailsInput, DescribeThumbnailsOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeThumbnailsOutput, DescribeThumbnailsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeThumbnailsOutputResponse, DescribeThumbnailsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeThumbnailsOutputResponse, DescribeThumbnailsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeThumbnailsOutputResponse, DescribeThumbnailsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeThumbnailsOutput, DescribeThumbnailsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeThumbnailsOutput, DescribeThumbnailsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeThumbnailsOutput, DescribeThumbnailsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1757,7 +1722,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     ///
     /// - Parameter ListChannelsInput : Placeholder documentation for ListChannelsRequest
     ///
-    /// - Returns: `ListChannelsOutputResponse` : Placeholder documentation for ListChannelsResponse
+    /// - Returns: `ListChannelsOutput` : Placeholder documentation for ListChannelsResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1768,7 +1733,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    public func listChannels(input: ListChannelsInput) async throws -> ListChannelsOutputResponse
+    public func listChannels(input: ListChannelsInput) async throws -> ListChannelsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1784,18 +1749,18 @@ extension MediaLiveClient: MediaLiveClientProtocol {
                       .withSigningName(value: "medialive")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListChannelsInput, ListChannelsOutputResponse, ListChannelsOutputError>(id: "listChannels")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListChannelsInput, ListChannelsOutputResponse, ListChannelsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListChannelsInput, ListChannelsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListChannelsInput, ListChannelsOutput, ListChannelsOutputError>(id: "listChannels")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListChannelsInput, ListChannelsOutput, ListChannelsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListChannelsInput, ListChannelsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListChannelsOutputResponse, ListChannelsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListChannelsOutput, ListChannelsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListChannelsInput, ListChannelsOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListChannelsOutputResponse, ListChannelsOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListChannelsInput, ListChannelsOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListChannelsOutput, ListChannelsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListChannelsOutputResponse, ListChannelsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListChannelsOutputResponse, ListChannelsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListChannelsOutputResponse, ListChannelsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListChannelsOutput, ListChannelsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListChannelsOutput, ListChannelsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListChannelsOutput, ListChannelsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1804,7 +1769,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     ///
     /// - Parameter ListInputDeviceTransfersInput : Placeholder documentation for ListInputDeviceTransfersRequest
     ///
-    /// - Returns: `ListInputDeviceTransfersOutputResponse` : Placeholder documentation for ListInputDeviceTransfersResponse
+    /// - Returns: `ListInputDeviceTransfersOutput` : Placeholder documentation for ListInputDeviceTransfersResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1816,7 +1781,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
-    public func listInputDeviceTransfers(input: ListInputDeviceTransfersInput) async throws -> ListInputDeviceTransfersOutputResponse
+    public func listInputDeviceTransfers(input: ListInputDeviceTransfersInput) async throws -> ListInputDeviceTransfersOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1832,18 +1797,18 @@ extension MediaLiveClient: MediaLiveClientProtocol {
                       .withSigningName(value: "medialive")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListInputDeviceTransfersInput, ListInputDeviceTransfersOutputResponse, ListInputDeviceTransfersOutputError>(id: "listInputDeviceTransfers")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListInputDeviceTransfersInput, ListInputDeviceTransfersOutputResponse, ListInputDeviceTransfersOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListInputDeviceTransfersInput, ListInputDeviceTransfersOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListInputDeviceTransfersInput, ListInputDeviceTransfersOutput, ListInputDeviceTransfersOutputError>(id: "listInputDeviceTransfers")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListInputDeviceTransfersInput, ListInputDeviceTransfersOutput, ListInputDeviceTransfersOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListInputDeviceTransfersInput, ListInputDeviceTransfersOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListInputDeviceTransfersOutputResponse, ListInputDeviceTransfersOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListInputDeviceTransfersOutput, ListInputDeviceTransfersOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListInputDeviceTransfersInput, ListInputDeviceTransfersOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListInputDeviceTransfersOutputResponse, ListInputDeviceTransfersOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListInputDeviceTransfersInput, ListInputDeviceTransfersOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListInputDeviceTransfersOutput, ListInputDeviceTransfersOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListInputDeviceTransfersOutputResponse, ListInputDeviceTransfersOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListInputDeviceTransfersOutputResponse, ListInputDeviceTransfersOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListInputDeviceTransfersOutputResponse, ListInputDeviceTransfersOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListInputDeviceTransfersOutput, ListInputDeviceTransfersOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListInputDeviceTransfersOutput, ListInputDeviceTransfersOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListInputDeviceTransfersOutput, ListInputDeviceTransfersOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1852,7 +1817,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     ///
     /// - Parameter ListInputDevicesInput : Placeholder documentation for ListInputDevicesRequest
     ///
-    /// - Returns: `ListInputDevicesOutputResponse` : Placeholder documentation for ListInputDevicesResponse
+    /// - Returns: `ListInputDevicesOutput` : Placeholder documentation for ListInputDevicesResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1863,7 +1828,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    public func listInputDevices(input: ListInputDevicesInput) async throws -> ListInputDevicesOutputResponse
+    public func listInputDevices(input: ListInputDevicesInput) async throws -> ListInputDevicesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1879,18 +1844,18 @@ extension MediaLiveClient: MediaLiveClientProtocol {
                       .withSigningName(value: "medialive")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListInputDevicesInput, ListInputDevicesOutputResponse, ListInputDevicesOutputError>(id: "listInputDevices")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListInputDevicesInput, ListInputDevicesOutputResponse, ListInputDevicesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListInputDevicesInput, ListInputDevicesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListInputDevicesInput, ListInputDevicesOutput, ListInputDevicesOutputError>(id: "listInputDevices")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListInputDevicesInput, ListInputDevicesOutput, ListInputDevicesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListInputDevicesInput, ListInputDevicesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListInputDevicesOutputResponse, ListInputDevicesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListInputDevicesOutput, ListInputDevicesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListInputDevicesInput, ListInputDevicesOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListInputDevicesOutputResponse, ListInputDevicesOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListInputDevicesInput, ListInputDevicesOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListInputDevicesOutput, ListInputDevicesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListInputDevicesOutputResponse, ListInputDevicesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListInputDevicesOutputResponse, ListInputDevicesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListInputDevicesOutputResponse, ListInputDevicesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListInputDevicesOutput, ListInputDevicesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListInputDevicesOutput, ListInputDevicesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListInputDevicesOutput, ListInputDevicesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1899,7 +1864,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     ///
     /// - Parameter ListInputSecurityGroupsInput : Placeholder documentation for ListInputSecurityGroupsRequest
     ///
-    /// - Returns: `ListInputSecurityGroupsOutputResponse` : Placeholder documentation for ListInputSecurityGroupsResponse
+    /// - Returns: `ListInputSecurityGroupsOutput` : Placeholder documentation for ListInputSecurityGroupsResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1910,7 +1875,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    public func listInputSecurityGroups(input: ListInputSecurityGroupsInput) async throws -> ListInputSecurityGroupsOutputResponse
+    public func listInputSecurityGroups(input: ListInputSecurityGroupsInput) async throws -> ListInputSecurityGroupsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1926,18 +1891,18 @@ extension MediaLiveClient: MediaLiveClientProtocol {
                       .withSigningName(value: "medialive")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListInputSecurityGroupsInput, ListInputSecurityGroupsOutputResponse, ListInputSecurityGroupsOutputError>(id: "listInputSecurityGroups")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListInputSecurityGroupsInput, ListInputSecurityGroupsOutputResponse, ListInputSecurityGroupsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListInputSecurityGroupsInput, ListInputSecurityGroupsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListInputSecurityGroupsInput, ListInputSecurityGroupsOutput, ListInputSecurityGroupsOutputError>(id: "listInputSecurityGroups")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListInputSecurityGroupsInput, ListInputSecurityGroupsOutput, ListInputSecurityGroupsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListInputSecurityGroupsInput, ListInputSecurityGroupsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListInputSecurityGroupsOutputResponse, ListInputSecurityGroupsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListInputSecurityGroupsOutput, ListInputSecurityGroupsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListInputSecurityGroupsInput, ListInputSecurityGroupsOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListInputSecurityGroupsOutputResponse, ListInputSecurityGroupsOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListInputSecurityGroupsInput, ListInputSecurityGroupsOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListInputSecurityGroupsOutput, ListInputSecurityGroupsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListInputSecurityGroupsOutputResponse, ListInputSecurityGroupsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListInputSecurityGroupsOutputResponse, ListInputSecurityGroupsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListInputSecurityGroupsOutputResponse, ListInputSecurityGroupsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListInputSecurityGroupsOutput, ListInputSecurityGroupsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListInputSecurityGroupsOutput, ListInputSecurityGroupsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListInputSecurityGroupsOutput, ListInputSecurityGroupsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1946,7 +1911,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     ///
     /// - Parameter ListInputsInput : Placeholder documentation for ListInputsRequest
     ///
-    /// - Returns: `ListInputsOutputResponse` : Placeholder documentation for ListInputsResponse
+    /// - Returns: `ListInputsOutput` : Placeholder documentation for ListInputsResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1957,7 +1922,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    public func listInputs(input: ListInputsInput) async throws -> ListInputsOutputResponse
+    public func listInputs(input: ListInputsInput) async throws -> ListInputsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1973,18 +1938,18 @@ extension MediaLiveClient: MediaLiveClientProtocol {
                       .withSigningName(value: "medialive")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListInputsInput, ListInputsOutputResponse, ListInputsOutputError>(id: "listInputs")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListInputsInput, ListInputsOutputResponse, ListInputsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListInputsInput, ListInputsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListInputsInput, ListInputsOutput, ListInputsOutputError>(id: "listInputs")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListInputsInput, ListInputsOutput, ListInputsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListInputsInput, ListInputsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListInputsOutputResponse, ListInputsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListInputsOutput, ListInputsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListInputsInput, ListInputsOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListInputsOutputResponse, ListInputsOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListInputsInput, ListInputsOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListInputsOutput, ListInputsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListInputsOutputResponse, ListInputsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListInputsOutputResponse, ListInputsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListInputsOutputResponse, ListInputsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListInputsOutput, ListInputsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListInputsOutput, ListInputsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListInputsOutput, ListInputsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1993,7 +1958,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     ///
     /// - Parameter ListMultiplexProgramsInput : Placeholder documentation for ListMultiplexProgramsRequest
     ///
-    /// - Returns: `ListMultiplexProgramsOutputResponse` : Placeholder documentation for ListMultiplexProgramsResponse
+    /// - Returns: `ListMultiplexProgramsOutput` : Placeholder documentation for ListMultiplexProgramsResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2005,7 +1970,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    public func listMultiplexPrograms(input: ListMultiplexProgramsInput) async throws -> ListMultiplexProgramsOutputResponse
+    public func listMultiplexPrograms(input: ListMultiplexProgramsInput) async throws -> ListMultiplexProgramsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2021,18 +1986,18 @@ extension MediaLiveClient: MediaLiveClientProtocol {
                       .withSigningName(value: "medialive")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListMultiplexProgramsInput, ListMultiplexProgramsOutputResponse, ListMultiplexProgramsOutputError>(id: "listMultiplexPrograms")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListMultiplexProgramsInput, ListMultiplexProgramsOutputResponse, ListMultiplexProgramsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListMultiplexProgramsInput, ListMultiplexProgramsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListMultiplexProgramsInput, ListMultiplexProgramsOutput, ListMultiplexProgramsOutputError>(id: "listMultiplexPrograms")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListMultiplexProgramsInput, ListMultiplexProgramsOutput, ListMultiplexProgramsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListMultiplexProgramsInput, ListMultiplexProgramsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListMultiplexProgramsOutputResponse, ListMultiplexProgramsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListMultiplexProgramsOutput, ListMultiplexProgramsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListMultiplexProgramsInput, ListMultiplexProgramsOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListMultiplexProgramsOutputResponse, ListMultiplexProgramsOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListMultiplexProgramsInput, ListMultiplexProgramsOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListMultiplexProgramsOutput, ListMultiplexProgramsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListMultiplexProgramsOutputResponse, ListMultiplexProgramsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListMultiplexProgramsOutputResponse, ListMultiplexProgramsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListMultiplexProgramsOutputResponse, ListMultiplexProgramsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListMultiplexProgramsOutput, ListMultiplexProgramsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListMultiplexProgramsOutput, ListMultiplexProgramsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListMultiplexProgramsOutput, ListMultiplexProgramsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2041,7 +2006,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     ///
     /// - Parameter ListMultiplexesInput : Placeholder documentation for ListMultiplexesRequest
     ///
-    /// - Returns: `ListMultiplexesOutputResponse` : Placeholder documentation for ListMultiplexesResponse
+    /// - Returns: `ListMultiplexesOutput` : Placeholder documentation for ListMultiplexesResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2052,7 +2017,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    public func listMultiplexes(input: ListMultiplexesInput) async throws -> ListMultiplexesOutputResponse
+    public func listMultiplexes(input: ListMultiplexesInput) async throws -> ListMultiplexesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2068,18 +2033,18 @@ extension MediaLiveClient: MediaLiveClientProtocol {
                       .withSigningName(value: "medialive")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListMultiplexesInput, ListMultiplexesOutputResponse, ListMultiplexesOutputError>(id: "listMultiplexes")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListMultiplexesInput, ListMultiplexesOutputResponse, ListMultiplexesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListMultiplexesInput, ListMultiplexesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListMultiplexesInput, ListMultiplexesOutput, ListMultiplexesOutputError>(id: "listMultiplexes")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListMultiplexesInput, ListMultiplexesOutput, ListMultiplexesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListMultiplexesInput, ListMultiplexesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListMultiplexesOutputResponse, ListMultiplexesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListMultiplexesOutput, ListMultiplexesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListMultiplexesInput, ListMultiplexesOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListMultiplexesOutputResponse, ListMultiplexesOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListMultiplexesInput, ListMultiplexesOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListMultiplexesOutput, ListMultiplexesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListMultiplexesOutputResponse, ListMultiplexesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListMultiplexesOutputResponse, ListMultiplexesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListMultiplexesOutputResponse, ListMultiplexesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListMultiplexesOutput, ListMultiplexesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListMultiplexesOutput, ListMultiplexesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListMultiplexesOutput, ListMultiplexesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2088,7 +2053,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     ///
     /// - Parameter ListOfferingsInput : Placeholder documentation for ListOfferingsRequest
     ///
-    /// - Returns: `ListOfferingsOutputResponse` : Placeholder documentation for ListOfferingsResponse
+    /// - Returns: `ListOfferingsOutput` : Placeholder documentation for ListOfferingsResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2099,7 +2064,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    public func listOfferings(input: ListOfferingsInput) async throws -> ListOfferingsOutputResponse
+    public func listOfferings(input: ListOfferingsInput) async throws -> ListOfferingsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2115,18 +2080,18 @@ extension MediaLiveClient: MediaLiveClientProtocol {
                       .withSigningName(value: "medialive")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListOfferingsInput, ListOfferingsOutputResponse, ListOfferingsOutputError>(id: "listOfferings")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListOfferingsInput, ListOfferingsOutputResponse, ListOfferingsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListOfferingsInput, ListOfferingsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListOfferingsInput, ListOfferingsOutput, ListOfferingsOutputError>(id: "listOfferings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListOfferingsInput, ListOfferingsOutput, ListOfferingsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListOfferingsInput, ListOfferingsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListOfferingsOutputResponse, ListOfferingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListOfferingsOutput, ListOfferingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListOfferingsInput, ListOfferingsOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListOfferingsOutputResponse, ListOfferingsOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListOfferingsInput, ListOfferingsOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListOfferingsOutput, ListOfferingsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListOfferingsOutputResponse, ListOfferingsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListOfferingsOutputResponse, ListOfferingsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListOfferingsOutputResponse, ListOfferingsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListOfferingsOutput, ListOfferingsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListOfferingsOutput, ListOfferingsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListOfferingsOutput, ListOfferingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2135,7 +2100,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     ///
     /// - Parameter ListReservationsInput : Placeholder documentation for ListReservationsRequest
     ///
-    /// - Returns: `ListReservationsOutputResponse` : Placeholder documentation for ListReservationsResponse
+    /// - Returns: `ListReservationsOutput` : Placeholder documentation for ListReservationsResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2146,7 +2111,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    public func listReservations(input: ListReservationsInput) async throws -> ListReservationsOutputResponse
+    public func listReservations(input: ListReservationsInput) async throws -> ListReservationsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2162,18 +2127,18 @@ extension MediaLiveClient: MediaLiveClientProtocol {
                       .withSigningName(value: "medialive")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListReservationsInput, ListReservationsOutputResponse, ListReservationsOutputError>(id: "listReservations")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListReservationsInput, ListReservationsOutputResponse, ListReservationsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListReservationsInput, ListReservationsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListReservationsInput, ListReservationsOutput, ListReservationsOutputError>(id: "listReservations")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListReservationsInput, ListReservationsOutput, ListReservationsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListReservationsInput, ListReservationsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListReservationsOutputResponse, ListReservationsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListReservationsOutput, ListReservationsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListReservationsInput, ListReservationsOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListReservationsOutputResponse, ListReservationsOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListReservationsInput, ListReservationsOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListReservationsOutput, ListReservationsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListReservationsOutputResponse, ListReservationsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListReservationsOutputResponse, ListReservationsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListReservationsOutputResponse, ListReservationsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListReservationsOutput, ListReservationsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListReservationsOutput, ListReservationsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListReservationsOutput, ListReservationsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2182,7 +2147,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     ///
     /// - Parameter ListTagsForResourceInput : Placeholder documentation for ListTagsForResourceRequest
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : Placeholder documentation for ListTagsForResourceResponse
+    /// - Returns: `ListTagsForResourceOutput` : Placeholder documentation for ListTagsForResourceResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2191,7 +2156,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2207,17 +2172,17 @@ extension MediaLiveClient: MediaLiveClientProtocol {
                       .withSigningName(value: "medialive")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutput, ListTagsForResourceOutputError>(id: "listTagsForResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, ListTagsForResourceOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsForResourceOutput, ListTagsForResourceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2226,7 +2191,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     ///
     /// - Parameter PurchaseOfferingInput : Placeholder documentation for PurchaseOfferingRequest
     ///
-    /// - Returns: `PurchaseOfferingOutputResponse` : Placeholder documentation for PurchaseOfferingResponse
+    /// - Returns: `PurchaseOfferingOutput` : Placeholder documentation for PurchaseOfferingResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2239,7 +2204,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    public func purchaseOffering(input: PurchaseOfferingInput) async throws -> PurchaseOfferingOutputResponse
+    public func purchaseOffering(input: PurchaseOfferingInput) async throws -> PurchaseOfferingOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2255,28 +2220,21 @@ extension MediaLiveClient: MediaLiveClientProtocol {
                       .withSigningName(value: "medialive")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<PurchaseOfferingInput, PurchaseOfferingOutputResponse, PurchaseOfferingOutputError>(id: "purchaseOffering")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<PurchaseOfferingOutputResponse> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.requestId == nil {
-                copiedInput.requestId = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PurchaseOfferingInput, PurchaseOfferingOutputResponse, PurchaseOfferingOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PurchaseOfferingInput, PurchaseOfferingOutputResponse>())
+        var operation = ClientRuntime.OperationStack<PurchaseOfferingInput, PurchaseOfferingOutput, PurchaseOfferingOutputError>(id: "purchaseOffering")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<PurchaseOfferingInput, PurchaseOfferingOutput, PurchaseOfferingOutputError>(keyPath: \.requestId))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PurchaseOfferingInput, PurchaseOfferingOutput, PurchaseOfferingOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PurchaseOfferingInput, PurchaseOfferingOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PurchaseOfferingOutputResponse, PurchaseOfferingOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PurchaseOfferingOutput, PurchaseOfferingOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PurchaseOfferingInput, PurchaseOfferingOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PurchaseOfferingInput, PurchaseOfferingOutputResponse>(xmlName: "PurchaseOfferingRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PurchaseOfferingInput, PurchaseOfferingOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PurchaseOfferingInput, PurchaseOfferingOutput>(xmlName: "PurchaseOfferingRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PurchaseOfferingOutputResponse, PurchaseOfferingOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PurchaseOfferingOutput, PurchaseOfferingOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PurchaseOfferingOutputResponse, PurchaseOfferingOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PurchaseOfferingOutputResponse, PurchaseOfferingOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PurchaseOfferingOutputResponse, PurchaseOfferingOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PurchaseOfferingOutput, PurchaseOfferingOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PurchaseOfferingOutput, PurchaseOfferingOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PurchaseOfferingOutput, PurchaseOfferingOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2285,7 +2243,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     ///
     /// - Parameter RebootInputDeviceInput : A request to reboot an AWS Elemental device.
     ///
-    /// - Returns: `RebootInputDeviceOutputResponse` : Placeholder documentation for RebootInputDeviceResponse
+    /// - Returns: `RebootInputDeviceOutput` : Placeholder documentation for RebootInputDeviceResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2298,7 +2256,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
-    public func rebootInputDevice(input: RebootInputDeviceInput) async throws -> RebootInputDeviceOutputResponse
+    public func rebootInputDevice(input: RebootInputDeviceInput) async throws -> RebootInputDeviceOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2314,20 +2272,20 @@ extension MediaLiveClient: MediaLiveClientProtocol {
                       .withSigningName(value: "medialive")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<RebootInputDeviceInput, RebootInputDeviceOutputResponse, RebootInputDeviceOutputError>(id: "rebootInputDevice")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RebootInputDeviceInput, RebootInputDeviceOutputResponse, RebootInputDeviceOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RebootInputDeviceInput, RebootInputDeviceOutputResponse>())
+        var operation = ClientRuntime.OperationStack<RebootInputDeviceInput, RebootInputDeviceOutput, RebootInputDeviceOutputError>(id: "rebootInputDevice")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RebootInputDeviceInput, RebootInputDeviceOutput, RebootInputDeviceOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RebootInputDeviceInput, RebootInputDeviceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RebootInputDeviceOutputResponse, RebootInputDeviceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RebootInputDeviceOutput, RebootInputDeviceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<RebootInputDeviceInput, RebootInputDeviceOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<RebootInputDeviceInput, RebootInputDeviceOutputResponse>(xmlName: "RebootInputDeviceRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<RebootInputDeviceInput, RebootInputDeviceOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<RebootInputDeviceInput, RebootInputDeviceOutput>(xmlName: "RebootInputDeviceRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RebootInputDeviceOutputResponse, RebootInputDeviceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RebootInputDeviceOutput, RebootInputDeviceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RebootInputDeviceOutputResponse, RebootInputDeviceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RebootInputDeviceOutputResponse, RebootInputDeviceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RebootInputDeviceOutputResponse, RebootInputDeviceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RebootInputDeviceOutput, RebootInputDeviceOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RebootInputDeviceOutput, RebootInputDeviceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RebootInputDeviceOutput, RebootInputDeviceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2336,7 +2294,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     ///
     /// - Parameter RejectInputDeviceTransferInput : Placeholder documentation for RejectInputDeviceTransferRequest
     ///
-    /// - Returns: `RejectInputDeviceTransferOutputResponse` : Placeholder documentation for RejectInputDeviceTransferResponse
+    /// - Returns: `RejectInputDeviceTransferOutput` : Placeholder documentation for RejectInputDeviceTransferResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2350,7 +2308,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
-    public func rejectInputDeviceTransfer(input: RejectInputDeviceTransferInput) async throws -> RejectInputDeviceTransferOutputResponse
+    public func rejectInputDeviceTransfer(input: RejectInputDeviceTransferInput) async throws -> RejectInputDeviceTransferOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2366,17 +2324,17 @@ extension MediaLiveClient: MediaLiveClientProtocol {
                       .withSigningName(value: "medialive")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<RejectInputDeviceTransferInput, RejectInputDeviceTransferOutputResponse, RejectInputDeviceTransferOutputError>(id: "rejectInputDeviceTransfer")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RejectInputDeviceTransferInput, RejectInputDeviceTransferOutputResponse, RejectInputDeviceTransferOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RejectInputDeviceTransferInput, RejectInputDeviceTransferOutputResponse>())
+        var operation = ClientRuntime.OperationStack<RejectInputDeviceTransferInput, RejectInputDeviceTransferOutput, RejectInputDeviceTransferOutputError>(id: "rejectInputDeviceTransfer")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RejectInputDeviceTransferInput, RejectInputDeviceTransferOutput, RejectInputDeviceTransferOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RejectInputDeviceTransferInput, RejectInputDeviceTransferOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RejectInputDeviceTransferOutputResponse, RejectInputDeviceTransferOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RejectInputDeviceTransferOutput, RejectInputDeviceTransferOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RejectInputDeviceTransferOutputResponse, RejectInputDeviceTransferOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RejectInputDeviceTransferOutput, RejectInputDeviceTransferOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RejectInputDeviceTransferOutputResponse, RejectInputDeviceTransferOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RejectInputDeviceTransferOutputResponse, RejectInputDeviceTransferOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RejectInputDeviceTransferOutputResponse, RejectInputDeviceTransferOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RejectInputDeviceTransferOutput, RejectInputDeviceTransferOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RejectInputDeviceTransferOutput, RejectInputDeviceTransferOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RejectInputDeviceTransferOutput, RejectInputDeviceTransferOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2385,7 +2343,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     ///
     /// - Parameter StartChannelInput : Placeholder documentation for StartChannelRequest
     ///
-    /// - Returns: `StartChannelOutputResponse` : Placeholder documentation for StartChannelResponse
+    /// - Returns: `StartChannelOutput` : Placeholder documentation for StartChannelResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2398,7 +2356,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    public func startChannel(input: StartChannelInput) async throws -> StartChannelOutputResponse
+    public func startChannel(input: StartChannelInput) async throws -> StartChannelOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2414,17 +2372,17 @@ extension MediaLiveClient: MediaLiveClientProtocol {
                       .withSigningName(value: "medialive")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<StartChannelInput, StartChannelOutputResponse, StartChannelOutputError>(id: "startChannel")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartChannelInput, StartChannelOutputResponse, StartChannelOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartChannelInput, StartChannelOutputResponse>())
+        var operation = ClientRuntime.OperationStack<StartChannelInput, StartChannelOutput, StartChannelOutputError>(id: "startChannel")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartChannelInput, StartChannelOutput, StartChannelOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartChannelInput, StartChannelOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartChannelOutputResponse, StartChannelOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartChannelOutput, StartChannelOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartChannelOutputResponse, StartChannelOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartChannelOutput, StartChannelOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartChannelOutputResponse, StartChannelOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartChannelOutputResponse, StartChannelOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartChannelOutputResponse, StartChannelOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartChannelOutput, StartChannelOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartChannelOutput, StartChannelOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartChannelOutput, StartChannelOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2433,7 +2391,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     ///
     /// - Parameter StartInputDeviceInput : Placeholder documentation for StartInputDeviceRequest
     ///
-    /// - Returns: `StartInputDeviceOutputResponse` : Placeholder documentation for StartInputDeviceResponse
+    /// - Returns: `StartInputDeviceOutput` : Placeholder documentation for StartInputDeviceResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2446,7 +2404,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
-    public func startInputDevice(input: StartInputDeviceInput) async throws -> StartInputDeviceOutputResponse
+    public func startInputDevice(input: StartInputDeviceInput) async throws -> StartInputDeviceOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2462,17 +2420,17 @@ extension MediaLiveClient: MediaLiveClientProtocol {
                       .withSigningName(value: "medialive")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<StartInputDeviceInput, StartInputDeviceOutputResponse, StartInputDeviceOutputError>(id: "startInputDevice")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartInputDeviceInput, StartInputDeviceOutputResponse, StartInputDeviceOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartInputDeviceInput, StartInputDeviceOutputResponse>())
+        var operation = ClientRuntime.OperationStack<StartInputDeviceInput, StartInputDeviceOutput, StartInputDeviceOutputError>(id: "startInputDevice")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartInputDeviceInput, StartInputDeviceOutput, StartInputDeviceOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartInputDeviceInput, StartInputDeviceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartInputDeviceOutputResponse, StartInputDeviceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartInputDeviceOutput, StartInputDeviceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartInputDeviceOutputResponse, StartInputDeviceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartInputDeviceOutput, StartInputDeviceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartInputDeviceOutputResponse, StartInputDeviceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartInputDeviceOutputResponse, StartInputDeviceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartInputDeviceOutputResponse, StartInputDeviceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartInputDeviceOutput, StartInputDeviceOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartInputDeviceOutput, StartInputDeviceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartInputDeviceOutput, StartInputDeviceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2481,7 +2439,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     ///
     /// - Parameter StartInputDeviceMaintenanceWindowInput : Placeholder documentation for StartInputDeviceMaintenanceWindowRequest
     ///
-    /// - Returns: `StartInputDeviceMaintenanceWindowOutputResponse` : Placeholder documentation for StartInputDeviceMaintenanceWindowResponse
+    /// - Returns: `StartInputDeviceMaintenanceWindowOutput` : Placeholder documentation for StartInputDeviceMaintenanceWindowResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2494,7 +2452,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
-    public func startInputDeviceMaintenanceWindow(input: StartInputDeviceMaintenanceWindowInput) async throws -> StartInputDeviceMaintenanceWindowOutputResponse
+    public func startInputDeviceMaintenanceWindow(input: StartInputDeviceMaintenanceWindowInput) async throws -> StartInputDeviceMaintenanceWindowOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2510,17 +2468,17 @@ extension MediaLiveClient: MediaLiveClientProtocol {
                       .withSigningName(value: "medialive")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<StartInputDeviceMaintenanceWindowInput, StartInputDeviceMaintenanceWindowOutputResponse, StartInputDeviceMaintenanceWindowOutputError>(id: "startInputDeviceMaintenanceWindow")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartInputDeviceMaintenanceWindowInput, StartInputDeviceMaintenanceWindowOutputResponse, StartInputDeviceMaintenanceWindowOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartInputDeviceMaintenanceWindowInput, StartInputDeviceMaintenanceWindowOutputResponse>())
+        var operation = ClientRuntime.OperationStack<StartInputDeviceMaintenanceWindowInput, StartInputDeviceMaintenanceWindowOutput, StartInputDeviceMaintenanceWindowOutputError>(id: "startInputDeviceMaintenanceWindow")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartInputDeviceMaintenanceWindowInput, StartInputDeviceMaintenanceWindowOutput, StartInputDeviceMaintenanceWindowOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartInputDeviceMaintenanceWindowInput, StartInputDeviceMaintenanceWindowOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartInputDeviceMaintenanceWindowOutputResponse, StartInputDeviceMaintenanceWindowOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartInputDeviceMaintenanceWindowOutput, StartInputDeviceMaintenanceWindowOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartInputDeviceMaintenanceWindowOutputResponse, StartInputDeviceMaintenanceWindowOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartInputDeviceMaintenanceWindowOutput, StartInputDeviceMaintenanceWindowOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartInputDeviceMaintenanceWindowOutputResponse, StartInputDeviceMaintenanceWindowOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartInputDeviceMaintenanceWindowOutputResponse, StartInputDeviceMaintenanceWindowOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartInputDeviceMaintenanceWindowOutputResponse, StartInputDeviceMaintenanceWindowOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartInputDeviceMaintenanceWindowOutput, StartInputDeviceMaintenanceWindowOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartInputDeviceMaintenanceWindowOutput, StartInputDeviceMaintenanceWindowOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartInputDeviceMaintenanceWindowOutput, StartInputDeviceMaintenanceWindowOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2529,7 +2487,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     ///
     /// - Parameter StartMultiplexInput : Placeholder documentation for StartMultiplexRequest
     ///
-    /// - Returns: `StartMultiplexOutputResponse` : Placeholder documentation for StartMultiplexResponse
+    /// - Returns: `StartMultiplexOutput` : Placeholder documentation for StartMultiplexResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2542,7 +2500,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    public func startMultiplex(input: StartMultiplexInput) async throws -> StartMultiplexOutputResponse
+    public func startMultiplex(input: StartMultiplexInput) async throws -> StartMultiplexOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2558,17 +2516,17 @@ extension MediaLiveClient: MediaLiveClientProtocol {
                       .withSigningName(value: "medialive")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<StartMultiplexInput, StartMultiplexOutputResponse, StartMultiplexOutputError>(id: "startMultiplex")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartMultiplexInput, StartMultiplexOutputResponse, StartMultiplexOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartMultiplexInput, StartMultiplexOutputResponse>())
+        var operation = ClientRuntime.OperationStack<StartMultiplexInput, StartMultiplexOutput, StartMultiplexOutputError>(id: "startMultiplex")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartMultiplexInput, StartMultiplexOutput, StartMultiplexOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartMultiplexInput, StartMultiplexOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartMultiplexOutputResponse, StartMultiplexOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartMultiplexOutput, StartMultiplexOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartMultiplexOutputResponse, StartMultiplexOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartMultiplexOutput, StartMultiplexOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartMultiplexOutputResponse, StartMultiplexOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartMultiplexOutputResponse, StartMultiplexOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartMultiplexOutputResponse, StartMultiplexOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartMultiplexOutput, StartMultiplexOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartMultiplexOutput, StartMultiplexOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartMultiplexOutput, StartMultiplexOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2577,7 +2535,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     ///
     /// - Parameter StopChannelInput : Placeholder documentation for StopChannelRequest
     ///
-    /// - Returns: `StopChannelOutputResponse` : Placeholder documentation for StopChannelResponse
+    /// - Returns: `StopChannelOutput` : Placeholder documentation for StopChannelResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2590,7 +2548,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    public func stopChannel(input: StopChannelInput) async throws -> StopChannelOutputResponse
+    public func stopChannel(input: StopChannelInput) async throws -> StopChannelOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2606,17 +2564,17 @@ extension MediaLiveClient: MediaLiveClientProtocol {
                       .withSigningName(value: "medialive")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<StopChannelInput, StopChannelOutputResponse, StopChannelOutputError>(id: "stopChannel")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopChannelInput, StopChannelOutputResponse, StopChannelOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopChannelInput, StopChannelOutputResponse>())
+        var operation = ClientRuntime.OperationStack<StopChannelInput, StopChannelOutput, StopChannelOutputError>(id: "stopChannel")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopChannelInput, StopChannelOutput, StopChannelOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopChannelInput, StopChannelOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StopChannelOutputResponse, StopChannelOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StopChannelOutput, StopChannelOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StopChannelOutputResponse, StopChannelOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StopChannelOutput, StopChannelOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopChannelOutputResponse, StopChannelOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopChannelOutputResponse, StopChannelOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopChannelOutputResponse, StopChannelOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopChannelOutput, StopChannelOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopChannelOutput, StopChannelOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopChannelOutput, StopChannelOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2625,7 +2583,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     ///
     /// - Parameter StopInputDeviceInput : Placeholder documentation for StopInputDeviceRequest
     ///
-    /// - Returns: `StopInputDeviceOutputResponse` : Placeholder documentation for StopInputDeviceResponse
+    /// - Returns: `StopInputDeviceOutput` : Placeholder documentation for StopInputDeviceResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2638,7 +2596,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
-    public func stopInputDevice(input: StopInputDeviceInput) async throws -> StopInputDeviceOutputResponse
+    public func stopInputDevice(input: StopInputDeviceInput) async throws -> StopInputDeviceOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2654,17 +2612,17 @@ extension MediaLiveClient: MediaLiveClientProtocol {
                       .withSigningName(value: "medialive")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<StopInputDeviceInput, StopInputDeviceOutputResponse, StopInputDeviceOutputError>(id: "stopInputDevice")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopInputDeviceInput, StopInputDeviceOutputResponse, StopInputDeviceOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopInputDeviceInput, StopInputDeviceOutputResponse>())
+        var operation = ClientRuntime.OperationStack<StopInputDeviceInput, StopInputDeviceOutput, StopInputDeviceOutputError>(id: "stopInputDevice")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopInputDeviceInput, StopInputDeviceOutput, StopInputDeviceOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopInputDeviceInput, StopInputDeviceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StopInputDeviceOutputResponse, StopInputDeviceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StopInputDeviceOutput, StopInputDeviceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StopInputDeviceOutputResponse, StopInputDeviceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StopInputDeviceOutput, StopInputDeviceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopInputDeviceOutputResponse, StopInputDeviceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopInputDeviceOutputResponse, StopInputDeviceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopInputDeviceOutputResponse, StopInputDeviceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopInputDeviceOutput, StopInputDeviceOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopInputDeviceOutput, StopInputDeviceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopInputDeviceOutput, StopInputDeviceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2673,7 +2631,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     ///
     /// - Parameter StopMultiplexInput : Placeholder documentation for StopMultiplexRequest
     ///
-    /// - Returns: `StopMultiplexOutputResponse` : Placeholder documentation for StopMultiplexResponse
+    /// - Returns: `StopMultiplexOutput` : Placeholder documentation for StopMultiplexResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2686,7 +2644,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    public func stopMultiplex(input: StopMultiplexInput) async throws -> StopMultiplexOutputResponse
+    public func stopMultiplex(input: StopMultiplexInput) async throws -> StopMultiplexOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2702,17 +2660,17 @@ extension MediaLiveClient: MediaLiveClientProtocol {
                       .withSigningName(value: "medialive")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<StopMultiplexInput, StopMultiplexOutputResponse, StopMultiplexOutputError>(id: "stopMultiplex")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopMultiplexInput, StopMultiplexOutputResponse, StopMultiplexOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopMultiplexInput, StopMultiplexOutputResponse>())
+        var operation = ClientRuntime.OperationStack<StopMultiplexInput, StopMultiplexOutput, StopMultiplexOutputError>(id: "stopMultiplex")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopMultiplexInput, StopMultiplexOutput, StopMultiplexOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopMultiplexInput, StopMultiplexOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StopMultiplexOutputResponse, StopMultiplexOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StopMultiplexOutput, StopMultiplexOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StopMultiplexOutputResponse, StopMultiplexOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StopMultiplexOutput, StopMultiplexOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopMultiplexOutputResponse, StopMultiplexOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopMultiplexOutputResponse, StopMultiplexOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopMultiplexOutputResponse, StopMultiplexOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopMultiplexOutput, StopMultiplexOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopMultiplexOutput, StopMultiplexOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopMultiplexOutput, StopMultiplexOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2721,7 +2679,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     ///
     /// - Parameter TransferInputDeviceInput : A request to transfer an input device.
     ///
-    /// - Returns: `TransferInputDeviceOutputResponse` : Placeholder documentation for TransferInputDeviceResponse
+    /// - Returns: `TransferInputDeviceOutput` : Placeholder documentation for TransferInputDeviceResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2735,7 +2693,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
-    public func transferInputDevice(input: TransferInputDeviceInput) async throws -> TransferInputDeviceOutputResponse
+    public func transferInputDevice(input: TransferInputDeviceInput) async throws -> TransferInputDeviceOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2751,20 +2709,20 @@ extension MediaLiveClient: MediaLiveClientProtocol {
                       .withSigningName(value: "medialive")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<TransferInputDeviceInput, TransferInputDeviceOutputResponse, TransferInputDeviceOutputError>(id: "transferInputDevice")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TransferInputDeviceInput, TransferInputDeviceOutputResponse, TransferInputDeviceOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TransferInputDeviceInput, TransferInputDeviceOutputResponse>())
+        var operation = ClientRuntime.OperationStack<TransferInputDeviceInput, TransferInputDeviceOutput, TransferInputDeviceOutputError>(id: "transferInputDevice")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TransferInputDeviceInput, TransferInputDeviceOutput, TransferInputDeviceOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TransferInputDeviceInput, TransferInputDeviceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TransferInputDeviceOutputResponse, TransferInputDeviceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TransferInputDeviceOutput, TransferInputDeviceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TransferInputDeviceInput, TransferInputDeviceOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<TransferInputDeviceInput, TransferInputDeviceOutputResponse>(xmlName: "TransferInputDeviceRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TransferInputDeviceInput, TransferInputDeviceOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<TransferInputDeviceInput, TransferInputDeviceOutput>(xmlName: "TransferInputDeviceRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TransferInputDeviceOutputResponse, TransferInputDeviceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TransferInputDeviceOutput, TransferInputDeviceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TransferInputDeviceOutputResponse, TransferInputDeviceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TransferInputDeviceOutputResponse, TransferInputDeviceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TransferInputDeviceOutputResponse, TransferInputDeviceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TransferInputDeviceOutput, TransferInputDeviceOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TransferInputDeviceOutput, TransferInputDeviceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TransferInputDeviceOutput, TransferInputDeviceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2773,7 +2731,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     ///
     /// - Parameter UpdateAccountConfigurationInput : List of account configuration parameters to update.
     ///
-    /// - Returns: `UpdateAccountConfigurationOutputResponse` : Placeholder documentation for UpdateAccountConfigurationResponse
+    /// - Returns: `UpdateAccountConfigurationOutput` : Placeholder documentation for UpdateAccountConfigurationResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2785,7 +2743,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
-    public func updateAccountConfiguration(input: UpdateAccountConfigurationInput) async throws -> UpdateAccountConfigurationOutputResponse
+    public func updateAccountConfiguration(input: UpdateAccountConfigurationInput) async throws -> UpdateAccountConfigurationOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2801,20 +2759,20 @@ extension MediaLiveClient: MediaLiveClientProtocol {
                       .withSigningName(value: "medialive")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateAccountConfigurationInput, UpdateAccountConfigurationOutputResponse, UpdateAccountConfigurationOutputError>(id: "updateAccountConfiguration")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateAccountConfigurationInput, UpdateAccountConfigurationOutputResponse, UpdateAccountConfigurationOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateAccountConfigurationInput, UpdateAccountConfigurationOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateAccountConfigurationInput, UpdateAccountConfigurationOutput, UpdateAccountConfigurationOutputError>(id: "updateAccountConfiguration")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateAccountConfigurationInput, UpdateAccountConfigurationOutput, UpdateAccountConfigurationOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateAccountConfigurationInput, UpdateAccountConfigurationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateAccountConfigurationOutputResponse, UpdateAccountConfigurationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateAccountConfigurationOutput, UpdateAccountConfigurationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateAccountConfigurationInput, UpdateAccountConfigurationOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateAccountConfigurationInput, UpdateAccountConfigurationOutputResponse>(xmlName: "UpdateAccountConfigurationRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateAccountConfigurationInput, UpdateAccountConfigurationOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateAccountConfigurationInput, UpdateAccountConfigurationOutput>(xmlName: "UpdateAccountConfigurationRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateAccountConfigurationOutputResponse, UpdateAccountConfigurationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateAccountConfigurationOutput, UpdateAccountConfigurationOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateAccountConfigurationOutputResponse, UpdateAccountConfigurationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateAccountConfigurationOutputResponse, UpdateAccountConfigurationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateAccountConfigurationOutputResponse, UpdateAccountConfigurationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateAccountConfigurationOutput, UpdateAccountConfigurationOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateAccountConfigurationOutput, UpdateAccountConfigurationOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateAccountConfigurationOutput, UpdateAccountConfigurationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2823,7 +2781,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     ///
     /// - Parameter UpdateChannelInput : A request to update a channel.
     ///
-    /// - Returns: `UpdateChannelOutputResponse` : Placeholder documentation for UpdateChannelResponse
+    /// - Returns: `UpdateChannelOutput` : Placeholder documentation for UpdateChannelResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2835,7 +2793,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
-    public func updateChannel(input: UpdateChannelInput) async throws -> UpdateChannelOutputResponse
+    public func updateChannel(input: UpdateChannelInput) async throws -> UpdateChannelOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2851,20 +2809,20 @@ extension MediaLiveClient: MediaLiveClientProtocol {
                       .withSigningName(value: "medialive")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateChannelInput, UpdateChannelOutputResponse, UpdateChannelOutputError>(id: "updateChannel")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateChannelInput, UpdateChannelOutputResponse, UpdateChannelOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateChannelInput, UpdateChannelOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateChannelInput, UpdateChannelOutput, UpdateChannelOutputError>(id: "updateChannel")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateChannelInput, UpdateChannelOutput, UpdateChannelOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateChannelInput, UpdateChannelOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateChannelOutputResponse, UpdateChannelOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateChannelOutput, UpdateChannelOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateChannelInput, UpdateChannelOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateChannelInput, UpdateChannelOutputResponse>(xmlName: "UpdateChannelRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateChannelInput, UpdateChannelOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateChannelInput, UpdateChannelOutput>(xmlName: "UpdateChannelRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateChannelOutputResponse, UpdateChannelOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateChannelOutput, UpdateChannelOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateChannelOutputResponse, UpdateChannelOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateChannelOutputResponse, UpdateChannelOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateChannelOutputResponse, UpdateChannelOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateChannelOutput, UpdateChannelOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateChannelOutput, UpdateChannelOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateChannelOutput, UpdateChannelOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2873,7 +2831,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     ///
     /// - Parameter UpdateChannelClassInput : Channel class that the channel should be updated to.
     ///
-    /// - Returns: `UpdateChannelClassOutputResponse` : Placeholder documentation for UpdateChannelClassResponse
+    /// - Returns: `UpdateChannelClassOutput` : Placeholder documentation for UpdateChannelClassResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2887,7 +2845,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
-    public func updateChannelClass(input: UpdateChannelClassInput) async throws -> UpdateChannelClassOutputResponse
+    public func updateChannelClass(input: UpdateChannelClassInput) async throws -> UpdateChannelClassOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2903,20 +2861,20 @@ extension MediaLiveClient: MediaLiveClientProtocol {
                       .withSigningName(value: "medialive")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateChannelClassInput, UpdateChannelClassOutputResponse, UpdateChannelClassOutputError>(id: "updateChannelClass")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateChannelClassInput, UpdateChannelClassOutputResponse, UpdateChannelClassOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateChannelClassInput, UpdateChannelClassOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateChannelClassInput, UpdateChannelClassOutput, UpdateChannelClassOutputError>(id: "updateChannelClass")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateChannelClassInput, UpdateChannelClassOutput, UpdateChannelClassOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateChannelClassInput, UpdateChannelClassOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateChannelClassOutputResponse, UpdateChannelClassOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateChannelClassOutput, UpdateChannelClassOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateChannelClassInput, UpdateChannelClassOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateChannelClassInput, UpdateChannelClassOutputResponse>(xmlName: "UpdateChannelClassRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateChannelClassInput, UpdateChannelClassOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateChannelClassInput, UpdateChannelClassOutput>(xmlName: "UpdateChannelClassRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateChannelClassOutputResponse, UpdateChannelClassOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateChannelClassOutput, UpdateChannelClassOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateChannelClassOutputResponse, UpdateChannelClassOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateChannelClassOutputResponse, UpdateChannelClassOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateChannelClassOutputResponse, UpdateChannelClassOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateChannelClassOutput, UpdateChannelClassOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateChannelClassOutput, UpdateChannelClassOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateChannelClassOutput, UpdateChannelClassOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2925,7 +2883,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     ///
     /// - Parameter UpdateInputInput : A request to update an input.
     ///
-    /// - Returns: `UpdateInputOutputResponse` : Placeholder documentation for UpdateInputResponse
+    /// - Returns: `UpdateInputOutput` : Placeholder documentation for UpdateInputResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2937,7 +2895,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
-    public func updateInput(input: UpdateInputInput) async throws -> UpdateInputOutputResponse
+    public func updateInput(input: UpdateInputInput) async throws -> UpdateInputOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2953,20 +2911,20 @@ extension MediaLiveClient: MediaLiveClientProtocol {
                       .withSigningName(value: "medialive")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateInputInput, UpdateInputOutputResponse, UpdateInputOutputError>(id: "updateInput")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateInputInput, UpdateInputOutputResponse, UpdateInputOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateInputInput, UpdateInputOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateInputInput, UpdateInputOutput, UpdateInputOutputError>(id: "updateInput")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateInputInput, UpdateInputOutput, UpdateInputOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateInputInput, UpdateInputOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateInputOutputResponse, UpdateInputOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateInputOutput, UpdateInputOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateInputInput, UpdateInputOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateInputInput, UpdateInputOutputResponse>(xmlName: "UpdateInputRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateInputInput, UpdateInputOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateInputInput, UpdateInputOutput>(xmlName: "UpdateInputRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateInputOutputResponse, UpdateInputOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateInputOutput, UpdateInputOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateInputOutputResponse, UpdateInputOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateInputOutputResponse, UpdateInputOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateInputOutputResponse, UpdateInputOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateInputOutput, UpdateInputOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateInputOutput, UpdateInputOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateInputOutput, UpdateInputOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2975,7 +2933,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     ///
     /// - Parameter UpdateInputDeviceInput : A request to update an input device.
     ///
-    /// - Returns: `UpdateInputDeviceOutputResponse` : Placeholder documentation for UpdateInputDeviceResponse
+    /// - Returns: `UpdateInputDeviceOutput` : Placeholder documentation for UpdateInputDeviceResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2988,7 +2946,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
-    public func updateInputDevice(input: UpdateInputDeviceInput) async throws -> UpdateInputDeviceOutputResponse
+    public func updateInputDevice(input: UpdateInputDeviceInput) async throws -> UpdateInputDeviceOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3004,20 +2962,20 @@ extension MediaLiveClient: MediaLiveClientProtocol {
                       .withSigningName(value: "medialive")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateInputDeviceInput, UpdateInputDeviceOutputResponse, UpdateInputDeviceOutputError>(id: "updateInputDevice")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateInputDeviceInput, UpdateInputDeviceOutputResponse, UpdateInputDeviceOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateInputDeviceInput, UpdateInputDeviceOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateInputDeviceInput, UpdateInputDeviceOutput, UpdateInputDeviceOutputError>(id: "updateInputDevice")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateInputDeviceInput, UpdateInputDeviceOutput, UpdateInputDeviceOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateInputDeviceInput, UpdateInputDeviceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateInputDeviceOutputResponse, UpdateInputDeviceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateInputDeviceOutput, UpdateInputDeviceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateInputDeviceInput, UpdateInputDeviceOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateInputDeviceInput, UpdateInputDeviceOutputResponse>(xmlName: "UpdateInputDeviceRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateInputDeviceInput, UpdateInputDeviceOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateInputDeviceInput, UpdateInputDeviceOutput>(xmlName: "UpdateInputDeviceRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateInputDeviceOutputResponse, UpdateInputDeviceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateInputDeviceOutput, UpdateInputDeviceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateInputDeviceOutputResponse, UpdateInputDeviceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateInputDeviceOutputResponse, UpdateInputDeviceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateInputDeviceOutputResponse, UpdateInputDeviceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateInputDeviceOutput, UpdateInputDeviceOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateInputDeviceOutput, UpdateInputDeviceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateInputDeviceOutput, UpdateInputDeviceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3026,7 +2984,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     ///
     /// - Parameter UpdateInputSecurityGroupInput : The request to update some combination of the Input Security Group name and the IPv4 CIDRs the Input Security Group should allow.
     ///
-    /// - Returns: `UpdateInputSecurityGroupOutputResponse` : Placeholder documentation for UpdateInputSecurityGroupResponse
+    /// - Returns: `UpdateInputSecurityGroupOutput` : Placeholder documentation for UpdateInputSecurityGroupResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3038,7 +2996,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
-    public func updateInputSecurityGroup(input: UpdateInputSecurityGroupInput) async throws -> UpdateInputSecurityGroupOutputResponse
+    public func updateInputSecurityGroup(input: UpdateInputSecurityGroupInput) async throws -> UpdateInputSecurityGroupOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3054,20 +3012,20 @@ extension MediaLiveClient: MediaLiveClientProtocol {
                       .withSigningName(value: "medialive")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateInputSecurityGroupInput, UpdateInputSecurityGroupOutputResponse, UpdateInputSecurityGroupOutputError>(id: "updateInputSecurityGroup")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateInputSecurityGroupInput, UpdateInputSecurityGroupOutputResponse, UpdateInputSecurityGroupOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateInputSecurityGroupInput, UpdateInputSecurityGroupOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateInputSecurityGroupInput, UpdateInputSecurityGroupOutput, UpdateInputSecurityGroupOutputError>(id: "updateInputSecurityGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateInputSecurityGroupInput, UpdateInputSecurityGroupOutput, UpdateInputSecurityGroupOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateInputSecurityGroupInput, UpdateInputSecurityGroupOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateInputSecurityGroupOutputResponse, UpdateInputSecurityGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateInputSecurityGroupOutput, UpdateInputSecurityGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateInputSecurityGroupInput, UpdateInputSecurityGroupOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateInputSecurityGroupInput, UpdateInputSecurityGroupOutputResponse>(xmlName: "UpdateInputSecurityGroupRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateInputSecurityGroupInput, UpdateInputSecurityGroupOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateInputSecurityGroupInput, UpdateInputSecurityGroupOutput>(xmlName: "UpdateInputSecurityGroupRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateInputSecurityGroupOutputResponse, UpdateInputSecurityGroupOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateInputSecurityGroupOutput, UpdateInputSecurityGroupOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateInputSecurityGroupOutputResponse, UpdateInputSecurityGroupOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateInputSecurityGroupOutputResponse, UpdateInputSecurityGroupOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateInputSecurityGroupOutputResponse, UpdateInputSecurityGroupOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateInputSecurityGroupOutput, UpdateInputSecurityGroupOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateInputSecurityGroupOutput, UpdateInputSecurityGroupOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateInputSecurityGroupOutput, UpdateInputSecurityGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3076,7 +3034,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     ///
     /// - Parameter UpdateMultiplexInput : A request to update a multiplex.
     ///
-    /// - Returns: `UpdateMultiplexOutputResponse` : Placeholder documentation for UpdateMultiplexResponse
+    /// - Returns: `UpdateMultiplexOutput` : Placeholder documentation for UpdateMultiplexResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3089,7 +3047,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
-    public func updateMultiplex(input: UpdateMultiplexInput) async throws -> UpdateMultiplexOutputResponse
+    public func updateMultiplex(input: UpdateMultiplexInput) async throws -> UpdateMultiplexOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3105,20 +3063,20 @@ extension MediaLiveClient: MediaLiveClientProtocol {
                       .withSigningName(value: "medialive")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateMultiplexInput, UpdateMultiplexOutputResponse, UpdateMultiplexOutputError>(id: "updateMultiplex")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateMultiplexInput, UpdateMultiplexOutputResponse, UpdateMultiplexOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateMultiplexInput, UpdateMultiplexOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateMultiplexInput, UpdateMultiplexOutput, UpdateMultiplexOutputError>(id: "updateMultiplex")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateMultiplexInput, UpdateMultiplexOutput, UpdateMultiplexOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateMultiplexInput, UpdateMultiplexOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateMultiplexOutputResponse, UpdateMultiplexOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateMultiplexOutput, UpdateMultiplexOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateMultiplexInput, UpdateMultiplexOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateMultiplexInput, UpdateMultiplexOutputResponse>(xmlName: "UpdateMultiplexRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateMultiplexInput, UpdateMultiplexOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateMultiplexInput, UpdateMultiplexOutput>(xmlName: "UpdateMultiplexRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateMultiplexOutputResponse, UpdateMultiplexOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateMultiplexOutput, UpdateMultiplexOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateMultiplexOutputResponse, UpdateMultiplexOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateMultiplexOutputResponse, UpdateMultiplexOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateMultiplexOutputResponse, UpdateMultiplexOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateMultiplexOutput, UpdateMultiplexOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateMultiplexOutput, UpdateMultiplexOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateMultiplexOutput, UpdateMultiplexOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3127,7 +3085,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     ///
     /// - Parameter UpdateMultiplexProgramInput : A request to update a program in a multiplex.
     ///
-    /// - Returns: `UpdateMultiplexProgramOutputResponse` : Placeholder documentation for UpdateMultiplexProgramResponse
+    /// - Returns: `UpdateMultiplexProgramOutput` : Placeholder documentation for UpdateMultiplexProgramResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3140,7 +3098,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
-    public func updateMultiplexProgram(input: UpdateMultiplexProgramInput) async throws -> UpdateMultiplexProgramOutputResponse
+    public func updateMultiplexProgram(input: UpdateMultiplexProgramInput) async throws -> UpdateMultiplexProgramOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3156,20 +3114,20 @@ extension MediaLiveClient: MediaLiveClientProtocol {
                       .withSigningName(value: "medialive")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateMultiplexProgramInput, UpdateMultiplexProgramOutputResponse, UpdateMultiplexProgramOutputError>(id: "updateMultiplexProgram")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateMultiplexProgramInput, UpdateMultiplexProgramOutputResponse, UpdateMultiplexProgramOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateMultiplexProgramInput, UpdateMultiplexProgramOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateMultiplexProgramInput, UpdateMultiplexProgramOutput, UpdateMultiplexProgramOutputError>(id: "updateMultiplexProgram")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateMultiplexProgramInput, UpdateMultiplexProgramOutput, UpdateMultiplexProgramOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateMultiplexProgramInput, UpdateMultiplexProgramOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateMultiplexProgramOutputResponse, UpdateMultiplexProgramOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateMultiplexProgramOutput, UpdateMultiplexProgramOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateMultiplexProgramInput, UpdateMultiplexProgramOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateMultiplexProgramInput, UpdateMultiplexProgramOutputResponse>(xmlName: "UpdateMultiplexProgramRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateMultiplexProgramInput, UpdateMultiplexProgramOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateMultiplexProgramInput, UpdateMultiplexProgramOutput>(xmlName: "UpdateMultiplexProgramRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateMultiplexProgramOutputResponse, UpdateMultiplexProgramOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateMultiplexProgramOutput, UpdateMultiplexProgramOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateMultiplexProgramOutputResponse, UpdateMultiplexProgramOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateMultiplexProgramOutputResponse, UpdateMultiplexProgramOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateMultiplexProgramOutputResponse, UpdateMultiplexProgramOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateMultiplexProgramOutput, UpdateMultiplexProgramOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateMultiplexProgramOutput, UpdateMultiplexProgramOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateMultiplexProgramOutput, UpdateMultiplexProgramOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3178,7 +3136,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     ///
     /// - Parameter UpdateReservationInput : Request to update a reservation
     ///
-    /// - Returns: `UpdateReservationOutputResponse` : Placeholder documentation for UpdateReservationResponse
+    /// - Returns: `UpdateReservationOutput` : Placeholder documentation for UpdateReservationResponse
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3191,7 +3149,7 @@ extension MediaLiveClient: MediaLiveClientProtocol {
     /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
-    public func updateReservation(input: UpdateReservationInput) async throws -> UpdateReservationOutputResponse
+    public func updateReservation(input: UpdateReservationInput) async throws -> UpdateReservationOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3207,20 +3165,20 @@ extension MediaLiveClient: MediaLiveClientProtocol {
                       .withSigningName(value: "medialive")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateReservationInput, UpdateReservationOutputResponse, UpdateReservationOutputError>(id: "updateReservation")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateReservationInput, UpdateReservationOutputResponse, UpdateReservationOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateReservationInput, UpdateReservationOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateReservationInput, UpdateReservationOutput, UpdateReservationOutputError>(id: "updateReservation")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateReservationInput, UpdateReservationOutput, UpdateReservationOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateReservationInput, UpdateReservationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateReservationOutputResponse, UpdateReservationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateReservationOutput, UpdateReservationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateReservationInput, UpdateReservationOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateReservationInput, UpdateReservationOutputResponse>(xmlName: "UpdateReservationRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateReservationInput, UpdateReservationOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateReservationInput, UpdateReservationOutput>(xmlName: "UpdateReservationRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateReservationOutputResponse, UpdateReservationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateReservationOutput, UpdateReservationOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateReservationOutputResponse, UpdateReservationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateReservationOutputResponse, UpdateReservationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateReservationOutputResponse, UpdateReservationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateReservationOutput, UpdateReservationOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateReservationOutput, UpdateReservationOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateReservationOutput, UpdateReservationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

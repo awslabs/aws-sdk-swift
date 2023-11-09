@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension WellArchitectedClient {
-    /// Paginate over `[GetConsolidatedReportOutputResponse]` results.
+    /// Paginate over `[GetConsolidatedReportOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[GetConsolidatedReportInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `GetConsolidatedReportOutputResponse`
-    public func getConsolidatedReportPaginated(input: GetConsolidatedReportInput) -> ClientRuntime.PaginatorSequence<GetConsolidatedReportInput, GetConsolidatedReportOutputResponse> {
-        return ClientRuntime.PaginatorSequence<GetConsolidatedReportInput, GetConsolidatedReportOutputResponse>(input: input, inputKey: \GetConsolidatedReportInput.nextToken, outputKey: \GetConsolidatedReportOutputResponse.nextToken, paginationFunction: self.getConsolidatedReport(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `GetConsolidatedReportOutput`
+    public func getConsolidatedReportPaginated(input: GetConsolidatedReportInput) -> ClientRuntime.PaginatorSequence<GetConsolidatedReportInput, GetConsolidatedReportOutput> {
+        return ClientRuntime.PaginatorSequence<GetConsolidatedReportInput, GetConsolidatedReportOutput>(input: input, inputKey: \GetConsolidatedReportInput.nextToken, outputKey: \GetConsolidatedReportOutput.nextToken, paginationFunction: self.getConsolidatedReport(input:))
     }
 }
 
@@ -26,16 +26,16 @@ extension GetConsolidatedReportInput: ClientRuntime.PaginateToken {
         )}
 }
 extension WellArchitectedClient {
-    /// Paginate over `[ListAnswersOutputResponse]` results.
+    /// Paginate over `[ListAnswersOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListAnswersInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListAnswersOutputResponse`
-    public func listAnswersPaginated(input: ListAnswersInput) -> ClientRuntime.PaginatorSequence<ListAnswersInput, ListAnswersOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListAnswersInput, ListAnswersOutputResponse>(input: input, inputKey: \ListAnswersInput.nextToken, outputKey: \ListAnswersOutputResponse.nextToken, paginationFunction: self.listAnswers(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAnswersOutput`
+    public func listAnswersPaginated(input: ListAnswersInput) -> ClientRuntime.PaginatorSequence<ListAnswersInput, ListAnswersOutput> {
+        return ClientRuntime.PaginatorSequence<ListAnswersInput, ListAnswersOutput>(input: input, inputKey: \ListAnswersInput.nextToken, outputKey: \ListAnswersOutput.nextToken, paginationFunction: self.listAnswers(input:))
     }
 }
 
@@ -52,16 +52,16 @@ extension ListAnswersInput: ClientRuntime.PaginateToken {
         )}
 }
 extension WellArchitectedClient {
-    /// Paginate over `[ListCheckDetailsOutputResponse]` results.
+    /// Paginate over `[ListCheckDetailsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListCheckDetailsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListCheckDetailsOutputResponse`
-    public func listCheckDetailsPaginated(input: ListCheckDetailsInput) -> ClientRuntime.PaginatorSequence<ListCheckDetailsInput, ListCheckDetailsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListCheckDetailsInput, ListCheckDetailsOutputResponse>(input: input, inputKey: \ListCheckDetailsInput.nextToken, outputKey: \ListCheckDetailsOutputResponse.nextToken, paginationFunction: self.listCheckDetails(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListCheckDetailsOutput`
+    public func listCheckDetailsPaginated(input: ListCheckDetailsInput) -> ClientRuntime.PaginatorSequence<ListCheckDetailsInput, ListCheckDetailsOutput> {
+        return ClientRuntime.PaginatorSequence<ListCheckDetailsInput, ListCheckDetailsOutput>(input: input, inputKey: \ListCheckDetailsInput.nextToken, outputKey: \ListCheckDetailsOutput.nextToken, paginationFunction: self.listCheckDetails(input:))
     }
 }
 
@@ -78,16 +78,16 @@ extension ListCheckDetailsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension WellArchitectedClient {
-    /// Paginate over `[ListCheckSummariesOutputResponse]` results.
+    /// Paginate over `[ListCheckSummariesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListCheckSummariesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListCheckSummariesOutputResponse`
-    public func listCheckSummariesPaginated(input: ListCheckSummariesInput) -> ClientRuntime.PaginatorSequence<ListCheckSummariesInput, ListCheckSummariesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListCheckSummariesInput, ListCheckSummariesOutputResponse>(input: input, inputKey: \ListCheckSummariesInput.nextToken, outputKey: \ListCheckSummariesOutputResponse.nextToken, paginationFunction: self.listCheckSummaries(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListCheckSummariesOutput`
+    public func listCheckSummariesPaginated(input: ListCheckSummariesInput) -> ClientRuntime.PaginatorSequence<ListCheckSummariesInput, ListCheckSummariesOutput> {
+        return ClientRuntime.PaginatorSequence<ListCheckSummariesInput, ListCheckSummariesOutput>(input: input, inputKey: \ListCheckSummariesInput.nextToken, outputKey: \ListCheckSummariesOutput.nextToken, paginationFunction: self.listCheckSummaries(input:))
     }
 }
 
@@ -104,16 +104,16 @@ extension ListCheckSummariesInput: ClientRuntime.PaginateToken {
         )}
 }
 extension WellArchitectedClient {
-    /// Paginate over `[ListLensesOutputResponse]` results.
+    /// Paginate over `[ListLensesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListLensesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListLensesOutputResponse`
-    public func listLensesPaginated(input: ListLensesInput) -> ClientRuntime.PaginatorSequence<ListLensesInput, ListLensesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListLensesInput, ListLensesOutputResponse>(input: input, inputKey: \ListLensesInput.nextToken, outputKey: \ListLensesOutputResponse.nextToken, paginationFunction: self.listLenses(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListLensesOutput`
+    public func listLensesPaginated(input: ListLensesInput) -> ClientRuntime.PaginatorSequence<ListLensesInput, ListLensesOutput> {
+        return ClientRuntime.PaginatorSequence<ListLensesInput, ListLensesOutput>(input: input, inputKey: \ListLensesInput.nextToken, outputKey: \ListLensesOutput.nextToken, paginationFunction: self.listLenses(input:))
     }
 }
 
@@ -128,16 +128,16 @@ extension ListLensesInput: ClientRuntime.PaginateToken {
         )}
 }
 extension WellArchitectedClient {
-    /// Paginate over `[ListLensReviewImprovementsOutputResponse]` results.
+    /// Paginate over `[ListLensReviewImprovementsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListLensReviewImprovementsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListLensReviewImprovementsOutputResponse`
-    public func listLensReviewImprovementsPaginated(input: ListLensReviewImprovementsInput) -> ClientRuntime.PaginatorSequence<ListLensReviewImprovementsInput, ListLensReviewImprovementsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListLensReviewImprovementsInput, ListLensReviewImprovementsOutputResponse>(input: input, inputKey: \ListLensReviewImprovementsInput.nextToken, outputKey: \ListLensReviewImprovementsOutputResponse.nextToken, paginationFunction: self.listLensReviewImprovements(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListLensReviewImprovementsOutput`
+    public func listLensReviewImprovementsPaginated(input: ListLensReviewImprovementsInput) -> ClientRuntime.PaginatorSequence<ListLensReviewImprovementsInput, ListLensReviewImprovementsOutput> {
+        return ClientRuntime.PaginatorSequence<ListLensReviewImprovementsInput, ListLensReviewImprovementsOutput>(input: input, inputKey: \ListLensReviewImprovementsInput.nextToken, outputKey: \ListLensReviewImprovementsOutput.nextToken, paginationFunction: self.listLensReviewImprovements(input:))
     }
 }
 
@@ -154,16 +154,16 @@ extension ListLensReviewImprovementsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension WellArchitectedClient {
-    /// Paginate over `[ListLensReviewsOutputResponse]` results.
+    /// Paginate over `[ListLensReviewsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListLensReviewsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListLensReviewsOutputResponse`
-    public func listLensReviewsPaginated(input: ListLensReviewsInput) -> ClientRuntime.PaginatorSequence<ListLensReviewsInput, ListLensReviewsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListLensReviewsInput, ListLensReviewsOutputResponse>(input: input, inputKey: \ListLensReviewsInput.nextToken, outputKey: \ListLensReviewsOutputResponse.nextToken, paginationFunction: self.listLensReviews(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListLensReviewsOutput`
+    public func listLensReviewsPaginated(input: ListLensReviewsInput) -> ClientRuntime.PaginatorSequence<ListLensReviewsInput, ListLensReviewsOutput> {
+        return ClientRuntime.PaginatorSequence<ListLensReviewsInput, ListLensReviewsOutput>(input: input, inputKey: \ListLensReviewsInput.nextToken, outputKey: \ListLensReviewsOutput.nextToken, paginationFunction: self.listLensReviews(input:))
     }
 }
 
@@ -177,16 +177,16 @@ extension ListLensReviewsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension WellArchitectedClient {
-    /// Paginate over `[ListLensSharesOutputResponse]` results.
+    /// Paginate over `[ListLensSharesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListLensSharesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListLensSharesOutputResponse`
-    public func listLensSharesPaginated(input: ListLensSharesInput) -> ClientRuntime.PaginatorSequence<ListLensSharesInput, ListLensSharesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListLensSharesInput, ListLensSharesOutputResponse>(input: input, inputKey: \ListLensSharesInput.nextToken, outputKey: \ListLensSharesOutputResponse.nextToken, paginationFunction: self.listLensShares(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListLensSharesOutput`
+    public func listLensSharesPaginated(input: ListLensSharesInput) -> ClientRuntime.PaginatorSequence<ListLensSharesInput, ListLensSharesOutput> {
+        return ClientRuntime.PaginatorSequence<ListLensSharesInput, ListLensSharesOutput>(input: input, inputKey: \ListLensSharesInput.nextToken, outputKey: \ListLensSharesOutput.nextToken, paginationFunction: self.listLensShares(input:))
     }
 }
 
@@ -201,16 +201,16 @@ extension ListLensSharesInput: ClientRuntime.PaginateToken {
         )}
 }
 extension WellArchitectedClient {
-    /// Paginate over `[ListMilestonesOutputResponse]` results.
+    /// Paginate over `[ListMilestonesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListMilestonesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListMilestonesOutputResponse`
-    public func listMilestonesPaginated(input: ListMilestonesInput) -> ClientRuntime.PaginatorSequence<ListMilestonesInput, ListMilestonesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListMilestonesInput, ListMilestonesOutputResponse>(input: input, inputKey: \ListMilestonesInput.nextToken, outputKey: \ListMilestonesOutputResponse.nextToken, paginationFunction: self.listMilestones(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListMilestonesOutput`
+    public func listMilestonesPaginated(input: ListMilestonesInput) -> ClientRuntime.PaginatorSequence<ListMilestonesInput, ListMilestonesOutput> {
+        return ClientRuntime.PaginatorSequence<ListMilestonesInput, ListMilestonesOutput>(input: input, inputKey: \ListMilestonesInput.nextToken, outputKey: \ListMilestonesOutput.nextToken, paginationFunction: self.listMilestones(input:))
     }
 }
 
@@ -223,16 +223,16 @@ extension ListMilestonesInput: ClientRuntime.PaginateToken {
         )}
 }
 extension WellArchitectedClient {
-    /// Paginate over `[ListNotificationsOutputResponse]` results.
+    /// Paginate over `[ListNotificationsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListNotificationsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListNotificationsOutputResponse`
-    public func listNotificationsPaginated(input: ListNotificationsInput) -> ClientRuntime.PaginatorSequence<ListNotificationsInput, ListNotificationsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListNotificationsInput, ListNotificationsOutputResponse>(input: input, inputKey: \ListNotificationsInput.nextToken, outputKey: \ListNotificationsOutputResponse.nextToken, paginationFunction: self.listNotifications(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListNotificationsOutput`
+    public func listNotificationsPaginated(input: ListNotificationsInput) -> ClientRuntime.PaginatorSequence<ListNotificationsInput, ListNotificationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListNotificationsInput, ListNotificationsOutput>(input: input, inputKey: \ListNotificationsInput.nextToken, outputKey: \ListNotificationsOutput.nextToken, paginationFunction: self.listNotifications(input:))
     }
 }
 
@@ -241,20 +241,21 @@ extension ListNotificationsInput: ClientRuntime.PaginateToken {
         return ListNotificationsInput(
             maxResults: self.maxResults,
             nextToken: token,
+            resourceArn: self.resourceArn,
             workloadId: self.workloadId
         )}
 }
 extension WellArchitectedClient {
-    /// Paginate over `[ListProfileNotificationsOutputResponse]` results.
+    /// Paginate over `[ListProfileNotificationsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListProfileNotificationsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListProfileNotificationsOutputResponse`
-    public func listProfileNotificationsPaginated(input: ListProfileNotificationsInput) -> ClientRuntime.PaginatorSequence<ListProfileNotificationsInput, ListProfileNotificationsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListProfileNotificationsInput, ListProfileNotificationsOutputResponse>(input: input, inputKey: \ListProfileNotificationsInput.nextToken, outputKey: \ListProfileNotificationsOutputResponse.nextToken, paginationFunction: self.listProfileNotifications(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListProfileNotificationsOutput`
+    public func listProfileNotificationsPaginated(input: ListProfileNotificationsInput) -> ClientRuntime.PaginatorSequence<ListProfileNotificationsInput, ListProfileNotificationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListProfileNotificationsInput, ListProfileNotificationsOutput>(input: input, inputKey: \ListProfileNotificationsInput.nextToken, outputKey: \ListProfileNotificationsOutput.nextToken, paginationFunction: self.listProfileNotifications(input:))
     }
 }
 
@@ -267,16 +268,16 @@ extension ListProfileNotificationsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension WellArchitectedClient {
-    /// Paginate over `[ListProfilesOutputResponse]` results.
+    /// Paginate over `[ListProfilesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListProfilesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListProfilesOutputResponse`
-    public func listProfilesPaginated(input: ListProfilesInput) -> ClientRuntime.PaginatorSequence<ListProfilesInput, ListProfilesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListProfilesInput, ListProfilesOutputResponse>(input: input, inputKey: \ListProfilesInput.nextToken, outputKey: \ListProfilesOutputResponse.nextToken, paginationFunction: self.listProfiles(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListProfilesOutput`
+    public func listProfilesPaginated(input: ListProfilesInput) -> ClientRuntime.PaginatorSequence<ListProfilesInput, ListProfilesOutput> {
+        return ClientRuntime.PaginatorSequence<ListProfilesInput, ListProfilesOutput>(input: input, inputKey: \ListProfilesInput.nextToken, outputKey: \ListProfilesOutput.nextToken, paginationFunction: self.listProfiles(input:))
     }
 }
 
@@ -290,16 +291,16 @@ extension ListProfilesInput: ClientRuntime.PaginateToken {
         )}
 }
 extension WellArchitectedClient {
-    /// Paginate over `[ListProfileSharesOutputResponse]` results.
+    /// Paginate over `[ListProfileSharesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListProfileSharesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListProfileSharesOutputResponse`
-    public func listProfileSharesPaginated(input: ListProfileSharesInput) -> ClientRuntime.PaginatorSequence<ListProfileSharesInput, ListProfileSharesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListProfileSharesInput, ListProfileSharesOutputResponse>(input: input, inputKey: \ListProfileSharesInput.nextToken, outputKey: \ListProfileSharesOutputResponse.nextToken, paginationFunction: self.listProfileShares(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListProfileSharesOutput`
+    public func listProfileSharesPaginated(input: ListProfileSharesInput) -> ClientRuntime.PaginatorSequence<ListProfileSharesInput, ListProfileSharesOutput> {
+        return ClientRuntime.PaginatorSequence<ListProfileSharesInput, ListProfileSharesOutput>(input: input, inputKey: \ListProfileSharesInput.nextToken, outputKey: \ListProfileSharesOutput.nextToken, paginationFunction: self.listProfileShares(input:))
     }
 }
 
@@ -314,16 +315,61 @@ extension ListProfileSharesInput: ClientRuntime.PaginateToken {
         )}
 }
 extension WellArchitectedClient {
-    /// Paginate over `[ListShareInvitationsOutputResponse]` results.
+    /// Paginate over `[ListReviewTemplateAnswersOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListReviewTemplateAnswersInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListReviewTemplateAnswersOutput`
+    public func listReviewTemplateAnswersPaginated(input: ListReviewTemplateAnswersInput) -> ClientRuntime.PaginatorSequence<ListReviewTemplateAnswersInput, ListReviewTemplateAnswersOutput> {
+        return ClientRuntime.PaginatorSequence<ListReviewTemplateAnswersInput, ListReviewTemplateAnswersOutput>(input: input, inputKey: \ListReviewTemplateAnswersInput.nextToken, outputKey: \ListReviewTemplateAnswersOutput.nextToken, paginationFunction: self.listReviewTemplateAnswers(input:))
+    }
+}
+
+extension ListReviewTemplateAnswersInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListReviewTemplateAnswersInput {
+        return ListReviewTemplateAnswersInput(
+            lensAlias: self.lensAlias,
+            maxResults: self.maxResults,
+            nextToken: token,
+            pillarId: self.pillarId,
+            templateArn: self.templateArn
+        )}
+}
+extension WellArchitectedClient {
+    /// Paginate over `[ListReviewTemplatesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListReviewTemplatesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListReviewTemplatesOutput`
+    public func listReviewTemplatesPaginated(input: ListReviewTemplatesInput) -> ClientRuntime.PaginatorSequence<ListReviewTemplatesInput, ListReviewTemplatesOutput> {
+        return ClientRuntime.PaginatorSequence<ListReviewTemplatesInput, ListReviewTemplatesOutput>(input: input, inputKey: \ListReviewTemplatesInput.nextToken, outputKey: \ListReviewTemplatesOutput.nextToken, paginationFunction: self.listReviewTemplates(input:))
+    }
+}
+
+extension ListReviewTemplatesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListReviewTemplatesInput {
+        return ListReviewTemplatesInput(
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+extension WellArchitectedClient {
+    /// Paginate over `[ListShareInvitationsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListShareInvitationsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListShareInvitationsOutputResponse`
-    public func listShareInvitationsPaginated(input: ListShareInvitationsInput) -> ClientRuntime.PaginatorSequence<ListShareInvitationsInput, ListShareInvitationsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListShareInvitationsInput, ListShareInvitationsOutputResponse>(input: input, inputKey: \ListShareInvitationsInput.nextToken, outputKey: \ListShareInvitationsOutputResponse.nextToken, paginationFunction: self.listShareInvitations(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListShareInvitationsOutput`
+    public func listShareInvitationsPaginated(input: ListShareInvitationsInput) -> ClientRuntime.PaginatorSequence<ListShareInvitationsInput, ListShareInvitationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListShareInvitationsInput, ListShareInvitationsOutput>(input: input, inputKey: \ListShareInvitationsInput.nextToken, outputKey: \ListShareInvitationsOutput.nextToken, paginationFunction: self.listShareInvitations(input:))
     }
 }
 
@@ -335,20 +381,45 @@ extension ListShareInvitationsInput: ClientRuntime.PaginateToken {
             nextToken: token,
             profileNamePrefix: self.profileNamePrefix,
             shareResourceType: self.shareResourceType,
+            templateNamePrefix: self.templateNamePrefix,
             workloadNamePrefix: self.workloadNamePrefix
         )}
 }
 extension WellArchitectedClient {
-    /// Paginate over `[ListWorkloadsOutputResponse]` results.
+    /// Paginate over `[ListTemplateSharesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListTemplateSharesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListTemplateSharesOutput`
+    public func listTemplateSharesPaginated(input: ListTemplateSharesInput) -> ClientRuntime.PaginatorSequence<ListTemplateSharesInput, ListTemplateSharesOutput> {
+        return ClientRuntime.PaginatorSequence<ListTemplateSharesInput, ListTemplateSharesOutput>(input: input, inputKey: \ListTemplateSharesInput.nextToken, outputKey: \ListTemplateSharesOutput.nextToken, paginationFunction: self.listTemplateShares(input:))
+    }
+}
+
+extension ListTemplateSharesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListTemplateSharesInput {
+        return ListTemplateSharesInput(
+            maxResults: self.maxResults,
+            nextToken: token,
+            sharedWithPrefix: self.sharedWithPrefix,
+            status: self.status,
+            templateArn: self.templateArn
+        )}
+}
+extension WellArchitectedClient {
+    /// Paginate over `[ListWorkloadsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListWorkloadsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListWorkloadsOutputResponse`
-    public func listWorkloadsPaginated(input: ListWorkloadsInput) -> ClientRuntime.PaginatorSequence<ListWorkloadsInput, ListWorkloadsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListWorkloadsInput, ListWorkloadsOutputResponse>(input: input, inputKey: \ListWorkloadsInput.nextToken, outputKey: \ListWorkloadsOutputResponse.nextToken, paginationFunction: self.listWorkloads(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListWorkloadsOutput`
+    public func listWorkloadsPaginated(input: ListWorkloadsInput) -> ClientRuntime.PaginatorSequence<ListWorkloadsInput, ListWorkloadsOutput> {
+        return ClientRuntime.PaginatorSequence<ListWorkloadsInput, ListWorkloadsOutput>(input: input, inputKey: \ListWorkloadsInput.nextToken, outputKey: \ListWorkloadsOutput.nextToken, paginationFunction: self.listWorkloads(input:))
     }
 }
 
@@ -361,16 +432,16 @@ extension ListWorkloadsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension WellArchitectedClient {
-    /// Paginate over `[ListWorkloadSharesOutputResponse]` results.
+    /// Paginate over `[ListWorkloadSharesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListWorkloadSharesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListWorkloadSharesOutputResponse`
-    public func listWorkloadSharesPaginated(input: ListWorkloadSharesInput) -> ClientRuntime.PaginatorSequence<ListWorkloadSharesInput, ListWorkloadSharesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListWorkloadSharesInput, ListWorkloadSharesOutputResponse>(input: input, inputKey: \ListWorkloadSharesInput.nextToken, outputKey: \ListWorkloadSharesOutputResponse.nextToken, paginationFunction: self.listWorkloadShares(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListWorkloadSharesOutput`
+    public func listWorkloadSharesPaginated(input: ListWorkloadSharesInput) -> ClientRuntime.PaginatorSequence<ListWorkloadSharesInput, ListWorkloadSharesOutput> {
+        return ClientRuntime.PaginatorSequence<ListWorkloadSharesInput, ListWorkloadSharesOutput>(input: input, inputKey: \ListWorkloadSharesInput.nextToken, outputKey: \ListWorkloadSharesOutput.nextToken, paginationFunction: self.listWorkloadShares(input:))
     }
 }
 

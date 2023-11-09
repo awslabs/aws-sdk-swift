@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension ChimeSDKVoiceClient {
-    /// Paginate over `[ListPhoneNumberOrdersOutputResponse]` results.
+    /// Paginate over `[ListPhoneNumberOrdersOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListPhoneNumberOrdersInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListPhoneNumberOrdersOutputResponse`
-    public func listPhoneNumberOrdersPaginated(input: ListPhoneNumberOrdersInput) -> ClientRuntime.PaginatorSequence<ListPhoneNumberOrdersInput, ListPhoneNumberOrdersOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListPhoneNumberOrdersInput, ListPhoneNumberOrdersOutputResponse>(input: input, inputKey: \ListPhoneNumberOrdersInput.nextToken, outputKey: \ListPhoneNumberOrdersOutputResponse.nextToken, paginationFunction: self.listPhoneNumberOrders(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListPhoneNumberOrdersOutput`
+    public func listPhoneNumberOrdersPaginated(input: ListPhoneNumberOrdersInput) -> ClientRuntime.PaginatorSequence<ListPhoneNumberOrdersInput, ListPhoneNumberOrdersOutput> {
+        return ClientRuntime.PaginatorSequence<ListPhoneNumberOrdersInput, ListPhoneNumberOrdersOutput>(input: input, inputKey: \ListPhoneNumberOrdersInput.nextToken, outputKey: \ListPhoneNumberOrdersOutput.nextToken, paginationFunction: self.listPhoneNumberOrders(input:))
     }
 }
 
@@ -24,16 +24,16 @@ extension ListPhoneNumberOrdersInput: ClientRuntime.PaginateToken {
         )}
 }
 extension ChimeSDKVoiceClient {
-    /// Paginate over `[ListPhoneNumbersOutputResponse]` results.
+    /// Paginate over `[ListPhoneNumbersOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListPhoneNumbersInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListPhoneNumbersOutputResponse`
-    public func listPhoneNumbersPaginated(input: ListPhoneNumbersInput) -> ClientRuntime.PaginatorSequence<ListPhoneNumbersInput, ListPhoneNumbersOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListPhoneNumbersInput, ListPhoneNumbersOutputResponse>(input: input, inputKey: \ListPhoneNumbersInput.nextToken, outputKey: \ListPhoneNumbersOutputResponse.nextToken, paginationFunction: self.listPhoneNumbers(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListPhoneNumbersOutput`
+    public func listPhoneNumbersPaginated(input: ListPhoneNumbersInput) -> ClientRuntime.PaginatorSequence<ListPhoneNumbersInput, ListPhoneNumbersOutput> {
+        return ClientRuntime.PaginatorSequence<ListPhoneNumbersInput, ListPhoneNumbersOutput>(input: input, inputKey: \ListPhoneNumbersInput.nextToken, outputKey: \ListPhoneNumbersOutput.nextToken, paginationFunction: self.listPhoneNumbers(input:))
     }
 }
 
@@ -49,16 +49,16 @@ extension ListPhoneNumbersInput: ClientRuntime.PaginateToken {
         )}
 }
 extension ChimeSDKVoiceClient {
-    /// Paginate over `[ListProxySessionsOutputResponse]` results.
+    /// Paginate over `[ListProxySessionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListProxySessionsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListProxySessionsOutputResponse`
-    public func listProxySessionsPaginated(input: ListProxySessionsInput) -> ClientRuntime.PaginatorSequence<ListProxySessionsInput, ListProxySessionsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListProxySessionsInput, ListProxySessionsOutputResponse>(input: input, inputKey: \ListProxySessionsInput.nextToken, outputKey: \ListProxySessionsOutputResponse.nextToken, paginationFunction: self.listProxySessions(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListProxySessionsOutput`
+    public func listProxySessionsPaginated(input: ListProxySessionsInput) -> ClientRuntime.PaginatorSequence<ListProxySessionsInput, ListProxySessionsOutput> {
+        return ClientRuntime.PaginatorSequence<ListProxySessionsInput, ListProxySessionsOutput>(input: input, inputKey: \ListProxySessionsInput.nextToken, outputKey: \ListProxySessionsOutput.nextToken, paginationFunction: self.listProxySessions(input:))
     }
 }
 
@@ -72,16 +72,16 @@ extension ListProxySessionsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension ChimeSDKVoiceClient {
-    /// Paginate over `[ListSipMediaApplicationsOutputResponse]` results.
+    /// Paginate over `[ListSipMediaApplicationsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListSipMediaApplicationsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListSipMediaApplicationsOutputResponse`
-    public func listSipMediaApplicationsPaginated(input: ListSipMediaApplicationsInput) -> ClientRuntime.PaginatorSequence<ListSipMediaApplicationsInput, ListSipMediaApplicationsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListSipMediaApplicationsInput, ListSipMediaApplicationsOutputResponse>(input: input, inputKey: \ListSipMediaApplicationsInput.nextToken, outputKey: \ListSipMediaApplicationsOutputResponse.nextToken, paginationFunction: self.listSipMediaApplications(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListSipMediaApplicationsOutput`
+    public func listSipMediaApplicationsPaginated(input: ListSipMediaApplicationsInput) -> ClientRuntime.PaginatorSequence<ListSipMediaApplicationsInput, ListSipMediaApplicationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListSipMediaApplicationsInput, ListSipMediaApplicationsOutput>(input: input, inputKey: \ListSipMediaApplicationsInput.nextToken, outputKey: \ListSipMediaApplicationsOutput.nextToken, paginationFunction: self.listSipMediaApplications(input:))
     }
 }
 
@@ -93,7 +93,7 @@ extension ListSipMediaApplicationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListSipMediaApplicationsInput, Output == ListSipMediaApplicationsOutputResponse {
+extension PaginatorSequence where Input == ListSipMediaApplicationsInput, Output == ListSipMediaApplicationsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listSipMediaApplicationsPaginated`
     /// to access the nested member `[ChimeSDKVoiceClientTypes.SipMediaApplication]`
     /// - Returns: `[ChimeSDKVoiceClientTypes.SipMediaApplication]`
@@ -102,16 +102,16 @@ extension PaginatorSequence where Input == ListSipMediaApplicationsInput, Output
     }
 }
 extension ChimeSDKVoiceClient {
-    /// Paginate over `[ListSipRulesOutputResponse]` results.
+    /// Paginate over `[ListSipRulesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListSipRulesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListSipRulesOutputResponse`
-    public func listSipRulesPaginated(input: ListSipRulesInput) -> ClientRuntime.PaginatorSequence<ListSipRulesInput, ListSipRulesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListSipRulesInput, ListSipRulesOutputResponse>(input: input, inputKey: \ListSipRulesInput.nextToken, outputKey: \ListSipRulesOutputResponse.nextToken, paginationFunction: self.listSipRules(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListSipRulesOutput`
+    public func listSipRulesPaginated(input: ListSipRulesInput) -> ClientRuntime.PaginatorSequence<ListSipRulesInput, ListSipRulesOutput> {
+        return ClientRuntime.PaginatorSequence<ListSipRulesInput, ListSipRulesOutput>(input: input, inputKey: \ListSipRulesInput.nextToken, outputKey: \ListSipRulesOutput.nextToken, paginationFunction: self.listSipRules(input:))
     }
 }
 
@@ -124,7 +124,7 @@ extension ListSipRulesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListSipRulesInput, Output == ListSipRulesOutputResponse {
+extension PaginatorSequence where Input == ListSipRulesInput, Output == ListSipRulesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listSipRulesPaginated`
     /// to access the nested member `[ChimeSDKVoiceClientTypes.SipRule]`
     /// - Returns: `[ChimeSDKVoiceClientTypes.SipRule]`
@@ -133,16 +133,16 @@ extension PaginatorSequence where Input == ListSipRulesInput, Output == ListSipR
     }
 }
 extension ChimeSDKVoiceClient {
-    /// Paginate over `[ListVoiceConnectorGroupsOutputResponse]` results.
+    /// Paginate over `[ListVoiceConnectorGroupsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListVoiceConnectorGroupsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListVoiceConnectorGroupsOutputResponse`
-    public func listVoiceConnectorGroupsPaginated(input: ListVoiceConnectorGroupsInput) -> ClientRuntime.PaginatorSequence<ListVoiceConnectorGroupsInput, ListVoiceConnectorGroupsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListVoiceConnectorGroupsInput, ListVoiceConnectorGroupsOutputResponse>(input: input, inputKey: \ListVoiceConnectorGroupsInput.nextToken, outputKey: \ListVoiceConnectorGroupsOutputResponse.nextToken, paginationFunction: self.listVoiceConnectorGroups(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListVoiceConnectorGroupsOutput`
+    public func listVoiceConnectorGroupsPaginated(input: ListVoiceConnectorGroupsInput) -> ClientRuntime.PaginatorSequence<ListVoiceConnectorGroupsInput, ListVoiceConnectorGroupsOutput> {
+        return ClientRuntime.PaginatorSequence<ListVoiceConnectorGroupsInput, ListVoiceConnectorGroupsOutput>(input: input, inputKey: \ListVoiceConnectorGroupsInput.nextToken, outputKey: \ListVoiceConnectorGroupsOutput.nextToken, paginationFunction: self.listVoiceConnectorGroups(input:))
     }
 }
 
@@ -154,16 +154,16 @@ extension ListVoiceConnectorGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension ChimeSDKVoiceClient {
-    /// Paginate over `[ListVoiceConnectorsOutputResponse]` results.
+    /// Paginate over `[ListVoiceConnectorsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListVoiceConnectorsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListVoiceConnectorsOutputResponse`
-    public func listVoiceConnectorsPaginated(input: ListVoiceConnectorsInput) -> ClientRuntime.PaginatorSequence<ListVoiceConnectorsInput, ListVoiceConnectorsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListVoiceConnectorsInput, ListVoiceConnectorsOutputResponse>(input: input, inputKey: \ListVoiceConnectorsInput.nextToken, outputKey: \ListVoiceConnectorsOutputResponse.nextToken, paginationFunction: self.listVoiceConnectors(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListVoiceConnectorsOutput`
+    public func listVoiceConnectorsPaginated(input: ListVoiceConnectorsInput) -> ClientRuntime.PaginatorSequence<ListVoiceConnectorsInput, ListVoiceConnectorsOutput> {
+        return ClientRuntime.PaginatorSequence<ListVoiceConnectorsInput, ListVoiceConnectorsOutput>(input: input, inputKey: \ListVoiceConnectorsInput.nextToken, outputKey: \ListVoiceConnectorsOutput.nextToken, paginationFunction: self.listVoiceConnectors(input:))
     }
 }
 
@@ -175,16 +175,16 @@ extension ListVoiceConnectorsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension ChimeSDKVoiceClient {
-    /// Paginate over `[ListVoiceProfileDomainsOutputResponse]` results.
+    /// Paginate over `[ListVoiceProfileDomainsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListVoiceProfileDomainsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListVoiceProfileDomainsOutputResponse`
-    public func listVoiceProfileDomainsPaginated(input: ListVoiceProfileDomainsInput) -> ClientRuntime.PaginatorSequence<ListVoiceProfileDomainsInput, ListVoiceProfileDomainsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListVoiceProfileDomainsInput, ListVoiceProfileDomainsOutputResponse>(input: input, inputKey: \ListVoiceProfileDomainsInput.nextToken, outputKey: \ListVoiceProfileDomainsOutputResponse.nextToken, paginationFunction: self.listVoiceProfileDomains(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListVoiceProfileDomainsOutput`
+    public func listVoiceProfileDomainsPaginated(input: ListVoiceProfileDomainsInput) -> ClientRuntime.PaginatorSequence<ListVoiceProfileDomainsInput, ListVoiceProfileDomainsOutput> {
+        return ClientRuntime.PaginatorSequence<ListVoiceProfileDomainsInput, ListVoiceProfileDomainsOutput>(input: input, inputKey: \ListVoiceProfileDomainsInput.nextToken, outputKey: \ListVoiceProfileDomainsOutput.nextToken, paginationFunction: self.listVoiceProfileDomains(input:))
     }
 }
 
@@ -196,16 +196,16 @@ extension ListVoiceProfileDomainsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension ChimeSDKVoiceClient {
-    /// Paginate over `[ListVoiceProfilesOutputResponse]` results.
+    /// Paginate over `[ListVoiceProfilesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListVoiceProfilesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListVoiceProfilesOutputResponse`
-    public func listVoiceProfilesPaginated(input: ListVoiceProfilesInput) -> ClientRuntime.PaginatorSequence<ListVoiceProfilesInput, ListVoiceProfilesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListVoiceProfilesInput, ListVoiceProfilesOutputResponse>(input: input, inputKey: \ListVoiceProfilesInput.nextToken, outputKey: \ListVoiceProfilesOutputResponse.nextToken, paginationFunction: self.listVoiceProfiles(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListVoiceProfilesOutput`
+    public func listVoiceProfilesPaginated(input: ListVoiceProfilesInput) -> ClientRuntime.PaginatorSequence<ListVoiceProfilesInput, ListVoiceProfilesOutput> {
+        return ClientRuntime.PaginatorSequence<ListVoiceProfilesInput, ListVoiceProfilesOutput>(input: input, inputKey: \ListVoiceProfilesInput.nextToken, outputKey: \ListVoiceProfilesOutput.nextToken, paginationFunction: self.listVoiceProfiles(input:))
     }
 }
 
@@ -218,16 +218,16 @@ extension ListVoiceProfilesInput: ClientRuntime.PaginateToken {
         )}
 }
 extension ChimeSDKVoiceClient {
-    /// Paginate over `[SearchAvailablePhoneNumbersOutputResponse]` results.
+    /// Paginate over `[SearchAvailablePhoneNumbersOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[SearchAvailablePhoneNumbersInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `SearchAvailablePhoneNumbersOutputResponse`
-    public func searchAvailablePhoneNumbersPaginated(input: SearchAvailablePhoneNumbersInput) -> ClientRuntime.PaginatorSequence<SearchAvailablePhoneNumbersInput, SearchAvailablePhoneNumbersOutputResponse> {
-        return ClientRuntime.PaginatorSequence<SearchAvailablePhoneNumbersInput, SearchAvailablePhoneNumbersOutputResponse>(input: input, inputKey: \SearchAvailablePhoneNumbersInput.nextToken, outputKey: \SearchAvailablePhoneNumbersOutputResponse.nextToken, paginationFunction: self.searchAvailablePhoneNumbers(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `SearchAvailablePhoneNumbersOutput`
+    public func searchAvailablePhoneNumbersPaginated(input: SearchAvailablePhoneNumbersInput) -> ClientRuntime.PaginatorSequence<SearchAvailablePhoneNumbersInput, SearchAvailablePhoneNumbersOutput> {
+        return ClientRuntime.PaginatorSequence<SearchAvailablePhoneNumbersInput, SearchAvailablePhoneNumbersOutput>(input: input, inputKey: \SearchAvailablePhoneNumbersInput.nextToken, outputKey: \SearchAvailablePhoneNumbersOutput.nextToken, paginationFunction: self.searchAvailablePhoneNumbers(input:))
     }
 }
 

@@ -138,7 +138,7 @@ public struct InvokeModelInputBodyMiddleware: ClientRuntime.Middleware {
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<InvokeModelInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<InvokeModelOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<InvokeModelOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -153,7 +153,7 @@ public struct InvokeModelInputBodyMiddleware: ClientRuntime.Middleware {
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<InvokeModelInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<InvokeModelOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<InvokeModelOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -239,6 +239,63 @@ extension InvokeModelInputBody: Swift.Decodable {
     }
 }
 
+extension InvokeModelOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "InvokeModelOutput(contentType: \(Swift.String(describing: contentType)), body: \"CONTENT_REDACTED\")"}
+}
+
+extension InvokeModelOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let contentTypeHeaderValue = httpResponse.headers.value(for: "Content-Type") {
+            self.contentType = contentTypeHeaderValue
+        } else {
+            self.contentType = nil
+        }
+        switch httpResponse.body {
+        case .data(let data):
+            self.body = data
+        case .stream(let stream):
+            self.body = try stream.readToEnd()
+        case .none:
+            self.body = nil
+        }
+    }
+}
+
+public struct InvokeModelOutput: Swift.Equatable {
+    /// Inference response from the model in the format specified in the content-type header field. To see the format and content of this field for different models, refer to [Inference parameters](https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters.html).
+    /// This member is required.
+    public var body: ClientRuntime.Data?
+    /// The MIME type of the inference result.
+    /// This member is required.
+    public var contentType: Swift.String?
+
+    public init(
+        body: ClientRuntime.Data? = nil,
+        contentType: Swift.String? = nil
+    )
+    {
+        self.body = body
+        self.contentType = contentType
+    }
+}
+
+struct InvokeModelOutputBody: Swift.Equatable {
+    let body: ClientRuntime.Data?
+}
+
+extension InvokeModelOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case body
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let bodyDecoded = try containerValues.decodeIfPresent(ClientRuntime.Data.self, forKey: .body)
+        body = bodyDecoded
+    }
+}
+
 enum InvokeModelOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -258,63 +315,6 @@ enum InvokeModelOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension InvokeModelOutputResponse: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "InvokeModelOutputResponse(contentType: \(Swift.String(describing: contentType)), body: \"CONTENT_REDACTED\")"}
-}
-
-extension InvokeModelOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let contentTypeHeaderValue = httpResponse.headers.value(for: "Content-Type") {
-            self.contentType = contentTypeHeaderValue
-        } else {
-            self.contentType = nil
-        }
-        switch httpResponse.body {
-        case .data(let data):
-            self.body = data
-        case .stream(let stream):
-            self.body = try stream.readToEnd()
-        case .none:
-            self.body = nil
-        }
-    }
-}
-
-public struct InvokeModelOutputResponse: Swift.Equatable {
-    /// Inference response from the model in the format specified in the content-type header field. To see the format and content of this field for different models, refer to [Inference parameters](https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters.html).
-    /// This member is required.
-    public var body: ClientRuntime.Data?
-    /// The MIME type of the inference result.
-    /// This member is required.
-    public var contentType: Swift.String?
-
-    public init(
-        body: ClientRuntime.Data? = nil,
-        contentType: Swift.String? = nil
-    )
-    {
-        self.body = body
-        self.contentType = contentType
-    }
-}
-
-struct InvokeModelOutputResponseBody: Swift.Equatable {
-    let body: ClientRuntime.Data?
-}
-
-extension InvokeModelOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case body
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let bodyDecoded = try containerValues.decodeIfPresent(ClientRuntime.Data.self, forKey: .body)
-        body = bodyDecoded
-    }
-}
-
 public struct InvokeModelWithResponseStreamInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "InvokeModelWithResponseStreamInputBodyMiddleware"
 
@@ -322,7 +322,7 @@ public struct InvokeModelWithResponseStreamInputBodyMiddleware: ClientRuntime.Mi
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<InvokeModelWithResponseStreamInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<InvokeModelWithResponseStreamOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<InvokeModelWithResponseStreamOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -337,7 +337,7 @@ public struct InvokeModelWithResponseStreamInputBodyMiddleware: ClientRuntime.Mi
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<InvokeModelWithResponseStreamInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<InvokeModelWithResponseStreamOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<InvokeModelWithResponseStreamOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -423,6 +423,41 @@ extension InvokeModelWithResponseStreamInputBody: Swift.Decodable {
     }
 }
 
+extension InvokeModelWithResponseStreamOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let contentTypeHeaderValue = httpResponse.headers.value(for: "X-Amzn-Bedrock-Content-Type") {
+            self.contentType = contentTypeHeaderValue
+        } else {
+            self.contentType = nil
+        }
+        if case let .stream(stream) = httpResponse.body, let responseDecoder = decoder {
+            let messageDecoder = AWSClientRuntime.AWSEventStream.AWSMessageDecoder()
+            let decoderStream = ClientRuntime.EventStream.DefaultMessageDecoderStream<BedrockRuntimeClientTypes.ResponseStream>(stream: stream, messageDecoder: messageDecoder, responseDecoder: responseDecoder)
+            self.body = decoderStream.toAsyncStream()
+        } else {
+            self.body = nil
+        }
+    }
+}
+
+public struct InvokeModelWithResponseStreamOutput: Swift.Equatable {
+    /// Inference response from the model in the format specified by Content-Type. To see the format and content of this field for different models, refer to [Inference parameters](https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters.html).
+    /// This member is required.
+    public var body: AsyncThrowingStream<BedrockRuntimeClientTypes.ResponseStream, Swift.Error>?
+    /// The MIME type of the inference result.
+    /// This member is required.
+    public var contentType: Swift.String?
+
+    public init(
+        body: AsyncThrowingStream<BedrockRuntimeClientTypes.ResponseStream, Swift.Error>? = nil,
+        contentType: Swift.String? = nil
+    )
+    {
+        self.body = body
+        self.contentType = contentType
+    }
+}
+
 enum InvokeModelWithResponseStreamOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -440,41 +475,6 @@ enum InvokeModelWithResponseStreamOutputError: ClientRuntime.HttpResponseErrorBi
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension InvokeModelWithResponseStreamOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let contentTypeHeaderValue = httpResponse.headers.value(for: "X-Amzn-Bedrock-Content-Type") {
-            self.contentType = contentTypeHeaderValue
-        } else {
-            self.contentType = nil
-        }
-        if case let .stream(stream) = httpResponse.body, let responseDecoder = decoder {
-            let messageDecoder = AWSClientRuntime.AWSEventStream.AWSMessageDecoder()
-            let decoderStream = ClientRuntime.EventStream.DefaultMessageDecoderStream<BedrockRuntimeClientTypes.ResponseStream>(stream: stream, messageDecoder: messageDecoder, responseDecoder: responseDecoder)
-            self.body = decoderStream.toAsyncStream()
-        } else {
-            self.body = nil
-        }
-    }
-}
-
-public struct InvokeModelWithResponseStreamOutputResponse: Swift.Equatable {
-    /// Inference response from the model in the format specified by Content-Type. To see the format and content of this field for different models, refer to [Inference parameters](https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters.html).
-    /// This member is required.
-    public var body: AsyncThrowingStream<BedrockRuntimeClientTypes.ResponseStream, Swift.Error>?
-    /// The MIME type of the inference result.
-    /// This member is required.
-    public var contentType: Swift.String?
-
-    public init(
-        body: AsyncThrowingStream<BedrockRuntimeClientTypes.ResponseStream, Swift.Error>? = nil,
-        contentType: Swift.String? = nil
-    )
-    {
-        self.body = body
-        self.contentType = contentType
     }
 }
 

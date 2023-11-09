@@ -418,28 +418,11 @@ extension SendSSHPublicKeyInputBody: Swift.Decodable {
     }
 }
 
-enum SendSSHPublicKeyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "Forbidden": return try await AuthException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EC2InstanceNotFound": return try await EC2InstanceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EC2InstanceStateInvalid": return try await EC2InstanceStateInvalidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EC2InstanceUnavailable": return try await EC2InstanceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidArguments": return try await InvalidArgsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerError": return try await ServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequests": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension SendSSHPublicKeyOutputResponse: ClientRuntime.HttpResponseBinding {
+extension SendSSHPublicKeyOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: SendSSHPublicKeyOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: SendSSHPublicKeyOutputBody = try responseDecoder.decode(responseBody: data)
             self.requestId = output.requestId
             self.success = output.success
         } else {
@@ -449,7 +432,7 @@ extension SendSSHPublicKeyOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SendSSHPublicKeyOutputResponse: Swift.Equatable {
+public struct SendSSHPublicKeyOutput: Swift.Equatable {
     /// The ID of the request. Please provide this ID when contacting AWS Support for assistance.
     public var requestId: Swift.String?
     /// Is true if the request succeeds and an error otherwise.
@@ -465,12 +448,12 @@ public struct SendSSHPublicKeyOutputResponse: Swift.Equatable {
     }
 }
 
-struct SendSSHPublicKeyOutputResponseBody: Swift.Equatable {
+struct SendSSHPublicKeyOutputBody: Swift.Equatable {
     let requestId: Swift.String?
     let success: Swift.Bool
 }
 
-extension SendSSHPublicKeyOutputResponseBody: Swift.Decodable {
+extension SendSSHPublicKeyOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case requestId = "RequestId"
         case success = "Success"
@@ -482,6 +465,23 @@ extension SendSSHPublicKeyOutputResponseBody: Swift.Decodable {
         requestId = requestIdDecoded
         let successDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .success) ?? false
         success = successDecoded
+    }
+}
+
+enum SendSSHPublicKeyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "Forbidden": return try await AuthException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EC2InstanceNotFound": return try await EC2InstanceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EC2InstanceStateInvalid": return try await EC2InstanceStateInvalidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EC2InstanceUnavailable": return try await EC2InstanceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArguments": return try await InvalidArgsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerError": return try await ServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequests": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -558,6 +558,56 @@ extension SendSerialConsoleSSHPublicKeyInputBody: Swift.Decodable {
     }
 }
 
+extension SendSerialConsoleSSHPublicKeyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: SendSerialConsoleSSHPublicKeyOutputBody = try responseDecoder.decode(responseBody: data)
+            self.requestId = output.requestId
+            self.success = output.success
+        } else {
+            self.requestId = nil
+            self.success = false
+        }
+    }
+}
+
+public struct SendSerialConsoleSSHPublicKeyOutput: Swift.Equatable {
+    /// The ID of the request. Please provide this ID when contacting AWS Support for assistance.
+    public var requestId: Swift.String?
+    /// Is true if the request succeeds and an error otherwise.
+    public var success: Swift.Bool
+
+    public init(
+        requestId: Swift.String? = nil,
+        success: Swift.Bool = false
+    )
+    {
+        self.requestId = requestId
+        self.success = success
+    }
+}
+
+struct SendSerialConsoleSSHPublicKeyOutputBody: Swift.Equatable {
+    let requestId: Swift.String?
+    let success: Swift.Bool
+}
+
+extension SendSerialConsoleSSHPublicKeyOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case requestId = "RequestId"
+        case success = "Success"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let requestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requestId)
+        requestId = requestIdDecoded
+        let successDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .success) ?? false
+        success = successDecoded
+    }
+}
+
 enum SendSerialConsoleSSHPublicKeyOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -576,56 +626,6 @@ enum SendSerialConsoleSSHPublicKeyOutputError: ClientRuntime.HttpResponseErrorBi
             case "TooManyRequests": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension SendSerialConsoleSSHPublicKeyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: SendSerialConsoleSSHPublicKeyOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.requestId = output.requestId
-            self.success = output.success
-        } else {
-            self.requestId = nil
-            self.success = false
-        }
-    }
-}
-
-public struct SendSerialConsoleSSHPublicKeyOutputResponse: Swift.Equatable {
-    /// The ID of the request. Please provide this ID when contacting AWS Support for assistance.
-    public var requestId: Swift.String?
-    /// Is true if the request succeeds and an error otherwise.
-    public var success: Swift.Bool
-
-    public init(
-        requestId: Swift.String? = nil,
-        success: Swift.Bool = false
-    )
-    {
-        self.requestId = requestId
-        self.success = success
-    }
-}
-
-struct SendSerialConsoleSSHPublicKeyOutputResponseBody: Swift.Equatable {
-    let requestId: Swift.String?
-    let success: Swift.Bool
-}
-
-extension SendSerialConsoleSSHPublicKeyOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case requestId = "RequestId"
-        case success = "Success"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let requestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requestId)
-        requestId = requestIdDecoded
-        let successDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .success) ?? false
-        success = successDecoded
     }
 }
 

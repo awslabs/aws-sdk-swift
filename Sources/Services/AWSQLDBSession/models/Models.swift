@@ -1031,27 +1031,11 @@ extension SendCommandInputBody: Swift.Decodable {
     }
 }
 
-enum SendCommandOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "CapacityExceededException": return try await CapacityExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidSessionException": return try await InvalidSessionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "OccConflictException": return try await OccConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "RateExceededException": return try await RateExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension SendCommandOutputResponse: ClientRuntime.HttpResponseBinding {
+extension SendCommandOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: SendCommandOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: SendCommandOutputBody = try responseDecoder.decode(responseBody: data)
             self.abortTransaction = output.abortTransaction
             self.commitTransaction = output.commitTransaction
             self.endSession = output.endSession
@@ -1071,7 +1055,7 @@ extension SendCommandOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SendCommandOutputResponse: Swift.Equatable {
+public struct SendCommandOutput: Swift.Equatable {
     /// Contains the details of the aborted transaction.
     public var abortTransaction: QLDBSessionClientTypes.AbortTransactionResult?
     /// Contains the details of the committed transaction.
@@ -1107,7 +1091,7 @@ public struct SendCommandOutputResponse: Swift.Equatable {
     }
 }
 
-struct SendCommandOutputResponseBody: Swift.Equatable {
+struct SendCommandOutputBody: Swift.Equatable {
     let startSession: QLDBSessionClientTypes.StartSessionResult?
     let startTransaction: QLDBSessionClientTypes.StartTransactionResult?
     let endSession: QLDBSessionClientTypes.EndSessionResult?
@@ -1117,7 +1101,7 @@ struct SendCommandOutputResponseBody: Swift.Equatable {
     let fetchPage: QLDBSessionClientTypes.FetchPageResult?
 }
 
-extension SendCommandOutputResponseBody: Swift.Decodable {
+extension SendCommandOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case abortTransaction = "AbortTransaction"
         case commitTransaction = "CommitTransaction"
@@ -1144,6 +1128,22 @@ extension SendCommandOutputResponseBody: Swift.Decodable {
         executeStatement = executeStatementDecoded
         let fetchPageDecoded = try containerValues.decodeIfPresent(QLDBSessionClientTypes.FetchPageResult.self, forKey: .fetchPage)
         fetchPage = fetchPageDecoded
+    }
+}
+
+enum SendCommandOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "CapacityExceededException": return try await CapacityExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidSessionException": return try await InvalidSessionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OccConflictException": return try await OccConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RateExceededException": return try await RateExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 

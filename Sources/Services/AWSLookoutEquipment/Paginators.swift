@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension LookoutEquipmentClient {
-    /// Paginate over `[ListDataIngestionJobsOutputResponse]` results.
+    /// Paginate over `[ListDataIngestionJobsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListDataIngestionJobsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListDataIngestionJobsOutputResponse`
-    public func listDataIngestionJobsPaginated(input: ListDataIngestionJobsInput) -> ClientRuntime.PaginatorSequence<ListDataIngestionJobsInput, ListDataIngestionJobsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListDataIngestionJobsInput, ListDataIngestionJobsOutputResponse>(input: input, inputKey: \ListDataIngestionJobsInput.nextToken, outputKey: \ListDataIngestionJobsOutputResponse.nextToken, paginationFunction: self.listDataIngestionJobs(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDataIngestionJobsOutput`
+    public func listDataIngestionJobsPaginated(input: ListDataIngestionJobsInput) -> ClientRuntime.PaginatorSequence<ListDataIngestionJobsInput, ListDataIngestionJobsOutput> {
+        return ClientRuntime.PaginatorSequence<ListDataIngestionJobsInput, ListDataIngestionJobsOutput>(input: input, inputKey: \ListDataIngestionJobsInput.nextToken, outputKey: \ListDataIngestionJobsOutput.nextToken, paginationFunction: self.listDataIngestionJobs(input:))
     }
 }
 
@@ -26,16 +26,16 @@ extension ListDataIngestionJobsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension LookoutEquipmentClient {
-    /// Paginate over `[ListDatasetsOutputResponse]` results.
+    /// Paginate over `[ListDatasetsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListDatasetsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListDatasetsOutputResponse`
-    public func listDatasetsPaginated(input: ListDatasetsInput) -> ClientRuntime.PaginatorSequence<ListDatasetsInput, ListDatasetsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListDatasetsInput, ListDatasetsOutputResponse>(input: input, inputKey: \ListDatasetsInput.nextToken, outputKey: \ListDatasetsOutputResponse.nextToken, paginationFunction: self.listDatasets(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDatasetsOutput`
+    public func listDatasetsPaginated(input: ListDatasetsInput) -> ClientRuntime.PaginatorSequence<ListDatasetsInput, ListDatasetsOutput> {
+        return ClientRuntime.PaginatorSequence<ListDatasetsInput, ListDatasetsOutput>(input: input, inputKey: \ListDatasetsInput.nextToken, outputKey: \ListDatasetsOutput.nextToken, paginationFunction: self.listDatasets(input:))
     }
 }
 
@@ -48,16 +48,16 @@ extension ListDatasetsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension LookoutEquipmentClient {
-    /// Paginate over `[ListInferenceEventsOutputResponse]` results.
+    /// Paginate over `[ListInferenceEventsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListInferenceEventsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListInferenceEventsOutputResponse`
-    public func listInferenceEventsPaginated(input: ListInferenceEventsInput) -> ClientRuntime.PaginatorSequence<ListInferenceEventsInput, ListInferenceEventsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListInferenceEventsInput, ListInferenceEventsOutputResponse>(input: input, inputKey: \ListInferenceEventsInput.nextToken, outputKey: \ListInferenceEventsOutputResponse.nextToken, paginationFunction: self.listInferenceEvents(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListInferenceEventsOutput`
+    public func listInferenceEventsPaginated(input: ListInferenceEventsInput) -> ClientRuntime.PaginatorSequence<ListInferenceEventsInput, ListInferenceEventsOutput> {
+        return ClientRuntime.PaginatorSequence<ListInferenceEventsInput, ListInferenceEventsOutput>(input: input, inputKey: \ListInferenceEventsInput.nextToken, outputKey: \ListInferenceEventsOutput.nextToken, paginationFunction: self.listInferenceEvents(input:))
     }
 }
 
@@ -72,16 +72,16 @@ extension ListInferenceEventsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension LookoutEquipmentClient {
-    /// Paginate over `[ListInferenceExecutionsOutputResponse]` results.
+    /// Paginate over `[ListInferenceExecutionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListInferenceExecutionsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListInferenceExecutionsOutputResponse`
-    public func listInferenceExecutionsPaginated(input: ListInferenceExecutionsInput) -> ClientRuntime.PaginatorSequence<ListInferenceExecutionsInput, ListInferenceExecutionsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListInferenceExecutionsInput, ListInferenceExecutionsOutputResponse>(input: input, inputKey: \ListInferenceExecutionsInput.nextToken, outputKey: \ListInferenceExecutionsOutputResponse.nextToken, paginationFunction: self.listInferenceExecutions(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListInferenceExecutionsOutput`
+    public func listInferenceExecutionsPaginated(input: ListInferenceExecutionsInput) -> ClientRuntime.PaginatorSequence<ListInferenceExecutionsInput, ListInferenceExecutionsOutput> {
+        return ClientRuntime.PaginatorSequence<ListInferenceExecutionsInput, ListInferenceExecutionsOutput>(input: input, inputKey: \ListInferenceExecutionsInput.nextToken, outputKey: \ListInferenceExecutionsOutput.nextToken, paginationFunction: self.listInferenceExecutions(input:))
     }
 }
 
@@ -97,16 +97,16 @@ extension ListInferenceExecutionsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension LookoutEquipmentClient {
-    /// Paginate over `[ListInferenceSchedulersOutputResponse]` results.
+    /// Paginate over `[ListInferenceSchedulersOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListInferenceSchedulersInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListInferenceSchedulersOutputResponse`
-    public func listInferenceSchedulersPaginated(input: ListInferenceSchedulersInput) -> ClientRuntime.PaginatorSequence<ListInferenceSchedulersInput, ListInferenceSchedulersOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListInferenceSchedulersInput, ListInferenceSchedulersOutputResponse>(input: input, inputKey: \ListInferenceSchedulersInput.nextToken, outputKey: \ListInferenceSchedulersOutputResponse.nextToken, paginationFunction: self.listInferenceSchedulers(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListInferenceSchedulersOutput`
+    public func listInferenceSchedulersPaginated(input: ListInferenceSchedulersInput) -> ClientRuntime.PaginatorSequence<ListInferenceSchedulersInput, ListInferenceSchedulersOutput> {
+        return ClientRuntime.PaginatorSequence<ListInferenceSchedulersInput, ListInferenceSchedulersOutput>(input: input, inputKey: \ListInferenceSchedulersInput.nextToken, outputKey: \ListInferenceSchedulersOutput.nextToken, paginationFunction: self.listInferenceSchedulers(input:))
     }
 }
 
@@ -121,16 +121,16 @@ extension ListInferenceSchedulersInput: ClientRuntime.PaginateToken {
         )}
 }
 extension LookoutEquipmentClient {
-    /// Paginate over `[ListLabelGroupsOutputResponse]` results.
+    /// Paginate over `[ListLabelGroupsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListLabelGroupsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListLabelGroupsOutputResponse`
-    public func listLabelGroupsPaginated(input: ListLabelGroupsInput) -> ClientRuntime.PaginatorSequence<ListLabelGroupsInput, ListLabelGroupsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListLabelGroupsInput, ListLabelGroupsOutputResponse>(input: input, inputKey: \ListLabelGroupsInput.nextToken, outputKey: \ListLabelGroupsOutputResponse.nextToken, paginationFunction: self.listLabelGroups(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListLabelGroupsOutput`
+    public func listLabelGroupsPaginated(input: ListLabelGroupsInput) -> ClientRuntime.PaginatorSequence<ListLabelGroupsInput, ListLabelGroupsOutput> {
+        return ClientRuntime.PaginatorSequence<ListLabelGroupsInput, ListLabelGroupsOutput>(input: input, inputKey: \ListLabelGroupsInput.nextToken, outputKey: \ListLabelGroupsOutput.nextToken, paginationFunction: self.listLabelGroups(input:))
     }
 }
 
@@ -143,16 +143,16 @@ extension ListLabelGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension LookoutEquipmentClient {
-    /// Paginate over `[ListLabelsOutputResponse]` results.
+    /// Paginate over `[ListLabelsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListLabelsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListLabelsOutputResponse`
-    public func listLabelsPaginated(input: ListLabelsInput) -> ClientRuntime.PaginatorSequence<ListLabelsInput, ListLabelsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListLabelsInput, ListLabelsOutputResponse>(input: input, inputKey: \ListLabelsInput.nextToken, outputKey: \ListLabelsOutputResponse.nextToken, paginationFunction: self.listLabels(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListLabelsOutput`
+    public func listLabelsPaginated(input: ListLabelsInput) -> ClientRuntime.PaginatorSequence<ListLabelsInput, ListLabelsOutput> {
+        return ClientRuntime.PaginatorSequence<ListLabelsInput, ListLabelsOutput>(input: input, inputKey: \ListLabelsInput.nextToken, outputKey: \ListLabelsOutput.nextToken, paginationFunction: self.listLabels(input:))
     }
 }
 
@@ -169,16 +169,16 @@ extension ListLabelsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension LookoutEquipmentClient {
-    /// Paginate over `[ListModelsOutputResponse]` results.
+    /// Paginate over `[ListModelsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListModelsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListModelsOutputResponse`
-    public func listModelsPaginated(input: ListModelsInput) -> ClientRuntime.PaginatorSequence<ListModelsInput, ListModelsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListModelsInput, ListModelsOutputResponse>(input: input, inputKey: \ListModelsInput.nextToken, outputKey: \ListModelsOutputResponse.nextToken, paginationFunction: self.listModels(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListModelsOutput`
+    public func listModelsPaginated(input: ListModelsInput) -> ClientRuntime.PaginatorSequence<ListModelsInput, ListModelsOutput> {
+        return ClientRuntime.PaginatorSequence<ListModelsInput, ListModelsOutput>(input: input, inputKey: \ListModelsInput.nextToken, outputKey: \ListModelsOutput.nextToken, paginationFunction: self.listModels(input:))
     }
 }
 
@@ -193,16 +193,16 @@ extension ListModelsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension LookoutEquipmentClient {
-    /// Paginate over `[ListModelVersionsOutputResponse]` results.
+    /// Paginate over `[ListModelVersionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListModelVersionsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListModelVersionsOutputResponse`
-    public func listModelVersionsPaginated(input: ListModelVersionsInput) -> ClientRuntime.PaginatorSequence<ListModelVersionsInput, ListModelVersionsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListModelVersionsInput, ListModelVersionsOutputResponse>(input: input, inputKey: \ListModelVersionsInput.nextToken, outputKey: \ListModelVersionsOutputResponse.nextToken, paginationFunction: self.listModelVersions(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListModelVersionsOutput`
+    public func listModelVersionsPaginated(input: ListModelVersionsInput) -> ClientRuntime.PaginatorSequence<ListModelVersionsInput, ListModelVersionsOutput> {
+        return ClientRuntime.PaginatorSequence<ListModelVersionsInput, ListModelVersionsOutput>(input: input, inputKey: \ListModelVersionsInput.nextToken, outputKey: \ListModelVersionsOutput.nextToken, paginationFunction: self.listModelVersions(input:))
     }
 }
 
@@ -221,16 +221,16 @@ extension ListModelVersionsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension LookoutEquipmentClient {
-    /// Paginate over `[ListRetrainingSchedulersOutputResponse]` results.
+    /// Paginate over `[ListRetrainingSchedulersOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListRetrainingSchedulersInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListRetrainingSchedulersOutputResponse`
-    public func listRetrainingSchedulersPaginated(input: ListRetrainingSchedulersInput) -> ClientRuntime.PaginatorSequence<ListRetrainingSchedulersInput, ListRetrainingSchedulersOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListRetrainingSchedulersInput, ListRetrainingSchedulersOutputResponse>(input: input, inputKey: \ListRetrainingSchedulersInput.nextToken, outputKey: \ListRetrainingSchedulersOutputResponse.nextToken, paginationFunction: self.listRetrainingSchedulers(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListRetrainingSchedulersOutput`
+    public func listRetrainingSchedulersPaginated(input: ListRetrainingSchedulersInput) -> ClientRuntime.PaginatorSequence<ListRetrainingSchedulersInput, ListRetrainingSchedulersOutput> {
+        return ClientRuntime.PaginatorSequence<ListRetrainingSchedulersInput, ListRetrainingSchedulersOutput>(input: input, inputKey: \ListRetrainingSchedulersInput.nextToken, outputKey: \ListRetrainingSchedulersOutput.nextToken, paginationFunction: self.listRetrainingSchedulers(input:))
     }
 }
 
@@ -244,16 +244,16 @@ extension ListRetrainingSchedulersInput: ClientRuntime.PaginateToken {
         )}
 }
 extension LookoutEquipmentClient {
-    /// Paginate over `[ListSensorStatisticsOutputResponse]` results.
+    /// Paginate over `[ListSensorStatisticsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListSensorStatisticsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListSensorStatisticsOutputResponse`
-    public func listSensorStatisticsPaginated(input: ListSensorStatisticsInput) -> ClientRuntime.PaginatorSequence<ListSensorStatisticsInput, ListSensorStatisticsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListSensorStatisticsInput, ListSensorStatisticsOutputResponse>(input: input, inputKey: \ListSensorStatisticsInput.nextToken, outputKey: \ListSensorStatisticsOutputResponse.nextToken, paginationFunction: self.listSensorStatistics(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListSensorStatisticsOutput`
+    public func listSensorStatisticsPaginated(input: ListSensorStatisticsInput) -> ClientRuntime.PaginatorSequence<ListSensorStatisticsInput, ListSensorStatisticsOutput> {
+        return ClientRuntime.PaginatorSequence<ListSensorStatisticsInput, ListSensorStatisticsOutput>(input: input, inputKey: \ListSensorStatisticsInput.nextToken, outputKey: \ListSensorStatisticsOutput.nextToken, paginationFunction: self.listSensorStatistics(input:))
     }
 }
 

@@ -8,35 +8,35 @@ public protocol SagemakerEdgeClientProtocol {
     ///
     /// - Parameter GetDeploymentsInput : [no documentation found]
     ///
-    /// - Returns: `GetDeploymentsOutputResponse` : [no documentation found]
+    /// - Returns: `GetDeploymentsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : An internal failure occurred. Try your request again. If the problem persists, contact Amazon Web Services customer support.
-    func getDeployments(input: GetDeploymentsInput) async throws -> GetDeploymentsOutputResponse
+    func getDeployments(input: GetDeploymentsInput) async throws -> GetDeploymentsOutput
     /// Use to check if a device is registered with SageMaker Edge Manager.
     ///
     /// - Parameter GetDeviceRegistrationInput : [no documentation found]
     ///
-    /// - Returns: `GetDeviceRegistrationOutputResponse` : [no documentation found]
+    /// - Returns: `GetDeviceRegistrationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : An internal failure occurred. Try your request again. If the problem persists, contact Amazon Web Services customer support.
-    func getDeviceRegistration(input: GetDeviceRegistrationInput) async throws -> GetDeviceRegistrationOutputResponse
+    func getDeviceRegistration(input: GetDeviceRegistrationInput) async throws -> GetDeviceRegistrationOutput
     /// Use to get the current status of devices registered on SageMaker Edge Manager.
     ///
     /// - Parameter SendHeartbeatInput : [no documentation found]
     ///
-    /// - Returns: `SendHeartbeatOutputResponse` : [no documentation found]
+    /// - Returns: `SendHeartbeatOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : An internal failure occurred. Try your request again. If the problem persists, contact Amazon Web Services customer support.
-    func sendHeartbeat(input: SendHeartbeatInput) async throws -> SendHeartbeatOutputResponse
+    func sendHeartbeat(input: SendHeartbeatInput) async throws -> SendHeartbeatOutput
 }
 
 public enum SagemakerEdgeClientTypes {}

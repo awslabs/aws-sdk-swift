@@ -4,9 +4,9 @@ import ClientRuntime
 
 extension RDSClientProtocol {
 
-    static func dbClusterAvailableWaiterConfig() throws -> WaiterConfiguration<DescribeDBClustersInput, DescribeDBClustersOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeDBClustersInput, DescribeDBClustersOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeDBClustersInput, result: Result<DescribeDBClustersOutputResponse, Error>) -> Bool in
+    static func dbClusterAvailableWaiterConfig() throws -> WaiterConfiguration<DescribeDBClustersInput, DescribeDBClustersOutput> {
+        let acceptors: [WaiterConfiguration<DescribeDBClustersInput, DescribeDBClustersOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeDBClustersInput, result: Result<DescribeDBClustersOutput, Error>) -> Bool in
                 // JMESPath expression: "DBClusters[].Status"
                 // JMESPath comparator: "allStringEquals"
                 // JMESPath expected value: "available"
@@ -18,7 +18,7 @@ extension RDSClientProtocol {
                 }
                 return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { JMESUtils.compare($0, ==, "available") } ?? false)
             }),
-            .init(state: .failure, matcher: { (input: DescribeDBClustersInput, result: Result<DescribeDBClustersOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeDBClustersInput, result: Result<DescribeDBClustersOutput, Error>) -> Bool in
                 // JMESPath expression: "DBClusters[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "deleted"
@@ -30,7 +30,7 @@ extension RDSClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "deleted") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeDBClustersInput, result: Result<DescribeDBClustersOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeDBClustersInput, result: Result<DescribeDBClustersOutput, Error>) -> Bool in
                 // JMESPath expression: "DBClusters[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "deleting"
@@ -42,7 +42,7 @@ extension RDSClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "deleting") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeDBClustersInput, result: Result<DescribeDBClustersOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeDBClustersInput, result: Result<DescribeDBClustersOutput, Error>) -> Bool in
                 // JMESPath expression: "DBClusters[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "failed"
@@ -54,7 +54,7 @@ extension RDSClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "failed") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeDBClustersInput, result: Result<DescribeDBClustersOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeDBClustersInput, result: Result<DescribeDBClustersOutput, Error>) -> Bool in
                 // JMESPath expression: "DBClusters[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "incompatible-restore"
@@ -66,7 +66,7 @@ extension RDSClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "incompatible-restore") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeDBClustersInput, result: Result<DescribeDBClustersOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeDBClustersInput, result: Result<DescribeDBClustersOutput, Error>) -> Bool in
                 // JMESPath expression: "DBClusters[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "incompatible-parameters"
@@ -79,7 +79,7 @@ extension RDSClientProtocol {
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "incompatible-parameters") }) ?? false
             }),
         ]
-        return try WaiterConfiguration<DescribeDBClustersInput, DescribeDBClustersOutputResponse>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeDBClustersInput, DescribeDBClustersOutput>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the DBClusterAvailable event on the describeDBClusters operation.
@@ -93,14 +93,14 @@ extension RDSClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilDBClusterAvailable(options: WaiterOptions, input: DescribeDBClustersInput) async throws -> WaiterOutcome<DescribeDBClustersOutputResponse> {
+    public func waitUntilDBClusterAvailable(options: WaiterOptions, input: DescribeDBClustersInput) async throws -> WaiterOutcome<DescribeDBClustersOutput> {
         let waiter = Waiter(config: try Self.dbClusterAvailableWaiterConfig(), operation: self.describeDBClusters(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func dbClusterDeletedWaiterConfig() throws -> WaiterConfiguration<DescribeDBClustersInput, DescribeDBClustersOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeDBClustersInput, DescribeDBClustersOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeDBClustersInput, result: Result<DescribeDBClustersOutputResponse, Error>) -> Bool in
+    static func dbClusterDeletedWaiterConfig() throws -> WaiterConfiguration<DescribeDBClustersInput, DescribeDBClustersOutput> {
+        let acceptors: [WaiterConfiguration<DescribeDBClustersInput, DescribeDBClustersOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeDBClustersInput, result: Result<DescribeDBClustersOutput, Error>) -> Bool in
                 // JMESPath expression: "length(DBClusters) == `0`"
                 // JMESPath comparator: "booleanEquals"
                 // JMESPath expected value: "true"
@@ -111,11 +111,11 @@ extension RDSClientProtocol {
                 let comparison = JMESUtils.compare(count, ==, number)
                 return JMESUtils.compare(comparison, ==, true)
             }),
-            .init(state: .success, matcher: { (input: DescribeDBClustersInput, result: Result<DescribeDBClustersOutputResponse, Error>) -> Bool in
+            .init(state: .success, matcher: { (input: DescribeDBClustersInput, result: Result<DescribeDBClustersOutput, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
                 return (error as? ServiceError)?.typeName == "DBClusterNotFoundFault"
             }),
-            .init(state: .failure, matcher: { (input: DescribeDBClustersInput, result: Result<DescribeDBClustersOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeDBClustersInput, result: Result<DescribeDBClustersOutput, Error>) -> Bool in
                 // JMESPath expression: "DBClusters[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "creating"
@@ -127,7 +127,7 @@ extension RDSClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "creating") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeDBClustersInput, result: Result<DescribeDBClustersOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeDBClustersInput, result: Result<DescribeDBClustersOutput, Error>) -> Bool in
                 // JMESPath expression: "DBClusters[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "modifying"
@@ -139,7 +139,7 @@ extension RDSClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "modifying") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeDBClustersInput, result: Result<DescribeDBClustersOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeDBClustersInput, result: Result<DescribeDBClustersOutput, Error>) -> Bool in
                 // JMESPath expression: "DBClusters[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "rebooting"
@@ -151,7 +151,7 @@ extension RDSClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "rebooting") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeDBClustersInput, result: Result<DescribeDBClustersOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeDBClustersInput, result: Result<DescribeDBClustersOutput, Error>) -> Bool in
                 // JMESPath expression: "DBClusters[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "resetting-master-credentials"
@@ -164,7 +164,7 @@ extension RDSClientProtocol {
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "resetting-master-credentials") }) ?? false
             }),
         ]
-        return try WaiterConfiguration<DescribeDBClustersInput, DescribeDBClustersOutputResponse>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeDBClustersInput, DescribeDBClustersOutput>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the DBClusterDeleted event on the describeDBClusters operation.
@@ -178,14 +178,14 @@ extension RDSClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilDBClusterDeleted(options: WaiterOptions, input: DescribeDBClustersInput) async throws -> WaiterOutcome<DescribeDBClustersOutputResponse> {
+    public func waitUntilDBClusterDeleted(options: WaiterOptions, input: DescribeDBClustersInput) async throws -> WaiterOutcome<DescribeDBClustersOutput> {
         let waiter = Waiter(config: try Self.dbClusterDeletedWaiterConfig(), operation: self.describeDBClusters(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func dbClusterSnapshotAvailableWaiterConfig() throws -> WaiterConfiguration<DescribeDBClusterSnapshotsInput, DescribeDBClusterSnapshotsOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeDBClusterSnapshotsInput, DescribeDBClusterSnapshotsOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeDBClusterSnapshotsInput, result: Result<DescribeDBClusterSnapshotsOutputResponse, Error>) -> Bool in
+    static func dbClusterSnapshotAvailableWaiterConfig() throws -> WaiterConfiguration<DescribeDBClusterSnapshotsInput, DescribeDBClusterSnapshotsOutput> {
+        let acceptors: [WaiterConfiguration<DescribeDBClusterSnapshotsInput, DescribeDBClusterSnapshotsOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeDBClusterSnapshotsInput, result: Result<DescribeDBClusterSnapshotsOutput, Error>) -> Bool in
                 // JMESPath expression: "DBClusterSnapshots[].Status"
                 // JMESPath comparator: "allStringEquals"
                 // JMESPath expected value: "available"
@@ -197,7 +197,7 @@ extension RDSClientProtocol {
                 }
                 return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { JMESUtils.compare($0, ==, "available") } ?? false)
             }),
-            .init(state: .failure, matcher: { (input: DescribeDBClusterSnapshotsInput, result: Result<DescribeDBClusterSnapshotsOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeDBClusterSnapshotsInput, result: Result<DescribeDBClusterSnapshotsOutput, Error>) -> Bool in
                 // JMESPath expression: "DBClusterSnapshots[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "deleted"
@@ -209,7 +209,7 @@ extension RDSClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "deleted") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeDBClusterSnapshotsInput, result: Result<DescribeDBClusterSnapshotsOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeDBClusterSnapshotsInput, result: Result<DescribeDBClusterSnapshotsOutput, Error>) -> Bool in
                 // JMESPath expression: "DBClusterSnapshots[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "deleting"
@@ -221,7 +221,7 @@ extension RDSClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "deleting") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeDBClusterSnapshotsInput, result: Result<DescribeDBClusterSnapshotsOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeDBClusterSnapshotsInput, result: Result<DescribeDBClusterSnapshotsOutput, Error>) -> Bool in
                 // JMESPath expression: "DBClusterSnapshots[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "failed"
@@ -233,7 +233,7 @@ extension RDSClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "failed") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeDBClusterSnapshotsInput, result: Result<DescribeDBClusterSnapshotsOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeDBClusterSnapshotsInput, result: Result<DescribeDBClusterSnapshotsOutput, Error>) -> Bool in
                 // JMESPath expression: "DBClusterSnapshots[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "incompatible-restore"
@@ -245,7 +245,7 @@ extension RDSClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "incompatible-restore") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeDBClusterSnapshotsInput, result: Result<DescribeDBClusterSnapshotsOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeDBClusterSnapshotsInput, result: Result<DescribeDBClusterSnapshotsOutput, Error>) -> Bool in
                 // JMESPath expression: "DBClusterSnapshots[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "incompatible-parameters"
@@ -258,7 +258,7 @@ extension RDSClientProtocol {
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "incompatible-parameters") }) ?? false
             }),
         ]
-        return try WaiterConfiguration<DescribeDBClusterSnapshotsInput, DescribeDBClusterSnapshotsOutputResponse>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeDBClusterSnapshotsInput, DescribeDBClusterSnapshotsOutput>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the DBClusterSnapshotAvailable event on the describeDBClusterSnapshots operation.
@@ -272,14 +272,14 @@ extension RDSClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilDBClusterSnapshotAvailable(options: WaiterOptions, input: DescribeDBClusterSnapshotsInput) async throws -> WaiterOutcome<DescribeDBClusterSnapshotsOutputResponse> {
+    public func waitUntilDBClusterSnapshotAvailable(options: WaiterOptions, input: DescribeDBClusterSnapshotsInput) async throws -> WaiterOutcome<DescribeDBClusterSnapshotsOutput> {
         let waiter = Waiter(config: try Self.dbClusterSnapshotAvailableWaiterConfig(), operation: self.describeDBClusterSnapshots(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func dbClusterSnapshotDeletedWaiterConfig() throws -> WaiterConfiguration<DescribeDBClusterSnapshotsInput, DescribeDBClusterSnapshotsOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeDBClusterSnapshotsInput, DescribeDBClusterSnapshotsOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeDBClusterSnapshotsInput, result: Result<DescribeDBClusterSnapshotsOutputResponse, Error>) -> Bool in
+    static func dbClusterSnapshotDeletedWaiterConfig() throws -> WaiterConfiguration<DescribeDBClusterSnapshotsInput, DescribeDBClusterSnapshotsOutput> {
+        let acceptors: [WaiterConfiguration<DescribeDBClusterSnapshotsInput, DescribeDBClusterSnapshotsOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeDBClusterSnapshotsInput, result: Result<DescribeDBClusterSnapshotsOutput, Error>) -> Bool in
                 // JMESPath expression: "length(DBClusterSnapshots) == `0`"
                 // JMESPath comparator: "booleanEquals"
                 // JMESPath expected value: "true"
@@ -290,11 +290,11 @@ extension RDSClientProtocol {
                 let comparison = JMESUtils.compare(count, ==, number)
                 return JMESUtils.compare(comparison, ==, true)
             }),
-            .init(state: .success, matcher: { (input: DescribeDBClusterSnapshotsInput, result: Result<DescribeDBClusterSnapshotsOutputResponse, Error>) -> Bool in
+            .init(state: .success, matcher: { (input: DescribeDBClusterSnapshotsInput, result: Result<DescribeDBClusterSnapshotsOutput, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
                 return (error as? ServiceError)?.typeName == "DBClusterSnapshotNotFoundFault"
             }),
-            .init(state: .failure, matcher: { (input: DescribeDBClusterSnapshotsInput, result: Result<DescribeDBClusterSnapshotsOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeDBClusterSnapshotsInput, result: Result<DescribeDBClusterSnapshotsOutput, Error>) -> Bool in
                 // JMESPath expression: "DBClusterSnapshots[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "creating"
@@ -306,7 +306,7 @@ extension RDSClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "creating") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeDBClusterSnapshotsInput, result: Result<DescribeDBClusterSnapshotsOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeDBClusterSnapshotsInput, result: Result<DescribeDBClusterSnapshotsOutput, Error>) -> Bool in
                 // JMESPath expression: "DBClusterSnapshots[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "modifying"
@@ -318,7 +318,7 @@ extension RDSClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "modifying") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeDBClusterSnapshotsInput, result: Result<DescribeDBClusterSnapshotsOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeDBClusterSnapshotsInput, result: Result<DescribeDBClusterSnapshotsOutput, Error>) -> Bool in
                 // JMESPath expression: "DBClusterSnapshots[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "rebooting"
@@ -330,7 +330,7 @@ extension RDSClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "rebooting") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeDBClusterSnapshotsInput, result: Result<DescribeDBClusterSnapshotsOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeDBClusterSnapshotsInput, result: Result<DescribeDBClusterSnapshotsOutput, Error>) -> Bool in
                 // JMESPath expression: "DBClusterSnapshots[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "resetting-master-credentials"
@@ -343,7 +343,7 @@ extension RDSClientProtocol {
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "resetting-master-credentials") }) ?? false
             }),
         ]
-        return try WaiterConfiguration<DescribeDBClusterSnapshotsInput, DescribeDBClusterSnapshotsOutputResponse>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeDBClusterSnapshotsInput, DescribeDBClusterSnapshotsOutput>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the DBClusterSnapshotDeleted event on the describeDBClusterSnapshots operation.
@@ -357,14 +357,14 @@ extension RDSClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilDBClusterSnapshotDeleted(options: WaiterOptions, input: DescribeDBClusterSnapshotsInput) async throws -> WaiterOutcome<DescribeDBClusterSnapshotsOutputResponse> {
+    public func waitUntilDBClusterSnapshotDeleted(options: WaiterOptions, input: DescribeDBClusterSnapshotsInput) async throws -> WaiterOutcome<DescribeDBClusterSnapshotsOutput> {
         let waiter = Waiter(config: try Self.dbClusterSnapshotDeletedWaiterConfig(), operation: self.describeDBClusterSnapshots(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func dbInstanceAvailableWaiterConfig() throws -> WaiterConfiguration<DescribeDBInstancesInput, DescribeDBInstancesOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeDBInstancesInput, DescribeDBInstancesOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeDBInstancesInput, result: Result<DescribeDBInstancesOutputResponse, Error>) -> Bool in
+    static func dbInstanceAvailableWaiterConfig() throws -> WaiterConfiguration<DescribeDBInstancesInput, DescribeDBInstancesOutput> {
+        let acceptors: [WaiterConfiguration<DescribeDBInstancesInput, DescribeDBInstancesOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeDBInstancesInput, result: Result<DescribeDBInstancesOutput, Error>) -> Bool in
                 // JMESPath expression: "DBInstances[].DBInstanceStatus"
                 // JMESPath comparator: "allStringEquals"
                 // JMESPath expected value: "available"
@@ -376,7 +376,7 @@ extension RDSClientProtocol {
                 }
                 return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { JMESUtils.compare($0, ==, "available") } ?? false)
             }),
-            .init(state: .failure, matcher: { (input: DescribeDBInstancesInput, result: Result<DescribeDBInstancesOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeDBInstancesInput, result: Result<DescribeDBInstancesOutput, Error>) -> Bool in
                 // JMESPath expression: "DBInstances[].DBInstanceStatus"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "deleted"
@@ -388,7 +388,7 @@ extension RDSClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "deleted") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeDBInstancesInput, result: Result<DescribeDBInstancesOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeDBInstancesInput, result: Result<DescribeDBInstancesOutput, Error>) -> Bool in
                 // JMESPath expression: "DBInstances[].DBInstanceStatus"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "deleting"
@@ -400,7 +400,7 @@ extension RDSClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "deleting") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeDBInstancesInput, result: Result<DescribeDBInstancesOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeDBInstancesInput, result: Result<DescribeDBInstancesOutput, Error>) -> Bool in
                 // JMESPath expression: "DBInstances[].DBInstanceStatus"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "failed"
@@ -412,7 +412,7 @@ extension RDSClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "failed") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeDBInstancesInput, result: Result<DescribeDBInstancesOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeDBInstancesInput, result: Result<DescribeDBInstancesOutput, Error>) -> Bool in
                 // JMESPath expression: "DBInstances[].DBInstanceStatus"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "incompatible-restore"
@@ -424,7 +424,7 @@ extension RDSClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "incompatible-restore") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeDBInstancesInput, result: Result<DescribeDBInstancesOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeDBInstancesInput, result: Result<DescribeDBInstancesOutput, Error>) -> Bool in
                 // JMESPath expression: "DBInstances[].DBInstanceStatus"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "incompatible-parameters"
@@ -437,7 +437,7 @@ extension RDSClientProtocol {
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "incompatible-parameters") }) ?? false
             }),
         ]
-        return try WaiterConfiguration<DescribeDBInstancesInput, DescribeDBInstancesOutputResponse>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeDBInstancesInput, DescribeDBInstancesOutput>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the DBInstanceAvailable event on the describeDBInstances operation.
@@ -451,14 +451,14 @@ extension RDSClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilDBInstanceAvailable(options: WaiterOptions, input: DescribeDBInstancesInput) async throws -> WaiterOutcome<DescribeDBInstancesOutputResponse> {
+    public func waitUntilDBInstanceAvailable(options: WaiterOptions, input: DescribeDBInstancesInput) async throws -> WaiterOutcome<DescribeDBInstancesOutput> {
         let waiter = Waiter(config: try Self.dbInstanceAvailableWaiterConfig(), operation: self.describeDBInstances(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func dbInstanceDeletedWaiterConfig() throws -> WaiterConfiguration<DescribeDBInstancesInput, DescribeDBInstancesOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeDBInstancesInput, DescribeDBInstancesOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeDBInstancesInput, result: Result<DescribeDBInstancesOutputResponse, Error>) -> Bool in
+    static func dbInstanceDeletedWaiterConfig() throws -> WaiterConfiguration<DescribeDBInstancesInput, DescribeDBInstancesOutput> {
+        let acceptors: [WaiterConfiguration<DescribeDBInstancesInput, DescribeDBInstancesOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeDBInstancesInput, result: Result<DescribeDBInstancesOutput, Error>) -> Bool in
                 // JMESPath expression: "length(DBInstances) == `0`"
                 // JMESPath comparator: "booleanEquals"
                 // JMESPath expected value: "true"
@@ -469,11 +469,11 @@ extension RDSClientProtocol {
                 let comparison = JMESUtils.compare(count, ==, number)
                 return JMESUtils.compare(comparison, ==, true)
             }),
-            .init(state: .success, matcher: { (input: DescribeDBInstancesInput, result: Result<DescribeDBInstancesOutputResponse, Error>) -> Bool in
+            .init(state: .success, matcher: { (input: DescribeDBInstancesInput, result: Result<DescribeDBInstancesOutput, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
                 return (error as? ServiceError)?.typeName == "DBInstanceNotFound"
             }),
-            .init(state: .failure, matcher: { (input: DescribeDBInstancesInput, result: Result<DescribeDBInstancesOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeDBInstancesInput, result: Result<DescribeDBInstancesOutput, Error>) -> Bool in
                 // JMESPath expression: "DBInstances[].DBInstanceStatus"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "creating"
@@ -485,7 +485,7 @@ extension RDSClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "creating") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeDBInstancesInput, result: Result<DescribeDBInstancesOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeDBInstancesInput, result: Result<DescribeDBInstancesOutput, Error>) -> Bool in
                 // JMESPath expression: "DBInstances[].DBInstanceStatus"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "modifying"
@@ -497,7 +497,7 @@ extension RDSClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "modifying") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeDBInstancesInput, result: Result<DescribeDBInstancesOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeDBInstancesInput, result: Result<DescribeDBInstancesOutput, Error>) -> Bool in
                 // JMESPath expression: "DBInstances[].DBInstanceStatus"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "rebooting"
@@ -509,7 +509,7 @@ extension RDSClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "rebooting") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeDBInstancesInput, result: Result<DescribeDBInstancesOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeDBInstancesInput, result: Result<DescribeDBInstancesOutput, Error>) -> Bool in
                 // JMESPath expression: "DBInstances[].DBInstanceStatus"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "resetting-master-credentials"
@@ -522,7 +522,7 @@ extension RDSClientProtocol {
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "resetting-master-credentials") }) ?? false
             }),
         ]
-        return try WaiterConfiguration<DescribeDBInstancesInput, DescribeDBInstancesOutputResponse>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeDBInstancesInput, DescribeDBInstancesOutput>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the DBInstanceDeleted event on the describeDBInstances operation.
@@ -536,14 +536,14 @@ extension RDSClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilDBInstanceDeleted(options: WaiterOptions, input: DescribeDBInstancesInput) async throws -> WaiterOutcome<DescribeDBInstancesOutputResponse> {
+    public func waitUntilDBInstanceDeleted(options: WaiterOptions, input: DescribeDBInstancesInput) async throws -> WaiterOutcome<DescribeDBInstancesOutput> {
         let waiter = Waiter(config: try Self.dbInstanceDeletedWaiterConfig(), operation: self.describeDBInstances(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func dbSnapshotAvailableWaiterConfig() throws -> WaiterConfiguration<DescribeDBSnapshotsInput, DescribeDBSnapshotsOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeDBSnapshotsInput, DescribeDBSnapshotsOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeDBSnapshotsInput, result: Result<DescribeDBSnapshotsOutputResponse, Error>) -> Bool in
+    static func dbSnapshotAvailableWaiterConfig() throws -> WaiterConfiguration<DescribeDBSnapshotsInput, DescribeDBSnapshotsOutput> {
+        let acceptors: [WaiterConfiguration<DescribeDBSnapshotsInput, DescribeDBSnapshotsOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeDBSnapshotsInput, result: Result<DescribeDBSnapshotsOutput, Error>) -> Bool in
                 // JMESPath expression: "DBSnapshots[].Status"
                 // JMESPath comparator: "allStringEquals"
                 // JMESPath expected value: "available"
@@ -555,7 +555,7 @@ extension RDSClientProtocol {
                 }
                 return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { JMESUtils.compare($0, ==, "available") } ?? false)
             }),
-            .init(state: .failure, matcher: { (input: DescribeDBSnapshotsInput, result: Result<DescribeDBSnapshotsOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeDBSnapshotsInput, result: Result<DescribeDBSnapshotsOutput, Error>) -> Bool in
                 // JMESPath expression: "DBSnapshots[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "deleted"
@@ -567,7 +567,7 @@ extension RDSClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "deleted") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeDBSnapshotsInput, result: Result<DescribeDBSnapshotsOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeDBSnapshotsInput, result: Result<DescribeDBSnapshotsOutput, Error>) -> Bool in
                 // JMESPath expression: "DBSnapshots[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "deleting"
@@ -579,7 +579,7 @@ extension RDSClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "deleting") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeDBSnapshotsInput, result: Result<DescribeDBSnapshotsOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeDBSnapshotsInput, result: Result<DescribeDBSnapshotsOutput, Error>) -> Bool in
                 // JMESPath expression: "DBSnapshots[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "failed"
@@ -591,7 +591,7 @@ extension RDSClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "failed") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeDBSnapshotsInput, result: Result<DescribeDBSnapshotsOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeDBSnapshotsInput, result: Result<DescribeDBSnapshotsOutput, Error>) -> Bool in
                 // JMESPath expression: "DBSnapshots[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "incompatible-restore"
@@ -603,7 +603,7 @@ extension RDSClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "incompatible-restore") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeDBSnapshotsInput, result: Result<DescribeDBSnapshotsOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeDBSnapshotsInput, result: Result<DescribeDBSnapshotsOutput, Error>) -> Bool in
                 // JMESPath expression: "DBSnapshots[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "incompatible-parameters"
@@ -616,7 +616,7 @@ extension RDSClientProtocol {
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "incompatible-parameters") }) ?? false
             }),
         ]
-        return try WaiterConfiguration<DescribeDBSnapshotsInput, DescribeDBSnapshotsOutputResponse>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeDBSnapshotsInput, DescribeDBSnapshotsOutput>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the DBSnapshotAvailable event on the describeDBSnapshots operation.
@@ -630,14 +630,14 @@ extension RDSClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilDBSnapshotAvailable(options: WaiterOptions, input: DescribeDBSnapshotsInput) async throws -> WaiterOutcome<DescribeDBSnapshotsOutputResponse> {
+    public func waitUntilDBSnapshotAvailable(options: WaiterOptions, input: DescribeDBSnapshotsInput) async throws -> WaiterOutcome<DescribeDBSnapshotsOutput> {
         let waiter = Waiter(config: try Self.dbSnapshotAvailableWaiterConfig(), operation: self.describeDBSnapshots(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func dbSnapshotDeletedWaiterConfig() throws -> WaiterConfiguration<DescribeDBSnapshotsInput, DescribeDBSnapshotsOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeDBSnapshotsInput, DescribeDBSnapshotsOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeDBSnapshotsInput, result: Result<DescribeDBSnapshotsOutputResponse, Error>) -> Bool in
+    static func dbSnapshotDeletedWaiterConfig() throws -> WaiterConfiguration<DescribeDBSnapshotsInput, DescribeDBSnapshotsOutput> {
+        let acceptors: [WaiterConfiguration<DescribeDBSnapshotsInput, DescribeDBSnapshotsOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeDBSnapshotsInput, result: Result<DescribeDBSnapshotsOutput, Error>) -> Bool in
                 // JMESPath expression: "length(DBSnapshots) == `0`"
                 // JMESPath comparator: "booleanEquals"
                 // JMESPath expected value: "true"
@@ -648,11 +648,11 @@ extension RDSClientProtocol {
                 let comparison = JMESUtils.compare(count, ==, number)
                 return JMESUtils.compare(comparison, ==, true)
             }),
-            .init(state: .success, matcher: { (input: DescribeDBSnapshotsInput, result: Result<DescribeDBSnapshotsOutputResponse, Error>) -> Bool in
+            .init(state: .success, matcher: { (input: DescribeDBSnapshotsInput, result: Result<DescribeDBSnapshotsOutput, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
                 return (error as? ServiceError)?.typeName == "DBSnapshotNotFound"
             }),
-            .init(state: .failure, matcher: { (input: DescribeDBSnapshotsInput, result: Result<DescribeDBSnapshotsOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeDBSnapshotsInput, result: Result<DescribeDBSnapshotsOutput, Error>) -> Bool in
                 // JMESPath expression: "DBSnapshots[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "creating"
@@ -664,7 +664,7 @@ extension RDSClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "creating") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeDBSnapshotsInput, result: Result<DescribeDBSnapshotsOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeDBSnapshotsInput, result: Result<DescribeDBSnapshotsOutput, Error>) -> Bool in
                 // JMESPath expression: "DBSnapshots[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "modifying"
@@ -676,7 +676,7 @@ extension RDSClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "modifying") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeDBSnapshotsInput, result: Result<DescribeDBSnapshotsOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeDBSnapshotsInput, result: Result<DescribeDBSnapshotsOutput, Error>) -> Bool in
                 // JMESPath expression: "DBSnapshots[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "rebooting"
@@ -688,7 +688,7 @@ extension RDSClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "rebooting") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeDBSnapshotsInput, result: Result<DescribeDBSnapshotsOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeDBSnapshotsInput, result: Result<DescribeDBSnapshotsOutput, Error>) -> Bool in
                 // JMESPath expression: "DBSnapshots[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "resetting-master-credentials"
@@ -701,7 +701,7 @@ extension RDSClientProtocol {
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "resetting-master-credentials") }) ?? false
             }),
         ]
-        return try WaiterConfiguration<DescribeDBSnapshotsInput, DescribeDBSnapshotsOutputResponse>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeDBSnapshotsInput, DescribeDBSnapshotsOutput>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the DBSnapshotDeleted event on the describeDBSnapshots operation.
@@ -715,7 +715,7 @@ extension RDSClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilDBSnapshotDeleted(options: WaiterOptions, input: DescribeDBSnapshotsInput) async throws -> WaiterOutcome<DescribeDBSnapshotsOutputResponse> {
+    public func waitUntilDBSnapshotDeleted(options: WaiterOptions, input: DescribeDBSnapshotsInput) async throws -> WaiterOutcome<DescribeDBSnapshotsOutput> {
         let waiter = Waiter(config: try Self.dbSnapshotDeletedWaiterConfig(), operation: self.describeDBSnapshots(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }

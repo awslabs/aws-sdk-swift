@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension SupportClient {
-    /// Paginate over `[DescribeCasesOutputResponse]` results.
+    /// Paginate over `[DescribeCasesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeCasesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeCasesOutputResponse`
-    public func describeCasesPaginated(input: DescribeCasesInput) -> ClientRuntime.PaginatorSequence<DescribeCasesInput, DescribeCasesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeCasesInput, DescribeCasesOutputResponse>(input: input, inputKey: \DescribeCasesInput.nextToken, outputKey: \DescribeCasesOutputResponse.nextToken, paginationFunction: self.describeCases(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeCasesOutput`
+    public func describeCasesPaginated(input: DescribeCasesInput) -> ClientRuntime.PaginatorSequence<DescribeCasesInput, DescribeCasesOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeCasesInput, DescribeCasesOutput>(input: input, inputKey: \DescribeCasesInput.nextToken, outputKey: \DescribeCasesOutput.nextToken, paginationFunction: self.describeCases(input:))
     }
 }
 
@@ -31,7 +31,7 @@ extension DescribeCasesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeCasesInput, Output == DescribeCasesOutputResponse {
+extension PaginatorSequence where Input == DescribeCasesInput, Output == DescribeCasesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeCasesPaginated`
     /// to access the nested member `[SupportClientTypes.CaseDetails]`
     /// - Returns: `[SupportClientTypes.CaseDetails]`
@@ -40,16 +40,16 @@ extension PaginatorSequence where Input == DescribeCasesInput, Output == Describ
     }
 }
 extension SupportClient {
-    /// Paginate over `[DescribeCommunicationsOutputResponse]` results.
+    /// Paginate over `[DescribeCommunicationsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeCommunicationsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeCommunicationsOutputResponse`
-    public func describeCommunicationsPaginated(input: DescribeCommunicationsInput) -> ClientRuntime.PaginatorSequence<DescribeCommunicationsInput, DescribeCommunicationsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeCommunicationsInput, DescribeCommunicationsOutputResponse>(input: input, inputKey: \DescribeCommunicationsInput.nextToken, outputKey: \DescribeCommunicationsOutputResponse.nextToken, paginationFunction: self.describeCommunications(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeCommunicationsOutput`
+    public func describeCommunicationsPaginated(input: DescribeCommunicationsInput) -> ClientRuntime.PaginatorSequence<DescribeCommunicationsInput, DescribeCommunicationsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeCommunicationsInput, DescribeCommunicationsOutput>(input: input, inputKey: \DescribeCommunicationsInput.nextToken, outputKey: \DescribeCommunicationsOutput.nextToken, paginationFunction: self.describeCommunications(input:))
     }
 }
 
@@ -64,7 +64,7 @@ extension DescribeCommunicationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeCommunicationsInput, Output == DescribeCommunicationsOutputResponse {
+extension PaginatorSequence where Input == DescribeCommunicationsInput, Output == DescribeCommunicationsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeCommunicationsPaginated`
     /// to access the nested member `[SupportClientTypes.Communication]`
     /// - Returns: `[SupportClientTypes.Communication]`

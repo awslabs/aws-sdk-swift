@@ -89,6 +89,16 @@ extension CancelSolNetworkOperationInputBody: Swift.Decodable {
     }
 }
 
+extension CancelSolNetworkOperationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct CancelSolNetworkOperationOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum CancelSolNetworkOperationOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -102,16 +112,6 @@ enum CancelSolNetworkOperationOutputError: ClientRuntime.HttpResponseErrorBindin
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension CancelSolNetworkOperationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct CancelSolNetworkOperationOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension CreateSolFunctionPackageInput: Swift.CustomDebugStringConvertible {
@@ -178,31 +178,16 @@ extension CreateSolFunctionPackageInputBody: Swift.Decodable {
     }
 }
 
-enum CreateSolFunctionPackageOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreateSolFunctionPackageOutputResponse: Swift.CustomDebugStringConvertible {
+extension CreateSolFunctionPackageOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateSolFunctionPackageOutputResponse(arn: \(Swift.String(describing: arn)), id: \(Swift.String(describing: id)), onboardingState: \(Swift.String(describing: onboardingState)), operationalState: \(Swift.String(describing: operationalState)), usageState: \(Swift.String(describing: usageState)), tags: \"CONTENT_REDACTED\")"}
+        "CreateSolFunctionPackageOutput(arn: \(Swift.String(describing: arn)), id: \(Swift.String(describing: id)), onboardingState: \(Swift.String(describing: onboardingState)), operationalState: \(Swift.String(describing: operationalState)), usageState: \(Swift.String(describing: usageState)), tags: \"CONTENT_REDACTED\")"}
 }
 
-extension CreateSolFunctionPackageOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateSolFunctionPackageOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateSolFunctionPackageOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateSolFunctionPackageOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.id = output.id
             self.onboardingState = output.onboardingState
@@ -220,7 +205,7 @@ extension CreateSolFunctionPackageOutputResponse: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct CreateSolFunctionPackageOutputResponse: Swift.Equatable {
+public struct CreateSolFunctionPackageOutput: Swift.Equatable {
     /// Function package ARN.
     /// This member is required.
     public var arn: Swift.String?
@@ -257,7 +242,7 @@ public struct CreateSolFunctionPackageOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateSolFunctionPackageOutputResponseBody: Swift.Equatable {
+struct CreateSolFunctionPackageOutputBody: Swift.Equatable {
     let id: Swift.String?
     let arn: Swift.String?
     let onboardingState: TnbClientTypes.OnboardingState?
@@ -266,7 +251,7 @@ struct CreateSolFunctionPackageOutputResponseBody: Swift.Equatable {
     let tags: [Swift.String:Swift.String]?
 }
 
-extension CreateSolFunctionPackageOutputResponseBody: Swift.Decodable {
+extension CreateSolFunctionPackageOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
         case id
@@ -299,6 +284,21 @@ extension CreateSolFunctionPackageOutputResponseBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+    }
+}
+
+enum CreateSolFunctionPackageOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -404,32 +404,16 @@ extension CreateSolNetworkInstanceInputBody: Swift.Decodable {
     }
 }
 
-enum CreateSolNetworkInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreateSolNetworkInstanceOutputResponse: Swift.CustomDebugStringConvertible {
+extension CreateSolNetworkInstanceOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateSolNetworkInstanceOutputResponse(arn: \(Swift.String(describing: arn)), id: \(Swift.String(describing: id)), nsInstanceName: \(Swift.String(describing: nsInstanceName)), nsdInfoId: \(Swift.String(describing: nsdInfoId)), tags: \"CONTENT_REDACTED\")"}
+        "CreateSolNetworkInstanceOutput(arn: \(Swift.String(describing: arn)), id: \(Swift.String(describing: id)), nsInstanceName: \(Swift.String(describing: nsInstanceName)), nsdInfoId: \(Swift.String(describing: nsdInfoId)), tags: \"CONTENT_REDACTED\")"}
 }
 
-extension CreateSolNetworkInstanceOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateSolNetworkInstanceOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateSolNetworkInstanceOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateSolNetworkInstanceOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.id = output.id
             self.nsInstanceName = output.nsInstanceName
@@ -445,7 +429,7 @@ extension CreateSolNetworkInstanceOutputResponse: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct CreateSolNetworkInstanceOutputResponse: Swift.Equatable {
+public struct CreateSolNetworkInstanceOutput: Swift.Equatable {
     /// Network instance ARN.
     /// This member is required.
     public var arn: Swift.String?
@@ -477,7 +461,7 @@ public struct CreateSolNetworkInstanceOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateSolNetworkInstanceOutputResponseBody: Swift.Equatable {
+struct CreateSolNetworkInstanceOutputBody: Swift.Equatable {
     let id: Swift.String?
     let arn: Swift.String?
     let nsdInfoId: Swift.String?
@@ -485,7 +469,7 @@ struct CreateSolNetworkInstanceOutputResponseBody: Swift.Equatable {
     let tags: [Swift.String:Swift.String]?
 }
 
-extension CreateSolNetworkInstanceOutputResponseBody: Swift.Decodable {
+extension CreateSolNetworkInstanceOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
         case id
@@ -515,6 +499,22 @@ extension CreateSolNetworkInstanceOutputResponseBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+    }
+}
+
+enum CreateSolNetworkInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -582,31 +582,16 @@ extension CreateSolNetworkPackageInputBody: Swift.Decodable {
     }
 }
 
-enum CreateSolNetworkPackageOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreateSolNetworkPackageOutputResponse: Swift.CustomDebugStringConvertible {
+extension CreateSolNetworkPackageOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateSolNetworkPackageOutputResponse(arn: \(Swift.String(describing: arn)), id: \(Swift.String(describing: id)), nsdOnboardingState: \(Swift.String(describing: nsdOnboardingState)), nsdOperationalState: \(Swift.String(describing: nsdOperationalState)), nsdUsageState: \(Swift.String(describing: nsdUsageState)), tags: \"CONTENT_REDACTED\")"}
+        "CreateSolNetworkPackageOutput(arn: \(Swift.String(describing: arn)), id: \(Swift.String(describing: id)), nsdOnboardingState: \(Swift.String(describing: nsdOnboardingState)), nsdOperationalState: \(Swift.String(describing: nsdOperationalState)), nsdUsageState: \(Swift.String(describing: nsdUsageState)), tags: \"CONTENT_REDACTED\")"}
 }
 
-extension CreateSolNetworkPackageOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateSolNetworkPackageOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateSolNetworkPackageOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateSolNetworkPackageOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.id = output.id
             self.nsdOnboardingState = output.nsdOnboardingState
@@ -624,7 +609,7 @@ extension CreateSolNetworkPackageOutputResponse: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct CreateSolNetworkPackageOutputResponse: Swift.Equatable {
+public struct CreateSolNetworkPackageOutput: Swift.Equatable {
     /// Network package ARN.
     /// This member is required.
     public var arn: Swift.String?
@@ -661,7 +646,7 @@ public struct CreateSolNetworkPackageOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateSolNetworkPackageOutputResponseBody: Swift.Equatable {
+struct CreateSolNetworkPackageOutputBody: Swift.Equatable {
     let id: Swift.String?
     let arn: Swift.String?
     let nsdOnboardingState: TnbClientTypes.NsdOnboardingState?
@@ -670,7 +655,7 @@ struct CreateSolNetworkPackageOutputResponseBody: Swift.Equatable {
     let tags: [Swift.String:Swift.String]?
 }
 
-extension CreateSolNetworkPackageOutputResponseBody: Swift.Decodable {
+extension CreateSolNetworkPackageOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
         case id
@@ -706,6 +691,21 @@ extension CreateSolNetworkPackageOutputResponseBody: Swift.Decodable {
     }
 }
 
+enum CreateSolNetworkPackageOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension DeleteSolFunctionPackageInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let vnfPkgId = vnfPkgId else {
@@ -737,6 +737,16 @@ extension DeleteSolFunctionPackageInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteSolFunctionPackageOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteSolFunctionPackageOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteSolFunctionPackageOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -750,16 +760,6 @@ enum DeleteSolFunctionPackageOutputError: ClientRuntime.HttpResponseErrorBinding
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteSolFunctionPackageOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteSolFunctionPackageOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteSolNetworkInstanceInput: ClientRuntime.URLPathProvider {
@@ -793,6 +793,16 @@ extension DeleteSolNetworkInstanceInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteSolNetworkInstanceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteSolNetworkInstanceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteSolNetworkInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -806,16 +816,6 @@ enum DeleteSolNetworkInstanceOutputError: ClientRuntime.HttpResponseErrorBinding
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteSolNetworkInstanceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteSolNetworkInstanceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteSolNetworkPackageInput: ClientRuntime.URLPathProvider {
@@ -849,6 +849,16 @@ extension DeleteSolNetworkPackageInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteSolNetworkPackageOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteSolNetworkPackageOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteSolNetworkPackageOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -862,16 +872,6 @@ enum DeleteSolNetworkPackageOutputError: ClientRuntime.HttpResponseErrorBinding 
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteSolNetworkPackageOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteSolNetworkPackageOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension TnbClientTypes {
@@ -1073,31 +1073,16 @@ extension TnbClientTypes {
 
 }
 
-enum GetSolFunctionInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetSolFunctionInstanceOutputResponse: Swift.CustomDebugStringConvertible {
+extension GetSolFunctionInstanceOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetSolFunctionInstanceOutputResponse(arn: \(Swift.String(describing: arn)), id: \(Swift.String(describing: id)), instantiatedVnfInfo: \(Swift.String(describing: instantiatedVnfInfo)), instantiationState: \(Swift.String(describing: instantiationState)), metadata: \(Swift.String(describing: metadata)), nsInstanceId: \(Swift.String(describing: nsInstanceId)), vnfPkgId: \(Swift.String(describing: vnfPkgId)), vnfProductName: \(Swift.String(describing: vnfProductName)), vnfProvider: \(Swift.String(describing: vnfProvider)), vnfdId: \(Swift.String(describing: vnfdId)), vnfdVersion: \(Swift.String(describing: vnfdVersion)), tags: \"CONTENT_REDACTED\")"}
+        "GetSolFunctionInstanceOutput(arn: \(Swift.String(describing: arn)), id: \(Swift.String(describing: id)), instantiatedVnfInfo: \(Swift.String(describing: instantiatedVnfInfo)), instantiationState: \(Swift.String(describing: instantiationState)), metadata: \(Swift.String(describing: metadata)), nsInstanceId: \(Swift.String(describing: nsInstanceId)), vnfPkgId: \(Swift.String(describing: vnfPkgId)), vnfProductName: \(Swift.String(describing: vnfProductName)), vnfProvider: \(Swift.String(describing: vnfProvider)), vnfdId: \(Swift.String(describing: vnfdId)), vnfdVersion: \(Swift.String(describing: vnfdVersion)), tags: \"CONTENT_REDACTED\")"}
 }
 
-extension GetSolFunctionInstanceOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetSolFunctionInstanceOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetSolFunctionInstanceOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetSolFunctionInstanceOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.id = output.id
             self.instantiatedVnfInfo = output.instantiatedVnfInfo
@@ -1127,7 +1112,7 @@ extension GetSolFunctionInstanceOutputResponse: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct GetSolFunctionInstanceOutputResponse: Swift.Equatable {
+public struct GetSolFunctionInstanceOutput: Swift.Equatable {
     /// Network function instance ARN.
     /// This member is required.
     public var arn: Swift.String?
@@ -1190,7 +1175,7 @@ public struct GetSolFunctionInstanceOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetSolFunctionInstanceOutputResponseBody: Swift.Equatable {
+struct GetSolFunctionInstanceOutputBody: Swift.Equatable {
     let id: Swift.String?
     let arn: Swift.String?
     let nsInstanceId: Swift.String?
@@ -1205,7 +1190,7 @@ struct GetSolFunctionInstanceOutputResponseBody: Swift.Equatable {
     let tags: [Swift.String:Swift.String]?
 }
 
-extension GetSolFunctionInstanceOutputResponseBody: Swift.Decodable {
+extension GetSolFunctionInstanceOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
         case id
@@ -1259,6 +1244,21 @@ extension GetSolFunctionInstanceOutputResponseBody: Swift.Decodable {
     }
 }
 
+enum GetSolFunctionInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension GetSolFunctionPackageContentInput: ClientRuntime.HeaderProvider {
     public var headers: ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
@@ -1305,22 +1305,7 @@ extension GetSolFunctionPackageContentInputBody: Swift.Decodable {
     }
 }
 
-enum GetSolFunctionPackageContentOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetSolFunctionPackageContentOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetSolFunctionPackageContentOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let contentTypeHeaderValue = httpResponse.headers.value(for: "Content-Type") {
             self.contentType = TnbClientTypes.PackageContentType(rawValue: contentTypeHeaderValue)
@@ -1338,7 +1323,7 @@ extension GetSolFunctionPackageContentOutputResponse: ClientRuntime.HttpResponse
     }
 }
 
-public struct GetSolFunctionPackageContentOutputResponse: Swift.Equatable {
+public struct GetSolFunctionPackageContentOutput: Swift.Equatable {
     /// Indicates the media type of the resource.
     public var contentType: TnbClientTypes.PackageContentType?
     /// Contents of the function package.
@@ -1354,11 +1339,11 @@ public struct GetSolFunctionPackageContentOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetSolFunctionPackageContentOutputResponseBody: Swift.Equatable {
+struct GetSolFunctionPackageContentOutputBody: Swift.Equatable {
     let packageContent: ClientRuntime.Data?
 }
 
-extension GetSolFunctionPackageContentOutputResponseBody: Swift.Decodable {
+extension GetSolFunctionPackageContentOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case packageContent
     }
@@ -1367,6 +1352,21 @@ extension GetSolFunctionPackageContentOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let packageContentDecoded = try containerValues.decodeIfPresent(ClientRuntime.Data.self, forKey: .packageContent)
         packageContent = packageContentDecoded
+    }
+}
+
+enum GetSolFunctionPackageContentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1416,22 +1416,7 @@ extension GetSolFunctionPackageDescriptorInputBody: Swift.Decodable {
     }
 }
 
-enum GetSolFunctionPackageDescriptorOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetSolFunctionPackageDescriptorOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetSolFunctionPackageDescriptorOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let contentTypeHeaderValue = httpResponse.headers.value(for: "Content-Type") {
             self.contentType = TnbClientTypes.DescriptorContentType(rawValue: contentTypeHeaderValue)
@@ -1449,7 +1434,7 @@ extension GetSolFunctionPackageDescriptorOutputResponse: ClientRuntime.HttpRespo
     }
 }
 
-public struct GetSolFunctionPackageDescriptorOutputResponse: Swift.Equatable {
+public struct GetSolFunctionPackageDescriptorOutput: Swift.Equatable {
     /// Indicates the media type of the resource.
     public var contentType: TnbClientTypes.DescriptorContentType?
     /// Contents of the function package descriptor.
@@ -1465,11 +1450,11 @@ public struct GetSolFunctionPackageDescriptorOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetSolFunctionPackageDescriptorOutputResponseBody: Swift.Equatable {
+struct GetSolFunctionPackageDescriptorOutputBody: Swift.Equatable {
     let vnfd: ClientRuntime.Data?
 }
 
-extension GetSolFunctionPackageDescriptorOutputResponseBody: Swift.Decodable {
+extension GetSolFunctionPackageDescriptorOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case vnfd
     }
@@ -1478,6 +1463,21 @@ extension GetSolFunctionPackageDescriptorOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let vnfdDecoded = try containerValues.decodeIfPresent(ClientRuntime.Data.self, forKey: .vnfd)
         vnfd = vnfdDecoded
+    }
+}
+
+enum GetSolFunctionPackageDescriptorOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1569,31 +1569,16 @@ extension TnbClientTypes {
 
 }
 
-enum GetSolFunctionPackageOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetSolFunctionPackageOutputResponse: Swift.CustomDebugStringConvertible {
+extension GetSolFunctionPackageOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetSolFunctionPackageOutputResponse(arn: \(Swift.String(describing: arn)), id: \(Swift.String(describing: id)), metadata: \(Swift.String(describing: metadata)), onboardingState: \(Swift.String(describing: onboardingState)), operationalState: \(Swift.String(describing: operationalState)), usageState: \(Swift.String(describing: usageState)), vnfProductName: \(Swift.String(describing: vnfProductName)), vnfProvider: \(Swift.String(describing: vnfProvider)), vnfdId: \(Swift.String(describing: vnfdId)), vnfdVersion: \(Swift.String(describing: vnfdVersion)), tags: \"CONTENT_REDACTED\")"}
+        "GetSolFunctionPackageOutput(arn: \(Swift.String(describing: arn)), id: \(Swift.String(describing: id)), metadata: \(Swift.String(describing: metadata)), onboardingState: \(Swift.String(describing: onboardingState)), operationalState: \(Swift.String(describing: operationalState)), usageState: \(Swift.String(describing: usageState)), vnfProductName: \(Swift.String(describing: vnfProductName)), vnfProvider: \(Swift.String(describing: vnfProvider)), vnfdId: \(Swift.String(describing: vnfdId)), vnfdVersion: \(Swift.String(describing: vnfdVersion)), tags: \"CONTENT_REDACTED\")"}
 }
 
-extension GetSolFunctionPackageOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetSolFunctionPackageOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetSolFunctionPackageOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetSolFunctionPackageOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.id = output.id
             self.metadata = output.metadata
@@ -1621,7 +1606,7 @@ extension GetSolFunctionPackageOutputResponse: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct GetSolFunctionPackageOutputResponse: Swift.Equatable {
+public struct GetSolFunctionPackageOutput: Swift.Equatable {
     /// Function package ARN.
     /// This member is required.
     public var arn: Swift.String?
@@ -1678,7 +1663,7 @@ public struct GetSolFunctionPackageOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetSolFunctionPackageOutputResponseBody: Swift.Equatable {
+struct GetSolFunctionPackageOutputBody: Swift.Equatable {
     let id: Swift.String?
     let arn: Swift.String?
     let onboardingState: TnbClientTypes.OnboardingState?
@@ -1692,7 +1677,7 @@ struct GetSolFunctionPackageOutputResponseBody: Swift.Equatable {
     let tags: [Swift.String:Swift.String]?
 }
 
-extension GetSolFunctionPackageOutputResponseBody: Swift.Decodable {
+extension GetSolFunctionPackageOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
         case id
@@ -1740,6 +1725,21 @@ extension GetSolFunctionPackageOutputResponseBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+    }
+}
+
+enum GetSolFunctionPackageOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1856,31 +1856,16 @@ extension TnbClientTypes {
 
 }
 
-enum GetSolNetworkInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetSolNetworkInstanceOutputResponse: Swift.CustomDebugStringConvertible {
+extension GetSolNetworkInstanceOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetSolNetworkInstanceOutputResponse(arn: \(Swift.String(describing: arn)), id: \(Swift.String(describing: id)), lcmOpInfo: \(Swift.String(describing: lcmOpInfo)), metadata: \(Swift.String(describing: metadata)), nsInstanceDescription: \(Swift.String(describing: nsInstanceDescription)), nsInstanceName: \(Swift.String(describing: nsInstanceName)), nsState: \(Swift.String(describing: nsState)), nsdId: \(Swift.String(describing: nsdId)), nsdInfoId: \(Swift.String(describing: nsdInfoId)), tags: \"CONTENT_REDACTED\")"}
+        "GetSolNetworkInstanceOutput(arn: \(Swift.String(describing: arn)), id: \(Swift.String(describing: id)), lcmOpInfo: \(Swift.String(describing: lcmOpInfo)), metadata: \(Swift.String(describing: metadata)), nsInstanceDescription: \(Swift.String(describing: nsInstanceDescription)), nsInstanceName: \(Swift.String(describing: nsInstanceName)), nsState: \(Swift.String(describing: nsState)), nsdId: \(Swift.String(describing: nsdId)), nsdInfoId: \(Swift.String(describing: nsdInfoId)), tags: \"CONTENT_REDACTED\")"}
 }
 
-extension GetSolNetworkInstanceOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetSolNetworkInstanceOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetSolNetworkInstanceOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetSolNetworkInstanceOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.id = output.id
             self.lcmOpInfo = output.lcmOpInfo
@@ -1906,7 +1891,7 @@ extension GetSolNetworkInstanceOutputResponse: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct GetSolNetworkInstanceOutputResponse: Swift.Equatable {
+public struct GetSolNetworkInstanceOutput: Swift.Equatable {
     /// Network instance ARN.
     /// This member is required.
     public var arn: Swift.String?
@@ -1961,7 +1946,7 @@ public struct GetSolNetworkInstanceOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetSolNetworkInstanceOutputResponseBody: Swift.Equatable {
+struct GetSolNetworkInstanceOutputBody: Swift.Equatable {
     let id: Swift.String?
     let arn: Swift.String?
     let nsInstanceName: Swift.String?
@@ -1974,7 +1959,7 @@ struct GetSolNetworkInstanceOutputResponseBody: Swift.Equatable {
     let tags: [Swift.String:Swift.String]?
 }
 
-extension GetSolNetworkInstanceOutputResponseBody: Swift.Decodable {
+extension GetSolNetworkInstanceOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
         case id
@@ -2019,6 +2004,21 @@ extension GetSolNetworkInstanceOutputResponseBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+    }
+}
+
+enum GetSolNetworkInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2100,31 +2100,16 @@ extension TnbClientTypes {
 
 }
 
-enum GetSolNetworkOperationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetSolNetworkOperationOutputResponse: Swift.CustomDebugStringConvertible {
+extension GetSolNetworkOperationOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetSolNetworkOperationOutputResponse(arn: \(Swift.String(describing: arn)), error: \(Swift.String(describing: error)), id: \(Swift.String(describing: id)), lcmOperationType: \(Swift.String(describing: lcmOperationType)), metadata: \(Swift.String(describing: metadata)), nsInstanceId: \(Swift.String(describing: nsInstanceId)), operationState: \(Swift.String(describing: operationState)), tasks: \(Swift.String(describing: tasks)), tags: \"CONTENT_REDACTED\")"}
+        "GetSolNetworkOperationOutput(arn: \(Swift.String(describing: arn)), error: \(Swift.String(describing: error)), id: \(Swift.String(describing: id)), lcmOperationType: \(Swift.String(describing: lcmOperationType)), metadata: \(Swift.String(describing: metadata)), nsInstanceId: \(Swift.String(describing: nsInstanceId)), operationState: \(Swift.String(describing: operationState)), tasks: \(Swift.String(describing: tasks)), tags: \"CONTENT_REDACTED\")"}
 }
 
-extension GetSolNetworkOperationOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetSolNetworkOperationOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetSolNetworkOperationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetSolNetworkOperationOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.error = output.error
             self.id = output.id
@@ -2148,7 +2133,7 @@ extension GetSolNetworkOperationOutputResponse: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct GetSolNetworkOperationOutputResponse: Swift.Equatable {
+public struct GetSolNetworkOperationOutput: Swift.Equatable {
     /// Network operation ARN.
     /// This member is required.
     public var arn: Swift.String?
@@ -2193,7 +2178,7 @@ public struct GetSolNetworkOperationOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetSolNetworkOperationOutputResponseBody: Swift.Equatable {
+struct GetSolNetworkOperationOutputBody: Swift.Equatable {
     let id: Swift.String?
     let arn: Swift.String?
     let operationState: TnbClientTypes.NsLcmOperationState?
@@ -2205,7 +2190,7 @@ struct GetSolNetworkOperationOutputResponseBody: Swift.Equatable {
     let tags: [Swift.String:Swift.String]?
 }
 
-extension GetSolNetworkOperationOutputResponseBody: Swift.Decodable {
+extension GetSolNetworkOperationOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
         case error
@@ -2256,6 +2241,21 @@ extension GetSolNetworkOperationOutputResponseBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+    }
+}
+
+enum GetSolNetworkOperationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2402,22 +2402,7 @@ extension GetSolNetworkPackageContentInputBody: Swift.Decodable {
     }
 }
 
-enum GetSolNetworkPackageContentOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetSolNetworkPackageContentOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetSolNetworkPackageContentOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let contentTypeHeaderValue = httpResponse.headers.value(for: "Content-Type") {
             self.contentType = TnbClientTypes.PackageContentType(rawValue: contentTypeHeaderValue)
@@ -2435,7 +2420,7 @@ extension GetSolNetworkPackageContentOutputResponse: ClientRuntime.HttpResponseB
     }
 }
 
-public struct GetSolNetworkPackageContentOutputResponse: Swift.Equatable {
+public struct GetSolNetworkPackageContentOutput: Swift.Equatable {
     /// Indicates the media type of the resource.
     public var contentType: TnbClientTypes.PackageContentType?
     /// Content of the network service descriptor in the network package.
@@ -2451,11 +2436,11 @@ public struct GetSolNetworkPackageContentOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetSolNetworkPackageContentOutputResponseBody: Swift.Equatable {
+struct GetSolNetworkPackageContentOutputBody: Swift.Equatable {
     let nsdContent: ClientRuntime.Data?
 }
 
-extension GetSolNetworkPackageContentOutputResponseBody: Swift.Decodable {
+extension GetSolNetworkPackageContentOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nsdContent
     }
@@ -2464,6 +2449,21 @@ extension GetSolNetworkPackageContentOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nsdContentDecoded = try containerValues.decodeIfPresent(ClientRuntime.Data.self, forKey: .nsdContent)
         nsdContent = nsdContentDecoded
+    }
+}
+
+enum GetSolNetworkPackageContentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2498,22 +2498,7 @@ extension GetSolNetworkPackageDescriptorInputBody: Swift.Decodable {
     }
 }
 
-enum GetSolNetworkPackageDescriptorOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetSolNetworkPackageDescriptorOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetSolNetworkPackageDescriptorOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let contentTypeHeaderValue = httpResponse.headers.value(for: "Content-Type") {
             self.contentType = TnbClientTypes.DescriptorContentType(rawValue: contentTypeHeaderValue)
@@ -2531,7 +2516,7 @@ extension GetSolNetworkPackageDescriptorOutputResponse: ClientRuntime.HttpRespon
     }
 }
 
-public struct GetSolNetworkPackageDescriptorOutputResponse: Swift.Equatable {
+public struct GetSolNetworkPackageDescriptorOutput: Swift.Equatable {
     /// Indicates the media type of the resource.
     public var contentType: TnbClientTypes.DescriptorContentType?
     /// Contents of the network service descriptor in the network package.
@@ -2547,11 +2532,11 @@ public struct GetSolNetworkPackageDescriptorOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetSolNetworkPackageDescriptorOutputResponseBody: Swift.Equatable {
+struct GetSolNetworkPackageDescriptorOutputBody: Swift.Equatable {
     let nsd: ClientRuntime.Data?
 }
 
-extension GetSolNetworkPackageDescriptorOutputResponseBody: Swift.Decodable {
+extension GetSolNetworkPackageDescriptorOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nsd
     }
@@ -2560,6 +2545,21 @@ extension GetSolNetworkPackageDescriptorOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nsdDecoded = try containerValues.decodeIfPresent(ClientRuntime.Data.self, forKey: .nsd)
         nsd = nsdDecoded
+    }
+}
+
+enum GetSolNetworkPackageDescriptorOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2651,31 +2651,16 @@ extension TnbClientTypes {
 
 }
 
-enum GetSolNetworkPackageOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetSolNetworkPackageOutputResponse: Swift.CustomDebugStringConvertible {
+extension GetSolNetworkPackageOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetSolNetworkPackageOutputResponse(arn: \(Swift.String(describing: arn)), id: \(Swift.String(describing: id)), metadata: \(Swift.String(describing: metadata)), nsdId: \(Swift.String(describing: nsdId)), nsdName: \(Swift.String(describing: nsdName)), nsdOnboardingState: \(Swift.String(describing: nsdOnboardingState)), nsdOperationalState: \(Swift.String(describing: nsdOperationalState)), nsdUsageState: \(Swift.String(describing: nsdUsageState)), nsdVersion: \(Swift.String(describing: nsdVersion)), vnfPkgIds: \(Swift.String(describing: vnfPkgIds)), tags: \"CONTENT_REDACTED\")"}
+        "GetSolNetworkPackageOutput(arn: \(Swift.String(describing: arn)), id: \(Swift.String(describing: id)), metadata: \(Swift.String(describing: metadata)), nsdId: \(Swift.String(describing: nsdId)), nsdName: \(Swift.String(describing: nsdName)), nsdOnboardingState: \(Swift.String(describing: nsdOnboardingState)), nsdOperationalState: \(Swift.String(describing: nsdOperationalState)), nsdUsageState: \(Swift.String(describing: nsdUsageState)), nsdVersion: \(Swift.String(describing: nsdVersion)), vnfPkgIds: \(Swift.String(describing: vnfPkgIds)), tags: \"CONTENT_REDACTED\")"}
 }
 
-extension GetSolNetworkPackageOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetSolNetworkPackageOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetSolNetworkPackageOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetSolNetworkPackageOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.id = output.id
             self.metadata = output.metadata
@@ -2703,7 +2688,7 @@ extension GetSolNetworkPackageOutputResponse: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct GetSolNetworkPackageOutputResponse: Swift.Equatable {
+public struct GetSolNetworkPackageOutput: Swift.Equatable {
     /// Network package ARN.
     /// This member is required.
     public var arn: Swift.String?
@@ -2765,7 +2750,7 @@ public struct GetSolNetworkPackageOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetSolNetworkPackageOutputResponseBody: Swift.Equatable {
+struct GetSolNetworkPackageOutputBody: Swift.Equatable {
     let id: Swift.String?
     let arn: Swift.String?
     let nsdOnboardingState: TnbClientTypes.NsdOnboardingState?
@@ -2779,7 +2764,7 @@ struct GetSolNetworkPackageOutputResponseBody: Swift.Equatable {
     let tags: [Swift.String:Swift.String]?
 }
 
-extension GetSolNetworkPackageOutputResponseBody: Swift.Decodable {
+extension GetSolNetworkPackageOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
         case id
@@ -2836,6 +2821,21 @@ extension GetSolNetworkPackageOutputResponseBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+    }
+}
+
+enum GetSolNetworkPackageOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3087,32 +3087,16 @@ extension InstantiateSolNetworkInstanceInputBody: Swift.Decodable {
     }
 }
 
-enum InstantiateSolNetworkInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension InstantiateSolNetworkInstanceOutputResponse: Swift.CustomDebugStringConvertible {
+extension InstantiateSolNetworkInstanceOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "InstantiateSolNetworkInstanceOutputResponse(nsLcmOpOccId: \(Swift.String(describing: nsLcmOpOccId)), tags: \"CONTENT_REDACTED\")"}
+        "InstantiateSolNetworkInstanceOutput(nsLcmOpOccId: \(Swift.String(describing: nsLcmOpOccId)), tags: \"CONTENT_REDACTED\")"}
 }
 
-extension InstantiateSolNetworkInstanceOutputResponse: ClientRuntime.HttpResponseBinding {
+extension InstantiateSolNetworkInstanceOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: InstantiateSolNetworkInstanceOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: InstantiateSolNetworkInstanceOutputBody = try responseDecoder.decode(responseBody: data)
             self.nsLcmOpOccId = output.nsLcmOpOccId
             self.tags = output.tags
         } else {
@@ -3122,7 +3106,7 @@ extension InstantiateSolNetworkInstanceOutputResponse: ClientRuntime.HttpRespons
     }
 }
 
-public struct InstantiateSolNetworkInstanceOutputResponse: Swift.Equatable {
+public struct InstantiateSolNetworkInstanceOutput: Swift.Equatable {
     /// The identifier of the network operation.
     /// This member is required.
     public var nsLcmOpOccId: Swift.String?
@@ -3139,12 +3123,12 @@ public struct InstantiateSolNetworkInstanceOutputResponse: Swift.Equatable {
     }
 }
 
-struct InstantiateSolNetworkInstanceOutputResponseBody: Swift.Equatable {
+struct InstantiateSolNetworkInstanceOutputBody: Swift.Equatable {
     let nsLcmOpOccId: Swift.String?
     let tags: [Swift.String:Swift.String]?
 }
 
-extension InstantiateSolNetworkInstanceOutputResponseBody: Swift.Decodable {
+extension InstantiateSolNetworkInstanceOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nsLcmOpOccId
         case tags
@@ -3165,6 +3149,22 @@ extension InstantiateSolNetworkInstanceOutputResponseBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+    }
+}
+
+enum InstantiateSolNetworkInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3501,25 +3501,11 @@ extension ListSolFunctionInstancesInputBody: Swift.Decodable {
     }
 }
 
-enum ListSolFunctionInstancesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListSolFunctionInstancesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListSolFunctionInstancesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListSolFunctionInstancesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListSolFunctionInstancesOutputBody = try responseDecoder.decode(responseBody: data)
             self.functionInstances = output.functionInstances
             self.nextToken = output.nextToken
         } else {
@@ -3529,7 +3515,7 @@ extension ListSolFunctionInstancesOutputResponse: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct ListSolFunctionInstancesOutputResponse: Swift.Equatable {
+public struct ListSolFunctionInstancesOutput: Swift.Equatable {
     /// Network function instances.
     public var functionInstances: [TnbClientTypes.ListSolFunctionInstanceInfo]?
     /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -3545,12 +3531,12 @@ public struct ListSolFunctionInstancesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListSolFunctionInstancesOutputResponseBody: Swift.Equatable {
+struct ListSolFunctionInstancesOutputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let functionInstances: [TnbClientTypes.ListSolFunctionInstanceInfo]?
 }
 
-extension ListSolFunctionInstancesOutputResponseBody: Swift.Decodable {
+extension ListSolFunctionInstancesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case functionInstances
         case nextToken
@@ -3571,6 +3557,20 @@ extension ListSolFunctionInstancesOutputResponseBody: Swift.Decodable {
             }
         }
         functionInstances = functionInstancesDecoded0
+    }
+}
+
+enum ListSolFunctionInstancesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3799,25 +3799,11 @@ extension ListSolFunctionPackagesInputBody: Swift.Decodable {
     }
 }
 
-enum ListSolFunctionPackagesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListSolFunctionPackagesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListSolFunctionPackagesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListSolFunctionPackagesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListSolFunctionPackagesOutputBody = try responseDecoder.decode(responseBody: data)
             self.functionPackages = output.functionPackages
             self.nextToken = output.nextToken
         } else {
@@ -3827,7 +3813,7 @@ extension ListSolFunctionPackagesOutputResponse: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct ListSolFunctionPackagesOutputResponse: Swift.Equatable {
+public struct ListSolFunctionPackagesOutput: Swift.Equatable {
     /// Function packages. A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a network function (an ETSI standard telecommunication application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your network.
     /// This member is required.
     public var functionPackages: [TnbClientTypes.ListSolFunctionPackageInfo]?
@@ -3844,12 +3830,12 @@ public struct ListSolFunctionPackagesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListSolFunctionPackagesOutputResponseBody: Swift.Equatable {
+struct ListSolFunctionPackagesOutputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let functionPackages: [TnbClientTypes.ListSolFunctionPackageInfo]?
 }
 
-extension ListSolFunctionPackagesOutputResponseBody: Swift.Decodable {
+extension ListSolFunctionPackagesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case functionPackages
         case nextToken
@@ -3870,6 +3856,20 @@ extension ListSolFunctionPackagesOutputResponseBody: Swift.Decodable {
             }
         }
         functionPackages = functionPackagesDecoded0
+    }
+}
+
+enum ListSolFunctionPackagesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -4081,25 +4081,11 @@ extension ListSolNetworkInstancesInputBody: Swift.Decodable {
     }
 }
 
-enum ListSolNetworkInstancesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListSolNetworkInstancesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListSolNetworkInstancesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListSolNetworkInstancesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListSolNetworkInstancesOutputBody = try responseDecoder.decode(responseBody: data)
             self.networkInstances = output.networkInstances
             self.nextToken = output.nextToken
         } else {
@@ -4109,7 +4095,7 @@ extension ListSolNetworkInstancesOutputResponse: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct ListSolNetworkInstancesOutputResponse: Swift.Equatable {
+public struct ListSolNetworkInstancesOutput: Swift.Equatable {
     /// Lists network instances.
     public var networkInstances: [TnbClientTypes.ListSolNetworkInstanceInfo]?
     /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -4125,12 +4111,12 @@ public struct ListSolNetworkInstancesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListSolNetworkInstancesOutputResponseBody: Swift.Equatable {
+struct ListSolNetworkInstancesOutputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let networkInstances: [TnbClientTypes.ListSolNetworkInstanceInfo]?
 }
 
-extension ListSolNetworkInstancesOutputResponseBody: Swift.Decodable {
+extension ListSolNetworkInstancesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case networkInstances
         case nextToken
@@ -4151,6 +4137,20 @@ extension ListSolNetworkInstancesOutputResponseBody: Swift.Decodable {
             }
         }
         networkInstances = networkInstancesDecoded0
+    }
+}
+
+enum ListSolNetworkInstancesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -4349,25 +4349,11 @@ extension TnbClientTypes {
 
 }
 
-enum ListSolNetworkOperationsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListSolNetworkOperationsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListSolNetworkOperationsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListSolNetworkOperationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListSolNetworkOperationsOutputBody = try responseDecoder.decode(responseBody: data)
             self.networkOperations = output.networkOperations
             self.nextToken = output.nextToken
         } else {
@@ -4377,7 +4363,7 @@ extension ListSolNetworkOperationsOutputResponse: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct ListSolNetworkOperationsOutputResponse: Swift.Equatable {
+public struct ListSolNetworkOperationsOutput: Swift.Equatable {
     /// Lists network operation occurrences. Lifecycle management operations are deploy, update, or delete operations.
     public var networkOperations: [TnbClientTypes.ListSolNetworkOperationsInfo]?
     /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -4393,12 +4379,12 @@ public struct ListSolNetworkOperationsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListSolNetworkOperationsOutputResponseBody: Swift.Equatable {
+struct ListSolNetworkOperationsOutputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let networkOperations: [TnbClientTypes.ListSolNetworkOperationsInfo]?
 }
 
-extension ListSolNetworkOperationsOutputResponseBody: Swift.Decodable {
+extension ListSolNetworkOperationsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case networkOperations
         case nextToken
@@ -4419,6 +4405,20 @@ extension ListSolNetworkOperationsOutputResponseBody: Swift.Decodable {
             }
         }
         networkOperations = networkOperationsDecoded0
+    }
+}
+
+enum ListSolNetworkOperationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -4680,25 +4680,11 @@ extension ListSolNetworkPackagesInputBody: Swift.Decodable {
     }
 }
 
-enum ListSolNetworkPackagesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListSolNetworkPackagesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListSolNetworkPackagesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListSolNetworkPackagesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListSolNetworkPackagesOutputBody = try responseDecoder.decode(responseBody: data)
             self.networkPackages = output.networkPackages
             self.nextToken = output.nextToken
         } else {
@@ -4708,7 +4694,7 @@ extension ListSolNetworkPackagesOutputResponse: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct ListSolNetworkPackagesOutputResponse: Swift.Equatable {
+public struct ListSolNetworkPackagesOutput: Swift.Equatable {
     /// Network packages. A network package is a .zip file in CSAR (Cloud Service Archive) format defines the function packages you want to deploy and the Amazon Web Services infrastructure you want to deploy them on.
     /// This member is required.
     public var networkPackages: [TnbClientTypes.ListSolNetworkPackageInfo]?
@@ -4725,12 +4711,12 @@ public struct ListSolNetworkPackagesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListSolNetworkPackagesOutputResponseBody: Swift.Equatable {
+struct ListSolNetworkPackagesOutputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let networkPackages: [TnbClientTypes.ListSolNetworkPackageInfo]?
 }
 
-extension ListSolNetworkPackagesOutputResponseBody: Swift.Decodable {
+extension ListSolNetworkPackagesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case networkPackages
         case nextToken
@@ -4751,6 +4737,20 @@ extension ListSolNetworkPackagesOutputResponseBody: Swift.Decodable {
             }
         }
         networkPackages = networkPackagesDecoded0
+    }
+}
+
+enum ListSolNetworkPackagesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -4785,31 +4785,16 @@ extension ListTagsForResourceInputBody: Swift.Decodable {
     }
 }
 
-enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListTagsForResourceOutputResponse: Swift.CustomDebugStringConvertible {
+extension ListTagsForResourceOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ListTagsForResourceOutputResponse(tags: \"CONTENT_REDACTED\")"}
+        "ListTagsForResourceOutput(tags: \"CONTENT_REDACTED\")"}
 }
 
-extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListTagsForResourceOutputBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
         } else {
             self.tags = nil
@@ -4817,7 +4802,7 @@ extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutputResponse: Swift.Equatable {
+public struct ListTagsForResourceOutput: Swift.Equatable {
     /// A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value. You can use tags to search and filter your resources or track your Amazon Web Services costs.
     /// This member is required.
     public var tags: [Swift.String:Swift.String]?
@@ -4830,11 +4815,11 @@ public struct ListTagsForResourceOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputResponseBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody: Swift.Equatable {
     let tags: [Swift.String:Swift.String]?
 }
 
-extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
+extension ListTagsForResourceOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case tags
     }
@@ -4852,6 +4837,21 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+    }
+}
+
+enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5241,7 +5241,7 @@ public struct PutSolFunctionPackageContentInputBodyMiddleware: ClientRuntime.Mid
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<PutSolFunctionPackageContentInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<PutSolFunctionPackageContentOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<PutSolFunctionPackageContentOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -5256,7 +5256,7 @@ public struct PutSolFunctionPackageContentInputBodyMiddleware: ClientRuntime.Mid
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<PutSolFunctionPackageContentInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<PutSolFunctionPackageContentOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<PutSolFunctionPackageContentOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -5365,26 +5365,11 @@ extension TnbClientTypes {
 
 }
 
-enum PutSolFunctionPackageContentOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension PutSolFunctionPackageContentOutputResponse: ClientRuntime.HttpResponseBinding {
+extension PutSolFunctionPackageContentOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: PutSolFunctionPackageContentOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: PutSolFunctionPackageContentOutputBody = try responseDecoder.decode(responseBody: data)
             self.id = output.id
             self.metadata = output.metadata
             self.vnfProductName = output.vnfProductName
@@ -5402,7 +5387,7 @@ extension PutSolFunctionPackageContentOutputResponse: ClientRuntime.HttpResponse
     }
 }
 
-public struct PutSolFunctionPackageContentOutputResponse: Swift.Equatable {
+public struct PutSolFunctionPackageContentOutput: Swift.Equatable {
     /// Function package ID.
     /// This member is required.
     public var id: Swift.String?
@@ -5440,7 +5425,7 @@ public struct PutSolFunctionPackageContentOutputResponse: Swift.Equatable {
     }
 }
 
-struct PutSolFunctionPackageContentOutputResponseBody: Swift.Equatable {
+struct PutSolFunctionPackageContentOutputBody: Swift.Equatable {
     let id: Swift.String?
     let vnfdId: Swift.String?
     let vnfProductName: Swift.String?
@@ -5449,7 +5434,7 @@ struct PutSolFunctionPackageContentOutputResponseBody: Swift.Equatable {
     let metadata: TnbClientTypes.PutSolFunctionPackageContentMetadata?
 }
 
-extension PutSolFunctionPackageContentOutputResponseBody: Swift.Decodable {
+extension PutSolFunctionPackageContentOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case id
         case metadata
@@ -5476,6 +5461,21 @@ extension PutSolFunctionPackageContentOutputResponseBody: Swift.Decodable {
     }
 }
 
+enum PutSolFunctionPackageContentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 public struct PutSolNetworkPackageContentInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "PutSolNetworkPackageContentInputBodyMiddleware"
 
@@ -5483,7 +5483,7 @@ public struct PutSolNetworkPackageContentInputBodyMiddleware: ClientRuntime.Midd
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<PutSolNetworkPackageContentInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<PutSolNetworkPackageContentOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<PutSolNetworkPackageContentOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -5498,7 +5498,7 @@ public struct PutSolNetworkPackageContentInputBodyMiddleware: ClientRuntime.Midd
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<PutSolNetworkPackageContentInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<PutSolNetworkPackageContentOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<PutSolNetworkPackageContentOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -5607,26 +5607,11 @@ extension TnbClientTypes {
 
 }
 
-enum PutSolNetworkPackageContentOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension PutSolNetworkPackageContentOutputResponse: ClientRuntime.HttpResponseBinding {
+extension PutSolNetworkPackageContentOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: PutSolNetworkPackageContentOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: PutSolNetworkPackageContentOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.id = output.id
             self.metadata = output.metadata
@@ -5646,7 +5631,7 @@ extension PutSolNetworkPackageContentOutputResponse: ClientRuntime.HttpResponseB
     }
 }
 
-public struct PutSolNetworkPackageContentOutputResponse: Swift.Equatable {
+public struct PutSolNetworkPackageContentOutput: Swift.Equatable {
     /// Network package ARN.
     /// This member is required.
     public var arn: Swift.String?
@@ -5689,7 +5674,7 @@ public struct PutSolNetworkPackageContentOutputResponse: Swift.Equatable {
     }
 }
 
-struct PutSolNetworkPackageContentOutputResponseBody: Swift.Equatable {
+struct PutSolNetworkPackageContentOutputBody: Swift.Equatable {
     let id: Swift.String?
     let arn: Swift.String?
     let nsdId: Swift.String?
@@ -5699,7 +5684,7 @@ struct PutSolNetworkPackageContentOutputResponseBody: Swift.Equatable {
     let metadata: TnbClientTypes.PutSolNetworkPackageContentMetadata?
 }
 
-extension PutSolNetworkPackageContentOutputResponseBody: Swift.Decodable {
+extension PutSolNetworkPackageContentOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
         case id
@@ -5735,6 +5720,21 @@ extension PutSolNetworkPackageContentOutputResponseBody: Swift.Decodable {
         vnfPkgIds = vnfPkgIdsDecoded0
         let metadataDecoded = try containerValues.decodeIfPresent(TnbClientTypes.PutSolNetworkPackageContentMetadata.self, forKey: .metadata)
         metadata = metadataDecoded
+    }
+}
+
+enum PutSolNetworkPackageContentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5923,6 +5923,16 @@ extension TagResourceInputBody: Swift.Decodable {
     }
 }
 
+extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct TagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -5936,16 +5946,6 @@ enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct TagResourceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension TnbClientTypes {
@@ -6067,32 +6067,16 @@ extension TerminateSolNetworkInstanceInputBody: Swift.Decodable {
     }
 }
 
-enum TerminateSolNetworkInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension TerminateSolNetworkInstanceOutputResponse: Swift.CustomDebugStringConvertible {
+extension TerminateSolNetworkInstanceOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "TerminateSolNetworkInstanceOutputResponse(nsLcmOpOccId: \(Swift.String(describing: nsLcmOpOccId)), tags: \"CONTENT_REDACTED\")"}
+        "TerminateSolNetworkInstanceOutput(nsLcmOpOccId: \(Swift.String(describing: nsLcmOpOccId)), tags: \"CONTENT_REDACTED\")"}
 }
 
-extension TerminateSolNetworkInstanceOutputResponse: ClientRuntime.HttpResponseBinding {
+extension TerminateSolNetworkInstanceOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: TerminateSolNetworkInstanceOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: TerminateSolNetworkInstanceOutputBody = try responseDecoder.decode(responseBody: data)
             self.nsLcmOpOccId = output.nsLcmOpOccId
             self.tags = output.tags
         } else {
@@ -6102,7 +6086,7 @@ extension TerminateSolNetworkInstanceOutputResponse: ClientRuntime.HttpResponseB
     }
 }
 
-public struct TerminateSolNetworkInstanceOutputResponse: Swift.Equatable {
+public struct TerminateSolNetworkInstanceOutput: Swift.Equatable {
     /// The identifier of the network operation.
     public var nsLcmOpOccId: Swift.String?
     /// A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value. When you use this API, the tags are transferred to the network operation that is created. Use tags to search and filter your resources or track your Amazon Web Services costs.
@@ -6118,12 +6102,12 @@ public struct TerminateSolNetworkInstanceOutputResponse: Swift.Equatable {
     }
 }
 
-struct TerminateSolNetworkInstanceOutputResponseBody: Swift.Equatable {
+struct TerminateSolNetworkInstanceOutputBody: Swift.Equatable {
     let nsLcmOpOccId: Swift.String?
     let tags: [Swift.String:Swift.String]?
 }
 
-extension TerminateSolNetworkInstanceOutputResponseBody: Swift.Decodable {
+extension TerminateSolNetworkInstanceOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nsLcmOpOccId
         case tags
@@ -6144,6 +6128,22 @@ extension TerminateSolNetworkInstanceOutputResponseBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+    }
+}
+
+enum TerminateSolNetworkInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -6301,6 +6301,16 @@ extension UntagResourceInputBody: Swift.Decodable {
     }
 }
 
+extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UntagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -6314,16 +6324,6 @@ enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UntagResourceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension UpdateSolFunctionPackageInput: Swift.Encodable {
@@ -6382,26 +6382,11 @@ extension UpdateSolFunctionPackageInputBody: Swift.Decodable {
     }
 }
 
-enum UpdateSolFunctionPackageOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension UpdateSolFunctionPackageOutputResponse: ClientRuntime.HttpResponseBinding {
+extension UpdateSolFunctionPackageOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: UpdateSolFunctionPackageOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: UpdateSolFunctionPackageOutputBody = try responseDecoder.decode(responseBody: data)
             self.operationalState = output.operationalState
         } else {
             self.operationalState = nil
@@ -6409,7 +6394,7 @@ extension UpdateSolFunctionPackageOutputResponse: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct UpdateSolFunctionPackageOutputResponse: Swift.Equatable {
+public struct UpdateSolFunctionPackageOutput: Swift.Equatable {
     /// Operational state of the function package.
     /// This member is required.
     public var operationalState: TnbClientTypes.OperationalState?
@@ -6422,11 +6407,11 @@ public struct UpdateSolFunctionPackageOutputResponse: Swift.Equatable {
     }
 }
 
-struct UpdateSolFunctionPackageOutputResponseBody: Swift.Equatable {
+struct UpdateSolFunctionPackageOutputBody: Swift.Equatable {
     let operationalState: TnbClientTypes.OperationalState?
 }
 
-extension UpdateSolFunctionPackageOutputResponseBody: Swift.Decodable {
+extension UpdateSolFunctionPackageOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case operationalState
     }
@@ -6435,6 +6420,21 @@ extension UpdateSolFunctionPackageOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let operationalStateDecoded = try containerValues.decodeIfPresent(TnbClientTypes.OperationalState.self, forKey: .operationalState)
         operationalState = operationalStateDecoded
+    }
+}
+
+enum UpdateSolFunctionPackageOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -6535,32 +6535,16 @@ extension UpdateSolNetworkInstanceInputBody: Swift.Decodable {
     }
 }
 
-enum UpdateSolNetworkInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension UpdateSolNetworkInstanceOutputResponse: Swift.CustomDebugStringConvertible {
+extension UpdateSolNetworkInstanceOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateSolNetworkInstanceOutputResponse(nsLcmOpOccId: \(Swift.String(describing: nsLcmOpOccId)), tags: \"CONTENT_REDACTED\")"}
+        "UpdateSolNetworkInstanceOutput(nsLcmOpOccId: \(Swift.String(describing: nsLcmOpOccId)), tags: \"CONTENT_REDACTED\")"}
 }
 
-extension UpdateSolNetworkInstanceOutputResponse: ClientRuntime.HttpResponseBinding {
+extension UpdateSolNetworkInstanceOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: UpdateSolNetworkInstanceOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: UpdateSolNetworkInstanceOutputBody = try responseDecoder.decode(responseBody: data)
             self.nsLcmOpOccId = output.nsLcmOpOccId
             self.tags = output.tags
         } else {
@@ -6570,7 +6554,7 @@ extension UpdateSolNetworkInstanceOutputResponse: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct UpdateSolNetworkInstanceOutputResponse: Swift.Equatable {
+public struct UpdateSolNetworkInstanceOutput: Swift.Equatable {
     /// The identifier of the network operation.
     public var nsLcmOpOccId: Swift.String?
     /// A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value. When you use this API, the tags are transferred to the network operation that is created. Use tags to search and filter your resources or track your Amazon Web Services costs.
@@ -6586,12 +6570,12 @@ public struct UpdateSolNetworkInstanceOutputResponse: Swift.Equatable {
     }
 }
 
-struct UpdateSolNetworkInstanceOutputResponseBody: Swift.Equatable {
+struct UpdateSolNetworkInstanceOutputBody: Swift.Equatable {
     let nsLcmOpOccId: Swift.String?
     let tags: [Swift.String:Swift.String]?
 }
 
-extension UpdateSolNetworkInstanceOutputResponseBody: Swift.Decodable {
+extension UpdateSolNetworkInstanceOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nsLcmOpOccId
         case tags
@@ -6612,6 +6596,22 @@ extension UpdateSolNetworkInstanceOutputResponseBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+    }
+}
+
+enum UpdateSolNetworkInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -6718,26 +6718,11 @@ extension UpdateSolNetworkPackageInputBody: Swift.Decodable {
     }
 }
 
-enum UpdateSolNetworkPackageOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension UpdateSolNetworkPackageOutputResponse: ClientRuntime.HttpResponseBinding {
+extension UpdateSolNetworkPackageOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: UpdateSolNetworkPackageOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: UpdateSolNetworkPackageOutputBody = try responseDecoder.decode(responseBody: data)
             self.nsdOperationalState = output.nsdOperationalState
         } else {
             self.nsdOperationalState = nil
@@ -6745,7 +6730,7 @@ extension UpdateSolNetworkPackageOutputResponse: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct UpdateSolNetworkPackageOutputResponse: Swift.Equatable {
+public struct UpdateSolNetworkPackageOutput: Swift.Equatable {
     /// Operational state of the network service descriptor in the network package.
     /// This member is required.
     public var nsdOperationalState: TnbClientTypes.NsdOperationalState?
@@ -6758,11 +6743,11 @@ public struct UpdateSolNetworkPackageOutputResponse: Swift.Equatable {
     }
 }
 
-struct UpdateSolNetworkPackageOutputResponseBody: Swift.Equatable {
+struct UpdateSolNetworkPackageOutputBody: Swift.Equatable {
     let nsdOperationalState: TnbClientTypes.NsdOperationalState?
 }
 
-extension UpdateSolNetworkPackageOutputResponseBody: Swift.Decodable {
+extension UpdateSolNetworkPackageOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nsdOperationalState
     }
@@ -6771,6 +6756,21 @@ extension UpdateSolNetworkPackageOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nsdOperationalStateDecoded = try containerValues.decodeIfPresent(TnbClientTypes.NsdOperationalState.self, forKey: .nsdOperationalState)
         nsdOperationalState = nsdOperationalStateDecoded
+    }
+}
+
+enum UpdateSolNetworkPackageOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -6842,7 +6842,7 @@ public struct ValidateSolFunctionPackageContentInputBodyMiddleware: ClientRuntim
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<ValidateSolFunctionPackageContentInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<ValidateSolFunctionPackageContentOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<ValidateSolFunctionPackageContentOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -6857,7 +6857,7 @@ public struct ValidateSolFunctionPackageContentInputBodyMiddleware: ClientRuntim
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<ValidateSolFunctionPackageContentInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<ValidateSolFunctionPackageContentOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<ValidateSolFunctionPackageContentOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -6966,26 +6966,11 @@ extension TnbClientTypes {
 
 }
 
-enum ValidateSolFunctionPackageContentOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ValidateSolFunctionPackageContentOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ValidateSolFunctionPackageContentOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ValidateSolFunctionPackageContentOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ValidateSolFunctionPackageContentOutputBody = try responseDecoder.decode(responseBody: data)
             self.id = output.id
             self.metadata = output.metadata
             self.vnfProductName = output.vnfProductName
@@ -7003,7 +6988,7 @@ extension ValidateSolFunctionPackageContentOutputResponse: ClientRuntime.HttpRes
     }
 }
 
-public struct ValidateSolFunctionPackageContentOutputResponse: Swift.Equatable {
+public struct ValidateSolFunctionPackageContentOutput: Swift.Equatable {
     /// Function package ID.
     /// This member is required.
     public var id: Swift.String?
@@ -7041,7 +7026,7 @@ public struct ValidateSolFunctionPackageContentOutputResponse: Swift.Equatable {
     }
 }
 
-struct ValidateSolFunctionPackageContentOutputResponseBody: Swift.Equatable {
+struct ValidateSolFunctionPackageContentOutputBody: Swift.Equatable {
     let id: Swift.String?
     let vnfdId: Swift.String?
     let vnfProductName: Swift.String?
@@ -7050,7 +7035,7 @@ struct ValidateSolFunctionPackageContentOutputResponseBody: Swift.Equatable {
     let metadata: TnbClientTypes.ValidateSolFunctionPackageContentMetadata?
 }
 
-extension ValidateSolFunctionPackageContentOutputResponseBody: Swift.Decodable {
+extension ValidateSolFunctionPackageContentOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case id
         case metadata
@@ -7077,6 +7062,21 @@ extension ValidateSolFunctionPackageContentOutputResponseBody: Swift.Decodable {
     }
 }
 
+enum ValidateSolFunctionPackageContentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 public struct ValidateSolNetworkPackageContentInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "ValidateSolNetworkPackageContentInputBodyMiddleware"
 
@@ -7084,7 +7084,7 @@ public struct ValidateSolNetworkPackageContentInputBodyMiddleware: ClientRuntime
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<ValidateSolNetworkPackageContentInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<ValidateSolNetworkPackageContentOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<ValidateSolNetworkPackageContentOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -7099,7 +7099,7 @@ public struct ValidateSolNetworkPackageContentInputBodyMiddleware: ClientRuntime
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<ValidateSolNetworkPackageContentInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<ValidateSolNetworkPackageContentOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<ValidateSolNetworkPackageContentOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -7208,26 +7208,11 @@ extension TnbClientTypes {
 
 }
 
-enum ValidateSolNetworkPackageContentOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ValidateSolNetworkPackageContentOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ValidateSolNetworkPackageContentOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ValidateSolNetworkPackageContentOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ValidateSolNetworkPackageContentOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.id = output.id
             self.metadata = output.metadata
@@ -7247,7 +7232,7 @@ extension ValidateSolNetworkPackageContentOutputResponse: ClientRuntime.HttpResp
     }
 }
 
-public struct ValidateSolNetworkPackageContentOutputResponse: Swift.Equatable {
+public struct ValidateSolNetworkPackageContentOutput: Swift.Equatable {
     /// Network package ARN.
     /// This member is required.
     public var arn: Swift.String?
@@ -7290,7 +7275,7 @@ public struct ValidateSolNetworkPackageContentOutputResponse: Swift.Equatable {
     }
 }
 
-struct ValidateSolNetworkPackageContentOutputResponseBody: Swift.Equatable {
+struct ValidateSolNetworkPackageContentOutputBody: Swift.Equatable {
     let id: Swift.String?
     let arn: Swift.String?
     let nsdId: Swift.String?
@@ -7300,7 +7285,7 @@ struct ValidateSolNetworkPackageContentOutputResponseBody: Swift.Equatable {
     let metadata: TnbClientTypes.ValidateSolNetworkPackageContentMetadata?
 }
 
-extension ValidateSolNetworkPackageContentOutputResponseBody: Swift.Decodable {
+extension ValidateSolNetworkPackageContentOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
         case id
@@ -7336,6 +7321,21 @@ extension ValidateSolNetworkPackageContentOutputResponseBody: Swift.Decodable {
         vnfPkgIds = vnfPkgIdsDecoded0
         let metadataDecoded = try containerValues.decodeIfPresent(TnbClientTypes.ValidateSolNetworkPackageContentMetadata.self, forKey: .metadata)
         metadata = metadataDecoded
+    }
+}
+
+enum ValidateSolNetworkPackageContentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 

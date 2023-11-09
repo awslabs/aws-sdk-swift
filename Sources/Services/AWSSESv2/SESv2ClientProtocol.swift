@@ -8,7 +8,7 @@ public protocol SESv2ClientProtocol {
     ///
     /// - Parameter BatchGetMetricDataInput : Represents a request to retrieve a batch of metric data.
     ///
-    /// - Returns: `BatchGetMetricDataOutputResponse` : Represents the result of processing your metric data batch request
+    /// - Returns: `BatchGetMetricDataOutput` : Represents the result of processing your metric data batch request
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -17,12 +17,12 @@ public protocol SESv2ClientProtocol {
     /// - `InternalServiceErrorException` : The request couldn't be processed because an error occurred with the Amazon SES API v2.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    func batchGetMetricData(input: BatchGetMetricDataInput) async throws -> BatchGetMetricDataOutputResponse
+    func batchGetMetricData(input: BatchGetMetricDataInput) async throws -> BatchGetMetricDataOutput
     /// Cancels an export job.
     ///
     /// - Parameter CancelExportJobInput : Represents a request to cancel an export job using the export job ID.
     ///
-    /// - Returns: `CancelExportJobOutputResponse` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    /// - Returns: `CancelExportJobOutput` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -30,12 +30,12 @@ public protocol SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    func cancelExportJob(input: CancelExportJobInput) async throws -> CancelExportJobOutputResponse
+    func cancelExportJob(input: CancelExportJobInput) async throws -> CancelExportJobOutput
     /// Create a configuration set. Configuration sets are groups of rules that you can apply to the emails that you send. You apply a configuration set to an email by specifying the name of the configuration set when you call the Amazon SES API v2. When you apply a configuration set to an email, all of the rules in that configuration set are applied to the email.
     ///
     /// - Parameter CreateConfigurationSetInput : A request to create a configuration set.
     ///
-    /// - Returns: `CreateConfigurationSetOutputResponse` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    /// - Returns: `CreateConfigurationSetOutput` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -46,12 +46,12 @@ public protocol SESv2ClientProtocol {
     /// - `LimitExceededException` : There are too many instances of the specified resource type.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    func createConfigurationSet(input: CreateConfigurationSetInput) async throws -> CreateConfigurationSetOutputResponse
+    func createConfigurationSet(input: CreateConfigurationSetInput) async throws -> CreateConfigurationSetOutput
     /// Create an event destination. Events include message sends, deliveries, opens, clicks, bounces, and complaints. Event destinations are places that you can send information about these events to. For example, you can send event data to Amazon SNS to receive notifications when you receive bounces or complaints, or you can use Amazon Kinesis Data Firehose to stream data to Amazon S3 for long-term storage. A single configuration set can include more than one event destination.
     ///
     /// - Parameter CreateConfigurationSetEventDestinationInput : A request to add an event destination to a configuration set.
     ///
-    /// - Returns: `CreateConfigurationSetEventDestinationOutputResponse` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    /// - Returns: `CreateConfigurationSetEventDestinationOutput` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -61,12 +61,12 @@ public protocol SESv2ClientProtocol {
     /// - `LimitExceededException` : There are too many instances of the specified resource type.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    func createConfigurationSetEventDestination(input: CreateConfigurationSetEventDestinationInput) async throws -> CreateConfigurationSetEventDestinationOutputResponse
+    func createConfigurationSetEventDestination(input: CreateConfigurationSetEventDestinationInput) async throws -> CreateConfigurationSetEventDestinationOutput
     /// Creates a contact, which is an end-user who is receiving the email, and adds them to a contact list.
     ///
     /// - Parameter CreateContactInput : [no documentation found]
     ///
-    /// - Returns: `CreateContactOutputResponse` : [no documentation found]
+    /// - Returns: `CreateContactOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -75,12 +75,12 @@ public protocol SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    func createContact(input: CreateContactInput) async throws -> CreateContactOutputResponse
+    func createContact(input: CreateContactInput) async throws -> CreateContactOutput
     /// Creates a contact list.
     ///
     /// - Parameter CreateContactListInput : [no documentation found]
     ///
-    /// - Returns: `CreateContactListOutputResponse` : [no documentation found]
+    /// - Returns: `CreateContactListOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -89,12 +89,12 @@ public protocol SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `LimitExceededException` : There are too many instances of the specified resource type.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    func createContactList(input: CreateContactListInput) async throws -> CreateContactListOutputResponse
+    func createContactList(input: CreateContactListInput) async throws -> CreateContactListOutput
     /// Creates a new custom verification email template. For more information about custom verification email templates, see [Using custom verification email templates](https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#send-email-verify-address-custom) in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
     ///
     /// - Parameter CreateCustomVerificationEmailTemplateInput : Represents a request to create a custom verification email template.
     ///
-    /// - Returns: `CreateCustomVerificationEmailTemplateOutputResponse` : If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body.
+    /// - Returns: `CreateCustomVerificationEmailTemplateOutput` : If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -104,12 +104,12 @@ public protocol SESv2ClientProtocol {
     /// - `LimitExceededException` : There are too many instances of the specified resource type.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    func createCustomVerificationEmailTemplate(input: CreateCustomVerificationEmailTemplateInput) async throws -> CreateCustomVerificationEmailTemplateOutputResponse
+    func createCustomVerificationEmailTemplate(input: CreateCustomVerificationEmailTemplateInput) async throws -> CreateCustomVerificationEmailTemplateOutput
     /// Create a new pool of dedicated IP addresses. A pool can include one or more dedicated IP addresses that are associated with your Amazon Web Services account. You can associate a pool with a configuration set. When you send an email that uses that configuration set, the message is sent from one of the addresses in the associated pool.
     ///
     /// - Parameter CreateDedicatedIpPoolInput : A request to create a new dedicated IP pool.
     ///
-    /// - Returns: `CreateDedicatedIpPoolOutputResponse` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    /// - Returns: `CreateDedicatedIpPoolOutput` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -119,12 +119,12 @@ public protocol SESv2ClientProtocol {
     /// - `ConcurrentModificationException` : The resource is being modified by another operation or thread.
     /// - `LimitExceededException` : There are too many instances of the specified resource type.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    func createDedicatedIpPool(input: CreateDedicatedIpPoolInput) async throws -> CreateDedicatedIpPoolOutputResponse
+    func createDedicatedIpPool(input: CreateDedicatedIpPoolInput) async throws -> CreateDedicatedIpPoolOutput
     /// Create a new predictive inbox placement test. Predictive inbox placement tests can help you predict how your messages will be handled by various email providers around the world. When you perform a predictive inbox placement test, you provide a sample message that contains the content that you plan to send to your customers. Amazon SES then sends that message to special email addresses spread across several major email providers. After about 24 hours, the test is complete, and you can use the GetDeliverabilityTestReport operation to view the results of the test.
     ///
     /// - Parameter CreateDeliverabilityTestReportInput : A request to perform a predictive inbox placement test. Predictive inbox placement tests can help you predict how your messages will be handled by various email providers around the world. When you perform a predictive inbox placement test, you provide a sample message that contains the content that you plan to send to your customers. We send that message to special email addresses spread across several major email providers around the world. The test takes about 24 hours to complete. When the test is complete, you can use the GetDeliverabilityTestReport operation to view the results of the test.
     ///
-    /// - Returns: `CreateDeliverabilityTestReportOutputResponse` : Information about the predictive inbox placement test that you created.
+    /// - Returns: `CreateDeliverabilityTestReportOutput` : Information about the predictive inbox placement test that you created.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -138,12 +138,12 @@ public protocol SESv2ClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `SendingPausedException` : The message can't be sent because the account's ability to send email is currently paused.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    func createDeliverabilityTestReport(input: CreateDeliverabilityTestReportInput) async throws -> CreateDeliverabilityTestReportOutputResponse
+    func createDeliverabilityTestReport(input: CreateDeliverabilityTestReportInput) async throws -> CreateDeliverabilityTestReportOutput
     /// Starts the process of verifying an email identity. An identity is an email address or domain that you use when you send email. Before you can use an identity to send email, you first have to verify it. By verifying an identity, you demonstrate that you're the owner of the identity, and that you've given Amazon SES API v2 permission to send email from the identity. When you verify an email address, Amazon SES sends an email to the address. Your email address is verified as soon as you follow the link in the verification email. When you verify a domain without specifying the DkimSigningAttributes object, this operation provides a set of DKIM tokens. You can convert these tokens into CNAME records, which you then add to the DNS configuration for your domain. Your domain is verified when Amazon SES detects these records in the DNS configuration for your domain. This verification method is known as [Easy DKIM](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/easy-dkim.html). Alternatively, you can perform the verification process by providing your own public-private key pair. This verification method is known as Bring Your Own DKIM (BYODKIM). To use BYODKIM, your call to the CreateEmailIdentity operation has to include the DkimSigningAttributes object. When you specify this object, you provide a selector (a component of the DNS record name that identifies the public key to use for DKIM authentication) and a private key. When you verify a domain, this operation provides a set of DKIM tokens, which you can convert into CNAME tokens. You add these CNAME tokens to the DNS configuration for your domain. Your domain is verified when Amazon SES detects these records in the DNS configuration for your domain. For some DNS providers, it can take 72 hours or more to complete the domain verification process. Additionally, you can associate an existing configuration set with the email identity that you're verifying.
     ///
     /// - Parameter CreateEmailIdentityInput : A request to begin the verification process for an email identity (an email address or domain).
     ///
-    /// - Returns: `CreateEmailIdentityOutputResponse` : If the email identity is a domain, this object contains information about the DKIM verification status for the domain. If the email identity is an email address, this object is empty.
+    /// - Returns: `CreateEmailIdentityOutput` : If the email identity is a domain, this object contains information about the DKIM verification status for the domain. If the email identity is an email address, this object is empty.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -154,12 +154,12 @@ public protocol SESv2ClientProtocol {
     /// - `LimitExceededException` : There are too many instances of the specified resource type.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    func createEmailIdentity(input: CreateEmailIdentityInput) async throws -> CreateEmailIdentityOutputResponse
+    func createEmailIdentity(input: CreateEmailIdentityInput) async throws -> CreateEmailIdentityOutput
     /// Creates the specified sending authorization policy for the given identity (an email address or a domain). This API is for the identity owner only. If you have not verified the identity, this API will return an error. Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending authorization, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization.html). You can execute this operation no more than once per second.
     ///
     /// - Parameter CreateEmailIdentityPolicyInput : Represents a request to create a sending authorization policy for an identity. Sending authorization is an Amazon SES feature that enables you to authorize other senders to use your identities. For information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization-identity-owner-tasks-management.html).
     ///
-    /// - Returns: `CreateEmailIdentityPolicyOutputResponse` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    /// - Returns: `CreateEmailIdentityPolicyOutput` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -169,12 +169,12 @@ public protocol SESv2ClientProtocol {
     /// - `LimitExceededException` : There are too many instances of the specified resource type.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    func createEmailIdentityPolicy(input: CreateEmailIdentityPolicyInput) async throws -> CreateEmailIdentityPolicyOutputResponse
+    func createEmailIdentityPolicy(input: CreateEmailIdentityPolicyInput) async throws -> CreateEmailIdentityPolicyOutput
     /// Creates an email template. Email templates enable you to send personalized email to one or more destinations in a single API operation. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-personalized-email-api.html). You can execute this operation no more than once per second.
     ///
     /// - Parameter CreateEmailTemplateInput : Represents a request to create an email template. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-personalized-email-api.html).
     ///
-    /// - Returns: `CreateEmailTemplateOutputResponse` : If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body.
+    /// - Returns: `CreateEmailTemplateOutput` : If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -183,12 +183,12 @@ public protocol SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `LimitExceededException` : There are too many instances of the specified resource type.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    func createEmailTemplate(input: CreateEmailTemplateInput) async throws -> CreateEmailTemplateOutputResponse
+    func createEmailTemplate(input: CreateEmailTemplateInput) async throws -> CreateEmailTemplateOutput
     /// Creates an export job for a data source and destination. You can execute this operation no more than once per second.
     ///
     /// - Parameter CreateExportJobInput : Represents a request to create an export job from a data source to a data destination.
     ///
-    /// - Returns: `CreateExportJobOutputResponse` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    /// - Returns: `CreateExportJobOutput` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -197,12 +197,12 @@ public protocol SESv2ClientProtocol {
     /// - `LimitExceededException` : There are too many instances of the specified resource type.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    func createExportJob(input: CreateExportJobInput) async throws -> CreateExportJobOutputResponse
+    func createExportJob(input: CreateExportJobInput) async throws -> CreateExportJobOutput
     /// Creates an import job for a data destination.
     ///
     /// - Parameter CreateImportJobInput : Represents a request to create an import job from a data source for a data destination.
     ///
-    /// - Returns: `CreateImportJobOutputResponse` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    /// - Returns: `CreateImportJobOutput` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -210,12 +210,12 @@ public protocol SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `LimitExceededException` : There are too many instances of the specified resource type.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    func createImportJob(input: CreateImportJobInput) async throws -> CreateImportJobOutputResponse
+    func createImportJob(input: CreateImportJobInput) async throws -> CreateImportJobOutput
     /// Delete an existing configuration set. Configuration sets are groups of rules that you can apply to the emails you send. You apply a configuration set to an email by including a reference to the configuration set in the headers of the email. When you apply a configuration set to an email, all of the rules in that configuration set are applied to the email.
     ///
     /// - Parameter DeleteConfigurationSetInput : A request to delete a configuration set.
     ///
-    /// - Returns: `DeleteConfigurationSetOutputResponse` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    /// - Returns: `DeleteConfigurationSetOutput` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -224,12 +224,12 @@ public protocol SESv2ClientProtocol {
     /// - `ConcurrentModificationException` : The resource is being modified by another operation or thread.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    func deleteConfigurationSet(input: DeleteConfigurationSetInput) async throws -> DeleteConfigurationSetOutputResponse
+    func deleteConfigurationSet(input: DeleteConfigurationSetInput) async throws -> DeleteConfigurationSetOutput
     /// Delete an event destination. Events include message sends, deliveries, opens, clicks, bounces, and complaints. Event destinations are places that you can send information about these events to. For example, you can send event data to Amazon SNS to receive notifications when you receive bounces or complaints, or you can use Amazon Kinesis Data Firehose to stream data to Amazon S3 for long-term storage.
     ///
     /// - Parameter DeleteConfigurationSetEventDestinationInput : A request to delete an event destination from a configuration set.
     ///
-    /// - Returns: `DeleteConfigurationSetEventDestinationOutputResponse` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    /// - Returns: `DeleteConfigurationSetEventDestinationOutput` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -237,12 +237,12 @@ public protocol SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    func deleteConfigurationSetEventDestination(input: DeleteConfigurationSetEventDestinationInput) async throws -> DeleteConfigurationSetEventDestinationOutputResponse
+    func deleteConfigurationSetEventDestination(input: DeleteConfigurationSetEventDestinationInput) async throws -> DeleteConfigurationSetEventDestinationOutput
     /// Removes a contact from a contact list.
     ///
     /// - Parameter DeleteContactInput : [no documentation found]
     ///
-    /// - Returns: `DeleteContactOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteContactOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -250,12 +250,12 @@ public protocol SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    func deleteContact(input: DeleteContactInput) async throws -> DeleteContactOutputResponse
+    func deleteContact(input: DeleteContactInput) async throws -> DeleteContactOutput
     /// Deletes a contact list and all of the contacts on that list.
     ///
     /// - Parameter DeleteContactListInput : [no documentation found]
     ///
-    /// - Returns: `DeleteContactListOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteContactListOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -264,12 +264,12 @@ public protocol SESv2ClientProtocol {
     /// - `ConcurrentModificationException` : The resource is being modified by another operation or thread.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    func deleteContactList(input: DeleteContactListInput) async throws -> DeleteContactListOutputResponse
+    func deleteContactList(input: DeleteContactListInput) async throws -> DeleteContactListOutput
     /// Deletes an existing custom verification email template. For more information about custom verification email templates, see [Using custom verification email templates](https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#send-email-verify-address-custom) in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
     ///
     /// - Parameter DeleteCustomVerificationEmailTemplateInput : Represents a request to delete an existing custom verification email template.
     ///
-    /// - Returns: `DeleteCustomVerificationEmailTemplateOutputResponse` : If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body.
+    /// - Returns: `DeleteCustomVerificationEmailTemplateOutput` : If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -277,12 +277,12 @@ public protocol SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    func deleteCustomVerificationEmailTemplate(input: DeleteCustomVerificationEmailTemplateInput) async throws -> DeleteCustomVerificationEmailTemplateOutputResponse
+    func deleteCustomVerificationEmailTemplate(input: DeleteCustomVerificationEmailTemplateInput) async throws -> DeleteCustomVerificationEmailTemplateOutput
     /// Delete a dedicated IP pool.
     ///
     /// - Parameter DeleteDedicatedIpPoolInput : A request to delete a dedicated IP pool.
     ///
-    /// - Returns: `DeleteDedicatedIpPoolOutputResponse` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    /// - Returns: `DeleteDedicatedIpPoolOutput` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -291,12 +291,12 @@ public protocol SESv2ClientProtocol {
     /// - `ConcurrentModificationException` : The resource is being modified by another operation or thread.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    func deleteDedicatedIpPool(input: DeleteDedicatedIpPoolInput) async throws -> DeleteDedicatedIpPoolOutputResponse
+    func deleteDedicatedIpPool(input: DeleteDedicatedIpPoolInput) async throws -> DeleteDedicatedIpPoolOutput
     /// Deletes an email identity. An identity can be either an email address or a domain name.
     ///
     /// - Parameter DeleteEmailIdentityInput : A request to delete an existing email identity. When you delete an identity, you lose the ability to send email from that identity. You can restore your ability to send email by completing the verification process for the identity again.
     ///
-    /// - Returns: `DeleteEmailIdentityOutputResponse` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    /// - Returns: `DeleteEmailIdentityOutput` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -305,12 +305,12 @@ public protocol SESv2ClientProtocol {
     /// - `ConcurrentModificationException` : The resource is being modified by another operation or thread.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    func deleteEmailIdentity(input: DeleteEmailIdentityInput) async throws -> DeleteEmailIdentityOutputResponse
+    func deleteEmailIdentity(input: DeleteEmailIdentityInput) async throws -> DeleteEmailIdentityOutput
     /// Deletes the specified sending authorization policy for the given identity (an email address or a domain). This API returns successfully even if a policy with the specified name does not exist. This API is for the identity owner only. If you have not verified the identity, this API will return an error. Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending authorization, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization.html). You can execute this operation no more than once per second.
     ///
     /// - Parameter DeleteEmailIdentityPolicyInput : Represents a request to delete a sending authorization policy for an identity. Sending authorization is an Amazon SES feature that enables you to authorize other senders to use your identities. For information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization-identity-owner-tasks-management.html).
     ///
-    /// - Returns: `DeleteEmailIdentityPolicyOutputResponse` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    /// - Returns: `DeleteEmailIdentityPolicyOutput` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -318,12 +318,12 @@ public protocol SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    func deleteEmailIdentityPolicy(input: DeleteEmailIdentityPolicyInput) async throws -> DeleteEmailIdentityPolicyOutputResponse
+    func deleteEmailIdentityPolicy(input: DeleteEmailIdentityPolicyInput) async throws -> DeleteEmailIdentityPolicyOutput
     /// Deletes an email template. You can execute this operation no more than once per second.
     ///
     /// - Parameter DeleteEmailTemplateInput : Represents a request to delete an email template. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-personalized-email-api.html).
     ///
-    /// - Returns: `DeleteEmailTemplateOutputResponse` : If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body.
+    /// - Returns: `DeleteEmailTemplateOutput` : If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -331,12 +331,12 @@ public protocol SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    func deleteEmailTemplate(input: DeleteEmailTemplateInput) async throws -> DeleteEmailTemplateOutputResponse
+    func deleteEmailTemplate(input: DeleteEmailTemplateInput) async throws -> DeleteEmailTemplateOutput
     /// Removes an email address from the suppression list for your account.
     ///
     /// - Parameter DeleteSuppressedDestinationInput : A request to remove an email address from the suppression list for your account.
     ///
-    /// - Returns: `DeleteSuppressedDestinationOutputResponse` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    /// - Returns: `DeleteSuppressedDestinationOutput` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -344,24 +344,24 @@ public protocol SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    func deleteSuppressedDestination(input: DeleteSuppressedDestinationInput) async throws -> DeleteSuppressedDestinationOutputResponse
+    func deleteSuppressedDestination(input: DeleteSuppressedDestinationInput) async throws -> DeleteSuppressedDestinationOutput
     /// Obtain information about the email-sending status and capabilities of your Amazon SES account in the current Amazon Web Services Region.
     ///
     /// - Parameter GetAccountInput : A request to obtain information about the email-sending capabilities of your Amazon SES account.
     ///
-    /// - Returns: `GetAccountOutputResponse` : A list of details about the email-sending capabilities of your Amazon SES account in the current Amazon Web Services Region.
+    /// - Returns: `GetAccountOutput` : A list of details about the email-sending capabilities of your Amazon SES account in the current Amazon Web Services Region.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    func getAccount(input: GetAccountInput) async throws -> GetAccountOutputResponse
+    func getAccount(input: GetAccountInput) async throws -> GetAccountOutput
     /// Retrieve a list of the blacklists that your dedicated IP addresses appear on.
     ///
     /// - Parameter GetBlacklistReportsInput : A request to retrieve a list of the blacklists that your dedicated IP addresses appear on.
     ///
-    /// - Returns: `GetBlacklistReportsOutputResponse` : An object that contains information about blacklist events.
+    /// - Returns: `GetBlacklistReportsOutput` : An object that contains information about blacklist events.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -369,12 +369,12 @@ public protocol SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    func getBlacklistReports(input: GetBlacklistReportsInput) async throws -> GetBlacklistReportsOutputResponse
+    func getBlacklistReports(input: GetBlacklistReportsInput) async throws -> GetBlacklistReportsOutput
     /// Get information about an existing configuration set, including the dedicated IP pool that it's associated with, whether or not it's enabled for sending email, and more. Configuration sets are groups of rules that you can apply to the emails you send. You apply a configuration set to an email by including a reference to the configuration set in the headers of the email. When you apply a configuration set to an email, all of the rules in that configuration set are applied to the email.
     ///
     /// - Parameter GetConfigurationSetInput : A request to obtain information about a configuration set.
     ///
-    /// - Returns: `GetConfigurationSetOutputResponse` : Information about a configuration set.
+    /// - Returns: `GetConfigurationSetOutput` : Information about a configuration set.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -382,12 +382,12 @@ public protocol SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    func getConfigurationSet(input: GetConfigurationSetInput) async throws -> GetConfigurationSetOutputResponse
+    func getConfigurationSet(input: GetConfigurationSetInput) async throws -> GetConfigurationSetOutput
     /// Retrieve a list of event destinations that are associated with a configuration set. Events include message sends, deliveries, opens, clicks, bounces, and complaints. Event destinations are places that you can send information about these events to. For example, you can send event data to Amazon SNS to receive notifications when you receive bounces or complaints, or you can use Amazon Kinesis Data Firehose to stream data to Amazon S3 for long-term storage.
     ///
     /// - Parameter GetConfigurationSetEventDestinationsInput : A request to obtain information about the event destinations for a configuration set.
     ///
-    /// - Returns: `GetConfigurationSetEventDestinationsOutputResponse` : Information about an event destination for a configuration set.
+    /// - Returns: `GetConfigurationSetEventDestinationsOutput` : Information about an event destination for a configuration set.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -395,12 +395,12 @@ public protocol SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    func getConfigurationSetEventDestinations(input: GetConfigurationSetEventDestinationsInput) async throws -> GetConfigurationSetEventDestinationsOutputResponse
+    func getConfigurationSetEventDestinations(input: GetConfigurationSetEventDestinationsInput) async throws -> GetConfigurationSetEventDestinationsOutput
     /// Returns a contact from a contact list.
     ///
     /// - Parameter GetContactInput : [no documentation found]
     ///
-    /// - Returns: `GetContactOutputResponse` : [no documentation found]
+    /// - Returns: `GetContactOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -408,12 +408,12 @@ public protocol SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    func getContact(input: GetContactInput) async throws -> GetContactOutputResponse
+    func getContact(input: GetContactInput) async throws -> GetContactOutput
     /// Returns contact list metadata. It does not return any information about the contacts present in the list.
     ///
     /// - Parameter GetContactListInput : [no documentation found]
     ///
-    /// - Returns: `GetContactListOutputResponse` : [no documentation found]
+    /// - Returns: `GetContactListOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -421,12 +421,12 @@ public protocol SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    func getContactList(input: GetContactListInput) async throws -> GetContactListOutputResponse
+    func getContactList(input: GetContactListInput) async throws -> GetContactListOutput
     /// Returns the custom email verification template for the template name you specify. For more information about custom verification email templates, see [Using custom verification email templates](https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#send-email-verify-address-custom) in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
     ///
     /// - Parameter GetCustomVerificationEmailTemplateInput : Represents a request to retrieve an existing custom verification email template.
     ///
-    /// - Returns: `GetCustomVerificationEmailTemplateOutputResponse` : The following elements are returned by the service.
+    /// - Returns: `GetCustomVerificationEmailTemplateOutput` : The following elements are returned by the service.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -434,12 +434,12 @@ public protocol SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    func getCustomVerificationEmailTemplate(input: GetCustomVerificationEmailTemplateInput) async throws -> GetCustomVerificationEmailTemplateOutputResponse
+    func getCustomVerificationEmailTemplate(input: GetCustomVerificationEmailTemplateInput) async throws -> GetCustomVerificationEmailTemplateOutput
     /// Get information about a dedicated IP address, including the name of the dedicated IP pool that it's associated with, as well information about the automatic warm-up process for the address.
     ///
     /// - Parameter GetDedicatedIpInput : A request to obtain more information about a dedicated IP address.
     ///
-    /// - Returns: `GetDedicatedIpOutputResponse` : Information about a dedicated IP address.
+    /// - Returns: `GetDedicatedIpOutput` : Information about a dedicated IP address.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -447,12 +447,12 @@ public protocol SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    func getDedicatedIp(input: GetDedicatedIpInput) async throws -> GetDedicatedIpOutputResponse
+    func getDedicatedIp(input: GetDedicatedIpInput) async throws -> GetDedicatedIpOutput
     /// Retrieve information about the dedicated pool.
     ///
     /// - Parameter GetDedicatedIpPoolInput : A request to obtain more information about a dedicated IP pool.
     ///
-    /// - Returns: `GetDedicatedIpPoolOutputResponse` : The following element is returned by the service.
+    /// - Returns: `GetDedicatedIpPoolOutput` : The following element is returned by the service.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -460,12 +460,12 @@ public protocol SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    func getDedicatedIpPool(input: GetDedicatedIpPoolInput) async throws -> GetDedicatedIpPoolOutputResponse
+    func getDedicatedIpPool(input: GetDedicatedIpPoolInput) async throws -> GetDedicatedIpPoolOutput
     /// List the dedicated IP addresses that are associated with your Amazon Web Services account.
     ///
     /// - Parameter GetDedicatedIpsInput : A request to obtain more information about dedicated IP pools.
     ///
-    /// - Returns: `GetDedicatedIpsOutputResponse` : Information about the dedicated IP addresses that are associated with your Amazon Web Services account.
+    /// - Returns: `GetDedicatedIpsOutput` : Information about the dedicated IP addresses that are associated with your Amazon Web Services account.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -473,12 +473,12 @@ public protocol SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    func getDedicatedIps(input: GetDedicatedIpsInput) async throws -> GetDedicatedIpsOutputResponse
+    func getDedicatedIps(input: GetDedicatedIpsInput) async throws -> GetDedicatedIpsOutput
     /// Retrieve information about the status of the Deliverability dashboard for your account. When the Deliverability dashboard is enabled, you gain access to reputation, deliverability, and other metrics for the domains that you use to send email. You also gain the ability to perform predictive inbox placement tests. When you use the Deliverability dashboard, you pay a monthly subscription charge, in addition to any other fees that you accrue by using Amazon SES and other Amazon Web Services services. For more information about the features and cost of a Deliverability dashboard subscription, see [Amazon SES Pricing](http://aws.amazon.com/ses/pricing/).
     ///
     /// - Parameter GetDeliverabilityDashboardOptionsInput : Retrieve information about the status of the Deliverability dashboard for your Amazon Web Services account. When the Deliverability dashboard is enabled, you gain access to reputation, deliverability, and other metrics for your domains. You also gain the ability to perform predictive inbox placement tests. When you use the Deliverability dashboard, you pay a monthly subscription charge, in addition to any other fees that you accrue by using Amazon SES and other Amazon Web Services services. For more information about the features and cost of a Deliverability dashboard subscription, see [Amazon Pinpoint Pricing](http://aws.amazon.com/pinpoint/pricing/).
     ///
-    /// - Returns: `GetDeliverabilityDashboardOptionsOutputResponse` : An object that shows the status of the Deliverability dashboard.
+    /// - Returns: `GetDeliverabilityDashboardOptionsOutput` : An object that shows the status of the Deliverability dashboard.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -486,12 +486,12 @@ public protocol SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `LimitExceededException` : There are too many instances of the specified resource type.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    func getDeliverabilityDashboardOptions(input: GetDeliverabilityDashboardOptionsInput) async throws -> GetDeliverabilityDashboardOptionsOutputResponse
+    func getDeliverabilityDashboardOptions(input: GetDeliverabilityDashboardOptionsInput) async throws -> GetDeliverabilityDashboardOptionsOutput
     /// Retrieve the results of a predictive inbox placement test.
     ///
     /// - Parameter GetDeliverabilityTestReportInput : A request to retrieve the results of a predictive inbox placement test.
     ///
-    /// - Returns: `GetDeliverabilityTestReportOutputResponse` : The results of the predictive inbox placement test.
+    /// - Returns: `GetDeliverabilityTestReportOutput` : The results of the predictive inbox placement test.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -499,12 +499,12 @@ public protocol SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    func getDeliverabilityTestReport(input: GetDeliverabilityTestReportInput) async throws -> GetDeliverabilityTestReportOutputResponse
+    func getDeliverabilityTestReport(input: GetDeliverabilityTestReportInput) async throws -> GetDeliverabilityTestReportOutput
     /// Retrieve all the deliverability data for a specific campaign. This data is available for a campaign only if the campaign sent email by using a domain that the Deliverability dashboard is enabled for.
     ///
     /// - Parameter GetDomainDeliverabilityCampaignInput : Retrieve all the deliverability data for a specific campaign. This data is available for a campaign only if the campaign sent email by using a domain that the Deliverability dashboard is enabled for (PutDeliverabilityDashboardOption operation).
     ///
-    /// - Returns: `GetDomainDeliverabilityCampaignOutputResponse` : An object that contains all the deliverability data for a specific campaign. This data is available for a campaign only if the campaign sent email by using a domain that the Deliverability dashboard is enabled for.
+    /// - Returns: `GetDomainDeliverabilityCampaignOutput` : An object that contains all the deliverability data for a specific campaign. This data is available for a campaign only if the campaign sent email by using a domain that the Deliverability dashboard is enabled for.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -512,12 +512,12 @@ public protocol SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    func getDomainDeliverabilityCampaign(input: GetDomainDeliverabilityCampaignInput) async throws -> GetDomainDeliverabilityCampaignOutputResponse
+    func getDomainDeliverabilityCampaign(input: GetDomainDeliverabilityCampaignInput) async throws -> GetDomainDeliverabilityCampaignOutput
     /// Retrieve inbox placement and engagement rates for the domains that you use to send email.
     ///
     /// - Parameter GetDomainStatisticsReportInput : A request to obtain deliverability metrics for a domain.
     ///
-    /// - Returns: `GetDomainStatisticsReportOutputResponse` : An object that includes statistics that are related to the domain that you specified.
+    /// - Returns: `GetDomainStatisticsReportOutput` : An object that includes statistics that are related to the domain that you specified.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -525,12 +525,12 @@ public protocol SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    func getDomainStatisticsReport(input: GetDomainStatisticsReportInput) async throws -> GetDomainStatisticsReportOutputResponse
+    func getDomainStatisticsReport(input: GetDomainStatisticsReportInput) async throws -> GetDomainStatisticsReportOutput
     /// Provides information about a specific identity, including the identity's verification status, sending authorization policies, its DKIM authentication status, and its custom Mail-From settings.
     ///
     /// - Parameter GetEmailIdentityInput : A request to return details about an email identity.
     ///
-    /// - Returns: `GetEmailIdentityOutputResponse` : Details about an email identity.
+    /// - Returns: `GetEmailIdentityOutput` : Details about an email identity.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -538,12 +538,12 @@ public protocol SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    func getEmailIdentity(input: GetEmailIdentityInput) async throws -> GetEmailIdentityOutputResponse
+    func getEmailIdentity(input: GetEmailIdentityInput) async throws -> GetEmailIdentityOutput
     /// Returns the requested sending authorization policies for the given identity (an email address or a domain). The policies are returned as a map of policy names to policy contents. You can retrieve a maximum of 20 policies at a time. This API is for the identity owner only. If you have not verified the identity, this API will return an error. Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending authorization, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization.html). You can execute this operation no more than once per second.
     ///
     /// - Parameter GetEmailIdentityPoliciesInput : A request to return the policies of an email identity.
     ///
-    /// - Returns: `GetEmailIdentityPoliciesOutputResponse` : Identity policies associated with email identity.
+    /// - Returns: `GetEmailIdentityPoliciesOutput` : Identity policies associated with email identity.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -551,12 +551,12 @@ public protocol SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    func getEmailIdentityPolicies(input: GetEmailIdentityPoliciesInput) async throws -> GetEmailIdentityPoliciesOutputResponse
+    func getEmailIdentityPolicies(input: GetEmailIdentityPoliciesInput) async throws -> GetEmailIdentityPoliciesOutput
     /// Displays the template object (which includes the subject line, HTML part and text part) for the template you specify. You can execute this operation no more than once per second.
     ///
     /// - Parameter GetEmailTemplateInput : Represents a request to display the template object (which includes the subject line, HTML part and text part) for the template you specify.
     ///
-    /// - Returns: `GetEmailTemplateOutputResponse` : The following element is returned by the service.
+    /// - Returns: `GetEmailTemplateOutput` : The following element is returned by the service.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -564,12 +564,12 @@ public protocol SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    func getEmailTemplate(input: GetEmailTemplateInput) async throws -> GetEmailTemplateOutputResponse
+    func getEmailTemplate(input: GetEmailTemplateInput) async throws -> GetEmailTemplateOutput
     /// Provides information about an export job.
     ///
     /// - Parameter GetExportJobInput : Represents a request to retrieve information about an export job using the export job ID.
     ///
-    /// - Returns: `GetExportJobOutputResponse` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    /// - Returns: `GetExportJobOutput` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -577,12 +577,12 @@ public protocol SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    func getExportJob(input: GetExportJobInput) async throws -> GetExportJobOutputResponse
+    func getExportJob(input: GetExportJobInput) async throws -> GetExportJobOutput
     /// Provides information about an import job.
     ///
     /// - Parameter GetImportJobInput : Represents a request for information about an import job using the import job ID.
     ///
-    /// - Returns: `GetImportJobOutputResponse` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    /// - Returns: `GetImportJobOutput` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -590,12 +590,12 @@ public protocol SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    func getImportJob(input: GetImportJobInput) async throws -> GetImportJobOutputResponse
+    func getImportJob(input: GetImportJobInput) async throws -> GetImportJobOutput
     /// Provides information about a specific message, including the from address, the subject, the recipient address, email tags, as well as events associated with the message. You can execute this operation no more than once per second.
     ///
     /// - Parameter GetMessageInsightsInput : A request to return information about a message.
     ///
-    /// - Returns: `GetMessageInsightsOutputResponse` : Information about a message.
+    /// - Returns: `GetMessageInsightsOutput` : Information about a message.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -603,12 +603,12 @@ public protocol SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    func getMessageInsights(input: GetMessageInsightsInput) async throws -> GetMessageInsightsOutputResponse
+    func getMessageInsights(input: GetMessageInsightsInput) async throws -> GetMessageInsightsOutput
     /// Retrieves information about a specific email address that's on the suppression list for your account.
     ///
     /// - Parameter GetSuppressedDestinationInput : A request to retrieve information about an email address that's on the suppression list for your account.
     ///
-    /// - Returns: `GetSuppressedDestinationOutputResponse` : Information about the suppressed email address.
+    /// - Returns: `GetSuppressedDestinationOutput` : Information about the suppressed email address.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -616,36 +616,36 @@ public protocol SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    func getSuppressedDestination(input: GetSuppressedDestinationInput) async throws -> GetSuppressedDestinationOutputResponse
+    func getSuppressedDestination(input: GetSuppressedDestinationInput) async throws -> GetSuppressedDestinationOutput
     /// List all of the configuration sets associated with your account in the current region. Configuration sets are groups of rules that you can apply to the emails you send. You apply a configuration set to an email by including a reference to the configuration set in the headers of the email. When you apply a configuration set to an email, all of the rules in that configuration set are applied to the email.
     ///
     /// - Parameter ListConfigurationSetsInput : A request to obtain a list of configuration sets for your Amazon SES account in the current Amazon Web Services Region.
     ///
-    /// - Returns: `ListConfigurationSetsOutputResponse` : A list of configuration sets in your Amazon SES account in the current Amazon Web Services Region.
+    /// - Returns: `ListConfigurationSetsOutput` : A list of configuration sets in your Amazon SES account in the current Amazon Web Services Region.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    func listConfigurationSets(input: ListConfigurationSetsInput) async throws -> ListConfigurationSetsOutputResponse
+    func listConfigurationSets(input: ListConfigurationSetsInput) async throws -> ListConfigurationSetsOutput
     /// Lists all of the contact lists available.
     ///
     /// - Parameter ListContactListsInput : [no documentation found]
     ///
-    /// - Returns: `ListContactListsOutputResponse` : [no documentation found]
+    /// - Returns: `ListContactListsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    func listContactLists(input: ListContactListsInput) async throws -> ListContactListsOutputResponse
+    func listContactLists(input: ListContactListsInput) async throws -> ListContactListsOutput
     /// Lists the contacts present in a specific contact list.
     ///
     /// - Parameter ListContactsInput : [no documentation found]
     ///
-    /// - Returns: `ListContactsOutputResponse` : [no documentation found]
+    /// - Returns: `ListContactsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -653,36 +653,36 @@ public protocol SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    func listContacts(input: ListContactsInput) async throws -> ListContactsOutputResponse
+    func listContacts(input: ListContactsInput) async throws -> ListContactsOutput
     /// Lists the existing custom verification email templates for your account in the current Amazon Web Services Region. For more information about custom verification email templates, see [Using custom verification email templates](https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#send-email-verify-address-custom) in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
     ///
     /// - Parameter ListCustomVerificationEmailTemplatesInput : Represents a request to list the existing custom verification email templates for your account.
     ///
-    /// - Returns: `ListCustomVerificationEmailTemplatesOutputResponse` : The following elements are returned by the service.
+    /// - Returns: `ListCustomVerificationEmailTemplatesOutput` : The following elements are returned by the service.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    func listCustomVerificationEmailTemplates(input: ListCustomVerificationEmailTemplatesInput) async throws -> ListCustomVerificationEmailTemplatesOutputResponse
+    func listCustomVerificationEmailTemplates(input: ListCustomVerificationEmailTemplatesInput) async throws -> ListCustomVerificationEmailTemplatesOutput
     /// List all of the dedicated IP pools that exist in your Amazon Web Services account in the current Region.
     ///
     /// - Parameter ListDedicatedIpPoolsInput : A request to obtain a list of dedicated IP pools.
     ///
-    /// - Returns: `ListDedicatedIpPoolsOutputResponse` : A list of dedicated IP pools.
+    /// - Returns: `ListDedicatedIpPoolsOutput` : A list of dedicated IP pools.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    func listDedicatedIpPools(input: ListDedicatedIpPoolsInput) async throws -> ListDedicatedIpPoolsOutputResponse
+    func listDedicatedIpPools(input: ListDedicatedIpPoolsInput) async throws -> ListDedicatedIpPoolsOutput
     /// Show a list of the predictive inbox placement tests that you've performed, regardless of their statuses. For predictive inbox placement tests that are complete, you can use the GetDeliverabilityTestReport operation to view the results.
     ///
     /// - Parameter ListDeliverabilityTestReportsInput : A request to list all of the predictive inbox placement tests that you've performed.
     ///
-    /// - Returns: `ListDeliverabilityTestReportsOutputResponse` : A list of the predictive inbox placement test reports that are available for your account, regardless of whether or not those tests are complete.
+    /// - Returns: `ListDeliverabilityTestReportsOutput` : A list of the predictive inbox placement test reports that are available for your account, regardless of whether or not those tests are complete.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -690,12 +690,12 @@ public protocol SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    func listDeliverabilityTestReports(input: ListDeliverabilityTestReportsInput) async throws -> ListDeliverabilityTestReportsOutputResponse
+    func listDeliverabilityTestReports(input: ListDeliverabilityTestReportsInput) async throws -> ListDeliverabilityTestReportsOutput
     /// Retrieve deliverability data for all the campaigns that used a specific domain to send email during a specified time range. This data is available for a domain only if you enabled the Deliverability dashboard for the domain.
     ///
     /// - Parameter ListDomainDeliverabilityCampaignsInput : Retrieve deliverability data for all the campaigns that used a specific domain to send email during a specified time range. This data is available for a domain only if you enabled the Deliverability dashboard.
     ///
-    /// - Returns: `ListDomainDeliverabilityCampaignsOutputResponse` : An array of objects that provide deliverability data for all the campaigns that used a specific domain to send email during a specified time range. This data is available for a domain only if you enabled the Deliverability dashboard for the domain.
+    /// - Returns: `ListDomainDeliverabilityCampaignsOutput` : An array of objects that provide deliverability data for all the campaigns that used a specific domain to send email during a specified time range. This data is available for a domain only if you enabled the Deliverability dashboard for the domain.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -703,60 +703,60 @@ public protocol SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    func listDomainDeliverabilityCampaigns(input: ListDomainDeliverabilityCampaignsInput) async throws -> ListDomainDeliverabilityCampaignsOutputResponse
+    func listDomainDeliverabilityCampaigns(input: ListDomainDeliverabilityCampaignsInput) async throws -> ListDomainDeliverabilityCampaignsOutput
     /// Returns a list of all of the email identities that are associated with your Amazon Web Services account. An identity can be either an email address or a domain. This operation returns identities that are verified as well as those that aren't. This operation returns identities that are associated with Amazon SES and Amazon Pinpoint.
     ///
     /// - Parameter ListEmailIdentitiesInput : A request to list all of the email identities associated with your Amazon Web Services account. This list includes identities that you've already verified, identities that are unverified, and identities that were verified in the past, but are no longer verified.
     ///
-    /// - Returns: `ListEmailIdentitiesOutputResponse` : A list of all of the identities that you've attempted to verify, regardless of whether or not those identities were successfully verified.
+    /// - Returns: `ListEmailIdentitiesOutput` : A list of all of the identities that you've attempted to verify, regardless of whether or not those identities were successfully verified.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    func listEmailIdentities(input: ListEmailIdentitiesInput) async throws -> ListEmailIdentitiesOutputResponse
+    func listEmailIdentities(input: ListEmailIdentitiesInput) async throws -> ListEmailIdentitiesOutput
     /// Lists the email templates present in your Amazon SES account in the current Amazon Web Services Region. You can execute this operation no more than once per second.
     ///
     /// - Parameter ListEmailTemplatesInput : Represents a request to list the email templates present in your Amazon SES account in the current Amazon Web Services Region. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-personalized-email-api.html).
     ///
-    /// - Returns: `ListEmailTemplatesOutputResponse` : The following elements are returned by the service.
+    /// - Returns: `ListEmailTemplatesOutput` : The following elements are returned by the service.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    func listEmailTemplates(input: ListEmailTemplatesInput) async throws -> ListEmailTemplatesOutputResponse
+    func listEmailTemplates(input: ListEmailTemplatesInput) async throws -> ListEmailTemplatesOutput
     /// Lists all of the export jobs.
     ///
     /// - Parameter ListExportJobsInput : Represents a request to list all export jobs with filters.
     ///
-    /// - Returns: `ListExportJobsOutputResponse` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    /// - Returns: `ListExportJobsOutput` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    func listExportJobs(input: ListExportJobsInput) async throws -> ListExportJobsOutputResponse
+    func listExportJobs(input: ListExportJobsInput) async throws -> ListExportJobsOutput
     /// Lists all of the import jobs.
     ///
     /// - Parameter ListImportJobsInput : Represents a request to list all of the import jobs for a data destination within the specified maximum number of import jobs.
     ///
-    /// - Returns: `ListImportJobsOutputResponse` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    /// - Returns: `ListImportJobsOutput` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    func listImportJobs(input: ListImportJobsInput) async throws -> ListImportJobsOutputResponse
+    func listImportJobs(input: ListImportJobsInput) async throws -> ListImportJobsOutput
     /// Lists the recommendations present in your Amazon SES account in the current Amazon Web Services Region. You can execute this operation no more than once per second.
     ///
     /// - Parameter ListRecommendationsInput : Represents a request to list the existing recommendations for your account.
     ///
-    /// - Returns: `ListRecommendationsOutputResponse` : Contains the response to your request to retrieve the list of recommendations for your account.
+    /// - Returns: `ListRecommendationsOutput` : Contains the response to your request to retrieve the list of recommendations for your account.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -764,12 +764,12 @@ public protocol SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    func listRecommendations(input: ListRecommendationsInput) async throws -> ListRecommendationsOutputResponse
+    func listRecommendations(input: ListRecommendationsInput) async throws -> ListRecommendationsOutput
     /// Retrieves a list of email addresses that are on the suppression list for your account.
     ///
     /// - Parameter ListSuppressedDestinationsInput : A request to obtain a list of email destinations that are on the suppression list for your account.
     ///
-    /// - Returns: `ListSuppressedDestinationsOutputResponse` : A list of suppressed email addresses.
+    /// - Returns: `ListSuppressedDestinationsOutput` : A list of suppressed email addresses.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -777,12 +777,12 @@ public protocol SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `InvalidNextTokenException` : The specified request includes an invalid or expired token.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    func listSuppressedDestinations(input: ListSuppressedDestinationsInput) async throws -> ListSuppressedDestinationsOutputResponse
+    func listSuppressedDestinations(input: ListSuppressedDestinationsInput) async throws -> ListSuppressedDestinationsOutput
     /// Retrieve a list of the tags (keys and values) that are associated with a specified resource. A tag is a label that you optionally define and associate with a resource. Each tag consists of a required tag key and an optional associated tag value. A tag key is a general label that acts as a category for more specific tag values. A tag value acts as a descriptor within a tag key.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -790,24 +790,24 @@ public protocol SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     /// Enable or disable the automatic warm-up feature for dedicated IP addresses.
     ///
     /// - Parameter PutAccountDedicatedIpWarmupAttributesInput : A request to enable or disable the automatic IP address warm-up feature.
     ///
-    /// - Returns: `PutAccountDedicatedIpWarmupAttributesOutputResponse` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    /// - Returns: `PutAccountDedicatedIpWarmupAttributesOutput` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    func putAccountDedicatedIpWarmupAttributes(input: PutAccountDedicatedIpWarmupAttributesInput) async throws -> PutAccountDedicatedIpWarmupAttributesOutputResponse
+    func putAccountDedicatedIpWarmupAttributes(input: PutAccountDedicatedIpWarmupAttributesInput) async throws -> PutAccountDedicatedIpWarmupAttributesOutput
     /// Update your Amazon SES account details.
     ///
     /// - Parameter PutAccountDetailsInput : A request to submit new account details.
     ///
-    /// - Returns: `PutAccountDetailsOutputResponse` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    /// - Returns: `PutAccountDetailsOutput` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -815,48 +815,48 @@ public protocol SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `ConflictException` : If there is already an ongoing account details update under review.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    func putAccountDetails(input: PutAccountDetailsInput) async throws -> PutAccountDetailsOutputResponse
+    func putAccountDetails(input: PutAccountDetailsInput) async throws -> PutAccountDetailsOutput
     /// Enable or disable the ability of your account to send email.
     ///
     /// - Parameter PutAccountSendingAttributesInput : A request to change the ability of your account to send email.
     ///
-    /// - Returns: `PutAccountSendingAttributesOutputResponse` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    /// - Returns: `PutAccountSendingAttributesOutput` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    func putAccountSendingAttributes(input: PutAccountSendingAttributesInput) async throws -> PutAccountSendingAttributesOutputResponse
+    func putAccountSendingAttributes(input: PutAccountSendingAttributesInput) async throws -> PutAccountSendingAttributesOutput
     /// Change the settings for the account-level suppression list.
     ///
     /// - Parameter PutAccountSuppressionAttributesInput : A request to change your account's suppression preferences.
     ///
-    /// - Returns: `PutAccountSuppressionAttributesOutputResponse` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    /// - Returns: `PutAccountSuppressionAttributesOutput` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    func putAccountSuppressionAttributes(input: PutAccountSuppressionAttributesInput) async throws -> PutAccountSuppressionAttributesOutputResponse
+    func putAccountSuppressionAttributes(input: PutAccountSuppressionAttributesInput) async throws -> PutAccountSuppressionAttributesOutput
     /// Update your Amazon SES account VDM attributes. You can execute this operation no more than once per second.
     ///
     /// - Parameter PutAccountVdmAttributesInput : A request to submit new account VDM attributes.
     ///
-    /// - Returns: `PutAccountVdmAttributesOutputResponse` : [no documentation found]
+    /// - Returns: `PutAccountVdmAttributesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    func putAccountVdmAttributes(input: PutAccountVdmAttributesInput) async throws -> PutAccountVdmAttributesOutputResponse
+    func putAccountVdmAttributes(input: PutAccountVdmAttributesInput) async throws -> PutAccountVdmAttributesOutput
     /// Associate a configuration set with a dedicated IP pool. You can use dedicated IP pools to create groups of dedicated IP addresses for sending specific types of email.
     ///
     /// - Parameter PutConfigurationSetDeliveryOptionsInput : A request to associate a configuration set with a dedicated IP pool.
     ///
-    /// - Returns: `PutConfigurationSetDeliveryOptionsOutputResponse` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    /// - Returns: `PutConfigurationSetDeliveryOptionsOutput` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -864,12 +864,12 @@ public protocol SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    func putConfigurationSetDeliveryOptions(input: PutConfigurationSetDeliveryOptionsInput) async throws -> PutConfigurationSetDeliveryOptionsOutputResponse
+    func putConfigurationSetDeliveryOptions(input: PutConfigurationSetDeliveryOptionsInput) async throws -> PutConfigurationSetDeliveryOptionsOutput
     /// Enable or disable collection of reputation metrics for emails that you send using a particular configuration set in a specific Amazon Web Services Region.
     ///
     /// - Parameter PutConfigurationSetReputationOptionsInput : A request to enable or disable tracking of reputation metrics for a configuration set.
     ///
-    /// - Returns: `PutConfigurationSetReputationOptionsOutputResponse` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    /// - Returns: `PutConfigurationSetReputationOptionsOutput` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -877,12 +877,12 @@ public protocol SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    func putConfigurationSetReputationOptions(input: PutConfigurationSetReputationOptionsInput) async throws -> PutConfigurationSetReputationOptionsOutputResponse
+    func putConfigurationSetReputationOptions(input: PutConfigurationSetReputationOptionsInput) async throws -> PutConfigurationSetReputationOptionsOutput
     /// Enable or disable email sending for messages that use a particular configuration set in a specific Amazon Web Services Region.
     ///
     /// - Parameter PutConfigurationSetSendingOptionsInput : A request to enable or disable the ability of Amazon SES to send emails that use a specific configuration set.
     ///
-    /// - Returns: `PutConfigurationSetSendingOptionsOutputResponse` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    /// - Returns: `PutConfigurationSetSendingOptionsOutput` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -890,12 +890,12 @@ public protocol SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    func putConfigurationSetSendingOptions(input: PutConfigurationSetSendingOptionsInput) async throws -> PutConfigurationSetSendingOptionsOutputResponse
+    func putConfigurationSetSendingOptions(input: PutConfigurationSetSendingOptionsInput) async throws -> PutConfigurationSetSendingOptionsOutput
     /// Specify the account suppression list preferences for a configuration set.
     ///
     /// - Parameter PutConfigurationSetSuppressionOptionsInput : A request to change the account suppression list preferences for a specific configuration set.
     ///
-    /// - Returns: `PutConfigurationSetSuppressionOptionsOutputResponse` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    /// - Returns: `PutConfigurationSetSuppressionOptionsOutput` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -903,12 +903,12 @@ public protocol SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    func putConfigurationSetSuppressionOptions(input: PutConfigurationSetSuppressionOptionsInput) async throws -> PutConfigurationSetSuppressionOptionsOutputResponse
+    func putConfigurationSetSuppressionOptions(input: PutConfigurationSetSuppressionOptionsInput) async throws -> PutConfigurationSetSuppressionOptionsOutput
     /// Specify a custom domain to use for open and click tracking elements in email that you send.
     ///
     /// - Parameter PutConfigurationSetTrackingOptionsInput : A request to add a custom domain for tracking open and click events to a configuration set.
     ///
-    /// - Returns: `PutConfigurationSetTrackingOptionsOutputResponse` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    /// - Returns: `PutConfigurationSetTrackingOptionsOutput` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -916,12 +916,12 @@ public protocol SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    func putConfigurationSetTrackingOptions(input: PutConfigurationSetTrackingOptionsInput) async throws -> PutConfigurationSetTrackingOptionsOutputResponse
+    func putConfigurationSetTrackingOptions(input: PutConfigurationSetTrackingOptionsInput) async throws -> PutConfigurationSetTrackingOptionsOutput
     /// Specify VDM preferences for email that you send using the configuration set. You can execute this operation no more than once per second.
     ///
     /// - Parameter PutConfigurationSetVdmOptionsInput : A request to add specific VDM settings to a configuration set.
     ///
-    /// - Returns: `PutConfigurationSetVdmOptionsOutputResponse` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    /// - Returns: `PutConfigurationSetVdmOptionsOutput` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -929,12 +929,12 @@ public protocol SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    func putConfigurationSetVdmOptions(input: PutConfigurationSetVdmOptionsInput) async throws -> PutConfigurationSetVdmOptionsOutputResponse
+    func putConfigurationSetVdmOptions(input: PutConfigurationSetVdmOptionsInput) async throws -> PutConfigurationSetVdmOptionsOutput
     /// Move a dedicated IP address to an existing dedicated IP pool. The dedicated IP address that you specify must already exist, and must be associated with your Amazon Web Services account. The dedicated IP pool you specify must already exist. You can create a new pool by using the CreateDedicatedIpPool operation.
     ///
     /// - Parameter PutDedicatedIpInPoolInput : A request to move a dedicated IP address to a dedicated IP pool.
     ///
-    /// - Returns: `PutDedicatedIpInPoolOutputResponse` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    /// - Returns: `PutDedicatedIpInPoolOutput` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -942,12 +942,12 @@ public protocol SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    func putDedicatedIpInPool(input: PutDedicatedIpInPoolInput) async throws -> PutDedicatedIpInPoolOutputResponse
+    func putDedicatedIpInPool(input: PutDedicatedIpInPoolInput) async throws -> PutDedicatedIpInPoolOutput
     /// Used to convert a dedicated IP pool to a different scaling mode. MANAGED pools cannot be converted to STANDARD scaling mode.
     ///
     /// - Parameter PutDedicatedIpPoolScalingAttributesInput : A request to convert a dedicated IP pool to a different scaling mode.
     ///
-    /// - Returns: `PutDedicatedIpPoolScalingAttributesOutputResponse` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    /// - Returns: `PutDedicatedIpPoolScalingAttributesOutput` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -956,12 +956,12 @@ public protocol SESv2ClientProtocol {
     /// - `ConcurrentModificationException` : The resource is being modified by another operation or thread.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    func putDedicatedIpPoolScalingAttributes(input: PutDedicatedIpPoolScalingAttributesInput) async throws -> PutDedicatedIpPoolScalingAttributesOutputResponse
+    func putDedicatedIpPoolScalingAttributes(input: PutDedicatedIpPoolScalingAttributesInput) async throws -> PutDedicatedIpPoolScalingAttributesOutput
     ///
     ///
     /// - Parameter PutDedicatedIpWarmupAttributesInput : A request to change the warm-up attributes for a dedicated IP address. This operation is useful when you want to resume the warm-up process for an existing IP address.
     ///
-    /// - Returns: `PutDedicatedIpWarmupAttributesOutputResponse` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    /// - Returns: `PutDedicatedIpWarmupAttributesOutput` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -969,12 +969,12 @@ public protocol SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    func putDedicatedIpWarmupAttributes(input: PutDedicatedIpWarmupAttributesInput) async throws -> PutDedicatedIpWarmupAttributesOutputResponse
+    func putDedicatedIpWarmupAttributes(input: PutDedicatedIpWarmupAttributesInput) async throws -> PutDedicatedIpWarmupAttributesOutput
     /// Enable or disable the Deliverability dashboard. When you enable the Deliverability dashboard, you gain access to reputation, deliverability, and other metrics for the domains that you use to send email. You also gain the ability to perform predictive inbox placement tests. When you use the Deliverability dashboard, you pay a monthly subscription charge, in addition to any other fees that you accrue by using Amazon SES and other Amazon Web Services services. For more information about the features and cost of a Deliverability dashboard subscription, see [Amazon SES Pricing](http://aws.amazon.com/ses/pricing/).
     ///
     /// - Parameter PutDeliverabilityDashboardOptionInput : Enable or disable the Deliverability dashboard. When you enable the Deliverability dashboard, you gain access to reputation, deliverability, and other metrics for the domains that you use to send email using Amazon SES API v2. You also gain the ability to perform predictive inbox placement tests. When you use the Deliverability dashboard, you pay a monthly subscription charge, in addition to any other fees that you accrue by using Amazon SES and other Amazon Web Services services. For more information about the features and cost of a Deliverability dashboard subscription, see [Amazon Pinpoint Pricing](http://aws.amazon.com/pinpoint/pricing/).
     ///
-    /// - Returns: `PutDeliverabilityDashboardOptionOutputResponse` : A response that indicates whether the Deliverability dashboard is enabled.
+    /// - Returns: `PutDeliverabilityDashboardOptionOutput` : A response that indicates whether the Deliverability dashboard is enabled.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -984,12 +984,12 @@ public protocol SESv2ClientProtocol {
     /// - `LimitExceededException` : There are too many instances of the specified resource type.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    func putDeliverabilityDashboardOption(input: PutDeliverabilityDashboardOptionInput) async throws -> PutDeliverabilityDashboardOptionOutputResponse
+    func putDeliverabilityDashboardOption(input: PutDeliverabilityDashboardOptionInput) async throws -> PutDeliverabilityDashboardOptionOutput
     /// Used to associate a configuration set with an email identity.
     ///
     /// - Parameter PutEmailIdentityConfigurationSetAttributesInput : A request to associate a configuration set with an email identity.
     ///
-    /// - Returns: `PutEmailIdentityConfigurationSetAttributesOutputResponse` : If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body.
+    /// - Returns: `PutEmailIdentityConfigurationSetAttributesOutput` : If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -997,12 +997,12 @@ public protocol SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    func putEmailIdentityConfigurationSetAttributes(input: PutEmailIdentityConfigurationSetAttributesInput) async throws -> PutEmailIdentityConfigurationSetAttributesOutputResponse
+    func putEmailIdentityConfigurationSetAttributes(input: PutEmailIdentityConfigurationSetAttributesInput) async throws -> PutEmailIdentityConfigurationSetAttributesOutput
     /// Used to enable or disable DKIM authentication for an email identity.
     ///
     /// - Parameter PutEmailIdentityDkimAttributesInput : A request to enable or disable DKIM signing of email that you send from an email identity.
     ///
-    /// - Returns: `PutEmailIdentityDkimAttributesOutputResponse` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    /// - Returns: `PutEmailIdentityDkimAttributesOutput` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1010,7 +1010,7 @@ public protocol SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    func putEmailIdentityDkimAttributes(input: PutEmailIdentityDkimAttributesInput) async throws -> PutEmailIdentityDkimAttributesOutputResponse
+    func putEmailIdentityDkimAttributes(input: PutEmailIdentityDkimAttributesInput) async throws -> PutEmailIdentityDkimAttributesOutput
     /// Used to configure or change the DKIM authentication settings for an email domain identity. You can use this operation to do any of the following:
     ///
     /// * Update the signing attributes for an identity that uses Bring Your Own DKIM (BYODKIM).
@@ -1027,7 +1027,7 @@ public protocol SESv2ClientProtocol {
     ///
     /// - Parameter PutEmailIdentityDkimSigningAttributesInput : A request to change the DKIM attributes for an email identity.
     ///
-    /// - Returns: `PutEmailIdentityDkimSigningAttributesOutputResponse` : If the action is successful, the service sends back an HTTP 200 response. The following data is returned in JSON format by the service.
+    /// - Returns: `PutEmailIdentityDkimSigningAttributesOutput` : If the action is successful, the service sends back an HTTP 200 response. The following data is returned in JSON format by the service.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1035,12 +1035,12 @@ public protocol SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    func putEmailIdentityDkimSigningAttributes(input: PutEmailIdentityDkimSigningAttributesInput) async throws -> PutEmailIdentityDkimSigningAttributesOutputResponse
+    func putEmailIdentityDkimSigningAttributes(input: PutEmailIdentityDkimSigningAttributesInput) async throws -> PutEmailIdentityDkimSigningAttributesOutput
     /// Used to enable or disable feedback forwarding for an identity. This setting determines what happens when an identity is used to send an email that results in a bounce or complaint event. If the value is true, you receive email notifications when bounce or complaint events occur. These notifications are sent to the address that you specified in the Return-Path header of the original email. You're required to have a method of tracking bounces and complaints. If you haven't set up another mechanism for receiving bounce or complaint notifications (for example, by setting up an event destination), you receive an email notification when these events occur (even if this setting is disabled).
     ///
     /// - Parameter PutEmailIdentityFeedbackAttributesInput : A request to set the attributes that control how bounce and complaint events are processed.
     ///
-    /// - Returns: `PutEmailIdentityFeedbackAttributesOutputResponse` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    /// - Returns: `PutEmailIdentityFeedbackAttributesOutput` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1048,12 +1048,12 @@ public protocol SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    func putEmailIdentityFeedbackAttributes(input: PutEmailIdentityFeedbackAttributesInput) async throws -> PutEmailIdentityFeedbackAttributesOutputResponse
+    func putEmailIdentityFeedbackAttributes(input: PutEmailIdentityFeedbackAttributesInput) async throws -> PutEmailIdentityFeedbackAttributesOutput
     /// Used to enable or disable the custom Mail-From domain configuration for an email identity.
     ///
     /// - Parameter PutEmailIdentityMailFromAttributesInput : A request to configure the custom MAIL FROM domain for a verified identity.
     ///
-    /// - Returns: `PutEmailIdentityMailFromAttributesOutputResponse` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    /// - Returns: `PutEmailIdentityMailFromAttributesOutput` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1061,24 +1061,24 @@ public protocol SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    func putEmailIdentityMailFromAttributes(input: PutEmailIdentityMailFromAttributesInput) async throws -> PutEmailIdentityMailFromAttributesOutputResponse
+    func putEmailIdentityMailFromAttributes(input: PutEmailIdentityMailFromAttributesInput) async throws -> PutEmailIdentityMailFromAttributesOutput
     /// Adds an email address to the suppression list for your account.
     ///
     /// - Parameter PutSuppressedDestinationInput : A request to add an email destination to the suppression list for your account.
     ///
-    /// - Returns: `PutSuppressedDestinationOutputResponse` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    /// - Returns: `PutSuppressedDestinationOutput` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    func putSuppressedDestination(input: PutSuppressedDestinationInput) async throws -> PutSuppressedDestinationOutputResponse
+    func putSuppressedDestination(input: PutSuppressedDestinationInput) async throws -> PutSuppressedDestinationOutput
     /// Composes an email message to multiple destinations.
     ///
     /// - Parameter SendBulkEmailInput : Represents a request to send email messages to multiple destinations using Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-personalized-email-api.html).
     ///
-    /// - Returns: `SendBulkEmailOutputResponse` : The following data is returned in JSON format by the service.
+    /// - Returns: `SendBulkEmailOutput` : The following data is returned in JSON format by the service.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1091,12 +1091,12 @@ public protocol SESv2ClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `SendingPausedException` : The message can't be sent because the account's ability to send email is currently paused.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    func sendBulkEmail(input: SendBulkEmailInput) async throws -> SendBulkEmailOutputResponse
+    func sendBulkEmail(input: SendBulkEmailInput) async throws -> SendBulkEmailOutput
     /// Adds an email address to the list of identities for your Amazon SES account in the current Amazon Web Services Region and attempts to verify it. As a result of executing this operation, a customized verification email is sent to the specified address. To use this operation, you must first create a custom verification email template. For more information about creating and using custom verification email templates, see [Using custom verification email templates](https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#send-email-verify-address-custom) in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
     ///
     /// - Parameter SendCustomVerificationEmailInput : Represents a request to send a custom verification email to a specified recipient.
     ///
-    /// - Returns: `SendCustomVerificationEmailOutputResponse` : The following element is returned by the service.
+    /// - Returns: `SendCustomVerificationEmailOutput` : The following element is returned by the service.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1108,7 +1108,7 @@ public protocol SESv2ClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `SendingPausedException` : The message can't be sent because the account's ability to send email is currently paused.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    func sendCustomVerificationEmail(input: SendCustomVerificationEmailInput) async throws -> SendCustomVerificationEmailOutputResponse
+    func sendCustomVerificationEmail(input: SendCustomVerificationEmailInput) async throws -> SendCustomVerificationEmailOutput
     /// Sends an email message. You can use the Amazon SES API v2 to send the following types of messages:
     ///
     /// * Simple – A standard email message. When you create this type of message, you specify the sender, the recipient, and the message body, and Amazon SES assembles the message for you.
@@ -1119,7 +1119,7 @@ public protocol SESv2ClientProtocol {
     ///
     /// - Parameter SendEmailInput : Represents a request to send a single formatted email using Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-email-formatted.html).
     ///
-    /// - Returns: `SendEmailOutputResponse` : A unique message ID that you receive when an email is accepted for sending.
+    /// - Returns: `SendEmailOutput` : A unique message ID that you receive when an email is accepted for sending.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1132,12 +1132,12 @@ public protocol SESv2ClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `SendingPausedException` : The message can't be sent because the account's ability to send email is currently paused.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    func sendEmail(input: SendEmailInput) async throws -> SendEmailOutputResponse
+    func sendEmail(input: SendEmailInput) async throws -> SendEmailOutput
     /// Add one or more tags (keys and values) to a specified resource. A tag is a label that you optionally define and associate with a resource. Tags can help you categorize and manage resources in different ways, such as by purpose, owner, environment, or other criteria. A resource can have as many as 50 tags. Each tag consists of a required tag key and an associated tag value, both of which you define. A tag key is a general label that acts as a category for more specific tag values. A tag value acts as a descriptor within a tag key.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1146,12 +1146,12 @@ public protocol SESv2ClientProtocol {
     /// - `ConcurrentModificationException` : The resource is being modified by another operation or thread.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     /// Creates a preview of the MIME content of an email when provided with a template and a set of replacement data. You can execute this operation no more than once per second.
     ///
     /// - Parameter TestRenderEmailTemplateInput : >Represents a request to create a preview of the MIME content of an email when provided with a template and a set of replacement data.
     ///
-    /// - Returns: `TestRenderEmailTemplateOutputResponse` : The following element is returned by the service.
+    /// - Returns: `TestRenderEmailTemplateOutput` : The following element is returned by the service.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1159,12 +1159,12 @@ public protocol SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    func testRenderEmailTemplate(input: TestRenderEmailTemplateInput) async throws -> TestRenderEmailTemplateOutputResponse
+    func testRenderEmailTemplate(input: TestRenderEmailTemplateInput) async throws -> TestRenderEmailTemplateOutput
     /// Remove one or more tags (keys and values) from a specified resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1173,12 +1173,12 @@ public protocol SESv2ClientProtocol {
     /// - `ConcurrentModificationException` : The resource is being modified by another operation or thread.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
     /// Update the configuration of an event destination for a configuration set. Events include message sends, deliveries, opens, clicks, bounces, and complaints. Event destinations are places that you can send information about these events to. For example, you can send event data to Amazon SNS to receive notifications when you receive bounces or complaints, or you can use Amazon Kinesis Data Firehose to stream data to Amazon S3 for long-term storage.
     ///
     /// - Parameter UpdateConfigurationSetEventDestinationInput : A request to change the settings for an event destination for a configuration set.
     ///
-    /// - Returns: `UpdateConfigurationSetEventDestinationOutputResponse` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    /// - Returns: `UpdateConfigurationSetEventDestinationOutput` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1186,12 +1186,12 @@ public protocol SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    func updateConfigurationSetEventDestination(input: UpdateConfigurationSetEventDestinationInput) async throws -> UpdateConfigurationSetEventDestinationOutputResponse
+    func updateConfigurationSetEventDestination(input: UpdateConfigurationSetEventDestinationInput) async throws -> UpdateConfigurationSetEventDestinationOutput
     /// Updates a contact's preferences for a list. It is not necessary to specify all existing topic preferences in the TopicPreferences object, just the ones that need updating.
     ///
     /// - Parameter UpdateContactInput : [no documentation found]
     ///
-    /// - Returns: `UpdateContactOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateContactOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1200,12 +1200,12 @@ public protocol SESv2ClientProtocol {
     /// - `ConcurrentModificationException` : The resource is being modified by another operation or thread.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    func updateContact(input: UpdateContactInput) async throws -> UpdateContactOutputResponse
+    func updateContact(input: UpdateContactInput) async throws -> UpdateContactOutput
     /// Updates contact list metadata. This operation does a complete replacement.
     ///
     /// - Parameter UpdateContactListInput : [no documentation found]
     ///
-    /// - Returns: `UpdateContactListOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateContactListOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1214,12 +1214,12 @@ public protocol SESv2ClientProtocol {
     /// - `ConcurrentModificationException` : The resource is being modified by another operation or thread.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    func updateContactList(input: UpdateContactListInput) async throws -> UpdateContactListOutputResponse
+    func updateContactList(input: UpdateContactListInput) async throws -> UpdateContactListOutput
     /// Updates an existing custom verification email template. For more information about custom verification email templates, see [Using custom verification email templates](https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#send-email-verify-address-custom) in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
     ///
     /// - Parameter UpdateCustomVerificationEmailTemplateInput : Represents a request to update an existing custom verification email template.
     ///
-    /// - Returns: `UpdateCustomVerificationEmailTemplateOutputResponse` : If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body.
+    /// - Returns: `UpdateCustomVerificationEmailTemplateOutput` : If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1227,12 +1227,12 @@ public protocol SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    func updateCustomVerificationEmailTemplate(input: UpdateCustomVerificationEmailTemplateInput) async throws -> UpdateCustomVerificationEmailTemplateOutputResponse
+    func updateCustomVerificationEmailTemplate(input: UpdateCustomVerificationEmailTemplateInput) async throws -> UpdateCustomVerificationEmailTemplateOutput
     /// Updates the specified sending authorization policy for the given identity (an email address or a domain). This API returns successfully even if a policy with the specified name does not exist. This API is for the identity owner only. If you have not verified the identity, this API will return an error. Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending authorization, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization.html). You can execute this operation no more than once per second.
     ///
     /// - Parameter UpdateEmailIdentityPolicyInput : Represents a request to update a sending authorization policy for an identity. Sending authorization is an Amazon SES feature that enables you to authorize other senders to use your identities. For information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization-identity-owner-tasks-management.html).
     ///
-    /// - Returns: `UpdateEmailIdentityPolicyOutputResponse` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    /// - Returns: `UpdateEmailIdentityPolicyOutput` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1240,12 +1240,12 @@ public protocol SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    func updateEmailIdentityPolicy(input: UpdateEmailIdentityPolicyInput) async throws -> UpdateEmailIdentityPolicyOutputResponse
+    func updateEmailIdentityPolicy(input: UpdateEmailIdentityPolicyInput) async throws -> UpdateEmailIdentityPolicyOutput
     /// Updates an email template. Email templates enable you to send personalized email to one or more destinations in a single API operation. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-personalized-email-api.html). You can execute this operation no more than once per second.
     ///
     /// - Parameter UpdateEmailTemplateInput : Represents a request to update an email template. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-personalized-email-api.html).
     ///
-    /// - Returns: `UpdateEmailTemplateOutputResponse` : If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body.
+    /// - Returns: `UpdateEmailTemplateOutput` : If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1253,7 +1253,7 @@ public protocol SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
-    func updateEmailTemplate(input: UpdateEmailTemplateInput) async throws -> UpdateEmailTemplateOutputResponse
+    func updateEmailTemplate(input: UpdateEmailTemplateInput) async throws -> UpdateEmailTemplateOutput
 }
 
 public enum SESv2ClientTypes {}

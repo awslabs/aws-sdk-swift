@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension AppFabricClient {
-    /// Paginate over `[ListAppAuthorizationsOutputResponse]` results.
+    /// Paginate over `[ListAppAuthorizationsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListAppAuthorizationsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListAppAuthorizationsOutputResponse`
-    public func listAppAuthorizationsPaginated(input: ListAppAuthorizationsInput) -> ClientRuntime.PaginatorSequence<ListAppAuthorizationsInput, ListAppAuthorizationsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListAppAuthorizationsInput, ListAppAuthorizationsOutputResponse>(input: input, inputKey: \ListAppAuthorizationsInput.nextToken, outputKey: \ListAppAuthorizationsOutputResponse.nextToken, paginationFunction: self.listAppAuthorizations(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAppAuthorizationsOutput`
+    public func listAppAuthorizationsPaginated(input: ListAppAuthorizationsInput) -> ClientRuntime.PaginatorSequence<ListAppAuthorizationsInput, ListAppAuthorizationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListAppAuthorizationsInput, ListAppAuthorizationsOutput>(input: input, inputKey: \ListAppAuthorizationsInput.nextToken, outputKey: \ListAppAuthorizationsOutput.nextToken, paginationFunction: self.listAppAuthorizations(input:))
     }
 }
 
@@ -25,7 +25,7 @@ extension ListAppAuthorizationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListAppAuthorizationsInput, Output == ListAppAuthorizationsOutputResponse {
+extension PaginatorSequence where Input == ListAppAuthorizationsInput, Output == ListAppAuthorizationsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listAppAuthorizationsPaginated`
     /// to access the nested member `[AppFabricClientTypes.AppAuthorizationSummary]`
     /// - Returns: `[AppFabricClientTypes.AppAuthorizationSummary]`
@@ -34,16 +34,16 @@ extension PaginatorSequence where Input == ListAppAuthorizationsInput, Output ==
     }
 }
 extension AppFabricClient {
-    /// Paginate over `[ListAppBundlesOutputResponse]` results.
+    /// Paginate over `[ListAppBundlesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListAppBundlesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListAppBundlesOutputResponse`
-    public func listAppBundlesPaginated(input: ListAppBundlesInput) -> ClientRuntime.PaginatorSequence<ListAppBundlesInput, ListAppBundlesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListAppBundlesInput, ListAppBundlesOutputResponse>(input: input, inputKey: \ListAppBundlesInput.nextToken, outputKey: \ListAppBundlesOutputResponse.nextToken, paginationFunction: self.listAppBundles(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAppBundlesOutput`
+    public func listAppBundlesPaginated(input: ListAppBundlesInput) -> ClientRuntime.PaginatorSequence<ListAppBundlesInput, ListAppBundlesOutput> {
+        return ClientRuntime.PaginatorSequence<ListAppBundlesInput, ListAppBundlesOutput>(input: input, inputKey: \ListAppBundlesInput.nextToken, outputKey: \ListAppBundlesOutput.nextToken, paginationFunction: self.listAppBundles(input:))
     }
 }
 
@@ -55,7 +55,7 @@ extension ListAppBundlesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListAppBundlesInput, Output == ListAppBundlesOutputResponse {
+extension PaginatorSequence where Input == ListAppBundlesInput, Output == ListAppBundlesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listAppBundlesPaginated`
     /// to access the nested member `[AppFabricClientTypes.AppBundleSummary]`
     /// - Returns: `[AppFabricClientTypes.AppBundleSummary]`
@@ -64,16 +64,16 @@ extension PaginatorSequence where Input == ListAppBundlesInput, Output == ListAp
     }
 }
 extension AppFabricClient {
-    /// Paginate over `[ListIngestionDestinationsOutputResponse]` results.
+    /// Paginate over `[ListIngestionDestinationsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListIngestionDestinationsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListIngestionDestinationsOutputResponse`
-    public func listIngestionDestinationsPaginated(input: ListIngestionDestinationsInput) -> ClientRuntime.PaginatorSequence<ListIngestionDestinationsInput, ListIngestionDestinationsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListIngestionDestinationsInput, ListIngestionDestinationsOutputResponse>(input: input, inputKey: \ListIngestionDestinationsInput.nextToken, outputKey: \ListIngestionDestinationsOutputResponse.nextToken, paginationFunction: self.listIngestionDestinations(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListIngestionDestinationsOutput`
+    public func listIngestionDestinationsPaginated(input: ListIngestionDestinationsInput) -> ClientRuntime.PaginatorSequence<ListIngestionDestinationsInput, ListIngestionDestinationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListIngestionDestinationsInput, ListIngestionDestinationsOutput>(input: input, inputKey: \ListIngestionDestinationsInput.nextToken, outputKey: \ListIngestionDestinationsOutput.nextToken, paginationFunction: self.listIngestionDestinations(input:))
     }
 }
 
@@ -87,7 +87,7 @@ extension ListIngestionDestinationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListIngestionDestinationsInput, Output == ListIngestionDestinationsOutputResponse {
+extension PaginatorSequence where Input == ListIngestionDestinationsInput, Output == ListIngestionDestinationsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listIngestionDestinationsPaginated`
     /// to access the nested member `[AppFabricClientTypes.IngestionDestinationSummary]`
     /// - Returns: `[AppFabricClientTypes.IngestionDestinationSummary]`
@@ -96,16 +96,16 @@ extension PaginatorSequence where Input == ListIngestionDestinationsInput, Outpu
     }
 }
 extension AppFabricClient {
-    /// Paginate over `[ListIngestionsOutputResponse]` results.
+    /// Paginate over `[ListIngestionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListIngestionsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListIngestionsOutputResponse`
-    public func listIngestionsPaginated(input: ListIngestionsInput) -> ClientRuntime.PaginatorSequence<ListIngestionsInput, ListIngestionsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListIngestionsInput, ListIngestionsOutputResponse>(input: input, inputKey: \ListIngestionsInput.nextToken, outputKey: \ListIngestionsOutputResponse.nextToken, paginationFunction: self.listIngestions(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListIngestionsOutput`
+    public func listIngestionsPaginated(input: ListIngestionsInput) -> ClientRuntime.PaginatorSequence<ListIngestionsInput, ListIngestionsOutput> {
+        return ClientRuntime.PaginatorSequence<ListIngestionsInput, ListIngestionsOutput>(input: input, inputKey: \ListIngestionsInput.nextToken, outputKey: \ListIngestionsOutput.nextToken, paginationFunction: self.listIngestions(input:))
     }
 }
 
@@ -118,7 +118,7 @@ extension ListIngestionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListIngestionsInput, Output == ListIngestionsOutputResponse {
+extension PaginatorSequence where Input == ListIngestionsInput, Output == ListIngestionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listIngestionsPaginated`
     /// to access the nested member `[AppFabricClientTypes.IngestionSummary]`
     /// - Returns: `[AppFabricClientTypes.IngestionSummary]`

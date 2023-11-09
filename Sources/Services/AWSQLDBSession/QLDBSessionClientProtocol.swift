@@ -16,7 +16,7 @@ public protocol QLDBSessionClientProtocol {
     ///
     /// - Parameter SendCommandInput : [no documentation found]
     ///
-    /// - Returns: `SendCommandOutputResponse` : [no documentation found]
+    /// - Returns: `SendCommandOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -27,7 +27,7 @@ public protocol QLDBSessionClientProtocol {
     /// - `LimitExceededException` : Returned if a resource limit such as number of active sessions is exceeded.
     /// - `OccConflictException` : Returned when a transaction cannot be written to the journal due to a failure in the verification phase of optimistic concurrency control (OCC).
     /// - `RateExceededException` : Returned when the rate of requests exceeds the allowed throughput.
-    func sendCommand(input: SendCommandInput) async throws -> SendCommandOutputResponse
+    func sendCommand(input: SendCommandInput) async throws -> SendCommandOutput
 }
 
 public enum QLDBSessionClientTypes {}

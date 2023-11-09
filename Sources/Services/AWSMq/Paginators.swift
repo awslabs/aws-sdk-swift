@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension MqClient {
-    /// Paginate over `[ListBrokersOutputResponse]` results.
+    /// Paginate over `[ListBrokersOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListBrokersInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListBrokersOutputResponse`
-    public func listBrokersPaginated(input: ListBrokersInput) -> ClientRuntime.PaginatorSequence<ListBrokersInput, ListBrokersOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListBrokersInput, ListBrokersOutputResponse>(input: input, inputKey: \ListBrokersInput.nextToken, outputKey: \ListBrokersOutputResponse.nextToken, paginationFunction: self.listBrokers(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListBrokersOutput`
+    public func listBrokersPaginated(input: ListBrokersInput) -> ClientRuntime.PaginatorSequence<ListBrokersInput, ListBrokersOutput> {
+        return ClientRuntime.PaginatorSequence<ListBrokersInput, ListBrokersOutput>(input: input, inputKey: \ListBrokersInput.nextToken, outputKey: \ListBrokersOutput.nextToken, paginationFunction: self.listBrokers(input:))
     }
 }
 
@@ -24,7 +24,7 @@ extension ListBrokersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListBrokersInput, Output == ListBrokersOutputResponse {
+extension PaginatorSequence where Input == ListBrokersInput, Output == ListBrokersOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listBrokersPaginated`
     /// to access the nested member `[MqClientTypes.BrokerSummary]`
     /// - Returns: `[MqClientTypes.BrokerSummary]`

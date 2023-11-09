@@ -10,7 +10,7 @@ public protocol MarketplaceEntitlementClientProtocol {
     ///
     /// - Parameter GetEntitlementsInput : The GetEntitlementsRequest contains parameters for the GetEntitlements operation.
     ///
-    /// - Returns: `GetEntitlementsOutputResponse` : The GetEntitlementsRequest contains results from the GetEntitlements operation.
+    /// - Returns: `GetEntitlementsOutput` : The GetEntitlementsRequest contains results from the GetEntitlements operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -18,7 +18,7 @@ public protocol MarketplaceEntitlementClientProtocol {
     /// - `InternalServiceErrorException` : An internal error has occurred. Retry your request. If the problem persists, post a message with details on the AWS forums.
     /// - `InvalidParameterException` : One or more parameters in your request was invalid.
     /// - `ThrottlingException` : The calls to the GetEntitlements API are throttled.
-    func getEntitlements(input: GetEntitlementsInput) async throws -> GetEntitlementsOutputResponse
+    func getEntitlements(input: GetEntitlementsInput) async throws -> GetEntitlementsOutput
 }
 
 public enum MarketplaceEntitlementClientTypes {}

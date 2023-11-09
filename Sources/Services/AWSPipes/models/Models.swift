@@ -811,27 +811,11 @@ extension CreatePipeInputBody: Swift.Decodable {
     }
 }
 
-enum CreatePipeOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreatePipeOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreatePipeOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreatePipeOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreatePipeOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.creationTime = output.creationTime
             self.currentState = output.currentState
@@ -849,7 +833,7 @@ extension CreatePipeOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreatePipeOutputResponse: Swift.Equatable {
+public struct CreatePipeOutput: Swift.Equatable {
     /// The ARN of the pipe.
     public var arn: Swift.String?
     /// The time the pipe was created.
@@ -881,7 +865,7 @@ public struct CreatePipeOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreatePipeOutputResponseBody: Swift.Equatable {
+struct CreatePipeOutputBody: Swift.Equatable {
     let arn: Swift.String?
     let name: Swift.String?
     let desiredState: PipesClientTypes.RequestedPipeState?
@@ -890,7 +874,7 @@ struct CreatePipeOutputResponseBody: Swift.Equatable {
     let lastModifiedTime: ClientRuntime.Date?
 }
 
-extension CreatePipeOutputResponseBody: Swift.Decodable {
+extension CreatePipeOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "Arn"
         case creationTime = "CreationTime"
@@ -914,6 +898,22 @@ extension CreatePipeOutputResponseBody: Swift.Decodable {
         creationTime = creationTimeDecoded
         let lastModifiedTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedTime)
         lastModifiedTime = lastModifiedTimeDecoded
+    }
+}
+
+enum CreatePipeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -983,26 +983,11 @@ extension DeletePipeInputBody: Swift.Decodable {
     }
 }
 
-enum DeletePipeOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DeletePipeOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DeletePipeOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DeletePipeOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DeletePipeOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.creationTime = output.creationTime
             self.currentState = output.currentState
@@ -1020,7 +1005,7 @@ extension DeletePipeOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeletePipeOutputResponse: Swift.Equatable {
+public struct DeletePipeOutput: Swift.Equatable {
     /// The ARN of the pipe.
     public var arn: Swift.String?
     /// The time the pipe was created.
@@ -1052,7 +1037,7 @@ public struct DeletePipeOutputResponse: Swift.Equatable {
     }
 }
 
-struct DeletePipeOutputResponseBody: Swift.Equatable {
+struct DeletePipeOutputBody: Swift.Equatable {
     let arn: Swift.String?
     let name: Swift.String?
     let desiredState: PipesClientTypes.RequestedPipeStateDescribeResponse?
@@ -1061,7 +1046,7 @@ struct DeletePipeOutputResponseBody: Swift.Equatable {
     let lastModifiedTime: ClientRuntime.Date?
 }
 
-extension DeletePipeOutputResponseBody: Swift.Decodable {
+extension DeletePipeOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "Arn"
         case creationTime = "CreationTime"
@@ -1085,6 +1070,21 @@ extension DeletePipeOutputResponseBody: Swift.Decodable {
         creationTime = creationTimeDecoded
         let lastModifiedTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedTime)
         lastModifiedTime = lastModifiedTimeDecoded
+    }
+}
+
+enum DeletePipeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1119,30 +1119,16 @@ extension DescribePipeInputBody: Swift.Decodable {
     }
 }
 
-enum DescribePipeOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribePipeOutputResponse: Swift.CustomDebugStringConvertible {
+extension DescribePipeOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "DescribePipeOutputResponse(arn: \(Swift.String(describing: arn)), creationTime: \(Swift.String(describing: creationTime)), currentState: \(Swift.String(describing: currentState)), desiredState: \(Swift.String(describing: desiredState)), enrichment: \(Swift.String(describing: enrichment)), enrichmentParameters: \(Swift.String(describing: enrichmentParameters)), lastModifiedTime: \(Swift.String(describing: lastModifiedTime)), name: \(Swift.String(describing: name)), roleArn: \(Swift.String(describing: roleArn)), source: \(Swift.String(describing: source)), sourceParameters: \(Swift.String(describing: sourceParameters)), stateReason: \(Swift.String(describing: stateReason)), tags: \(Swift.String(describing: tags)), target: \(Swift.String(describing: target)), targetParameters: \(Swift.String(describing: targetParameters)), description: \"CONTENT_REDACTED\")"}
+        "DescribePipeOutput(arn: \(Swift.String(describing: arn)), creationTime: \(Swift.String(describing: creationTime)), currentState: \(Swift.String(describing: currentState)), desiredState: \(Swift.String(describing: desiredState)), enrichment: \(Swift.String(describing: enrichment)), enrichmentParameters: \(Swift.String(describing: enrichmentParameters)), lastModifiedTime: \(Swift.String(describing: lastModifiedTime)), name: \(Swift.String(describing: name)), roleArn: \(Swift.String(describing: roleArn)), source: \(Swift.String(describing: source)), sourceParameters: \(Swift.String(describing: sourceParameters)), stateReason: \(Swift.String(describing: stateReason)), tags: \(Swift.String(describing: tags)), target: \(Swift.String(describing: target)), targetParameters: \(Swift.String(describing: targetParameters)), description: \"CONTENT_REDACTED\")"}
 }
 
-extension DescribePipeOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribePipeOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribePipeOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribePipeOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.creationTime = output.creationTime
             self.currentState = output.currentState
@@ -1180,7 +1166,7 @@ extension DescribePipeOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribePipeOutputResponse: Swift.Equatable {
+public struct DescribePipeOutput: Swift.Equatable {
     /// The ARN of the pipe.
     public var arn: Swift.String?
     /// The time the pipe was created.
@@ -1252,7 +1238,7 @@ public struct DescribePipeOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribePipeOutputResponseBody: Swift.Equatable {
+struct DescribePipeOutputBody: Swift.Equatable {
     let arn: Swift.String?
     let name: Swift.String?
     let description: Swift.String?
@@ -1271,7 +1257,7 @@ struct DescribePipeOutputResponseBody: Swift.Equatable {
     let lastModifiedTime: ClientRuntime.Date?
 }
 
-extension DescribePipeOutputResponseBody: Swift.Decodable {
+extension DescribePipeOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "Arn"
         case creationTime = "CreationTime"
@@ -1334,6 +1320,20 @@ extension DescribePipeOutputResponseBody: Swift.Decodable {
         creationTime = creationTimeDecoded
         let lastModifiedTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedTime)
         lastModifiedTime = lastModifiedTimeDecoded
+    }
+}
+
+enum DescribePipeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2245,29 +2245,16 @@ extension ListPipesInputBody: Swift.Decodable {
     }
 }
 
-enum ListPipesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListPipesOutputResponse: Swift.CustomDebugStringConvertible {
+extension ListPipesOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ListPipesOutputResponse(pipes: \(Swift.String(describing: pipes)), nextToken: \"CONTENT_REDACTED\")"}
+        "ListPipesOutput(pipes: \(Swift.String(describing: pipes)), nextToken: \"CONTENT_REDACTED\")"}
 }
 
-extension ListPipesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListPipesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListPipesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListPipesOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.pipes = output.pipes
         } else {
@@ -2277,7 +2264,7 @@ extension ListPipesOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListPipesOutputResponse: Swift.Equatable {
+public struct ListPipesOutput: Swift.Equatable {
     /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
     public var nextToken: Swift.String?
     /// The pipes returned by the call.
@@ -2293,12 +2280,12 @@ public struct ListPipesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListPipesOutputResponseBody: Swift.Equatable {
+struct ListPipesOutputBody: Swift.Equatable {
     let pipes: [PipesClientTypes.Pipe]?
     let nextToken: Swift.String?
 }
 
-extension ListPipesOutputResponseBody: Swift.Decodable {
+extension ListPipesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case pipes = "Pipes"
@@ -2319,6 +2306,19 @@ extension ListPipesOutputResponseBody: Swift.Decodable {
         pipes = pipesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListPipesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2353,24 +2353,11 @@ extension ListTagsForResourceInputBody: Swift.Decodable {
     }
 }
 
-enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListTagsForResourceOutputBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
         } else {
             self.tags = nil
@@ -2378,7 +2365,7 @@ extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutputResponse: Swift.Equatable {
+public struct ListTagsForResourceOutput: Swift.Equatable {
     /// The list of key-value pairs to associate with the pipe.
     public var tags: [Swift.String:Swift.String]?
 
@@ -2390,11 +2377,11 @@ public struct ListTagsForResourceOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputResponseBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody: Swift.Equatable {
     let tags: [Swift.String:Swift.String]?
 }
 
-extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
+extension ListTagsForResourceOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case tags
     }
@@ -2412,6 +2399,19 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+    }
+}
+
+enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5417,26 +5417,11 @@ extension StartPipeInputBody: Swift.Decodable {
     }
 }
 
-enum StartPipeOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension StartPipeOutputResponse: ClientRuntime.HttpResponseBinding {
+extension StartPipeOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: StartPipeOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: StartPipeOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.creationTime = output.creationTime
             self.currentState = output.currentState
@@ -5454,7 +5439,7 @@ extension StartPipeOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartPipeOutputResponse: Swift.Equatable {
+public struct StartPipeOutput: Swift.Equatable {
     /// The ARN of the pipe.
     public var arn: Swift.String?
     /// The time the pipe was created.
@@ -5486,7 +5471,7 @@ public struct StartPipeOutputResponse: Swift.Equatable {
     }
 }
 
-struct StartPipeOutputResponseBody: Swift.Equatable {
+struct StartPipeOutputBody: Swift.Equatable {
     let arn: Swift.String?
     let name: Swift.String?
     let desiredState: PipesClientTypes.RequestedPipeState?
@@ -5495,7 +5480,7 @@ struct StartPipeOutputResponseBody: Swift.Equatable {
     let lastModifiedTime: ClientRuntime.Date?
 }
 
-extension StartPipeOutputResponseBody: Swift.Decodable {
+extension StartPipeOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "Arn"
         case creationTime = "CreationTime"
@@ -5519,6 +5504,21 @@ extension StartPipeOutputResponseBody: Swift.Decodable {
         creationTime = creationTimeDecoded
         let lastModifiedTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedTime)
         lastModifiedTime = lastModifiedTimeDecoded
+    }
+}
+
+enum StartPipeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5553,26 +5553,11 @@ extension StopPipeInputBody: Swift.Decodable {
     }
 }
 
-enum StopPipeOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension StopPipeOutputResponse: ClientRuntime.HttpResponseBinding {
+extension StopPipeOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: StopPipeOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: StopPipeOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.creationTime = output.creationTime
             self.currentState = output.currentState
@@ -5590,7 +5575,7 @@ extension StopPipeOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StopPipeOutputResponse: Swift.Equatable {
+public struct StopPipeOutput: Swift.Equatable {
     /// The ARN of the pipe.
     public var arn: Swift.String?
     /// The time the pipe was created.
@@ -5622,7 +5607,7 @@ public struct StopPipeOutputResponse: Swift.Equatable {
     }
 }
 
-struct StopPipeOutputResponseBody: Swift.Equatable {
+struct StopPipeOutputBody: Swift.Equatable {
     let arn: Swift.String?
     let name: Swift.String?
     let desiredState: PipesClientTypes.RequestedPipeState?
@@ -5631,7 +5616,7 @@ struct StopPipeOutputResponseBody: Swift.Equatable {
     let lastModifiedTime: ClientRuntime.Date?
 }
 
-extension StopPipeOutputResponseBody: Swift.Decodable {
+extension StopPipeOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "Arn"
         case creationTime = "CreationTime"
@@ -5655,6 +5640,21 @@ extension StopPipeOutputResponseBody: Swift.Decodable {
         creationTime = creationTimeDecoded
         let lastModifiedTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedTime)
         lastModifiedTime = lastModifiedTimeDecoded
+    }
+}
+
+enum StopPipeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5778,6 +5778,16 @@ extension TagResourceInputBody: Swift.Decodable {
     }
 }
 
+extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct TagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -5789,16 +5799,6 @@ enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct TagResourceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension ThrottlingException {
@@ -5939,6 +5939,16 @@ extension UntagResourceInputBody: Swift.Decodable {
     }
 }
 
+extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UntagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -5950,16 +5960,6 @@ enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UntagResourceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension UpdatePipeInput: Swift.CustomDebugStringConvertible {
@@ -6107,26 +6107,11 @@ extension UpdatePipeInputBody: Swift.Decodable {
     }
 }
 
-enum UpdatePipeOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension UpdatePipeOutputResponse: ClientRuntime.HttpResponseBinding {
+extension UpdatePipeOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: UpdatePipeOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: UpdatePipeOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.creationTime = output.creationTime
             self.currentState = output.currentState
@@ -6144,7 +6129,7 @@ extension UpdatePipeOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdatePipeOutputResponse: Swift.Equatable {
+public struct UpdatePipeOutput: Swift.Equatable {
     /// The ARN of the pipe.
     public var arn: Swift.String?
     /// The time the pipe was created.
@@ -6176,7 +6161,7 @@ public struct UpdatePipeOutputResponse: Swift.Equatable {
     }
 }
 
-struct UpdatePipeOutputResponseBody: Swift.Equatable {
+struct UpdatePipeOutputBody: Swift.Equatable {
     let arn: Swift.String?
     let name: Swift.String?
     let desiredState: PipesClientTypes.RequestedPipeState?
@@ -6185,7 +6170,7 @@ struct UpdatePipeOutputResponseBody: Swift.Equatable {
     let lastModifiedTime: ClientRuntime.Date?
 }
 
-extension UpdatePipeOutputResponseBody: Swift.Decodable {
+extension UpdatePipeOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "Arn"
         case creationTime = "CreationTime"
@@ -6209,6 +6194,21 @@ extension UpdatePipeOutputResponseBody: Swift.Decodable {
         creationTime = creationTimeDecoded
         let lastModifiedTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedTime)
         lastModifiedTime = lastModifiedTimeDecoded
+    }
+}
+
+enum UpdatePipeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 

@@ -8,7 +8,7 @@ public protocol CodeGuruReviewerClientProtocol {
     ///
     /// - Parameter AssociateRepositoryInput : [no documentation found]
     ///
-    /// - Returns: `AssociateRepositoryOutputResponse` : [no documentation found]
+    /// - Returns: `AssociateRepositoryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -18,12 +18,12 @@ public protocol CodeGuruReviewerClientProtocol {
     /// - `InternalServerException` : The server encountered an internal error and is unable to complete the request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
-    func associateRepository(input: AssociateRepositoryInput) async throws -> AssociateRepositoryOutputResponse
+    func associateRepository(input: AssociateRepositoryInput) async throws -> AssociateRepositoryOutput
     /// Use to create a code review with a [CodeReviewType](https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_CodeReviewType.html) of RepositoryAnalysis. This type of code review analyzes all code under a specified branch in an associated repository. PullRequest code reviews are automatically triggered by a pull request.
     ///
     /// - Parameter CreateCodeReviewInput : [no documentation found]
     ///
-    /// - Returns: `CreateCodeReviewOutputResponse` : [no documentation found]
+    /// - Returns: `CreateCodeReviewOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -34,12 +34,12 @@ public protocol CodeGuruReviewerClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request was not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
-    func createCodeReview(input: CreateCodeReviewInput) async throws -> CreateCodeReviewOutputResponse
+    func createCodeReview(input: CreateCodeReviewInput) async throws -> CreateCodeReviewOutput
     /// Returns the metadata associated with the code review along with its status.
     ///
     /// - Parameter DescribeCodeReviewInput : [no documentation found]
     ///
-    /// - Returns: `DescribeCodeReviewOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeCodeReviewOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -49,12 +49,12 @@ public protocol CodeGuruReviewerClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request was not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
-    func describeCodeReview(input: DescribeCodeReviewInput) async throws -> DescribeCodeReviewOutputResponse
+    func describeCodeReview(input: DescribeCodeReviewInput) async throws -> DescribeCodeReviewOutput
     /// Describes the customer feedback for a CodeGuru Reviewer recommendation.
     ///
     /// - Parameter DescribeRecommendationFeedbackInput : [no documentation found]
     ///
-    /// - Returns: `DescribeRecommendationFeedbackOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeRecommendationFeedbackOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -64,12 +64,12 @@ public protocol CodeGuruReviewerClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request was not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
-    func describeRecommendationFeedback(input: DescribeRecommendationFeedbackInput) async throws -> DescribeRecommendationFeedbackOutputResponse
+    func describeRecommendationFeedback(input: DescribeRecommendationFeedbackInput) async throws -> DescribeRecommendationFeedbackOutput
     /// Returns a [RepositoryAssociation](https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_RepositoryAssociation.html) object that contains information about the requested repository association.
     ///
     /// - Parameter DescribeRepositoryAssociationInput : [no documentation found]
     ///
-    /// - Returns: `DescribeRepositoryAssociationOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeRepositoryAssociationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -79,12 +79,12 @@ public protocol CodeGuruReviewerClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
-    func describeRepositoryAssociation(input: DescribeRepositoryAssociationInput) async throws -> DescribeRepositoryAssociationOutputResponse
+    func describeRepositoryAssociation(input: DescribeRepositoryAssociationInput) async throws -> DescribeRepositoryAssociationOutput
     /// Removes the association between Amazon CodeGuru Reviewer and a repository.
     ///
     /// - Parameter DisassociateRepositoryInput : [no documentation found]
     ///
-    /// - Returns: `DisassociateRepositoryOutputResponse` : [no documentation found]
+    /// - Returns: `DisassociateRepositoryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -95,12 +95,12 @@ public protocol CodeGuruReviewerClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
-    func disassociateRepository(input: DisassociateRepositoryInput) async throws -> DisassociateRepositoryOutputResponse
+    func disassociateRepository(input: DisassociateRepositoryInput) async throws -> DisassociateRepositoryOutput
     /// Lists all the code reviews that the customer has created in the past 90 days.
     ///
     /// - Parameter ListCodeReviewsInput : [no documentation found]
     ///
-    /// - Returns: `ListCodeReviewsOutputResponse` : [no documentation found]
+    /// - Returns: `ListCodeReviewsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -109,12 +109,12 @@ public protocol CodeGuruReviewerClientProtocol {
     /// - `InternalServerException` : The server encountered an internal error and is unable to complete the request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
-    func listCodeReviews(input: ListCodeReviewsInput) async throws -> ListCodeReviewsOutputResponse
+    func listCodeReviews(input: ListCodeReviewsInput) async throws -> ListCodeReviewsOutput
     /// Returns a list of [RecommendationFeedbackSummary](https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_RecommendationFeedbackSummary.html) objects that contain customer recommendation feedback for all CodeGuru Reviewer users.
     ///
     /// - Parameter ListRecommendationFeedbackInput : [no documentation found]
     ///
-    /// - Returns: `ListRecommendationFeedbackOutputResponse` : [no documentation found]
+    /// - Returns: `ListRecommendationFeedbackOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -124,12 +124,12 @@ public protocol CodeGuruReviewerClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request was not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
-    func listRecommendationFeedback(input: ListRecommendationFeedbackInput) async throws -> ListRecommendationFeedbackOutputResponse
+    func listRecommendationFeedback(input: ListRecommendationFeedbackInput) async throws -> ListRecommendationFeedbackOutput
     /// Returns the list of all recommendations for a completed code review.
     ///
     /// - Parameter ListRecommendationsInput : [no documentation found]
     ///
-    /// - Returns: `ListRecommendationsOutputResponse` : [no documentation found]
+    /// - Returns: `ListRecommendationsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -139,12 +139,12 @@ public protocol CodeGuruReviewerClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request was not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
-    func listRecommendations(input: ListRecommendationsInput) async throws -> ListRecommendationsOutputResponse
+    func listRecommendations(input: ListRecommendationsInput) async throws -> ListRecommendationsOutput
     /// Returns a list of [RepositoryAssociationSummary](https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_RepositoryAssociationSummary.html) objects that contain summary information about a repository association. You can filter the returned list by [ProviderType](https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_RepositoryAssociationSummary.html#reviewer-Type-RepositoryAssociationSummary-ProviderType), [Name](https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_RepositoryAssociationSummary.html#reviewer-Type-RepositoryAssociationSummary-Name), [State](https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_RepositoryAssociationSummary.html#reviewer-Type-RepositoryAssociationSummary-State), and [Owner](https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_RepositoryAssociationSummary.html#reviewer-Type-RepositoryAssociationSummary-Owner).
     ///
     /// - Parameter ListRepositoryAssociationsInput : [no documentation found]
     ///
-    /// - Returns: `ListRepositoryAssociationsOutputResponse` : [no documentation found]
+    /// - Returns: `ListRepositoryAssociationsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -152,12 +152,12 @@ public protocol CodeGuruReviewerClientProtocol {
     /// - `InternalServerException` : The server encountered an internal error and is unable to complete the request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
-    func listRepositoryAssociations(input: ListRepositoryAssociationsInput) async throws -> ListRepositoryAssociationsOutputResponse
+    func listRepositoryAssociations(input: ListRepositoryAssociationsInput) async throws -> ListRepositoryAssociationsOutput
     /// Returns the list of tags associated with an associated repository resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -165,12 +165,12 @@ public protocol CodeGuruReviewerClientProtocol {
     /// - `InternalServerException` : The server encountered an internal error and is unable to complete the request.
     /// - `ResourceNotFoundException` : The resource specified in the request was not found.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     /// Stores customer feedback for a CodeGuru Reviewer recommendation. When this API is called again with different reactions the previous feedback is overwritten.
     ///
     /// - Parameter PutRecommendationFeedbackInput : [no documentation found]
     ///
-    /// - Returns: `PutRecommendationFeedbackOutputResponse` : [no documentation found]
+    /// - Returns: `PutRecommendationFeedbackOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -180,12 +180,12 @@ public protocol CodeGuruReviewerClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request was not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
-    func putRecommendationFeedback(input: PutRecommendationFeedbackInput) async throws -> PutRecommendationFeedbackOutputResponse
+    func putRecommendationFeedback(input: PutRecommendationFeedbackInput) async throws -> PutRecommendationFeedbackOutput
     /// Adds one or more tags to an associated repository.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -193,12 +193,12 @@ public protocol CodeGuruReviewerClientProtocol {
     /// - `InternalServerException` : The server encountered an internal error and is unable to complete the request.
     /// - `ResourceNotFoundException` : The resource specified in the request was not found.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     /// Removes a tag from an associated repository.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -206,7 +206,7 @@ public protocol CodeGuruReviewerClientProtocol {
     /// - `InternalServerException` : The server encountered an internal error and is unable to complete the request.
     /// - `ResourceNotFoundException` : The resource specified in the request was not found.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
 }
 
 public enum CodeGuruReviewerClientTypes {}

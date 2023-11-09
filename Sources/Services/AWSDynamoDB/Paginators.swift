@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension DynamoDBClient {
-    /// Paginate over `[ListContributorInsightsOutputResponse]` results.
+    /// Paginate over `[ListContributorInsightsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListContributorInsightsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListContributorInsightsOutputResponse`
-    public func listContributorInsightsPaginated(input: ListContributorInsightsInput) -> ClientRuntime.PaginatorSequence<ListContributorInsightsInput, ListContributorInsightsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListContributorInsightsInput, ListContributorInsightsOutputResponse>(input: input, inputKey: \ListContributorInsightsInput.nextToken, outputKey: \ListContributorInsightsOutputResponse.nextToken, paginationFunction: self.listContributorInsights(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListContributorInsightsOutput`
+    public func listContributorInsightsPaginated(input: ListContributorInsightsInput) -> ClientRuntime.PaginatorSequence<ListContributorInsightsInput, ListContributorInsightsOutput> {
+        return ClientRuntime.PaginatorSequence<ListContributorInsightsInput, ListContributorInsightsOutput>(input: input, inputKey: \ListContributorInsightsInput.nextToken, outputKey: \ListContributorInsightsOutput.nextToken, paginationFunction: self.listContributorInsights(input:))
     }
 }
 
@@ -25,16 +25,16 @@ extension ListContributorInsightsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension DynamoDBClient {
-    /// Paginate over `[ListExportsOutputResponse]` results.
+    /// Paginate over `[ListExportsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListExportsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListExportsOutputResponse`
-    public func listExportsPaginated(input: ListExportsInput) -> ClientRuntime.PaginatorSequence<ListExportsInput, ListExportsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListExportsInput, ListExportsOutputResponse>(input: input, inputKey: \ListExportsInput.nextToken, outputKey: \ListExportsOutputResponse.nextToken, paginationFunction: self.listExports(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListExportsOutput`
+    public func listExportsPaginated(input: ListExportsInput) -> ClientRuntime.PaginatorSequence<ListExportsInput, ListExportsOutput> {
+        return ClientRuntime.PaginatorSequence<ListExportsInput, ListExportsOutput>(input: input, inputKey: \ListExportsInput.nextToken, outputKey: \ListExportsOutput.nextToken, paginationFunction: self.listExports(input:))
     }
 }
 
@@ -47,16 +47,16 @@ extension ListExportsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension DynamoDBClient {
-    /// Paginate over `[ListImportsOutputResponse]` results.
+    /// Paginate over `[ListImportsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListImportsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListImportsOutputResponse`
-    public func listImportsPaginated(input: ListImportsInput) -> ClientRuntime.PaginatorSequence<ListImportsInput, ListImportsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListImportsInput, ListImportsOutputResponse>(input: input, inputKey: \ListImportsInput.nextToken, outputKey: \ListImportsOutputResponse.nextToken, paginationFunction: self.listImports(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListImportsOutput`
+    public func listImportsPaginated(input: ListImportsInput) -> ClientRuntime.PaginatorSequence<ListImportsInput, ListImportsOutput> {
+        return ClientRuntime.PaginatorSequence<ListImportsInput, ListImportsOutput>(input: input, inputKey: \ListImportsInput.nextToken, outputKey: \ListImportsOutput.nextToken, paginationFunction: self.listImports(input:))
     }
 }
 
@@ -69,16 +69,16 @@ extension ListImportsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension DynamoDBClient {
-    /// Paginate over `[ListTablesOutputResponse]` results.
+    /// Paginate over `[ListTablesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListTablesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListTablesOutputResponse`
-    public func listTablesPaginated(input: ListTablesInput) -> ClientRuntime.PaginatorSequence<ListTablesInput, ListTablesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListTablesInput, ListTablesOutputResponse>(input: input, inputKey: \ListTablesInput.exclusiveStartTableName, outputKey: \ListTablesOutputResponse.lastEvaluatedTableName, paginationFunction: self.listTables(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListTablesOutput`
+    public func listTablesPaginated(input: ListTablesInput) -> ClientRuntime.PaginatorSequence<ListTablesInput, ListTablesOutput> {
+        return ClientRuntime.PaginatorSequence<ListTablesInput, ListTablesOutput>(input: input, inputKey: \ListTablesInput.exclusiveStartTableName, outputKey: \ListTablesOutput.lastEvaluatedTableName, paginationFunction: self.listTables(input:))
     }
 }
 
@@ -90,7 +90,7 @@ extension ListTablesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListTablesInput, Output == ListTablesOutputResponse {
+extension PaginatorSequence where Input == ListTablesInput, Output == ListTablesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listTablesPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`
@@ -99,16 +99,16 @@ extension PaginatorSequence where Input == ListTablesInput, Output == ListTables
     }
 }
 extension DynamoDBClient {
-    /// Paginate over `[QueryOutputResponse]` results.
+    /// Paginate over `[QueryOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[QueryInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `QueryOutputResponse`
-    public func queryPaginated(input: QueryInput) -> ClientRuntime.PaginatorSequence<QueryInput, QueryOutputResponse> {
-        return ClientRuntime.PaginatorSequence<QueryInput, QueryOutputResponse>(input: input, inputKey: \QueryInput.exclusiveStartKey, outputKey: \QueryOutputResponse.lastEvaluatedKey, paginationFunction: self.query(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `QueryOutput`
+    public func queryPaginated(input: QueryInput) -> ClientRuntime.PaginatorSequence<QueryInput, QueryOutput> {
+        return ClientRuntime.PaginatorSequence<QueryInput, QueryOutput>(input: input, inputKey: \QueryInput.exclusiveStartKey, outputKey: \QueryOutput.lastEvaluatedKey, paginationFunction: self.query(input:))
     }
 }
 
@@ -135,7 +135,7 @@ extension QueryInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == QueryInput, Output == QueryOutputResponse {
+extension PaginatorSequence where Input == QueryInput, Output == QueryOutput {
     /// This paginator transforms the `AsyncSequence` returned by `queryPaginated`
     /// to access the nested member `[[Swift.String:DynamoDBClientTypes.AttributeValue]]`
     /// - Returns: `[[Swift.String:DynamoDBClientTypes.AttributeValue]]`
@@ -144,16 +144,16 @@ extension PaginatorSequence where Input == QueryInput, Output == QueryOutputResp
     }
 }
 extension DynamoDBClient {
-    /// Paginate over `[ScanOutputResponse]` results.
+    /// Paginate over `[ScanOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ScanInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ScanOutputResponse`
-    public func scanPaginated(input: ScanInput) -> ClientRuntime.PaginatorSequence<ScanInput, ScanOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ScanInput, ScanOutputResponse>(input: input, inputKey: \ScanInput.exclusiveStartKey, outputKey: \ScanOutputResponse.lastEvaluatedKey, paginationFunction: self.scan(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ScanOutput`
+    public func scanPaginated(input: ScanInput) -> ClientRuntime.PaginatorSequence<ScanInput, ScanOutput> {
+        return ClientRuntime.PaginatorSequence<ScanInput, ScanOutput>(input: input, inputKey: \ScanInput.exclusiveStartKey, outputKey: \ScanOutput.lastEvaluatedKey, paginationFunction: self.scan(input:))
     }
 }
 
@@ -179,7 +179,7 @@ extension ScanInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ScanInput, Output == ScanOutputResponse {
+extension PaginatorSequence where Input == ScanInput, Output == ScanOutput {
     /// This paginator transforms the `AsyncSequence` returned by `scanPaginated`
     /// to access the nested member `[[Swift.String:DynamoDBClientTypes.AttributeValue]]`
     /// - Returns: `[[Swift.String:DynamoDBClientTypes.AttributeValue]]`

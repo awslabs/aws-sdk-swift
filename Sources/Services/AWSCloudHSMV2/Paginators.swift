@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension CloudHSMV2Client {
-    /// Paginate over `[DescribeBackupsOutputResponse]` results.
+    /// Paginate over `[DescribeBackupsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeBackupsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeBackupsOutputResponse`
-    public func describeBackupsPaginated(input: DescribeBackupsInput) -> ClientRuntime.PaginatorSequence<DescribeBackupsInput, DescribeBackupsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeBackupsInput, DescribeBackupsOutputResponse>(input: input, inputKey: \DescribeBackupsInput.nextToken, outputKey: \DescribeBackupsOutputResponse.nextToken, paginationFunction: self.describeBackups(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeBackupsOutput`
+    public func describeBackupsPaginated(input: DescribeBackupsInput) -> ClientRuntime.PaginatorSequence<DescribeBackupsInput, DescribeBackupsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeBackupsInput, DescribeBackupsOutput>(input: input, inputKey: \DescribeBackupsInput.nextToken, outputKey: \DescribeBackupsOutput.nextToken, paginationFunction: self.describeBackups(input:))
     }
 }
 
@@ -26,16 +26,16 @@ extension DescribeBackupsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension CloudHSMV2Client {
-    /// Paginate over `[DescribeClustersOutputResponse]` results.
+    /// Paginate over `[DescribeClustersOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeClustersInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeClustersOutputResponse`
-    public func describeClustersPaginated(input: DescribeClustersInput) -> ClientRuntime.PaginatorSequence<DescribeClustersInput, DescribeClustersOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeClustersInput, DescribeClustersOutputResponse>(input: input, inputKey: \DescribeClustersInput.nextToken, outputKey: \DescribeClustersOutputResponse.nextToken, paginationFunction: self.describeClusters(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeClustersOutput`
+    public func describeClustersPaginated(input: DescribeClustersInput) -> ClientRuntime.PaginatorSequence<DescribeClustersInput, DescribeClustersOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeClustersInput, DescribeClustersOutput>(input: input, inputKey: \DescribeClustersInput.nextToken, outputKey: \DescribeClustersOutput.nextToken, paginationFunction: self.describeClusters(input:))
     }
 }
 
@@ -48,16 +48,16 @@ extension DescribeClustersInput: ClientRuntime.PaginateToken {
         )}
 }
 extension CloudHSMV2Client {
-    /// Paginate over `[ListTagsOutputResponse]` results.
+    /// Paginate over `[ListTagsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListTagsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListTagsOutputResponse`
-    public func listTagsPaginated(input: ListTagsInput) -> ClientRuntime.PaginatorSequence<ListTagsInput, ListTagsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListTagsInput, ListTagsOutputResponse>(input: input, inputKey: \ListTagsInput.nextToken, outputKey: \ListTagsOutputResponse.nextToken, paginationFunction: self.listTags(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListTagsOutput`
+    public func listTagsPaginated(input: ListTagsInput) -> ClientRuntime.PaginatorSequence<ListTagsInput, ListTagsOutput> {
+        return ClientRuntime.PaginatorSequence<ListTagsInput, ListTagsOutput>(input: input, inputKey: \ListTagsInput.nextToken, outputKey: \ListTagsOutput.nextToken, paginationFunction: self.listTags(input:))
     }
 }
 

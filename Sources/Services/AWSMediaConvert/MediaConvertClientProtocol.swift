@@ -8,7 +8,7 @@ public protocol MediaConvertClientProtocol {
     ///
     /// - Parameter AssociateCertificateInput : [no documentation found]
     ///
-    /// - Returns: `AssociateCertificateOutputResponse` : [no documentation found]
+    /// - Returns: `AssociateCertificateOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -19,12 +19,12 @@ public protocol MediaConvertClientProtocol {
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
-    func associateCertificate(input: AssociateCertificateInput) async throws -> AssociateCertificateOutputResponse
+    func associateCertificate(input: AssociateCertificateInput) async throws -> AssociateCertificateOutput
     /// Permanently cancel a job. Once you have canceled a job, you can't start it again.
     ///
     /// - Parameter CancelJobInput : [no documentation found]
     ///
-    /// - Returns: `CancelJobOutputResponse` : [no documentation found]
+    /// - Returns: `CancelJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -35,12 +35,12 @@ public protocol MediaConvertClientProtocol {
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
-    func cancelJob(input: CancelJobInput) async throws -> CancelJobOutputResponse
+    func cancelJob(input: CancelJobInput) async throws -> CancelJobOutput
     /// Create a new transcoding job. For information about jobs and job settings, see the User Guide at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
     ///
     /// - Parameter CreateJobInput : [no documentation found]
     ///
-    /// - Returns: `CreateJobOutputResponse` : [no documentation found]
+    /// - Returns: `CreateJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -51,12 +51,12 @@ public protocol MediaConvertClientProtocol {
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
-    func createJob(input: CreateJobInput) async throws -> CreateJobOutputResponse
+    func createJob(input: CreateJobInput) async throws -> CreateJobOutput
     /// Create a new job template. For information about job templates see the User Guide at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
     ///
     /// - Parameter CreateJobTemplateInput : [no documentation found]
     ///
-    /// - Returns: `CreateJobTemplateOutputResponse` : [no documentation found]
+    /// - Returns: `CreateJobTemplateOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -67,12 +67,12 @@ public protocol MediaConvertClientProtocol {
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
-    func createJobTemplate(input: CreateJobTemplateInput) async throws -> CreateJobTemplateOutputResponse
+    func createJobTemplate(input: CreateJobTemplateInput) async throws -> CreateJobTemplateOutput
     /// Create a new preset. For information about job templates see the User Guide at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
     ///
     /// - Parameter CreatePresetInput : [no documentation found]
     ///
-    /// - Returns: `CreatePresetOutputResponse` : [no documentation found]
+    /// - Returns: `CreatePresetOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -83,12 +83,12 @@ public protocol MediaConvertClientProtocol {
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
-    func createPreset(input: CreatePresetInput) async throws -> CreatePresetOutputResponse
+    func createPreset(input: CreatePresetInput) async throws -> CreatePresetOutput
     /// Create a new transcoding queue. For information about queues, see Working With Queues in the User Guide at https://docs.aws.amazon.com/mediaconvert/latest/ug/working-with-queues.html
     ///
     /// - Parameter CreateQueueInput : [no documentation found]
     ///
-    /// - Returns: `CreateQueueOutputResponse` : [no documentation found]
+    /// - Returns: `CreateQueueOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -99,12 +99,12 @@ public protocol MediaConvertClientProtocol {
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
-    func createQueue(input: CreateQueueInput) async throws -> CreateQueueOutputResponse
+    func createQueue(input: CreateQueueInput) async throws -> CreateQueueOutput
     /// Permanently delete a job template you have created.
     ///
     /// - Parameter DeleteJobTemplateInput : [no documentation found]
     ///
-    /// - Returns: `DeleteJobTemplateOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteJobTemplateOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -115,12 +115,12 @@ public protocol MediaConvertClientProtocol {
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
-    func deleteJobTemplate(input: DeleteJobTemplateInput) async throws -> DeleteJobTemplateOutputResponse
+    func deleteJobTemplate(input: DeleteJobTemplateInput) async throws -> DeleteJobTemplateOutput
     /// Permanently delete a policy that you created.
     ///
     /// - Parameter DeletePolicyInput : [no documentation found]
     ///
-    /// - Returns: `DeletePolicyOutputResponse` : [no documentation found]
+    /// - Returns: `DeletePolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -131,12 +131,12 @@ public protocol MediaConvertClientProtocol {
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
-    func deletePolicy(input: DeletePolicyInput) async throws -> DeletePolicyOutputResponse
+    func deletePolicy(input: DeletePolicyInput) async throws -> DeletePolicyOutput
     /// Permanently delete a preset you have created.
     ///
     /// - Parameter DeletePresetInput : [no documentation found]
     ///
-    /// - Returns: `DeletePresetOutputResponse` : [no documentation found]
+    /// - Returns: `DeletePresetOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -147,12 +147,12 @@ public protocol MediaConvertClientProtocol {
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
-    func deletePreset(input: DeletePresetInput) async throws -> DeletePresetOutputResponse
+    func deletePreset(input: DeletePresetInput) async throws -> DeletePresetOutput
     /// Permanently delete a queue you have created.
     ///
     /// - Parameter DeleteQueueInput : [no documentation found]
     ///
-    /// - Returns: `DeleteQueueOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteQueueOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -163,12 +163,12 @@ public protocol MediaConvertClientProtocol {
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
-    func deleteQueue(input: DeleteQueueInput) async throws -> DeleteQueueOutputResponse
+    func deleteQueue(input: DeleteQueueInput) async throws -> DeleteQueueOutput
     /// Send an request with an empty body to the regional API endpoint to get your account API endpoint.
     ///
     /// - Parameter DescribeEndpointsInput : DescribeEndpointsRequest
     ///
-    /// - Returns: `DescribeEndpointsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeEndpointsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -179,12 +179,12 @@ public protocol MediaConvertClientProtocol {
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
-    func describeEndpoints(input: DescribeEndpointsInput) async throws -> DescribeEndpointsOutputResponse
+    func describeEndpoints(input: DescribeEndpointsInput) async throws -> DescribeEndpointsOutput
     /// Removes an association between the Amazon Resource Name (ARN) of an AWS Certificate Manager (ACM) certificate and an AWS Elemental MediaConvert resource.
     ///
     /// - Parameter DisassociateCertificateInput : [no documentation found]
     ///
-    /// - Returns: `DisassociateCertificateOutputResponse` : [no documentation found]
+    /// - Returns: `DisassociateCertificateOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -195,12 +195,12 @@ public protocol MediaConvertClientProtocol {
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
-    func disassociateCertificate(input: DisassociateCertificateInput) async throws -> DisassociateCertificateOutputResponse
+    func disassociateCertificate(input: DisassociateCertificateInput) async throws -> DisassociateCertificateOutput
     /// Retrieve the JSON for a specific transcoding job.
     ///
     /// - Parameter GetJobInput : [no documentation found]
     ///
-    /// - Returns: `GetJobOutputResponse` : [no documentation found]
+    /// - Returns: `GetJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -211,12 +211,12 @@ public protocol MediaConvertClientProtocol {
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
-    func getJob(input: GetJobInput) async throws -> GetJobOutputResponse
+    func getJob(input: GetJobInput) async throws -> GetJobOutput
     /// Retrieve the JSON for a specific job template.
     ///
     /// - Parameter GetJobTemplateInput : [no documentation found]
     ///
-    /// - Returns: `GetJobTemplateOutputResponse` : [no documentation found]
+    /// - Returns: `GetJobTemplateOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -227,12 +227,12 @@ public protocol MediaConvertClientProtocol {
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
-    func getJobTemplate(input: GetJobTemplateInput) async throws -> GetJobTemplateOutputResponse
+    func getJobTemplate(input: GetJobTemplateInput) async throws -> GetJobTemplateOutput
     /// Retrieve the JSON for your policy.
     ///
     /// - Parameter GetPolicyInput : [no documentation found]
     ///
-    /// - Returns: `GetPolicyOutputResponse` : [no documentation found]
+    /// - Returns: `GetPolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -243,12 +243,12 @@ public protocol MediaConvertClientProtocol {
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
-    func getPolicy(input: GetPolicyInput) async throws -> GetPolicyOutputResponse
+    func getPolicy(input: GetPolicyInput) async throws -> GetPolicyOutput
     /// Retrieve the JSON for a specific preset.
     ///
     /// - Parameter GetPresetInput : [no documentation found]
     ///
-    /// - Returns: `GetPresetOutputResponse` : [no documentation found]
+    /// - Returns: `GetPresetOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -259,12 +259,12 @@ public protocol MediaConvertClientProtocol {
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
-    func getPreset(input: GetPresetInput) async throws -> GetPresetOutputResponse
+    func getPreset(input: GetPresetInput) async throws -> GetPresetOutput
     /// Retrieve the JSON for a specific queue.
     ///
     /// - Parameter GetQueueInput : [no documentation found]
     ///
-    /// - Returns: `GetQueueOutputResponse` : [no documentation found]
+    /// - Returns: `GetQueueOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -275,12 +275,12 @@ public protocol MediaConvertClientProtocol {
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
-    func getQueue(input: GetQueueInput) async throws -> GetQueueOutputResponse
+    func getQueue(input: GetQueueInput) async throws -> GetQueueOutput
     /// Retrieve a JSON array of up to twenty of your most recently created jobs. This array includes in-process, completed, and errored jobs. This will return the jobs themselves, not just a list of the jobs. To retrieve the twenty next most recent jobs, use the nextToken string returned with the array.
     ///
     /// - Parameter ListJobsInput : [no documentation found]
     ///
-    /// - Returns: `ListJobsOutputResponse` : [no documentation found]
+    /// - Returns: `ListJobsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -291,12 +291,12 @@ public protocol MediaConvertClientProtocol {
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
-    func listJobs(input: ListJobsInput) async throws -> ListJobsOutputResponse
+    func listJobs(input: ListJobsInput) async throws -> ListJobsOutput
     /// Retrieve a JSON array of up to twenty of your job templates. This will return the templates themselves, not just a list of them. To retrieve the next twenty templates, use the nextToken string returned with the array
     ///
     /// - Parameter ListJobTemplatesInput : [no documentation found]
     ///
-    /// - Returns: `ListJobTemplatesOutputResponse` : [no documentation found]
+    /// - Returns: `ListJobTemplatesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -307,12 +307,12 @@ public protocol MediaConvertClientProtocol {
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
-    func listJobTemplates(input: ListJobTemplatesInput) async throws -> ListJobTemplatesOutputResponse
+    func listJobTemplates(input: ListJobTemplatesInput) async throws -> ListJobTemplatesOutput
     /// Retrieve a JSON array of up to twenty of your presets. This will return the presets themselves, not just a list of them. To retrieve the next twenty presets, use the nextToken string returned with the array.
     ///
     /// - Parameter ListPresetsInput : [no documentation found]
     ///
-    /// - Returns: `ListPresetsOutputResponse` : [no documentation found]
+    /// - Returns: `ListPresetsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -323,12 +323,12 @@ public protocol MediaConvertClientProtocol {
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
-    func listPresets(input: ListPresetsInput) async throws -> ListPresetsOutputResponse
+    func listPresets(input: ListPresetsInput) async throws -> ListPresetsOutput
     /// Retrieve a JSON array of up to twenty of your queues. This will return the queues themselves, not just a list of them. To retrieve the next twenty queues, use the nextToken string returned with the array.
     ///
     /// - Parameter ListQueuesInput : [no documentation found]
     ///
-    /// - Returns: `ListQueuesOutputResponse` : [no documentation found]
+    /// - Returns: `ListQueuesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -339,12 +339,12 @@ public protocol MediaConvertClientProtocol {
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
-    func listQueues(input: ListQueuesInput) async throws -> ListQueuesOutputResponse
+    func listQueues(input: ListQueuesInput) async throws -> ListQueuesOutput
     /// Retrieve the tags for a MediaConvert resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -355,12 +355,12 @@ public protocol MediaConvertClientProtocol {
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     /// Create or change your policy. For more information about policies, see the user guide at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
     ///
     /// - Parameter PutPolicyInput : [no documentation found]
     ///
-    /// - Returns: `PutPolicyOutputResponse` : [no documentation found]
+    /// - Returns: `PutPolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -371,12 +371,12 @@ public protocol MediaConvertClientProtocol {
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
-    func putPolicy(input: PutPolicyInput) async throws -> PutPolicyOutputResponse
+    func putPolicy(input: PutPolicyInput) async throws -> PutPolicyOutput
     /// Add tags to a MediaConvert queue, preset, or job template. For information about tagging, see the User Guide at https://docs.aws.amazon.com/mediaconvert/latest/ug/tagging-resources.html
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -387,12 +387,12 @@ public protocol MediaConvertClientProtocol {
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     /// Remove tags from a MediaConvert queue, preset, or job template. For information about tagging, see the User Guide at https://docs.aws.amazon.com/mediaconvert/latest/ug/tagging-resources.html
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -403,12 +403,12 @@ public protocol MediaConvertClientProtocol {
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
     /// Modify one of your existing job templates.
     ///
     /// - Parameter UpdateJobTemplateInput : [no documentation found]
     ///
-    /// - Returns: `UpdateJobTemplateOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateJobTemplateOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -419,12 +419,12 @@ public protocol MediaConvertClientProtocol {
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
-    func updateJobTemplate(input: UpdateJobTemplateInput) async throws -> UpdateJobTemplateOutputResponse
+    func updateJobTemplate(input: UpdateJobTemplateInput) async throws -> UpdateJobTemplateOutput
     /// Modify one of your existing presets.
     ///
     /// - Parameter UpdatePresetInput : [no documentation found]
     ///
-    /// - Returns: `UpdatePresetOutputResponse` : [no documentation found]
+    /// - Returns: `UpdatePresetOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -435,12 +435,12 @@ public protocol MediaConvertClientProtocol {
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
-    func updatePreset(input: UpdatePresetInput) async throws -> UpdatePresetOutputResponse
+    func updatePreset(input: UpdatePresetInput) async throws -> UpdatePresetOutput
     /// Modify one of your existing queues.
     ///
     /// - Parameter UpdateQueueInput : [no documentation found]
     ///
-    /// - Returns: `UpdateQueueOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateQueueOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -451,7 +451,7 @@ public protocol MediaConvertClientProtocol {
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
-    func updateQueue(input: UpdateQueueInput) async throws -> UpdateQueueOutputResponse
+    func updateQueue(input: UpdateQueueInput) async throws -> UpdateQueueOutput
 }
 
 public enum MediaConvertClientTypes {}

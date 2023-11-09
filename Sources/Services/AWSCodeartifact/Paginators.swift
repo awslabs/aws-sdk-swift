@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension CodeartifactClient {
-    /// Paginate over `[ListDomainsOutputResponse]` results.
+    /// Paginate over `[ListDomainsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListDomainsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListDomainsOutputResponse`
-    public func listDomainsPaginated(input: ListDomainsInput) -> ClientRuntime.PaginatorSequence<ListDomainsInput, ListDomainsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListDomainsInput, ListDomainsOutputResponse>(input: input, inputKey: \ListDomainsInput.nextToken, outputKey: \ListDomainsOutputResponse.nextToken, paginationFunction: self.listDomains(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDomainsOutput`
+    public func listDomainsPaginated(input: ListDomainsInput) -> ClientRuntime.PaginatorSequence<ListDomainsInput, ListDomainsOutput> {
+        return ClientRuntime.PaginatorSequence<ListDomainsInput, ListDomainsOutput>(input: input, inputKey: \ListDomainsInput.nextToken, outputKey: \ListDomainsOutput.nextToken, paginationFunction: self.listDomains(input:))
     }
 }
 
@@ -24,7 +24,7 @@ extension ListDomainsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListDomainsInput, Output == ListDomainsOutputResponse {
+extension PaginatorSequence where Input == ListDomainsInput, Output == ListDomainsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listDomainsPaginated`
     /// to access the nested member `[CodeartifactClientTypes.DomainSummary]`
     /// - Returns: `[CodeartifactClientTypes.DomainSummary]`
@@ -33,16 +33,16 @@ extension PaginatorSequence where Input == ListDomainsInput, Output == ListDomai
     }
 }
 extension CodeartifactClient {
-    /// Paginate over `[ListPackagesOutputResponse]` results.
+    /// Paginate over `[ListPackagesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListPackagesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListPackagesOutputResponse`
-    public func listPackagesPaginated(input: ListPackagesInput) -> ClientRuntime.PaginatorSequence<ListPackagesInput, ListPackagesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListPackagesInput, ListPackagesOutputResponse>(input: input, inputKey: \ListPackagesInput.nextToken, outputKey: \ListPackagesOutputResponse.nextToken, paginationFunction: self.listPackages(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListPackagesOutput`
+    public func listPackagesPaginated(input: ListPackagesInput) -> ClientRuntime.PaginatorSequence<ListPackagesInput, ListPackagesOutput> {
+        return ClientRuntime.PaginatorSequence<ListPackagesInput, ListPackagesOutput>(input: input, inputKey: \ListPackagesInput.nextToken, outputKey: \ListPackagesOutput.nextToken, paginationFunction: self.listPackages(input:))
     }
 }
 
@@ -62,7 +62,7 @@ extension ListPackagesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListPackagesInput, Output == ListPackagesOutputResponse {
+extension PaginatorSequence where Input == ListPackagesInput, Output == ListPackagesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listPackagesPaginated`
     /// to access the nested member `[CodeartifactClientTypes.PackageSummary]`
     /// - Returns: `[CodeartifactClientTypes.PackageSummary]`
@@ -71,16 +71,16 @@ extension PaginatorSequence where Input == ListPackagesInput, Output == ListPack
     }
 }
 extension CodeartifactClient {
-    /// Paginate over `[ListPackageVersionAssetsOutputResponse]` results.
+    /// Paginate over `[ListPackageVersionAssetsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListPackageVersionAssetsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListPackageVersionAssetsOutputResponse`
-    public func listPackageVersionAssetsPaginated(input: ListPackageVersionAssetsInput) -> ClientRuntime.PaginatorSequence<ListPackageVersionAssetsInput, ListPackageVersionAssetsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListPackageVersionAssetsInput, ListPackageVersionAssetsOutputResponse>(input: input, inputKey: \ListPackageVersionAssetsInput.nextToken, outputKey: \ListPackageVersionAssetsOutputResponse.nextToken, paginationFunction: self.listPackageVersionAssets(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListPackageVersionAssetsOutput`
+    public func listPackageVersionAssetsPaginated(input: ListPackageVersionAssetsInput) -> ClientRuntime.PaginatorSequence<ListPackageVersionAssetsInput, ListPackageVersionAssetsOutput> {
+        return ClientRuntime.PaginatorSequence<ListPackageVersionAssetsInput, ListPackageVersionAssetsOutput>(input: input, inputKey: \ListPackageVersionAssetsInput.nextToken, outputKey: \ListPackageVersionAssetsOutput.nextToken, paginationFunction: self.listPackageVersionAssets(input:))
     }
 }
 
@@ -99,7 +99,7 @@ extension ListPackageVersionAssetsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListPackageVersionAssetsInput, Output == ListPackageVersionAssetsOutputResponse {
+extension PaginatorSequence where Input == ListPackageVersionAssetsInput, Output == ListPackageVersionAssetsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listPackageVersionAssetsPaginated`
     /// to access the nested member `[CodeartifactClientTypes.AssetSummary]`
     /// - Returns: `[CodeartifactClientTypes.AssetSummary]`
@@ -108,16 +108,16 @@ extension PaginatorSequence where Input == ListPackageVersionAssetsInput, Output
     }
 }
 extension CodeartifactClient {
-    /// Paginate over `[ListPackageVersionsOutputResponse]` results.
+    /// Paginate over `[ListPackageVersionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListPackageVersionsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListPackageVersionsOutputResponse`
-    public func listPackageVersionsPaginated(input: ListPackageVersionsInput) -> ClientRuntime.PaginatorSequence<ListPackageVersionsInput, ListPackageVersionsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListPackageVersionsInput, ListPackageVersionsOutputResponse>(input: input, inputKey: \ListPackageVersionsInput.nextToken, outputKey: \ListPackageVersionsOutputResponse.nextToken, paginationFunction: self.listPackageVersions(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListPackageVersionsOutput`
+    public func listPackageVersionsPaginated(input: ListPackageVersionsInput) -> ClientRuntime.PaginatorSequence<ListPackageVersionsInput, ListPackageVersionsOutput> {
+        return ClientRuntime.PaginatorSequence<ListPackageVersionsInput, ListPackageVersionsOutput>(input: input, inputKey: \ListPackageVersionsInput.nextToken, outputKey: \ListPackageVersionsOutput.nextToken, paginationFunction: self.listPackageVersions(input:))
     }
 }
 
@@ -138,7 +138,7 @@ extension ListPackageVersionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListPackageVersionsInput, Output == ListPackageVersionsOutputResponse {
+extension PaginatorSequence where Input == ListPackageVersionsInput, Output == ListPackageVersionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listPackageVersionsPaginated`
     /// to access the nested member `[CodeartifactClientTypes.PackageVersionSummary]`
     /// - Returns: `[CodeartifactClientTypes.PackageVersionSummary]`
@@ -147,16 +147,16 @@ extension PaginatorSequence where Input == ListPackageVersionsInput, Output == L
     }
 }
 extension CodeartifactClient {
-    /// Paginate over `[ListRepositoriesOutputResponse]` results.
+    /// Paginate over `[ListRepositoriesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListRepositoriesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListRepositoriesOutputResponse`
-    public func listRepositoriesPaginated(input: ListRepositoriesInput) -> ClientRuntime.PaginatorSequence<ListRepositoriesInput, ListRepositoriesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListRepositoriesInput, ListRepositoriesOutputResponse>(input: input, inputKey: \ListRepositoriesInput.nextToken, outputKey: \ListRepositoriesOutputResponse.nextToken, paginationFunction: self.listRepositories(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListRepositoriesOutput`
+    public func listRepositoriesPaginated(input: ListRepositoriesInput) -> ClientRuntime.PaginatorSequence<ListRepositoriesInput, ListRepositoriesOutput> {
+        return ClientRuntime.PaginatorSequence<ListRepositoriesInput, ListRepositoriesOutput>(input: input, inputKey: \ListRepositoriesInput.nextToken, outputKey: \ListRepositoriesOutput.nextToken, paginationFunction: self.listRepositories(input:))
     }
 }
 
@@ -169,7 +169,7 @@ extension ListRepositoriesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListRepositoriesInput, Output == ListRepositoriesOutputResponse {
+extension PaginatorSequence where Input == ListRepositoriesInput, Output == ListRepositoriesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listRepositoriesPaginated`
     /// to access the nested member `[CodeartifactClientTypes.RepositorySummary]`
     /// - Returns: `[CodeartifactClientTypes.RepositorySummary]`
@@ -178,16 +178,16 @@ extension PaginatorSequence where Input == ListRepositoriesInput, Output == List
     }
 }
 extension CodeartifactClient {
-    /// Paginate over `[ListRepositoriesInDomainOutputResponse]` results.
+    /// Paginate over `[ListRepositoriesInDomainOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListRepositoriesInDomainInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListRepositoriesInDomainOutputResponse`
-    public func listRepositoriesInDomainPaginated(input: ListRepositoriesInDomainInput) -> ClientRuntime.PaginatorSequence<ListRepositoriesInDomainInput, ListRepositoriesInDomainOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListRepositoriesInDomainInput, ListRepositoriesInDomainOutputResponse>(input: input, inputKey: \ListRepositoriesInDomainInput.nextToken, outputKey: \ListRepositoriesInDomainOutputResponse.nextToken, paginationFunction: self.listRepositoriesInDomain(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListRepositoriesInDomainOutput`
+    public func listRepositoriesInDomainPaginated(input: ListRepositoriesInDomainInput) -> ClientRuntime.PaginatorSequence<ListRepositoriesInDomainInput, ListRepositoriesInDomainOutput> {
+        return ClientRuntime.PaginatorSequence<ListRepositoriesInDomainInput, ListRepositoriesInDomainOutput>(input: input, inputKey: \ListRepositoriesInDomainInput.nextToken, outputKey: \ListRepositoriesInDomainOutput.nextToken, paginationFunction: self.listRepositoriesInDomain(input:))
     }
 }
 
@@ -203,7 +203,7 @@ extension ListRepositoriesInDomainInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListRepositoriesInDomainInput, Output == ListRepositoriesInDomainOutputResponse {
+extension PaginatorSequence where Input == ListRepositoriesInDomainInput, Output == ListRepositoriesInDomainOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listRepositoriesInDomainPaginated`
     /// to access the nested member `[CodeartifactClientTypes.RepositorySummary]`
     /// - Returns: `[CodeartifactClientTypes.RepositorySummary]`

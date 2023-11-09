@@ -4,9 +4,9 @@ import ClientRuntime
 
 extension CloudControlClientProtocol {
 
-    static func resourceRequestSuccessWaiterConfig() throws -> WaiterConfiguration<GetResourceRequestStatusInput, GetResourceRequestStatusOutputResponse> {
-        let acceptors: [WaiterConfiguration<GetResourceRequestStatusInput, GetResourceRequestStatusOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: GetResourceRequestStatusInput, result: Result<GetResourceRequestStatusOutputResponse, Error>) -> Bool in
+    static func resourceRequestSuccessWaiterConfig() throws -> WaiterConfiguration<GetResourceRequestStatusInput, GetResourceRequestStatusOutput> {
+        let acceptors: [WaiterConfiguration<GetResourceRequestStatusInput, GetResourceRequestStatusOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: GetResourceRequestStatusInput, result: Result<GetResourceRequestStatusOutput, Error>) -> Bool in
                 // JMESPath expression: "ProgressEvent.OperationStatus"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "SUCCESS"
@@ -15,7 +15,7 @@ extension CloudControlClientProtocol {
                 let operationStatus = progressEvent?.operationStatus
                 return JMESUtils.compare(operationStatus, ==, "SUCCESS")
             }),
-            .init(state: .failure, matcher: { (input: GetResourceRequestStatusInput, result: Result<GetResourceRequestStatusOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: GetResourceRequestStatusInput, result: Result<GetResourceRequestStatusOutput, Error>) -> Bool in
                 // JMESPath expression: "ProgressEvent.OperationStatus"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "FAILED"
@@ -24,7 +24,7 @@ extension CloudControlClientProtocol {
                 let operationStatus = progressEvent?.operationStatus
                 return JMESUtils.compare(operationStatus, ==, "FAILED")
             }),
-            .init(state: .failure, matcher: { (input: GetResourceRequestStatusInput, result: Result<GetResourceRequestStatusOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: GetResourceRequestStatusInput, result: Result<GetResourceRequestStatusOutput, Error>) -> Bool in
                 // JMESPath expression: "ProgressEvent.OperationStatus"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "CANCEL_COMPLETE"
@@ -34,7 +34,7 @@ extension CloudControlClientProtocol {
                 return JMESUtils.compare(operationStatus, ==, "CANCEL_COMPLETE")
             }),
         ]
-        return try WaiterConfiguration<GetResourceRequestStatusInput, GetResourceRequestStatusOutputResponse>(acceptors: acceptors, minDelay: 5.0, maxDelay: 120.0)
+        return try WaiterConfiguration<GetResourceRequestStatusInput, GetResourceRequestStatusOutput>(acceptors: acceptors, minDelay: 5.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the ResourceRequestSuccess event on the getResourceRequestStatus operation.
@@ -48,7 +48,7 @@ extension CloudControlClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilResourceRequestSuccess(options: WaiterOptions, input: GetResourceRequestStatusInput) async throws -> WaiterOutcome<GetResourceRequestStatusOutputResponse> {
+    public func waitUntilResourceRequestSuccess(options: WaiterOptions, input: GetResourceRequestStatusInput) async throws -> WaiterOutcome<GetResourceRequestStatusOutput> {
         let waiter = Waiter(config: try Self.resourceRequestSuccessWaiterConfig(), operation: self.getResourceRequestStatus(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }

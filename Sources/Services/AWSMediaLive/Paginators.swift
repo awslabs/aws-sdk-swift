@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension MediaLiveClient {
-    /// Paginate over `[DescribeScheduleOutputResponse]` results.
+    /// Paginate over `[DescribeScheduleOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeScheduleInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeScheduleOutputResponse`
-    public func describeSchedulePaginated(input: DescribeScheduleInput) -> ClientRuntime.PaginatorSequence<DescribeScheduleInput, DescribeScheduleOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeScheduleInput, DescribeScheduleOutputResponse>(input: input, inputKey: \DescribeScheduleInput.nextToken, outputKey: \DescribeScheduleOutputResponse.nextToken, paginationFunction: self.describeSchedule(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeScheduleOutput`
+    public func describeSchedulePaginated(input: DescribeScheduleInput) -> ClientRuntime.PaginatorSequence<DescribeScheduleInput, DescribeScheduleOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeScheduleInput, DescribeScheduleOutput>(input: input, inputKey: \DescribeScheduleInput.nextToken, outputKey: \DescribeScheduleOutput.nextToken, paginationFunction: self.describeSchedule(input:))
     }
 }
 
@@ -25,7 +25,7 @@ extension DescribeScheduleInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeScheduleInput, Output == DescribeScheduleOutputResponse {
+extension PaginatorSequence where Input == DescribeScheduleInput, Output == DescribeScheduleOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeSchedulePaginated`
     /// to access the nested member `[MediaLiveClientTypes.ScheduleAction]`
     /// - Returns: `[MediaLiveClientTypes.ScheduleAction]`
@@ -34,16 +34,16 @@ extension PaginatorSequence where Input == DescribeScheduleInput, Output == Desc
     }
 }
 extension MediaLiveClient {
-    /// Paginate over `[ListChannelsOutputResponse]` results.
+    /// Paginate over `[ListChannelsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListChannelsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListChannelsOutputResponse`
-    public func listChannelsPaginated(input: ListChannelsInput) -> ClientRuntime.PaginatorSequence<ListChannelsInput, ListChannelsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListChannelsInput, ListChannelsOutputResponse>(input: input, inputKey: \ListChannelsInput.nextToken, outputKey: \ListChannelsOutputResponse.nextToken, paginationFunction: self.listChannels(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListChannelsOutput`
+    public func listChannelsPaginated(input: ListChannelsInput) -> ClientRuntime.PaginatorSequence<ListChannelsInput, ListChannelsOutput> {
+        return ClientRuntime.PaginatorSequence<ListChannelsInput, ListChannelsOutput>(input: input, inputKey: \ListChannelsInput.nextToken, outputKey: \ListChannelsOutput.nextToken, paginationFunction: self.listChannels(input:))
     }
 }
 
@@ -55,7 +55,7 @@ extension ListChannelsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListChannelsInput, Output == ListChannelsOutputResponse {
+extension PaginatorSequence where Input == ListChannelsInput, Output == ListChannelsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listChannelsPaginated`
     /// to access the nested member `[MediaLiveClientTypes.ChannelSummary]`
     /// - Returns: `[MediaLiveClientTypes.ChannelSummary]`
@@ -64,16 +64,16 @@ extension PaginatorSequence where Input == ListChannelsInput, Output == ListChan
     }
 }
 extension MediaLiveClient {
-    /// Paginate over `[ListInputDevicesOutputResponse]` results.
+    /// Paginate over `[ListInputDevicesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListInputDevicesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListInputDevicesOutputResponse`
-    public func listInputDevicesPaginated(input: ListInputDevicesInput) -> ClientRuntime.PaginatorSequence<ListInputDevicesInput, ListInputDevicesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListInputDevicesInput, ListInputDevicesOutputResponse>(input: input, inputKey: \ListInputDevicesInput.nextToken, outputKey: \ListInputDevicesOutputResponse.nextToken, paginationFunction: self.listInputDevices(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListInputDevicesOutput`
+    public func listInputDevicesPaginated(input: ListInputDevicesInput) -> ClientRuntime.PaginatorSequence<ListInputDevicesInput, ListInputDevicesOutput> {
+        return ClientRuntime.PaginatorSequence<ListInputDevicesInput, ListInputDevicesOutput>(input: input, inputKey: \ListInputDevicesInput.nextToken, outputKey: \ListInputDevicesOutput.nextToken, paginationFunction: self.listInputDevices(input:))
     }
 }
 
@@ -85,7 +85,7 @@ extension ListInputDevicesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListInputDevicesInput, Output == ListInputDevicesOutputResponse {
+extension PaginatorSequence where Input == ListInputDevicesInput, Output == ListInputDevicesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listInputDevicesPaginated`
     /// to access the nested member `[MediaLiveClientTypes.InputDeviceSummary]`
     /// - Returns: `[MediaLiveClientTypes.InputDeviceSummary]`
@@ -94,16 +94,16 @@ extension PaginatorSequence where Input == ListInputDevicesInput, Output == List
     }
 }
 extension MediaLiveClient {
-    /// Paginate over `[ListInputDeviceTransfersOutputResponse]` results.
+    /// Paginate over `[ListInputDeviceTransfersOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListInputDeviceTransfersInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListInputDeviceTransfersOutputResponse`
-    public func listInputDeviceTransfersPaginated(input: ListInputDeviceTransfersInput) -> ClientRuntime.PaginatorSequence<ListInputDeviceTransfersInput, ListInputDeviceTransfersOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListInputDeviceTransfersInput, ListInputDeviceTransfersOutputResponse>(input: input, inputKey: \ListInputDeviceTransfersInput.nextToken, outputKey: \ListInputDeviceTransfersOutputResponse.nextToken, paginationFunction: self.listInputDeviceTransfers(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListInputDeviceTransfersOutput`
+    public func listInputDeviceTransfersPaginated(input: ListInputDeviceTransfersInput) -> ClientRuntime.PaginatorSequence<ListInputDeviceTransfersInput, ListInputDeviceTransfersOutput> {
+        return ClientRuntime.PaginatorSequence<ListInputDeviceTransfersInput, ListInputDeviceTransfersOutput>(input: input, inputKey: \ListInputDeviceTransfersInput.nextToken, outputKey: \ListInputDeviceTransfersOutput.nextToken, paginationFunction: self.listInputDeviceTransfers(input:))
     }
 }
 
@@ -116,7 +116,7 @@ extension ListInputDeviceTransfersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListInputDeviceTransfersInput, Output == ListInputDeviceTransfersOutputResponse {
+extension PaginatorSequence where Input == ListInputDeviceTransfersInput, Output == ListInputDeviceTransfersOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listInputDeviceTransfersPaginated`
     /// to access the nested member `[MediaLiveClientTypes.TransferringInputDeviceSummary]`
     /// - Returns: `[MediaLiveClientTypes.TransferringInputDeviceSummary]`
@@ -125,16 +125,16 @@ extension PaginatorSequence where Input == ListInputDeviceTransfersInput, Output
     }
 }
 extension MediaLiveClient {
-    /// Paginate over `[ListInputsOutputResponse]` results.
+    /// Paginate over `[ListInputsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListInputsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListInputsOutputResponse`
-    public func listInputsPaginated(input: ListInputsInput) -> ClientRuntime.PaginatorSequence<ListInputsInput, ListInputsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListInputsInput, ListInputsOutputResponse>(input: input, inputKey: \ListInputsInput.nextToken, outputKey: \ListInputsOutputResponse.nextToken, paginationFunction: self.listInputs(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListInputsOutput`
+    public func listInputsPaginated(input: ListInputsInput) -> ClientRuntime.PaginatorSequence<ListInputsInput, ListInputsOutput> {
+        return ClientRuntime.PaginatorSequence<ListInputsInput, ListInputsOutput>(input: input, inputKey: \ListInputsInput.nextToken, outputKey: \ListInputsOutput.nextToken, paginationFunction: self.listInputs(input:))
     }
 }
 
@@ -146,7 +146,7 @@ extension ListInputsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListInputsInput, Output == ListInputsOutputResponse {
+extension PaginatorSequence where Input == ListInputsInput, Output == ListInputsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listInputsPaginated`
     /// to access the nested member `[MediaLiveClientTypes.Input]`
     /// - Returns: `[MediaLiveClientTypes.Input]`
@@ -155,16 +155,16 @@ extension PaginatorSequence where Input == ListInputsInput, Output == ListInputs
     }
 }
 extension MediaLiveClient {
-    /// Paginate over `[ListInputSecurityGroupsOutputResponse]` results.
+    /// Paginate over `[ListInputSecurityGroupsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListInputSecurityGroupsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListInputSecurityGroupsOutputResponse`
-    public func listInputSecurityGroupsPaginated(input: ListInputSecurityGroupsInput) -> ClientRuntime.PaginatorSequence<ListInputSecurityGroupsInput, ListInputSecurityGroupsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListInputSecurityGroupsInput, ListInputSecurityGroupsOutputResponse>(input: input, inputKey: \ListInputSecurityGroupsInput.nextToken, outputKey: \ListInputSecurityGroupsOutputResponse.nextToken, paginationFunction: self.listInputSecurityGroups(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListInputSecurityGroupsOutput`
+    public func listInputSecurityGroupsPaginated(input: ListInputSecurityGroupsInput) -> ClientRuntime.PaginatorSequence<ListInputSecurityGroupsInput, ListInputSecurityGroupsOutput> {
+        return ClientRuntime.PaginatorSequence<ListInputSecurityGroupsInput, ListInputSecurityGroupsOutput>(input: input, inputKey: \ListInputSecurityGroupsInput.nextToken, outputKey: \ListInputSecurityGroupsOutput.nextToken, paginationFunction: self.listInputSecurityGroups(input:))
     }
 }
 
@@ -176,7 +176,7 @@ extension ListInputSecurityGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListInputSecurityGroupsInput, Output == ListInputSecurityGroupsOutputResponse {
+extension PaginatorSequence where Input == ListInputSecurityGroupsInput, Output == ListInputSecurityGroupsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listInputSecurityGroupsPaginated`
     /// to access the nested member `[MediaLiveClientTypes.InputSecurityGroup]`
     /// - Returns: `[MediaLiveClientTypes.InputSecurityGroup]`
@@ -185,16 +185,16 @@ extension PaginatorSequence where Input == ListInputSecurityGroupsInput, Output 
     }
 }
 extension MediaLiveClient {
-    /// Paginate over `[ListMultiplexesOutputResponse]` results.
+    /// Paginate over `[ListMultiplexesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListMultiplexesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListMultiplexesOutputResponse`
-    public func listMultiplexesPaginated(input: ListMultiplexesInput) -> ClientRuntime.PaginatorSequence<ListMultiplexesInput, ListMultiplexesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListMultiplexesInput, ListMultiplexesOutputResponse>(input: input, inputKey: \ListMultiplexesInput.nextToken, outputKey: \ListMultiplexesOutputResponse.nextToken, paginationFunction: self.listMultiplexes(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListMultiplexesOutput`
+    public func listMultiplexesPaginated(input: ListMultiplexesInput) -> ClientRuntime.PaginatorSequence<ListMultiplexesInput, ListMultiplexesOutput> {
+        return ClientRuntime.PaginatorSequence<ListMultiplexesInput, ListMultiplexesOutput>(input: input, inputKey: \ListMultiplexesInput.nextToken, outputKey: \ListMultiplexesOutput.nextToken, paginationFunction: self.listMultiplexes(input:))
     }
 }
 
@@ -206,7 +206,7 @@ extension ListMultiplexesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListMultiplexesInput, Output == ListMultiplexesOutputResponse {
+extension PaginatorSequence where Input == ListMultiplexesInput, Output == ListMultiplexesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listMultiplexesPaginated`
     /// to access the nested member `[MediaLiveClientTypes.MultiplexSummary]`
     /// - Returns: `[MediaLiveClientTypes.MultiplexSummary]`
@@ -215,16 +215,16 @@ extension PaginatorSequence where Input == ListMultiplexesInput, Output == ListM
     }
 }
 extension MediaLiveClient {
-    /// Paginate over `[ListMultiplexProgramsOutputResponse]` results.
+    /// Paginate over `[ListMultiplexProgramsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListMultiplexProgramsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListMultiplexProgramsOutputResponse`
-    public func listMultiplexProgramsPaginated(input: ListMultiplexProgramsInput) -> ClientRuntime.PaginatorSequence<ListMultiplexProgramsInput, ListMultiplexProgramsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListMultiplexProgramsInput, ListMultiplexProgramsOutputResponse>(input: input, inputKey: \ListMultiplexProgramsInput.nextToken, outputKey: \ListMultiplexProgramsOutputResponse.nextToken, paginationFunction: self.listMultiplexPrograms(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListMultiplexProgramsOutput`
+    public func listMultiplexProgramsPaginated(input: ListMultiplexProgramsInput) -> ClientRuntime.PaginatorSequence<ListMultiplexProgramsInput, ListMultiplexProgramsOutput> {
+        return ClientRuntime.PaginatorSequence<ListMultiplexProgramsInput, ListMultiplexProgramsOutput>(input: input, inputKey: \ListMultiplexProgramsInput.nextToken, outputKey: \ListMultiplexProgramsOutput.nextToken, paginationFunction: self.listMultiplexPrograms(input:))
     }
 }
 
@@ -237,7 +237,7 @@ extension ListMultiplexProgramsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListMultiplexProgramsInput, Output == ListMultiplexProgramsOutputResponse {
+extension PaginatorSequence where Input == ListMultiplexProgramsInput, Output == ListMultiplexProgramsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listMultiplexProgramsPaginated`
     /// to access the nested member `[MediaLiveClientTypes.MultiplexProgramSummary]`
     /// - Returns: `[MediaLiveClientTypes.MultiplexProgramSummary]`
@@ -246,16 +246,16 @@ extension PaginatorSequence where Input == ListMultiplexProgramsInput, Output ==
     }
 }
 extension MediaLiveClient {
-    /// Paginate over `[ListOfferingsOutputResponse]` results.
+    /// Paginate over `[ListOfferingsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListOfferingsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListOfferingsOutputResponse`
-    public func listOfferingsPaginated(input: ListOfferingsInput) -> ClientRuntime.PaginatorSequence<ListOfferingsInput, ListOfferingsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListOfferingsInput, ListOfferingsOutputResponse>(input: input, inputKey: \ListOfferingsInput.nextToken, outputKey: \ListOfferingsOutputResponse.nextToken, paginationFunction: self.listOfferings(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListOfferingsOutput`
+    public func listOfferingsPaginated(input: ListOfferingsInput) -> ClientRuntime.PaginatorSequence<ListOfferingsInput, ListOfferingsOutput> {
+        return ClientRuntime.PaginatorSequence<ListOfferingsInput, ListOfferingsOutput>(input: input, inputKey: \ListOfferingsInput.nextToken, outputKey: \ListOfferingsOutput.nextToken, paginationFunction: self.listOfferings(input:))
     }
 }
 
@@ -277,7 +277,7 @@ extension ListOfferingsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListOfferingsInput, Output == ListOfferingsOutputResponse {
+extension PaginatorSequence where Input == ListOfferingsInput, Output == ListOfferingsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listOfferingsPaginated`
     /// to access the nested member `[MediaLiveClientTypes.Offering]`
     /// - Returns: `[MediaLiveClientTypes.Offering]`
@@ -286,16 +286,16 @@ extension PaginatorSequence where Input == ListOfferingsInput, Output == ListOff
     }
 }
 extension MediaLiveClient {
-    /// Paginate over `[ListReservationsOutputResponse]` results.
+    /// Paginate over `[ListReservationsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListReservationsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListReservationsOutputResponse`
-    public func listReservationsPaginated(input: ListReservationsInput) -> ClientRuntime.PaginatorSequence<ListReservationsInput, ListReservationsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListReservationsInput, ListReservationsOutputResponse>(input: input, inputKey: \ListReservationsInput.nextToken, outputKey: \ListReservationsOutputResponse.nextToken, paginationFunction: self.listReservations(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListReservationsOutput`
+    public func listReservationsPaginated(input: ListReservationsInput) -> ClientRuntime.PaginatorSequence<ListReservationsInput, ListReservationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListReservationsInput, ListReservationsOutput>(input: input, inputKey: \ListReservationsInput.nextToken, outputKey: \ListReservationsOutput.nextToken, paginationFunction: self.listReservations(input:))
     }
 }
 
@@ -315,7 +315,7 @@ extension ListReservationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListReservationsInput, Output == ListReservationsOutputResponse {
+extension PaginatorSequence where Input == ListReservationsInput, Output == ListReservationsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listReservationsPaginated`
     /// to access the nested member `[MediaLiveClientTypes.Reservation]`
     /// - Returns: `[MediaLiveClientTypes.Reservation]`

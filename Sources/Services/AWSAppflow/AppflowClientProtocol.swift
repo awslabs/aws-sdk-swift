@@ -19,7 +19,7 @@ public protocol AppflowClientProtocol {
     ///
     /// - Parameter CancelFlowExecutionsInput : [no documentation found]
     ///
-    /// - Returns: `CancelFlowExecutionsOutputResponse` : [no documentation found]
+    /// - Returns: `CancelFlowExecutionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -29,12 +29,12 @@ public protocol AppflowClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request (such as the source or destination connector profile) is not found.
     /// - `ThrottlingException` : API calls have exceeded the maximum allowed API request rate per account and per Region.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    func cancelFlowExecutions(input: CancelFlowExecutionsInput) async throws -> CancelFlowExecutionsOutputResponse
+    func cancelFlowExecutions(input: CancelFlowExecutionsInput) async throws -> CancelFlowExecutionsOutput
     /// Creates a new connector profile associated with your Amazon Web Services account. There is a soft quota of 100 connector profiles per Amazon Web Services account. If you need more connector profiles than this quota allows, you can submit a request to the Amazon AppFlow team through the Amazon AppFlow support channel. In each connector profile that you create, you can provide the credentials and properties for only one connector.
     ///
     /// - Parameter CreateConnectorProfileInput : [no documentation found]
     ///
-    /// - Returns: `CreateConnectorProfileOutputResponse` : [no documentation found]
+    /// - Returns: `CreateConnectorProfileOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -44,12 +44,12 @@ public protocol AppflowClientProtocol {
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ServiceQuotaExceededException` : The request would cause a service quota (such as the number of flows) to be exceeded.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    func createConnectorProfile(input: CreateConnectorProfileInput) async throws -> CreateConnectorProfileOutputResponse
+    func createConnectorProfile(input: CreateConnectorProfileInput) async throws -> CreateConnectorProfileOutput
     /// Enables your application to create a new flow using Amazon AppFlow. You must create a connector profile before calling this API. Please note that the Request Syntax below shows syntax for multiple destinations, however, you can only transfer data to one item in this list at a time. Amazon AppFlow does not currently support flows to multiple destinations at once.
     ///
     /// - Parameter CreateFlowInput : [no documentation found]
     ///
-    /// - Returns: `CreateFlowOutputResponse` : [no documentation found]
+    /// - Returns: `CreateFlowOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -62,12 +62,12 @@ public protocol AppflowClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request (such as the source or destination connector profile) is not found.
     /// - `ServiceQuotaExceededException` : The request would cause a service quota (such as the number of flows) to be exceeded.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    func createFlow(input: CreateFlowInput) async throws -> CreateFlowOutputResponse
+    func createFlow(input: CreateFlowInput) async throws -> CreateFlowOutput
     /// Enables you to delete an existing connector profile.
     ///
     /// - Parameter DeleteConnectorProfileInput : [no documentation found]
     ///
-    /// - Returns: `DeleteConnectorProfileOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteConnectorProfileOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -75,12 +75,12 @@ public protocol AppflowClientProtocol {
     /// - `ConflictException` : There was a conflict when processing the request (for example, a flow with the given name already exists within the account. Check for conflicting resource names and try again.
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ResourceNotFoundException` : The resource specified in the request (such as the source or destination connector profile) is not found.
-    func deleteConnectorProfile(input: DeleteConnectorProfileInput) async throws -> DeleteConnectorProfileOutputResponse
+    func deleteConnectorProfile(input: DeleteConnectorProfileInput) async throws -> DeleteConnectorProfileOutput
     /// Enables your application to delete an existing flow. Before deleting the flow, Amazon AppFlow validates the request by checking the flow configuration and status. You can delete flows one at a time.
     ///
     /// - Parameter DeleteFlowInput : [no documentation found]
     ///
-    /// - Returns: `DeleteFlowOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteFlowOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -88,12 +88,12 @@ public protocol AppflowClientProtocol {
     /// - `ConflictException` : There was a conflict when processing the request (for example, a flow with the given name already exists within the account. Check for conflicting resource names and try again.
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ResourceNotFoundException` : The resource specified in the request (such as the source or destination connector profile) is not found.
-    func deleteFlow(input: DeleteFlowInput) async throws -> DeleteFlowOutputResponse
+    func deleteFlow(input: DeleteFlowInput) async throws -> DeleteFlowOutput
     /// Describes the given custom connector registered in your Amazon Web Services account. This API can be used for custom connectors that are registered in your account and also for Amazon authored connectors.
     ///
     /// - Parameter DescribeConnectorInput : [no documentation found]
     ///
-    /// - Returns: `DescribeConnectorOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeConnectorOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -101,12 +101,12 @@ public protocol AppflowClientProtocol {
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ResourceNotFoundException` : The resource specified in the request (such as the source or destination connector profile) is not found.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    func describeConnector(input: DescribeConnectorInput) async throws -> DescribeConnectorOutputResponse
+    func describeConnector(input: DescribeConnectorInput) async throws -> DescribeConnectorOutput
     /// Provides details regarding the entity used with the connector, with a description of the data model for each field in that entity.
     ///
     /// - Parameter DescribeConnectorEntityInput : [no documentation found]
     ///
-    /// - Returns: `DescribeConnectorEntityOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeConnectorEntityOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -116,48 +116,48 @@ public protocol AppflowClientProtocol {
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ResourceNotFoundException` : The resource specified in the request (such as the source or destination connector profile) is not found.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    func describeConnectorEntity(input: DescribeConnectorEntityInput) async throws -> DescribeConnectorEntityOutputResponse
+    func describeConnectorEntity(input: DescribeConnectorEntityInput) async throws -> DescribeConnectorEntityOutput
     /// Returns a list of connector-profile details matching the provided connector-profile names and connector-types. Both input lists are optional, and you can use them to filter the result. If no names or connector-types are provided, returns all connector profiles in a paginated form. If there is no match, this operation returns an empty list.
     ///
     /// - Parameter DescribeConnectorProfilesInput : [no documentation found]
     ///
-    /// - Returns: `DescribeConnectorProfilesOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeConnectorProfilesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    func describeConnectorProfiles(input: DescribeConnectorProfilesInput) async throws -> DescribeConnectorProfilesOutputResponse
+    func describeConnectorProfiles(input: DescribeConnectorProfilesInput) async throws -> DescribeConnectorProfilesOutput
     /// Describes the connectors vended by Amazon AppFlow for specified connector types. If you don't specify a connector type, this operation describes all connectors vended by Amazon AppFlow. If there are more connectors than can be returned in one page, the response contains a nextToken object, which can be be passed in to the next call to the DescribeConnectors API operation to retrieve the next page.
     ///
     /// - Parameter DescribeConnectorsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeConnectorsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeConnectorsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    func describeConnectors(input: DescribeConnectorsInput) async throws -> DescribeConnectorsOutputResponse
+    func describeConnectors(input: DescribeConnectorsInput) async throws -> DescribeConnectorsOutput
     /// Provides a description of the specified flow.
     ///
     /// - Parameter DescribeFlowInput : [no documentation found]
     ///
-    /// - Returns: `DescribeFlowOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeFlowOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ResourceNotFoundException` : The resource specified in the request (such as the source or destination connector profile) is not found.
-    func describeFlow(input: DescribeFlowInput) async throws -> DescribeFlowOutputResponse
+    func describeFlow(input: DescribeFlowInput) async throws -> DescribeFlowOutput
     /// Fetches the execution history of the flow.
     ///
     /// - Parameter DescribeFlowExecutionRecordsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeFlowExecutionRecordsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeFlowExecutionRecordsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -165,12 +165,12 @@ public protocol AppflowClientProtocol {
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ResourceNotFoundException` : The resource specified in the request (such as the source or destination connector profile) is not found.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    func describeFlowExecutionRecords(input: DescribeFlowExecutionRecordsInput) async throws -> DescribeFlowExecutionRecordsOutputResponse
+    func describeFlowExecutionRecords(input: DescribeFlowExecutionRecordsInput) async throws -> DescribeFlowExecutionRecordsOutput
     /// Returns the list of available connector entities supported by Amazon AppFlow. For example, you can query Salesforce for Account and Opportunity entities, or query ServiceNow for the Incident entity.
     ///
     /// - Parameter ListConnectorEntitiesInput : [no documentation found]
     ///
-    /// - Returns: `ListConnectorEntitiesOutputResponse` : [no documentation found]
+    /// - Returns: `ListConnectorEntitiesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -180,36 +180,36 @@ public protocol AppflowClientProtocol {
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ResourceNotFoundException` : The resource specified in the request (such as the source or destination connector profile) is not found.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    func listConnectorEntities(input: ListConnectorEntitiesInput) async throws -> ListConnectorEntitiesOutputResponse
+    func listConnectorEntities(input: ListConnectorEntitiesInput) async throws -> ListConnectorEntitiesOutput
     /// Returns the list of all registered custom connectors in your Amazon Web Services account. This API lists only custom connectors registered in this account, not the Amazon Web Services authored connectors.
     ///
     /// - Parameter ListConnectorsInput : [no documentation found]
     ///
-    /// - Returns: `ListConnectorsOutputResponse` : [no documentation found]
+    /// - Returns: `ListConnectorsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    func listConnectors(input: ListConnectorsInput) async throws -> ListConnectorsOutputResponse
+    func listConnectors(input: ListConnectorsInput) async throws -> ListConnectorsOutput
     /// Lists all of the flows associated with your account.
     ///
     /// - Parameter ListFlowsInput : [no documentation found]
     ///
-    /// - Returns: `ListFlowsOutputResponse` : [no documentation found]
+    /// - Returns: `ListFlowsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    func listFlows(input: ListFlowsInput) async throws -> ListFlowsOutputResponse
+    func listFlows(input: ListFlowsInput) async throws -> ListFlowsOutput
     /// Retrieves the tags that are associated with a specified flow.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -217,12 +217,12 @@ public protocol AppflowClientProtocol {
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ResourceNotFoundException` : The resource specified in the request (such as the source or destination connector profile) is not found.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     /// Registers a new custom connector with your Amazon Web Services account. Before you can register the connector, you must deploy the associated AWS lambda function in your account.
     ///
     /// - Parameter RegisterConnectorInput : [no documentation found]
     ///
-    /// - Returns: `RegisterConnectorOutputResponse` : [no documentation found]
+    /// - Returns: `RegisterConnectorOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -236,12 +236,12 @@ public protocol AppflowClientProtocol {
     /// - `ServiceQuotaExceededException` : The request would cause a service quota (such as the number of flows) to be exceeded.
     /// - `ThrottlingException` : API calls have exceeded the maximum allowed API request rate per account and per Region.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    func registerConnector(input: RegisterConnectorInput) async throws -> RegisterConnectorOutputResponse
+    func registerConnector(input: RegisterConnectorInput) async throws -> RegisterConnectorOutput
     /// Resets metadata about your connector entities that Amazon AppFlow stored in its cache. Use this action when you want Amazon AppFlow to return the latest information about the data that you have in a source application. Amazon AppFlow returns metadata about your entities when you use the ListConnectorEntities or DescribeConnectorEntities actions. Following these actions, Amazon AppFlow caches the metadata to reduce the number of API requests that it must send to the source application. Amazon AppFlow automatically resets the cache once every hour, but you can use this action when you want to get the latest metadata right away.
     ///
     /// - Parameter ResetConnectorMetadataCacheInput : [no documentation found]
     ///
-    /// - Returns: `ResetConnectorMetadataCacheOutputResponse` : [no documentation found]
+    /// - Returns: `ResetConnectorMetadataCacheOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -250,12 +250,12 @@ public protocol AppflowClientProtocol {
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ResourceNotFoundException` : The resource specified in the request (such as the source or destination connector profile) is not found.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    func resetConnectorMetadataCache(input: ResetConnectorMetadataCacheInput) async throws -> ResetConnectorMetadataCacheOutputResponse
+    func resetConnectorMetadataCache(input: ResetConnectorMetadataCacheInput) async throws -> ResetConnectorMetadataCacheOutput
     /// Activates an existing flow. For on-demand flows, this operation runs the flow immediately. For schedule and event-triggered flows, this operation activates the flow.
     ///
     /// - Parameter StartFlowInput : [no documentation found]
     ///
-    /// - Returns: `StartFlowOutputResponse` : [no documentation found]
+    /// - Returns: `StartFlowOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -264,12 +264,12 @@ public protocol AppflowClientProtocol {
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ResourceNotFoundException` : The resource specified in the request (such as the source or destination connector profile) is not found.
     /// - `ServiceQuotaExceededException` : The request would cause a service quota (such as the number of flows) to be exceeded.
-    func startFlow(input: StartFlowInput) async throws -> StartFlowOutputResponse
+    func startFlow(input: StartFlowInput) async throws -> StartFlowOutput
     /// Deactivates the existing flow. For on-demand flows, this operation returns an unsupportedOperationException error message. For schedule and event-triggered flows, this operation deactivates the flow.
     ///
     /// - Parameter StopFlowInput : [no documentation found]
     ///
-    /// - Returns: `StopFlowOutputResponse` : [no documentation found]
+    /// - Returns: `StopFlowOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -278,12 +278,12 @@ public protocol AppflowClientProtocol {
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ResourceNotFoundException` : The resource specified in the request (such as the source or destination connector profile) is not found.
     /// - `UnsupportedOperationException` : The requested operation is not supported for the current flow.
-    func stopFlow(input: StopFlowInput) async throws -> StopFlowOutputResponse
+    func stopFlow(input: StopFlowInput) async throws -> StopFlowOutput
     /// Applies a tag to the specified flow.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -291,12 +291,12 @@ public protocol AppflowClientProtocol {
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ResourceNotFoundException` : The resource specified in the request (such as the source or destination connector profile) is not found.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     /// Unregisters the custom connector registered in your account that matches the connector label provided in the request.
     ///
     /// - Parameter UnregisterConnectorInput : [no documentation found]
     ///
-    /// - Returns: `UnregisterConnectorOutputResponse` : [no documentation found]
+    /// - Returns: `UnregisterConnectorOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -304,12 +304,12 @@ public protocol AppflowClientProtocol {
     /// - `ConflictException` : There was a conflict when processing the request (for example, a flow with the given name already exists within the account. Check for conflicting resource names and try again.
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ResourceNotFoundException` : The resource specified in the request (such as the source or destination connector profile) is not found.
-    func unregisterConnector(input: UnregisterConnectorInput) async throws -> UnregisterConnectorOutputResponse
+    func unregisterConnector(input: UnregisterConnectorInput) async throws -> UnregisterConnectorOutput
     /// Removes a tag from the specified flow.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -317,12 +317,12 @@ public protocol AppflowClientProtocol {
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ResourceNotFoundException` : The resource specified in the request (such as the source or destination connector profile) is not found.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
     /// Updates a given connector profile associated with your account.
     ///
     /// - Parameter UpdateConnectorProfileInput : [no documentation found]
     ///
-    /// - Returns: `UpdateConnectorProfileOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateConnectorProfileOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -332,7 +332,7 @@ public protocol AppflowClientProtocol {
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ResourceNotFoundException` : The resource specified in the request (such as the source or destination connector profile) is not found.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    func updateConnectorProfile(input: UpdateConnectorProfileInput) async throws -> UpdateConnectorProfileOutputResponse
+    func updateConnectorProfile(input: UpdateConnectorProfileInput) async throws -> UpdateConnectorProfileOutput
     /// Updates a custom connector that you've previously registered. This operation updates the connector with one of the following:
     ///
     /// * The latest version of the AWS Lambda function that's assigned to the connector
@@ -341,7 +341,7 @@ public protocol AppflowClientProtocol {
     ///
     /// - Parameter UpdateConnectorRegistrationInput : [no documentation found]
     ///
-    /// - Returns: `UpdateConnectorRegistrationOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateConnectorRegistrationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -355,12 +355,12 @@ public protocol AppflowClientProtocol {
     /// - `ServiceQuotaExceededException` : The request would cause a service quota (such as the number of flows) to be exceeded.
     /// - `ThrottlingException` : API calls have exceeded the maximum allowed API request rate per account and per Region.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    func updateConnectorRegistration(input: UpdateConnectorRegistrationInput) async throws -> UpdateConnectorRegistrationOutputResponse
+    func updateConnectorRegistration(input: UpdateConnectorRegistrationInput) async throws -> UpdateConnectorRegistrationOutput
     /// Updates an existing flow.
     ///
     /// - Parameter UpdateFlowInput : [no documentation found]
     ///
-    /// - Returns: `UpdateFlowOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateFlowOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -373,7 +373,7 @@ public protocol AppflowClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request (such as the source or destination connector profile) is not found.
     /// - `ServiceQuotaExceededException` : The request would cause a service quota (such as the number of flows) to be exceeded.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    func updateFlow(input: UpdateFlowInput) async throws -> UpdateFlowOutputResponse
+    func updateFlow(input: UpdateFlowInput) async throws -> UpdateFlowOutput
 }
 
 public enum AppflowClientTypes {}

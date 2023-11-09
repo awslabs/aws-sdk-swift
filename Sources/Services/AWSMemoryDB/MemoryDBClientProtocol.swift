@@ -8,19 +8,19 @@ public protocol MemoryDBClientProtocol {
     ///
     /// - Parameter BatchUpdateClusterInput : [no documentation found]
     ///
-    /// - Returns: `BatchUpdateClusterOutputResponse` : [no documentation found]
+    /// - Returns: `BatchUpdateClusterOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` :
     /// - `ServiceUpdateNotFoundFault` :
-    func batchUpdateCluster(input: BatchUpdateClusterInput) async throws -> BatchUpdateClusterOutputResponse
+    func batchUpdateCluster(input: BatchUpdateClusterInput) async throws -> BatchUpdateClusterOutput
     /// Makes a copy of an existing snapshot.
     ///
     /// - Parameter CopySnapshotInput : [no documentation found]
     ///
-    /// - Returns: `CopySnapshotOutputResponse` : [no documentation found]
+    /// - Returns: `CopySnapshotOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -33,12 +33,12 @@ public protocol MemoryDBClientProtocol {
     /// - `SnapshotNotFoundFault` :
     /// - `SnapshotQuotaExceededFault` :
     /// - `TagQuotaPerResourceExceeded` :
-    func copySnapshot(input: CopySnapshotInput) async throws -> CopySnapshotOutputResponse
+    func copySnapshot(input: CopySnapshotInput) async throws -> CopySnapshotOutput
     /// Creates an Access Control List. For more information, see [Authenticating users with Access Contol Lists (ACLs)](https://docs.aws.amazon.com/MemoryDB/latest/devguide/clusters.acls.html).
     ///
     /// - Parameter CreateACLInput : [no documentation found]
     ///
-    /// - Returns: `CreateACLOutputResponse` : [no documentation found]
+    /// - Returns: `CreateACLOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -50,12 +50,12 @@ public protocol MemoryDBClientProtocol {
     /// - `InvalidParameterValueException` :
     /// - `TagQuotaPerResourceExceeded` :
     /// - `UserNotFoundFault` :
-    func createACL(input: CreateACLInput) async throws -> CreateACLOutputResponse
+    func createACL(input: CreateACLInput) async throws -> CreateACLOutput
     /// Creates a cluster. All nodes in the cluster run the same protocol-compliant engine software.
     ///
     /// - Parameter CreateClusterInput : [no documentation found]
     ///
-    /// - Returns: `CreateClusterOutputResponse` : [no documentation found]
+    /// - Returns: `CreateClusterOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -76,12 +76,12 @@ public protocol MemoryDBClientProtocol {
     /// - `ShardsPerClusterQuotaExceededFault` :
     /// - `SubnetGroupNotFoundFault` :
     /// - `TagQuotaPerResourceExceeded` :
-    func createCluster(input: CreateClusterInput) async throws -> CreateClusterOutputResponse
+    func createCluster(input: CreateClusterInput) async throws -> CreateClusterOutput
     /// Creates a new MemoryDB parameter group. A parameter group is a collection of parameters and their values that are applied to all of the nodes in any cluster. For more information, see [Configuring engine parameters using parameter groups](https://docs.aws.amazon.com/MemoryDB/latest/devguide/parametergroups.html).
     ///
     /// - Parameter CreateParameterGroupInput : [no documentation found]
     ///
-    /// - Returns: `CreateParameterGroupOutputResponse` : [no documentation found]
+    /// - Returns: `CreateParameterGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -93,12 +93,12 @@ public protocol MemoryDBClientProtocol {
     /// - `ParameterGroupQuotaExceededFault` :
     /// - `ServiceLinkedRoleNotFoundFault` :
     /// - `TagQuotaPerResourceExceeded` :
-    func createParameterGroup(input: CreateParameterGroupInput) async throws -> CreateParameterGroupOutputResponse
+    func createParameterGroup(input: CreateParameterGroupInput) async throws -> CreateParameterGroupOutput
     /// Creates a copy of an entire cluster at a specific moment in time.
     ///
     /// - Parameter CreateSnapshotInput : [no documentation found]
     ///
-    /// - Returns: `CreateSnapshotOutputResponse` : [no documentation found]
+    /// - Returns: `CreateSnapshotOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -111,12 +111,12 @@ public protocol MemoryDBClientProtocol {
     /// - `SnapshotAlreadyExistsFault` :
     /// - `SnapshotQuotaExceededFault` :
     /// - `TagQuotaPerResourceExceeded` :
-    func createSnapshot(input: CreateSnapshotInput) async throws -> CreateSnapshotOutputResponse
+    func createSnapshot(input: CreateSnapshotInput) async throws -> CreateSnapshotOutput
     /// Creates a subnet group. A subnet group is a collection of subnets (typically private) that you can designate for your clusters running in an Amazon Virtual Private Cloud (VPC) environment. When you create a cluster in an Amazon VPC, you must specify a subnet group. MemoryDB uses that subnet group to choose a subnet and IP addresses within that subnet to associate with your nodes. For more information, see [Subnets and subnet groups](https://docs.aws.amazon.com/MemoryDB/latest/devguide/subnetgroups.html).
     ///
     /// - Parameter CreateSubnetGroupInput : [no documentation found]
     ///
-    /// - Returns: `CreateSubnetGroupOutputResponse` : [no documentation found]
+    /// - Returns: `CreateSubnetGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -128,12 +128,12 @@ public protocol MemoryDBClientProtocol {
     /// - `SubnetNotAllowedFault` :
     /// - `SubnetQuotaExceededFault` :
     /// - `TagQuotaPerResourceExceeded` :
-    func createSubnetGroup(input: CreateSubnetGroupInput) async throws -> CreateSubnetGroupOutputResponse
+    func createSubnetGroup(input: CreateSubnetGroupInput) async throws -> CreateSubnetGroupOutput
     /// Creates a MemoryDB user. For more information, see [Authenticating users with Access Contol Lists (ACLs)](https://docs.aws.amazon.com/MemoryDB/latest/devguide/clusters.acls.html).
     ///
     /// - Parameter CreateUserInput : [no documentation found]
     ///
-    /// - Returns: `CreateUserOutputResponse` : [no documentation found]
+    /// - Returns: `CreateUserOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -144,12 +144,12 @@ public protocol MemoryDBClientProtocol {
     /// - `TagQuotaPerResourceExceeded` :
     /// - `UserAlreadyExistsFault` :
     /// - `UserQuotaExceededFault` :
-    func createUser(input: CreateUserInput) async throws -> CreateUserOutputResponse
+    func createUser(input: CreateUserInput) async throws -> CreateUserOutput
     /// Deletes an Access Control List. The ACL must first be disassociated from the cluster before it can be deleted. For more information, see [Authenticating users with Access Contol Lists (ACLs)](https://docs.aws.amazon.com/MemoryDB/latest/devguide/clusters.acls.html).
     ///
     /// - Parameter DeleteACLInput : [no documentation found]
     ///
-    /// - Returns: `DeleteACLOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteACLOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -157,12 +157,12 @@ public protocol MemoryDBClientProtocol {
     /// - `ACLNotFoundFault` :
     /// - `InvalidACLStateFault` :
     /// - `InvalidParameterValueException` :
-    func deleteACL(input: DeleteACLInput) async throws -> DeleteACLOutputResponse
+    func deleteACL(input: DeleteACLInput) async throws -> DeleteACLOutput
     /// Deletes a cluster. It also deletes all associated nodes and node endpoints
     ///
     /// - Parameter DeleteClusterInput : [no documentation found]
     ///
-    /// - Returns: `DeleteClusterOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteClusterOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -173,12 +173,12 @@ public protocol MemoryDBClientProtocol {
     /// - `InvalidParameterValueException` :
     /// - `ServiceLinkedRoleNotFoundFault` :
     /// - `SnapshotAlreadyExistsFault` :
-    func deleteCluster(input: DeleteClusterInput) async throws -> DeleteClusterOutputResponse
+    func deleteCluster(input: DeleteClusterInput) async throws -> DeleteClusterOutput
     /// Deletes the specified parameter group. You cannot delete a parameter group if it is associated with any clusters. You cannot delete the default parameter groups in your account.
     ///
     /// - Parameter DeleteParameterGroupInput : [no documentation found]
     ///
-    /// - Returns: `DeleteParameterGroupOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteParameterGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -188,12 +188,12 @@ public protocol MemoryDBClientProtocol {
     /// - `InvalidParameterValueException` :
     /// - `ParameterGroupNotFoundFault` :
     /// - `ServiceLinkedRoleNotFoundFault` :
-    func deleteParameterGroup(input: DeleteParameterGroupInput) async throws -> DeleteParameterGroupOutputResponse
+    func deleteParameterGroup(input: DeleteParameterGroupInput) async throws -> DeleteParameterGroupOutput
     /// Deletes an existing snapshot. When you receive a successful response from this operation, MemoryDB immediately begins deleting the snapshot; you cannot cancel or revert this operation.
     ///
     /// - Parameter DeleteSnapshotInput : [no documentation found]
     ///
-    /// - Returns: `DeleteSnapshotOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteSnapshotOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -203,12 +203,12 @@ public protocol MemoryDBClientProtocol {
     /// - `InvalidSnapshotStateFault` :
     /// - `ServiceLinkedRoleNotFoundFault` :
     /// - `SnapshotNotFoundFault` :
-    func deleteSnapshot(input: DeleteSnapshotInput) async throws -> DeleteSnapshotOutputResponse
+    func deleteSnapshot(input: DeleteSnapshotInput) async throws -> DeleteSnapshotOutput
     /// Deletes a subnet group. You cannot delete a default subnet group or one that is associated with any clusters.
     ///
     /// - Parameter DeleteSubnetGroupInput : [no documentation found]
     ///
-    /// - Returns: `DeleteSubnetGroupOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteSubnetGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -216,12 +216,12 @@ public protocol MemoryDBClientProtocol {
     /// - `ServiceLinkedRoleNotFoundFault` :
     /// - `SubnetGroupInUseFault` :
     /// - `SubnetGroupNotFoundFault` :
-    func deleteSubnetGroup(input: DeleteSubnetGroupInput) async throws -> DeleteSubnetGroupOutputResponse
+    func deleteSubnetGroup(input: DeleteSubnetGroupInput) async throws -> DeleteSubnetGroupOutput
     /// Deletes a user. The user will be removed from all ACLs and in turn removed from all clusters.
     ///
     /// - Parameter DeleteUserInput : [no documentation found]
     ///
-    /// - Returns: `DeleteUserOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteUserOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -229,24 +229,24 @@ public protocol MemoryDBClientProtocol {
     /// - `InvalidParameterValueException` :
     /// - `InvalidUserStateFault` :
     /// - `UserNotFoundFault` :
-    func deleteUser(input: DeleteUserInput) async throws -> DeleteUserOutputResponse
+    func deleteUser(input: DeleteUserInput) async throws -> DeleteUserOutput
     /// Returns a list of ACLs
     ///
     /// - Parameter DescribeACLsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeACLsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeACLsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ACLNotFoundFault` :
     /// - `InvalidParameterCombinationException` :
-    func describeACLs(input: DescribeACLsInput) async throws -> DescribeACLsOutputResponse
+    func describeACLs(input: DescribeACLsInput) async throws -> DescribeACLsOutput
     /// Returns information about all provisioned clusters if no cluster identifier is specified, or about a specific cluster if a cluster name is supplied.
     ///
     /// - Parameter DescribeClustersInput : [no documentation found]
     ///
-    /// - Returns: `DescribeClustersOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeClustersOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -255,12 +255,12 @@ public protocol MemoryDBClientProtocol {
     /// - `InvalidParameterCombinationException` :
     /// - `InvalidParameterValueException` :
     /// - `ServiceLinkedRoleNotFoundFault` :
-    func describeClusters(input: DescribeClustersInput) async throws -> DescribeClustersOutputResponse
+    func describeClusters(input: DescribeClustersInput) async throws -> DescribeClustersOutput
     /// Returns a list of the available Redis engine versions.
     ///
     /// - Parameter DescribeEngineVersionsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeEngineVersionsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeEngineVersionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -268,12 +268,12 @@ public protocol MemoryDBClientProtocol {
     /// - `InvalidParameterCombinationException` :
     /// - `InvalidParameterValueException` :
     /// - `ServiceLinkedRoleNotFoundFault` :
-    func describeEngineVersions(input: DescribeEngineVersionsInput) async throws -> DescribeEngineVersionsOutputResponse
+    func describeEngineVersions(input: DescribeEngineVersionsInput) async throws -> DescribeEngineVersionsOutput
     /// Returns events related to clusters, security groups, and parameter groups. You can obtain events specific to a particular cluster, security group, or parameter group by providing the name as a parameter. By default, only the events occurring within the last hour are returned; however, you can retrieve up to 14 days' worth of events if necessary.
     ///
     /// - Parameter DescribeEventsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeEventsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeEventsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -281,12 +281,12 @@ public protocol MemoryDBClientProtocol {
     /// - `InvalidParameterCombinationException` :
     /// - `InvalidParameterValueException` :
     /// - `ServiceLinkedRoleNotFoundFault` :
-    func describeEvents(input: DescribeEventsInput) async throws -> DescribeEventsOutputResponse
+    func describeEvents(input: DescribeEventsInput) async throws -> DescribeEventsOutput
     /// Returns a list of parameter group descriptions. If a parameter group name is specified, the list contains only the descriptions for that group.
     ///
     /// - Parameter DescribeParameterGroupsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeParameterGroupsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeParameterGroupsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -295,12 +295,12 @@ public protocol MemoryDBClientProtocol {
     /// - `InvalidParameterValueException` :
     /// - `ParameterGroupNotFoundFault` :
     /// - `ServiceLinkedRoleNotFoundFault` :
-    func describeParameterGroups(input: DescribeParameterGroupsInput) async throws -> DescribeParameterGroupsOutputResponse
+    func describeParameterGroups(input: DescribeParameterGroupsInput) async throws -> DescribeParameterGroupsOutput
     /// Returns the detailed parameter list for a particular parameter group.
     ///
     /// - Parameter DescribeParametersInput : [no documentation found]
     ///
-    /// - Returns: `DescribeParametersOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeParametersOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -309,12 +309,12 @@ public protocol MemoryDBClientProtocol {
     /// - `InvalidParameterValueException` :
     /// - `ParameterGroupNotFoundFault` :
     /// - `ServiceLinkedRoleNotFoundFault` :
-    func describeParameters(input: DescribeParametersInput) async throws -> DescribeParametersOutputResponse
+    func describeParameters(input: DescribeParametersInput) async throws -> DescribeParametersOutput
     /// Returns information about reserved nodes for this account, or about a specified reserved node.
     ///
     /// - Parameter DescribeReservedNodesInput : [no documentation found]
     ///
-    /// - Returns: `DescribeReservedNodesOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeReservedNodesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -323,12 +323,12 @@ public protocol MemoryDBClientProtocol {
     /// - `InvalidParameterValueException` :
     /// - `ReservedNodeNotFoundFault` : The requested node does not exist.
     /// - `ServiceLinkedRoleNotFoundFault` :
-    func describeReservedNodes(input: DescribeReservedNodesInput) async throws -> DescribeReservedNodesOutputResponse
+    func describeReservedNodes(input: DescribeReservedNodesInput) async throws -> DescribeReservedNodesOutput
     /// Lists available reserved node offerings.
     ///
     /// - Parameter DescribeReservedNodesOfferingsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeReservedNodesOfferingsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeReservedNodesOfferingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -337,24 +337,24 @@ public protocol MemoryDBClientProtocol {
     /// - `InvalidParameterValueException` :
     /// - `ReservedNodesOfferingNotFoundFault` : The requested node offering does not exist.
     /// - `ServiceLinkedRoleNotFoundFault` :
-    func describeReservedNodesOfferings(input: DescribeReservedNodesOfferingsInput) async throws -> DescribeReservedNodesOfferingsOutputResponse
+    func describeReservedNodesOfferings(input: DescribeReservedNodesOfferingsInput) async throws -> DescribeReservedNodesOfferingsOutput
     /// Returns details of the service updates
     ///
     /// - Parameter DescribeServiceUpdatesInput : [no documentation found]
     ///
-    /// - Returns: `DescribeServiceUpdatesOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeServiceUpdatesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParameterCombinationException` :
     /// - `InvalidParameterValueException` :
-    func describeServiceUpdates(input: DescribeServiceUpdatesInput) async throws -> DescribeServiceUpdatesOutputResponse
+    func describeServiceUpdates(input: DescribeServiceUpdatesInput) async throws -> DescribeServiceUpdatesOutput
     /// Returns information about cluster snapshots. By default, DescribeSnapshots lists all of your snapshots; it can optionally describe a single snapshot, or just the snapshots associated with a particular cluster.
     ///
     /// - Parameter DescribeSnapshotsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeSnapshotsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeSnapshotsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -363,36 +363,36 @@ public protocol MemoryDBClientProtocol {
     /// - `InvalidParameterValueException` :
     /// - `ServiceLinkedRoleNotFoundFault` :
     /// - `SnapshotNotFoundFault` :
-    func describeSnapshots(input: DescribeSnapshotsInput) async throws -> DescribeSnapshotsOutputResponse
+    func describeSnapshots(input: DescribeSnapshotsInput) async throws -> DescribeSnapshotsOutput
     /// Returns a list of subnet group descriptions. If a subnet group name is specified, the list contains only the description of that group.
     ///
     /// - Parameter DescribeSubnetGroupsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeSubnetGroupsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeSubnetGroupsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ServiceLinkedRoleNotFoundFault` :
     /// - `SubnetGroupNotFoundFault` :
-    func describeSubnetGroups(input: DescribeSubnetGroupsInput) async throws -> DescribeSubnetGroupsOutputResponse
+    func describeSubnetGroups(input: DescribeSubnetGroupsInput) async throws -> DescribeSubnetGroupsOutput
     /// Returns a list of users.
     ///
     /// - Parameter DescribeUsersInput : [no documentation found]
     ///
-    /// - Returns: `DescribeUsersOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeUsersOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParameterCombinationException` :
     /// - `UserNotFoundFault` :
-    func describeUsers(input: DescribeUsersInput) async throws -> DescribeUsersOutputResponse
+    func describeUsers(input: DescribeUsersInput) async throws -> DescribeUsersOutput
     /// Used to failover a shard. This API is designed for testing the behavior of your application in case of MemoryDB failover. It is not designed to be used as a production-level tool for initiating a failover to overcome a problem you may have with the cluster. Moreover, in certain conditions such as large scale operational events, Amazon may block this API.
     ///
     /// - Parameter FailoverShardInput : [no documentation found]
     ///
-    /// - Returns: `FailoverShardOutputResponse` : [no documentation found]
+    /// - Returns: `FailoverShardOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -405,12 +405,12 @@ public protocol MemoryDBClientProtocol {
     /// - `InvalidParameterValueException` :
     /// - `ShardNotFoundFault` :
     /// - `TestFailoverNotAvailableFault` :
-    func failoverShard(input: FailoverShardInput) async throws -> FailoverShardOutputResponse
+    func failoverShard(input: FailoverShardInput) async throws -> FailoverShardOutput
     /// Lists all available node types that you can scale to from your cluster's current node type. When you use the UpdateCluster operation to scale your cluster, the value of the NodeType parameter must be one of the node types returned by this operation.
     ///
     /// - Parameter ListAllowedNodeTypeUpdatesInput : [no documentation found]
     ///
-    /// - Returns: `ListAllowedNodeTypeUpdatesOutputResponse` : [no documentation found]
+    /// - Returns: `ListAllowedNodeTypeUpdatesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -419,12 +419,12 @@ public protocol MemoryDBClientProtocol {
     /// - `InvalidParameterCombinationException` :
     /// - `InvalidParameterValueException` :
     /// - `ServiceLinkedRoleNotFoundFault` :
-    func listAllowedNodeTypeUpdates(input: ListAllowedNodeTypeUpdatesInput) async throws -> ListAllowedNodeTypeUpdatesOutputResponse
+    func listAllowedNodeTypeUpdates(input: ListAllowedNodeTypeUpdatesInput) async throws -> ListAllowedNodeTypeUpdatesOutput
     /// Lists all tags currently on a named resource. A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track your MemoryDB resources. For more information, see [Tagging your MemoryDB resources](https://docs.aws.amazon.com/MemoryDB/latest/devguide/Tagging-Resources.html)
     ///
     /// - Parameter ListTagsInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -438,12 +438,12 @@ public protocol MemoryDBClientProtocol {
     /// - `SnapshotNotFoundFault` :
     /// - `SubnetGroupNotFoundFault` :
     /// - `UserNotFoundFault` :
-    func listTags(input: ListTagsInput) async throws -> ListTagsOutputResponse
+    func listTags(input: ListTagsInput) async throws -> ListTagsOutput
     /// Allows you to purchase a reserved node offering. Reserved nodes are not eligible for cancellation and are non-refundable.
     ///
     /// - Parameter PurchaseReservedNodesOfferingInput : [no documentation found]
     ///
-    /// - Returns: `PurchaseReservedNodesOfferingOutputResponse` : [no documentation found]
+    /// - Returns: `PurchaseReservedNodesOfferingOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -455,12 +455,12 @@ public protocol MemoryDBClientProtocol {
     /// - `ReservedNodesOfferingNotFoundFault` : The requested node offering does not exist.
     /// - `ServiceLinkedRoleNotFoundFault` :
     /// - `TagQuotaPerResourceExceeded` :
-    func purchaseReservedNodesOffering(input: PurchaseReservedNodesOfferingInput) async throws -> PurchaseReservedNodesOfferingOutputResponse
+    func purchaseReservedNodesOffering(input: PurchaseReservedNodesOfferingInput) async throws -> PurchaseReservedNodesOfferingOutput
     /// Modifies the parameters of a parameter group to the engine or system default value. You can reset specific parameters by submitting a list of parameter names. To reset the entire parameter group, specify the AllParameters and ParameterGroupName parameters.
     ///
     /// - Parameter ResetParameterGroupInput : [no documentation found]
     ///
-    /// - Returns: `ResetParameterGroupOutputResponse` : [no documentation found]
+    /// - Returns: `ResetParameterGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -470,12 +470,12 @@ public protocol MemoryDBClientProtocol {
     /// - `InvalidParameterValueException` :
     /// - `ParameterGroupNotFoundFault` :
     /// - `ServiceLinkedRoleNotFoundFault` :
-    func resetParameterGroup(input: ResetParameterGroupInput) async throws -> ResetParameterGroupOutputResponse
+    func resetParameterGroup(input: ResetParameterGroupInput) async throws -> ResetParameterGroupOutput
     /// A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track all your MemoryDB resources. When you add or remove tags on clusters, those actions will be replicated to all nodes in the cluster. For more information, see [Resource-level permissions](https://docs.aws.amazon.com/MemoryDB/latest/devguide/iam.resourcelevelpermissions.html). For example, you can use cost-allocation tags to your MemoryDB resources, Amazon generates a cost allocation report as a comma-separated value (CSV) file with your usage and costs aggregated by your tags. You can apply tags that represent business categories (such as cost centers, application names, or owners) to organize your costs across multiple services. For more information, see [Using Cost Allocation Tags](https://docs.aws.amazon.com/MemoryDB/latest/devguide/tagging.html).
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -490,12 +490,12 @@ public protocol MemoryDBClientProtocol {
     /// - `SubnetGroupNotFoundFault` :
     /// - `TagQuotaPerResourceExceeded` :
     /// - `UserNotFoundFault` :
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     /// Use this operation to remove tags on a resource
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -510,12 +510,12 @@ public protocol MemoryDBClientProtocol {
     /// - `SubnetGroupNotFoundFault` :
     /// - `TagNotFoundFault` :
     /// - `UserNotFoundFault` :
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
     /// Changes the list of users that belong to the Access Control List.
     ///
     /// - Parameter UpdateACLInput : [no documentation found]
     ///
-    /// - Returns: `UpdateACLOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateACLOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -527,12 +527,12 @@ public protocol MemoryDBClientProtocol {
     /// - `InvalidParameterCombinationException` :
     /// - `InvalidParameterValueException` :
     /// - `UserNotFoundFault` :
-    func updateACL(input: UpdateACLInput) async throws -> UpdateACLOutputResponse
+    func updateACL(input: UpdateACLInput) async throws -> UpdateACLOutput
     /// Modifies the settings for a cluster. You can use this operation to change one or more cluster configuration settings by specifying the settings and the new values.
     ///
     /// - Parameter UpdateClusterInput : [no documentation found]
     ///
-    /// - Returns: `UpdateClusterOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateClusterOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -553,12 +553,12 @@ public protocol MemoryDBClientProtocol {
     /// - `ParameterGroupNotFoundFault` :
     /// - `ServiceLinkedRoleNotFoundFault` :
     /// - `ShardsPerClusterQuotaExceededFault` :
-    func updateCluster(input: UpdateClusterInput) async throws -> UpdateClusterOutputResponse
+    func updateCluster(input: UpdateClusterInput) async throws -> UpdateClusterOutput
     /// Updates the parameters of a parameter group. You can modify up to 20 parameters in a single request by submitting a list parameter name and value pairs.
     ///
     /// - Parameter UpdateParameterGroupInput : [no documentation found]
     ///
-    /// - Returns: `UpdateParameterGroupOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateParameterGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -568,12 +568,12 @@ public protocol MemoryDBClientProtocol {
     /// - `InvalidParameterValueException` :
     /// - `ParameterGroupNotFoundFault` :
     /// - `ServiceLinkedRoleNotFoundFault` :
-    func updateParameterGroup(input: UpdateParameterGroupInput) async throws -> UpdateParameterGroupOutputResponse
+    func updateParameterGroup(input: UpdateParameterGroupInput) async throws -> UpdateParameterGroupOutput
     /// Updates a subnet group. For more information, see [Updating a subnet group](https://docs.aws.amazon.com/MemoryDB/latest/devguide/ubnetGroups.Modifying.html)
     ///
     /// - Parameter UpdateSubnetGroupInput : [no documentation found]
     ///
-    /// - Returns: `UpdateSubnetGroupOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateSubnetGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -584,12 +584,12 @@ public protocol MemoryDBClientProtocol {
     /// - `SubnetInUse` :
     /// - `SubnetNotAllowedFault` :
     /// - `SubnetQuotaExceededFault` :
-    func updateSubnetGroup(input: UpdateSubnetGroupInput) async throws -> UpdateSubnetGroupOutputResponse
+    func updateSubnetGroup(input: UpdateSubnetGroupInput) async throws -> UpdateSubnetGroupOutput
     /// Changes user password(s) and/or access string.
     ///
     /// - Parameter UpdateUserInput : [no documentation found]
     ///
-    /// - Returns: `UpdateUserOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateUserOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -598,7 +598,7 @@ public protocol MemoryDBClientProtocol {
     /// - `InvalidParameterValueException` :
     /// - `InvalidUserStateFault` :
     /// - `UserNotFoundFault` :
-    func updateUser(input: UpdateUserInput) async throws -> UpdateUserOutputResponse
+    func updateUser(input: UpdateUserInput) async throws -> UpdateUserOutput
 }
 
 public enum MemoryDBClientTypes {}

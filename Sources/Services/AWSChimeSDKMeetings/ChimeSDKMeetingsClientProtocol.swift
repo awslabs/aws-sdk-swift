@@ -8,7 +8,7 @@ public protocol ChimeSDKMeetingsClientProtocol {
     ///
     /// - Parameter BatchCreateAttendeeInput : [no documentation found]
     ///
-    /// - Returns: `BatchCreateAttendeeOutputResponse` : [no documentation found]
+    /// - Returns: `BatchCreateAttendeeOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -22,7 +22,7 @@ public protocol ChimeSDKMeetingsClientProtocol {
     /// - `ThrottlingException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedException` : The user isn't authorized to request a resource.
     /// - `UnprocessableEntityException` : The request was well-formed but was unable to be followed due to semantic errors.
-    func batchCreateAttendee(input: BatchCreateAttendeeInput) async throws -> BatchCreateAttendeeOutputResponse
+    func batchCreateAttendee(input: BatchCreateAttendeeInput) async throws -> BatchCreateAttendeeOutput
     /// Updates AttendeeCapabilities except the capabilities listed in an ExcludedAttendeeIds table. You use the capabilities with a set of values that control what the capabilities can do, such as SendReceive data. For more information about those values, see . When using capabilities, be aware of these corner cases:
     ///
     /// * You can't set content capabilities to SendReceive or Receive unless you also set video capabilities to SendReceive or Receive. If you don't set the video capability to receive, the response will contain an HTTP 400 Bad Request status code. However, you can set your video capability to receive and you set your content capability to not receive.
@@ -33,7 +33,7 @@ public protocol ChimeSDKMeetingsClientProtocol {
     ///
     /// - Parameter BatchUpdateAttendeeCapabilitiesExceptInput : [no documentation found]
     ///
-    /// - Returns: `BatchUpdateAttendeeCapabilitiesExceptOutputResponse` : [no documentation found]
+    /// - Returns: `BatchUpdateAttendeeCapabilitiesExceptOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -46,12 +46,12 @@ public protocol ChimeSDKMeetingsClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottlingException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedException` : The user isn't authorized to request a resource.
-    func batchUpdateAttendeeCapabilitiesExcept(input: BatchUpdateAttendeeCapabilitiesExceptInput) async throws -> BatchUpdateAttendeeCapabilitiesExceptOutputResponse
+    func batchUpdateAttendeeCapabilitiesExcept(input: BatchUpdateAttendeeCapabilitiesExceptInput) async throws -> BatchUpdateAttendeeCapabilitiesExceptOutput
     /// Creates a new attendee for an active Amazon Chime SDK meeting. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html) in the Amazon Chime Developer Guide.
     ///
     /// - Parameter CreateAttendeeInput : [no documentation found]
     ///
-    /// - Returns: `CreateAttendeeOutputResponse` : [no documentation found]
+    /// - Returns: `CreateAttendeeOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -65,12 +65,12 @@ public protocol ChimeSDKMeetingsClientProtocol {
     /// - `ThrottlingException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedException` : The user isn't authorized to request a resource.
     /// - `UnprocessableEntityException` : The request was well-formed but was unable to be followed due to semantic errors.
-    func createAttendee(input: CreateAttendeeInput) async throws -> CreateAttendeeOutputResponse
+    func createAttendee(input: CreateAttendeeInput) async throws -> CreateAttendeeOutput
     /// Creates a new Amazon Chime SDK meeting in the specified media Region with no initial attendees. For more information about specifying media Regions, see [Amazon Chime SDK Media Regions](https://docs.aws.amazon.com/chime/latest/dg/chime-sdk-meetings-regions.html) in the Amazon Chime Developer Guide. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html) in the Amazon Chime Developer Guide.
     ///
     /// - Parameter CreateMeetingInput : [no documentation found]
     ///
-    /// - Returns: `CreateMeetingOutputResponse` : [no documentation found]
+    /// - Returns: `CreateMeetingOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -83,12 +83,12 @@ public protocol ChimeSDKMeetingsClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottlingException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedException` : The user isn't authorized to request a resource.
-    func createMeeting(input: CreateMeetingInput) async throws -> CreateMeetingOutputResponse
+    func createMeeting(input: CreateMeetingInput) async throws -> CreateMeetingOutput
     /// Creates a new Amazon Chime SDK meeting in the specified media Region, with attendees. For more information about specifying media Regions, see [Amazon Chime SDK Media Regions](https://docs.aws.amazon.com/chime/latest/dg/chime-sdk-meetings-regions.html) in the Amazon Chime Developer Guide. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html) in the Amazon Chime Developer Guide.
     ///
     /// - Parameter CreateMeetingWithAttendeesInput : [no documentation found]
     ///
-    /// - Returns: `CreateMeetingWithAttendeesOutputResponse` : [no documentation found]
+    /// - Returns: `CreateMeetingWithAttendeesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -101,12 +101,12 @@ public protocol ChimeSDKMeetingsClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottlingException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedException` : The user isn't authorized to request a resource.
-    func createMeetingWithAttendees(input: CreateMeetingWithAttendeesInput) async throws -> CreateMeetingWithAttendeesOutputResponse
+    func createMeetingWithAttendees(input: CreateMeetingWithAttendeesInput) async throws -> CreateMeetingWithAttendeesOutput
     /// Deletes an attendee from the specified Amazon Chime SDK meeting and deletes their JoinToken. Attendees are automatically deleted when a Amazon Chime SDK meeting is deleted. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html) in the Amazon Chime Developer Guide.
     ///
     /// - Parameter DeleteAttendeeInput : [no documentation found]
     ///
-    /// - Returns: `DeleteAttendeeOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteAttendeeOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -118,12 +118,12 @@ public protocol ChimeSDKMeetingsClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottlingException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedException` : The user isn't authorized to request a resource.
-    func deleteAttendee(input: DeleteAttendeeInput) async throws -> DeleteAttendeeOutputResponse
+    func deleteAttendee(input: DeleteAttendeeInput) async throws -> DeleteAttendeeOutput
     /// Deletes the specified Amazon Chime SDK meeting. The operation deletes all attendees, disconnects all clients, and prevents new clients from joining the meeting. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html) in the Amazon Chime Developer Guide.
     ///
     /// - Parameter DeleteMeetingInput : [no documentation found]
     ///
-    /// - Returns: `DeleteMeetingOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteMeetingOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -135,12 +135,12 @@ public protocol ChimeSDKMeetingsClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottlingException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedException` : The user isn't authorized to request a resource.
-    func deleteMeeting(input: DeleteMeetingInput) async throws -> DeleteMeetingOutputResponse
+    func deleteMeeting(input: DeleteMeetingInput) async throws -> DeleteMeetingOutput
     /// Gets the Amazon Chime SDK attendee details for a specified meeting ID and attendee ID. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html) in the Amazon Chime Developer Guide.
     ///
     /// - Parameter GetAttendeeInput : [no documentation found]
     ///
-    /// - Returns: `GetAttendeeOutputResponse` : [no documentation found]
+    /// - Returns: `GetAttendeeOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -152,12 +152,12 @@ public protocol ChimeSDKMeetingsClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottlingException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedException` : The user isn't authorized to request a resource.
-    func getAttendee(input: GetAttendeeInput) async throws -> GetAttendeeOutputResponse
+    func getAttendee(input: GetAttendeeInput) async throws -> GetAttendeeOutput
     /// Gets the Amazon Chime SDK meeting details for the specified meeting ID. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html) in the Amazon Chime Developer Guide.
     ///
     /// - Parameter GetMeetingInput : [no documentation found]
     ///
-    /// - Returns: `GetMeetingOutputResponse` : [no documentation found]
+    /// - Returns: `GetMeetingOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -169,12 +169,12 @@ public protocol ChimeSDKMeetingsClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottlingException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedException` : The user isn't authorized to request a resource.
-    func getMeeting(input: GetMeetingInput) async throws -> GetMeetingOutputResponse
+    func getMeeting(input: GetMeetingInput) async throws -> GetMeetingOutput
     /// Lists the attendees for the specified Amazon Chime SDK meeting. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html) in the Amazon Chime Developer Guide.
     ///
     /// - Parameter ListAttendeesInput : [no documentation found]
     ///
-    /// - Returns: `ListAttendeesOutputResponse` : [no documentation found]
+    /// - Returns: `ListAttendeesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -186,12 +186,12 @@ public protocol ChimeSDKMeetingsClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottlingException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedException` : The user isn't authorized to request a resource.
-    func listAttendees(input: ListAttendeesInput) async throws -> ListAttendeesOutputResponse
+    func listAttendees(input: ListAttendeesInput) async throws -> ListAttendeesOutput
     /// Returns a list of the tags available for the specified resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -204,12 +204,12 @@ public protocol ChimeSDKMeetingsClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottlingException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedException` : The user isn't authorized to request a resource.
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     /// Starts transcription for the specified meetingId. For more information, refer to [ Using Amazon Chime SDK live transcription ](https://docs.aws.amazon.com/chime-sdk/latest/dg/meeting-transcription.html) in the Amazon Chime SDK Developer Guide. If you specify an invalid configuration, a TranscriptFailed event will be sent with the contents of the BadRequestException generated by Amazon Transcribe. For more information on each parameter and which combinations are valid, refer to the [StartStreamTranscription](https://docs.aws.amazon.com/transcribe/latest/APIReference/API_streaming_StartStreamTranscription.html) API in the Amazon Transcribe Developer Guide. Amazon Chime SDK live transcription is powered by Amazon Transcribe. Use of Amazon Transcribe is subject to the [AWS Service Terms](https://aws.amazon.com/service-terms/), including the terms specific to the AWS Machine Learning and Artificial Intelligence Services.
     ///
     /// - Parameter StartMeetingTranscriptionInput : [no documentation found]
     ///
-    /// - Returns: `StartMeetingTranscriptionOutputResponse` : [no documentation found]
+    /// - Returns: `StartMeetingTranscriptionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -223,12 +223,12 @@ public protocol ChimeSDKMeetingsClientProtocol {
     /// - `ThrottlingException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedException` : The user isn't authorized to request a resource.
     /// - `UnprocessableEntityException` : The request was well-formed but was unable to be followed due to semantic errors.
-    func startMeetingTranscription(input: StartMeetingTranscriptionInput) async throws -> StartMeetingTranscriptionOutputResponse
+    func startMeetingTranscription(input: StartMeetingTranscriptionInput) async throws -> StartMeetingTranscriptionOutput
     /// Stops transcription for the specified meetingId. For more information, refer to [ Using Amazon Chime SDK live transcription ](https://docs.aws.amazon.com/chime-sdk/latest/dg/meeting-transcription.html) in the Amazon Chime SDK Developer Guide. Amazon Chime SDK live transcription is powered by Amazon Transcribe. Use of Amazon Transcribe is subject to the [AWS Service Terms](https://aws.amazon.com/service-terms/), including the terms specific to the AWS Machine Learning and Artificial Intelligence Services.
     ///
     /// - Parameter StopMeetingTranscriptionInput : [no documentation found]
     ///
-    /// - Returns: `StopMeetingTranscriptionOutputResponse` : [no documentation found]
+    /// - Returns: `StopMeetingTranscriptionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -241,12 +241,12 @@ public protocol ChimeSDKMeetingsClientProtocol {
     /// - `ThrottlingException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedException` : The user isn't authorized to request a resource.
     /// - `UnprocessableEntityException` : The request was well-formed but was unable to be followed due to semantic errors.
-    func stopMeetingTranscription(input: StopMeetingTranscriptionInput) async throws -> StopMeetingTranscriptionOutputResponse
+    func stopMeetingTranscription(input: StopMeetingTranscriptionInput) async throws -> StopMeetingTranscriptionOutput
     /// The resource that supports tags.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -260,7 +260,7 @@ public protocol ChimeSDKMeetingsClientProtocol {
     /// - `ThrottlingException` : The number of customer requests exceeds the request rate limit.
     /// - `TooManyTagsException` : Too many tags were added to the specified resource.
     /// - `UnauthorizedException` : The user isn't authorized to request a resource.
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     /// Removes the specified tags from the specified resources. When you specify a tag key, the action removes both that key and its associated value. The operation succeeds even if you attempt to remove tags from a resource that were already removed. Note the following:
     ///
     /// * To remove tags from a resource, you need the necessary permissions for the service that the resource belongs to as well as permissions for removing tags. For more information, see the documentation for the service whose resource you want to untag.
@@ -273,7 +273,7 @@ public protocol ChimeSDKMeetingsClientProtocol {
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -286,7 +286,7 @@ public protocol ChimeSDKMeetingsClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottlingException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedException` : The user isn't authorized to request a resource.
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
     /// The capabilities that you want to update. You use the capabilities with a set of values that control what the capabilities can do, such as SendReceive data. For more information about those values, see . When using capabilities, be aware of these corner cases:
     ///
     /// * You can't set content capabilities to SendReceive or Receive unless you also set video capabilities to SendReceive or Receive. If you don't set the video capability to receive, the response will contain an HTTP 400 Bad Request status code. However, you can set your video capability to receive and you set your content capability to not receive.
@@ -297,7 +297,7 @@ public protocol ChimeSDKMeetingsClientProtocol {
     ///
     /// - Parameter UpdateAttendeeCapabilitiesInput : [no documentation found]
     ///
-    /// - Returns: `UpdateAttendeeCapabilitiesOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateAttendeeCapabilitiesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -310,7 +310,7 @@ public protocol ChimeSDKMeetingsClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottlingException` : The number of customer requests exceeds the request rate limit.
     /// - `UnauthorizedException` : The user isn't authorized to request a resource.
-    func updateAttendeeCapabilities(input: UpdateAttendeeCapabilitiesInput) async throws -> UpdateAttendeeCapabilitiesOutputResponse
+    func updateAttendeeCapabilities(input: UpdateAttendeeCapabilitiesInput) async throws -> UpdateAttendeeCapabilitiesOutput
 }
 
 public enum ChimeSDKMeetingsClientTypes {}

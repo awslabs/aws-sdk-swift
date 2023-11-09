@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension SchemasClient {
-    /// Paginate over `[ListDiscoverersOutputResponse]` results.
+    /// Paginate over `[ListDiscoverersOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListDiscoverersInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListDiscoverersOutputResponse`
-    public func listDiscoverersPaginated(input: ListDiscoverersInput) -> ClientRuntime.PaginatorSequence<ListDiscoverersInput, ListDiscoverersOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListDiscoverersInput, ListDiscoverersOutputResponse>(input: input, inputKey: \ListDiscoverersInput.nextToken, outputKey: \ListDiscoverersOutputResponse.nextToken, paginationFunction: self.listDiscoverers(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDiscoverersOutput`
+    public func listDiscoverersPaginated(input: ListDiscoverersInput) -> ClientRuntime.PaginatorSequence<ListDiscoverersInput, ListDiscoverersOutput> {
+        return ClientRuntime.PaginatorSequence<ListDiscoverersInput, ListDiscoverersOutput>(input: input, inputKey: \ListDiscoverersInput.nextToken, outputKey: \ListDiscoverersOutput.nextToken, paginationFunction: self.listDiscoverers(input:))
     }
 }
 
@@ -26,7 +26,7 @@ extension ListDiscoverersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListDiscoverersInput, Output == ListDiscoverersOutputResponse {
+extension PaginatorSequence where Input == ListDiscoverersInput, Output == ListDiscoverersOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listDiscoverersPaginated`
     /// to access the nested member `[SchemasClientTypes.DiscovererSummary]`
     /// - Returns: `[SchemasClientTypes.DiscovererSummary]`
@@ -35,16 +35,16 @@ extension PaginatorSequence where Input == ListDiscoverersInput, Output == ListD
     }
 }
 extension SchemasClient {
-    /// Paginate over `[ListRegistriesOutputResponse]` results.
+    /// Paginate over `[ListRegistriesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListRegistriesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListRegistriesOutputResponse`
-    public func listRegistriesPaginated(input: ListRegistriesInput) -> ClientRuntime.PaginatorSequence<ListRegistriesInput, ListRegistriesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListRegistriesInput, ListRegistriesOutputResponse>(input: input, inputKey: \ListRegistriesInput.nextToken, outputKey: \ListRegistriesOutputResponse.nextToken, paginationFunction: self.listRegistries(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListRegistriesOutput`
+    public func listRegistriesPaginated(input: ListRegistriesInput) -> ClientRuntime.PaginatorSequence<ListRegistriesInput, ListRegistriesOutput> {
+        return ClientRuntime.PaginatorSequence<ListRegistriesInput, ListRegistriesOutput>(input: input, inputKey: \ListRegistriesInput.nextToken, outputKey: \ListRegistriesOutput.nextToken, paginationFunction: self.listRegistries(input:))
     }
 }
 
@@ -58,7 +58,7 @@ extension ListRegistriesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListRegistriesInput, Output == ListRegistriesOutputResponse {
+extension PaginatorSequence where Input == ListRegistriesInput, Output == ListRegistriesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listRegistriesPaginated`
     /// to access the nested member `[SchemasClientTypes.RegistrySummary]`
     /// - Returns: `[SchemasClientTypes.RegistrySummary]`
@@ -67,16 +67,16 @@ extension PaginatorSequence where Input == ListRegistriesInput, Output == ListRe
     }
 }
 extension SchemasClient {
-    /// Paginate over `[ListSchemasOutputResponse]` results.
+    /// Paginate over `[ListSchemasOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListSchemasInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListSchemasOutputResponse`
-    public func listSchemasPaginated(input: ListSchemasInput) -> ClientRuntime.PaginatorSequence<ListSchemasInput, ListSchemasOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListSchemasInput, ListSchemasOutputResponse>(input: input, inputKey: \ListSchemasInput.nextToken, outputKey: \ListSchemasOutputResponse.nextToken, paginationFunction: self.listSchemas(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListSchemasOutput`
+    public func listSchemasPaginated(input: ListSchemasInput) -> ClientRuntime.PaginatorSequence<ListSchemasInput, ListSchemasOutput> {
+        return ClientRuntime.PaginatorSequence<ListSchemasInput, ListSchemasOutput>(input: input, inputKey: \ListSchemasInput.nextToken, outputKey: \ListSchemasOutput.nextToken, paginationFunction: self.listSchemas(input:))
     }
 }
 
@@ -90,7 +90,7 @@ extension ListSchemasInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListSchemasInput, Output == ListSchemasOutputResponse {
+extension PaginatorSequence where Input == ListSchemasInput, Output == ListSchemasOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listSchemasPaginated`
     /// to access the nested member `[SchemasClientTypes.SchemaSummary]`
     /// - Returns: `[SchemasClientTypes.SchemaSummary]`
@@ -99,16 +99,16 @@ extension PaginatorSequence where Input == ListSchemasInput, Output == ListSchem
     }
 }
 extension SchemasClient {
-    /// Paginate over `[ListSchemaVersionsOutputResponse]` results.
+    /// Paginate over `[ListSchemaVersionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListSchemaVersionsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListSchemaVersionsOutputResponse`
-    public func listSchemaVersionsPaginated(input: ListSchemaVersionsInput) -> ClientRuntime.PaginatorSequence<ListSchemaVersionsInput, ListSchemaVersionsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListSchemaVersionsInput, ListSchemaVersionsOutputResponse>(input: input, inputKey: \ListSchemaVersionsInput.nextToken, outputKey: \ListSchemaVersionsOutputResponse.nextToken, paginationFunction: self.listSchemaVersions(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListSchemaVersionsOutput`
+    public func listSchemaVersionsPaginated(input: ListSchemaVersionsInput) -> ClientRuntime.PaginatorSequence<ListSchemaVersionsInput, ListSchemaVersionsOutput> {
+        return ClientRuntime.PaginatorSequence<ListSchemaVersionsInput, ListSchemaVersionsOutput>(input: input, inputKey: \ListSchemaVersionsInput.nextToken, outputKey: \ListSchemaVersionsOutput.nextToken, paginationFunction: self.listSchemaVersions(input:))
     }
 }
 
@@ -122,7 +122,7 @@ extension ListSchemaVersionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListSchemaVersionsInput, Output == ListSchemaVersionsOutputResponse {
+extension PaginatorSequence where Input == ListSchemaVersionsInput, Output == ListSchemaVersionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listSchemaVersionsPaginated`
     /// to access the nested member `[SchemasClientTypes.SchemaVersionSummary]`
     /// - Returns: `[SchemasClientTypes.SchemaVersionSummary]`
@@ -131,16 +131,16 @@ extension PaginatorSequence where Input == ListSchemaVersionsInput, Output == Li
     }
 }
 extension SchemasClient {
-    /// Paginate over `[SearchSchemasOutputResponse]` results.
+    /// Paginate over `[SearchSchemasOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[SearchSchemasInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `SearchSchemasOutputResponse`
-    public func searchSchemasPaginated(input: SearchSchemasInput) -> ClientRuntime.PaginatorSequence<SearchSchemasInput, SearchSchemasOutputResponse> {
-        return ClientRuntime.PaginatorSequence<SearchSchemasInput, SearchSchemasOutputResponse>(input: input, inputKey: \SearchSchemasInput.nextToken, outputKey: \SearchSchemasOutputResponse.nextToken, paginationFunction: self.searchSchemas(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `SearchSchemasOutput`
+    public func searchSchemasPaginated(input: SearchSchemasInput) -> ClientRuntime.PaginatorSequence<SearchSchemasInput, SearchSchemasOutput> {
+        return ClientRuntime.PaginatorSequence<SearchSchemasInput, SearchSchemasOutput>(input: input, inputKey: \SearchSchemasInput.nextToken, outputKey: \SearchSchemasOutput.nextToken, paginationFunction: self.searchSchemas(input:))
     }
 }
 
@@ -154,7 +154,7 @@ extension SearchSchemasInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == SearchSchemasInput, Output == SearchSchemasOutputResponse {
+extension PaginatorSequence where Input == SearchSchemasInput, Output == SearchSchemasOutput {
     /// This paginator transforms the `AsyncSequence` returned by `searchSchemasPaginated`
     /// to access the nested member `[SchemasClientTypes.SearchSchemaSummary]`
     /// - Returns: `[SchemasClientTypes.SearchSchemaSummary]`

@@ -4,9 +4,9 @@ import ClientRuntime
 
 extension DynamoDBClientProtocol {
 
-    static func tableExistsWaiterConfig() throws -> WaiterConfiguration<DescribeTableInput, DescribeTableOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeTableInput, DescribeTableOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeTableInput, result: Result<DescribeTableOutputResponse, Error>) -> Bool in
+    static func tableExistsWaiterConfig() throws -> WaiterConfiguration<DescribeTableInput, DescribeTableOutput> {
+        let acceptors: [WaiterConfiguration<DescribeTableInput, DescribeTableOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeTableInput, result: Result<DescribeTableOutput, Error>) -> Bool in
                 // JMESPath expression: "Table.TableStatus"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "ACTIVE"
@@ -15,12 +15,12 @@ extension DynamoDBClientProtocol {
                 let tableStatus = table?.tableStatus
                 return JMESUtils.compare(tableStatus, ==, "ACTIVE")
             }),
-            .init(state: .retry, matcher: { (input: DescribeTableInput, result: Result<DescribeTableOutputResponse, Error>) -> Bool in
+            .init(state: .retry, matcher: { (input: DescribeTableInput, result: Result<DescribeTableOutput, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
                 return (error as? ServiceError)?.typeName == "ResourceNotFoundException"
             }),
         ]
-        return try WaiterConfiguration<DescribeTableInput, DescribeTableOutputResponse>(acceptors: acceptors, minDelay: 20.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeTableInput, DescribeTableOutput>(acceptors: acceptors, minDelay: 20.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the TableExists event on the describeTable operation.
@@ -34,19 +34,19 @@ extension DynamoDBClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilTableExists(options: WaiterOptions, input: DescribeTableInput) async throws -> WaiterOutcome<DescribeTableOutputResponse> {
+    public func waitUntilTableExists(options: WaiterOptions, input: DescribeTableInput) async throws -> WaiterOutcome<DescribeTableOutput> {
         let waiter = Waiter(config: try Self.tableExistsWaiterConfig(), operation: self.describeTable(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func tableNotExistsWaiterConfig() throws -> WaiterConfiguration<DescribeTableInput, DescribeTableOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeTableInput, DescribeTableOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeTableInput, result: Result<DescribeTableOutputResponse, Error>) -> Bool in
+    static func tableNotExistsWaiterConfig() throws -> WaiterConfiguration<DescribeTableInput, DescribeTableOutput> {
+        let acceptors: [WaiterConfiguration<DescribeTableInput, DescribeTableOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeTableInput, result: Result<DescribeTableOutput, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
                 return (error as? ServiceError)?.typeName == "ResourceNotFoundException"
             }),
         ]
-        return try WaiterConfiguration<DescribeTableInput, DescribeTableOutputResponse>(acceptors: acceptors, minDelay: 20.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeTableInput, DescribeTableOutput>(acceptors: acceptors, minDelay: 20.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the TableNotExists event on the describeTable operation.
@@ -60,7 +60,7 @@ extension DynamoDBClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilTableNotExists(options: WaiterOptions, input: DescribeTableInput) async throws -> WaiterOutcome<DescribeTableOutputResponse> {
+    public func waitUntilTableNotExists(options: WaiterOptions, input: DescribeTableInput) async throws -> WaiterOutcome<DescribeTableOutput> {
         let waiter = Waiter(config: try Self.tableNotExistsWaiterConfig(), operation: self.describeTable(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }

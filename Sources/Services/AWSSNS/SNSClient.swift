@@ -67,7 +67,7 @@ extension SNSClient: SNSClientProtocol {
     ///
     /// - Parameter AddPermissionInput : [no documentation found]
     ///
-    /// - Returns: `AddPermissionOutputResponse` : [no documentation found]
+    /// - Returns: `AddPermissionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -76,7 +76,7 @@ extension SNSClient: SNSClientProtocol {
     /// - `InternalErrorException` : Indicates an internal service error.
     /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
     /// - `NotFoundException` : Indicates that the requested resource does not exist.
-    public func addPermission(input: AddPermissionInput) async throws -> AddPermissionOutputResponse
+    public func addPermission(input: AddPermissionInput) async throws -> AddPermissionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -92,20 +92,20 @@ extension SNSClient: SNSClientProtocol {
                       .withSigningName(value: "sns")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<AddPermissionInput, AddPermissionOutputResponse, AddPermissionOutputError>(id: "addPermission")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AddPermissionInput, AddPermissionOutputResponse, AddPermissionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AddPermissionInput, AddPermissionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<AddPermissionInput, AddPermissionOutput, AddPermissionOutputError>(id: "addPermission")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AddPermissionInput, AddPermissionOutput, AddPermissionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AddPermissionInput, AddPermissionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AddPermissionOutputResponse, AddPermissionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AddPermissionOutput, AddPermissionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AddPermissionInput, AddPermissionOutputResponse>(xmlName: "AddPermissionInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AddPermissionInput, AddPermissionOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AddPermissionInput, AddPermissionOutput>(xmlName: "AddPermissionInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AddPermissionInput, AddPermissionOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AddPermissionOutputResponse, AddPermissionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AddPermissionOutput, AddPermissionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AddPermissionOutputResponse, AddPermissionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AddPermissionOutputResponse, AddPermissionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AddPermissionOutputResponse, AddPermissionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AddPermissionOutput, AddPermissionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AddPermissionOutput, AddPermissionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AddPermissionOutput, AddPermissionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -114,7 +114,7 @@ extension SNSClient: SNSClientProtocol {
     ///
     /// - Parameter CheckIfPhoneNumberIsOptedOutInput : The input for the CheckIfPhoneNumberIsOptedOut action.
     ///
-    /// - Returns: `CheckIfPhoneNumberIsOptedOutOutputResponse` : The response from the CheckIfPhoneNumberIsOptedOut action.
+    /// - Returns: `CheckIfPhoneNumberIsOptedOutOutput` : The response from the CheckIfPhoneNumberIsOptedOut action.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -123,7 +123,7 @@ extension SNSClient: SNSClientProtocol {
     /// - `InternalErrorException` : Indicates an internal service error.
     /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
     /// - `ThrottledException` : Indicates that the rate at which requests have been submitted for this action exceeds the limit for your Amazon Web Services account.
-    public func checkIfPhoneNumberIsOptedOut(input: CheckIfPhoneNumberIsOptedOutInput) async throws -> CheckIfPhoneNumberIsOptedOutOutputResponse
+    public func checkIfPhoneNumberIsOptedOut(input: CheckIfPhoneNumberIsOptedOutInput) async throws -> CheckIfPhoneNumberIsOptedOutOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -139,20 +139,20 @@ extension SNSClient: SNSClientProtocol {
                       .withSigningName(value: "sns")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CheckIfPhoneNumberIsOptedOutInput, CheckIfPhoneNumberIsOptedOutOutputResponse, CheckIfPhoneNumberIsOptedOutOutputError>(id: "checkIfPhoneNumberIsOptedOut")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CheckIfPhoneNumberIsOptedOutInput, CheckIfPhoneNumberIsOptedOutOutputResponse, CheckIfPhoneNumberIsOptedOutOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CheckIfPhoneNumberIsOptedOutInput, CheckIfPhoneNumberIsOptedOutOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CheckIfPhoneNumberIsOptedOutInput, CheckIfPhoneNumberIsOptedOutOutput, CheckIfPhoneNumberIsOptedOutOutputError>(id: "checkIfPhoneNumberIsOptedOut")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CheckIfPhoneNumberIsOptedOutInput, CheckIfPhoneNumberIsOptedOutOutput, CheckIfPhoneNumberIsOptedOutOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CheckIfPhoneNumberIsOptedOutInput, CheckIfPhoneNumberIsOptedOutOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CheckIfPhoneNumberIsOptedOutOutputResponse, CheckIfPhoneNumberIsOptedOutOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CheckIfPhoneNumberIsOptedOutOutput, CheckIfPhoneNumberIsOptedOutOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CheckIfPhoneNumberIsOptedOutInput, CheckIfPhoneNumberIsOptedOutOutputResponse>(xmlName: "CheckIfPhoneNumberIsOptedOutInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CheckIfPhoneNumberIsOptedOutInput, CheckIfPhoneNumberIsOptedOutOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CheckIfPhoneNumberIsOptedOutInput, CheckIfPhoneNumberIsOptedOutOutput>(xmlName: "CheckIfPhoneNumberIsOptedOutInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CheckIfPhoneNumberIsOptedOutInput, CheckIfPhoneNumberIsOptedOutOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CheckIfPhoneNumberIsOptedOutOutputResponse, CheckIfPhoneNumberIsOptedOutOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CheckIfPhoneNumberIsOptedOutOutput, CheckIfPhoneNumberIsOptedOutOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CheckIfPhoneNumberIsOptedOutOutputResponse, CheckIfPhoneNumberIsOptedOutOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CheckIfPhoneNumberIsOptedOutOutputResponse, CheckIfPhoneNumberIsOptedOutOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CheckIfPhoneNumberIsOptedOutOutputResponse, CheckIfPhoneNumberIsOptedOutOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CheckIfPhoneNumberIsOptedOutOutput, CheckIfPhoneNumberIsOptedOutOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CheckIfPhoneNumberIsOptedOutOutput, CheckIfPhoneNumberIsOptedOutOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CheckIfPhoneNumberIsOptedOutOutput, CheckIfPhoneNumberIsOptedOutOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -161,7 +161,7 @@ extension SNSClient: SNSClientProtocol {
     ///
     /// - Parameter ConfirmSubscriptionInput : Input for ConfirmSubscription action.
     ///
-    /// - Returns: `ConfirmSubscriptionOutputResponse` : Response for ConfirmSubscriptions action.
+    /// - Returns: `ConfirmSubscriptionOutput` : Response for ConfirmSubscriptions action.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -171,8 +171,9 @@ extension SNSClient: SNSClientProtocol {
     /// - `InternalErrorException` : Indicates an internal service error.
     /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
     /// - `NotFoundException` : Indicates that the requested resource does not exist.
+    /// - `ReplayLimitExceededException` : Indicates that the request parameter has exceeded the maximum number of concurrent message replays.
     /// - `SubscriptionLimitExceededException` : Indicates that the customer already owns the maximum allowed number of subscriptions.
-    public func confirmSubscription(input: ConfirmSubscriptionInput) async throws -> ConfirmSubscriptionOutputResponse
+    public func confirmSubscription(input: ConfirmSubscriptionInput) async throws -> ConfirmSubscriptionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -188,20 +189,20 @@ extension SNSClient: SNSClientProtocol {
                       .withSigningName(value: "sns")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ConfirmSubscriptionInput, ConfirmSubscriptionOutputResponse, ConfirmSubscriptionOutputError>(id: "confirmSubscription")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ConfirmSubscriptionInput, ConfirmSubscriptionOutputResponse, ConfirmSubscriptionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ConfirmSubscriptionInput, ConfirmSubscriptionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ConfirmSubscriptionInput, ConfirmSubscriptionOutput, ConfirmSubscriptionOutputError>(id: "confirmSubscription")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ConfirmSubscriptionInput, ConfirmSubscriptionOutput, ConfirmSubscriptionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ConfirmSubscriptionInput, ConfirmSubscriptionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ConfirmSubscriptionOutputResponse, ConfirmSubscriptionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ConfirmSubscriptionOutput, ConfirmSubscriptionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ConfirmSubscriptionInput, ConfirmSubscriptionOutputResponse>(xmlName: "ConfirmSubscriptionInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ConfirmSubscriptionInput, ConfirmSubscriptionOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ConfirmSubscriptionInput, ConfirmSubscriptionOutput>(xmlName: "ConfirmSubscriptionInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ConfirmSubscriptionInput, ConfirmSubscriptionOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ConfirmSubscriptionOutputResponse, ConfirmSubscriptionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ConfirmSubscriptionOutput, ConfirmSubscriptionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ConfirmSubscriptionOutputResponse, ConfirmSubscriptionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ConfirmSubscriptionOutputResponse, ConfirmSubscriptionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ConfirmSubscriptionOutputResponse, ConfirmSubscriptionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ConfirmSubscriptionOutput, ConfirmSubscriptionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ConfirmSubscriptionOutput, ConfirmSubscriptionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ConfirmSubscriptionOutput, ConfirmSubscriptionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -227,7 +228,7 @@ extension SNSClient: SNSClientProtocol {
     ///
     /// - Parameter CreatePlatformApplicationInput : Input for CreatePlatformApplication action.
     ///
-    /// - Returns: `CreatePlatformApplicationOutputResponse` : Response from CreatePlatformApplication action.
+    /// - Returns: `CreatePlatformApplicationOutput` : Response from CreatePlatformApplication action.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -235,7 +236,7 @@ extension SNSClient: SNSClientProtocol {
     /// - `AuthorizationErrorException` : Indicates that the user has been denied access to the requested resource.
     /// - `InternalErrorException` : Indicates an internal service error.
     /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
-    public func createPlatformApplication(input: CreatePlatformApplicationInput) async throws -> CreatePlatformApplicationOutputResponse
+    public func createPlatformApplication(input: CreatePlatformApplicationInput) async throws -> CreatePlatformApplicationOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -251,20 +252,20 @@ extension SNSClient: SNSClientProtocol {
                       .withSigningName(value: "sns")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreatePlatformApplicationInput, CreatePlatformApplicationOutputResponse, CreatePlatformApplicationOutputError>(id: "createPlatformApplication")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreatePlatformApplicationInput, CreatePlatformApplicationOutputResponse, CreatePlatformApplicationOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreatePlatformApplicationInput, CreatePlatformApplicationOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreatePlatformApplicationInput, CreatePlatformApplicationOutput, CreatePlatformApplicationOutputError>(id: "createPlatformApplication")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreatePlatformApplicationInput, CreatePlatformApplicationOutput, CreatePlatformApplicationOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreatePlatformApplicationInput, CreatePlatformApplicationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreatePlatformApplicationOutputResponse, CreatePlatformApplicationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreatePlatformApplicationOutput, CreatePlatformApplicationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreatePlatformApplicationInput, CreatePlatformApplicationOutputResponse>(xmlName: "CreatePlatformApplicationInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreatePlatformApplicationInput, CreatePlatformApplicationOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreatePlatformApplicationInput, CreatePlatformApplicationOutput>(xmlName: "CreatePlatformApplicationInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreatePlatformApplicationInput, CreatePlatformApplicationOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreatePlatformApplicationOutputResponse, CreatePlatformApplicationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreatePlatformApplicationOutput, CreatePlatformApplicationOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreatePlatformApplicationOutputResponse, CreatePlatformApplicationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreatePlatformApplicationOutputResponse, CreatePlatformApplicationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreatePlatformApplicationOutputResponse, CreatePlatformApplicationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreatePlatformApplicationOutput, CreatePlatformApplicationOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreatePlatformApplicationOutput, CreatePlatformApplicationOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreatePlatformApplicationOutput, CreatePlatformApplicationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -273,7 +274,7 @@ extension SNSClient: SNSClientProtocol {
     ///
     /// - Parameter CreatePlatformEndpointInput : Input for CreatePlatformEndpoint action.
     ///
-    /// - Returns: `CreatePlatformEndpointOutputResponse` : Response from CreateEndpoint action.
+    /// - Returns: `CreatePlatformEndpointOutput` : Response from CreateEndpoint action.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -282,7 +283,7 @@ extension SNSClient: SNSClientProtocol {
     /// - `InternalErrorException` : Indicates an internal service error.
     /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
     /// - `NotFoundException` : Indicates that the requested resource does not exist.
-    public func createPlatformEndpoint(input: CreatePlatformEndpointInput) async throws -> CreatePlatformEndpointOutputResponse
+    public func createPlatformEndpoint(input: CreatePlatformEndpointInput) async throws -> CreatePlatformEndpointOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -298,20 +299,20 @@ extension SNSClient: SNSClientProtocol {
                       .withSigningName(value: "sns")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreatePlatformEndpointInput, CreatePlatformEndpointOutputResponse, CreatePlatformEndpointOutputError>(id: "createPlatformEndpoint")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreatePlatformEndpointInput, CreatePlatformEndpointOutputResponse, CreatePlatformEndpointOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreatePlatformEndpointInput, CreatePlatformEndpointOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreatePlatformEndpointInput, CreatePlatformEndpointOutput, CreatePlatformEndpointOutputError>(id: "createPlatformEndpoint")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreatePlatformEndpointInput, CreatePlatformEndpointOutput, CreatePlatformEndpointOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreatePlatformEndpointInput, CreatePlatformEndpointOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreatePlatformEndpointOutputResponse, CreatePlatformEndpointOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreatePlatformEndpointOutput, CreatePlatformEndpointOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreatePlatformEndpointInput, CreatePlatformEndpointOutputResponse>(xmlName: "CreatePlatformEndpointInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreatePlatformEndpointInput, CreatePlatformEndpointOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreatePlatformEndpointInput, CreatePlatformEndpointOutput>(xmlName: "CreatePlatformEndpointInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreatePlatformEndpointInput, CreatePlatformEndpointOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreatePlatformEndpointOutputResponse, CreatePlatformEndpointOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreatePlatformEndpointOutput, CreatePlatformEndpointOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreatePlatformEndpointOutputResponse, CreatePlatformEndpointOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreatePlatformEndpointOutputResponse, CreatePlatformEndpointOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreatePlatformEndpointOutputResponse, CreatePlatformEndpointOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreatePlatformEndpointOutput, CreatePlatformEndpointOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreatePlatformEndpointOutput, CreatePlatformEndpointOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreatePlatformEndpointOutput, CreatePlatformEndpointOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -320,7 +321,7 @@ extension SNSClient: SNSClientProtocol {
     ///
     /// - Parameter CreateSMSSandboxPhoneNumberInput : [no documentation found]
     ///
-    /// - Returns: `CreateSMSSandboxPhoneNumberOutputResponse` : [no documentation found]
+    /// - Returns: `CreateSMSSandboxPhoneNumberOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -331,7 +332,7 @@ extension SNSClient: SNSClientProtocol {
     /// - `OptedOutException` : Indicates that the specified phone number opted out of receiving SMS messages from your Amazon Web Services account. You can't send SMS messages to phone numbers that opt out.
     /// - `ThrottledException` : Indicates that the rate at which requests have been submitted for this action exceeds the limit for your Amazon Web Services account.
     /// - `UserErrorException` : Indicates that a request parameter does not comply with the associated constraints.
-    public func createSMSSandboxPhoneNumber(input: CreateSMSSandboxPhoneNumberInput) async throws -> CreateSMSSandboxPhoneNumberOutputResponse
+    public func createSMSSandboxPhoneNumber(input: CreateSMSSandboxPhoneNumberInput) async throws -> CreateSMSSandboxPhoneNumberOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -347,20 +348,20 @@ extension SNSClient: SNSClientProtocol {
                       .withSigningName(value: "sns")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateSMSSandboxPhoneNumberInput, CreateSMSSandboxPhoneNumberOutputResponse, CreateSMSSandboxPhoneNumberOutputError>(id: "createSMSSandboxPhoneNumber")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateSMSSandboxPhoneNumberInput, CreateSMSSandboxPhoneNumberOutputResponse, CreateSMSSandboxPhoneNumberOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateSMSSandboxPhoneNumberInput, CreateSMSSandboxPhoneNumberOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateSMSSandboxPhoneNumberInput, CreateSMSSandboxPhoneNumberOutput, CreateSMSSandboxPhoneNumberOutputError>(id: "createSMSSandboxPhoneNumber")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateSMSSandboxPhoneNumberInput, CreateSMSSandboxPhoneNumberOutput, CreateSMSSandboxPhoneNumberOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateSMSSandboxPhoneNumberInput, CreateSMSSandboxPhoneNumberOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateSMSSandboxPhoneNumberOutputResponse, CreateSMSSandboxPhoneNumberOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateSMSSandboxPhoneNumberOutput, CreateSMSSandboxPhoneNumberOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateSMSSandboxPhoneNumberInput, CreateSMSSandboxPhoneNumberOutputResponse>(xmlName: "CreateSMSSandboxPhoneNumberInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateSMSSandboxPhoneNumberInput, CreateSMSSandboxPhoneNumberOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateSMSSandboxPhoneNumberInput, CreateSMSSandboxPhoneNumberOutput>(xmlName: "CreateSMSSandboxPhoneNumberInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateSMSSandboxPhoneNumberInput, CreateSMSSandboxPhoneNumberOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateSMSSandboxPhoneNumberOutputResponse, CreateSMSSandboxPhoneNumberOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateSMSSandboxPhoneNumberOutput, CreateSMSSandboxPhoneNumberOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateSMSSandboxPhoneNumberOutputResponse, CreateSMSSandboxPhoneNumberOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateSMSSandboxPhoneNumberOutputResponse, CreateSMSSandboxPhoneNumberOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateSMSSandboxPhoneNumberOutputResponse, CreateSMSSandboxPhoneNumberOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateSMSSandboxPhoneNumberOutput, CreateSMSSandboxPhoneNumberOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateSMSSandboxPhoneNumberOutput, CreateSMSSandboxPhoneNumberOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateSMSSandboxPhoneNumberOutput, CreateSMSSandboxPhoneNumberOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -369,7 +370,7 @@ extension SNSClient: SNSClientProtocol {
     ///
     /// - Parameter CreateTopicInput : Input for CreateTopic action.
     ///
-    /// - Returns: `CreateTopicOutputResponse` : Response from CreateTopic action.
+    /// - Returns: `CreateTopicOutput` : Response from CreateTopic action.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -383,7 +384,7 @@ extension SNSClient: SNSClientProtocol {
     /// - `TagLimitExceededException` : Can't add more than 50 tags to a topic.
     /// - `TagPolicyException` : The request doesn't comply with the IAM tag policy. Correct your request and then retry it.
     /// - `TopicLimitExceededException` : Indicates that the customer already owns the maximum allowed number of topics.
-    public func createTopic(input: CreateTopicInput) async throws -> CreateTopicOutputResponse
+    public func createTopic(input: CreateTopicInput) async throws -> CreateTopicOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -399,20 +400,20 @@ extension SNSClient: SNSClientProtocol {
                       .withSigningName(value: "sns")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateTopicInput, CreateTopicOutputResponse, CreateTopicOutputError>(id: "createTopic")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateTopicInput, CreateTopicOutputResponse, CreateTopicOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateTopicInput, CreateTopicOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateTopicInput, CreateTopicOutput, CreateTopicOutputError>(id: "createTopic")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateTopicInput, CreateTopicOutput, CreateTopicOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateTopicInput, CreateTopicOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateTopicOutputResponse, CreateTopicOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateTopicOutput, CreateTopicOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateTopicInput, CreateTopicOutputResponse>(xmlName: "CreateTopicInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateTopicInput, CreateTopicOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateTopicInput, CreateTopicOutput>(xmlName: "CreateTopicInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateTopicInput, CreateTopicOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateTopicOutputResponse, CreateTopicOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateTopicOutput, CreateTopicOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateTopicOutputResponse, CreateTopicOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateTopicOutputResponse, CreateTopicOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateTopicOutputResponse, CreateTopicOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateTopicOutput, CreateTopicOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateTopicOutput, CreateTopicOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateTopicOutput, CreateTopicOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -421,7 +422,7 @@ extension SNSClient: SNSClientProtocol {
     ///
     /// - Parameter DeleteEndpointInput : Input for DeleteEndpoint action.
     ///
-    /// - Returns: `DeleteEndpointOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteEndpointOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -429,7 +430,7 @@ extension SNSClient: SNSClientProtocol {
     /// - `AuthorizationErrorException` : Indicates that the user has been denied access to the requested resource.
     /// - `InternalErrorException` : Indicates an internal service error.
     /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
-    public func deleteEndpoint(input: DeleteEndpointInput) async throws -> DeleteEndpointOutputResponse
+    public func deleteEndpoint(input: DeleteEndpointInput) async throws -> DeleteEndpointOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -445,20 +446,20 @@ extension SNSClient: SNSClientProtocol {
                       .withSigningName(value: "sns")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteEndpointInput, DeleteEndpointOutputResponse, DeleteEndpointOutputError>(id: "deleteEndpoint")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteEndpointInput, DeleteEndpointOutputResponse, DeleteEndpointOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteEndpointInput, DeleteEndpointOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteEndpointInput, DeleteEndpointOutput, DeleteEndpointOutputError>(id: "deleteEndpoint")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteEndpointInput, DeleteEndpointOutput, DeleteEndpointOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteEndpointInput, DeleteEndpointOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteEndpointOutputResponse, DeleteEndpointOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteEndpointOutput, DeleteEndpointOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteEndpointInput, DeleteEndpointOutputResponse>(xmlName: "DeleteEndpointInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteEndpointInput, DeleteEndpointOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteEndpointInput, DeleteEndpointOutput>(xmlName: "DeleteEndpointInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteEndpointInput, DeleteEndpointOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteEndpointOutputResponse, DeleteEndpointOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteEndpointOutput, DeleteEndpointOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteEndpointOutputResponse, DeleteEndpointOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteEndpointOutputResponse, DeleteEndpointOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteEndpointOutputResponse, DeleteEndpointOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteEndpointOutput, DeleteEndpointOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteEndpointOutput, DeleteEndpointOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteEndpointOutput, DeleteEndpointOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -467,7 +468,7 @@ extension SNSClient: SNSClientProtocol {
     ///
     /// - Parameter DeletePlatformApplicationInput : Input for DeletePlatformApplication action.
     ///
-    /// - Returns: `DeletePlatformApplicationOutputResponse` : [no documentation found]
+    /// - Returns: `DeletePlatformApplicationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -475,7 +476,7 @@ extension SNSClient: SNSClientProtocol {
     /// - `AuthorizationErrorException` : Indicates that the user has been denied access to the requested resource.
     /// - `InternalErrorException` : Indicates an internal service error.
     /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
-    public func deletePlatformApplication(input: DeletePlatformApplicationInput) async throws -> DeletePlatformApplicationOutputResponse
+    public func deletePlatformApplication(input: DeletePlatformApplicationInput) async throws -> DeletePlatformApplicationOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -491,20 +492,20 @@ extension SNSClient: SNSClientProtocol {
                       .withSigningName(value: "sns")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeletePlatformApplicationInput, DeletePlatformApplicationOutputResponse, DeletePlatformApplicationOutputError>(id: "deletePlatformApplication")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeletePlatformApplicationInput, DeletePlatformApplicationOutputResponse, DeletePlatformApplicationOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeletePlatformApplicationInput, DeletePlatformApplicationOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeletePlatformApplicationInput, DeletePlatformApplicationOutput, DeletePlatformApplicationOutputError>(id: "deletePlatformApplication")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeletePlatformApplicationInput, DeletePlatformApplicationOutput, DeletePlatformApplicationOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeletePlatformApplicationInput, DeletePlatformApplicationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeletePlatformApplicationOutputResponse, DeletePlatformApplicationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeletePlatformApplicationOutput, DeletePlatformApplicationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeletePlatformApplicationInput, DeletePlatformApplicationOutputResponse>(xmlName: "DeletePlatformApplicationInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeletePlatformApplicationInput, DeletePlatformApplicationOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeletePlatformApplicationInput, DeletePlatformApplicationOutput>(xmlName: "DeletePlatformApplicationInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeletePlatformApplicationInput, DeletePlatformApplicationOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeletePlatformApplicationOutputResponse, DeletePlatformApplicationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeletePlatformApplicationOutput, DeletePlatformApplicationOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeletePlatformApplicationOutputResponse, DeletePlatformApplicationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeletePlatformApplicationOutputResponse, DeletePlatformApplicationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeletePlatformApplicationOutputResponse, DeletePlatformApplicationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeletePlatformApplicationOutput, DeletePlatformApplicationOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeletePlatformApplicationOutput, DeletePlatformApplicationOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeletePlatformApplicationOutput, DeletePlatformApplicationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -513,7 +514,7 @@ extension SNSClient: SNSClientProtocol {
     ///
     /// - Parameter DeleteSMSSandboxPhoneNumberInput : [no documentation found]
     ///
-    /// - Returns: `DeleteSMSSandboxPhoneNumberOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteSMSSandboxPhoneNumberOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -524,7 +525,7 @@ extension SNSClient: SNSClientProtocol {
     /// - `ResourceNotFoundException` : Can’t perform the action on the specified resource. Make sure that the resource exists.
     /// - `ThrottledException` : Indicates that the rate at which requests have been submitted for this action exceeds the limit for your Amazon Web Services account.
     /// - `UserErrorException` : Indicates that a request parameter does not comply with the associated constraints.
-    public func deleteSMSSandboxPhoneNumber(input: DeleteSMSSandboxPhoneNumberInput) async throws -> DeleteSMSSandboxPhoneNumberOutputResponse
+    public func deleteSMSSandboxPhoneNumber(input: DeleteSMSSandboxPhoneNumberInput) async throws -> DeleteSMSSandboxPhoneNumberOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -540,20 +541,20 @@ extension SNSClient: SNSClientProtocol {
                       .withSigningName(value: "sns")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteSMSSandboxPhoneNumberInput, DeleteSMSSandboxPhoneNumberOutputResponse, DeleteSMSSandboxPhoneNumberOutputError>(id: "deleteSMSSandboxPhoneNumber")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteSMSSandboxPhoneNumberInput, DeleteSMSSandboxPhoneNumberOutputResponse, DeleteSMSSandboxPhoneNumberOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteSMSSandboxPhoneNumberInput, DeleteSMSSandboxPhoneNumberOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteSMSSandboxPhoneNumberInput, DeleteSMSSandboxPhoneNumberOutput, DeleteSMSSandboxPhoneNumberOutputError>(id: "deleteSMSSandboxPhoneNumber")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteSMSSandboxPhoneNumberInput, DeleteSMSSandboxPhoneNumberOutput, DeleteSMSSandboxPhoneNumberOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteSMSSandboxPhoneNumberInput, DeleteSMSSandboxPhoneNumberOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteSMSSandboxPhoneNumberOutputResponse, DeleteSMSSandboxPhoneNumberOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteSMSSandboxPhoneNumberOutput, DeleteSMSSandboxPhoneNumberOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteSMSSandboxPhoneNumberInput, DeleteSMSSandboxPhoneNumberOutputResponse>(xmlName: "DeleteSMSSandboxPhoneNumberInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteSMSSandboxPhoneNumberInput, DeleteSMSSandboxPhoneNumberOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteSMSSandboxPhoneNumberInput, DeleteSMSSandboxPhoneNumberOutput>(xmlName: "DeleteSMSSandboxPhoneNumberInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteSMSSandboxPhoneNumberInput, DeleteSMSSandboxPhoneNumberOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteSMSSandboxPhoneNumberOutputResponse, DeleteSMSSandboxPhoneNumberOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteSMSSandboxPhoneNumberOutput, DeleteSMSSandboxPhoneNumberOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteSMSSandboxPhoneNumberOutputResponse, DeleteSMSSandboxPhoneNumberOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSMSSandboxPhoneNumberOutputResponse, DeleteSMSSandboxPhoneNumberOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteSMSSandboxPhoneNumberOutputResponse, DeleteSMSSandboxPhoneNumberOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteSMSSandboxPhoneNumberOutput, DeleteSMSSandboxPhoneNumberOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSMSSandboxPhoneNumberOutput, DeleteSMSSandboxPhoneNumberOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteSMSSandboxPhoneNumberOutput, DeleteSMSSandboxPhoneNumberOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -562,7 +563,7 @@ extension SNSClient: SNSClientProtocol {
     ///
     /// - Parameter DeleteTopicInput : [no documentation found]
     ///
-    /// - Returns: `DeleteTopicOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteTopicOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -571,10 +572,11 @@ extension SNSClient: SNSClientProtocol {
     /// - `ConcurrentAccessException` : Can't perform multiple operations on a tag simultaneously. Perform the operations sequentially.
     /// - `InternalErrorException` : Indicates an internal service error.
     /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
+    /// - `InvalidStateException` : Indicates that the specified state is not a valid state for an event source.
     /// - `NotFoundException` : Indicates that the requested resource does not exist.
     /// - `StaleTagException` : A tag has been added to a resource with the same ARN as a deleted resource. Wait a short while and then retry the operation.
     /// - `TagPolicyException` : The request doesn't comply with the IAM tag policy. Correct your request and then retry it.
-    public func deleteTopic(input: DeleteTopicInput) async throws -> DeleteTopicOutputResponse
+    public func deleteTopic(input: DeleteTopicInput) async throws -> DeleteTopicOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -590,20 +592,20 @@ extension SNSClient: SNSClientProtocol {
                       .withSigningName(value: "sns")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteTopicInput, DeleteTopicOutputResponse, DeleteTopicOutputError>(id: "deleteTopic")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteTopicInput, DeleteTopicOutputResponse, DeleteTopicOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteTopicInput, DeleteTopicOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteTopicInput, DeleteTopicOutput, DeleteTopicOutputError>(id: "deleteTopic")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteTopicInput, DeleteTopicOutput, DeleteTopicOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteTopicInput, DeleteTopicOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteTopicOutputResponse, DeleteTopicOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteTopicOutput, DeleteTopicOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteTopicInput, DeleteTopicOutputResponse>(xmlName: "DeleteTopicInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteTopicInput, DeleteTopicOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteTopicInput, DeleteTopicOutput>(xmlName: "DeleteTopicInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteTopicInput, DeleteTopicOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteTopicOutputResponse, DeleteTopicOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteTopicOutput, DeleteTopicOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteTopicOutputResponse, DeleteTopicOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteTopicOutputResponse, DeleteTopicOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteTopicOutputResponse, DeleteTopicOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteTopicOutput, DeleteTopicOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteTopicOutput, DeleteTopicOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteTopicOutput, DeleteTopicOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -612,7 +614,7 @@ extension SNSClient: SNSClientProtocol {
     ///
     /// - Parameter GetDataProtectionPolicyInput : [no documentation found]
     ///
-    /// - Returns: `GetDataProtectionPolicyOutputResponse` : [no documentation found]
+    /// - Returns: `GetDataProtectionPolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -622,7 +624,7 @@ extension SNSClient: SNSClientProtocol {
     /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
     /// - `InvalidSecurityException` : The credential signature isn't valid. You must use an HTTPS endpoint and sign your request using Signature Version 4.
     /// - `NotFoundException` : Indicates that the requested resource does not exist.
-    public func getDataProtectionPolicy(input: GetDataProtectionPolicyInput) async throws -> GetDataProtectionPolicyOutputResponse
+    public func getDataProtectionPolicy(input: GetDataProtectionPolicyInput) async throws -> GetDataProtectionPolicyOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -638,20 +640,20 @@ extension SNSClient: SNSClientProtocol {
                       .withSigningName(value: "sns")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetDataProtectionPolicyInput, GetDataProtectionPolicyOutputResponse, GetDataProtectionPolicyOutputError>(id: "getDataProtectionPolicy")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDataProtectionPolicyInput, GetDataProtectionPolicyOutputResponse, GetDataProtectionPolicyOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDataProtectionPolicyInput, GetDataProtectionPolicyOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetDataProtectionPolicyInput, GetDataProtectionPolicyOutput, GetDataProtectionPolicyOutputError>(id: "getDataProtectionPolicy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDataProtectionPolicyInput, GetDataProtectionPolicyOutput, GetDataProtectionPolicyOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDataProtectionPolicyInput, GetDataProtectionPolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetDataProtectionPolicyOutputResponse, GetDataProtectionPolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetDataProtectionPolicyOutput, GetDataProtectionPolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetDataProtectionPolicyInput, GetDataProtectionPolicyOutputResponse>(xmlName: "GetDataProtectionPolicyInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetDataProtectionPolicyInput, GetDataProtectionPolicyOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetDataProtectionPolicyInput, GetDataProtectionPolicyOutput>(xmlName: "GetDataProtectionPolicyInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetDataProtectionPolicyInput, GetDataProtectionPolicyOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetDataProtectionPolicyOutputResponse, GetDataProtectionPolicyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetDataProtectionPolicyOutput, GetDataProtectionPolicyOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDataProtectionPolicyOutputResponse, GetDataProtectionPolicyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDataProtectionPolicyOutputResponse, GetDataProtectionPolicyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetDataProtectionPolicyOutputResponse, GetDataProtectionPolicyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDataProtectionPolicyOutput, GetDataProtectionPolicyOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDataProtectionPolicyOutput, GetDataProtectionPolicyOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetDataProtectionPolicyOutput, GetDataProtectionPolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -660,7 +662,7 @@ extension SNSClient: SNSClientProtocol {
     ///
     /// - Parameter GetEndpointAttributesInput : Input for GetEndpointAttributes action.
     ///
-    /// - Returns: `GetEndpointAttributesOutputResponse` : Response from GetEndpointAttributes of the EndpointArn.
+    /// - Returns: `GetEndpointAttributesOutput` : Response from GetEndpointAttributes of the EndpointArn.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -669,7 +671,7 @@ extension SNSClient: SNSClientProtocol {
     /// - `InternalErrorException` : Indicates an internal service error.
     /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
     /// - `NotFoundException` : Indicates that the requested resource does not exist.
-    public func getEndpointAttributes(input: GetEndpointAttributesInput) async throws -> GetEndpointAttributesOutputResponse
+    public func getEndpointAttributes(input: GetEndpointAttributesInput) async throws -> GetEndpointAttributesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -685,20 +687,20 @@ extension SNSClient: SNSClientProtocol {
                       .withSigningName(value: "sns")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetEndpointAttributesInput, GetEndpointAttributesOutputResponse, GetEndpointAttributesOutputError>(id: "getEndpointAttributes")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetEndpointAttributesInput, GetEndpointAttributesOutputResponse, GetEndpointAttributesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetEndpointAttributesInput, GetEndpointAttributesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetEndpointAttributesInput, GetEndpointAttributesOutput, GetEndpointAttributesOutputError>(id: "getEndpointAttributes")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetEndpointAttributesInput, GetEndpointAttributesOutput, GetEndpointAttributesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetEndpointAttributesInput, GetEndpointAttributesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetEndpointAttributesOutputResponse, GetEndpointAttributesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetEndpointAttributesOutput, GetEndpointAttributesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetEndpointAttributesInput, GetEndpointAttributesOutputResponse>(xmlName: "GetEndpointAttributesInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetEndpointAttributesInput, GetEndpointAttributesOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetEndpointAttributesInput, GetEndpointAttributesOutput>(xmlName: "GetEndpointAttributesInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetEndpointAttributesInput, GetEndpointAttributesOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetEndpointAttributesOutputResponse, GetEndpointAttributesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetEndpointAttributesOutput, GetEndpointAttributesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetEndpointAttributesOutputResponse, GetEndpointAttributesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetEndpointAttributesOutputResponse, GetEndpointAttributesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetEndpointAttributesOutputResponse, GetEndpointAttributesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetEndpointAttributesOutput, GetEndpointAttributesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetEndpointAttributesOutput, GetEndpointAttributesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetEndpointAttributesOutput, GetEndpointAttributesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -707,7 +709,7 @@ extension SNSClient: SNSClientProtocol {
     ///
     /// - Parameter GetPlatformApplicationAttributesInput : Input for GetPlatformApplicationAttributes action.
     ///
-    /// - Returns: `GetPlatformApplicationAttributesOutputResponse` : Response for GetPlatformApplicationAttributes action.
+    /// - Returns: `GetPlatformApplicationAttributesOutput` : Response for GetPlatformApplicationAttributes action.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -716,7 +718,7 @@ extension SNSClient: SNSClientProtocol {
     /// - `InternalErrorException` : Indicates an internal service error.
     /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
     /// - `NotFoundException` : Indicates that the requested resource does not exist.
-    public func getPlatformApplicationAttributes(input: GetPlatformApplicationAttributesInput) async throws -> GetPlatformApplicationAttributesOutputResponse
+    public func getPlatformApplicationAttributes(input: GetPlatformApplicationAttributesInput) async throws -> GetPlatformApplicationAttributesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -732,20 +734,20 @@ extension SNSClient: SNSClientProtocol {
                       .withSigningName(value: "sns")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetPlatformApplicationAttributesInput, GetPlatformApplicationAttributesOutputResponse, GetPlatformApplicationAttributesOutputError>(id: "getPlatformApplicationAttributes")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPlatformApplicationAttributesInput, GetPlatformApplicationAttributesOutputResponse, GetPlatformApplicationAttributesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPlatformApplicationAttributesInput, GetPlatformApplicationAttributesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetPlatformApplicationAttributesInput, GetPlatformApplicationAttributesOutput, GetPlatformApplicationAttributesOutputError>(id: "getPlatformApplicationAttributes")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPlatformApplicationAttributesInput, GetPlatformApplicationAttributesOutput, GetPlatformApplicationAttributesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPlatformApplicationAttributesInput, GetPlatformApplicationAttributesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetPlatformApplicationAttributesOutputResponse, GetPlatformApplicationAttributesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetPlatformApplicationAttributesOutput, GetPlatformApplicationAttributesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetPlatformApplicationAttributesInput, GetPlatformApplicationAttributesOutputResponse>(xmlName: "GetPlatformApplicationAttributesInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetPlatformApplicationAttributesInput, GetPlatformApplicationAttributesOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetPlatformApplicationAttributesInput, GetPlatformApplicationAttributesOutput>(xmlName: "GetPlatformApplicationAttributesInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetPlatformApplicationAttributesInput, GetPlatformApplicationAttributesOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetPlatformApplicationAttributesOutputResponse, GetPlatformApplicationAttributesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetPlatformApplicationAttributesOutput, GetPlatformApplicationAttributesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPlatformApplicationAttributesOutputResponse, GetPlatformApplicationAttributesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPlatformApplicationAttributesOutputResponse, GetPlatformApplicationAttributesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPlatformApplicationAttributesOutputResponse, GetPlatformApplicationAttributesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPlatformApplicationAttributesOutput, GetPlatformApplicationAttributesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPlatformApplicationAttributesOutput, GetPlatformApplicationAttributesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPlatformApplicationAttributesOutput, GetPlatformApplicationAttributesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -754,7 +756,7 @@ extension SNSClient: SNSClientProtocol {
     ///
     /// - Parameter GetSMSAttributesInput : The input for the GetSMSAttributes request.
     ///
-    /// - Returns: `GetSMSAttributesOutputResponse` : The response from the GetSMSAttributes request.
+    /// - Returns: `GetSMSAttributesOutput` : The response from the GetSMSAttributes request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -763,7 +765,7 @@ extension SNSClient: SNSClientProtocol {
     /// - `InternalErrorException` : Indicates an internal service error.
     /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
     /// - `ThrottledException` : Indicates that the rate at which requests have been submitted for this action exceeds the limit for your Amazon Web Services account.
-    public func getSMSAttributes(input: GetSMSAttributesInput) async throws -> GetSMSAttributesOutputResponse
+    public func getSMSAttributes(input: GetSMSAttributesInput) async throws -> GetSMSAttributesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -779,20 +781,20 @@ extension SNSClient: SNSClientProtocol {
                       .withSigningName(value: "sns")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetSMSAttributesInput, GetSMSAttributesOutputResponse, GetSMSAttributesOutputError>(id: "getSMSAttributes")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSMSAttributesInput, GetSMSAttributesOutputResponse, GetSMSAttributesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSMSAttributesInput, GetSMSAttributesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetSMSAttributesInput, GetSMSAttributesOutput, GetSMSAttributesOutputError>(id: "getSMSAttributes")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSMSAttributesInput, GetSMSAttributesOutput, GetSMSAttributesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSMSAttributesInput, GetSMSAttributesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetSMSAttributesOutputResponse, GetSMSAttributesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetSMSAttributesOutput, GetSMSAttributesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetSMSAttributesInput, GetSMSAttributesOutputResponse>(xmlName: "GetSMSAttributesInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetSMSAttributesInput, GetSMSAttributesOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetSMSAttributesInput, GetSMSAttributesOutput>(xmlName: "GetSMSAttributesInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetSMSAttributesInput, GetSMSAttributesOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSMSAttributesOutputResponse, GetSMSAttributesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSMSAttributesOutput, GetSMSAttributesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSMSAttributesOutputResponse, GetSMSAttributesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSMSAttributesOutputResponse, GetSMSAttributesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSMSAttributesOutputResponse, GetSMSAttributesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSMSAttributesOutput, GetSMSAttributesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSMSAttributesOutput, GetSMSAttributesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSMSAttributesOutput, GetSMSAttributesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -801,7 +803,7 @@ extension SNSClient: SNSClientProtocol {
     ///
     /// - Parameter GetSMSSandboxAccountStatusInput : [no documentation found]
     ///
-    /// - Returns: `GetSMSSandboxAccountStatusOutputResponse` : [no documentation found]
+    /// - Returns: `GetSMSSandboxAccountStatusOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -809,7 +811,7 @@ extension SNSClient: SNSClientProtocol {
     /// - `AuthorizationErrorException` : Indicates that the user has been denied access to the requested resource.
     /// - `InternalErrorException` : Indicates an internal service error.
     /// - `ThrottledException` : Indicates that the rate at which requests have been submitted for this action exceeds the limit for your Amazon Web Services account.
-    public func getSMSSandboxAccountStatus(input: GetSMSSandboxAccountStatusInput) async throws -> GetSMSSandboxAccountStatusOutputResponse
+    public func getSMSSandboxAccountStatus(input: GetSMSSandboxAccountStatusInput) async throws -> GetSMSSandboxAccountStatusOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -825,20 +827,20 @@ extension SNSClient: SNSClientProtocol {
                       .withSigningName(value: "sns")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetSMSSandboxAccountStatusInput, GetSMSSandboxAccountStatusOutputResponse, GetSMSSandboxAccountStatusOutputError>(id: "getSMSSandboxAccountStatus")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSMSSandboxAccountStatusInput, GetSMSSandboxAccountStatusOutputResponse, GetSMSSandboxAccountStatusOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSMSSandboxAccountStatusInput, GetSMSSandboxAccountStatusOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetSMSSandboxAccountStatusInput, GetSMSSandboxAccountStatusOutput, GetSMSSandboxAccountStatusOutputError>(id: "getSMSSandboxAccountStatus")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSMSSandboxAccountStatusInput, GetSMSSandboxAccountStatusOutput, GetSMSSandboxAccountStatusOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSMSSandboxAccountStatusInput, GetSMSSandboxAccountStatusOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetSMSSandboxAccountStatusOutputResponse, GetSMSSandboxAccountStatusOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetSMSSandboxAccountStatusOutput, GetSMSSandboxAccountStatusOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetSMSSandboxAccountStatusInput, GetSMSSandboxAccountStatusOutputResponse>(xmlName: "GetSMSSandboxAccountStatusInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetSMSSandboxAccountStatusInput, GetSMSSandboxAccountStatusOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetSMSSandboxAccountStatusInput, GetSMSSandboxAccountStatusOutput>(xmlName: "GetSMSSandboxAccountStatusInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetSMSSandboxAccountStatusInput, GetSMSSandboxAccountStatusOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSMSSandboxAccountStatusOutputResponse, GetSMSSandboxAccountStatusOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSMSSandboxAccountStatusOutput, GetSMSSandboxAccountStatusOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSMSSandboxAccountStatusOutputResponse, GetSMSSandboxAccountStatusOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSMSSandboxAccountStatusOutputResponse, GetSMSSandboxAccountStatusOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSMSSandboxAccountStatusOutputResponse, GetSMSSandboxAccountStatusOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSMSSandboxAccountStatusOutput, GetSMSSandboxAccountStatusOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSMSSandboxAccountStatusOutput, GetSMSSandboxAccountStatusOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSMSSandboxAccountStatusOutput, GetSMSSandboxAccountStatusOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -847,7 +849,7 @@ extension SNSClient: SNSClientProtocol {
     ///
     /// - Parameter GetSubscriptionAttributesInput : Input for GetSubscriptionAttributes.
     ///
-    /// - Returns: `GetSubscriptionAttributesOutputResponse` : Response for GetSubscriptionAttributes action.
+    /// - Returns: `GetSubscriptionAttributesOutput` : Response for GetSubscriptionAttributes action.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -856,7 +858,7 @@ extension SNSClient: SNSClientProtocol {
     /// - `InternalErrorException` : Indicates an internal service error.
     /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
     /// - `NotFoundException` : Indicates that the requested resource does not exist.
-    public func getSubscriptionAttributes(input: GetSubscriptionAttributesInput) async throws -> GetSubscriptionAttributesOutputResponse
+    public func getSubscriptionAttributes(input: GetSubscriptionAttributesInput) async throws -> GetSubscriptionAttributesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -872,20 +874,20 @@ extension SNSClient: SNSClientProtocol {
                       .withSigningName(value: "sns")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetSubscriptionAttributesInput, GetSubscriptionAttributesOutputResponse, GetSubscriptionAttributesOutputError>(id: "getSubscriptionAttributes")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSubscriptionAttributesInput, GetSubscriptionAttributesOutputResponse, GetSubscriptionAttributesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSubscriptionAttributesInput, GetSubscriptionAttributesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetSubscriptionAttributesInput, GetSubscriptionAttributesOutput, GetSubscriptionAttributesOutputError>(id: "getSubscriptionAttributes")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSubscriptionAttributesInput, GetSubscriptionAttributesOutput, GetSubscriptionAttributesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSubscriptionAttributesInput, GetSubscriptionAttributesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetSubscriptionAttributesOutputResponse, GetSubscriptionAttributesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetSubscriptionAttributesOutput, GetSubscriptionAttributesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetSubscriptionAttributesInput, GetSubscriptionAttributesOutputResponse>(xmlName: "GetSubscriptionAttributesInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetSubscriptionAttributesInput, GetSubscriptionAttributesOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetSubscriptionAttributesInput, GetSubscriptionAttributesOutput>(xmlName: "GetSubscriptionAttributesInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetSubscriptionAttributesInput, GetSubscriptionAttributesOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSubscriptionAttributesOutputResponse, GetSubscriptionAttributesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSubscriptionAttributesOutput, GetSubscriptionAttributesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSubscriptionAttributesOutputResponse, GetSubscriptionAttributesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSubscriptionAttributesOutputResponse, GetSubscriptionAttributesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSubscriptionAttributesOutputResponse, GetSubscriptionAttributesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSubscriptionAttributesOutput, GetSubscriptionAttributesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSubscriptionAttributesOutput, GetSubscriptionAttributesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSubscriptionAttributesOutput, GetSubscriptionAttributesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -894,7 +896,7 @@ extension SNSClient: SNSClientProtocol {
     ///
     /// - Parameter GetTopicAttributesInput : Input for GetTopicAttributes action.
     ///
-    /// - Returns: `GetTopicAttributesOutputResponse` : Response for GetTopicAttributes action.
+    /// - Returns: `GetTopicAttributesOutput` : Response for GetTopicAttributes action.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -904,7 +906,7 @@ extension SNSClient: SNSClientProtocol {
     /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
     /// - `InvalidSecurityException` : The credential signature isn't valid. You must use an HTTPS endpoint and sign your request using Signature Version 4.
     /// - `NotFoundException` : Indicates that the requested resource does not exist.
-    public func getTopicAttributes(input: GetTopicAttributesInput) async throws -> GetTopicAttributesOutputResponse
+    public func getTopicAttributes(input: GetTopicAttributesInput) async throws -> GetTopicAttributesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -920,20 +922,20 @@ extension SNSClient: SNSClientProtocol {
                       .withSigningName(value: "sns")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetTopicAttributesInput, GetTopicAttributesOutputResponse, GetTopicAttributesOutputError>(id: "getTopicAttributes")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetTopicAttributesInput, GetTopicAttributesOutputResponse, GetTopicAttributesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetTopicAttributesInput, GetTopicAttributesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetTopicAttributesInput, GetTopicAttributesOutput, GetTopicAttributesOutputError>(id: "getTopicAttributes")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetTopicAttributesInput, GetTopicAttributesOutput, GetTopicAttributesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetTopicAttributesInput, GetTopicAttributesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetTopicAttributesOutputResponse, GetTopicAttributesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetTopicAttributesOutput, GetTopicAttributesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetTopicAttributesInput, GetTopicAttributesOutputResponse>(xmlName: "GetTopicAttributesInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetTopicAttributesInput, GetTopicAttributesOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetTopicAttributesInput, GetTopicAttributesOutput>(xmlName: "GetTopicAttributesInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetTopicAttributesInput, GetTopicAttributesOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetTopicAttributesOutputResponse, GetTopicAttributesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetTopicAttributesOutput, GetTopicAttributesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetTopicAttributesOutputResponse, GetTopicAttributesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetTopicAttributesOutputResponse, GetTopicAttributesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetTopicAttributesOutputResponse, GetTopicAttributesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetTopicAttributesOutput, GetTopicAttributesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetTopicAttributesOutput, GetTopicAttributesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetTopicAttributesOutput, GetTopicAttributesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -942,7 +944,7 @@ extension SNSClient: SNSClientProtocol {
     ///
     /// - Parameter ListEndpointsByPlatformApplicationInput : Input for ListEndpointsByPlatformApplication action.
     ///
-    /// - Returns: `ListEndpointsByPlatformApplicationOutputResponse` : Response for ListEndpointsByPlatformApplication action.
+    /// - Returns: `ListEndpointsByPlatformApplicationOutput` : Response for ListEndpointsByPlatformApplication action.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -951,7 +953,7 @@ extension SNSClient: SNSClientProtocol {
     /// - `InternalErrorException` : Indicates an internal service error.
     /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
     /// - `NotFoundException` : Indicates that the requested resource does not exist.
-    public func listEndpointsByPlatformApplication(input: ListEndpointsByPlatformApplicationInput) async throws -> ListEndpointsByPlatformApplicationOutputResponse
+    public func listEndpointsByPlatformApplication(input: ListEndpointsByPlatformApplicationInput) async throws -> ListEndpointsByPlatformApplicationOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -967,20 +969,20 @@ extension SNSClient: SNSClientProtocol {
                       .withSigningName(value: "sns")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListEndpointsByPlatformApplicationInput, ListEndpointsByPlatformApplicationOutputResponse, ListEndpointsByPlatformApplicationOutputError>(id: "listEndpointsByPlatformApplication")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListEndpointsByPlatformApplicationInput, ListEndpointsByPlatformApplicationOutputResponse, ListEndpointsByPlatformApplicationOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListEndpointsByPlatformApplicationInput, ListEndpointsByPlatformApplicationOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListEndpointsByPlatformApplicationInput, ListEndpointsByPlatformApplicationOutput, ListEndpointsByPlatformApplicationOutputError>(id: "listEndpointsByPlatformApplication")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListEndpointsByPlatformApplicationInput, ListEndpointsByPlatformApplicationOutput, ListEndpointsByPlatformApplicationOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListEndpointsByPlatformApplicationInput, ListEndpointsByPlatformApplicationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListEndpointsByPlatformApplicationOutputResponse, ListEndpointsByPlatformApplicationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListEndpointsByPlatformApplicationOutput, ListEndpointsByPlatformApplicationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListEndpointsByPlatformApplicationInput, ListEndpointsByPlatformApplicationOutputResponse>(xmlName: "ListEndpointsByPlatformApplicationInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListEndpointsByPlatformApplicationInput, ListEndpointsByPlatformApplicationOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListEndpointsByPlatformApplicationInput, ListEndpointsByPlatformApplicationOutput>(xmlName: "ListEndpointsByPlatformApplicationInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListEndpointsByPlatformApplicationInput, ListEndpointsByPlatformApplicationOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListEndpointsByPlatformApplicationOutputResponse, ListEndpointsByPlatformApplicationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListEndpointsByPlatformApplicationOutput, ListEndpointsByPlatformApplicationOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListEndpointsByPlatformApplicationOutputResponse, ListEndpointsByPlatformApplicationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListEndpointsByPlatformApplicationOutputResponse, ListEndpointsByPlatformApplicationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListEndpointsByPlatformApplicationOutputResponse, ListEndpointsByPlatformApplicationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListEndpointsByPlatformApplicationOutput, ListEndpointsByPlatformApplicationOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListEndpointsByPlatformApplicationOutput, ListEndpointsByPlatformApplicationOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListEndpointsByPlatformApplicationOutput, ListEndpointsByPlatformApplicationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -989,7 +991,7 @@ extension SNSClient: SNSClientProtocol {
     ///
     /// - Parameter ListOriginationNumbersInput : [no documentation found]
     ///
-    /// - Returns: `ListOriginationNumbersOutputResponse` : [no documentation found]
+    /// - Returns: `ListOriginationNumbersOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -999,7 +1001,7 @@ extension SNSClient: SNSClientProtocol {
     /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
     /// - `ThrottledException` : Indicates that the rate at which requests have been submitted for this action exceeds the limit for your Amazon Web Services account.
     /// - `ValidationException` : Indicates that a parameter in the request is invalid.
-    public func listOriginationNumbers(input: ListOriginationNumbersInput) async throws -> ListOriginationNumbersOutputResponse
+    public func listOriginationNumbers(input: ListOriginationNumbersInput) async throws -> ListOriginationNumbersOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1015,20 +1017,20 @@ extension SNSClient: SNSClientProtocol {
                       .withSigningName(value: "sns")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListOriginationNumbersInput, ListOriginationNumbersOutputResponse, ListOriginationNumbersOutputError>(id: "listOriginationNumbers")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListOriginationNumbersInput, ListOriginationNumbersOutputResponse, ListOriginationNumbersOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListOriginationNumbersInput, ListOriginationNumbersOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListOriginationNumbersInput, ListOriginationNumbersOutput, ListOriginationNumbersOutputError>(id: "listOriginationNumbers")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListOriginationNumbersInput, ListOriginationNumbersOutput, ListOriginationNumbersOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListOriginationNumbersInput, ListOriginationNumbersOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListOriginationNumbersOutputResponse, ListOriginationNumbersOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListOriginationNumbersOutput, ListOriginationNumbersOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListOriginationNumbersInput, ListOriginationNumbersOutputResponse>(xmlName: "ListOriginationNumbersRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListOriginationNumbersInput, ListOriginationNumbersOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListOriginationNumbersInput, ListOriginationNumbersOutput>(xmlName: "ListOriginationNumbersRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListOriginationNumbersInput, ListOriginationNumbersOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListOriginationNumbersOutputResponse, ListOriginationNumbersOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListOriginationNumbersOutput, ListOriginationNumbersOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListOriginationNumbersOutputResponse, ListOriginationNumbersOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListOriginationNumbersOutputResponse, ListOriginationNumbersOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListOriginationNumbersOutputResponse, ListOriginationNumbersOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListOriginationNumbersOutput, ListOriginationNumbersOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListOriginationNumbersOutput, ListOriginationNumbersOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListOriginationNumbersOutput, ListOriginationNumbersOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1037,7 +1039,7 @@ extension SNSClient: SNSClientProtocol {
     ///
     /// - Parameter ListPhoneNumbersOptedOutInput : The input for the ListPhoneNumbersOptedOut action.
     ///
-    /// - Returns: `ListPhoneNumbersOptedOutOutputResponse` : The response from the ListPhoneNumbersOptedOut action.
+    /// - Returns: `ListPhoneNumbersOptedOutOutput` : The response from the ListPhoneNumbersOptedOut action.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1046,7 +1048,7 @@ extension SNSClient: SNSClientProtocol {
     /// - `InternalErrorException` : Indicates an internal service error.
     /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
     /// - `ThrottledException` : Indicates that the rate at which requests have been submitted for this action exceeds the limit for your Amazon Web Services account.
-    public func listPhoneNumbersOptedOut(input: ListPhoneNumbersOptedOutInput) async throws -> ListPhoneNumbersOptedOutOutputResponse
+    public func listPhoneNumbersOptedOut(input: ListPhoneNumbersOptedOutInput) async throws -> ListPhoneNumbersOptedOutOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1062,20 +1064,20 @@ extension SNSClient: SNSClientProtocol {
                       .withSigningName(value: "sns")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListPhoneNumbersOptedOutInput, ListPhoneNumbersOptedOutOutputResponse, ListPhoneNumbersOptedOutOutputError>(id: "listPhoneNumbersOptedOut")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPhoneNumbersOptedOutInput, ListPhoneNumbersOptedOutOutputResponse, ListPhoneNumbersOptedOutOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPhoneNumbersOptedOutInput, ListPhoneNumbersOptedOutOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListPhoneNumbersOptedOutInput, ListPhoneNumbersOptedOutOutput, ListPhoneNumbersOptedOutOutputError>(id: "listPhoneNumbersOptedOut")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPhoneNumbersOptedOutInput, ListPhoneNumbersOptedOutOutput, ListPhoneNumbersOptedOutOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPhoneNumbersOptedOutInput, ListPhoneNumbersOptedOutOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListPhoneNumbersOptedOutOutputResponse, ListPhoneNumbersOptedOutOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListPhoneNumbersOptedOutOutput, ListPhoneNumbersOptedOutOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListPhoneNumbersOptedOutInput, ListPhoneNumbersOptedOutOutputResponse>(xmlName: "ListPhoneNumbersOptedOutInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListPhoneNumbersOptedOutInput, ListPhoneNumbersOptedOutOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListPhoneNumbersOptedOutInput, ListPhoneNumbersOptedOutOutput>(xmlName: "ListPhoneNumbersOptedOutInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListPhoneNumbersOptedOutInput, ListPhoneNumbersOptedOutOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListPhoneNumbersOptedOutOutputResponse, ListPhoneNumbersOptedOutOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListPhoneNumbersOptedOutOutput, ListPhoneNumbersOptedOutOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPhoneNumbersOptedOutOutputResponse, ListPhoneNumbersOptedOutOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPhoneNumbersOptedOutOutputResponse, ListPhoneNumbersOptedOutOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListPhoneNumbersOptedOutOutputResponse, ListPhoneNumbersOptedOutOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPhoneNumbersOptedOutOutput, ListPhoneNumbersOptedOutOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPhoneNumbersOptedOutOutput, ListPhoneNumbersOptedOutOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListPhoneNumbersOptedOutOutput, ListPhoneNumbersOptedOutOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1084,7 +1086,7 @@ extension SNSClient: SNSClientProtocol {
     ///
     /// - Parameter ListPlatformApplicationsInput : Input for ListPlatformApplications action.
     ///
-    /// - Returns: `ListPlatformApplicationsOutputResponse` : Response for ListPlatformApplications action.
+    /// - Returns: `ListPlatformApplicationsOutput` : Response for ListPlatformApplications action.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1092,7 +1094,7 @@ extension SNSClient: SNSClientProtocol {
     /// - `AuthorizationErrorException` : Indicates that the user has been denied access to the requested resource.
     /// - `InternalErrorException` : Indicates an internal service error.
     /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
-    public func listPlatformApplications(input: ListPlatformApplicationsInput) async throws -> ListPlatformApplicationsOutputResponse
+    public func listPlatformApplications(input: ListPlatformApplicationsInput) async throws -> ListPlatformApplicationsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1108,20 +1110,20 @@ extension SNSClient: SNSClientProtocol {
                       .withSigningName(value: "sns")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListPlatformApplicationsInput, ListPlatformApplicationsOutputResponse, ListPlatformApplicationsOutputError>(id: "listPlatformApplications")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPlatformApplicationsInput, ListPlatformApplicationsOutputResponse, ListPlatformApplicationsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPlatformApplicationsInput, ListPlatformApplicationsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListPlatformApplicationsInput, ListPlatformApplicationsOutput, ListPlatformApplicationsOutputError>(id: "listPlatformApplications")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPlatformApplicationsInput, ListPlatformApplicationsOutput, ListPlatformApplicationsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPlatformApplicationsInput, ListPlatformApplicationsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListPlatformApplicationsOutputResponse, ListPlatformApplicationsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListPlatformApplicationsOutput, ListPlatformApplicationsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListPlatformApplicationsInput, ListPlatformApplicationsOutputResponse>(xmlName: "ListPlatformApplicationsInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListPlatformApplicationsInput, ListPlatformApplicationsOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListPlatformApplicationsInput, ListPlatformApplicationsOutput>(xmlName: "ListPlatformApplicationsInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListPlatformApplicationsInput, ListPlatformApplicationsOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListPlatformApplicationsOutputResponse, ListPlatformApplicationsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListPlatformApplicationsOutput, ListPlatformApplicationsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPlatformApplicationsOutputResponse, ListPlatformApplicationsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPlatformApplicationsOutputResponse, ListPlatformApplicationsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListPlatformApplicationsOutputResponse, ListPlatformApplicationsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPlatformApplicationsOutput, ListPlatformApplicationsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPlatformApplicationsOutput, ListPlatformApplicationsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListPlatformApplicationsOutput, ListPlatformApplicationsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1130,7 +1132,7 @@ extension SNSClient: SNSClientProtocol {
     ///
     /// - Parameter ListSMSSandboxPhoneNumbersInput : [no documentation found]
     ///
-    /// - Returns: `ListSMSSandboxPhoneNumbersOutputResponse` : [no documentation found]
+    /// - Returns: `ListSMSSandboxPhoneNumbersOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1140,7 +1142,7 @@ extension SNSClient: SNSClientProtocol {
     /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
     /// - `ResourceNotFoundException` : Can’t perform the action on the specified resource. Make sure that the resource exists.
     /// - `ThrottledException` : Indicates that the rate at which requests have been submitted for this action exceeds the limit for your Amazon Web Services account.
-    public func listSMSSandboxPhoneNumbers(input: ListSMSSandboxPhoneNumbersInput) async throws -> ListSMSSandboxPhoneNumbersOutputResponse
+    public func listSMSSandboxPhoneNumbers(input: ListSMSSandboxPhoneNumbersInput) async throws -> ListSMSSandboxPhoneNumbersOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1156,20 +1158,20 @@ extension SNSClient: SNSClientProtocol {
                       .withSigningName(value: "sns")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListSMSSandboxPhoneNumbersInput, ListSMSSandboxPhoneNumbersOutputResponse, ListSMSSandboxPhoneNumbersOutputError>(id: "listSMSSandboxPhoneNumbers")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSMSSandboxPhoneNumbersInput, ListSMSSandboxPhoneNumbersOutputResponse, ListSMSSandboxPhoneNumbersOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSMSSandboxPhoneNumbersInput, ListSMSSandboxPhoneNumbersOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListSMSSandboxPhoneNumbersInput, ListSMSSandboxPhoneNumbersOutput, ListSMSSandboxPhoneNumbersOutputError>(id: "listSMSSandboxPhoneNumbers")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSMSSandboxPhoneNumbersInput, ListSMSSandboxPhoneNumbersOutput, ListSMSSandboxPhoneNumbersOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSMSSandboxPhoneNumbersInput, ListSMSSandboxPhoneNumbersOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSMSSandboxPhoneNumbersOutputResponse, ListSMSSandboxPhoneNumbersOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSMSSandboxPhoneNumbersOutput, ListSMSSandboxPhoneNumbersOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListSMSSandboxPhoneNumbersInput, ListSMSSandboxPhoneNumbersOutputResponse>(xmlName: "ListSMSSandboxPhoneNumbersInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListSMSSandboxPhoneNumbersInput, ListSMSSandboxPhoneNumbersOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListSMSSandboxPhoneNumbersInput, ListSMSSandboxPhoneNumbersOutput>(xmlName: "ListSMSSandboxPhoneNumbersInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListSMSSandboxPhoneNumbersInput, ListSMSSandboxPhoneNumbersOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSMSSandboxPhoneNumbersOutputResponse, ListSMSSandboxPhoneNumbersOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSMSSandboxPhoneNumbersOutput, ListSMSSandboxPhoneNumbersOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSMSSandboxPhoneNumbersOutputResponse, ListSMSSandboxPhoneNumbersOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSMSSandboxPhoneNumbersOutputResponse, ListSMSSandboxPhoneNumbersOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSMSSandboxPhoneNumbersOutputResponse, ListSMSSandboxPhoneNumbersOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSMSSandboxPhoneNumbersOutput, ListSMSSandboxPhoneNumbersOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSMSSandboxPhoneNumbersOutput, ListSMSSandboxPhoneNumbersOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSMSSandboxPhoneNumbersOutput, ListSMSSandboxPhoneNumbersOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1178,7 +1180,7 @@ extension SNSClient: SNSClientProtocol {
     ///
     /// - Parameter ListSubscriptionsInput : Input for ListSubscriptions action.
     ///
-    /// - Returns: `ListSubscriptionsOutputResponse` : Response for ListSubscriptions action
+    /// - Returns: `ListSubscriptionsOutput` : Response for ListSubscriptions action
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1186,7 +1188,7 @@ extension SNSClient: SNSClientProtocol {
     /// - `AuthorizationErrorException` : Indicates that the user has been denied access to the requested resource.
     /// - `InternalErrorException` : Indicates an internal service error.
     /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
-    public func listSubscriptions(input: ListSubscriptionsInput) async throws -> ListSubscriptionsOutputResponse
+    public func listSubscriptions(input: ListSubscriptionsInput) async throws -> ListSubscriptionsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1202,20 +1204,20 @@ extension SNSClient: SNSClientProtocol {
                       .withSigningName(value: "sns")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListSubscriptionsInput, ListSubscriptionsOutputResponse, ListSubscriptionsOutputError>(id: "listSubscriptions")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSubscriptionsInput, ListSubscriptionsOutputResponse, ListSubscriptionsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSubscriptionsInput, ListSubscriptionsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListSubscriptionsInput, ListSubscriptionsOutput, ListSubscriptionsOutputError>(id: "listSubscriptions")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSubscriptionsInput, ListSubscriptionsOutput, ListSubscriptionsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSubscriptionsInput, ListSubscriptionsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSubscriptionsOutputResponse, ListSubscriptionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSubscriptionsOutput, ListSubscriptionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListSubscriptionsInput, ListSubscriptionsOutputResponse>(xmlName: "ListSubscriptionsInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListSubscriptionsInput, ListSubscriptionsOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListSubscriptionsInput, ListSubscriptionsOutput>(xmlName: "ListSubscriptionsInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListSubscriptionsInput, ListSubscriptionsOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSubscriptionsOutputResponse, ListSubscriptionsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSubscriptionsOutput, ListSubscriptionsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSubscriptionsOutputResponse, ListSubscriptionsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSubscriptionsOutputResponse, ListSubscriptionsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSubscriptionsOutputResponse, ListSubscriptionsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSubscriptionsOutput, ListSubscriptionsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSubscriptionsOutput, ListSubscriptionsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSubscriptionsOutput, ListSubscriptionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1224,7 +1226,7 @@ extension SNSClient: SNSClientProtocol {
     ///
     /// - Parameter ListSubscriptionsByTopicInput : Input for ListSubscriptionsByTopic action.
     ///
-    /// - Returns: `ListSubscriptionsByTopicOutputResponse` : Response for ListSubscriptionsByTopic action.
+    /// - Returns: `ListSubscriptionsByTopicOutput` : Response for ListSubscriptionsByTopic action.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1233,7 +1235,7 @@ extension SNSClient: SNSClientProtocol {
     /// - `InternalErrorException` : Indicates an internal service error.
     /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
     /// - `NotFoundException` : Indicates that the requested resource does not exist.
-    public func listSubscriptionsByTopic(input: ListSubscriptionsByTopicInput) async throws -> ListSubscriptionsByTopicOutputResponse
+    public func listSubscriptionsByTopic(input: ListSubscriptionsByTopicInput) async throws -> ListSubscriptionsByTopicOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1249,20 +1251,20 @@ extension SNSClient: SNSClientProtocol {
                       .withSigningName(value: "sns")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListSubscriptionsByTopicInput, ListSubscriptionsByTopicOutputResponse, ListSubscriptionsByTopicOutputError>(id: "listSubscriptionsByTopic")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSubscriptionsByTopicInput, ListSubscriptionsByTopicOutputResponse, ListSubscriptionsByTopicOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSubscriptionsByTopicInput, ListSubscriptionsByTopicOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListSubscriptionsByTopicInput, ListSubscriptionsByTopicOutput, ListSubscriptionsByTopicOutputError>(id: "listSubscriptionsByTopic")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSubscriptionsByTopicInput, ListSubscriptionsByTopicOutput, ListSubscriptionsByTopicOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSubscriptionsByTopicInput, ListSubscriptionsByTopicOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSubscriptionsByTopicOutputResponse, ListSubscriptionsByTopicOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSubscriptionsByTopicOutput, ListSubscriptionsByTopicOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListSubscriptionsByTopicInput, ListSubscriptionsByTopicOutputResponse>(xmlName: "ListSubscriptionsByTopicInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListSubscriptionsByTopicInput, ListSubscriptionsByTopicOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListSubscriptionsByTopicInput, ListSubscriptionsByTopicOutput>(xmlName: "ListSubscriptionsByTopicInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListSubscriptionsByTopicInput, ListSubscriptionsByTopicOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSubscriptionsByTopicOutputResponse, ListSubscriptionsByTopicOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSubscriptionsByTopicOutput, ListSubscriptionsByTopicOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSubscriptionsByTopicOutputResponse, ListSubscriptionsByTopicOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSubscriptionsByTopicOutputResponse, ListSubscriptionsByTopicOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSubscriptionsByTopicOutputResponse, ListSubscriptionsByTopicOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSubscriptionsByTopicOutput, ListSubscriptionsByTopicOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSubscriptionsByTopicOutput, ListSubscriptionsByTopicOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSubscriptionsByTopicOutput, ListSubscriptionsByTopicOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1271,7 +1273,7 @@ extension SNSClient: SNSClientProtocol {
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1281,7 +1283,7 @@ extension SNSClient: SNSClientProtocol {
     /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
     /// - `ResourceNotFoundException` : Can’t perform the action on the specified resource. Make sure that the resource exists.
     /// - `TagPolicyException` : The request doesn't comply with the IAM tag policy. Correct your request and then retry it.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1297,20 +1299,20 @@ extension SNSClient: SNSClientProtocol {
                       .withSigningName(value: "sns")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutput, ListTagsForResourceOutputError>(id: "listTagsForResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, ListTagsForResourceOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>(xmlName: "ListTagsForResourceRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(xmlName: "ListTagsForResourceRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsForResourceOutput, ListTagsForResourceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1319,7 +1321,7 @@ extension SNSClient: SNSClientProtocol {
     ///
     /// - Parameter ListTopicsInput : [no documentation found]
     ///
-    /// - Returns: `ListTopicsOutputResponse` : Response for ListTopics action.
+    /// - Returns: `ListTopicsOutput` : Response for ListTopics action.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1327,7 +1329,7 @@ extension SNSClient: SNSClientProtocol {
     /// - `AuthorizationErrorException` : Indicates that the user has been denied access to the requested resource.
     /// - `InternalErrorException` : Indicates an internal service error.
     /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
-    public func listTopics(input: ListTopicsInput) async throws -> ListTopicsOutputResponse
+    public func listTopics(input: ListTopicsInput) async throws -> ListTopicsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1343,20 +1345,20 @@ extension SNSClient: SNSClientProtocol {
                       .withSigningName(value: "sns")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListTopicsInput, ListTopicsOutputResponse, ListTopicsOutputError>(id: "listTopics")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTopicsInput, ListTopicsOutputResponse, ListTopicsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTopicsInput, ListTopicsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListTopicsInput, ListTopicsOutput, ListTopicsOutputError>(id: "listTopics")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTopicsInput, ListTopicsOutput, ListTopicsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTopicsInput, ListTopicsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTopicsOutputResponse, ListTopicsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTopicsOutput, ListTopicsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListTopicsInput, ListTopicsOutputResponse>(xmlName: "ListTopicsInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListTopicsInput, ListTopicsOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListTopicsInput, ListTopicsOutput>(xmlName: "ListTopicsInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListTopicsInput, ListTopicsOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTopicsOutputResponse, ListTopicsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTopicsOutput, ListTopicsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTopicsOutputResponse, ListTopicsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTopicsOutputResponse, ListTopicsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTopicsOutputResponse, ListTopicsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTopicsOutput, ListTopicsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTopicsOutput, ListTopicsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTopicsOutput, ListTopicsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1365,7 +1367,7 @@ extension SNSClient: SNSClientProtocol {
     ///
     /// - Parameter OptInPhoneNumberInput : Input for the OptInPhoneNumber action.
     ///
-    /// - Returns: `OptInPhoneNumberOutputResponse` : The response for the OptInPhoneNumber action.
+    /// - Returns: `OptInPhoneNumberOutput` : The response for the OptInPhoneNumber action.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1374,7 +1376,7 @@ extension SNSClient: SNSClientProtocol {
     /// - `InternalErrorException` : Indicates an internal service error.
     /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
     /// - `ThrottledException` : Indicates that the rate at which requests have been submitted for this action exceeds the limit for your Amazon Web Services account.
-    public func optInPhoneNumber(input: OptInPhoneNumberInput) async throws -> OptInPhoneNumberOutputResponse
+    public func optInPhoneNumber(input: OptInPhoneNumberInput) async throws -> OptInPhoneNumberOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1390,20 +1392,20 @@ extension SNSClient: SNSClientProtocol {
                       .withSigningName(value: "sns")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<OptInPhoneNumberInput, OptInPhoneNumberOutputResponse, OptInPhoneNumberOutputError>(id: "optInPhoneNumber")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<OptInPhoneNumberInput, OptInPhoneNumberOutputResponse, OptInPhoneNumberOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<OptInPhoneNumberInput, OptInPhoneNumberOutputResponse>())
+        var operation = ClientRuntime.OperationStack<OptInPhoneNumberInput, OptInPhoneNumberOutput, OptInPhoneNumberOutputError>(id: "optInPhoneNumber")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<OptInPhoneNumberInput, OptInPhoneNumberOutput, OptInPhoneNumberOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<OptInPhoneNumberInput, OptInPhoneNumberOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<OptInPhoneNumberOutputResponse, OptInPhoneNumberOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<OptInPhoneNumberOutput, OptInPhoneNumberOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<OptInPhoneNumberInput, OptInPhoneNumberOutputResponse>(xmlName: "OptInPhoneNumberInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<OptInPhoneNumberInput, OptInPhoneNumberOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<OptInPhoneNumberInput, OptInPhoneNumberOutput>(xmlName: "OptInPhoneNumberInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<OptInPhoneNumberInput, OptInPhoneNumberOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, OptInPhoneNumberOutputResponse, OptInPhoneNumberOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, OptInPhoneNumberOutput, OptInPhoneNumberOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<OptInPhoneNumberOutputResponse, OptInPhoneNumberOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<OptInPhoneNumberOutputResponse, OptInPhoneNumberOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<OptInPhoneNumberOutputResponse, OptInPhoneNumberOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<OptInPhoneNumberOutput, OptInPhoneNumberOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<OptInPhoneNumberOutput, OptInPhoneNumberOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<OptInPhoneNumberOutput, OptInPhoneNumberOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1412,7 +1414,7 @@ extension SNSClient: SNSClientProtocol {
     ///
     /// - Parameter PublishInput : Input for Publish action.
     ///
-    /// - Returns: `PublishOutputResponse` : Response for Publish action.
+    /// - Returns: `PublishOutput` : Response for Publish action.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1424,15 +1426,15 @@ extension SNSClient: SNSClientProtocol {
     /// - `InvalidParameterValueException` : Indicates that a request parameter does not comply with the associated constraints.
     /// - `InvalidSecurityException` : The credential signature isn't valid. You must use an HTTPS endpoint and sign your request using Signature Version 4.
     /// - `KMSAccessDeniedException` : The ciphertext references a key that doesn't exist or that you don't have access to.
-    /// - `KMSDisabledException` : The request was rejected because the specified customer master key (CMK) isn't enabled.
-    /// - `KMSInvalidStateException` : The request was rejected because the state of the specified resource isn't valid for this request. For more information, see [How Key State Affects Use of a Customer Master Key](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide.
+    /// - `KMSDisabledException` : The request was rejected because the specified Amazon Web Services KMS key isn't enabled.
+    /// - `KMSInvalidStateException` : The request was rejected because the state of the specified resource isn't valid for this request. For more information, see [Key states of Amazon Web Services KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide.
     /// - `KMSNotFoundException` : The request was rejected because the specified entity or resource can't be found.
     /// - `KMSOptInRequired` : The Amazon Web Services access key ID needs a subscription for the service.
     /// - `KMSThrottlingException` : The request was denied due to request throttling. For more information about throttling, see [Limits](https://docs.aws.amazon.com/kms/latest/developerguide/limits.html#requests-per-second) in the Key Management Service Developer Guide.
     /// - `NotFoundException` : Indicates that the requested resource does not exist.
     /// - `PlatformApplicationDisabledException` : Exception error indicating platform application disabled.
     /// - `ValidationException` : Indicates that a parameter in the request is invalid.
-    public func publish(input: PublishInput) async throws -> PublishOutputResponse
+    public func publish(input: PublishInput) async throws -> PublishOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1448,20 +1450,20 @@ extension SNSClient: SNSClientProtocol {
                       .withSigningName(value: "sns")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<PublishInput, PublishOutputResponse, PublishOutputError>(id: "publish")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PublishInput, PublishOutputResponse, PublishOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PublishInput, PublishOutputResponse>())
+        var operation = ClientRuntime.OperationStack<PublishInput, PublishOutput, PublishOutputError>(id: "publish")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PublishInput, PublishOutput, PublishOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PublishInput, PublishOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PublishOutputResponse, PublishOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PublishOutput, PublishOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PublishInput, PublishOutputResponse>(xmlName: "PublishInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PublishInput, PublishOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PublishInput, PublishOutput>(xmlName: "PublishInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PublishInput, PublishOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PublishOutputResponse, PublishOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PublishOutput, PublishOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PublishOutputResponse, PublishOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PublishOutputResponse, PublishOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PublishOutputResponse, PublishOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PublishOutput, PublishOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PublishOutput, PublishOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PublishOutput, PublishOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1470,7 +1472,7 @@ extension SNSClient: SNSClientProtocol {
     ///
     /// - Parameter PublishBatchInput : [no documentation found]
     ///
-    /// - Returns: `PublishBatchOutputResponse` : [no documentation found]
+    /// - Returns: `PublishBatchOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1486,8 +1488,8 @@ extension SNSClient: SNSClientProtocol {
     /// - `InvalidParameterValueException` : Indicates that a request parameter does not comply with the associated constraints.
     /// - `InvalidSecurityException` : The credential signature isn't valid. You must use an HTTPS endpoint and sign your request using Signature Version 4.
     /// - `KMSAccessDeniedException` : The ciphertext references a key that doesn't exist or that you don't have access to.
-    /// - `KMSDisabledException` : The request was rejected because the specified customer master key (CMK) isn't enabled.
-    /// - `KMSInvalidStateException` : The request was rejected because the state of the specified resource isn't valid for this request. For more information, see [How Key State Affects Use of a Customer Master Key](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide.
+    /// - `KMSDisabledException` : The request was rejected because the specified Amazon Web Services KMS key isn't enabled.
+    /// - `KMSInvalidStateException` : The request was rejected because the state of the specified resource isn't valid for this request. For more information, see [Key states of Amazon Web Services KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide.
     /// - `KMSNotFoundException` : The request was rejected because the specified entity or resource can't be found.
     /// - `KMSOptInRequired` : The Amazon Web Services access key ID needs a subscription for the service.
     /// - `KMSThrottlingException` : The request was denied due to request throttling. For more information about throttling, see [Limits](https://docs.aws.amazon.com/kms/latest/developerguide/limits.html#requests-per-second) in the Key Management Service Developer Guide.
@@ -1495,7 +1497,7 @@ extension SNSClient: SNSClientProtocol {
     /// - `PlatformApplicationDisabledException` : Exception error indicating platform application disabled.
     /// - `TooManyEntriesInBatchRequestException` : The batch request contains more entries than permissible.
     /// - `ValidationException` : Indicates that a parameter in the request is invalid.
-    public func publishBatch(input: PublishBatchInput) async throws -> PublishBatchOutputResponse
+    public func publishBatch(input: PublishBatchInput) async throws -> PublishBatchOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1511,20 +1513,20 @@ extension SNSClient: SNSClientProtocol {
                       .withSigningName(value: "sns")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<PublishBatchInput, PublishBatchOutputResponse, PublishBatchOutputError>(id: "publishBatch")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PublishBatchInput, PublishBatchOutputResponse, PublishBatchOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PublishBatchInput, PublishBatchOutputResponse>())
+        var operation = ClientRuntime.OperationStack<PublishBatchInput, PublishBatchOutput, PublishBatchOutputError>(id: "publishBatch")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PublishBatchInput, PublishBatchOutput, PublishBatchOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PublishBatchInput, PublishBatchOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PublishBatchOutputResponse, PublishBatchOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PublishBatchOutput, PublishBatchOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PublishBatchInput, PublishBatchOutputResponse>(xmlName: "PublishBatchInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PublishBatchInput, PublishBatchOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PublishBatchInput, PublishBatchOutput>(xmlName: "PublishBatchInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PublishBatchInput, PublishBatchOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PublishBatchOutputResponse, PublishBatchOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PublishBatchOutput, PublishBatchOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PublishBatchOutputResponse, PublishBatchOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PublishBatchOutputResponse, PublishBatchOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PublishBatchOutputResponse, PublishBatchOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PublishBatchOutput, PublishBatchOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PublishBatchOutput, PublishBatchOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PublishBatchOutput, PublishBatchOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1533,7 +1535,7 @@ extension SNSClient: SNSClientProtocol {
     ///
     /// - Parameter PutDataProtectionPolicyInput : [no documentation found]
     ///
-    /// - Returns: `PutDataProtectionPolicyOutputResponse` : [no documentation found]
+    /// - Returns: `PutDataProtectionPolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1543,7 +1545,7 @@ extension SNSClient: SNSClientProtocol {
     /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
     /// - `InvalidSecurityException` : The credential signature isn't valid. You must use an HTTPS endpoint and sign your request using Signature Version 4.
     /// - `NotFoundException` : Indicates that the requested resource does not exist.
-    public func putDataProtectionPolicy(input: PutDataProtectionPolicyInput) async throws -> PutDataProtectionPolicyOutputResponse
+    public func putDataProtectionPolicy(input: PutDataProtectionPolicyInput) async throws -> PutDataProtectionPolicyOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1559,20 +1561,20 @@ extension SNSClient: SNSClientProtocol {
                       .withSigningName(value: "sns")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<PutDataProtectionPolicyInput, PutDataProtectionPolicyOutputResponse, PutDataProtectionPolicyOutputError>(id: "putDataProtectionPolicy")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutDataProtectionPolicyInput, PutDataProtectionPolicyOutputResponse, PutDataProtectionPolicyOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutDataProtectionPolicyInput, PutDataProtectionPolicyOutputResponse>())
+        var operation = ClientRuntime.OperationStack<PutDataProtectionPolicyInput, PutDataProtectionPolicyOutput, PutDataProtectionPolicyOutputError>(id: "putDataProtectionPolicy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutDataProtectionPolicyInput, PutDataProtectionPolicyOutput, PutDataProtectionPolicyOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutDataProtectionPolicyInput, PutDataProtectionPolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutDataProtectionPolicyOutputResponse, PutDataProtectionPolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutDataProtectionPolicyOutput, PutDataProtectionPolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutDataProtectionPolicyInput, PutDataProtectionPolicyOutputResponse>(xmlName: "PutDataProtectionPolicyInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutDataProtectionPolicyInput, PutDataProtectionPolicyOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutDataProtectionPolicyInput, PutDataProtectionPolicyOutput>(xmlName: "PutDataProtectionPolicyInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutDataProtectionPolicyInput, PutDataProtectionPolicyOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutDataProtectionPolicyOutputResponse, PutDataProtectionPolicyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutDataProtectionPolicyOutput, PutDataProtectionPolicyOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutDataProtectionPolicyOutputResponse, PutDataProtectionPolicyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutDataProtectionPolicyOutputResponse, PutDataProtectionPolicyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutDataProtectionPolicyOutputResponse, PutDataProtectionPolicyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutDataProtectionPolicyOutput, PutDataProtectionPolicyOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutDataProtectionPolicyOutput, PutDataProtectionPolicyOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutDataProtectionPolicyOutput, PutDataProtectionPolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1581,7 +1583,7 @@ extension SNSClient: SNSClientProtocol {
     ///
     /// - Parameter RemovePermissionInput : Input for RemovePermission action.
     ///
-    /// - Returns: `RemovePermissionOutputResponse` : [no documentation found]
+    /// - Returns: `RemovePermissionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1590,7 +1592,7 @@ extension SNSClient: SNSClientProtocol {
     /// - `InternalErrorException` : Indicates an internal service error.
     /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
     /// - `NotFoundException` : Indicates that the requested resource does not exist.
-    public func removePermission(input: RemovePermissionInput) async throws -> RemovePermissionOutputResponse
+    public func removePermission(input: RemovePermissionInput) async throws -> RemovePermissionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1606,20 +1608,20 @@ extension SNSClient: SNSClientProtocol {
                       .withSigningName(value: "sns")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<RemovePermissionInput, RemovePermissionOutputResponse, RemovePermissionOutputError>(id: "removePermission")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RemovePermissionInput, RemovePermissionOutputResponse, RemovePermissionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RemovePermissionInput, RemovePermissionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<RemovePermissionInput, RemovePermissionOutput, RemovePermissionOutputError>(id: "removePermission")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RemovePermissionInput, RemovePermissionOutput, RemovePermissionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RemovePermissionInput, RemovePermissionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RemovePermissionOutputResponse, RemovePermissionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RemovePermissionOutput, RemovePermissionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<RemovePermissionInput, RemovePermissionOutputResponse>(xmlName: "RemovePermissionInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<RemovePermissionInput, RemovePermissionOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<RemovePermissionInput, RemovePermissionOutput>(xmlName: "RemovePermissionInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<RemovePermissionInput, RemovePermissionOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RemovePermissionOutputResponse, RemovePermissionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RemovePermissionOutput, RemovePermissionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RemovePermissionOutputResponse, RemovePermissionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RemovePermissionOutputResponse, RemovePermissionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RemovePermissionOutputResponse, RemovePermissionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RemovePermissionOutput, RemovePermissionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RemovePermissionOutput, RemovePermissionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RemovePermissionOutput, RemovePermissionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1628,7 +1630,7 @@ extension SNSClient: SNSClientProtocol {
     ///
     /// - Parameter SetEndpointAttributesInput : Input for SetEndpointAttributes action.
     ///
-    /// - Returns: `SetEndpointAttributesOutputResponse` : [no documentation found]
+    /// - Returns: `SetEndpointAttributesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1637,7 +1639,7 @@ extension SNSClient: SNSClientProtocol {
     /// - `InternalErrorException` : Indicates an internal service error.
     /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
     /// - `NotFoundException` : Indicates that the requested resource does not exist.
-    public func setEndpointAttributes(input: SetEndpointAttributesInput) async throws -> SetEndpointAttributesOutputResponse
+    public func setEndpointAttributes(input: SetEndpointAttributesInput) async throws -> SetEndpointAttributesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1653,20 +1655,20 @@ extension SNSClient: SNSClientProtocol {
                       .withSigningName(value: "sns")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<SetEndpointAttributesInput, SetEndpointAttributesOutputResponse, SetEndpointAttributesOutputError>(id: "setEndpointAttributes")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SetEndpointAttributesInput, SetEndpointAttributesOutputResponse, SetEndpointAttributesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SetEndpointAttributesInput, SetEndpointAttributesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<SetEndpointAttributesInput, SetEndpointAttributesOutput, SetEndpointAttributesOutputError>(id: "setEndpointAttributes")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SetEndpointAttributesInput, SetEndpointAttributesOutput, SetEndpointAttributesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SetEndpointAttributesInput, SetEndpointAttributesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SetEndpointAttributesOutputResponse, SetEndpointAttributesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SetEndpointAttributesOutput, SetEndpointAttributesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SetEndpointAttributesInput, SetEndpointAttributesOutputResponse>(xmlName: "SetEndpointAttributesInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SetEndpointAttributesInput, SetEndpointAttributesOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SetEndpointAttributesInput, SetEndpointAttributesOutput>(xmlName: "SetEndpointAttributesInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SetEndpointAttributesInput, SetEndpointAttributesOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SetEndpointAttributesOutputResponse, SetEndpointAttributesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SetEndpointAttributesOutput, SetEndpointAttributesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SetEndpointAttributesOutputResponse, SetEndpointAttributesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SetEndpointAttributesOutputResponse, SetEndpointAttributesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SetEndpointAttributesOutputResponse, SetEndpointAttributesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SetEndpointAttributesOutput, SetEndpointAttributesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SetEndpointAttributesOutput, SetEndpointAttributesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SetEndpointAttributesOutput, SetEndpointAttributesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1675,7 +1677,7 @@ extension SNSClient: SNSClientProtocol {
     ///
     /// - Parameter SetPlatformApplicationAttributesInput : Input for SetPlatformApplicationAttributes action.
     ///
-    /// - Returns: `SetPlatformApplicationAttributesOutputResponse` : [no documentation found]
+    /// - Returns: `SetPlatformApplicationAttributesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1684,7 +1686,7 @@ extension SNSClient: SNSClientProtocol {
     /// - `InternalErrorException` : Indicates an internal service error.
     /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
     /// - `NotFoundException` : Indicates that the requested resource does not exist.
-    public func setPlatformApplicationAttributes(input: SetPlatformApplicationAttributesInput) async throws -> SetPlatformApplicationAttributesOutputResponse
+    public func setPlatformApplicationAttributes(input: SetPlatformApplicationAttributesInput) async throws -> SetPlatformApplicationAttributesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1700,20 +1702,20 @@ extension SNSClient: SNSClientProtocol {
                       .withSigningName(value: "sns")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<SetPlatformApplicationAttributesInput, SetPlatformApplicationAttributesOutputResponse, SetPlatformApplicationAttributesOutputError>(id: "setPlatformApplicationAttributes")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SetPlatformApplicationAttributesInput, SetPlatformApplicationAttributesOutputResponse, SetPlatformApplicationAttributesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SetPlatformApplicationAttributesInput, SetPlatformApplicationAttributesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<SetPlatformApplicationAttributesInput, SetPlatformApplicationAttributesOutput, SetPlatformApplicationAttributesOutputError>(id: "setPlatformApplicationAttributes")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SetPlatformApplicationAttributesInput, SetPlatformApplicationAttributesOutput, SetPlatformApplicationAttributesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SetPlatformApplicationAttributesInput, SetPlatformApplicationAttributesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SetPlatformApplicationAttributesOutputResponse, SetPlatformApplicationAttributesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SetPlatformApplicationAttributesOutput, SetPlatformApplicationAttributesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SetPlatformApplicationAttributesInput, SetPlatformApplicationAttributesOutputResponse>(xmlName: "SetPlatformApplicationAttributesInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SetPlatformApplicationAttributesInput, SetPlatformApplicationAttributesOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SetPlatformApplicationAttributesInput, SetPlatformApplicationAttributesOutput>(xmlName: "SetPlatformApplicationAttributesInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SetPlatformApplicationAttributesInput, SetPlatformApplicationAttributesOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SetPlatformApplicationAttributesOutputResponse, SetPlatformApplicationAttributesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SetPlatformApplicationAttributesOutput, SetPlatformApplicationAttributesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SetPlatformApplicationAttributesOutputResponse, SetPlatformApplicationAttributesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SetPlatformApplicationAttributesOutputResponse, SetPlatformApplicationAttributesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SetPlatformApplicationAttributesOutputResponse, SetPlatformApplicationAttributesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SetPlatformApplicationAttributesOutput, SetPlatformApplicationAttributesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SetPlatformApplicationAttributesOutput, SetPlatformApplicationAttributesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SetPlatformApplicationAttributesOutput, SetPlatformApplicationAttributesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1722,7 +1724,7 @@ extension SNSClient: SNSClientProtocol {
     ///
     /// - Parameter SetSMSAttributesInput : The input for the SetSMSAttributes action.
     ///
-    /// - Returns: `SetSMSAttributesOutputResponse` : The response for the SetSMSAttributes action.
+    /// - Returns: `SetSMSAttributesOutput` : The response for the SetSMSAttributes action.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1731,7 +1733,7 @@ extension SNSClient: SNSClientProtocol {
     /// - `InternalErrorException` : Indicates an internal service error.
     /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
     /// - `ThrottledException` : Indicates that the rate at which requests have been submitted for this action exceeds the limit for your Amazon Web Services account.
-    public func setSMSAttributes(input: SetSMSAttributesInput) async throws -> SetSMSAttributesOutputResponse
+    public func setSMSAttributes(input: SetSMSAttributesInput) async throws -> SetSMSAttributesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1747,20 +1749,20 @@ extension SNSClient: SNSClientProtocol {
                       .withSigningName(value: "sns")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<SetSMSAttributesInput, SetSMSAttributesOutputResponse, SetSMSAttributesOutputError>(id: "setSMSAttributes")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SetSMSAttributesInput, SetSMSAttributesOutputResponse, SetSMSAttributesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SetSMSAttributesInput, SetSMSAttributesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<SetSMSAttributesInput, SetSMSAttributesOutput, SetSMSAttributesOutputError>(id: "setSMSAttributes")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SetSMSAttributesInput, SetSMSAttributesOutput, SetSMSAttributesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SetSMSAttributesInput, SetSMSAttributesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SetSMSAttributesOutputResponse, SetSMSAttributesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SetSMSAttributesOutput, SetSMSAttributesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SetSMSAttributesInput, SetSMSAttributesOutputResponse>(xmlName: "SetSMSAttributesInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SetSMSAttributesInput, SetSMSAttributesOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SetSMSAttributesInput, SetSMSAttributesOutput>(xmlName: "SetSMSAttributesInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SetSMSAttributesInput, SetSMSAttributesOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SetSMSAttributesOutputResponse, SetSMSAttributesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SetSMSAttributesOutput, SetSMSAttributesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SetSMSAttributesOutputResponse, SetSMSAttributesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SetSMSAttributesOutputResponse, SetSMSAttributesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SetSMSAttributesOutputResponse, SetSMSAttributesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SetSMSAttributesOutput, SetSMSAttributesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SetSMSAttributesOutput, SetSMSAttributesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SetSMSAttributesOutput, SetSMSAttributesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1769,7 +1771,7 @@ extension SNSClient: SNSClientProtocol {
     ///
     /// - Parameter SetSubscriptionAttributesInput : Input for SetSubscriptionAttributes action.
     ///
-    /// - Returns: `SetSubscriptionAttributesOutputResponse` : [no documentation found]
+    /// - Returns: `SetSubscriptionAttributesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1779,7 +1781,8 @@ extension SNSClient: SNSClientProtocol {
     /// - `InternalErrorException` : Indicates an internal service error.
     /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
     /// - `NotFoundException` : Indicates that the requested resource does not exist.
-    public func setSubscriptionAttributes(input: SetSubscriptionAttributesInput) async throws -> SetSubscriptionAttributesOutputResponse
+    /// - `ReplayLimitExceededException` : Indicates that the request parameter has exceeded the maximum number of concurrent message replays.
+    public func setSubscriptionAttributes(input: SetSubscriptionAttributesInput) async throws -> SetSubscriptionAttributesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1795,20 +1798,20 @@ extension SNSClient: SNSClientProtocol {
                       .withSigningName(value: "sns")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<SetSubscriptionAttributesInput, SetSubscriptionAttributesOutputResponse, SetSubscriptionAttributesOutputError>(id: "setSubscriptionAttributes")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SetSubscriptionAttributesInput, SetSubscriptionAttributesOutputResponse, SetSubscriptionAttributesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SetSubscriptionAttributesInput, SetSubscriptionAttributesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<SetSubscriptionAttributesInput, SetSubscriptionAttributesOutput, SetSubscriptionAttributesOutputError>(id: "setSubscriptionAttributes")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SetSubscriptionAttributesInput, SetSubscriptionAttributesOutput, SetSubscriptionAttributesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SetSubscriptionAttributesInput, SetSubscriptionAttributesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SetSubscriptionAttributesOutputResponse, SetSubscriptionAttributesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SetSubscriptionAttributesOutput, SetSubscriptionAttributesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SetSubscriptionAttributesInput, SetSubscriptionAttributesOutputResponse>(xmlName: "SetSubscriptionAttributesInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SetSubscriptionAttributesInput, SetSubscriptionAttributesOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SetSubscriptionAttributesInput, SetSubscriptionAttributesOutput>(xmlName: "SetSubscriptionAttributesInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SetSubscriptionAttributesInput, SetSubscriptionAttributesOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SetSubscriptionAttributesOutputResponse, SetSubscriptionAttributesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SetSubscriptionAttributesOutput, SetSubscriptionAttributesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SetSubscriptionAttributesOutputResponse, SetSubscriptionAttributesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SetSubscriptionAttributesOutputResponse, SetSubscriptionAttributesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SetSubscriptionAttributesOutputResponse, SetSubscriptionAttributesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SetSubscriptionAttributesOutput, SetSubscriptionAttributesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SetSubscriptionAttributesOutput, SetSubscriptionAttributesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SetSubscriptionAttributesOutput, SetSubscriptionAttributesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1817,7 +1820,7 @@ extension SNSClient: SNSClientProtocol {
     ///
     /// - Parameter SetTopicAttributesInput : Input for SetTopicAttributes action.
     ///
-    /// - Returns: `SetTopicAttributesOutputResponse` : [no documentation found]
+    /// - Returns: `SetTopicAttributesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1827,7 +1830,7 @@ extension SNSClient: SNSClientProtocol {
     /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
     /// - `InvalidSecurityException` : The credential signature isn't valid. You must use an HTTPS endpoint and sign your request using Signature Version 4.
     /// - `NotFoundException` : Indicates that the requested resource does not exist.
-    public func setTopicAttributes(input: SetTopicAttributesInput) async throws -> SetTopicAttributesOutputResponse
+    public func setTopicAttributes(input: SetTopicAttributesInput) async throws -> SetTopicAttributesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1843,29 +1846,29 @@ extension SNSClient: SNSClientProtocol {
                       .withSigningName(value: "sns")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<SetTopicAttributesInput, SetTopicAttributesOutputResponse, SetTopicAttributesOutputError>(id: "setTopicAttributes")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SetTopicAttributesInput, SetTopicAttributesOutputResponse, SetTopicAttributesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SetTopicAttributesInput, SetTopicAttributesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<SetTopicAttributesInput, SetTopicAttributesOutput, SetTopicAttributesOutputError>(id: "setTopicAttributes")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SetTopicAttributesInput, SetTopicAttributesOutput, SetTopicAttributesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SetTopicAttributesInput, SetTopicAttributesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SetTopicAttributesOutputResponse, SetTopicAttributesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SetTopicAttributesOutput, SetTopicAttributesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SetTopicAttributesInput, SetTopicAttributesOutputResponse>(xmlName: "SetTopicAttributesInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SetTopicAttributesInput, SetTopicAttributesOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SetTopicAttributesInput, SetTopicAttributesOutput>(xmlName: "SetTopicAttributesInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SetTopicAttributesInput, SetTopicAttributesOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SetTopicAttributesOutputResponse, SetTopicAttributesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SetTopicAttributesOutput, SetTopicAttributesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SetTopicAttributesOutputResponse, SetTopicAttributesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SetTopicAttributesOutputResponse, SetTopicAttributesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SetTopicAttributesOutputResponse, SetTopicAttributesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SetTopicAttributesOutput, SetTopicAttributesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SetTopicAttributesOutput, SetTopicAttributesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SetTopicAttributesOutput, SetTopicAttributesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
-    /// Subscribes an endpoint to an Amazon SNS topic. If the endpoint type is HTTP/S or email, or if the endpoint and the topic are not in the same Amazon Web Services account, the endpoint owner must run the ConfirmSubscription action to confirm the subscription. You call the ConfirmSubscription action with the token from the subscription response. Confirmation tokens are valid for three days. This action is throttled at 100 transactions per second (TPS).
+    /// Subscribes an endpoint to an Amazon SNS topic. If the endpoint type is HTTP/S or email, or if the endpoint and the topic are not in the same Amazon Web Services account, the endpoint owner must run the ConfirmSubscription action to confirm the subscription. You call the ConfirmSubscription action with the token from the subscription response. Confirmation tokens are valid for two days. This action is throttled at 100 transactions per second (TPS).
     ///
     /// - Parameter SubscribeInput : Input for Subscribe action.
     ///
-    /// - Returns: `SubscribeOutputResponse` : Response for Subscribe action.
+    /// - Returns: `SubscribeOutput` : Response for Subscribe action.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1876,8 +1879,9 @@ extension SNSClient: SNSClientProtocol {
     /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
     /// - `InvalidSecurityException` : The credential signature isn't valid. You must use an HTTPS endpoint and sign your request using Signature Version 4.
     /// - `NotFoundException` : Indicates that the requested resource does not exist.
+    /// - `ReplayLimitExceededException` : Indicates that the request parameter has exceeded the maximum number of concurrent message replays.
     /// - `SubscriptionLimitExceededException` : Indicates that the customer already owns the maximum allowed number of subscriptions.
-    public func subscribe(input: SubscribeInput) async throws -> SubscribeOutputResponse
+    public func subscribe(input: SubscribeInput) async throws -> SubscribeOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1893,20 +1897,20 @@ extension SNSClient: SNSClientProtocol {
                       .withSigningName(value: "sns")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<SubscribeInput, SubscribeOutputResponse, SubscribeOutputError>(id: "subscribe")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SubscribeInput, SubscribeOutputResponse, SubscribeOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SubscribeInput, SubscribeOutputResponse>())
+        var operation = ClientRuntime.OperationStack<SubscribeInput, SubscribeOutput, SubscribeOutputError>(id: "subscribe")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SubscribeInput, SubscribeOutput, SubscribeOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SubscribeInput, SubscribeOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SubscribeOutputResponse, SubscribeOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SubscribeOutput, SubscribeOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SubscribeInput, SubscribeOutputResponse>(xmlName: "SubscribeInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SubscribeInput, SubscribeOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SubscribeInput, SubscribeOutput>(xmlName: "SubscribeInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SubscribeInput, SubscribeOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SubscribeOutputResponse, SubscribeOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SubscribeOutput, SubscribeOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SubscribeOutputResponse, SubscribeOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SubscribeOutputResponse, SubscribeOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SubscribeOutputResponse, SubscribeOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SubscribeOutput, SubscribeOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SubscribeOutput, SubscribeOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SubscribeOutput, SubscribeOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1925,7 +1929,7 @@ extension SNSClient: SNSClientProtocol {
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1937,7 +1941,7 @@ extension SNSClient: SNSClientProtocol {
     /// - `StaleTagException` : A tag has been added to a resource with the same ARN as a deleted resource. Wait a short while and then retry the operation.
     /// - `TagLimitExceededException` : Can't add more than 50 tags to a topic.
     /// - `TagPolicyException` : The request doesn't comply with the IAM tag policy. Correct your request and then retry it.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1953,20 +1957,20 @@ extension SNSClient: SNSClientProtocol {
                       .withSigningName(value: "sns")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
+        var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutput, TagResourceOutputError>(id: "tagResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput, TagResourceOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagResourceOutputResponse, TagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagResourceOutput, TagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<TagResourceInput, TagResourceOutputResponse>(xmlName: "TagResourceRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TagResourceInput, TagResourceOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<TagResourceInput, TagResourceOutput>(xmlName: "TagResourceRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagResourceOutputResponse, TagResourceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagResourceOutput, TagResourceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutput, TagResourceOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutput, TagResourceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutput, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1975,7 +1979,7 @@ extension SNSClient: SNSClientProtocol {
     ///
     /// - Parameter UnsubscribeInput : Input for Unsubscribe action.
     ///
-    /// - Returns: `UnsubscribeOutputResponse` : [no documentation found]
+    /// - Returns: `UnsubscribeOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1985,7 +1989,7 @@ extension SNSClient: SNSClientProtocol {
     /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
     /// - `InvalidSecurityException` : The credential signature isn't valid. You must use an HTTPS endpoint and sign your request using Signature Version 4.
     /// - `NotFoundException` : Indicates that the requested resource does not exist.
-    public func unsubscribe(input: UnsubscribeInput) async throws -> UnsubscribeOutputResponse
+    public func unsubscribe(input: UnsubscribeInput) async throws -> UnsubscribeOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2001,20 +2005,20 @@ extension SNSClient: SNSClientProtocol {
                       .withSigningName(value: "sns")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UnsubscribeInput, UnsubscribeOutputResponse, UnsubscribeOutputError>(id: "unsubscribe")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UnsubscribeInput, UnsubscribeOutputResponse, UnsubscribeOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UnsubscribeInput, UnsubscribeOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UnsubscribeInput, UnsubscribeOutput, UnsubscribeOutputError>(id: "unsubscribe")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UnsubscribeInput, UnsubscribeOutput, UnsubscribeOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UnsubscribeInput, UnsubscribeOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UnsubscribeOutputResponse, UnsubscribeOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UnsubscribeOutput, UnsubscribeOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UnsubscribeInput, UnsubscribeOutputResponse>(xmlName: "UnsubscribeInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UnsubscribeInput, UnsubscribeOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UnsubscribeInput, UnsubscribeOutput>(xmlName: "UnsubscribeInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UnsubscribeInput, UnsubscribeOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UnsubscribeOutputResponse, UnsubscribeOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UnsubscribeOutput, UnsubscribeOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UnsubscribeOutputResponse, UnsubscribeOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UnsubscribeOutputResponse, UnsubscribeOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UnsubscribeOutputResponse, UnsubscribeOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UnsubscribeOutput, UnsubscribeOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UnsubscribeOutput, UnsubscribeOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UnsubscribeOutput, UnsubscribeOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2023,7 +2027,7 @@ extension SNSClient: SNSClientProtocol {
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2035,7 +2039,7 @@ extension SNSClient: SNSClientProtocol {
     /// - `StaleTagException` : A tag has been added to a resource with the same ARN as a deleted resource. Wait a short while and then retry the operation.
     /// - `TagLimitExceededException` : Can't add more than 50 tags to a topic.
     /// - `TagPolicyException` : The request doesn't comply with the IAM tag policy. Correct your request and then retry it.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2051,20 +2055,20 @@ extension SNSClient: SNSClientProtocol {
                       .withSigningName(value: "sns")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutput, UntagResourceOutputError>(id: "untagResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput, UntagResourceOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagResourceOutput, UntagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UntagResourceInput, UntagResourceOutputResponse>(xmlName: "UntagResourceRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UntagResourceInput, UntagResourceOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UntagResourceInput, UntagResourceOutput>(xmlName: "UntagResourceRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagResourceOutputResponse, UntagResourceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagResourceOutput, UntagResourceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutput, UntagResourceOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutput, UntagResourceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutput, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2073,7 +2077,7 @@ extension SNSClient: SNSClientProtocol {
     ///
     /// - Parameter VerifySMSSandboxPhoneNumberInput : [no documentation found]
     ///
-    /// - Returns: `VerifySMSSandboxPhoneNumberOutputResponse` : The destination phone number's verification status.
+    /// - Returns: `VerifySMSSandboxPhoneNumberOutput` : The destination phone number's verification status.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2084,7 +2088,7 @@ extension SNSClient: SNSClientProtocol {
     /// - `ResourceNotFoundException` : Can’t perform the action on the specified resource. Make sure that the resource exists.
     /// - `ThrottledException` : Indicates that the rate at which requests have been submitted for this action exceeds the limit for your Amazon Web Services account.
     /// - `VerificationException` : Indicates that the one-time password (OTP) used for verification is invalid.
-    public func verifySMSSandboxPhoneNumber(input: VerifySMSSandboxPhoneNumberInput) async throws -> VerifySMSSandboxPhoneNumberOutputResponse
+    public func verifySMSSandboxPhoneNumber(input: VerifySMSSandboxPhoneNumberInput) async throws -> VerifySMSSandboxPhoneNumberOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2100,20 +2104,20 @@ extension SNSClient: SNSClientProtocol {
                       .withSigningName(value: "sns")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<VerifySMSSandboxPhoneNumberInput, VerifySMSSandboxPhoneNumberOutputResponse, VerifySMSSandboxPhoneNumberOutputError>(id: "verifySMSSandboxPhoneNumber")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<VerifySMSSandboxPhoneNumberInput, VerifySMSSandboxPhoneNumberOutputResponse, VerifySMSSandboxPhoneNumberOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<VerifySMSSandboxPhoneNumberInput, VerifySMSSandboxPhoneNumberOutputResponse>())
+        var operation = ClientRuntime.OperationStack<VerifySMSSandboxPhoneNumberInput, VerifySMSSandboxPhoneNumberOutput, VerifySMSSandboxPhoneNumberOutputError>(id: "verifySMSSandboxPhoneNumber")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<VerifySMSSandboxPhoneNumberInput, VerifySMSSandboxPhoneNumberOutput, VerifySMSSandboxPhoneNumberOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<VerifySMSSandboxPhoneNumberInput, VerifySMSSandboxPhoneNumberOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<VerifySMSSandboxPhoneNumberOutputResponse, VerifySMSSandboxPhoneNumberOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<VerifySMSSandboxPhoneNumberOutput, VerifySMSSandboxPhoneNumberOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<VerifySMSSandboxPhoneNumberInput, VerifySMSSandboxPhoneNumberOutputResponse>(xmlName: "VerifySMSSandboxPhoneNumberInput"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<VerifySMSSandboxPhoneNumberInput, VerifySMSSandboxPhoneNumberOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<VerifySMSSandboxPhoneNumberInput, VerifySMSSandboxPhoneNumberOutput>(xmlName: "VerifySMSSandboxPhoneNumberInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<VerifySMSSandboxPhoneNumberInput, VerifySMSSandboxPhoneNumberOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, VerifySMSSandboxPhoneNumberOutputResponse, VerifySMSSandboxPhoneNumberOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, VerifySMSSandboxPhoneNumberOutput, VerifySMSSandboxPhoneNumberOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<VerifySMSSandboxPhoneNumberOutputResponse, VerifySMSSandboxPhoneNumberOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<VerifySMSSandboxPhoneNumberOutputResponse, VerifySMSSandboxPhoneNumberOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<VerifySMSSandboxPhoneNumberOutputResponse, VerifySMSSandboxPhoneNumberOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<VerifySMSSandboxPhoneNumberOutput, VerifySMSSandboxPhoneNumberOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<VerifySMSSandboxPhoneNumberOutput, VerifySMSSandboxPhoneNumberOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<VerifySMSSandboxPhoneNumberOutput, VerifySMSSandboxPhoneNumberOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

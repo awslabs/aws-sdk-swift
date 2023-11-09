@@ -7,7 +7,6 @@ plugins {
     jacoco
 }
 
-// TODO: remove once we have all the dependencies in the maven-publish plugin
 configurations.implementation {
     exclude(group = "brazil")
 }

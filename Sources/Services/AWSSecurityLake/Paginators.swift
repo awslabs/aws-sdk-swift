@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension SecurityLakeClient {
-    /// Paginate over `[ListDataLakeExceptionsOutputResponse]` results.
+    /// Paginate over `[ListDataLakeExceptionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListDataLakeExceptionsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListDataLakeExceptionsOutputResponse`
-    public func listDataLakeExceptionsPaginated(input: ListDataLakeExceptionsInput) -> ClientRuntime.PaginatorSequence<ListDataLakeExceptionsInput, ListDataLakeExceptionsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListDataLakeExceptionsInput, ListDataLakeExceptionsOutputResponse>(input: input, inputKey: \ListDataLakeExceptionsInput.nextToken, outputKey: \ListDataLakeExceptionsOutputResponse.nextToken, paginationFunction: self.listDataLakeExceptions(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDataLakeExceptionsOutput`
+    public func listDataLakeExceptionsPaginated(input: ListDataLakeExceptionsInput) -> ClientRuntime.PaginatorSequence<ListDataLakeExceptionsInput, ListDataLakeExceptionsOutput> {
+        return ClientRuntime.PaginatorSequence<ListDataLakeExceptionsInput, ListDataLakeExceptionsOutput>(input: input, inputKey: \ListDataLakeExceptionsInput.nextToken, outputKey: \ListDataLakeExceptionsOutput.nextToken, paginationFunction: self.listDataLakeExceptions(input:))
     }
 }
 
@@ -25,7 +25,7 @@ extension ListDataLakeExceptionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListDataLakeExceptionsInput, Output == ListDataLakeExceptionsOutputResponse {
+extension PaginatorSequence where Input == ListDataLakeExceptionsInput, Output == ListDataLakeExceptionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listDataLakeExceptionsPaginated`
     /// to access the nested member `[SecurityLakeClientTypes.DataLakeException]`
     /// - Returns: `[SecurityLakeClientTypes.DataLakeException]`

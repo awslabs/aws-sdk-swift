@@ -8,7 +8,7 @@ public protocol PanoramaClientProtocol {
     ///
     /// - Parameter CreateApplicationInstanceInput : [no documentation found]
     ///
-    /// - Returns: `CreateApplicationInstanceOutputResponse` : [no documentation found]
+    /// - Returns: `CreateApplicationInstanceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -17,12 +17,12 @@ public protocol PanoramaClientProtocol {
     /// - `InternalServerException` : An internal error occurred.
     /// - `ServiceQuotaExceededException` : The request would cause a limit to be exceeded.
     /// - `ValidationException` : The request contains an invalid parameter value.
-    func createApplicationInstance(input: CreateApplicationInstanceInput) async throws -> CreateApplicationInstanceOutputResponse
+    func createApplicationInstance(input: CreateApplicationInstanceInput) async throws -> CreateApplicationInstanceOutput
     /// Creates a job to run on a device. A job can update a device's software or reboot it.
     ///
     /// - Parameter CreateJobForDevicesInput : [no documentation found]
     ///
-    /// - Returns: `CreateJobForDevicesOutputResponse` : [no documentation found]
+    /// - Returns: `CreateJobForDevicesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -32,12 +32,12 @@ public protocol PanoramaClientProtocol {
     /// - `InternalServerException` : An internal error occurred.
     /// - `ResourceNotFoundException` : The target resource was not found.
     /// - `ValidationException` : The request contains an invalid parameter value.
-    func createJobForDevices(input: CreateJobForDevicesInput) async throws -> CreateJobForDevicesOutputResponse
+    func createJobForDevices(input: CreateJobForDevicesInput) async throws -> CreateJobForDevicesOutput
     /// Creates a camera stream node.
     ///
     /// - Parameter CreateNodeFromTemplateJobInput : [no documentation found]
     ///
-    /// - Returns: `CreateNodeFromTemplateJobOutputResponse` : [no documentation found]
+    /// - Returns: `CreateNodeFromTemplateJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -46,12 +46,12 @@ public protocol PanoramaClientProtocol {
     /// - `ConflictException` : The target resource is in use.
     /// - `InternalServerException` : An internal error occurred.
     /// - `ValidationException` : The request contains an invalid parameter value.
-    func createNodeFromTemplateJob(input: CreateNodeFromTemplateJobInput) async throws -> CreateNodeFromTemplateJobOutputResponse
+    func createNodeFromTemplateJob(input: CreateNodeFromTemplateJobInput) async throws -> CreateNodeFromTemplateJobOutput
     /// Creates a package and storage location in an Amazon S3 access point.
     ///
     /// - Parameter CreatePackageInput : [no documentation found]
     ///
-    /// - Returns: `CreatePackageOutputResponse` : [no documentation found]
+    /// - Returns: `CreatePackageOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -60,12 +60,12 @@ public protocol PanoramaClientProtocol {
     /// - `ConflictException` : The target resource is in use.
     /// - `InternalServerException` : An internal error occurred.
     /// - `ValidationException` : The request contains an invalid parameter value.
-    func createPackage(input: CreatePackageInput) async throws -> CreatePackageOutputResponse
+    func createPackage(input: CreatePackageInput) async throws -> CreatePackageOutput
     /// Imports a node package.
     ///
     /// - Parameter CreatePackageImportJobInput : [no documentation found]
     ///
-    /// - Returns: `CreatePackageImportJobOutputResponse` : [no documentation found]
+    /// - Returns: `CreatePackageImportJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -74,12 +74,12 @@ public protocol PanoramaClientProtocol {
     /// - `ConflictException` : The target resource is in use.
     /// - `InternalServerException` : An internal error occurred.
     /// - `ValidationException` : The request contains an invalid parameter value.
-    func createPackageImportJob(input: CreatePackageImportJobInput) async throws -> CreatePackageImportJobOutputResponse
+    func createPackageImportJob(input: CreatePackageImportJobInput) async throws -> CreatePackageImportJobOutput
     /// Deletes a device.
     ///
     /// - Parameter DeleteDeviceInput : [no documentation found]
     ///
-    /// - Returns: `DeleteDeviceOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteDeviceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -89,12 +89,12 @@ public protocol PanoramaClientProtocol {
     /// - `InternalServerException` : An internal error occurred.
     /// - `ResourceNotFoundException` : The target resource was not found.
     /// - `ValidationException` : The request contains an invalid parameter value.
-    func deleteDevice(input: DeleteDeviceInput) async throws -> DeleteDeviceOutputResponse
+    func deleteDevice(input: DeleteDeviceInput) async throws -> DeleteDeviceOutput
     /// Deletes a package. To delete a package, you need permission to call s3:DeleteObject in addition to permissions for the AWS Panorama API.
     ///
     /// - Parameter DeletePackageInput : [no documentation found]
     ///
-    /// - Returns: `DeletePackageOutputResponse` : [no documentation found]
+    /// - Returns: `DeletePackageOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -104,12 +104,12 @@ public protocol PanoramaClientProtocol {
     /// - `InternalServerException` : An internal error occurred.
     /// - `ResourceNotFoundException` : The target resource was not found.
     /// - `ValidationException` : The request contains an invalid parameter value.
-    func deletePackage(input: DeletePackageInput) async throws -> DeletePackageOutputResponse
+    func deletePackage(input: DeletePackageInput) async throws -> DeletePackageOutput
     /// Deregisters a package version.
     ///
     /// - Parameter DeregisterPackageVersionInput : [no documentation found]
     ///
-    /// - Returns: `DeregisterPackageVersionOutputResponse` : [no documentation found]
+    /// - Returns: `DeregisterPackageVersionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -119,12 +119,12 @@ public protocol PanoramaClientProtocol {
     /// - `InternalServerException` : An internal error occurred.
     /// - `ResourceNotFoundException` : The target resource was not found.
     /// - `ValidationException` : The request contains an invalid parameter value.
-    func deregisterPackageVersion(input: DeregisterPackageVersionInput) async throws -> DeregisterPackageVersionOutputResponse
+    func deregisterPackageVersion(input: DeregisterPackageVersionInput) async throws -> DeregisterPackageVersionOutput
     /// Returns information about an application instance on a device.
     ///
     /// - Parameter DescribeApplicationInstanceInput : [no documentation found]
     ///
-    /// - Returns: `DescribeApplicationInstanceOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeApplicationInstanceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -134,12 +134,12 @@ public protocol PanoramaClientProtocol {
     /// - `InternalServerException` : An internal error occurred.
     /// - `ResourceNotFoundException` : The target resource was not found.
     /// - `ValidationException` : The request contains an invalid parameter value.
-    func describeApplicationInstance(input: DescribeApplicationInstanceInput) async throws -> DescribeApplicationInstanceOutputResponse
+    func describeApplicationInstance(input: DescribeApplicationInstanceInput) async throws -> DescribeApplicationInstanceOutput
     /// Returns information about an application instance's configuration manifest.
     ///
     /// - Parameter DescribeApplicationInstanceDetailsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeApplicationInstanceDetailsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeApplicationInstanceDetailsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -149,12 +149,12 @@ public protocol PanoramaClientProtocol {
     /// - `InternalServerException` : An internal error occurred.
     /// - `ResourceNotFoundException` : The target resource was not found.
     /// - `ValidationException` : The request contains an invalid parameter value.
-    func describeApplicationInstanceDetails(input: DescribeApplicationInstanceDetailsInput) async throws -> DescribeApplicationInstanceDetailsOutputResponse
+    func describeApplicationInstanceDetails(input: DescribeApplicationInstanceDetailsInput) async throws -> DescribeApplicationInstanceDetailsOutput
     /// Returns information about a device.
     ///
     /// - Parameter DescribeDeviceInput : [no documentation found]
     ///
-    /// - Returns: `DescribeDeviceOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeDeviceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -163,12 +163,12 @@ public protocol PanoramaClientProtocol {
     /// - `InternalServerException` : An internal error occurred.
     /// - `ResourceNotFoundException` : The target resource was not found.
     /// - `ValidationException` : The request contains an invalid parameter value.
-    func describeDevice(input: DescribeDeviceInput) async throws -> DescribeDeviceOutputResponse
+    func describeDevice(input: DescribeDeviceInput) async throws -> DescribeDeviceOutput
     /// Returns information about a device job.
     ///
     /// - Parameter DescribeDeviceJobInput : [no documentation found]
     ///
-    /// - Returns: `DescribeDeviceJobOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeDeviceJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -178,12 +178,12 @@ public protocol PanoramaClientProtocol {
     /// - `InternalServerException` : An internal error occurred.
     /// - `ResourceNotFoundException` : The target resource was not found.
     /// - `ValidationException` : The request contains an invalid parameter value.
-    func describeDeviceJob(input: DescribeDeviceJobInput) async throws -> DescribeDeviceJobOutputResponse
+    func describeDeviceJob(input: DescribeDeviceJobInput) async throws -> DescribeDeviceJobOutput
     /// Returns information about a node.
     ///
     /// - Parameter DescribeNodeInput : [no documentation found]
     ///
-    /// - Returns: `DescribeNodeOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeNodeOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -193,12 +193,12 @@ public protocol PanoramaClientProtocol {
     /// - `InternalServerException` : An internal error occurred.
     /// - `ResourceNotFoundException` : The target resource was not found.
     /// - `ValidationException` : The request contains an invalid parameter value.
-    func describeNode(input: DescribeNodeInput) async throws -> DescribeNodeOutputResponse
+    func describeNode(input: DescribeNodeInput) async throws -> DescribeNodeOutput
     /// Returns information about a job to create a camera stream node.
     ///
     /// - Parameter DescribeNodeFromTemplateJobInput : [no documentation found]
     ///
-    /// - Returns: `DescribeNodeFromTemplateJobOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeNodeFromTemplateJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -207,12 +207,12 @@ public protocol PanoramaClientProtocol {
     /// - `ConflictException` : The target resource is in use.
     /// - `InternalServerException` : An internal error occurred.
     /// - `ValidationException` : The request contains an invalid parameter value.
-    func describeNodeFromTemplateJob(input: DescribeNodeFromTemplateJobInput) async throws -> DescribeNodeFromTemplateJobOutputResponse
+    func describeNodeFromTemplateJob(input: DescribeNodeFromTemplateJobInput) async throws -> DescribeNodeFromTemplateJobOutput
     /// Returns information about a package.
     ///
     /// - Parameter DescribePackageInput : [no documentation found]
     ///
-    /// - Returns: `DescribePackageOutputResponse` : [no documentation found]
+    /// - Returns: `DescribePackageOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -222,12 +222,12 @@ public protocol PanoramaClientProtocol {
     /// - `InternalServerException` : An internal error occurred.
     /// - `ResourceNotFoundException` : The target resource was not found.
     /// - `ValidationException` : The request contains an invalid parameter value.
-    func describePackage(input: DescribePackageInput) async throws -> DescribePackageOutputResponse
+    func describePackage(input: DescribePackageInput) async throws -> DescribePackageOutput
     /// Returns information about a package import job.
     ///
     /// - Parameter DescribePackageImportJobInput : [no documentation found]
     ///
-    /// - Returns: `DescribePackageImportJobOutputResponse` : [no documentation found]
+    /// - Returns: `DescribePackageImportJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -236,12 +236,12 @@ public protocol PanoramaClientProtocol {
     /// - `ConflictException` : The target resource is in use.
     /// - `InternalServerException` : An internal error occurred.
     /// - `ValidationException` : The request contains an invalid parameter value.
-    func describePackageImportJob(input: DescribePackageImportJobInput) async throws -> DescribePackageImportJobOutputResponse
+    func describePackageImportJob(input: DescribePackageImportJobInput) async throws -> DescribePackageImportJobOutput
     /// Returns information about a package version.
     ///
     /// - Parameter DescribePackageVersionInput : [no documentation found]
     ///
-    /// - Returns: `DescribePackageVersionOutputResponse` : [no documentation found]
+    /// - Returns: `DescribePackageVersionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -251,48 +251,48 @@ public protocol PanoramaClientProtocol {
     /// - `InternalServerException` : An internal error occurred.
     /// - `ResourceNotFoundException` : The target resource was not found.
     /// - `ValidationException` : The request contains an invalid parameter value.
-    func describePackageVersion(input: DescribePackageVersionInput) async throws -> DescribePackageVersionOutputResponse
+    func describePackageVersion(input: DescribePackageVersionInput) async throws -> DescribePackageVersionOutput
     /// Returns a list of application instance dependencies.
     ///
     /// - Parameter ListApplicationInstanceDependenciesInput : [no documentation found]
     ///
-    /// - Returns: `ListApplicationInstanceDependenciesOutputResponse` : [no documentation found]
+    /// - Returns: `ListApplicationInstanceDependenciesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : The requestor does not have permission to access the target action or resource.
     /// - `InternalServerException` : An internal error occurred.
-    func listApplicationInstanceDependencies(input: ListApplicationInstanceDependenciesInput) async throws -> ListApplicationInstanceDependenciesOutputResponse
+    func listApplicationInstanceDependencies(input: ListApplicationInstanceDependenciesInput) async throws -> ListApplicationInstanceDependenciesOutput
     /// Returns a list of application node instances.
     ///
     /// - Parameter ListApplicationInstanceNodeInstancesInput : [no documentation found]
     ///
-    /// - Returns: `ListApplicationInstanceNodeInstancesOutputResponse` : [no documentation found]
+    /// - Returns: `ListApplicationInstanceNodeInstancesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : The requestor does not have permission to access the target action or resource.
     /// - `InternalServerException` : An internal error occurred.
-    func listApplicationInstanceNodeInstances(input: ListApplicationInstanceNodeInstancesInput) async throws -> ListApplicationInstanceNodeInstancesOutputResponse
+    func listApplicationInstanceNodeInstances(input: ListApplicationInstanceNodeInstancesInput) async throws -> ListApplicationInstanceNodeInstancesOutput
     /// Returns a list of application instances.
     ///
     /// - Parameter ListApplicationInstancesInput : [no documentation found]
     ///
-    /// - Returns: `ListApplicationInstancesOutputResponse` : [no documentation found]
+    /// - Returns: `ListApplicationInstancesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : The requestor does not have permission to access the target action or resource.
     /// - `InternalServerException` : An internal error occurred.
-    func listApplicationInstances(input: ListApplicationInstancesInput) async throws -> ListApplicationInstancesOutputResponse
+    func listApplicationInstances(input: ListApplicationInstancesInput) async throws -> ListApplicationInstancesOutput
     /// Returns a list of devices.
     ///
     /// - Parameter ListDevicesInput : [no documentation found]
     ///
-    /// - Returns: `ListDevicesOutputResponse` : [no documentation found]
+    /// - Returns: `ListDevicesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -301,12 +301,12 @@ public protocol PanoramaClientProtocol {
     /// - `ConflictException` : The target resource is in use.
     /// - `InternalServerException` : An internal error occurred.
     /// - `ValidationException` : The request contains an invalid parameter value.
-    func listDevices(input: ListDevicesInput) async throws -> ListDevicesOutputResponse
+    func listDevices(input: ListDevicesInput) async throws -> ListDevicesOutput
     /// Returns a list of jobs.
     ///
     /// - Parameter ListDevicesJobsInput : [no documentation found]
     ///
-    /// - Returns: `ListDevicesJobsOutputResponse` : [no documentation found]
+    /// - Returns: `ListDevicesJobsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -316,12 +316,12 @@ public protocol PanoramaClientProtocol {
     /// - `InternalServerException` : An internal error occurred.
     /// - `ResourceNotFoundException` : The target resource was not found.
     /// - `ValidationException` : The request contains an invalid parameter value.
-    func listDevicesJobs(input: ListDevicesJobsInput) async throws -> ListDevicesJobsOutputResponse
+    func listDevicesJobs(input: ListDevicesJobsInput) async throws -> ListDevicesJobsOutput
     /// Returns a list of camera stream node jobs.
     ///
     /// - Parameter ListNodeFromTemplateJobsInput : [no documentation found]
     ///
-    /// - Returns: `ListNodeFromTemplateJobsOutputResponse` : [no documentation found]
+    /// - Returns: `ListNodeFromTemplateJobsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -330,12 +330,12 @@ public protocol PanoramaClientProtocol {
     /// - `ConflictException` : The target resource is in use.
     /// - `InternalServerException` : An internal error occurred.
     /// - `ValidationException` : The request contains an invalid parameter value.
-    func listNodeFromTemplateJobs(input: ListNodeFromTemplateJobsInput) async throws -> ListNodeFromTemplateJobsOutputResponse
+    func listNodeFromTemplateJobs(input: ListNodeFromTemplateJobsInput) async throws -> ListNodeFromTemplateJobsOutput
     /// Returns a list of nodes.
     ///
     /// - Parameter ListNodesInput : [no documentation found]
     ///
-    /// - Returns: `ListNodesOutputResponse` : [no documentation found]
+    /// - Returns: `ListNodesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -343,12 +343,12 @@ public protocol PanoramaClientProtocol {
     /// - `ConflictException` : The target resource is in use.
     /// - `InternalServerException` : An internal error occurred.
     /// - `ValidationException` : The request contains an invalid parameter value.
-    func listNodes(input: ListNodesInput) async throws -> ListNodesOutputResponse
+    func listNodes(input: ListNodesInput) async throws -> ListNodesOutput
     /// Returns a list of package import jobs.
     ///
     /// - Parameter ListPackageImportJobsInput : [no documentation found]
     ///
-    /// - Returns: `ListPackageImportJobsOutputResponse` : [no documentation found]
+    /// - Returns: `ListPackageImportJobsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -357,12 +357,12 @@ public protocol PanoramaClientProtocol {
     /// - `ConflictException` : The target resource is in use.
     /// - `InternalServerException` : An internal error occurred.
     /// - `ValidationException` : The request contains an invalid parameter value.
-    func listPackageImportJobs(input: ListPackageImportJobsInput) async throws -> ListPackageImportJobsOutputResponse
+    func listPackageImportJobs(input: ListPackageImportJobsInput) async throws -> ListPackageImportJobsOutput
     /// Returns a list of packages.
     ///
     /// - Parameter ListPackagesInput : [no documentation found]
     ///
-    /// - Returns: `ListPackagesOutputResponse` : [no documentation found]
+    /// - Returns: `ListPackagesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -372,12 +372,12 @@ public protocol PanoramaClientProtocol {
     /// - `InternalServerException` : An internal error occurred.
     /// - `ResourceNotFoundException` : The target resource was not found.
     /// - `ValidationException` : The request contains an invalid parameter value.
-    func listPackages(input: ListPackagesInput) async throws -> ListPackagesOutputResponse
+    func listPackages(input: ListPackagesInput) async throws -> ListPackagesOutput
     /// Returns a list of tags for a resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -385,12 +385,12 @@ public protocol PanoramaClientProtocol {
     /// - `InternalServerException` : An internal error occurred.
     /// - `ResourceNotFoundException` : The target resource was not found.
     /// - `ValidationException` : The request contains an invalid parameter value.
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     /// Creates a device and returns a configuration archive. The configuration archive is a ZIP file that contains a provisioning certificate that is valid for 5 minutes. Name the configuration archive certificates-omni_device-name.zip and transfer it to the device within 5 minutes. Use the included USB storage device and connect it to the USB 3.0 port next to the HDMI output.
     ///
     /// - Parameter ProvisionDeviceInput : [no documentation found]
     ///
-    /// - Returns: `ProvisionDeviceOutputResponse` : [no documentation found]
+    /// - Returns: `ProvisionDeviceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -400,12 +400,12 @@ public protocol PanoramaClientProtocol {
     /// - `InternalServerException` : An internal error occurred.
     /// - `ServiceQuotaExceededException` : The request would cause a limit to be exceeded.
     /// - `ValidationException` : The request contains an invalid parameter value.
-    func provisionDevice(input: ProvisionDeviceInput) async throws -> ProvisionDeviceOutputResponse
+    func provisionDevice(input: ProvisionDeviceInput) async throws -> ProvisionDeviceOutput
     /// Registers a package version.
     ///
     /// - Parameter RegisterPackageVersionInput : [no documentation found]
     ///
-    /// - Returns: `RegisterPackageVersionOutputResponse` : [no documentation found]
+    /// - Returns: `RegisterPackageVersionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -414,12 +414,12 @@ public protocol PanoramaClientProtocol {
     /// - `ConflictException` : The target resource is in use.
     /// - `InternalServerException` : An internal error occurred.
     /// - `ValidationException` : The request contains an invalid parameter value.
-    func registerPackageVersion(input: RegisterPackageVersionInput) async throws -> RegisterPackageVersionOutputResponse
+    func registerPackageVersion(input: RegisterPackageVersionInput) async throws -> RegisterPackageVersionOutput
     /// Removes an application instance.
     ///
     /// - Parameter RemoveApplicationInstanceInput : [no documentation found]
     ///
-    /// - Returns: `RemoveApplicationInstanceOutputResponse` : [no documentation found]
+    /// - Returns: `RemoveApplicationInstanceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -429,12 +429,12 @@ public protocol PanoramaClientProtocol {
     /// - `InternalServerException` : An internal error occurred.
     /// - `ResourceNotFoundException` : The target resource was not found.
     /// - `ValidationException` : The request contains an invalid parameter value.
-    func removeApplicationInstance(input: RemoveApplicationInstanceInput) async throws -> RemoveApplicationInstanceOutputResponse
+    func removeApplicationInstance(input: RemoveApplicationInstanceInput) async throws -> RemoveApplicationInstanceOutput
     /// Signal camera nodes to stop or resume.
     ///
     /// - Parameter SignalApplicationInstanceNodeInstancesInput : [no documentation found]
     ///
-    /// - Returns: `SignalApplicationInstanceNodeInstancesOutputResponse` : [no documentation found]
+    /// - Returns: `SignalApplicationInstanceNodeInstancesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -443,12 +443,12 @@ public protocol PanoramaClientProtocol {
     /// - `InternalServerException` : An internal error occurred.
     /// - `ServiceQuotaExceededException` : The request would cause a limit to be exceeded.
     /// - `ValidationException` : The request contains an invalid parameter value.
-    func signalApplicationInstanceNodeInstances(input: SignalApplicationInstanceNodeInstancesInput) async throws -> SignalApplicationInstanceNodeInstancesOutputResponse
+    func signalApplicationInstanceNodeInstances(input: SignalApplicationInstanceNodeInstancesInput) async throws -> SignalApplicationInstanceNodeInstancesOutput
     /// Tags a resource.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -456,12 +456,12 @@ public protocol PanoramaClientProtocol {
     /// - `InternalServerException` : An internal error occurred.
     /// - `ResourceNotFoundException` : The target resource was not found.
     /// - `ValidationException` : The request contains an invalid parameter value.
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     /// Removes tags from a resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -469,12 +469,12 @@ public protocol PanoramaClientProtocol {
     /// - `InternalServerException` : An internal error occurred.
     /// - `ResourceNotFoundException` : The target resource was not found.
     /// - `ValidationException` : The request contains an invalid parameter value.
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
     /// Updates a device's metadata.
     ///
     /// - Parameter UpdateDeviceMetadataInput : [no documentation found]
     ///
-    /// - Returns: `UpdateDeviceMetadataOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateDeviceMetadataOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -484,7 +484,7 @@ public protocol PanoramaClientProtocol {
     /// - `InternalServerException` : An internal error occurred.
     /// - `ResourceNotFoundException` : The target resource was not found.
     /// - `ValidationException` : The request contains an invalid parameter value.
-    func updateDeviceMetadata(input: UpdateDeviceMetadataInput) async throws -> UpdateDeviceMetadataOutputResponse
+    func updateDeviceMetadata(input: UpdateDeviceMetadataInput) async throws -> UpdateDeviceMetadataOutput
 }
 
 public enum PanoramaClientTypes {}

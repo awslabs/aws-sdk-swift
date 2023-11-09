@@ -262,23 +262,11 @@ extension DescribeStreamInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeStreamOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeStreamOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeStreamOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeStreamOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeStreamOutputBody = try responseDecoder.decode(responseBody: data)
             self.streamDescription = output.streamDescription
         } else {
             self.streamDescription = nil
@@ -287,7 +275,7 @@ extension DescribeStreamOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the output of a DescribeStream operation.
-public struct DescribeStreamOutputResponse: Swift.Equatable {
+public struct DescribeStreamOutput: Swift.Equatable {
     /// A complete description of the stream, including its creation date and time, the DynamoDB table associated with the stream, the shard IDs within the stream, and the beginning and ending sequence numbers of stream records within the shards.
     public var streamDescription: DynamoDBStreamsClientTypes.StreamDescription?
 
@@ -299,11 +287,11 @@ public struct DescribeStreamOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeStreamOutputResponseBody: Swift.Equatable {
+struct DescribeStreamOutputBody: Swift.Equatable {
     let streamDescription: DynamoDBStreamsClientTypes.StreamDescription?
 }
 
-extension DescribeStreamOutputResponseBody: Swift.Decodable {
+extension DescribeStreamOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case streamDescription = "StreamDescription"
     }
@@ -312,6 +300,18 @@ extension DescribeStreamOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let streamDescriptionDecoded = try containerValues.decodeIfPresent(DynamoDBStreamsClientTypes.StreamDescription.self, forKey: .streamDescription)
         streamDescription = streamDescriptionDecoded
+    }
+}
+
+enum DescribeStreamOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -432,26 +432,11 @@ extension GetRecordsInputBody: Swift.Decodable {
     }
 }
 
-enum GetRecordsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ExpiredIteratorException": return try await ExpiredIteratorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TrimmedDataAccessException": return try await TrimmedDataAccessException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetRecordsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetRecordsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetRecordsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetRecordsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextShardIterator = output.nextShardIterator
             self.records = output.records
         } else {
@@ -462,7 +447,7 @@ extension GetRecordsOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the output of a GetRecords operation.
-public struct GetRecordsOutputResponse: Swift.Equatable {
+public struct GetRecordsOutput: Swift.Equatable {
     /// The next position in the shard from which to start sequentially reading stream records. If set to null, the shard has been closed and the requested iterator will not return any more data.
     public var nextShardIterator: Swift.String?
     /// The stream records from the shard, which were retrieved using the shard iterator.
@@ -478,12 +463,12 @@ public struct GetRecordsOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetRecordsOutputResponseBody: Swift.Equatable {
+struct GetRecordsOutputBody: Swift.Equatable {
     let records: [DynamoDBStreamsClientTypes.Record]?
     let nextShardIterator: Swift.String?
 }
 
-extension GetRecordsOutputResponseBody: Swift.Decodable {
+extension GetRecordsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextShardIterator = "NextShardIterator"
         case records = "Records"
@@ -504,6 +489,21 @@ extension GetRecordsOutputResponseBody: Swift.Decodable {
         records = recordsDecoded0
         let nextShardIteratorDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextShardIterator)
         nextShardIterator = nextShardIteratorDecoded
+    }
+}
+
+enum GetRecordsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ExpiredIteratorException": return try await ExpiredIteratorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TrimmedDataAccessException": return try await TrimmedDataAccessException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -602,24 +602,11 @@ extension GetShardIteratorInputBody: Swift.Decodable {
     }
 }
 
-enum GetShardIteratorOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TrimmedDataAccessException": return try await TrimmedDataAccessException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetShardIteratorOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetShardIteratorOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetShardIteratorOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetShardIteratorOutputBody = try responseDecoder.decode(responseBody: data)
             self.shardIterator = output.shardIterator
         } else {
             self.shardIterator = nil
@@ -628,7 +615,7 @@ extension GetShardIteratorOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the output of a GetShardIterator operation.
-public struct GetShardIteratorOutputResponse: Swift.Equatable {
+public struct GetShardIteratorOutput: Swift.Equatable {
     /// The position in the shard from which to start reading stream records sequentially. A shard iterator specifies this position using the sequence number of a stream record in a shard.
     public var shardIterator: Swift.String?
 
@@ -640,11 +627,11 @@ public struct GetShardIteratorOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetShardIteratorOutputResponseBody: Swift.Equatable {
+struct GetShardIteratorOutputBody: Swift.Equatable {
     let shardIterator: Swift.String?
 }
 
-extension GetShardIteratorOutputResponseBody: Swift.Decodable {
+extension GetShardIteratorOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case shardIterator = "ShardIterator"
     }
@@ -653,6 +640,19 @@ extension GetShardIteratorOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let shardIteratorDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .shardIterator)
         shardIterator = shardIteratorDecoded
+    }
+}
+
+enum GetShardIteratorOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TrimmedDataAccessException": return try await TrimmedDataAccessException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -971,23 +971,11 @@ extension ListStreamsInputBody: Swift.Decodable {
     }
 }
 
-enum ListStreamsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListStreamsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListStreamsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListStreamsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListStreamsOutputBody = try responseDecoder.decode(responseBody: data)
             self.lastEvaluatedStreamArn = output.lastEvaluatedStreamArn
             self.streams = output.streams
         } else {
@@ -998,7 +986,7 @@ extension ListStreamsOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the output of a ListStreams operation.
-public struct ListStreamsOutputResponse: Swift.Equatable {
+public struct ListStreamsOutput: Swift.Equatable {
     /// The stream ARN of the item where the operation stopped, inclusive of the previous result set. Use this value to start a new operation, excluding this value in the new request. If LastEvaluatedStreamArn is empty, then the "last page" of results has been processed and there is no more data to be retrieved. If LastEvaluatedStreamArn is not empty, it does not necessarily mean that there is more data in the result set. The only way to know when you have reached the end of the result set is when LastEvaluatedStreamArn is empty.
     public var lastEvaluatedStreamArn: Swift.String?
     /// A list of stream descriptors associated with the current account and endpoint.
@@ -1014,12 +1002,12 @@ public struct ListStreamsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListStreamsOutputResponseBody: Swift.Equatable {
+struct ListStreamsOutputBody: Swift.Equatable {
     let streams: [DynamoDBStreamsClientTypes.Stream]?
     let lastEvaluatedStreamArn: Swift.String?
 }
 
-extension ListStreamsOutputResponseBody: Swift.Decodable {
+extension ListStreamsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case lastEvaluatedStreamArn = "LastEvaluatedStreamArn"
         case streams = "Streams"
@@ -1040,6 +1028,18 @@ extension ListStreamsOutputResponseBody: Swift.Decodable {
         streams = streamsDecoded0
         let lastEvaluatedStreamArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastEvaluatedStreamArn)
         lastEvaluatedStreamArn = lastEvaluatedStreamArnDecoded
+    }
+}
+
+enum ListStreamsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 

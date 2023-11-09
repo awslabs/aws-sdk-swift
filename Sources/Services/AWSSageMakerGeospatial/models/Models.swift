@@ -735,6 +735,16 @@ extension DeleteEarthObservationJobInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteEarthObservationJobOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteEarthObservationJobOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteEarthObservationJobOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -749,16 +759,6 @@ enum DeleteEarthObservationJobOutputError: ClientRuntime.HttpResponseErrorBindin
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteEarthObservationJobOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteEarthObservationJobOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteVectorEnrichmentJobInput: ClientRuntime.URLPathProvider {
@@ -792,6 +792,16 @@ extension DeleteVectorEnrichmentJobInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteVectorEnrichmentJobOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteVectorEnrichmentJobOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteVectorEnrichmentJobOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -806,16 +816,6 @@ enum DeleteVectorEnrichmentJobOutputError: ClientRuntime.HttpResponseErrorBindin
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteVectorEnrichmentJobOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteVectorEnrichmentJobOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension SageMakerGeospatialClientTypes.EarthObservationJobErrorDetails: Swift.Codable {
@@ -1138,28 +1138,11 @@ extension ExportEarthObservationJobInputBody: Swift.Decodable {
     }
 }
 
-enum ExportEarthObservationJobOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ExportEarthObservationJobOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ExportEarthObservationJobOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ExportEarthObservationJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ExportEarthObservationJobOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.creationTime = output.creationTime
             self.executionRoleArn = output.executionRoleArn
@@ -1177,7 +1160,7 @@ extension ExportEarthObservationJobOutputResponse: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct ExportEarthObservationJobOutputResponse: Swift.Equatable {
+public struct ExportEarthObservationJobOutput: Swift.Equatable {
     /// The output Amazon Resource Name (ARN) of the Earth Observation job being exported.
     /// This member is required.
     public var arn: Swift.String?
@@ -1214,7 +1197,7 @@ public struct ExportEarthObservationJobOutputResponse: Swift.Equatable {
     }
 }
 
-struct ExportEarthObservationJobOutputResponseBody: Swift.Equatable {
+struct ExportEarthObservationJobOutputBody: Swift.Equatable {
     let arn: Swift.String?
     let creationTime: ClientRuntime.Date?
     let exportStatus: SageMakerGeospatialClientTypes.EarthObservationJobExportStatus?
@@ -1223,7 +1206,7 @@ struct ExportEarthObservationJobOutputResponseBody: Swift.Equatable {
     let exportSourceImages: Swift.Bool?
 }
 
-extension ExportEarthObservationJobOutputResponseBody: Swift.Decodable {
+extension ExportEarthObservationJobOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "Arn"
         case creationTime = "CreationTime"
@@ -1247,6 +1230,23 @@ extension ExportEarthObservationJobOutputResponseBody: Swift.Decodable {
         outputConfig = outputConfigDecoded
         let exportSourceImagesDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .exportSourceImages)
         exportSourceImages = exportSourceImagesDecoded
+    }
+}
+
+enum ExportEarthObservationJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1506,6 +1506,91 @@ extension ExportVectorEnrichmentJobInputBody: Swift.Decodable {
     }
 }
 
+extension ExportVectorEnrichmentJobOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ExportVectorEnrichmentJobOutputBody = try responseDecoder.decode(responseBody: data)
+            self.arn = output.arn
+            self.creationTime = output.creationTime
+            self.executionRoleArn = output.executionRoleArn
+            self.exportStatus = output.exportStatus
+            self.outputConfig = output.outputConfig
+        } else {
+            self.arn = nil
+            self.creationTime = nil
+            self.executionRoleArn = nil
+            self.exportStatus = nil
+            self.outputConfig = nil
+        }
+    }
+}
+
+public struct ExportVectorEnrichmentJobOutput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the Vector Enrichment job being exported.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The creation time.
+    /// This member is required.
+    public var creationTime: ClientRuntime.Date?
+    /// The Amazon Resource Name (ARN) of the IAM role with permission to upload to the location in OutputConfig.
+    /// This member is required.
+    public var executionRoleArn: Swift.String?
+    /// The status of the results the Vector Enrichment job being exported.
+    /// This member is required.
+    public var exportStatus: SageMakerGeospatialClientTypes.VectorEnrichmentJobExportStatus?
+    /// Output location information for exporting Vector Enrichment Job results.
+    /// This member is required.
+    public var outputConfig: SageMakerGeospatialClientTypes.ExportVectorEnrichmentJobOutputConfig?
+
+    public init(
+        arn: Swift.String? = nil,
+        creationTime: ClientRuntime.Date? = nil,
+        executionRoleArn: Swift.String? = nil,
+        exportStatus: SageMakerGeospatialClientTypes.VectorEnrichmentJobExportStatus? = nil,
+        outputConfig: SageMakerGeospatialClientTypes.ExportVectorEnrichmentJobOutputConfig? = nil
+    )
+    {
+        self.arn = arn
+        self.creationTime = creationTime
+        self.executionRoleArn = executionRoleArn
+        self.exportStatus = exportStatus
+        self.outputConfig = outputConfig
+    }
+}
+
+struct ExportVectorEnrichmentJobOutputBody: Swift.Equatable {
+    let arn: Swift.String?
+    let creationTime: ClientRuntime.Date?
+    let executionRoleArn: Swift.String?
+    let exportStatus: SageMakerGeospatialClientTypes.VectorEnrichmentJobExportStatus?
+    let outputConfig: SageMakerGeospatialClientTypes.ExportVectorEnrichmentJobOutputConfig?
+}
+
+extension ExportVectorEnrichmentJobOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn = "Arn"
+        case creationTime = "CreationTime"
+        case executionRoleArn = "ExecutionRoleArn"
+        case exportStatus = "ExportStatus"
+        case outputConfig = "OutputConfig"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .creationTime)
+        creationTime = creationTimeDecoded
+        let executionRoleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .executionRoleArn)
+        executionRoleArn = executionRoleArnDecoded
+        let exportStatusDecoded = try containerValues.decodeIfPresent(SageMakerGeospatialClientTypes.VectorEnrichmentJobExportStatus.self, forKey: .exportStatus)
+        exportStatus = exportStatusDecoded
+        let outputConfigDecoded = try containerValues.decodeIfPresent(SageMakerGeospatialClientTypes.ExportVectorEnrichmentJobOutputConfig.self, forKey: .outputConfig)
+        outputConfig = outputConfigDecoded
+    }
+}
+
 extension SageMakerGeospatialClientTypes.ExportVectorEnrichmentJobOutputConfig: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case s3Data = "S3Data"
@@ -1556,91 +1641,6 @@ enum ExportVectorEnrichmentJobOutputError: ClientRuntime.HttpResponseErrorBindin
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension ExportVectorEnrichmentJobOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: ExportVectorEnrichmentJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.arn = output.arn
-            self.creationTime = output.creationTime
-            self.executionRoleArn = output.executionRoleArn
-            self.exportStatus = output.exportStatus
-            self.outputConfig = output.outputConfig
-        } else {
-            self.arn = nil
-            self.creationTime = nil
-            self.executionRoleArn = nil
-            self.exportStatus = nil
-            self.outputConfig = nil
-        }
-    }
-}
-
-public struct ExportVectorEnrichmentJobOutputResponse: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the Vector Enrichment job being exported.
-    /// This member is required.
-    public var arn: Swift.String?
-    /// The creation time.
-    /// This member is required.
-    public var creationTime: ClientRuntime.Date?
-    /// The Amazon Resource Name (ARN) of the IAM role with permission to upload to the location in OutputConfig.
-    /// This member is required.
-    public var executionRoleArn: Swift.String?
-    /// The status of the results the Vector Enrichment job being exported.
-    /// This member is required.
-    public var exportStatus: SageMakerGeospatialClientTypes.VectorEnrichmentJobExportStatus?
-    /// Output location information for exporting Vector Enrichment Job results.
-    /// This member is required.
-    public var outputConfig: SageMakerGeospatialClientTypes.ExportVectorEnrichmentJobOutputConfig?
-
-    public init(
-        arn: Swift.String? = nil,
-        creationTime: ClientRuntime.Date? = nil,
-        executionRoleArn: Swift.String? = nil,
-        exportStatus: SageMakerGeospatialClientTypes.VectorEnrichmentJobExportStatus? = nil,
-        outputConfig: SageMakerGeospatialClientTypes.ExportVectorEnrichmentJobOutputConfig? = nil
-    )
-    {
-        self.arn = arn
-        self.creationTime = creationTime
-        self.executionRoleArn = executionRoleArn
-        self.exportStatus = exportStatus
-        self.outputConfig = outputConfig
-    }
-}
-
-struct ExportVectorEnrichmentJobOutputResponseBody: Swift.Equatable {
-    let arn: Swift.String?
-    let creationTime: ClientRuntime.Date?
-    let executionRoleArn: Swift.String?
-    let exportStatus: SageMakerGeospatialClientTypes.VectorEnrichmentJobExportStatus?
-    let outputConfig: SageMakerGeospatialClientTypes.ExportVectorEnrichmentJobOutputConfig?
-}
-
-extension ExportVectorEnrichmentJobOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case arn = "Arn"
-        case creationTime = "CreationTime"
-        case executionRoleArn = "ExecutionRoleArn"
-        case exportStatus = "ExportStatus"
-        case outputConfig = "OutputConfig"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
-        arn = arnDecoded
-        let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .creationTime)
-        creationTime = creationTimeDecoded
-        let executionRoleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .executionRoleArn)
-        executionRoleArn = executionRoleArnDecoded
-        let exportStatusDecoded = try containerValues.decodeIfPresent(SageMakerGeospatialClientTypes.VectorEnrichmentJobExportStatus.self, forKey: .exportStatus)
-        exportStatus = exportStatusDecoded
-        let outputConfigDecoded = try containerValues.decodeIfPresent(SageMakerGeospatialClientTypes.ExportVectorEnrichmentJobOutputConfig.self, forKey: .outputConfig)
-        outputConfig = outputConfigDecoded
     }
 }
 
@@ -1882,26 +1882,11 @@ extension GetEarthObservationJobInputBody: Swift.Decodable {
     }
 }
 
-enum GetEarthObservationJobOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetEarthObservationJobOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetEarthObservationJobOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetEarthObservationJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetEarthObservationJobOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.creationTime = output.creationTime
             self.durationInSeconds = output.durationInSeconds
@@ -1935,7 +1920,7 @@ extension GetEarthObservationJobOutputResponse: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct GetEarthObservationJobOutputResponse: Swift.Equatable {
+public struct GetEarthObservationJobOutput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the Earth Observation job.
     /// This member is required.
     public var arn: Swift.String?
@@ -2006,7 +1991,7 @@ public struct GetEarthObservationJobOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetEarthObservationJobOutputResponseBody: Swift.Equatable {
+struct GetEarthObservationJobOutputBody: Swift.Equatable {
     let arn: Swift.String?
     let name: Swift.String?
     let creationTime: ClientRuntime.Date?
@@ -2023,7 +2008,7 @@ struct GetEarthObservationJobOutputResponseBody: Swift.Equatable {
     let tags: [Swift.String:Swift.String]?
 }
 
-extension GetEarthObservationJobOutputResponseBody: Swift.Decodable {
+extension GetEarthObservationJobOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "Arn"
         case creationTime = "CreationTime"
@@ -2092,6 +2077,21 @@ extension GetEarthObservationJobOutputResponseBody: Swift.Decodable {
     }
 }
 
+enum GetEarthObservationJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension GetRasterDataCollectionInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let arn = arn else {
@@ -2123,26 +2123,11 @@ extension GetRasterDataCollectionInputBody: Swift.Decodable {
     }
 }
 
-enum GetRasterDataCollectionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetRasterDataCollectionOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetRasterDataCollectionOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetRasterDataCollectionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetRasterDataCollectionOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.description = output.description
             self.descriptionPageUrl = output.descriptionPageUrl
@@ -2164,7 +2149,7 @@ extension GetRasterDataCollectionOutputResponse: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct GetRasterDataCollectionOutputResponse: Swift.Equatable {
+public struct GetRasterDataCollectionOutput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the raster data collection.
     /// This member is required.
     public var arn: Swift.String?
@@ -2211,7 +2196,7 @@ public struct GetRasterDataCollectionOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetRasterDataCollectionOutputResponseBody: Swift.Equatable {
+struct GetRasterDataCollectionOutputBody: Swift.Equatable {
     let name: Swift.String?
     let arn: Swift.String?
     let type: SageMakerGeospatialClientTypes.DataCollectionType?
@@ -2222,7 +2207,7 @@ struct GetRasterDataCollectionOutputResponseBody: Swift.Equatable {
     let tags: [Swift.String:Swift.String]?
 }
 
-extension GetRasterDataCollectionOutputResponseBody: Swift.Decodable {
+extension GetRasterDataCollectionOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "Arn"
         case description = "Description"
@@ -2279,6 +2264,21 @@ extension GetRasterDataCollectionOutputResponseBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+    }
+}
+
+enum GetRasterDataCollectionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2421,22 +2421,7 @@ extension GetTileInputBody: Swift.Decodable {
     }
 }
 
-enum GetTileOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetTileOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetTileOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         switch httpResponse.body {
         case .data(let data):
@@ -2449,7 +2434,7 @@ extension GetTileOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetTileOutputResponse: Swift.Equatable {
+public struct GetTileOutput: Swift.Equatable {
     /// The output binary file.
     public var binaryFile: ClientRuntime.ByteStream?
 
@@ -2461,11 +2446,11 @@ public struct GetTileOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetTileOutputResponseBody: Swift.Equatable {
+struct GetTileOutputBody: Swift.Equatable {
     let binaryFile: ClientRuntime.ByteStream?
 }
 
-extension GetTileOutputResponseBody: Swift.Decodable {
+extension GetTileOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case binaryFile = "BinaryFile"
     }
@@ -2474,6 +2459,21 @@ extension GetTileOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let binaryFileDecoded = try containerValues.decodeIfPresent(ClientRuntime.ByteStream.self, forKey: .binaryFile)
         binaryFile = binaryFileDecoded
+    }
+}
+
+enum GetTileOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2508,26 +2508,11 @@ extension GetVectorEnrichmentJobInputBody: Swift.Decodable {
     }
 }
 
-enum GetVectorEnrichmentJobOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetVectorEnrichmentJobOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetVectorEnrichmentJobOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetVectorEnrichmentJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetVectorEnrichmentJobOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.creationTime = output.creationTime
             self.durationInSeconds = output.durationInSeconds
@@ -2561,7 +2546,7 @@ extension GetVectorEnrichmentJobOutputResponse: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct GetVectorEnrichmentJobOutputResponse: Swift.Equatable {
+public struct GetVectorEnrichmentJobOutput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the Vector Enrichment job.
     /// This member is required.
     public var arn: Swift.String?
@@ -2634,7 +2619,7 @@ public struct GetVectorEnrichmentJobOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetVectorEnrichmentJobOutputResponseBody: Swift.Equatable {
+struct GetVectorEnrichmentJobOutputBody: Swift.Equatable {
     let arn: Swift.String?
     let type: SageMakerGeospatialClientTypes.VectorEnrichmentJobType?
     let name: Swift.String?
@@ -2651,7 +2636,7 @@ struct GetVectorEnrichmentJobOutputResponseBody: Swift.Equatable {
     let tags: [Swift.String:Swift.String]?
 }
 
-extension GetVectorEnrichmentJobOutputResponseBody: Swift.Decodable {
+extension GetVectorEnrichmentJobOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "Arn"
         case creationTime = "CreationTime"
@@ -2708,6 +2693,21 @@ extension GetVectorEnrichmentJobOutputResponseBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+    }
+}
+
+enum GetVectorEnrichmentJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3388,31 +3388,16 @@ extension ListEarthObservationJobsInputBody: Swift.Decodable {
     }
 }
 
-enum ListEarthObservationJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListEarthObservationJobsOutputResponse: Swift.CustomDebugStringConvertible {
+extension ListEarthObservationJobsOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ListEarthObservationJobsOutputResponse(earthObservationJobSummaries: \(Swift.String(describing: earthObservationJobSummaries)), nextToken: \"CONTENT_REDACTED\")"}
+        "ListEarthObservationJobsOutput(earthObservationJobSummaries: \(Swift.String(describing: earthObservationJobSummaries)), nextToken: \"CONTENT_REDACTED\")"}
 }
 
-extension ListEarthObservationJobsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListEarthObservationJobsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListEarthObservationJobsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListEarthObservationJobsOutputBody = try responseDecoder.decode(responseBody: data)
             self.earthObservationJobSummaries = output.earthObservationJobSummaries
             self.nextToken = output.nextToken
         } else {
@@ -3422,7 +3407,7 @@ extension ListEarthObservationJobsOutputResponse: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct ListEarthObservationJobsOutputResponse: Swift.Equatable {
+public struct ListEarthObservationJobsOutput: Swift.Equatable {
     /// Contains summary information about the Earth Observation jobs.
     /// This member is required.
     public var earthObservationJobSummaries: [SageMakerGeospatialClientTypes.ListEarthObservationJobOutputConfig]?
@@ -3439,12 +3424,12 @@ public struct ListEarthObservationJobsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListEarthObservationJobsOutputResponseBody: Swift.Equatable {
+struct ListEarthObservationJobsOutputBody: Swift.Equatable {
     let earthObservationJobSummaries: [SageMakerGeospatialClientTypes.ListEarthObservationJobOutputConfig]?
     let nextToken: Swift.String?
 }
 
-extension ListEarthObservationJobsOutputResponseBody: Swift.Decodable {
+extension ListEarthObservationJobsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case earthObservationJobSummaries = "EarthObservationJobSummaries"
         case nextToken = "NextToken"
@@ -3465,6 +3450,21 @@ extension ListEarthObservationJobsOutputResponseBody: Swift.Decodable {
         earthObservationJobSummaries = earthObservationJobSummariesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListEarthObservationJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3521,31 +3521,16 @@ extension ListRasterDataCollectionsInputBody: Swift.Decodable {
     }
 }
 
-enum ListRasterDataCollectionsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListRasterDataCollectionsOutputResponse: Swift.CustomDebugStringConvertible {
+extension ListRasterDataCollectionsOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ListRasterDataCollectionsOutputResponse(rasterDataCollectionSummaries: \(Swift.String(describing: rasterDataCollectionSummaries)), nextToken: \"CONTENT_REDACTED\")"}
+        "ListRasterDataCollectionsOutput(rasterDataCollectionSummaries: \(Swift.String(describing: rasterDataCollectionSummaries)), nextToken: \"CONTENT_REDACTED\")"}
 }
 
-extension ListRasterDataCollectionsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListRasterDataCollectionsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListRasterDataCollectionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListRasterDataCollectionsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.rasterDataCollectionSummaries = output.rasterDataCollectionSummaries
         } else {
@@ -3555,7 +3540,7 @@ extension ListRasterDataCollectionsOutputResponse: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct ListRasterDataCollectionsOutputResponse: Swift.Equatable {
+public struct ListRasterDataCollectionsOutput: Swift.Equatable {
     /// If the previous response was truncated, you receive this token. Use it in your next request to receive the next set of results.
     public var nextToken: Swift.String?
     /// Contains summary information about the raster data collection.
@@ -3572,12 +3557,12 @@ public struct ListRasterDataCollectionsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListRasterDataCollectionsOutputResponseBody: Swift.Equatable {
+struct ListRasterDataCollectionsOutputBody: Swift.Equatable {
     let rasterDataCollectionSummaries: [SageMakerGeospatialClientTypes.RasterDataCollectionMetadata]?
     let nextToken: Swift.String?
 }
 
-extension ListRasterDataCollectionsOutputResponseBody: Swift.Decodable {
+extension ListRasterDataCollectionsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case rasterDataCollectionSummaries = "RasterDataCollectionSummaries"
@@ -3598,6 +3583,21 @@ extension ListRasterDataCollectionsOutputResponseBody: Swift.Decodable {
         rasterDataCollectionSummaries = rasterDataCollectionSummariesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListRasterDataCollectionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3632,26 +3632,11 @@ extension ListTagsForResourceInputBody: Swift.Decodable {
     }
 }
 
-enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListTagsForResourceOutputBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
         } else {
             self.tags = nil
@@ -3659,7 +3644,7 @@ extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutputResponse: Swift.Equatable {
+public struct ListTagsForResourceOutput: Swift.Equatable {
     /// Each tag consists of a key and a value.
     public var tags: [Swift.String:Swift.String]?
 
@@ -3671,11 +3656,11 @@ public struct ListTagsForResourceOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputResponseBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody: Swift.Equatable {
     let tags: [Swift.String:Swift.String]?
 }
 
-extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
+extension ListTagsForResourceOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case tags = "Tags"
     }
@@ -3693,6 +3678,21 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+    }
+}
+
+enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3909,31 +3909,16 @@ extension ListVectorEnrichmentJobsInputBody: Swift.Decodable {
     }
 }
 
-enum ListVectorEnrichmentJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListVectorEnrichmentJobsOutputResponse: Swift.CustomDebugStringConvertible {
+extension ListVectorEnrichmentJobsOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ListVectorEnrichmentJobsOutputResponse(vectorEnrichmentJobSummaries: \(Swift.String(describing: vectorEnrichmentJobSummaries)), nextToken: \"CONTENT_REDACTED\")"}
+        "ListVectorEnrichmentJobsOutput(vectorEnrichmentJobSummaries: \(Swift.String(describing: vectorEnrichmentJobSummaries)), nextToken: \"CONTENT_REDACTED\")"}
 }
 
-extension ListVectorEnrichmentJobsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListVectorEnrichmentJobsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListVectorEnrichmentJobsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListVectorEnrichmentJobsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.vectorEnrichmentJobSummaries = output.vectorEnrichmentJobSummaries
         } else {
@@ -3943,7 +3928,7 @@ extension ListVectorEnrichmentJobsOutputResponse: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct ListVectorEnrichmentJobsOutputResponse: Swift.Equatable {
+public struct ListVectorEnrichmentJobsOutput: Swift.Equatable {
     /// If the previous response was truncated, you receive this token. Use it in your next request to receive the next set of results.
     public var nextToken: Swift.String?
     /// Contains summary information about the Vector Enrichment jobs.
@@ -3960,12 +3945,12 @@ public struct ListVectorEnrichmentJobsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListVectorEnrichmentJobsOutputResponseBody: Swift.Equatable {
+struct ListVectorEnrichmentJobsOutputBody: Swift.Equatable {
     let vectorEnrichmentJobSummaries: [SageMakerGeospatialClientTypes.ListVectorEnrichmentJobOutputConfig]?
     let nextToken: Swift.String?
 }
 
-extension ListVectorEnrichmentJobsOutputResponseBody: Swift.Decodable {
+extension ListVectorEnrichmentJobsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case vectorEnrichmentJobSummaries = "VectorEnrichmentJobSummaries"
@@ -3986,6 +3971,21 @@ extension ListVectorEnrichmentJobsOutputResponseBody: Swift.Decodable {
         vectorEnrichmentJobSummaries = vectorEnrichmentJobSummariesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListVectorEnrichmentJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5481,31 +5481,16 @@ extension SearchRasterDataCollectionInputBody: Swift.Decodable {
     }
 }
 
-enum SearchRasterDataCollectionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension SearchRasterDataCollectionOutputResponse: Swift.CustomDebugStringConvertible {
+extension SearchRasterDataCollectionOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "SearchRasterDataCollectionOutputResponse(approximateResultCount: \(Swift.String(describing: approximateResultCount)), items: \(Swift.String(describing: items)), nextToken: \"CONTENT_REDACTED\")"}
+        "SearchRasterDataCollectionOutput(approximateResultCount: \(Swift.String(describing: approximateResultCount)), items: \(Swift.String(describing: items)), nextToken: \"CONTENT_REDACTED\")"}
 }
 
-extension SearchRasterDataCollectionOutputResponse: ClientRuntime.HttpResponseBinding {
+extension SearchRasterDataCollectionOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: SearchRasterDataCollectionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: SearchRasterDataCollectionOutputBody = try responseDecoder.decode(responseBody: data)
             self.approximateResultCount = output.approximateResultCount
             self.items = output.items
             self.nextToken = output.nextToken
@@ -5517,7 +5502,7 @@ extension SearchRasterDataCollectionOutputResponse: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct SearchRasterDataCollectionOutputResponse: Swift.Equatable {
+public struct SearchRasterDataCollectionOutput: Swift.Equatable {
     /// Approximate number of results in the response.
     /// This member is required.
     public var approximateResultCount: Swift.Int?
@@ -5538,13 +5523,13 @@ public struct SearchRasterDataCollectionOutputResponse: Swift.Equatable {
     }
 }
 
-struct SearchRasterDataCollectionOutputResponseBody: Swift.Equatable {
+struct SearchRasterDataCollectionOutputBody: Swift.Equatable {
     let approximateResultCount: Swift.Int?
     let nextToken: Swift.String?
     let items: [SageMakerGeospatialClientTypes.ItemSource]?
 }
 
-extension SearchRasterDataCollectionOutputResponseBody: Swift.Decodable {
+extension SearchRasterDataCollectionOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case approximateResultCount = "ApproximateResultCount"
         case items = "Items"
@@ -5568,6 +5553,21 @@ extension SearchRasterDataCollectionOutputResponseBody: Swift.Decodable {
             }
         }
         items = itemsDecoded0
+    }
+}
+
+enum SearchRasterDataCollectionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5863,28 +5863,11 @@ extension StartEarthObservationJobInputBody: Swift.Decodable {
     }
 }
 
-enum StartEarthObservationJobOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension StartEarthObservationJobOutputResponse: ClientRuntime.HttpResponseBinding {
+extension StartEarthObservationJobOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: StartEarthObservationJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: StartEarthObservationJobOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.creationTime = output.creationTime
             self.durationInSeconds = output.durationInSeconds
@@ -5910,7 +5893,7 @@ extension StartEarthObservationJobOutputResponse: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct StartEarthObservationJobOutputResponse: Swift.Equatable {
+public struct StartEarthObservationJobOutput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the Earth Observation job.
     /// This member is required.
     public var arn: Swift.String?
@@ -5965,7 +5948,7 @@ public struct StartEarthObservationJobOutputResponse: Swift.Equatable {
     }
 }
 
-struct StartEarthObservationJobOutputResponseBody: Swift.Equatable {
+struct StartEarthObservationJobOutputBody: Swift.Equatable {
     let name: Swift.String?
     let arn: Swift.String?
     let creationTime: ClientRuntime.Date?
@@ -5978,7 +5961,7 @@ struct StartEarthObservationJobOutputResponseBody: Swift.Equatable {
     let tags: [Swift.String:Swift.String]?
 }
 
-extension StartEarthObservationJobOutputResponseBody: Swift.Decodable {
+extension StartEarthObservationJobOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "Arn"
         case creationTime = "CreationTime"
@@ -6023,6 +6006,23 @@ extension StartEarthObservationJobOutputResponseBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+    }
+}
+
+enum StartEarthObservationJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -6161,28 +6161,11 @@ extension StartVectorEnrichmentJobInputBody: Swift.Decodable {
     }
 }
 
-enum StartVectorEnrichmentJobOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension StartVectorEnrichmentJobOutputResponse: ClientRuntime.HttpResponseBinding {
+extension StartVectorEnrichmentJobOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: StartVectorEnrichmentJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: StartVectorEnrichmentJobOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.creationTime = output.creationTime
             self.durationInSeconds = output.durationInSeconds
@@ -6210,7 +6193,7 @@ extension StartVectorEnrichmentJobOutputResponse: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct StartVectorEnrichmentJobOutputResponse: Swift.Equatable {
+public struct StartVectorEnrichmentJobOutput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the Vector Enrichment job.
     /// This member is required.
     public var arn: Swift.String?
@@ -6271,7 +6254,7 @@ public struct StartVectorEnrichmentJobOutputResponse: Swift.Equatable {
     }
 }
 
-struct StartVectorEnrichmentJobOutputResponseBody: Swift.Equatable {
+struct StartVectorEnrichmentJobOutputBody: Swift.Equatable {
     let name: Swift.String?
     let arn: Swift.String?
     let type: SageMakerGeospatialClientTypes.VectorEnrichmentJobType?
@@ -6285,7 +6268,7 @@ struct StartVectorEnrichmentJobOutputResponseBody: Swift.Equatable {
     let tags: [Swift.String:Swift.String]?
 }
 
-extension StartVectorEnrichmentJobOutputResponseBody: Swift.Decodable {
+extension StartVectorEnrichmentJobOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "Arn"
         case creationTime = "CreationTime"
@@ -6333,6 +6316,23 @@ extension StartVectorEnrichmentJobOutputResponseBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+    }
+}
+
+enum StartVectorEnrichmentJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -6384,6 +6384,16 @@ extension StopEarthObservationJobInputBody: Swift.Decodable {
     }
 }
 
+extension StopEarthObservationJobOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct StopEarthObservationJobOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum StopEarthObservationJobOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -6398,16 +6408,6 @@ enum StopEarthObservationJobOutputError: ClientRuntime.HttpResponseErrorBinding 
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension StopEarthObservationJobOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct StopEarthObservationJobOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension StopVectorEnrichmentJobInput: Swift.Encodable {
@@ -6458,6 +6458,16 @@ extension StopVectorEnrichmentJobInputBody: Swift.Decodable {
     }
 }
 
+extension StopVectorEnrichmentJobOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct StopVectorEnrichmentJobOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum StopVectorEnrichmentJobOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -6472,16 +6482,6 @@ enum StopVectorEnrichmentJobOutputError: ClientRuntime.HttpResponseErrorBinding 
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension StopVectorEnrichmentJobOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct StopVectorEnrichmentJobOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension TagResourceInput: Swift.Encodable {
@@ -6552,6 +6552,16 @@ extension TagResourceInputBody: Swift.Decodable {
     }
 }
 
+extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct TagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -6565,16 +6575,6 @@ enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct TagResourceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension SageMakerGeospatialClientTypes {
@@ -6984,6 +6984,16 @@ extension UntagResourceInputBody: Swift.Decodable {
     }
 }
 
+extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UntagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -6997,16 +7007,6 @@ enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UntagResourceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension SageMakerGeospatialClientTypes.UserDefined: Swift.Codable {

@@ -105,23 +105,11 @@ extension CancelResourceRequestInputBody: Swift.Decodable {
     }
 }
 
-enum CancelResourceRequestOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ConcurrentModificationException": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "RequestTokenNotFoundException": return try await RequestTokenNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CancelResourceRequestOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CancelResourceRequestOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CancelResourceRequestOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CancelResourceRequestOutputBody = try responseDecoder.decode(responseBody: data)
             self.progressEvent = output.progressEvent
         } else {
             self.progressEvent = nil
@@ -129,7 +117,7 @@ extension CancelResourceRequestOutputResponse: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct CancelResourceRequestOutputResponse: Swift.Equatable {
+public struct CancelResourceRequestOutput: Swift.Equatable {
     /// Represents the current status of a resource operation request. For more information, see [Managing resource operation requests](https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/resource-operations-manage-requests.html) in the Amazon Web Services Cloud Control API User Guide.
     public var progressEvent: CloudControlClientTypes.ProgressEvent?
 
@@ -141,11 +129,11 @@ public struct CancelResourceRequestOutputResponse: Swift.Equatable {
     }
 }
 
-struct CancelResourceRequestOutputResponseBody: Swift.Equatable {
+struct CancelResourceRequestOutputBody: Swift.Equatable {
     let progressEvent: CloudControlClientTypes.ProgressEvent?
 }
 
-extension CancelResourceRequestOutputResponseBody: Swift.Decodable {
+extension CancelResourceRequestOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case progressEvent = "ProgressEvent"
     }
@@ -154,6 +142,18 @@ extension CancelResourceRequestOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let progressEventDecoded = try containerValues.decodeIfPresent(CloudControlClientTypes.ProgressEvent.self, forKey: .progressEvent)
         progressEvent = progressEventDecoded
+    }
+}
+
+enum CancelResourceRequestOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConcurrentModificationException": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RequestTokenNotFoundException": return try await RequestTokenNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -431,6 +431,46 @@ extension CreateResourceInputBody: Swift.Decodable {
     }
 }
 
+extension CreateResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateResourceOutputBody = try responseDecoder.decode(responseBody: data)
+            self.progressEvent = output.progressEvent
+        } else {
+            self.progressEvent = nil
+        }
+    }
+}
+
+public struct CreateResourceOutput: Swift.Equatable {
+    /// Represents the current status of the resource creation request. After you have initiated a resource creation request, you can monitor the progress of your request by calling [GetResourceRequestStatus](https://docs.aws.amazon.com/cloudcontrolapi/latest/APIReference/API_GetResourceRequestStatus.html) using the RequestToken of the ProgressEvent returned by CreateResource.
+    public var progressEvent: CloudControlClientTypes.ProgressEvent?
+
+    public init(
+        progressEvent: CloudControlClientTypes.ProgressEvent? = nil
+    )
+    {
+        self.progressEvent = progressEvent
+    }
+}
+
+struct CreateResourceOutputBody: Swift.Equatable {
+    let progressEvent: CloudControlClientTypes.ProgressEvent?
+}
+
+extension CreateResourceOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case progressEvent = "ProgressEvent"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let progressEventDecoded = try containerValues.decodeIfPresent(CloudControlClientTypes.ProgressEvent.self, forKey: .progressEvent)
+        progressEvent = progressEventDecoded
+    }
+}
+
 enum CreateResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -457,46 +497,6 @@ enum CreateResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "UnsupportedActionException": return try await UnsupportedActionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension CreateResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.progressEvent = output.progressEvent
-        } else {
-            self.progressEvent = nil
-        }
-    }
-}
-
-public struct CreateResourceOutputResponse: Swift.Equatable {
-    /// Represents the current status of the resource creation request. After you have initiated a resource creation request, you can monitor the progress of your request by calling [GetResourceRequestStatus](https://docs.aws.amazon.com/cloudcontrolapi/latest/APIReference/API_GetResourceRequestStatus.html) using the RequestToken of the ProgressEvent returned by CreateResource.
-    public var progressEvent: CloudControlClientTypes.ProgressEvent?
-
-    public init(
-        progressEvent: CloudControlClientTypes.ProgressEvent? = nil
-    )
-    {
-        self.progressEvent = progressEvent
-    }
-}
-
-struct CreateResourceOutputResponseBody: Swift.Equatable {
-    let progressEvent: CloudControlClientTypes.ProgressEvent?
-}
-
-extension CreateResourceOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case progressEvent = "ProgressEvent"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let progressEventDecoded = try containerValues.decodeIfPresent(CloudControlClientTypes.ProgressEvent.self, forKey: .progressEvent)
-        progressEvent = progressEventDecoded
     }
 }
 
@@ -597,6 +597,46 @@ extension DeleteResourceInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DeleteResourceOutputBody = try responseDecoder.decode(responseBody: data)
+            self.progressEvent = output.progressEvent
+        } else {
+            self.progressEvent = nil
+        }
+    }
+}
+
+public struct DeleteResourceOutput: Swift.Equatable {
+    /// Represents the current status of the resource deletion request. After you have initiated a resource deletion request, you can monitor the progress of your request by calling [GetResourceRequestStatus](https://docs.aws.amazon.com/cloudcontrolapi/latest/APIReference/API_GetResourceRequestStatus.html) using the RequestToken of the ProgressEvent returned by DeleteResource.
+    public var progressEvent: CloudControlClientTypes.ProgressEvent?
+
+    public init(
+        progressEvent: CloudControlClientTypes.ProgressEvent? = nil
+    )
+    {
+        self.progressEvent = progressEvent
+    }
+}
+
+struct DeleteResourceOutputBody: Swift.Equatable {
+    let progressEvent: CloudControlClientTypes.ProgressEvent?
+}
+
+extension DeleteResourceOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case progressEvent = "ProgressEvent"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let progressEventDecoded = try containerValues.decodeIfPresent(CloudControlClientTypes.ProgressEvent.self, forKey: .progressEvent)
+        progressEvent = progressEventDecoded
+    }
+}
+
 enum DeleteResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -623,46 +663,6 @@ enum DeleteResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "UnsupportedActionException": return try await UnsupportedActionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension DeleteResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: DeleteResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.progressEvent = output.progressEvent
-        } else {
-            self.progressEvent = nil
-        }
-    }
-}
-
-public struct DeleteResourceOutputResponse: Swift.Equatable {
-    /// Represents the current status of the resource deletion request. After you have initiated a resource deletion request, you can monitor the progress of your request by calling [GetResourceRequestStatus](https://docs.aws.amazon.com/cloudcontrolapi/latest/APIReference/API_GetResourceRequestStatus.html) using the RequestToken of the ProgressEvent returned by DeleteResource.
-    public var progressEvent: CloudControlClientTypes.ProgressEvent?
-
-    public init(
-        progressEvent: CloudControlClientTypes.ProgressEvent? = nil
-    )
-    {
-        self.progressEvent = progressEvent
-    }
-}
-
-struct DeleteResourceOutputResponseBody: Swift.Equatable {
-    let progressEvent: CloudControlClientTypes.ProgressEvent?
-}
-
-extension DeleteResourceOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case progressEvent = "ProgressEvent"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let progressEventDecoded = try containerValues.decodeIfPresent(CloudControlClientTypes.ProgressEvent.self, forKey: .progressEvent)
-        progressEvent = progressEventDecoded
     }
 }
 
@@ -806,6 +806,56 @@ extension GetResourceInputBody: Swift.Decodable {
     }
 }
 
+extension GetResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetResourceOutputBody = try responseDecoder.decode(responseBody: data)
+            self.resourceDescription = output.resourceDescription
+            self.typeName = output.typeName
+        } else {
+            self.resourceDescription = nil
+            self.typeName = nil
+        }
+    }
+}
+
+public struct GetResourceOutput: Swift.Equatable {
+    /// Represents information about a provisioned resource.
+    public var resourceDescription: CloudControlClientTypes.ResourceDescription?
+    /// The name of the resource type.
+    public var typeName: Swift.String?
+
+    public init(
+        resourceDescription: CloudControlClientTypes.ResourceDescription? = nil,
+        typeName: Swift.String? = nil
+    )
+    {
+        self.resourceDescription = resourceDescription
+        self.typeName = typeName
+    }
+}
+
+struct GetResourceOutputBody: Swift.Equatable {
+    let typeName: Swift.String?
+    let resourceDescription: CloudControlClientTypes.ResourceDescription?
+}
+
+extension GetResourceOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case resourceDescription = "ResourceDescription"
+        case typeName = "TypeName"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let typeNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .typeName)
+        typeName = typeNameDecoded
+        let resourceDescriptionDecoded = try containerValues.decodeIfPresent(CloudControlClientTypes.ResourceDescription.self, forKey: .resourceDescription)
+        resourceDescription = resourceDescriptionDecoded
+    }
+}
+
 enum GetResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -830,56 +880,6 @@ enum GetResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "UnsupportedActionException": return try await UnsupportedActionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.resourceDescription = output.resourceDescription
-            self.typeName = output.typeName
-        } else {
-            self.resourceDescription = nil
-            self.typeName = nil
-        }
-    }
-}
-
-public struct GetResourceOutputResponse: Swift.Equatable {
-    /// Represents information about a provisioned resource.
-    public var resourceDescription: CloudControlClientTypes.ResourceDescription?
-    /// The name of the resource type.
-    public var typeName: Swift.String?
-
-    public init(
-        resourceDescription: CloudControlClientTypes.ResourceDescription? = nil,
-        typeName: Swift.String? = nil
-    )
-    {
-        self.resourceDescription = resourceDescription
-        self.typeName = typeName
-    }
-}
-
-struct GetResourceOutputResponseBody: Swift.Equatable {
-    let typeName: Swift.String?
-    let resourceDescription: CloudControlClientTypes.ResourceDescription?
-}
-
-extension GetResourceOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case resourceDescription = "ResourceDescription"
-        case typeName = "TypeName"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let typeNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .typeName)
-        typeName = typeNameDecoded
-        let resourceDescriptionDecoded = try containerValues.decodeIfPresent(CloudControlClientTypes.ResourceDescription.self, forKey: .resourceDescription)
-        resourceDescription = resourceDescriptionDecoded
     }
 }
 
@@ -931,22 +931,11 @@ extension GetResourceRequestStatusInputBody: Swift.Decodable {
     }
 }
 
-enum GetResourceRequestStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "RequestTokenNotFoundException": return try await RequestTokenNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetResourceRequestStatusOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetResourceRequestStatusOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetResourceRequestStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetResourceRequestStatusOutputBody = try responseDecoder.decode(responseBody: data)
             self.progressEvent = output.progressEvent
         } else {
             self.progressEvent = nil
@@ -954,7 +943,7 @@ extension GetResourceRequestStatusOutputResponse: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct GetResourceRequestStatusOutputResponse: Swift.Equatable {
+public struct GetResourceRequestStatusOutput: Swift.Equatable {
     /// Represents the current status of the resource operation request.
     public var progressEvent: CloudControlClientTypes.ProgressEvent?
 
@@ -966,11 +955,11 @@ public struct GetResourceRequestStatusOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetResourceRequestStatusOutputResponseBody: Swift.Equatable {
+struct GetResourceRequestStatusOutputBody: Swift.Equatable {
     let progressEvent: CloudControlClientTypes.ProgressEvent?
 }
 
-extension GetResourceRequestStatusOutputResponseBody: Swift.Decodable {
+extension GetResourceRequestStatusOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case progressEvent = "ProgressEvent"
     }
@@ -979,6 +968,17 @@ extension GetResourceRequestStatusOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let progressEventDecoded = try containerValues.decodeIfPresent(CloudControlClientTypes.ProgressEvent.self, forKey: .progressEvent)
         progressEvent = progressEventDecoded
+    }
+}
+
+enum GetResourceRequestStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "RequestTokenNotFoundException": return try await RequestTokenNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1344,21 +1344,11 @@ extension ListResourceRequestsInputBody: Swift.Decodable {
     }
 }
 
-enum ListResourceRequestsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListResourceRequestsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListResourceRequestsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListResourceRequestsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListResourceRequestsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.resourceRequestStatusSummaries = output.resourceRequestStatusSummaries
         } else {
@@ -1368,7 +1358,7 @@ extension ListResourceRequestsOutputResponse: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct ListResourceRequestsOutputResponse: Swift.Equatable {
+public struct ListResourceRequestsOutput: Swift.Equatable {
     /// If the request doesn't return all of the remaining results, NextToken is set to a token. To retrieve the next set of results, call ListResources again and assign that token to the request object's NextToken parameter. If the request returns all results, NextToken is set to null.
     public var nextToken: Swift.String?
     /// The requests that match the specified filter criteria.
@@ -1384,12 +1374,12 @@ public struct ListResourceRequestsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListResourceRequestsOutputResponseBody: Swift.Equatable {
+struct ListResourceRequestsOutputBody: Swift.Equatable {
     let resourceRequestStatusSummaries: [CloudControlClientTypes.ProgressEvent]?
     let nextToken: Swift.String?
 }
 
-extension ListResourceRequestsOutputResponseBody: Swift.Decodable {
+extension ListResourceRequestsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case resourceRequestStatusSummaries = "ResourceRequestStatusSummaries"
@@ -1410,6 +1400,16 @@ extension ListResourceRequestsOutputResponseBody: Swift.Decodable {
         resourceRequestStatusSummaries = resourceRequestStatusSummariesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListResourceRequestsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1526,6 +1526,75 @@ extension ListResourcesInputBody: Swift.Decodable {
     }
 }
 
+extension ListResourcesOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListResourcesOutputBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.resourceDescriptions = output.resourceDescriptions
+            self.typeName = output.typeName
+        } else {
+            self.nextToken = nil
+            self.resourceDescriptions = nil
+            self.typeName = nil
+        }
+    }
+}
+
+public struct ListResourcesOutput: Swift.Equatable {
+    /// If the request doesn't return all of the remaining results, NextToken is set to a token. To retrieve the next set of results, call ListResources again and assign that token to the request object's NextToken parameter. If the request returns all results, NextToken is set to null.
+    public var nextToken: Swift.String?
+    /// Information about the specified resources, including primary identifier and resource model.
+    public var resourceDescriptions: [CloudControlClientTypes.ResourceDescription]?
+    /// The name of the resource type.
+    public var typeName: Swift.String?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        resourceDescriptions: [CloudControlClientTypes.ResourceDescription]? = nil,
+        typeName: Swift.String? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.resourceDescriptions = resourceDescriptions
+        self.typeName = typeName
+    }
+}
+
+struct ListResourcesOutputBody: Swift.Equatable {
+    let typeName: Swift.String?
+    let resourceDescriptions: [CloudControlClientTypes.ResourceDescription]?
+    let nextToken: Swift.String?
+}
+
+extension ListResourcesOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken = "NextToken"
+        case resourceDescriptions = "ResourceDescriptions"
+        case typeName = "TypeName"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let typeNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .typeName)
+        typeName = typeNameDecoded
+        let resourceDescriptionsContainer = try containerValues.decodeIfPresent([CloudControlClientTypes.ResourceDescription?].self, forKey: .resourceDescriptions)
+        var resourceDescriptionsDecoded0:[CloudControlClientTypes.ResourceDescription]? = nil
+        if let resourceDescriptionsContainer = resourceDescriptionsContainer {
+            resourceDescriptionsDecoded0 = [CloudControlClientTypes.ResourceDescription]()
+            for structure0 in resourceDescriptionsContainer {
+                if let structure0 = structure0 {
+                    resourceDescriptionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        resourceDescriptions = resourceDescriptionsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
 enum ListResourcesOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -1550,75 +1619,6 @@ enum ListResourcesOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "UnsupportedActionException": return try await UnsupportedActionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension ListResourcesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: ListResourcesOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.nextToken = output.nextToken
-            self.resourceDescriptions = output.resourceDescriptions
-            self.typeName = output.typeName
-        } else {
-            self.nextToken = nil
-            self.resourceDescriptions = nil
-            self.typeName = nil
-        }
-    }
-}
-
-public struct ListResourcesOutputResponse: Swift.Equatable {
-    /// If the request doesn't return all of the remaining results, NextToken is set to a token. To retrieve the next set of results, call ListResources again and assign that token to the request object's NextToken parameter. If the request returns all results, NextToken is set to null.
-    public var nextToken: Swift.String?
-    /// Information about the specified resources, including primary identifier and resource model.
-    public var resourceDescriptions: [CloudControlClientTypes.ResourceDescription]?
-    /// The name of the resource type.
-    public var typeName: Swift.String?
-
-    public init(
-        nextToken: Swift.String? = nil,
-        resourceDescriptions: [CloudControlClientTypes.ResourceDescription]? = nil,
-        typeName: Swift.String? = nil
-    )
-    {
-        self.nextToken = nextToken
-        self.resourceDescriptions = resourceDescriptions
-        self.typeName = typeName
-    }
-}
-
-struct ListResourcesOutputResponseBody: Swift.Equatable {
-    let typeName: Swift.String?
-    let resourceDescriptions: [CloudControlClientTypes.ResourceDescription]?
-    let nextToken: Swift.String?
-}
-
-extension ListResourcesOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case nextToken = "NextToken"
-        case resourceDescriptions = "ResourceDescriptions"
-        case typeName = "TypeName"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let typeNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .typeName)
-        typeName = typeNameDecoded
-        let resourceDescriptionsContainer = try containerValues.decodeIfPresent([CloudControlClientTypes.ResourceDescription?].self, forKey: .resourceDescriptions)
-        var resourceDescriptionsDecoded0:[CloudControlClientTypes.ResourceDescription]? = nil
-        if let resourceDescriptionsContainer = resourceDescriptionsContainer {
-            resourceDescriptionsDecoded0 = [CloudControlClientTypes.ResourceDescription]()
-            for structure0 in resourceDescriptionsContainer {
-                if let structure0 = structure0 {
-                    resourceDescriptionsDecoded0?.append(structure0)
-                }
-            }
-        }
-        resourceDescriptions = resourceDescriptionsDecoded0
-        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
-        nextToken = nextTokenDecoded
     }
 }
 
@@ -2749,6 +2749,46 @@ extension UpdateResourceInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateResourceOutputBody = try responseDecoder.decode(responseBody: data)
+            self.progressEvent = output.progressEvent
+        } else {
+            self.progressEvent = nil
+        }
+    }
+}
+
+public struct UpdateResourceOutput: Swift.Equatable {
+    /// Represents the current status of the resource update request. Use the RequestToken of the ProgressEvent with [GetResourceRequestStatus](https://docs.aws.amazon.com/cloudcontrolapi/latest/APIReference/API_GetResourceRequestStatus.html) to return the current status of a resource operation request.
+    public var progressEvent: CloudControlClientTypes.ProgressEvent?
+
+    public init(
+        progressEvent: CloudControlClientTypes.ProgressEvent? = nil
+    )
+    {
+        self.progressEvent = progressEvent
+    }
+}
+
+struct UpdateResourceOutputBody: Swift.Equatable {
+    let progressEvent: CloudControlClientTypes.ProgressEvent?
+}
+
+extension UpdateResourceOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case progressEvent = "ProgressEvent"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let progressEventDecoded = try containerValues.decodeIfPresent(CloudControlClientTypes.ProgressEvent.self, forKey: .progressEvent)
+        progressEvent = progressEventDecoded
+    }
+}
+
 enum UpdateResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -2775,45 +2815,5 @@ enum UpdateResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "UnsupportedActionException": return try await UnsupportedActionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension UpdateResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: UpdateResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.progressEvent = output.progressEvent
-        } else {
-            self.progressEvent = nil
-        }
-    }
-}
-
-public struct UpdateResourceOutputResponse: Swift.Equatable {
-    /// Represents the current status of the resource update request. Use the RequestToken of the ProgressEvent with [GetResourceRequestStatus](https://docs.aws.amazon.com/cloudcontrolapi/latest/APIReference/API_GetResourceRequestStatus.html) to return the current status of a resource operation request.
-    public var progressEvent: CloudControlClientTypes.ProgressEvent?
-
-    public init(
-        progressEvent: CloudControlClientTypes.ProgressEvent? = nil
-    )
-    {
-        self.progressEvent = progressEvent
-    }
-}
-
-struct UpdateResourceOutputResponseBody: Swift.Equatable {
-    let progressEvent: CloudControlClientTypes.ProgressEvent?
-}
-
-extension UpdateResourceOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case progressEvent = "ProgressEvent"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let progressEventDecoded = try containerValues.decodeIfPresent(CloudControlClientTypes.ProgressEvent.self, forKey: .progressEvent)
-        progressEvent = progressEventDecoded
     }
 }

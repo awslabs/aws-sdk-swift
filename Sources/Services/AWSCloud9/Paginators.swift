@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension Cloud9Client {
-    /// Paginate over `[DescribeEnvironmentMembershipsOutputResponse]` results.
+    /// Paginate over `[DescribeEnvironmentMembershipsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeEnvironmentMembershipsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeEnvironmentMembershipsOutputResponse`
-    public func describeEnvironmentMembershipsPaginated(input: DescribeEnvironmentMembershipsInput) -> ClientRuntime.PaginatorSequence<DescribeEnvironmentMembershipsInput, DescribeEnvironmentMembershipsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeEnvironmentMembershipsInput, DescribeEnvironmentMembershipsOutputResponse>(input: input, inputKey: \DescribeEnvironmentMembershipsInput.nextToken, outputKey: \DescribeEnvironmentMembershipsOutputResponse.nextToken, paginationFunction: self.describeEnvironmentMemberships(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeEnvironmentMembershipsOutput`
+    public func describeEnvironmentMembershipsPaginated(input: DescribeEnvironmentMembershipsInput) -> ClientRuntime.PaginatorSequence<DescribeEnvironmentMembershipsInput, DescribeEnvironmentMembershipsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeEnvironmentMembershipsInput, DescribeEnvironmentMembershipsOutput>(input: input, inputKey: \DescribeEnvironmentMembershipsInput.nextToken, outputKey: \DescribeEnvironmentMembershipsOutput.nextToken, paginationFunction: self.describeEnvironmentMemberships(input:))
     }
 }
 
@@ -27,16 +27,16 @@ extension DescribeEnvironmentMembershipsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension Cloud9Client {
-    /// Paginate over `[ListEnvironmentsOutputResponse]` results.
+    /// Paginate over `[ListEnvironmentsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListEnvironmentsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListEnvironmentsOutputResponse`
-    public func listEnvironmentsPaginated(input: ListEnvironmentsInput) -> ClientRuntime.PaginatorSequence<ListEnvironmentsInput, ListEnvironmentsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListEnvironmentsInput, ListEnvironmentsOutputResponse>(input: input, inputKey: \ListEnvironmentsInput.nextToken, outputKey: \ListEnvironmentsOutputResponse.nextToken, paginationFunction: self.listEnvironments(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListEnvironmentsOutput`
+    public func listEnvironmentsPaginated(input: ListEnvironmentsInput) -> ClientRuntime.PaginatorSequence<ListEnvironmentsInput, ListEnvironmentsOutput> {
+        return ClientRuntime.PaginatorSequence<ListEnvironmentsInput, ListEnvironmentsOutput>(input: input, inputKey: \ListEnvironmentsInput.nextToken, outputKey: \ListEnvironmentsOutput.nextToken, paginationFunction: self.listEnvironments(input:))
     }
 }
 

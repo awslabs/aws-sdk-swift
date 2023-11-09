@@ -4,9 +4,9 @@ import ClientRuntime
 
 extension RedshiftClientProtocol {
 
-    static func clusterAvailableWaiterConfig() throws -> WaiterConfiguration<DescribeClustersInput, DescribeClustersOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeClustersInput, DescribeClustersOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeClustersInput, result: Result<DescribeClustersOutputResponse, Error>) -> Bool in
+    static func clusterAvailableWaiterConfig() throws -> WaiterConfiguration<DescribeClustersInput, DescribeClustersOutput> {
+        let acceptors: [WaiterConfiguration<DescribeClustersInput, DescribeClustersOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeClustersInput, result: Result<DescribeClustersOutput, Error>) -> Bool in
                 // JMESPath expression: "Clusters[].ClusterStatus"
                 // JMESPath comparator: "allStringEquals"
                 // JMESPath expected value: "available"
@@ -18,7 +18,7 @@ extension RedshiftClientProtocol {
                 }
                 return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { JMESUtils.compare($0, ==, "available") } ?? false)
             }),
-            .init(state: .failure, matcher: { (input: DescribeClustersInput, result: Result<DescribeClustersOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeClustersInput, result: Result<DescribeClustersOutput, Error>) -> Bool in
                 // JMESPath expression: "Clusters[].ClusterStatus"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "deleting"
@@ -30,12 +30,12 @@ extension RedshiftClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "deleting") }) ?? false
             }),
-            .init(state: .retry, matcher: { (input: DescribeClustersInput, result: Result<DescribeClustersOutputResponse, Error>) -> Bool in
+            .init(state: .retry, matcher: { (input: DescribeClustersInput, result: Result<DescribeClustersOutput, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
                 return (error as? ServiceError)?.typeName == "ClusterNotFound"
             }),
         ]
-        return try WaiterConfiguration<DescribeClustersInput, DescribeClustersOutputResponse>(acceptors: acceptors, minDelay: 60.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeClustersInput, DescribeClustersOutput>(acceptors: acceptors, minDelay: 60.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the ClusterAvailable event on the describeClusters operation.
@@ -49,18 +49,18 @@ extension RedshiftClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilClusterAvailable(options: WaiterOptions, input: DescribeClustersInput) async throws -> WaiterOutcome<DescribeClustersOutputResponse> {
+    public func waitUntilClusterAvailable(options: WaiterOptions, input: DescribeClustersInput) async throws -> WaiterOutcome<DescribeClustersOutput> {
         let waiter = Waiter(config: try Self.clusterAvailableWaiterConfig(), operation: self.describeClusters(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func clusterDeletedWaiterConfig() throws -> WaiterConfiguration<DescribeClustersInput, DescribeClustersOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeClustersInput, DescribeClustersOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeClustersInput, result: Result<DescribeClustersOutputResponse, Error>) -> Bool in
+    static func clusterDeletedWaiterConfig() throws -> WaiterConfiguration<DescribeClustersInput, DescribeClustersOutput> {
+        let acceptors: [WaiterConfiguration<DescribeClustersInput, DescribeClustersOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeClustersInput, result: Result<DescribeClustersOutput, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
                 return (error as? ServiceError)?.typeName == "ClusterNotFound"
             }),
-            .init(state: .failure, matcher: { (input: DescribeClustersInput, result: Result<DescribeClustersOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeClustersInput, result: Result<DescribeClustersOutput, Error>) -> Bool in
                 // JMESPath expression: "Clusters[].ClusterStatus"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "creating"
@@ -72,7 +72,7 @@ extension RedshiftClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "creating") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeClustersInput, result: Result<DescribeClustersOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeClustersInput, result: Result<DescribeClustersOutput, Error>) -> Bool in
                 // JMESPath expression: "Clusters[].ClusterStatus"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "modifying"
@@ -85,7 +85,7 @@ extension RedshiftClientProtocol {
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "modifying") }) ?? false
             }),
         ]
-        return try WaiterConfiguration<DescribeClustersInput, DescribeClustersOutputResponse>(acceptors: acceptors, minDelay: 60.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeClustersInput, DescribeClustersOutput>(acceptors: acceptors, minDelay: 60.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the ClusterDeleted event on the describeClusters operation.
@@ -99,14 +99,14 @@ extension RedshiftClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilClusterDeleted(options: WaiterOptions, input: DescribeClustersInput) async throws -> WaiterOutcome<DescribeClustersOutputResponse> {
+    public func waitUntilClusterDeleted(options: WaiterOptions, input: DescribeClustersInput) async throws -> WaiterOutcome<DescribeClustersOutput> {
         let waiter = Waiter(config: try Self.clusterDeletedWaiterConfig(), operation: self.describeClusters(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func clusterRestoredWaiterConfig() throws -> WaiterConfiguration<DescribeClustersInput, DescribeClustersOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeClustersInput, DescribeClustersOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeClustersInput, result: Result<DescribeClustersOutputResponse, Error>) -> Bool in
+    static func clusterRestoredWaiterConfig() throws -> WaiterConfiguration<DescribeClustersInput, DescribeClustersOutput> {
+        let acceptors: [WaiterConfiguration<DescribeClustersInput, DescribeClustersOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeClustersInput, result: Result<DescribeClustersOutput, Error>) -> Bool in
                 // JMESPath expression: "Clusters[].RestoreStatus.Status"
                 // JMESPath comparator: "allStringEquals"
                 // JMESPath expected value: "completed"
@@ -119,7 +119,7 @@ extension RedshiftClientProtocol {
                 }
                 return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { JMESUtils.compare($0, ==, "completed") } ?? false)
             }),
-            .init(state: .failure, matcher: { (input: DescribeClustersInput, result: Result<DescribeClustersOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeClustersInput, result: Result<DescribeClustersOutput, Error>) -> Bool in
                 // JMESPath expression: "Clusters[].ClusterStatus"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "deleting"
@@ -132,7 +132,7 @@ extension RedshiftClientProtocol {
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "deleting") }) ?? false
             }),
         ]
-        return try WaiterConfiguration<DescribeClustersInput, DescribeClustersOutputResponse>(acceptors: acceptors, minDelay: 60.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeClustersInput, DescribeClustersOutput>(acceptors: acceptors, minDelay: 60.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the ClusterRestored event on the describeClusters operation.
@@ -146,14 +146,14 @@ extension RedshiftClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilClusterRestored(options: WaiterOptions, input: DescribeClustersInput) async throws -> WaiterOutcome<DescribeClustersOutputResponse> {
+    public func waitUntilClusterRestored(options: WaiterOptions, input: DescribeClustersInput) async throws -> WaiterOutcome<DescribeClustersOutput> {
         let waiter = Waiter(config: try Self.clusterRestoredWaiterConfig(), operation: self.describeClusters(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func snapshotAvailableWaiterConfig() throws -> WaiterConfiguration<DescribeClusterSnapshotsInput, DescribeClusterSnapshotsOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeClusterSnapshotsInput, DescribeClusterSnapshotsOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeClusterSnapshotsInput, result: Result<DescribeClusterSnapshotsOutputResponse, Error>) -> Bool in
+    static func snapshotAvailableWaiterConfig() throws -> WaiterConfiguration<DescribeClusterSnapshotsInput, DescribeClusterSnapshotsOutput> {
+        let acceptors: [WaiterConfiguration<DescribeClusterSnapshotsInput, DescribeClusterSnapshotsOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeClusterSnapshotsInput, result: Result<DescribeClusterSnapshotsOutput, Error>) -> Bool in
                 // JMESPath expression: "Snapshots[].Status"
                 // JMESPath comparator: "allStringEquals"
                 // JMESPath expected value: "available"
@@ -165,7 +165,7 @@ extension RedshiftClientProtocol {
                 }
                 return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { JMESUtils.compare($0, ==, "available") } ?? false)
             }),
-            .init(state: .failure, matcher: { (input: DescribeClusterSnapshotsInput, result: Result<DescribeClusterSnapshotsOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeClusterSnapshotsInput, result: Result<DescribeClusterSnapshotsOutput, Error>) -> Bool in
                 // JMESPath expression: "Snapshots[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "failed"
@@ -177,7 +177,7 @@ extension RedshiftClientProtocol {
                 }
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "failed") }) ?? false
             }),
-            .init(state: .failure, matcher: { (input: DescribeClusterSnapshotsInput, result: Result<DescribeClusterSnapshotsOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeClusterSnapshotsInput, result: Result<DescribeClusterSnapshotsOutput, Error>) -> Bool in
                 // JMESPath expression: "Snapshots[].Status"
                 // JMESPath comparator: "anyStringEquals"
                 // JMESPath expected value: "deleted"
@@ -190,7 +190,7 @@ extension RedshiftClientProtocol {
                 return projection?.contains(where: { JMESUtils.compare($0, ==, "deleted") }) ?? false
             }),
         ]
-        return try WaiterConfiguration<DescribeClusterSnapshotsInput, DescribeClusterSnapshotsOutputResponse>(acceptors: acceptors, minDelay: 15.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeClusterSnapshotsInput, DescribeClusterSnapshotsOutput>(acceptors: acceptors, minDelay: 15.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the SnapshotAvailable event on the describeClusterSnapshots operation.
@@ -204,7 +204,7 @@ extension RedshiftClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilSnapshotAvailable(options: WaiterOptions, input: DescribeClusterSnapshotsInput) async throws -> WaiterOutcome<DescribeClusterSnapshotsOutputResponse> {
+    public func waitUntilSnapshotAvailable(options: WaiterOptions, input: DescribeClusterSnapshotsInput) async throws -> WaiterOutcome<DescribeClusterSnapshotsOutput> {
         let waiter = Waiter(config: try Self.snapshotAvailableWaiterConfig(), operation: self.describeClusterSnapshots(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }

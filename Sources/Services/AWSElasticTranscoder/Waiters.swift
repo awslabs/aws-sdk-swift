@@ -4,9 +4,9 @@ import ClientRuntime
 
 extension ElasticTranscoderClientProtocol {
 
-    static func jobCompleteWaiterConfig() throws -> WaiterConfiguration<ReadJobInput, ReadJobOutputResponse> {
-        let acceptors: [WaiterConfiguration<ReadJobInput, ReadJobOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: ReadJobInput, result: Result<ReadJobOutputResponse, Error>) -> Bool in
+    static func jobCompleteWaiterConfig() throws -> WaiterConfiguration<ReadJobInput, ReadJobOutput> {
+        let acceptors: [WaiterConfiguration<ReadJobInput, ReadJobOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: ReadJobInput, result: Result<ReadJobOutput, Error>) -> Bool in
                 // JMESPath expression: "Job.Status"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "Complete"
@@ -15,7 +15,7 @@ extension ElasticTranscoderClientProtocol {
                 let status = job?.status
                 return JMESUtils.compare(status, ==, "Complete")
             }),
-            .init(state: .failure, matcher: { (input: ReadJobInput, result: Result<ReadJobOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: ReadJobInput, result: Result<ReadJobOutput, Error>) -> Bool in
                 // JMESPath expression: "Job.Status"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "Canceled"
@@ -24,7 +24,7 @@ extension ElasticTranscoderClientProtocol {
                 let status = job?.status
                 return JMESUtils.compare(status, ==, "Canceled")
             }),
-            .init(state: .failure, matcher: { (input: ReadJobInput, result: Result<ReadJobOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: ReadJobInput, result: Result<ReadJobOutput, Error>) -> Bool in
                 // JMESPath expression: "Job.Status"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "Error"
@@ -34,7 +34,7 @@ extension ElasticTranscoderClientProtocol {
                 return JMESUtils.compare(status, ==, "Error")
             }),
         ]
-        return try WaiterConfiguration<ReadJobInput, ReadJobOutputResponse>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
+        return try WaiterConfiguration<ReadJobInput, ReadJobOutput>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the JobComplete event on the readJob operation.
@@ -48,7 +48,7 @@ extension ElasticTranscoderClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilJobComplete(options: WaiterOptions, input: ReadJobInput) async throws -> WaiterOutcome<ReadJobOutputResponse> {
+    public func waitUntilJobComplete(options: WaiterOptions, input: ReadJobInput) async throws -> WaiterOutcome<ReadJobOutput> {
         let waiter = Waiter(config: try Self.jobCompleteWaiterConfig(), operation: self.readJob(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }

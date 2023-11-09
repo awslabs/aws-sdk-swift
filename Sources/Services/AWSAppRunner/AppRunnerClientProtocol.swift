@@ -8,7 +8,7 @@ public protocol AppRunnerClientProtocol {
     ///
     /// - Parameter AssociateCustomDomainInput : [no documentation found]
     ///
-    /// - Returns: `AssociateCustomDomainOutputResponse` : [no documentation found]
+    /// - Returns: `AssociateCustomDomainOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -16,12 +16,12 @@ public protocol AppRunnerClientProtocol {
     /// - `InternalServiceErrorException` : An unexpected service exception occurred.
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
     /// - `InvalidStateException` : You can't perform this action when the resource is in its current state.
-    func associateCustomDomain(input: AssociateCustomDomainInput) async throws -> AssociateCustomDomainOutputResponse
+    func associateCustomDomain(input: AssociateCustomDomainInput) async throws -> AssociateCustomDomainOutput
     /// Create an App Runner automatic scaling configuration resource. App Runner requires this resource when you create or update App Runner services and you require non-default auto scaling settings. You can share an auto scaling configuration across multiple services. Create multiple revisions of a configuration by calling this action multiple times using the same AutoScalingConfigurationName. The call returns incremental AutoScalingConfigurationRevision values. When you create a service and configure an auto scaling configuration resource, the service uses the latest active revision of the auto scaling configuration by default. You can optionally configure the service to use a specific revision. Configure a higher MinSize to increase the spread of your App Runner service over more Availability Zones in the Amazon Web Services Region. The tradeoff is a higher minimal cost. Configure a lower MaxSize to control your cost. The tradeoff is lower responsiveness during peak demand.
     ///
     /// - Parameter CreateAutoScalingConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `CreateAutoScalingConfigurationOutputResponse` : [no documentation found]
+    /// - Returns: `CreateAutoScalingConfigurationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -29,12 +29,12 @@ public protocol AppRunnerClientProtocol {
     /// - `InternalServiceErrorException` : An unexpected service exception occurred.
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
     /// - `ServiceQuotaExceededException` : App Runner can't create this resource. You've reached your account quota for this resource type. For App Runner per-resource quotas, see [App Runner endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/apprunner.html) in the Amazon Web Services General Reference.
-    func createAutoScalingConfiguration(input: CreateAutoScalingConfigurationInput) async throws -> CreateAutoScalingConfigurationOutputResponse
+    func createAutoScalingConfiguration(input: CreateAutoScalingConfigurationInput) async throws -> CreateAutoScalingConfigurationOutput
     /// Create an App Runner connection resource. App Runner requires a connection resource when you create App Runner services that access private repositories from certain third-party providers. You can share a connection across multiple services. A connection resource is needed to access GitHub and Bitbucket repositories. Both require a user interface approval process through the App Runner console before you can use the connection.
     ///
     /// - Parameter CreateConnectionInput : [no documentation found]
     ///
-    /// - Returns: `CreateConnectionOutputResponse` : [no documentation found]
+    /// - Returns: `CreateConnectionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -42,12 +42,12 @@ public protocol AppRunnerClientProtocol {
     /// - `InternalServiceErrorException` : An unexpected service exception occurred.
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
     /// - `ServiceQuotaExceededException` : App Runner can't create this resource. You've reached your account quota for this resource type. For App Runner per-resource quotas, see [App Runner endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/apprunner.html) in the Amazon Web Services General Reference.
-    func createConnection(input: CreateConnectionInput) async throws -> CreateConnectionOutputResponse
+    func createConnection(input: CreateConnectionInput) async throws -> CreateConnectionOutput
     /// Create an App Runner observability configuration resource. App Runner requires this resource when you create or update App Runner services and you want to enable non-default observability features. You can share an observability configuration across multiple services. Create multiple revisions of a configuration by calling this action multiple times using the same ObservabilityConfigurationName. The call returns incremental ObservabilityConfigurationRevision values. When you create a service and configure an observability configuration resource, the service uses the latest active revision of the observability configuration by default. You can optionally configure the service to use a specific revision. The observability configuration resource is designed to configure multiple features (currently one feature, tracing). This action takes optional parameters that describe the configuration of these features (currently one parameter, TraceConfiguration). If you don't specify a feature parameter, App Runner doesn't enable the feature.
     ///
     /// - Parameter CreateObservabilityConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `CreateObservabilityConfigurationOutputResponse` : [no documentation found]
+    /// - Returns: `CreateObservabilityConfigurationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -55,12 +55,12 @@ public protocol AppRunnerClientProtocol {
     /// - `InternalServiceErrorException` : An unexpected service exception occurred.
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
     /// - `ServiceQuotaExceededException` : App Runner can't create this resource. You've reached your account quota for this resource type. For App Runner per-resource quotas, see [App Runner endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/apprunner.html) in the Amazon Web Services General Reference.
-    func createObservabilityConfiguration(input: CreateObservabilityConfigurationInput) async throws -> CreateObservabilityConfigurationOutputResponse
+    func createObservabilityConfiguration(input: CreateObservabilityConfigurationInput) async throws -> CreateObservabilityConfigurationOutput
     /// Create an App Runner service. After the service is created, the action also automatically starts a deployment. This is an asynchronous operation. On a successful call, you can use the returned OperationId and the [ListOperations](https://docs.aws.amazon.com/apprunner/latest/api/API_ListOperations.html) call to track the operation's progress.
     ///
     /// - Parameter CreateServiceInput : [no documentation found]
     ///
-    /// - Returns: `CreateServiceOutputResponse` : [no documentation found]
+    /// - Returns: `CreateServiceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -68,12 +68,12 @@ public protocol AppRunnerClientProtocol {
     /// - `InternalServiceErrorException` : An unexpected service exception occurred.
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
     /// - `ServiceQuotaExceededException` : App Runner can't create this resource. You've reached your account quota for this resource type. For App Runner per-resource quotas, see [App Runner endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/apprunner.html) in the Amazon Web Services General Reference.
-    func createService(input: CreateServiceInput) async throws -> CreateServiceOutputResponse
+    func createService(input: CreateServiceInput) async throws -> CreateServiceOutput
     /// Create an App Runner VPC connector resource. App Runner requires this resource when you want to associate your App Runner service to a custom Amazon Virtual Private Cloud (Amazon VPC).
     ///
     /// - Parameter CreateVpcConnectorInput : [no documentation found]
     ///
-    /// - Returns: `CreateVpcConnectorOutputResponse` : [no documentation found]
+    /// - Returns: `CreateVpcConnectorOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -81,12 +81,12 @@ public protocol AppRunnerClientProtocol {
     /// - `InternalServiceErrorException` : An unexpected service exception occurred.
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
     /// - `ServiceQuotaExceededException` : App Runner can't create this resource. You've reached your account quota for this resource type. For App Runner per-resource quotas, see [App Runner endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/apprunner.html) in the Amazon Web Services General Reference.
-    func createVpcConnector(input: CreateVpcConnectorInput) async throws -> CreateVpcConnectorOutputResponse
+    func createVpcConnector(input: CreateVpcConnectorInput) async throws -> CreateVpcConnectorOutput
     /// Create an App Runner VPC Ingress Connection resource. App Runner requires this resource when you want to associate your App Runner service with an Amazon VPC endpoint.
     ///
     /// - Parameter CreateVpcIngressConnectionInput : [no documentation found]
     ///
-    /// - Returns: `CreateVpcIngressConnectionOutputResponse` : [no documentation found]
+    /// - Returns: `CreateVpcIngressConnectionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -95,12 +95,12 @@ public protocol AppRunnerClientProtocol {
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
     /// - `InvalidStateException` : You can't perform this action when the resource is in its current state.
     /// - `ServiceQuotaExceededException` : App Runner can't create this resource. You've reached your account quota for this resource type. For App Runner per-resource quotas, see [App Runner endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/apprunner.html) in the Amazon Web Services General Reference.
-    func createVpcIngressConnection(input: CreateVpcIngressConnectionInput) async throws -> CreateVpcIngressConnectionOutputResponse
+    func createVpcIngressConnection(input: CreateVpcIngressConnectionInput) async throws -> CreateVpcIngressConnectionOutput
     /// Delete an App Runner automatic scaling configuration resource. You can delete a top level auto scaling configuration, a specific revision of one, or all revisions associated with the top level configuration. You can't delete the default auto scaling configuration or a configuration that's used by one or more App Runner services.
     ///
     /// - Parameter DeleteAutoScalingConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `DeleteAutoScalingConfigurationOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteAutoScalingConfigurationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -108,12 +108,12 @@ public protocol AppRunnerClientProtocol {
     /// - `InternalServiceErrorException` : An unexpected service exception occurred.
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
     /// - `ResourceNotFoundException` : A resource doesn't exist for the specified Amazon Resource Name (ARN) in your Amazon Web Services account.
-    func deleteAutoScalingConfiguration(input: DeleteAutoScalingConfigurationInput) async throws -> DeleteAutoScalingConfigurationOutputResponse
+    func deleteAutoScalingConfiguration(input: DeleteAutoScalingConfigurationInput) async throws -> DeleteAutoScalingConfigurationOutput
     /// Delete an App Runner connection. You must first ensure that there are no running App Runner services that use this connection. If there are any, the DeleteConnection action fails.
     ///
     /// - Parameter DeleteConnectionInput : [no documentation found]
     ///
-    /// - Returns: `DeleteConnectionOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteConnectionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -121,12 +121,12 @@ public protocol AppRunnerClientProtocol {
     /// - `InternalServiceErrorException` : An unexpected service exception occurred.
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
     /// - `ResourceNotFoundException` : A resource doesn't exist for the specified Amazon Resource Name (ARN) in your Amazon Web Services account.
-    func deleteConnection(input: DeleteConnectionInput) async throws -> DeleteConnectionOutputResponse
+    func deleteConnection(input: DeleteConnectionInput) async throws -> DeleteConnectionOutput
     /// Delete an App Runner observability configuration resource. You can delete a specific revision or the latest active revision. You can't delete a configuration that's used by one or more App Runner services.
     ///
     /// - Parameter DeleteObservabilityConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `DeleteObservabilityConfigurationOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteObservabilityConfigurationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -134,12 +134,12 @@ public protocol AppRunnerClientProtocol {
     /// - `InternalServiceErrorException` : An unexpected service exception occurred.
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
     /// - `ResourceNotFoundException` : A resource doesn't exist for the specified Amazon Resource Name (ARN) in your Amazon Web Services account.
-    func deleteObservabilityConfiguration(input: DeleteObservabilityConfigurationInput) async throws -> DeleteObservabilityConfigurationOutputResponse
+    func deleteObservabilityConfiguration(input: DeleteObservabilityConfigurationInput) async throws -> DeleteObservabilityConfigurationOutput
     /// Delete an App Runner service. This is an asynchronous operation. On a successful call, you can use the returned OperationId and the [ListOperations] call to track the operation's progress. Make sure that you don't have any active VPCIngressConnections associated with the service you want to delete.
     ///
     /// - Parameter DeleteServiceInput : [no documentation found]
     ///
-    /// - Returns: `DeleteServiceOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteServiceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -148,12 +148,12 @@ public protocol AppRunnerClientProtocol {
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
     /// - `InvalidStateException` : You can't perform this action when the resource is in its current state.
     /// - `ResourceNotFoundException` : A resource doesn't exist for the specified Amazon Resource Name (ARN) in your Amazon Web Services account.
-    func deleteService(input: DeleteServiceInput) async throws -> DeleteServiceOutputResponse
+    func deleteService(input: DeleteServiceInput) async throws -> DeleteServiceOutput
     /// Delete an App Runner VPC connector resource. You can't delete a connector that's used by one or more App Runner services.
     ///
     /// - Parameter DeleteVpcConnectorInput : [no documentation found]
     ///
-    /// - Returns: `DeleteVpcConnectorOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteVpcConnectorOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -161,7 +161,7 @@ public protocol AppRunnerClientProtocol {
     /// - `InternalServiceErrorException` : An unexpected service exception occurred.
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
     /// - `ResourceNotFoundException` : A resource doesn't exist for the specified Amazon Resource Name (ARN) in your Amazon Web Services account.
-    func deleteVpcConnector(input: DeleteVpcConnectorInput) async throws -> DeleteVpcConnectorOutputResponse
+    func deleteVpcConnector(input: DeleteVpcConnectorInput) async throws -> DeleteVpcConnectorOutput
     /// Delete an App Runner VPC Ingress Connection resource that's associated with an App Runner service. The VPC Ingress Connection must be in one of the following states to be deleted:
     ///
     /// * AVAILABLE
@@ -174,7 +174,7 @@ public protocol AppRunnerClientProtocol {
     ///
     /// - Parameter DeleteVpcIngressConnectionInput : [no documentation found]
     ///
-    /// - Returns: `DeleteVpcIngressConnectionOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteVpcIngressConnectionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -183,12 +183,12 @@ public protocol AppRunnerClientProtocol {
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
     /// - `InvalidStateException` : You can't perform this action when the resource is in its current state.
     /// - `ResourceNotFoundException` : A resource doesn't exist for the specified Amazon Resource Name (ARN) in your Amazon Web Services account.
-    func deleteVpcIngressConnection(input: DeleteVpcIngressConnectionInput) async throws -> DeleteVpcIngressConnectionOutputResponse
+    func deleteVpcIngressConnection(input: DeleteVpcIngressConnectionInput) async throws -> DeleteVpcIngressConnectionOutput
     /// Return a full description of an App Runner automatic scaling configuration resource.
     ///
     /// - Parameter DescribeAutoScalingConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `DescribeAutoScalingConfigurationOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeAutoScalingConfigurationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -196,12 +196,12 @@ public protocol AppRunnerClientProtocol {
     /// - `InternalServiceErrorException` : An unexpected service exception occurred.
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
     /// - `ResourceNotFoundException` : A resource doesn't exist for the specified Amazon Resource Name (ARN) in your Amazon Web Services account.
-    func describeAutoScalingConfiguration(input: DescribeAutoScalingConfigurationInput) async throws -> DescribeAutoScalingConfigurationOutputResponse
+    func describeAutoScalingConfiguration(input: DescribeAutoScalingConfigurationInput) async throws -> DescribeAutoScalingConfigurationOutput
     /// Return a description of custom domain names that are associated with an App Runner service.
     ///
     /// - Parameter DescribeCustomDomainsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeCustomDomainsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeCustomDomainsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -209,12 +209,12 @@ public protocol AppRunnerClientProtocol {
     /// - `InternalServiceErrorException` : An unexpected service exception occurred.
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
     /// - `ResourceNotFoundException` : A resource doesn't exist for the specified Amazon Resource Name (ARN) in your Amazon Web Services account.
-    func describeCustomDomains(input: DescribeCustomDomainsInput) async throws -> DescribeCustomDomainsOutputResponse
+    func describeCustomDomains(input: DescribeCustomDomainsInput) async throws -> DescribeCustomDomainsOutput
     /// Return a full description of an App Runner observability configuration resource.
     ///
     /// - Parameter DescribeObservabilityConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `DescribeObservabilityConfigurationOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeObservabilityConfigurationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -222,12 +222,12 @@ public protocol AppRunnerClientProtocol {
     /// - `InternalServiceErrorException` : An unexpected service exception occurred.
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
     /// - `ResourceNotFoundException` : A resource doesn't exist for the specified Amazon Resource Name (ARN) in your Amazon Web Services account.
-    func describeObservabilityConfiguration(input: DescribeObservabilityConfigurationInput) async throws -> DescribeObservabilityConfigurationOutputResponse
+    func describeObservabilityConfiguration(input: DescribeObservabilityConfigurationInput) async throws -> DescribeObservabilityConfigurationOutput
     /// Return a full description of an App Runner service.
     ///
     /// - Parameter DescribeServiceInput : [no documentation found]
     ///
-    /// - Returns: `DescribeServiceOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeServiceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -235,12 +235,12 @@ public protocol AppRunnerClientProtocol {
     /// - `InternalServiceErrorException` : An unexpected service exception occurred.
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
     /// - `ResourceNotFoundException` : A resource doesn't exist for the specified Amazon Resource Name (ARN) in your Amazon Web Services account.
-    func describeService(input: DescribeServiceInput) async throws -> DescribeServiceOutputResponse
+    func describeService(input: DescribeServiceInput) async throws -> DescribeServiceOutput
     /// Return a description of an App Runner VPC connector resource.
     ///
     /// - Parameter DescribeVpcConnectorInput : [no documentation found]
     ///
-    /// - Returns: `DescribeVpcConnectorOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeVpcConnectorOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -248,12 +248,12 @@ public protocol AppRunnerClientProtocol {
     /// - `InternalServiceErrorException` : An unexpected service exception occurred.
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
     /// - `ResourceNotFoundException` : A resource doesn't exist for the specified Amazon Resource Name (ARN) in your Amazon Web Services account.
-    func describeVpcConnector(input: DescribeVpcConnectorInput) async throws -> DescribeVpcConnectorOutputResponse
+    func describeVpcConnector(input: DescribeVpcConnectorInput) async throws -> DescribeVpcConnectorOutput
     /// Return a full description of an App Runner VPC Ingress Connection resource.
     ///
     /// - Parameter DescribeVpcIngressConnectionInput : [no documentation found]
     ///
-    /// - Returns: `DescribeVpcIngressConnectionOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeVpcIngressConnectionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -261,12 +261,12 @@ public protocol AppRunnerClientProtocol {
     /// - `InternalServiceErrorException` : An unexpected service exception occurred.
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
     /// - `ResourceNotFoundException` : A resource doesn't exist for the specified Amazon Resource Name (ARN) in your Amazon Web Services account.
-    func describeVpcIngressConnection(input: DescribeVpcIngressConnectionInput) async throws -> DescribeVpcIngressConnectionOutputResponse
+    func describeVpcIngressConnection(input: DescribeVpcIngressConnectionInput) async throws -> DescribeVpcIngressConnectionOutput
     /// Disassociate a custom domain name from an App Runner service. Certificates tracking domain validity are associated with a custom domain and are stored in [AWS Certificate Manager (ACM)](https://docs.aws.amazon.com/acm/latest/userguide). These certificates aren't deleted as part of this action. App Runner delays certificate deletion for 30 days after a domain is disassociated from your service.
     ///
     /// - Parameter DisassociateCustomDomainInput : [no documentation found]
     ///
-    /// - Returns: `DisassociateCustomDomainOutputResponse` : [no documentation found]
+    /// - Returns: `DisassociateCustomDomainOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -275,48 +275,48 @@ public protocol AppRunnerClientProtocol {
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
     /// - `InvalidStateException` : You can't perform this action when the resource is in its current state.
     /// - `ResourceNotFoundException` : A resource doesn't exist for the specified Amazon Resource Name (ARN) in your Amazon Web Services account.
-    func disassociateCustomDomain(input: DisassociateCustomDomainInput) async throws -> DisassociateCustomDomainOutputResponse
+    func disassociateCustomDomain(input: DisassociateCustomDomainInput) async throws -> DisassociateCustomDomainOutput
     /// Returns a list of active App Runner automatic scaling configurations in your Amazon Web Services account. You can query the revisions for a specific configuration name or the revisions for all active configurations in your account. You can optionally query only the latest revision of each requested name. To retrieve a full description of a particular configuration revision, call and provide one of the ARNs returned by ListAutoScalingConfigurations.
     ///
     /// - Parameter ListAutoScalingConfigurationsInput : [no documentation found]
     ///
-    /// - Returns: `ListAutoScalingConfigurationsOutputResponse` : [no documentation found]
+    /// - Returns: `ListAutoScalingConfigurationsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServiceErrorException` : An unexpected service exception occurred.
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
-    func listAutoScalingConfigurations(input: ListAutoScalingConfigurationsInput) async throws -> ListAutoScalingConfigurationsOutputResponse
+    func listAutoScalingConfigurations(input: ListAutoScalingConfigurationsInput) async throws -> ListAutoScalingConfigurationsOutput
     /// Returns a list of App Runner connections that are associated with your Amazon Web Services account.
     ///
     /// - Parameter ListConnectionsInput : [no documentation found]
     ///
-    /// - Returns: `ListConnectionsOutputResponse` : [no documentation found]
+    /// - Returns: `ListConnectionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServiceErrorException` : An unexpected service exception occurred.
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
-    func listConnections(input: ListConnectionsInput) async throws -> ListConnectionsOutputResponse
+    func listConnections(input: ListConnectionsInput) async throws -> ListConnectionsOutput
     /// Returns a list of active App Runner observability configurations in your Amazon Web Services account. You can query the revisions for a specific configuration name or the revisions for all active configurations in your account. You can optionally query only the latest revision of each requested name. To retrieve a full description of a particular configuration revision, call and provide one of the ARNs returned by ListObservabilityConfigurations.
     ///
     /// - Parameter ListObservabilityConfigurationsInput : [no documentation found]
     ///
-    /// - Returns: `ListObservabilityConfigurationsOutputResponse` : [no documentation found]
+    /// - Returns: `ListObservabilityConfigurationsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServiceErrorException` : An unexpected service exception occurred.
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
-    func listObservabilityConfigurations(input: ListObservabilityConfigurationsInput) async throws -> ListObservabilityConfigurationsOutputResponse
+    func listObservabilityConfigurations(input: ListObservabilityConfigurationsInput) async throws -> ListObservabilityConfigurationsOutput
     /// Return a list of operations that occurred on an App Runner service. The resulting list of [OperationSummary] objects is sorted in reverse chronological order. The first object on the list represents the last started operation.
     ///
     /// - Parameter ListOperationsInput : [no documentation found]
     ///
-    /// - Returns: `ListOperationsOutputResponse` : [no documentation found]
+    /// - Returns: `ListOperationsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -324,24 +324,24 @@ public protocol AppRunnerClientProtocol {
     /// - `InternalServiceErrorException` : An unexpected service exception occurred.
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
     /// - `ResourceNotFoundException` : A resource doesn't exist for the specified Amazon Resource Name (ARN) in your Amazon Web Services account.
-    func listOperations(input: ListOperationsInput) async throws -> ListOperationsOutputResponse
+    func listOperations(input: ListOperationsInput) async throws -> ListOperationsOutput
     /// Returns a list of running App Runner services in your Amazon Web Services account.
     ///
     /// - Parameter ListServicesInput : [no documentation found]
     ///
-    /// - Returns: `ListServicesOutputResponse` : [no documentation found]
+    /// - Returns: `ListServicesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServiceErrorException` : An unexpected service exception occurred.
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
-    func listServices(input: ListServicesInput) async throws -> ListServicesOutputResponse
+    func listServices(input: ListServicesInput) async throws -> ListServicesOutput
     /// Returns a list of the associated App Runner services using an auto scaling configuration.
     ///
     /// - Parameter ListServicesForAutoScalingConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `ListServicesForAutoScalingConfigurationOutputResponse` : [no documentation found]
+    /// - Returns: `ListServicesForAutoScalingConfigurationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -349,12 +349,12 @@ public protocol AppRunnerClientProtocol {
     /// - `InternalServiceErrorException` : An unexpected service exception occurred.
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
     /// - `ResourceNotFoundException` : A resource doesn't exist for the specified Amazon Resource Name (ARN) in your Amazon Web Services account.
-    func listServicesForAutoScalingConfiguration(input: ListServicesForAutoScalingConfigurationInput) async throws -> ListServicesForAutoScalingConfigurationOutputResponse
+    func listServicesForAutoScalingConfiguration(input: ListServicesForAutoScalingConfigurationInput) async throws -> ListServicesForAutoScalingConfigurationOutput
     /// List tags that are associated with for an App Runner resource. The response contains a list of tag key-value pairs.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -363,36 +363,36 @@ public protocol AppRunnerClientProtocol {
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
     /// - `InvalidStateException` : You can't perform this action when the resource is in its current state.
     /// - `ResourceNotFoundException` : A resource doesn't exist for the specified Amazon Resource Name (ARN) in your Amazon Web Services account.
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     /// Returns a list of App Runner VPC connectors in your Amazon Web Services account.
     ///
     /// - Parameter ListVpcConnectorsInput : [no documentation found]
     ///
-    /// - Returns: `ListVpcConnectorsOutputResponse` : [no documentation found]
+    /// - Returns: `ListVpcConnectorsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServiceErrorException` : An unexpected service exception occurred.
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
-    func listVpcConnectors(input: ListVpcConnectorsInput) async throws -> ListVpcConnectorsOutputResponse
+    func listVpcConnectors(input: ListVpcConnectorsInput) async throws -> ListVpcConnectorsOutput
     /// Return a list of App Runner VPC Ingress Connections in your Amazon Web Services account.
     ///
     /// - Parameter ListVpcIngressConnectionsInput : [no documentation found]
     ///
-    /// - Returns: `ListVpcIngressConnectionsOutputResponse` : [no documentation found]
+    /// - Returns: `ListVpcIngressConnectionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServiceErrorException` : An unexpected service exception occurred.
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
-    func listVpcIngressConnections(input: ListVpcIngressConnectionsInput) async throws -> ListVpcIngressConnectionsOutputResponse
+    func listVpcIngressConnections(input: ListVpcIngressConnectionsInput) async throws -> ListVpcIngressConnectionsOutput
     /// Pause an active App Runner service. App Runner reduces compute capacity for the service to zero and loses state (for example, ephemeral storage is removed). This is an asynchronous operation. On a successful call, you can use the returned OperationId and the [ListOperations] call to track the operation's progress.
     ///
     /// - Parameter PauseServiceInput : [no documentation found]
     ///
-    /// - Returns: `PauseServiceOutputResponse` : [no documentation found]
+    /// - Returns: `PauseServiceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -401,12 +401,12 @@ public protocol AppRunnerClientProtocol {
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
     /// - `InvalidStateException` : You can't perform this action when the resource is in its current state.
     /// - `ResourceNotFoundException` : A resource doesn't exist for the specified Amazon Resource Name (ARN) in your Amazon Web Services account.
-    func pauseService(input: PauseServiceInput) async throws -> PauseServiceOutputResponse
+    func pauseService(input: PauseServiceInput) async throws -> PauseServiceOutput
     /// Resume an active App Runner service. App Runner provisions compute capacity for the service. This is an asynchronous operation. On a successful call, you can use the returned OperationId and the [ListOperations] call to track the operation's progress.
     ///
     /// - Parameter ResumeServiceInput : [no documentation found]
     ///
-    /// - Returns: `ResumeServiceOutputResponse` : [no documentation found]
+    /// - Returns: `ResumeServiceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -415,12 +415,12 @@ public protocol AppRunnerClientProtocol {
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
     /// - `InvalidStateException` : You can't perform this action when the resource is in its current state.
     /// - `ResourceNotFoundException` : A resource doesn't exist for the specified Amazon Resource Name (ARN) in your Amazon Web Services account.
-    func resumeService(input: ResumeServiceInput) async throws -> ResumeServiceOutputResponse
+    func resumeService(input: ResumeServiceInput) async throws -> ResumeServiceOutput
     /// Initiate a manual deployment of the latest commit in a source code repository or the latest image in a source image repository to an App Runner service. For a source code repository, App Runner retrieves the commit and builds a Docker image. For a source image repository, App Runner retrieves the latest Docker image. In both cases, App Runner then deploys the new image to your service and starts a new container instance. This is an asynchronous operation. On a successful call, you can use the returned OperationId and the [ListOperations] call to track the operation's progress.
     ///
     /// - Parameter StartDeploymentInput : [no documentation found]
     ///
-    /// - Returns: `StartDeploymentOutputResponse` : [no documentation found]
+    /// - Returns: `StartDeploymentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -428,12 +428,12 @@ public protocol AppRunnerClientProtocol {
     /// - `InternalServiceErrorException` : An unexpected service exception occurred.
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
     /// - `ResourceNotFoundException` : A resource doesn't exist for the specified Amazon Resource Name (ARN) in your Amazon Web Services account.
-    func startDeployment(input: StartDeploymentInput) async throws -> StartDeploymentOutputResponse
+    func startDeployment(input: StartDeploymentInput) async throws -> StartDeploymentOutput
     /// Add tags to, or update the tag values of, an App Runner resource. A tag is a key-value pair.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -442,12 +442,12 @@ public protocol AppRunnerClientProtocol {
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
     /// - `InvalidStateException` : You can't perform this action when the resource is in its current state.
     /// - `ResourceNotFoundException` : A resource doesn't exist for the specified Amazon Resource Name (ARN) in your Amazon Web Services account.
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     /// Remove tags from an App Runner resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -456,12 +456,12 @@ public protocol AppRunnerClientProtocol {
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
     /// - `InvalidStateException` : You can't perform this action when the resource is in its current state.
     /// - `ResourceNotFoundException` : A resource doesn't exist for the specified Amazon Resource Name (ARN) in your Amazon Web Services account.
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
     /// Update an auto scaling configuration to be the default. The existing default auto scaling configuration will be set to non-default automatically.
     ///
     /// - Parameter UpdateDefaultAutoScalingConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `UpdateDefaultAutoScalingConfigurationOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateDefaultAutoScalingConfigurationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -469,12 +469,12 @@ public protocol AppRunnerClientProtocol {
     /// - `InternalServiceErrorException` : An unexpected service exception occurred.
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
     /// - `ResourceNotFoundException` : A resource doesn't exist for the specified Amazon Resource Name (ARN) in your Amazon Web Services account.
-    func updateDefaultAutoScalingConfiguration(input: UpdateDefaultAutoScalingConfigurationInput) async throws -> UpdateDefaultAutoScalingConfigurationOutputResponse
+    func updateDefaultAutoScalingConfiguration(input: UpdateDefaultAutoScalingConfigurationInput) async throws -> UpdateDefaultAutoScalingConfigurationOutput
     /// Update an App Runner service. You can update the source configuration and instance configuration of the service. You can also update the ARN of the auto scaling configuration resource that's associated with the service. However, you can't change the name or the encryption configuration of the service. These can be set only when you create the service. To update the tags applied to your service, use the separate actions [TagResource] and [UntagResource]. This is an asynchronous operation. On a successful call, you can use the returned OperationId and the [ListOperations] call to track the operation's progress.
     ///
     /// - Parameter UpdateServiceInput : [no documentation found]
     ///
-    /// - Returns: `UpdateServiceOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateServiceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -483,7 +483,7 @@ public protocol AppRunnerClientProtocol {
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
     /// - `InvalidStateException` : You can't perform this action when the resource is in its current state.
     /// - `ResourceNotFoundException` : A resource doesn't exist for the specified Amazon Resource Name (ARN) in your Amazon Web Services account.
-    func updateService(input: UpdateServiceInput) async throws -> UpdateServiceOutputResponse
+    func updateService(input: UpdateServiceInput) async throws -> UpdateServiceOutput
     /// Update an existing App Runner VPC Ingress Connection resource. The VPC Ingress Connection must be in one of the following states to be updated:
     ///
     /// * AVAILABLE
@@ -494,7 +494,7 @@ public protocol AppRunnerClientProtocol {
     ///
     /// - Parameter UpdateVpcIngressConnectionInput : [no documentation found]
     ///
-    /// - Returns: `UpdateVpcIngressConnectionOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateVpcIngressConnectionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -503,7 +503,7 @@ public protocol AppRunnerClientProtocol {
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
     /// - `InvalidStateException` : You can't perform this action when the resource is in its current state.
     /// - `ResourceNotFoundException` : A resource doesn't exist for the specified Amazon Resource Name (ARN) in your Amazon Web Services account.
-    func updateVpcIngressConnection(input: UpdateVpcIngressConnectionInput) async throws -> UpdateVpcIngressConnectionOutputResponse
+    func updateVpcIngressConnection(input: UpdateVpcIngressConnectionInput) async throws -> UpdateVpcIngressConnectionOutput
 }
 
 public enum AppRunnerClientTypes {}

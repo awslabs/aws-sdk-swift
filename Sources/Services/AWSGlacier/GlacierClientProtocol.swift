@@ -12,7 +12,7 @@ public protocol GlacierClientProtocol {
     ///
     /// - Parameter AbortMultipartUploadInput : Provides options to abort a multipart upload identified by the upload ID. For information about the underlying REST API, see [Abort Multipart Upload](https://docs.aws.amazon.com/amazonglacier/latest/dev/api-multipart-abort-upload.html). For conceptual information, see [Working with Archives in Amazon S3 Glacier](https://docs.aws.amazon.com/amazonglacier/latest/dev/working-with-archives.html).
     ///
-    /// - Returns: `AbortMultipartUploadOutputResponse` : [no documentation found]
+    /// - Returns: `AbortMultipartUploadOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -21,12 +21,12 @@ public protocol GlacierClientProtocol {
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    func abortMultipartUpload(input: AbortMultipartUploadInput) async throws -> AbortMultipartUploadOutputResponse
+    func abortMultipartUpload(input: AbortMultipartUploadInput) async throws -> AbortMultipartUploadOutput
     /// This operation aborts the vault locking process if the vault lock is not in the Locked state. If the vault lock is in the Locked state when this operation is requested, the operation returns an AccessDeniedException error. Aborting the vault locking process removes the vault lock policy from the specified vault. A vault lock is put into the InProgress state by calling [InitiateVaultLock]. A vault lock is put into the Locked state by calling [CompleteVaultLock]. You can get the state of a vault lock by calling [GetVaultLock]. For more information about the vault locking process, see [Amazon Glacier Vault Lock](https://docs.aws.amazon.com/amazonglacier/latest/dev/vault-lock.html). For more information about vault lock policies, see [Amazon Glacier Access Control with Vault Lock Policies](https://docs.aws.amazon.com/amazonglacier/latest/dev/vault-lock-policy.html). This operation is idempotent. You can successfully invoke this operation multiple times, if the vault lock is in the InProgress state or if there is no policy associated with the vault.
     ///
     /// - Parameter AbortVaultLockInput : The input values for AbortVaultLock.
     ///
-    /// - Returns: `AbortVaultLockOutputResponse` : [no documentation found]
+    /// - Returns: `AbortVaultLockOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -35,12 +35,12 @@ public protocol GlacierClientProtocol {
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    func abortVaultLock(input: AbortVaultLockInput) async throws -> AbortVaultLockOutputResponse
+    func abortVaultLock(input: AbortVaultLockInput) async throws -> AbortVaultLockOutput
     /// This operation adds the specified tags to a vault. Each tag is composed of a key and a value. Each vault can have up to 10 tags. If your request would cause the tag limit for the vault to be exceeded, the operation throws the LimitExceededException error. If a tag already exists on the vault under a specified key, the existing key value will be overwritten. For more information about tags, see [Tagging Amazon S3 Glacier Resources](https://docs.aws.amazon.com/amazonglacier/latest/dev/tagging.html).
     ///
     /// - Parameter AddTagsToVaultInput : The input values for AddTagsToVault.
     ///
-    /// - Returns: `AddTagsToVaultOutputResponse` : [no documentation found]
+    /// - Returns: `AddTagsToVaultOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -50,12 +50,12 @@ public protocol GlacierClientProtocol {
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    func addTagsToVault(input: AddTagsToVaultInput) async throws -> AddTagsToVaultOutputResponse
+    func addTagsToVault(input: AddTagsToVaultInput) async throws -> AddTagsToVaultOutput
     /// You call this operation to inform Amazon S3 Glacier (Glacier) that all the archive parts have been uploaded and that Glacier can now assemble the archive from the uploaded parts. After assembling and saving the archive to the vault, Glacier returns the URI path of the newly created archive resource. Using the URI path, you can then access the archive. After you upload an archive, you should save the archive ID returned to retrieve the archive at a later point. You can also get the vault inventory to obtain a list of archive IDs in a vault. For more information, see [InitiateJob]. In the request, you must include the computed SHA256 tree hash of the entire archive you have uploaded. For information about computing a SHA256 tree hash, see [Computing Checksums](https://docs.aws.amazon.com/amazonglacier/latest/dev/checksum-calculations.html). On the server side, Glacier also constructs the SHA256 tree hash of the assembled archive. If the values match, Glacier saves the archive to the vault; otherwise, it returns an error, and the operation fails. The [ListParts] operation returns a list of parts uploaded for a specific multipart upload. It includes checksum information for each uploaded part that can be used to debug a bad checksum issue. Additionally, Glacier also checks for any missing content ranges when assembling the archive, if missing content ranges are found, Glacier returns an error and the operation fails. Complete Multipart Upload is an idempotent operation. After your first successful complete multipart upload, if you call the operation again within a short period, the operation will succeed and return the same archive ID. This is useful in the event you experience a network issue that causes an aborted connection or receive a 500 server error, in which case you can repeat your Complete Multipart Upload request and get the same archive ID without creating duplicate archives. Note, however, that after the multipart upload completes, you cannot call the List Parts operation and the multipart upload will not appear in List Multipart Uploads response, even if idempotent complete is possible. An AWS account has full permission to perform all operations (actions). However, AWS Identity and Access Management (IAM) users don't have any permissions by default. You must grant them explicit permission to perform specific actions. For more information, see [Access Control Using AWS Identity and Access Management (IAM)](https://docs.aws.amazon.com/amazonglacier/latest/dev/using-iam-with-amazon-glacier.html). For conceptual information and underlying REST API, see [Uploading Large Archives in Parts (Multipart Upload)](https://docs.aws.amazon.com/amazonglacier/latest/dev/uploading-archive-mpu.html) and [Complete Multipart Upload](https://docs.aws.amazon.com/amazonglacier/latest/dev/api-multipart-complete-upload.html) in the Amazon Glacier Developer Guide.
     ///
     /// - Parameter CompleteMultipartUploadInput : Provides options to complete a multipart upload operation. This informs Amazon Glacier that all the archive parts have been uploaded and Amazon S3 Glacier (Glacier) can now assemble the archive from the uploaded parts. After assembling and saving the archive to the vault, Glacier returns the URI path of the newly created archive resource.
     ///
-    /// - Returns: `CompleteMultipartUploadOutputResponse` : Contains the Amazon S3 Glacier response to your request. For information about the underlying REST API, see [Upload Archive](https://docs.aws.amazon.com/amazonglacier/latest/dev/api-archive-post.html). For conceptual information, see [Working with Archives in Amazon S3 Glacier](https://docs.aws.amazon.com/amazonglacier/latest/dev/working-with-archives.html).
+    /// - Returns: `CompleteMultipartUploadOutput` : Contains the Amazon S3 Glacier response to your request. For information about the underlying REST API, see [Upload Archive](https://docs.aws.amazon.com/amazonglacier/latest/dev/api-archive-post.html). For conceptual information, see [Working with Archives in Amazon S3 Glacier](https://docs.aws.amazon.com/amazonglacier/latest/dev/working-with-archives.html).
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -64,12 +64,12 @@ public protocol GlacierClientProtocol {
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    func completeMultipartUpload(input: CompleteMultipartUploadInput) async throws -> CompleteMultipartUploadOutputResponse
+    func completeMultipartUpload(input: CompleteMultipartUploadInput) async throws -> CompleteMultipartUploadOutput
     /// This operation completes the vault locking process by transitioning the vault lock from the InProgress state to the Locked state, which causes the vault lock policy to become unchangeable. A vault lock is put into the InProgress state by calling [InitiateVaultLock]. You can obtain the state of the vault lock by calling [GetVaultLock]. For more information about the vault locking process, [Amazon Glacier Vault Lock](https://docs.aws.amazon.com/amazonglacier/latest/dev/vault-lock.html). This operation is idempotent. This request is always successful if the vault lock is in the Locked state and the provided lock ID matches the lock ID originally used to lock the vault. If an invalid lock ID is passed in the request when the vault lock is in the Locked state, the operation returns an AccessDeniedException error. If an invalid lock ID is passed in the request when the vault lock is in the InProgress state, the operation throws an InvalidParameter error.
     ///
     /// - Parameter CompleteVaultLockInput : The input values for CompleteVaultLock.
     ///
-    /// - Returns: `CompleteVaultLockOutputResponse` : [no documentation found]
+    /// - Returns: `CompleteVaultLockOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -78,7 +78,7 @@ public protocol GlacierClientProtocol {
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    func completeVaultLock(input: CompleteVaultLockInput) async throws -> CompleteVaultLockOutputResponse
+    func completeVaultLock(input: CompleteVaultLockInput) async throws -> CompleteVaultLockOutput
     /// This operation creates a new vault with the specified name. The name of the vault must be unique within a region for an AWS account. You can create up to 1,000 vaults per account. If you need to create more vaults, contact Amazon S3 Glacier. You must use the following guidelines when naming a vault.
     ///
     /// * Names can be between 1 and 255 characters long.
@@ -90,7 +90,7 @@ public protocol GlacierClientProtocol {
     ///
     /// - Parameter CreateVaultInput : Provides options to create a vault.
     ///
-    /// - Returns: `CreateVaultOutputResponse` : Contains the Amazon S3 Glacier response to your request.
+    /// - Returns: `CreateVaultOutput` : Contains the Amazon S3 Glacier response to your request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -99,7 +99,7 @@ public protocol GlacierClientProtocol {
     /// - `LimitExceededException` : Returned if the request results in a vault or account limit being exceeded.
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    func createVault(input: CreateVaultInput) async throws -> CreateVaultOutputResponse
+    func createVault(input: CreateVaultInput) async throws -> CreateVaultOutput
     /// This operation deletes an archive from a vault. Subsequent requests to initiate a retrieval of this archive will fail. Archive retrievals that are in progress for this archive ID may or may not succeed according to the following scenarios:
     ///
     /// * If the archive retrieval job is actively preparing the data for download when Amazon S3 Glacier receives the delete archive request, the archival retrieval operation might fail.
@@ -111,7 +111,7 @@ public protocol GlacierClientProtocol {
     ///
     /// - Parameter DeleteArchiveInput : Provides options for deleting an archive from an Amazon S3 Glacier vault.
     ///
-    /// - Returns: `DeleteArchiveOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteArchiveOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -120,12 +120,12 @@ public protocol GlacierClientProtocol {
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    func deleteArchive(input: DeleteArchiveInput) async throws -> DeleteArchiveOutputResponse
+    func deleteArchive(input: DeleteArchiveInput) async throws -> DeleteArchiveOutput
     /// This operation deletes a vault. Amazon S3 Glacier will delete a vault only if there are no archives in the vault as of the last inventory and there have been no writes to the vault since the last inventory. If either of these conditions is not satisfied, the vault deletion fails (that is, the vault is not removed) and Amazon S3 Glacier returns an error. You can use [DescribeVault] to return the number of archives in a vault, and you can use [Initiate a Job (POST jobs)](https://docs.aws.amazon.com/amazonglacier/latest/dev/api-initiate-job-post.html) to initiate a new inventory retrieval for a vault. The inventory contains the archive IDs you use to delete archives using [Delete Archive (DELETE archive)](https://docs.aws.amazon.com/amazonglacier/latest/dev/api-archive-delete.html). This operation is idempotent. An AWS account has full permission to perform all operations (actions). However, AWS Identity and Access Management (IAM) users don't have any permissions by default. You must grant them explicit permission to perform specific actions. For more information, see [Access Control Using AWS Identity and Access Management (IAM)](https://docs.aws.amazon.com/amazonglacier/latest/dev/using-iam-with-amazon-glacier.html). For conceptual information and underlying REST API, see [Deleting a Vault in Amazon Glacier](https://docs.aws.amazon.com/amazonglacier/latest/dev/deleting-vaults.html) and [Delete Vault ](https://docs.aws.amazon.com/amazonglacier/latest/dev/api-vault-delete.html) in the Amazon S3 Glacier Developer Guide.
     ///
     /// - Parameter DeleteVaultInput : Provides options for deleting a vault from Amazon S3 Glacier.
     ///
-    /// - Returns: `DeleteVaultOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteVaultOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -134,12 +134,12 @@ public protocol GlacierClientProtocol {
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    func deleteVault(input: DeleteVaultInput) async throws -> DeleteVaultOutputResponse
+    func deleteVault(input: DeleteVaultInput) async throws -> DeleteVaultOutput
     /// This operation deletes the access policy associated with the specified vault. The operation is eventually consistent; that is, it might take some time for Amazon S3 Glacier to completely remove the access policy, and you might still see the effect of the policy for a short time after you send the delete request. This operation is idempotent. You can invoke delete multiple times, even if there is no policy associated with the vault. For more information about vault access policies, see [Amazon Glacier Access Control with Vault Access Policies](https://docs.aws.amazon.com/amazonglacier/latest/dev/vault-access-policy.html).
     ///
     /// - Parameter DeleteVaultAccessPolicyInput : DeleteVaultAccessPolicy input.
     ///
-    /// - Returns: `DeleteVaultAccessPolicyOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteVaultAccessPolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -148,12 +148,12 @@ public protocol GlacierClientProtocol {
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    func deleteVaultAccessPolicy(input: DeleteVaultAccessPolicyInput) async throws -> DeleteVaultAccessPolicyOutputResponse
+    func deleteVaultAccessPolicy(input: DeleteVaultAccessPolicyInput) async throws -> DeleteVaultAccessPolicyOutput
     /// This operation deletes the notification configuration set for a vault. The operation is eventually consistent; that is, it might take some time for Amazon S3 Glacier to completely disable the notifications and you might still receive some notifications for a short time after you send the delete request. An AWS account has full permission to perform all operations (actions). However, AWS Identity and Access Management (IAM) users don't have any permissions by default. You must grant them explicit permission to perform specific actions. For more information, see [Access Control Using AWS Identity and Access Management (IAM)](https://docs.aws.amazon.com/amazonglacier/latest/dev/using-iam-with-amazon-glacier.html). For conceptual information and underlying REST API, see [Configuring Vault Notifications in Amazon S3 Glacier](https://docs.aws.amazon.com/amazonglacier/latest/dev/configuring-notifications.html) and [Delete Vault Notification Configuration ](https://docs.aws.amazon.com/amazonglacier/latest/dev/api-vault-notifications-delete.html) in the Amazon S3 Glacier Developer Guide.
     ///
     /// - Parameter DeleteVaultNotificationsInput : Provides options for deleting a vault notification configuration from an Amazon Glacier vault.
     ///
-    /// - Returns: `DeleteVaultNotificationsOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteVaultNotificationsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -162,12 +162,12 @@ public protocol GlacierClientProtocol {
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    func deleteVaultNotifications(input: DeleteVaultNotificationsInput) async throws -> DeleteVaultNotificationsOutputResponse
+    func deleteVaultNotifications(input: DeleteVaultNotificationsInput) async throws -> DeleteVaultNotificationsOutput
     /// This operation returns information about a job you previously initiated, including the job initiation date, the user who initiated the job, the job status code/message and the Amazon SNS topic to notify after Amazon S3 Glacier (Glacier) completes the job. For more information about initiating a job, see [InitiateJob]. This operation enables you to check the status of your job. However, it is strongly recommended that you set up an Amazon SNS topic and specify it in your initiate job request so that Glacier can notify the topic after it completes the job. A job ID will not expire for at least 24 hours after Glacier completes the job. An AWS account has full permission to perform all operations (actions). However, AWS Identity and Access Management (IAM) users don't have any permissions by default. You must grant them explicit permission to perform specific actions. For more information, see [Access Control Using AWS Identity and Access Management (IAM)](https://docs.aws.amazon.com/amazonglacier/latest/dev/using-iam-with-amazon-glacier.html). For more information about using this operation, see the documentation for the underlying REST API [Describe Job](https://docs.aws.amazon.com/amazonglacier/latest/dev/api-describe-job-get.html) in the Amazon Glacier Developer Guide.
     ///
     /// - Parameter DescribeJobInput : Provides options for retrieving a job description.
     ///
-    /// - Returns: `DescribeJobOutputResponse` : Contains the description of an Amazon S3 Glacier job.
+    /// - Returns: `DescribeJobOutput` : Contains the description of an Amazon S3 Glacier job.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -176,12 +176,12 @@ public protocol GlacierClientProtocol {
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    func describeJob(input: DescribeJobInput) async throws -> DescribeJobOutputResponse
+    func describeJob(input: DescribeJobInput) async throws -> DescribeJobOutput
     /// This operation returns information about a vault, including the vault's Amazon Resource Name (ARN), the date the vault was created, the number of archives it contains, and the total size of all the archives in the vault. The number of archives and their total size are as of the last inventory generation. This means that if you add or remove an archive from a vault, and then immediately use Describe Vault, the change in contents will not be immediately reflected. If you want to retrieve the latest inventory of the vault, use [InitiateJob]. Amazon S3 Glacier generates vault inventories approximately daily. For more information, see [Downloading a Vault Inventory in Amazon S3 Glacier](https://docs.aws.amazon.com/amazonglacier/latest/dev/vault-inventory.html). An AWS account has full permission to perform all operations (actions). However, AWS Identity and Access Management (IAM) users don't have any permissions by default. You must grant them explicit permission to perform specific actions. For more information, see [Access Control Using AWS Identity and Access Management (IAM)](https://docs.aws.amazon.com/amazonglacier/latest/dev/using-iam-with-amazon-glacier.html). For conceptual information and underlying REST API, see [Retrieving Vault Metadata in Amazon S3 Glacier](https://docs.aws.amazon.com/amazonglacier/latest/dev/retrieving-vault-info.html) and [Describe Vault ](https://docs.aws.amazon.com/amazonglacier/latest/dev/api-vault-get.html) in the Amazon Glacier Developer Guide.
     ///
     /// - Parameter DescribeVaultInput : Provides options for retrieving metadata for a specific vault in Amazon Glacier.
     ///
-    /// - Returns: `DescribeVaultOutputResponse` : Contains the Amazon S3 Glacier response to your request.
+    /// - Returns: `DescribeVaultOutput` : Contains the Amazon S3 Glacier response to your request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -190,12 +190,12 @@ public protocol GlacierClientProtocol {
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    func describeVault(input: DescribeVaultInput) async throws -> DescribeVaultOutputResponse
+    func describeVault(input: DescribeVaultInput) async throws -> DescribeVaultOutput
     /// This operation returns the current data retrieval policy for the account and region specified in the GET request. For more information about data retrieval policies, see [Amazon Glacier Data Retrieval Policies](https://docs.aws.amazon.com/amazonglacier/latest/dev/data-retrieval-policy.html).
     ///
     /// - Parameter GetDataRetrievalPolicyInput : Input for GetDataRetrievalPolicy.
     ///
-    /// - Returns: `GetDataRetrievalPolicyOutputResponse` : Contains the Amazon S3 Glacier response to the GetDataRetrievalPolicy request.
+    /// - Returns: `GetDataRetrievalPolicyOutput` : Contains the Amazon S3 Glacier response to the GetDataRetrievalPolicy request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -203,12 +203,12 @@ public protocol GlacierClientProtocol {
     /// - `InvalidParameterValueException` : Returned if a parameter of the request is incorrectly specified.
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    func getDataRetrievalPolicy(input: GetDataRetrievalPolicyInput) async throws -> GetDataRetrievalPolicyOutputResponse
+    func getDataRetrievalPolicy(input: GetDataRetrievalPolicyInput) async throws -> GetDataRetrievalPolicyOutput
     /// This operation downloads the output of the job you initiated using [InitiateJob]. Depending on the job type you specified when you initiated the job, the output will be either the content of an archive or a vault inventory. You can download all the job output or download a portion of the output by specifying a byte range. In the case of an archive retrieval job, depending on the byte range you specify, Amazon S3 Glacier (Glacier) returns the checksum for the portion of the data. You can compute the checksum on the client and verify that the values match to ensure the portion you downloaded is the correct data. A job ID will not expire for at least 24 hours after Glacier completes the job. That a byte range. For both archive and inventory retrieval jobs, you should verify the downloaded size against the size returned in the headers from the Get Job Output response. For archive retrieval jobs, you should also verify that the size is what you expected. If you download a portion of the output, the expected size is based on the range of bytes you specified. For example, if you specify a range of bytes=0-1048575, you should verify your download size is 1,048,576 bytes. If you download an entire archive, the expected size is the size of the archive when you uploaded it to Amazon S3 Glacier The expected size is also returned in the headers from the Get Job Output response. In the case of an archive retrieval job, depending on the byte range you specify, Glacier returns the checksum for the portion of the data. To ensure the portion you downloaded is the correct data, compute the checksum on the client, verify that the values match, and verify that the size is what you expected. A job ID does not expire for at least 24 hours after Glacier completes the job. That is, you can download the job output within the 24 hours period after Amazon Glacier completes the job. An AWS account has full permission to perform all operations (actions). However, AWS Identity and Access Management (IAM) users don't have any permissions by default. You must grant them explicit permission to perform specific actions. For more information, see [Access Control Using AWS Identity and Access Management (IAM)](https://docs.aws.amazon.com/amazonglacier/latest/dev/using-iam-with-amazon-glacier.html). For conceptual information and the underlying REST API, see [Downloading a Vault Inventory](https://docs.aws.amazon.com/amazonglacier/latest/dev/vault-inventory.html), [Downloading an Archive](https://docs.aws.amazon.com/amazonglacier/latest/dev/downloading-an-archive.html), and [Get Job Output ](https://docs.aws.amazon.com/amazonglacier/latest/dev/api-job-output-get.html)
     ///
     /// - Parameter GetJobOutputInput : Provides options for downloading output of an Amazon S3 Glacier job.
     ///
-    /// - Returns: `GetJobOutputOutputResponse` : Contains the Amazon S3 Glacier response to your request.
+    /// - Returns: `GetJobOutputOutput` : Contains the Amazon S3 Glacier response to your request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -217,12 +217,12 @@ public protocol GlacierClientProtocol {
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    func getJobOutput(input: GetJobOutputInput) async throws -> GetJobOutputOutputResponse
+    func getJobOutput(input: GetJobOutputInput) async throws -> GetJobOutputOutput
     /// This operation retrieves the access-policy subresource set on the vault; for more information on setting this subresource, see [Set Vault Access Policy (PUT access-policy)](https://docs.aws.amazon.com/amazonglacier/latest/dev/api-SetVaultAccessPolicy.html). If there is no access policy set on the vault, the operation returns a 404 Not found error. For more information about vault access policies, see [Amazon Glacier Access Control with Vault Access Policies](https://docs.aws.amazon.com/amazonglacier/latest/dev/vault-access-policy.html).
     ///
     /// - Parameter GetVaultAccessPolicyInput : Input for GetVaultAccessPolicy.
     ///
-    /// - Returns: `GetVaultAccessPolicyOutputResponse` : Output for GetVaultAccessPolicy.
+    /// - Returns: `GetVaultAccessPolicyOutput` : Output for GetVaultAccessPolicy.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -231,7 +231,7 @@ public protocol GlacierClientProtocol {
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    func getVaultAccessPolicy(input: GetVaultAccessPolicyInput) async throws -> GetVaultAccessPolicyOutputResponse
+    func getVaultAccessPolicy(input: GetVaultAccessPolicyInput) async throws -> GetVaultAccessPolicyOutput
     /// This operation retrieves the following attributes from the lock-policy subresource set on the specified vault:
     ///
     /// * The vault lock policy set on the vault.
@@ -247,7 +247,7 @@ public protocol GlacierClientProtocol {
     ///
     /// - Parameter GetVaultLockInput : The input values for GetVaultLock.
     ///
-    /// - Returns: `GetVaultLockOutputResponse` : Contains the Amazon S3 Glacier response to your request.
+    /// - Returns: `GetVaultLockOutput` : Contains the Amazon S3 Glacier response to your request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -256,12 +256,12 @@ public protocol GlacierClientProtocol {
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    func getVaultLock(input: GetVaultLockInput) async throws -> GetVaultLockOutputResponse
+    func getVaultLock(input: GetVaultLockInput) async throws -> GetVaultLockOutput
     /// This operation retrieves the notification-configuration subresource of the specified vault. For information about setting a notification configuration on a vault, see [SetVaultNotifications]. If a notification configuration for a vault is not set, the operation returns a 404 Not Found error. For more information about vault notifications, see [Configuring Vault Notifications in Amazon S3 Glacier](https://docs.aws.amazon.com/amazonglacier/latest/dev/configuring-notifications.html). An AWS account has full permission to perform all operations (actions). However, AWS Identity and Access Management (IAM) users don't have any permissions by default. You must grant them explicit permission to perform specific actions. For more information, see [Access Control Using AWS Identity and Access Management (IAM)](https://docs.aws.amazon.com/amazonglacier/latest/dev/using-iam-with-amazon-glacier.html). For conceptual information and underlying REST API, see [Configuring Vault Notifications in Amazon S3 Glacier](https://docs.aws.amazon.com/amazonglacier/latest/dev/configuring-notifications.html) and [Get Vault Notification Configuration ](https://docs.aws.amazon.com/amazonglacier/latest/dev/api-vault-notifications-get.html) in the Amazon Glacier Developer Guide.
     ///
     /// - Parameter GetVaultNotificationsInput : Provides options for retrieving the notification configuration set on an Amazon Glacier vault.
     ///
-    /// - Returns: `GetVaultNotificationsOutputResponse` : Contains the Amazon S3 Glacier response to your request.
+    /// - Returns: `GetVaultNotificationsOutput` : Contains the Amazon S3 Glacier response to your request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -270,12 +270,12 @@ public protocol GlacierClientProtocol {
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    func getVaultNotifications(input: GetVaultNotificationsInput) async throws -> GetVaultNotificationsOutputResponse
+    func getVaultNotifications(input: GetVaultNotificationsInput) async throws -> GetVaultNotificationsOutput
     /// This operation initiates a job of the specified type, which can be a select, an archival retrieval, or a vault retrieval. For more information about using this operation, see the documentation for the underlying REST API [Initiate a Job](https://docs.aws.amazon.com/amazonglacier/latest/dev/api-initiate-job-post.html).
     ///
     /// - Parameter InitiateJobInput : Provides options for initiating an Amazon S3 Glacier job.
     ///
-    /// - Returns: `InitiateJobOutputResponse` : Contains the Amazon S3 Glacier response to your request.
+    /// - Returns: `InitiateJobOutput` : Contains the Amazon S3 Glacier response to your request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -286,12 +286,12 @@ public protocol GlacierClientProtocol {
     /// - `PolicyEnforcedException` : Returned if a retrieval job would exceed the current data policy's retrieval rate limit. For more information about data retrieval policies,
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    func initiateJob(input: InitiateJobInput) async throws -> InitiateJobOutputResponse
+    func initiateJob(input: InitiateJobInput) async throws -> InitiateJobOutput
     /// This operation initiates a multipart upload. Amazon S3 Glacier creates a multipart upload resource and returns its ID in the response. The multipart upload ID is used in subsequent requests to upload parts of an archive (see [UploadMultipartPart]). When you initiate a multipart upload, you specify the part size in number of bytes. The part size must be a megabyte (1024 KB) multiplied by a power of 2-for example, 1048576 (1 MB), 2097152 (2 MB), 4194304 (4 MB), 8388608 (8 MB), and so on. The minimum allowable part size is 1 MB, and the maximum is 4 GB. Every part you upload to this resource (see [UploadMultipartPart]), except the last one, must have the same size. The last one can be the same size or smaller. For example, suppose you want to upload a 16.2 MB file. If you initiate the multipart upload with a part size of 4 MB, you will upload four parts of 4 MB each and one part of 0.2 MB. You don't need to know the size of the archive when you start a multipart upload because Amazon S3 Glacier does not require you to specify the overall archive size. After you complete the multipart upload, Amazon S3 Glacier (Glacier) removes the multipart upload resource referenced by the ID. Glacier also removes the multipart upload resource if you cancel the multipart upload or it may be removed if there is no activity for a period of 24 hours. An AWS account has full permission to perform all operations (actions). However, AWS Identity and Access Management (IAM) users don't have any permissions by default. You must grant them explicit permission to perform specific actions. For more information, see [Access Control Using AWS Identity and Access Management (IAM)](https://docs.aws.amazon.com/amazonglacier/latest/dev/using-iam-with-amazon-glacier.html). For conceptual information and underlying REST API, see [Uploading Large Archives in Parts (Multipart Upload)](https://docs.aws.amazon.com/amazonglacier/latest/dev/uploading-archive-mpu.html) and [Initiate Multipart Upload](https://docs.aws.amazon.com/amazonglacier/latest/dev/api-multipart-initiate-upload.html) in the Amazon Glacier Developer Guide.
     ///
     /// - Parameter InitiateMultipartUploadInput : Provides options for initiating a multipart upload to an Amazon S3 Glacier vault.
     ///
-    /// - Returns: `InitiateMultipartUploadOutputResponse` : The Amazon S3 Glacier response to your request.
+    /// - Returns: `InitiateMultipartUploadOutput` : The Amazon S3 Glacier response to your request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -300,7 +300,7 @@ public protocol GlacierClientProtocol {
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    func initiateMultipartUpload(input: InitiateMultipartUploadInput) async throws -> InitiateMultipartUploadOutputResponse
+    func initiateMultipartUpload(input: InitiateMultipartUploadInput) async throws -> InitiateMultipartUploadOutput
     /// This operation initiates the vault locking process by doing the following:
     ///
     /// * Installing a vault lock policy on the specified vault.
@@ -314,7 +314,7 @@ public protocol GlacierClientProtocol {
     ///
     /// - Parameter InitiateVaultLockInput : The input values for InitiateVaultLock.
     ///
-    /// - Returns: `InitiateVaultLockOutputResponse` : Contains the Amazon S3 Glacier response to your request.
+    /// - Returns: `InitiateVaultLockOutput` : Contains the Amazon S3 Glacier response to your request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -323,12 +323,12 @@ public protocol GlacierClientProtocol {
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    func initiateVaultLock(input: InitiateVaultLockInput) async throws -> InitiateVaultLockOutputResponse
+    func initiateVaultLock(input: InitiateVaultLockInput) async throws -> InitiateVaultLockOutput
     /// This operation lists jobs for a vault, including jobs that are in-progress and jobs that have recently finished. The List Job operation returns a list of these jobs sorted by job initiation time. Amazon Glacier retains recently completed jobs for a period before deleting them; however, it eventually removes completed jobs. The output of completed jobs can be retrieved. Retaining completed jobs for a period of time after they have completed enables you to get a job output in the event you miss the job completion notification or your first attempt to download it fails. For example, suppose you start an archive retrieval job to download an archive. After the job completes, you start to download the archive but encounter a network error. In this scenario, you can retry and download the archive while the job exists. The List Jobs operation supports pagination. You should always check the response Marker field. If there are no more jobs to list, the Marker field is set to null. If there are more jobs to list, the Marker field is set to a non-null value, which you can use to continue the pagination of the list. To return a list of jobs that begins at a specific job, set the marker request parameter to the Marker value for that job that you obtained from a previous List Jobs request. You can set a maximum limit for the number of jobs returned in the response by specifying the limit parameter in the request. The default limit is 50. The number of jobs returned might be fewer than the limit, but the number of returned jobs never exceeds the limit. Additionally, you can filter the jobs list returned by specifying the optional statuscode parameter or completed parameter, or both. Using the statuscode parameter, you can specify to return only jobs that match either the InProgress, Succeeded, or Failed status. Using the completed parameter, you can specify to return only jobs that were completed (true) or jobs that were not completed (false). For more information about using this operation, see the documentation for the underlying REST API [List Jobs](https://docs.aws.amazon.com/amazonglacier/latest/dev/api-jobs-get.html).
     ///
     /// - Parameter ListJobsInput : Provides options for retrieving a job list for an Amazon S3 Glacier vault.
     ///
-    /// - Returns: `ListJobsOutputResponse` : Contains the Amazon S3 Glacier response to your request.
+    /// - Returns: `ListJobsOutput` : Contains the Amazon S3 Glacier response to your request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -337,12 +337,12 @@ public protocol GlacierClientProtocol {
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    func listJobs(input: ListJobsInput) async throws -> ListJobsOutputResponse
+    func listJobs(input: ListJobsInput) async throws -> ListJobsOutput
     /// This operation lists in-progress multipart uploads for the specified vault. An in-progress multipart upload is a multipart upload that has been initiated by an [InitiateMultipartUpload] request, but has not yet been completed or aborted. The list returned in the List Multipart Upload response has no guaranteed order. The List Multipart Uploads operation supports pagination. By default, this operation returns up to 50 multipart uploads in the response. You should always check the response for a marker at which to continue the list; if there are no more items the marker is null. To return a list of multipart uploads that begins at a specific upload, set the marker request parameter to the value you obtained from a previous List Multipart Upload request. You can also limit the number of uploads returned in the response by specifying the limit parameter in the request. Note the difference between this operation and listing parts ([ListParts]). The List Multipart Uploads operation lists all multipart uploads for a vault and does not require a multipart upload ID. The List Parts operation requires a multipart upload ID since parts are associated with a single upload. An AWS account has full permission to perform all operations (actions). However, AWS Identity and Access Management (IAM) users don't have any permissions by default. You must grant them explicit permission to perform specific actions. For more information, see [Access Control Using AWS Identity and Access Management (IAM)](https://docs.aws.amazon.com/amazonglacier/latest/dev/using-iam-with-amazon-glacier.html). For conceptual information and the underlying REST API, see [Working with Archives in Amazon S3 Glacier](https://docs.aws.amazon.com/amazonglacier/latest/dev/working-with-archives.html) and [List Multipart Uploads ](https://docs.aws.amazon.com/amazonglacier/latest/dev/api-multipart-list-uploads.html) in the Amazon Glacier Developer Guide.
     ///
     /// - Parameter ListMultipartUploadsInput : Provides options for retrieving list of in-progress multipart uploads for an Amazon Glacier vault.
     ///
-    /// - Returns: `ListMultipartUploadsOutputResponse` : Contains the Amazon S3 Glacier response to your request.
+    /// - Returns: `ListMultipartUploadsOutput` : Contains the Amazon S3 Glacier response to your request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -351,12 +351,12 @@ public protocol GlacierClientProtocol {
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    func listMultipartUploads(input: ListMultipartUploadsInput) async throws -> ListMultipartUploadsOutputResponse
+    func listMultipartUploads(input: ListMultipartUploadsInput) async throws -> ListMultipartUploadsOutput
     /// This operation lists the parts of an archive that have been uploaded in a specific multipart upload. You can make this request at any time during an in-progress multipart upload before you complete the upload (see [CompleteMultipartUpload]. List Parts returns an error for completed uploads. The list returned in the List Parts response is sorted by part range. The List Parts operation supports pagination. By default, this operation returns up to 50 uploaded parts in the response. You should always check the response for a marker at which to continue the list; if there are no more items the marker is null. To return a list of parts that begins at a specific part, set the marker request parameter to the value you obtained from a previous List Parts request. You can also limit the number of parts returned in the response by specifying the limit parameter in the request. An AWS account has full permission to perform all operations (actions). However, AWS Identity and Access Management (IAM) users don't have any permissions by default. You must grant them explicit permission to perform specific actions. For more information, see [Access Control Using AWS Identity and Access Management (IAM)](https://docs.aws.amazon.com/amazonglacier/latest/dev/using-iam-with-amazon-glacier.html). For conceptual information and the underlying REST API, see [Working with Archives in Amazon S3 Glacier](https://docs.aws.amazon.com/amazonglacier/latest/dev/working-with-archives.html) and [List Parts](https://docs.aws.amazon.com/amazonglacier/latest/dev/api-multipart-list-parts.html) in the Amazon Glacier Developer Guide.
     ///
     /// - Parameter ListPartsInput : Provides options for retrieving a list of parts of an archive that have been uploaded in a specific multipart upload.
     ///
-    /// - Returns: `ListPartsOutputResponse` : Contains the Amazon S3 Glacier response to your request.
+    /// - Returns: `ListPartsOutput` : Contains the Amazon S3 Glacier response to your request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -365,12 +365,12 @@ public protocol GlacierClientProtocol {
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    func listParts(input: ListPartsInput) async throws -> ListPartsOutputResponse
+    func listParts(input: ListPartsInput) async throws -> ListPartsOutput
     /// This operation lists the provisioned capacity units for the specified AWS account.
     ///
     /// - Parameter ListProvisionedCapacityInput : [no documentation found]
     ///
-    /// - Returns: `ListProvisionedCapacityOutputResponse` : [no documentation found]
+    /// - Returns: `ListProvisionedCapacityOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -378,12 +378,12 @@ public protocol GlacierClientProtocol {
     /// - `InvalidParameterValueException` : Returned if a parameter of the request is incorrectly specified.
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    func listProvisionedCapacity(input: ListProvisionedCapacityInput) async throws -> ListProvisionedCapacityOutputResponse
+    func listProvisionedCapacity(input: ListProvisionedCapacityInput) async throws -> ListProvisionedCapacityOutput
     /// This operation lists all the tags attached to a vault. The operation returns an empty map if there are no tags. For more information about tags, see [Tagging Amazon S3 Glacier Resources](https://docs.aws.amazon.com/amazonglacier/latest/dev/tagging.html).
     ///
     /// - Parameter ListTagsForVaultInput : The input value for ListTagsForVaultInput.
     ///
-    /// - Returns: `ListTagsForVaultOutputResponse` : Contains the Amazon S3 Glacier response to your request.
+    /// - Returns: `ListTagsForVaultOutput` : Contains the Amazon S3 Glacier response to your request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -392,12 +392,12 @@ public protocol GlacierClientProtocol {
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    func listTagsForVault(input: ListTagsForVaultInput) async throws -> ListTagsForVaultOutputResponse
+    func listTagsForVault(input: ListTagsForVaultInput) async throws -> ListTagsForVaultOutput
     /// This operation lists all vaults owned by the calling user's account. The list returned in the response is ASCII-sorted by vault name. By default, this operation returns up to 10 items. If there are more vaults to list, the response marker field contains the vault Amazon Resource Name (ARN) at which to continue the list with a new List Vaults request; otherwise, the marker field is null. To return a list of vaults that begins at a specific vault, set the marker request parameter to the vault ARN you obtained from a previous List Vaults request. You can also limit the number of vaults returned in the response by specifying the limit parameter in the request. An AWS account has full permission to perform all operations (actions). However, AWS Identity and Access Management (IAM) users don't have any permissions by default. You must grant them explicit permission to perform specific actions. For more information, see [Access Control Using AWS Identity and Access Management (IAM)](https://docs.aws.amazon.com/amazonglacier/latest/dev/using-iam-with-amazon-glacier.html). For conceptual information and underlying REST API, see [Retrieving Vault Metadata in Amazon S3 Glacier](https://docs.aws.amazon.com/amazonglacier/latest/dev/retrieving-vault-info.html) and [List Vaults ](https://docs.aws.amazon.com/amazonglacier/latest/dev/api-vaults-get.html) in the Amazon Glacier Developer Guide.
     ///
     /// - Parameter ListVaultsInput : Provides options to retrieve the vault list owned by the calling user's account. The list provides metadata information for each vault.
     ///
-    /// - Returns: `ListVaultsOutputResponse` : Contains the Amazon S3 Glacier response to your request.
+    /// - Returns: `ListVaultsOutput` : Contains the Amazon S3 Glacier response to your request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -406,12 +406,12 @@ public protocol GlacierClientProtocol {
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    func listVaults(input: ListVaultsInput) async throws -> ListVaultsOutputResponse
+    func listVaults(input: ListVaultsInput) async throws -> ListVaultsOutput
     /// This operation purchases a provisioned capacity unit for an AWS account.
     ///
     /// - Parameter PurchaseProvisionedCapacityInput : [no documentation found]
     ///
-    /// - Returns: `PurchaseProvisionedCapacityOutputResponse` : [no documentation found]
+    /// - Returns: `PurchaseProvisionedCapacityOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -420,12 +420,12 @@ public protocol GlacierClientProtocol {
     /// - `LimitExceededException` : Returned if the request results in a vault or account limit being exceeded.
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    func purchaseProvisionedCapacity(input: PurchaseProvisionedCapacityInput) async throws -> PurchaseProvisionedCapacityOutputResponse
+    func purchaseProvisionedCapacity(input: PurchaseProvisionedCapacityInput) async throws -> PurchaseProvisionedCapacityOutput
     /// This operation removes one or more tags from the set of tags attached to a vault. For more information about tags, see [Tagging Amazon S3 Glacier Resources](https://docs.aws.amazon.com/amazonglacier/latest/dev/tagging.html). This operation is idempotent. The operation will be successful, even if there are no tags attached to the vault.
     ///
     /// - Parameter RemoveTagsFromVaultInput : The input value for RemoveTagsFromVaultInput.
     ///
-    /// - Returns: `RemoveTagsFromVaultOutputResponse` : [no documentation found]
+    /// - Returns: `RemoveTagsFromVaultOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -434,12 +434,12 @@ public protocol GlacierClientProtocol {
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    func removeTagsFromVault(input: RemoveTagsFromVaultInput) async throws -> RemoveTagsFromVaultOutputResponse
+    func removeTagsFromVault(input: RemoveTagsFromVaultInput) async throws -> RemoveTagsFromVaultOutput
     /// This operation sets and then enacts a data retrieval policy in the region specified in the PUT request. You can set one policy per region for an AWS account. The policy is enacted within a few minutes of a successful PUT operation. The set policy operation does not affect retrieval jobs that were in progress before the policy was enacted. For more information about data retrieval policies, see [Amazon Glacier Data Retrieval Policies](https://docs.aws.amazon.com/amazonglacier/latest/dev/data-retrieval-policy.html).
     ///
     /// - Parameter SetDataRetrievalPolicyInput : SetDataRetrievalPolicy input.
     ///
-    /// - Returns: `SetDataRetrievalPolicyOutputResponse` : [no documentation found]
+    /// - Returns: `SetDataRetrievalPolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -447,12 +447,12 @@ public protocol GlacierClientProtocol {
     /// - `InvalidParameterValueException` : Returned if a parameter of the request is incorrectly specified.
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    func setDataRetrievalPolicy(input: SetDataRetrievalPolicyInput) async throws -> SetDataRetrievalPolicyOutputResponse
+    func setDataRetrievalPolicy(input: SetDataRetrievalPolicyInput) async throws -> SetDataRetrievalPolicyOutput
     /// This operation configures an access policy for a vault and will overwrite an existing policy. To configure a vault access policy, send a PUT request to the access-policy subresource of the vault. An access policy is specific to a vault and is also called a vault subresource. You can set one access policy per vault and the policy can be up to 20 KB in size. For more information about vault access policies, see [Amazon Glacier Access Control with Vault Access Policies](https://docs.aws.amazon.com/amazonglacier/latest/dev/vault-access-policy.html).
     ///
     /// - Parameter SetVaultAccessPolicyInput : SetVaultAccessPolicy input.
     ///
-    /// - Returns: `SetVaultAccessPolicyOutputResponse` : [no documentation found]
+    /// - Returns: `SetVaultAccessPolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -461,7 +461,7 @@ public protocol GlacierClientProtocol {
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    func setVaultAccessPolicy(input: SetVaultAccessPolicyInput) async throws -> SetVaultAccessPolicyOutputResponse
+    func setVaultAccessPolicy(input: SetVaultAccessPolicyInput) async throws -> SetVaultAccessPolicyOutput
     /// This operation configures notifications that will be sent when specific events happen to a vault. By default, you don't get any notifications. To configure vault notifications, send a PUT request to the notification-configuration subresource of the vault. The request should include a JSON document that provides an Amazon SNS topic and specific events for which you want Amazon S3 Glacier to send notifications to the topic. Amazon SNS topics must grant permission to the vault to be allowed to publish notifications to the topic. You can configure a vault to publish a notification for the following vault events:
     ///
     /// * ArchiveRetrievalCompleted This event occurs when a job that was initiated for an archive retrieval is completed ([InitiateJob]). The status of the completed job can be "Succeeded" or "Failed". The notification sent to the SNS topic is the same output as returned from [DescribeJob].
@@ -473,7 +473,7 @@ public protocol GlacierClientProtocol {
     ///
     /// - Parameter SetVaultNotificationsInput : Provides options to configure notifications that will be sent when specific events happen to a vault.
     ///
-    /// - Returns: `SetVaultNotificationsOutputResponse` : [no documentation found]
+    /// - Returns: `SetVaultNotificationsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -482,12 +482,12 @@ public protocol GlacierClientProtocol {
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    func setVaultNotifications(input: SetVaultNotificationsInput) async throws -> SetVaultNotificationsOutputResponse
+    func setVaultNotifications(input: SetVaultNotificationsInput) async throws -> SetVaultNotificationsOutput
     /// This operation adds an archive to a vault. This is a synchronous operation, and for a successful upload, your data is durably persisted. Amazon S3 Glacier returns the archive ID in the x-amz-archive-id header of the response. You must use the archive ID to access your data in Amazon S3 Glacier. After you upload an archive, you should save the archive ID returned so that you can retrieve or delete the archive later. Besides saving the archive ID, you can also index it and give it a friendly name to allow for better searching. You can also use the optional archive description field to specify how the archive is referred to in an external index of archives, such as you might create in Amazon DynamoDB. You can also get the vault inventory to obtain a list of archive IDs in a vault. For more information, see [InitiateJob]. You must provide a SHA256 tree hash of the data you are uploading. For information about computing a SHA256 tree hash, see [Computing Checksums](https://docs.aws.amazon.com/amazonglacier/latest/dev/checksum-calculations.html). You can optionally specify an archive description of up to 1,024 printable ASCII characters. You can get the archive description when you either retrieve the archive or get the vault inventory. For more information, see [InitiateJob]. Amazon Glacier does not interpret the description in any way. An archive description does not need to be unique. You cannot use the description to retrieve or sort the archive list. Archives are immutable. After you upload an archive, you cannot edit the archive or its description. An AWS account has full permission to perform all operations (actions). However, AWS Identity and Access Management (IAM) users don't have any permissions by default. You must grant them explicit permission to perform specific actions. For more information, see [Access Control Using AWS Identity and Access Management (IAM)](https://docs.aws.amazon.com/amazonglacier/latest/dev/using-iam-with-amazon-glacier.html). For conceptual information and underlying REST API, see [Uploading an Archive in Amazon Glacier](https://docs.aws.amazon.com/amazonglacier/latest/dev/uploading-an-archive.html) and [Upload Archive](https://docs.aws.amazon.com/amazonglacier/latest/dev/api-archive-post.html) in the Amazon Glacier Developer Guide.
     ///
     /// - Parameter UploadArchiveInput : Provides options to add an archive to a vault.
     ///
-    /// - Returns: `UploadArchiveOutputResponse` : Contains the Amazon S3 Glacier response to your request. For information about the underlying REST API, see [Upload Archive](https://docs.aws.amazon.com/amazonglacier/latest/dev/api-archive-post.html). For conceptual information, see [Working with Archives in Amazon S3 Glacier](https://docs.aws.amazon.com/amazonglacier/latest/dev/working-with-archives.html).
+    /// - Returns: `UploadArchiveOutput` : Contains the Amazon S3 Glacier response to your request. For information about the underlying REST API, see [Upload Archive](https://docs.aws.amazon.com/amazonglacier/latest/dev/api-archive-post.html). For conceptual information, see [Working with Archives in Amazon S3 Glacier](https://docs.aws.amazon.com/amazonglacier/latest/dev/working-with-archives.html).
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -497,7 +497,7 @@ public protocol GlacierClientProtocol {
     /// - `RequestTimeoutException` : Returned if, when uploading an archive, Amazon S3 Glacier times out while receiving the upload.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    func uploadArchive(input: UploadArchiveInput) async throws -> UploadArchiveOutputResponse
+    func uploadArchive(input: UploadArchiveInput) async throws -> UploadArchiveOutput
     /// This operation uploads a part of an archive. You can upload archive parts in any order. You can also upload them in parallel. You can upload up to 10,000 parts for a multipart upload. Amazon Glacier rejects your upload part request if any of the following conditions is true:
     ///
     /// * SHA256 tree hash does not matchTo ensure that part data is not corrupted in transmission, you compute a SHA256 tree hash of the part and include it in your request. Upon receiving the part data, Amazon S3 Glacier also computes a SHA256 tree hash. If these hash values don't match, the operation fails. For information about computing a SHA256 tree hash, see [Computing Checksums](https://docs.aws.amazon.com/amazonglacier/latest/dev/checksum-calculations.html).
@@ -511,7 +511,7 @@ public protocol GlacierClientProtocol {
     ///
     /// - Parameter UploadMultipartPartInput : Provides options to upload a part of an archive in a multipart upload operation.
     ///
-    /// - Returns: `UploadMultipartPartOutputResponse` : Contains the Amazon S3 Glacier response to your request.
+    /// - Returns: `UploadMultipartPartOutput` : Contains the Amazon S3 Glacier response to your request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -521,7 +521,7 @@ public protocol GlacierClientProtocol {
     /// - `RequestTimeoutException` : Returned if, when uploading an archive, Amazon S3 Glacier times out while receiving the upload.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
-    func uploadMultipartPart(input: UploadMultipartPartInput) async throws -> UploadMultipartPartOutputResponse
+    func uploadMultipartPart(input: UploadMultipartPartInput) async throws -> UploadMultipartPartOutput
 }
 
 public enum GlacierClientTypes {}

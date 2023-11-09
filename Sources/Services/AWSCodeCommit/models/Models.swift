@@ -1111,6 +1111,16 @@ extension AssociateApprovalRuleTemplateWithRepositoryInputBody: Swift.Decodable 
     }
 }
 
+extension AssociateApprovalRuleTemplateWithRepositoryOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct AssociateApprovalRuleTemplateWithRepositoryOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum AssociateApprovalRuleTemplateWithRepositoryOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -1131,16 +1141,6 @@ enum AssociateApprovalRuleTemplateWithRepositoryOutputError: ClientRuntime.HttpR
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension AssociateApprovalRuleTemplateWithRepositoryOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct AssociateApprovalRuleTemplateWithRepositoryOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension AuthorDoesNotExistException {
@@ -1327,31 +1327,11 @@ extension BatchAssociateApprovalRuleTemplateWithRepositoriesInputBody: Swift.Dec
     }
 }
 
-enum BatchAssociateApprovalRuleTemplateWithRepositoriesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ApprovalRuleTemplateDoesNotExistException": return try await ApprovalRuleTemplateDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ApprovalRuleTemplateNameRequiredException": return try await ApprovalRuleTemplateNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionIntegrityChecksFailedException": return try await EncryptionIntegrityChecksFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionKeyAccessDeniedException": return try await EncryptionKeyAccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionKeyDisabledException": return try await EncryptionKeyDisabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionKeyNotFoundException": return try await EncryptionKeyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionKeyUnavailableException": return try await EncryptionKeyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidApprovalRuleTemplateNameException": return try await InvalidApprovalRuleTemplateNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MaximumRepositoryNamesExceededException": return try await MaximumRepositoryNamesExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "RepositoryNamesRequiredException": return try await RepositoryNamesRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension BatchAssociateApprovalRuleTemplateWithRepositoriesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension BatchAssociateApprovalRuleTemplateWithRepositoriesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: BatchAssociateApprovalRuleTemplateWithRepositoriesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: BatchAssociateApprovalRuleTemplateWithRepositoriesOutputBody = try responseDecoder.decode(responseBody: data)
             self.associatedRepositoryNames = output.associatedRepositoryNames
             self.errors = output.errors
         } else {
@@ -1361,7 +1341,7 @@ extension BatchAssociateApprovalRuleTemplateWithRepositoriesOutputResponse: Clie
     }
 }
 
-public struct BatchAssociateApprovalRuleTemplateWithRepositoriesOutputResponse: Swift.Equatable {
+public struct BatchAssociateApprovalRuleTemplateWithRepositoriesOutput: Swift.Equatable {
     /// A list of names of the repositories that have been associated with the template.
     /// This member is required.
     public var associatedRepositoryNames: [Swift.String]?
@@ -1379,12 +1359,12 @@ public struct BatchAssociateApprovalRuleTemplateWithRepositoriesOutputResponse: 
     }
 }
 
-struct BatchAssociateApprovalRuleTemplateWithRepositoriesOutputResponseBody: Swift.Equatable {
+struct BatchAssociateApprovalRuleTemplateWithRepositoriesOutputBody: Swift.Equatable {
     let associatedRepositoryNames: [Swift.String]?
     let errors: [CodeCommitClientTypes.BatchAssociateApprovalRuleTemplateWithRepositoriesError]?
 }
 
-extension BatchAssociateApprovalRuleTemplateWithRepositoriesOutputResponseBody: Swift.Decodable {
+extension BatchAssociateApprovalRuleTemplateWithRepositoriesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case associatedRepositoryNames
         case errors
@@ -1414,6 +1394,26 @@ extension BatchAssociateApprovalRuleTemplateWithRepositoriesOutputResponseBody: 
             }
         }
         errors = errorsDecoded0
+    }
+}
+
+enum BatchAssociateApprovalRuleTemplateWithRepositoriesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ApprovalRuleTemplateDoesNotExistException": return try await ApprovalRuleTemplateDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ApprovalRuleTemplateNameRequiredException": return try await ApprovalRuleTemplateNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionIntegrityChecksFailedException": return try await EncryptionIntegrityChecksFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionKeyAccessDeniedException": return try await EncryptionKeyAccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionKeyDisabledException": return try await EncryptionKeyDisabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionKeyNotFoundException": return try await EncryptionKeyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionKeyUnavailableException": return try await EncryptionKeyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidApprovalRuleTemplateNameException": return try await InvalidApprovalRuleTemplateNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MaximumRepositoryNamesExceededException": return try await MaximumRepositoryNamesExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RepositoryNamesRequiredException": return try await RepositoryNamesRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1646,42 +1646,11 @@ extension BatchDescribeMergeConflictsInputBody: Swift.Decodable {
     }
 }
 
-enum BatchDescribeMergeConflictsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "CommitDoesNotExistException": return try await CommitDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "CommitRequiredException": return try await CommitRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionIntegrityChecksFailedException": return try await EncryptionIntegrityChecksFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionKeyAccessDeniedException": return try await EncryptionKeyAccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionKeyDisabledException": return try await EncryptionKeyDisabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionKeyNotFoundException": return try await EncryptionKeyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionKeyUnavailableException": return try await EncryptionKeyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidCommitException": return try await InvalidCommitException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidConflictDetailLevelException": return try await InvalidConflictDetailLevelException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidConflictResolutionStrategyException": return try await InvalidConflictResolutionStrategyException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidContinuationTokenException": return try await InvalidContinuationTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidMaxConflictFilesException": return try await InvalidMaxConflictFilesException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidMaxMergeHunksException": return try await InvalidMaxMergeHunksException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidMergeOptionException": return try await InvalidMergeOptionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRepositoryNameException": return try await InvalidRepositoryNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MaximumFileContentToLoadExceededException": return try await MaximumFileContentToLoadExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MaximumItemsToCompareExceededException": return try await MaximumItemsToCompareExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MergeOptionRequiredException": return try await MergeOptionRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "RepositoryDoesNotExistException": return try await RepositoryDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "RepositoryNameRequiredException": return try await RepositoryNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TipsDivergenceExceededException": return try await TipsDivergenceExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension BatchDescribeMergeConflictsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension BatchDescribeMergeConflictsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: BatchDescribeMergeConflictsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: BatchDescribeMergeConflictsOutputBody = try responseDecoder.decode(responseBody: data)
             self.baseCommitId = output.baseCommitId
             self.conflicts = output.conflicts
             self.destinationCommitId = output.destinationCommitId
@@ -1699,7 +1668,7 @@ extension BatchDescribeMergeConflictsOutputResponse: ClientRuntime.HttpResponseB
     }
 }
 
-public struct BatchDescribeMergeConflictsOutputResponse: Swift.Equatable {
+public struct BatchDescribeMergeConflictsOutput: Swift.Equatable {
     /// The commit ID of the merge base.
     public var baseCommitId: Swift.String?
     /// A list of conflicts for each file, including the conflict metadata and the hunks of the differences between the files.
@@ -1734,7 +1703,7 @@ public struct BatchDescribeMergeConflictsOutputResponse: Swift.Equatable {
     }
 }
 
-struct BatchDescribeMergeConflictsOutputResponseBody: Swift.Equatable {
+struct BatchDescribeMergeConflictsOutputBody: Swift.Equatable {
     let conflicts: [CodeCommitClientTypes.Conflict]?
     let nextToken: Swift.String?
     let errors: [CodeCommitClientTypes.BatchDescribeMergeConflictsError]?
@@ -1743,7 +1712,7 @@ struct BatchDescribeMergeConflictsOutputResponseBody: Swift.Equatable {
     let baseCommitId: Swift.String?
 }
 
-extension BatchDescribeMergeConflictsOutputResponseBody: Swift.Decodable {
+extension BatchDescribeMergeConflictsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case baseCommitId
         case conflicts
@@ -1785,6 +1754,37 @@ extension BatchDescribeMergeConflictsOutputResponseBody: Swift.Decodable {
         sourceCommitId = sourceCommitIdDecoded
         let baseCommitIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .baseCommitId)
         baseCommitId = baseCommitIdDecoded
+    }
+}
+
+enum BatchDescribeMergeConflictsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "CommitDoesNotExistException": return try await CommitDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "CommitRequiredException": return try await CommitRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionIntegrityChecksFailedException": return try await EncryptionIntegrityChecksFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionKeyAccessDeniedException": return try await EncryptionKeyAccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionKeyDisabledException": return try await EncryptionKeyDisabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionKeyNotFoundException": return try await EncryptionKeyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionKeyUnavailableException": return try await EncryptionKeyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidCommitException": return try await InvalidCommitException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidConflictDetailLevelException": return try await InvalidConflictDetailLevelException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidConflictResolutionStrategyException": return try await InvalidConflictResolutionStrategyException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidContinuationTokenException": return try await InvalidContinuationTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidMaxConflictFilesException": return try await InvalidMaxConflictFilesException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidMaxMergeHunksException": return try await InvalidMaxMergeHunksException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidMergeOptionException": return try await InvalidMergeOptionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRepositoryNameException": return try await InvalidRepositoryNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MaximumFileContentToLoadExceededException": return try await MaximumFileContentToLoadExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MaximumItemsToCompareExceededException": return try await MaximumItemsToCompareExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MergeOptionRequiredException": return try await MergeOptionRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RepositoryDoesNotExistException": return try await RepositoryDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RepositoryNameRequiredException": return try await RepositoryNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TipsDivergenceExceededException": return try await TipsDivergenceExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1916,31 +1916,11 @@ extension BatchDisassociateApprovalRuleTemplateFromRepositoriesInputBody: Swift.
     }
 }
 
-enum BatchDisassociateApprovalRuleTemplateFromRepositoriesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ApprovalRuleTemplateDoesNotExistException": return try await ApprovalRuleTemplateDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ApprovalRuleTemplateNameRequiredException": return try await ApprovalRuleTemplateNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionIntegrityChecksFailedException": return try await EncryptionIntegrityChecksFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionKeyAccessDeniedException": return try await EncryptionKeyAccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionKeyDisabledException": return try await EncryptionKeyDisabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionKeyNotFoundException": return try await EncryptionKeyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionKeyUnavailableException": return try await EncryptionKeyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidApprovalRuleTemplateNameException": return try await InvalidApprovalRuleTemplateNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MaximumRepositoryNamesExceededException": return try await MaximumRepositoryNamesExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "RepositoryNamesRequiredException": return try await RepositoryNamesRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension BatchDisassociateApprovalRuleTemplateFromRepositoriesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension BatchDisassociateApprovalRuleTemplateFromRepositoriesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: BatchDisassociateApprovalRuleTemplateFromRepositoriesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: BatchDisassociateApprovalRuleTemplateFromRepositoriesOutputBody = try responseDecoder.decode(responseBody: data)
             self.disassociatedRepositoryNames = output.disassociatedRepositoryNames
             self.errors = output.errors
         } else {
@@ -1950,7 +1930,7 @@ extension BatchDisassociateApprovalRuleTemplateFromRepositoriesOutputResponse: C
     }
 }
 
-public struct BatchDisassociateApprovalRuleTemplateFromRepositoriesOutputResponse: Swift.Equatable {
+public struct BatchDisassociateApprovalRuleTemplateFromRepositoriesOutput: Swift.Equatable {
     /// A list of repository names that have had their association with the template removed.
     /// This member is required.
     public var disassociatedRepositoryNames: [Swift.String]?
@@ -1968,12 +1948,12 @@ public struct BatchDisassociateApprovalRuleTemplateFromRepositoriesOutputRespons
     }
 }
 
-struct BatchDisassociateApprovalRuleTemplateFromRepositoriesOutputResponseBody: Swift.Equatable {
+struct BatchDisassociateApprovalRuleTemplateFromRepositoriesOutputBody: Swift.Equatable {
     let disassociatedRepositoryNames: [Swift.String]?
     let errors: [CodeCommitClientTypes.BatchDisassociateApprovalRuleTemplateFromRepositoriesError]?
 }
 
-extension BatchDisassociateApprovalRuleTemplateFromRepositoriesOutputResponseBody: Swift.Decodable {
+extension BatchDisassociateApprovalRuleTemplateFromRepositoriesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case disassociatedRepositoryNames
         case errors
@@ -2003,6 +1983,26 @@ extension BatchDisassociateApprovalRuleTemplateFromRepositoriesOutputResponseBod
             }
         }
         errors = errorsDecoded0
+    }
+}
+
+enum BatchDisassociateApprovalRuleTemplateFromRepositoriesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ApprovalRuleTemplateDoesNotExistException": return try await ApprovalRuleTemplateDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ApprovalRuleTemplateNameRequiredException": return try await ApprovalRuleTemplateNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionIntegrityChecksFailedException": return try await EncryptionIntegrityChecksFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionKeyAccessDeniedException": return try await EncryptionKeyAccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionKeyDisabledException": return try await EncryptionKeyDisabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionKeyNotFoundException": return try await EncryptionKeyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionKeyUnavailableException": return try await EncryptionKeyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidApprovalRuleTemplateNameException": return try await InvalidApprovalRuleTemplateNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MaximumRepositoryNamesExceededException": return try await MaximumRepositoryNamesExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RepositoryNamesRequiredException": return try await RepositoryNamesRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2134,31 +2134,11 @@ extension BatchGetCommitsInputBody: Swift.Decodable {
     }
 }
 
-enum BatchGetCommitsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "CommitIdsLimitExceededException": return try await CommitIdsLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "CommitIdsListRequiredException": return try await CommitIdsListRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionIntegrityChecksFailedException": return try await EncryptionIntegrityChecksFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionKeyAccessDeniedException": return try await EncryptionKeyAccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionKeyDisabledException": return try await EncryptionKeyDisabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionKeyNotFoundException": return try await EncryptionKeyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionKeyUnavailableException": return try await EncryptionKeyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRepositoryNameException": return try await InvalidRepositoryNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "RepositoryDoesNotExistException": return try await RepositoryDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "RepositoryNameRequiredException": return try await RepositoryNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension BatchGetCommitsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension BatchGetCommitsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: BatchGetCommitsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: BatchGetCommitsOutputBody = try responseDecoder.decode(responseBody: data)
             self.commits = output.commits
             self.errors = output.errors
         } else {
@@ -2168,7 +2148,7 @@ extension BatchGetCommitsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchGetCommitsOutputResponse: Swift.Equatable {
+public struct BatchGetCommitsOutput: Swift.Equatable {
     /// An array of commit data type objects, each of which contains information about a specified commit.
     public var commits: [CodeCommitClientTypes.Commit]?
     /// Returns any commit IDs for which information could not be found. For example, if one of the commit IDs was a shortened SHA ID or that commit was not found in the specified repository, the ID returns an error object with more information.
@@ -2184,12 +2164,12 @@ public struct BatchGetCommitsOutputResponse: Swift.Equatable {
     }
 }
 
-struct BatchGetCommitsOutputResponseBody: Swift.Equatable {
+struct BatchGetCommitsOutputBody: Swift.Equatable {
     let commits: [CodeCommitClientTypes.Commit]?
     let errors: [CodeCommitClientTypes.BatchGetCommitsError]?
 }
 
-extension BatchGetCommitsOutputResponseBody: Swift.Decodable {
+extension BatchGetCommitsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case commits
         case errors
@@ -2219,6 +2199,26 @@ extension BatchGetCommitsOutputResponseBody: Swift.Decodable {
             }
         }
         errors = errorsDecoded0
+    }
+}
+
+enum BatchGetCommitsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "CommitIdsLimitExceededException": return try await CommitIdsLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "CommitIdsListRequiredException": return try await CommitIdsListRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionIntegrityChecksFailedException": return try await EncryptionIntegrityChecksFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionKeyAccessDeniedException": return try await EncryptionKeyAccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionKeyDisabledException": return try await EncryptionKeyDisabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionKeyNotFoundException": return try await EncryptionKeyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionKeyUnavailableException": return try await EncryptionKeyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRepositoryNameException": return try await InvalidRepositoryNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RepositoryDoesNotExistException": return try await RepositoryDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RepositoryNameRequiredException": return try await RepositoryNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2283,29 +2283,11 @@ extension BatchGetRepositoriesInputBody: Swift.Decodable {
     }
 }
 
-enum BatchGetRepositoriesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "EncryptionIntegrityChecksFailedException": return try await EncryptionIntegrityChecksFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionKeyAccessDeniedException": return try await EncryptionKeyAccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionKeyDisabledException": return try await EncryptionKeyDisabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionKeyNotFoundException": return try await EncryptionKeyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionKeyUnavailableException": return try await EncryptionKeyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRepositoryNameException": return try await InvalidRepositoryNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MaximumRepositoryNamesExceededException": return try await MaximumRepositoryNamesExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "RepositoryNamesRequiredException": return try await RepositoryNamesRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension BatchGetRepositoriesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension BatchGetRepositoriesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: BatchGetRepositoriesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: BatchGetRepositoriesOutputBody = try responseDecoder.decode(responseBody: data)
             self.repositories = output.repositories
             self.repositoriesNotFound = output.repositoriesNotFound
         } else {
@@ -2316,7 +2298,7 @@ extension BatchGetRepositoriesOutputResponse: ClientRuntime.HttpResponseBinding 
 }
 
 /// Represents the output of a batch get repositories operation.
-public struct BatchGetRepositoriesOutputResponse: Swift.Equatable {
+public struct BatchGetRepositoriesOutput: Swift.Equatable {
     /// A list of repositories returned by the batch get repositories operation.
     public var repositories: [CodeCommitClientTypes.RepositoryMetadata]?
     /// Returns a list of repository names for which information could not be found.
@@ -2332,12 +2314,12 @@ public struct BatchGetRepositoriesOutputResponse: Swift.Equatable {
     }
 }
 
-struct BatchGetRepositoriesOutputResponseBody: Swift.Equatable {
+struct BatchGetRepositoriesOutputBody: Swift.Equatable {
     let repositories: [CodeCommitClientTypes.RepositoryMetadata]?
     let repositoriesNotFound: [Swift.String]?
 }
 
-extension BatchGetRepositoriesOutputResponseBody: Swift.Decodable {
+extension BatchGetRepositoriesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case repositories
         case repositoriesNotFound
@@ -2367,6 +2349,24 @@ extension BatchGetRepositoriesOutputResponseBody: Swift.Decodable {
             }
         }
         repositoriesNotFound = repositoriesNotFoundDecoded0
+    }
+}
+
+enum BatchGetRepositoriesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "EncryptionIntegrityChecksFailedException": return try await EncryptionIntegrityChecksFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionKeyAccessDeniedException": return try await EncryptionKeyAccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionKeyDisabledException": return try await EncryptionKeyDisabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionKeyNotFoundException": return try await EncryptionKeyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionKeyUnavailableException": return try await EncryptionKeyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRepositoryNameException": return try await InvalidRepositoryNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MaximumRepositoryNamesExceededException": return try await MaximumRepositoryNamesExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RepositoryNamesRequiredException": return try await RepositoryNamesRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -4767,6 +4767,47 @@ extension CreateApprovalRuleTemplateInputBody: Swift.Decodable {
     }
 }
 
+extension CreateApprovalRuleTemplateOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateApprovalRuleTemplateOutputBody = try responseDecoder.decode(responseBody: data)
+            self.approvalRuleTemplate = output.approvalRuleTemplate
+        } else {
+            self.approvalRuleTemplate = nil
+        }
+    }
+}
+
+public struct CreateApprovalRuleTemplateOutput: Swift.Equatable {
+    /// The content and structure of the created approval rule template.
+    /// This member is required.
+    public var approvalRuleTemplate: CodeCommitClientTypes.ApprovalRuleTemplate?
+
+    public init(
+        approvalRuleTemplate: CodeCommitClientTypes.ApprovalRuleTemplate? = nil
+    )
+    {
+        self.approvalRuleTemplate = approvalRuleTemplate
+    }
+}
+
+struct CreateApprovalRuleTemplateOutputBody: Swift.Equatable {
+    let approvalRuleTemplate: CodeCommitClientTypes.ApprovalRuleTemplate?
+}
+
+extension CreateApprovalRuleTemplateOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case approvalRuleTemplate
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let approvalRuleTemplateDecoded = try containerValues.decodeIfPresent(CodeCommitClientTypes.ApprovalRuleTemplate.self, forKey: .approvalRuleTemplate)
+        approvalRuleTemplate = approvalRuleTemplateDecoded
+    }
+}
+
 enum CreateApprovalRuleTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -4781,47 +4822,6 @@ enum CreateApprovalRuleTemplateOutputError: ClientRuntime.HttpResponseErrorBindi
             case "NumberOfRuleTemplatesExceededException": return try await NumberOfRuleTemplatesExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension CreateApprovalRuleTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateApprovalRuleTemplateOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.approvalRuleTemplate = output.approvalRuleTemplate
-        } else {
-            self.approvalRuleTemplate = nil
-        }
-    }
-}
-
-public struct CreateApprovalRuleTemplateOutputResponse: Swift.Equatable {
-    /// The content and structure of the created approval rule template.
-    /// This member is required.
-    public var approvalRuleTemplate: CodeCommitClientTypes.ApprovalRuleTemplate?
-
-    public init(
-        approvalRuleTemplate: CodeCommitClientTypes.ApprovalRuleTemplate? = nil
-    )
-    {
-        self.approvalRuleTemplate = approvalRuleTemplate
-    }
-}
-
-struct CreateApprovalRuleTemplateOutputResponseBody: Swift.Equatable {
-    let approvalRuleTemplate: CodeCommitClientTypes.ApprovalRuleTemplate?
-}
-
-extension CreateApprovalRuleTemplateOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case approvalRuleTemplate
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let approvalRuleTemplateDecoded = try containerValues.decodeIfPresent(CodeCommitClientTypes.ApprovalRuleTemplate.self, forKey: .approvalRuleTemplate)
-        approvalRuleTemplate = approvalRuleTemplateDecoded
     }
 }
 
@@ -4900,6 +4900,16 @@ extension CreateBranchInputBody: Swift.Decodable {
     }
 }
 
+extension CreateBranchOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct CreateBranchOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum CreateBranchOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -4922,16 +4932,6 @@ enum CreateBranchOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension CreateBranchOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct CreateBranchOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension CreateCommitInput: Swift.Encodable {
@@ -5127,59 +5127,11 @@ extension CreateCommitInputBody: Swift.Decodable {
     }
 }
 
-enum CreateCommitOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BranchDoesNotExistException": return try await BranchDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "BranchNameIsTagNameException": return try await BranchNameIsTagNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "BranchNameRequiredException": return try await BranchNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "CommitMessageLengthExceededException": return try await CommitMessageLengthExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "DirectoryNameConflictsWithFileNameException": return try await DirectoryNameConflictsWithFileNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionIntegrityChecksFailedException": return try await EncryptionIntegrityChecksFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionKeyAccessDeniedException": return try await EncryptionKeyAccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionKeyDisabledException": return try await EncryptionKeyDisabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionKeyNotFoundException": return try await EncryptionKeyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionKeyUnavailableException": return try await EncryptionKeyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "FileContentAndSourceFileSpecifiedException": return try await FileContentAndSourceFileSpecifiedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "FileContentSizeLimitExceededException": return try await FileContentSizeLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "FileDoesNotExistException": return try await FileDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "FileEntryRequiredException": return try await FileEntryRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "FileModeRequiredException": return try await FileModeRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "FileNameConflictsWithDirectoryNameException": return try await FileNameConflictsWithDirectoryNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "FilePathConflictsWithSubmodulePathException": return try await FilePathConflictsWithSubmodulePathException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "FolderContentSizeLimitExceededException": return try await FolderContentSizeLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidBranchNameException": return try await InvalidBranchNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidDeletionParameterException": return try await InvalidDeletionParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidEmailException": return try await InvalidEmailException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidFileModeException": return try await InvalidFileModeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParentCommitIdException": return try await InvalidParentCommitIdException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidPathException": return try await InvalidPathException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRepositoryNameException": return try await InvalidRepositoryNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MaximumFileEntriesExceededException": return try await MaximumFileEntriesExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NameLengthExceededException": return try await NameLengthExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NoChangeException": return try await NoChangeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ParentCommitDoesNotExistException": return try await ParentCommitDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ParentCommitIdOutdatedException": return try await ParentCommitIdOutdatedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ParentCommitIdRequiredException": return try await ParentCommitIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "PathRequiredException": return try await PathRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "PutFileEntryConflictException": return try await PutFileEntryConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "RepositoryDoesNotExistException": return try await RepositoryDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "RepositoryNameRequiredException": return try await RepositoryNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "RestrictedSourceFileException": return try await RestrictedSourceFileException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "SamePathRequestException": return try await SamePathRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "SourceFileOrContentRequiredException": return try await SourceFileOrContentRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreateCommitOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateCommitOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateCommitOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateCommitOutputBody = try responseDecoder.decode(responseBody: data)
             self.commitId = output.commitId
             self.filesAdded = output.filesAdded
             self.filesDeleted = output.filesDeleted
@@ -5195,7 +5147,7 @@ extension CreateCommitOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateCommitOutputResponse: Swift.Equatable {
+public struct CreateCommitOutput: Swift.Equatable {
     /// The full commit ID of the commit that contains your committed file changes.
     public var commitId: Swift.String?
     /// The files added as part of the committed file changes.
@@ -5223,7 +5175,7 @@ public struct CreateCommitOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateCommitOutputResponseBody: Swift.Equatable {
+struct CreateCommitOutputBody: Swift.Equatable {
     let commitId: Swift.String?
     let treeId: Swift.String?
     let filesAdded: [CodeCommitClientTypes.FileMetadata]?
@@ -5231,7 +5183,7 @@ struct CreateCommitOutputResponseBody: Swift.Equatable {
     let filesDeleted: [CodeCommitClientTypes.FileMetadata]?
 }
 
-extension CreateCommitOutputResponseBody: Swift.Decodable {
+extension CreateCommitOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case commitId
         case filesAdded
@@ -5279,6 +5231,54 @@ extension CreateCommitOutputResponseBody: Swift.Decodable {
             }
         }
         filesDeleted = filesDeletedDecoded0
+    }
+}
+
+enum CreateCommitOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BranchDoesNotExistException": return try await BranchDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BranchNameIsTagNameException": return try await BranchNameIsTagNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BranchNameRequiredException": return try await BranchNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "CommitMessageLengthExceededException": return try await CommitMessageLengthExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DirectoryNameConflictsWithFileNameException": return try await DirectoryNameConflictsWithFileNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionIntegrityChecksFailedException": return try await EncryptionIntegrityChecksFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionKeyAccessDeniedException": return try await EncryptionKeyAccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionKeyDisabledException": return try await EncryptionKeyDisabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionKeyNotFoundException": return try await EncryptionKeyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionKeyUnavailableException": return try await EncryptionKeyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "FileContentAndSourceFileSpecifiedException": return try await FileContentAndSourceFileSpecifiedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "FileContentSizeLimitExceededException": return try await FileContentSizeLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "FileDoesNotExistException": return try await FileDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "FileEntryRequiredException": return try await FileEntryRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "FileModeRequiredException": return try await FileModeRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "FileNameConflictsWithDirectoryNameException": return try await FileNameConflictsWithDirectoryNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "FilePathConflictsWithSubmodulePathException": return try await FilePathConflictsWithSubmodulePathException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "FolderContentSizeLimitExceededException": return try await FolderContentSizeLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidBranchNameException": return try await InvalidBranchNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidDeletionParameterException": return try await InvalidDeletionParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidEmailException": return try await InvalidEmailException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidFileModeException": return try await InvalidFileModeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParentCommitIdException": return try await InvalidParentCommitIdException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidPathException": return try await InvalidPathException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRepositoryNameException": return try await InvalidRepositoryNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MaximumFileEntriesExceededException": return try await MaximumFileEntriesExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NameLengthExceededException": return try await NameLengthExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoChangeException": return try await NoChangeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ParentCommitDoesNotExistException": return try await ParentCommitDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ParentCommitIdOutdatedException": return try await ParentCommitIdOutdatedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ParentCommitIdRequiredException": return try await ParentCommitIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PathRequiredException": return try await PathRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PutFileEntryConflictException": return try await PutFileEntryConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RepositoryDoesNotExistException": return try await RepositoryDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RepositoryNameRequiredException": return try await RepositoryNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RestrictedSourceFileException": return try await RestrictedSourceFileException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "SamePathRequestException": return try await SamePathRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "SourceFileOrContentRequiredException": return try await SourceFileOrContentRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5370,6 +5370,47 @@ extension CreatePullRequestApprovalRuleInputBody: Swift.Decodable {
     }
 }
 
+extension CreatePullRequestApprovalRuleOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreatePullRequestApprovalRuleOutputBody = try responseDecoder.decode(responseBody: data)
+            self.approvalRule = output.approvalRule
+        } else {
+            self.approvalRule = nil
+        }
+    }
+}
+
+public struct CreatePullRequestApprovalRuleOutput: Swift.Equatable {
+    /// Information about the created approval rule.
+    /// This member is required.
+    public var approvalRule: CodeCommitClientTypes.ApprovalRule?
+
+    public init(
+        approvalRule: CodeCommitClientTypes.ApprovalRule? = nil
+    )
+    {
+        self.approvalRule = approvalRule
+    }
+}
+
+struct CreatePullRequestApprovalRuleOutputBody: Swift.Equatable {
+    let approvalRule: CodeCommitClientTypes.ApprovalRule?
+}
+
+extension CreatePullRequestApprovalRuleOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case approvalRule
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let approvalRuleDecoded = try containerValues.decodeIfPresent(CodeCommitClientTypes.ApprovalRule.self, forKey: .approvalRule)
+        approvalRule = approvalRuleDecoded
+    }
+}
+
 enum CreatePullRequestApprovalRuleOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -5392,47 +5433,6 @@ enum CreatePullRequestApprovalRuleOutputError: ClientRuntime.HttpResponseErrorBi
             case "PullRequestIdRequiredException": return try await PullRequestIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension CreatePullRequestApprovalRuleOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreatePullRequestApprovalRuleOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.approvalRule = output.approvalRule
-        } else {
-            self.approvalRule = nil
-        }
-    }
-}
-
-public struct CreatePullRequestApprovalRuleOutputResponse: Swift.Equatable {
-    /// Information about the created approval rule.
-    /// This member is required.
-    public var approvalRule: CodeCommitClientTypes.ApprovalRule?
-
-    public init(
-        approvalRule: CodeCommitClientTypes.ApprovalRule? = nil
-    )
-    {
-        self.approvalRule = approvalRule
-    }
-}
-
-struct CreatePullRequestApprovalRuleOutputResponseBody: Swift.Equatable {
-    let approvalRule: CodeCommitClientTypes.ApprovalRule?
-}
-
-extension CreatePullRequestApprovalRuleOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case approvalRule
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let approvalRuleDecoded = try containerValues.decodeIfPresent(CodeCommitClientTypes.ApprovalRule.self, forKey: .approvalRule)
-        approvalRule = approvalRuleDecoded
     }
 }
 
@@ -5533,6 +5533,47 @@ extension CreatePullRequestInputBody: Swift.Decodable {
     }
 }
 
+extension CreatePullRequestOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreatePullRequestOutputBody = try responseDecoder.decode(responseBody: data)
+            self.pullRequest = output.pullRequest
+        } else {
+            self.pullRequest = nil
+        }
+    }
+}
+
+public struct CreatePullRequestOutput: Swift.Equatable {
+    /// Information about the newly created pull request.
+    /// This member is required.
+    public var pullRequest: CodeCommitClientTypes.PullRequest?
+
+    public init(
+        pullRequest: CodeCommitClientTypes.PullRequest? = nil
+    )
+    {
+        self.pullRequest = pullRequest
+    }
+}
+
+struct CreatePullRequestOutputBody: Swift.Equatable {
+    let pullRequest: CodeCommitClientTypes.PullRequest?
+}
+
+extension CreatePullRequestOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case pullRequest
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let pullRequestDecoded = try containerValues.decodeIfPresent(CodeCommitClientTypes.PullRequest.self, forKey: .pullRequest)
+        pullRequest = pullRequestDecoded
+    }
+}
+
 enum CreatePullRequestOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -5565,47 +5606,6 @@ enum CreatePullRequestOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TitleRequiredException": return try await TitleRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension CreatePullRequestOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreatePullRequestOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.pullRequest = output.pullRequest
-        } else {
-            self.pullRequest = nil
-        }
-    }
-}
-
-public struct CreatePullRequestOutputResponse: Swift.Equatable {
-    /// Information about the newly created pull request.
-    /// This member is required.
-    public var pullRequest: CodeCommitClientTypes.PullRequest?
-
-    public init(
-        pullRequest: CodeCommitClientTypes.PullRequest? = nil
-    )
-    {
-        self.pullRequest = pullRequest
-    }
-}
-
-struct CreatePullRequestOutputResponseBody: Swift.Equatable {
-    let pullRequest: CodeCommitClientTypes.PullRequest?
-}
-
-extension CreatePullRequestOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case pullRequest
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let pullRequestDecoded = try containerValues.decodeIfPresent(CodeCommitClientTypes.PullRequest.self, forKey: .pullRequest)
-        pullRequest = pullRequestDecoded
     }
 }
 
@@ -5694,6 +5694,47 @@ extension CreateRepositoryInputBody: Swift.Decodable {
     }
 }
 
+extension CreateRepositoryOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateRepositoryOutputBody = try responseDecoder.decode(responseBody: data)
+            self.repositoryMetadata = output.repositoryMetadata
+        } else {
+            self.repositoryMetadata = nil
+        }
+    }
+}
+
+/// Represents the output of a create repository operation.
+public struct CreateRepositoryOutput: Swift.Equatable {
+    /// Information about the newly created repository.
+    public var repositoryMetadata: CodeCommitClientTypes.RepositoryMetadata?
+
+    public init(
+        repositoryMetadata: CodeCommitClientTypes.RepositoryMetadata? = nil
+    )
+    {
+        self.repositoryMetadata = repositoryMetadata
+    }
+}
+
+struct CreateRepositoryOutputBody: Swift.Equatable {
+    let repositoryMetadata: CodeCommitClientTypes.RepositoryMetadata?
+}
+
+extension CreateRepositoryOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case repositoryMetadata
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let repositoryMetadataDecoded = try containerValues.decodeIfPresent(CodeCommitClientTypes.RepositoryMetadata.self, forKey: .repositoryMetadata)
+        repositoryMetadata = repositoryMetadataDecoded
+    }
+}
+
 enum CreateRepositoryOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -5715,47 +5756,6 @@ enum CreateRepositoryOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyTagsException": return try await TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension CreateRepositoryOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateRepositoryOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.repositoryMetadata = output.repositoryMetadata
-        } else {
-            self.repositoryMetadata = nil
-        }
-    }
-}
-
-/// Represents the output of a create repository operation.
-public struct CreateRepositoryOutputResponse: Swift.Equatable {
-    /// Information about the newly created repository.
-    public var repositoryMetadata: CodeCommitClientTypes.RepositoryMetadata?
-
-    public init(
-        repositoryMetadata: CodeCommitClientTypes.RepositoryMetadata? = nil
-    )
-    {
-        self.repositoryMetadata = repositoryMetadata
-    }
-}
-
-struct CreateRepositoryOutputResponseBody: Swift.Equatable {
-    let repositoryMetadata: CodeCommitClientTypes.RepositoryMetadata?
-}
-
-extension CreateRepositoryOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case repositoryMetadata
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let repositoryMetadataDecoded = try containerValues.decodeIfPresent(CodeCommitClientTypes.RepositoryMetadata.self, forKey: .repositoryMetadata)
-        repositoryMetadata = repositoryMetadataDecoded
     }
 }
 
@@ -5930,6 +5930,56 @@ extension CreateUnreferencedMergeCommitInputBody: Swift.Decodable {
     }
 }
 
+extension CreateUnreferencedMergeCommitOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateUnreferencedMergeCommitOutputBody = try responseDecoder.decode(responseBody: data)
+            self.commitId = output.commitId
+            self.treeId = output.treeId
+        } else {
+            self.commitId = nil
+            self.treeId = nil
+        }
+    }
+}
+
+public struct CreateUnreferencedMergeCommitOutput: Swift.Equatable {
+    /// The full commit ID of the commit that contains your merge results.
+    public var commitId: Swift.String?
+    /// The full SHA-1 pointer of the tree information for the commit that contains the merge results.
+    public var treeId: Swift.String?
+
+    public init(
+        commitId: Swift.String? = nil,
+        treeId: Swift.String? = nil
+    )
+    {
+        self.commitId = commitId
+        self.treeId = treeId
+    }
+}
+
+struct CreateUnreferencedMergeCommitOutputBody: Swift.Equatable {
+    let commitId: Swift.String?
+    let treeId: Swift.String?
+}
+
+extension CreateUnreferencedMergeCommitOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case commitId
+        case treeId
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let commitIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .commitId)
+        commitId = commitIdDecoded
+        let treeIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .treeId)
+        treeId = treeIdDecoded
+    }
+}
+
 enum CreateUnreferencedMergeCommitOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -5973,56 +6023,6 @@ enum CreateUnreferencedMergeCommitOutputError: ClientRuntime.HttpResponseErrorBi
             case "TipsDivergenceExceededException": return try await TipsDivergenceExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension CreateUnreferencedMergeCommitOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateUnreferencedMergeCommitOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.commitId = output.commitId
-            self.treeId = output.treeId
-        } else {
-            self.commitId = nil
-            self.treeId = nil
-        }
-    }
-}
-
-public struct CreateUnreferencedMergeCommitOutputResponse: Swift.Equatable {
-    /// The full commit ID of the commit that contains your merge results.
-    public var commitId: Swift.String?
-    /// The full SHA-1 pointer of the tree information for the commit that contains the merge results.
-    public var treeId: Swift.String?
-
-    public init(
-        commitId: Swift.String? = nil,
-        treeId: Swift.String? = nil
-    )
-    {
-        self.commitId = commitId
-        self.treeId = treeId
-    }
-}
-
-struct CreateUnreferencedMergeCommitOutputResponseBody: Swift.Equatable {
-    let commitId: Swift.String?
-    let treeId: Swift.String?
-}
-
-extension CreateUnreferencedMergeCommitOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case commitId
-        case treeId
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let commitIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .commitId)
-        commitId = commitIdDecoded
-        let treeIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .treeId)
-        treeId = treeIdDecoded
     }
 }
 
@@ -6130,24 +6130,11 @@ extension DeleteApprovalRuleTemplateInputBody: Swift.Decodable {
     }
 }
 
-enum DeleteApprovalRuleTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ApprovalRuleTemplateInUseException": return try await ApprovalRuleTemplateInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ApprovalRuleTemplateNameRequiredException": return try await ApprovalRuleTemplateNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidApprovalRuleTemplateNameException": return try await InvalidApprovalRuleTemplateNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DeleteApprovalRuleTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DeleteApprovalRuleTemplateOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DeleteApprovalRuleTemplateOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DeleteApprovalRuleTemplateOutputBody = try responseDecoder.decode(responseBody: data)
             self.approvalRuleTemplateId = output.approvalRuleTemplateId
         } else {
             self.approvalRuleTemplateId = nil
@@ -6155,7 +6142,7 @@ extension DeleteApprovalRuleTemplateOutputResponse: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct DeleteApprovalRuleTemplateOutputResponse: Swift.Equatable {
+public struct DeleteApprovalRuleTemplateOutput: Swift.Equatable {
     /// The system-generated ID of the deleted approval rule template. If the template has been previously deleted, the only response is a 200 OK.
     /// This member is required.
     public var approvalRuleTemplateId: Swift.String?
@@ -6168,11 +6155,11 @@ public struct DeleteApprovalRuleTemplateOutputResponse: Swift.Equatable {
     }
 }
 
-struct DeleteApprovalRuleTemplateOutputResponseBody: Swift.Equatable {
+struct DeleteApprovalRuleTemplateOutputBody: Swift.Equatable {
     let approvalRuleTemplateId: Swift.String?
 }
 
-extension DeleteApprovalRuleTemplateOutputResponseBody: Swift.Decodable {
+extension DeleteApprovalRuleTemplateOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case approvalRuleTemplateId
     }
@@ -6181,6 +6168,19 @@ extension DeleteApprovalRuleTemplateOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let approvalRuleTemplateIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .approvalRuleTemplateId)
         approvalRuleTemplateId = approvalRuleTemplateIdDecoded
+    }
+}
+
+enum DeleteApprovalRuleTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ApprovalRuleTemplateInUseException": return try await ApprovalRuleTemplateInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ApprovalRuleTemplateNameRequiredException": return try await ApprovalRuleTemplateNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidApprovalRuleTemplateNameException": return try await InvalidApprovalRuleTemplateNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -6246,6 +6246,47 @@ extension DeleteBranchInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteBranchOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DeleteBranchOutputBody = try responseDecoder.decode(responseBody: data)
+            self.deletedBranch = output.deletedBranch
+        } else {
+            self.deletedBranch = nil
+        }
+    }
+}
+
+/// Represents the output of a delete branch operation.
+public struct DeleteBranchOutput: Swift.Equatable {
+    /// Information about the branch deleted by the operation, including the branch name and the commit ID that was the tip of the branch.
+    public var deletedBranch: CodeCommitClientTypes.BranchInfo?
+
+    public init(
+        deletedBranch: CodeCommitClientTypes.BranchInfo? = nil
+    )
+    {
+        self.deletedBranch = deletedBranch
+    }
+}
+
+struct DeleteBranchOutputBody: Swift.Equatable {
+    let deletedBranch: CodeCommitClientTypes.BranchInfo?
+}
+
+extension DeleteBranchOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case deletedBranch
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let deletedBranchDecoded = try containerValues.decodeIfPresent(CodeCommitClientTypes.BranchInfo.self, forKey: .deletedBranch)
+        deletedBranch = deletedBranchDecoded
+    }
+}
+
 enum DeleteBranchOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -6264,47 +6305,6 @@ enum DeleteBranchOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "RepositoryNameRequiredException": return try await RepositoryNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension DeleteBranchOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: DeleteBranchOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.deletedBranch = output.deletedBranch
-        } else {
-            self.deletedBranch = nil
-        }
-    }
-}
-
-/// Represents the output of a delete branch operation.
-public struct DeleteBranchOutputResponse: Swift.Equatable {
-    /// Information about the branch deleted by the operation, including the branch name and the commit ID that was the tip of the branch.
-    public var deletedBranch: CodeCommitClientTypes.BranchInfo?
-
-    public init(
-        deletedBranch: CodeCommitClientTypes.BranchInfo? = nil
-    )
-    {
-        self.deletedBranch = deletedBranch
-    }
-}
-
-struct DeleteBranchOutputResponseBody: Swift.Equatable {
-    let deletedBranch: CodeCommitClientTypes.BranchInfo?
-}
-
-extension DeleteBranchOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case deletedBranch
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let deletedBranchDecoded = try containerValues.decodeIfPresent(CodeCommitClientTypes.BranchInfo.self, forKey: .deletedBranch)
-        deletedBranch = deletedBranchDecoded
     }
 }
 
@@ -6356,25 +6356,11 @@ extension DeleteCommentContentInputBody: Swift.Decodable {
     }
 }
 
-enum DeleteCommentContentOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "CommentDeletedException": return try await CommentDeletedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "CommentDoesNotExistException": return try await CommentDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "CommentIdRequiredException": return try await CommentIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidCommentIdException": return try await InvalidCommentIdException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DeleteCommentContentOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DeleteCommentContentOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DeleteCommentContentOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DeleteCommentContentOutputBody = try responseDecoder.decode(responseBody: data)
             self.comment = output.comment
         } else {
             self.comment = nil
@@ -6382,7 +6368,7 @@ extension DeleteCommentContentOutputResponse: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct DeleteCommentContentOutputResponse: Swift.Equatable {
+public struct DeleteCommentContentOutput: Swift.Equatable {
     /// Information about the comment you just deleted.
     public var comment: CodeCommitClientTypes.Comment?
 
@@ -6394,11 +6380,11 @@ public struct DeleteCommentContentOutputResponse: Swift.Equatable {
     }
 }
 
-struct DeleteCommentContentOutputResponseBody: Swift.Equatable {
+struct DeleteCommentContentOutputBody: Swift.Equatable {
     let comment: CodeCommitClientTypes.Comment?
 }
 
-extension DeleteCommentContentOutputResponseBody: Swift.Decodable {
+extension DeleteCommentContentOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case comment
     }
@@ -6407,6 +6393,20 @@ extension DeleteCommentContentOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let commentDecoded = try containerValues.decodeIfPresent(CodeCommitClientTypes.Comment.self, forKey: .comment)
         comment = commentDecoded
+    }
+}
+
+enum DeleteCommentContentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "CommentDeletedException": return try await CommentDeletedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "CommentDoesNotExistException": return try await CommentDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "CommentIdRequiredException": return try await CommentIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidCommentIdException": return try await InvalidCommentIdException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -6581,6 +6581,80 @@ extension DeleteFileInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteFileOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DeleteFileOutputBody = try responseDecoder.decode(responseBody: data)
+            self.blobId = output.blobId
+            self.commitId = output.commitId
+            self.filePath = output.filePath
+            self.treeId = output.treeId
+        } else {
+            self.blobId = nil
+            self.commitId = nil
+            self.filePath = nil
+            self.treeId = nil
+        }
+    }
+}
+
+public struct DeleteFileOutput: Swift.Equatable {
+    /// The blob ID removed from the tree as part of deleting the file.
+    /// This member is required.
+    public var blobId: Swift.String?
+    /// The full commit ID of the commit that contains the change that deletes the file.
+    /// This member is required.
+    public var commitId: Swift.String?
+    /// The fully qualified path to the file to be deleted, including the full name and extension of that file.
+    /// This member is required.
+    public var filePath: Swift.String?
+    /// The full SHA-1 pointer of the tree information for the commit that contains the delete file change.
+    /// This member is required.
+    public var treeId: Swift.String?
+
+    public init(
+        blobId: Swift.String? = nil,
+        commitId: Swift.String? = nil,
+        filePath: Swift.String? = nil,
+        treeId: Swift.String? = nil
+    )
+    {
+        self.blobId = blobId
+        self.commitId = commitId
+        self.filePath = filePath
+        self.treeId = treeId
+    }
+}
+
+struct DeleteFileOutputBody: Swift.Equatable {
+    let commitId: Swift.String?
+    let blobId: Swift.String?
+    let treeId: Swift.String?
+    let filePath: Swift.String?
+}
+
+extension DeleteFileOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case blobId
+        case commitId
+        case filePath
+        case treeId
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let commitIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .commitId)
+        commitId = commitIdDecoded
+        let blobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .blobId)
+        blobId = blobIdDecoded
+        let treeIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .treeId)
+        treeId = treeIdDecoded
+        let filePathDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .filePath)
+        filePath = filePathDecoded
+    }
+}
+
 enum DeleteFileOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -6610,80 +6684,6 @@ enum DeleteFileOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "RepositoryNameRequiredException": return try await RepositoryNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension DeleteFileOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: DeleteFileOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.blobId = output.blobId
-            self.commitId = output.commitId
-            self.filePath = output.filePath
-            self.treeId = output.treeId
-        } else {
-            self.blobId = nil
-            self.commitId = nil
-            self.filePath = nil
-            self.treeId = nil
-        }
-    }
-}
-
-public struct DeleteFileOutputResponse: Swift.Equatable {
-    /// The blob ID removed from the tree as part of deleting the file.
-    /// This member is required.
-    public var blobId: Swift.String?
-    /// The full commit ID of the commit that contains the change that deletes the file.
-    /// This member is required.
-    public var commitId: Swift.String?
-    /// The fully qualified path to the file to be deleted, including the full name and extension of that file.
-    /// This member is required.
-    public var filePath: Swift.String?
-    /// The full SHA-1 pointer of the tree information for the commit that contains the delete file change.
-    /// This member is required.
-    public var treeId: Swift.String?
-
-    public init(
-        blobId: Swift.String? = nil,
-        commitId: Swift.String? = nil,
-        filePath: Swift.String? = nil,
-        treeId: Swift.String? = nil
-    )
-    {
-        self.blobId = blobId
-        self.commitId = commitId
-        self.filePath = filePath
-        self.treeId = treeId
-    }
-}
-
-struct DeleteFileOutputResponseBody: Swift.Equatable {
-    let commitId: Swift.String?
-    let blobId: Swift.String?
-    let treeId: Swift.String?
-    let filePath: Swift.String?
-}
-
-extension DeleteFileOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case blobId
-        case commitId
-        case filePath
-        case treeId
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let commitIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .commitId)
-        commitId = commitIdDecoded
-        let blobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .blobId)
-        blobId = blobIdDecoded
-        let treeIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .treeId)
-        treeId = treeIdDecoded
-        let filePathDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .filePath)
-        filePath = filePathDecoded
     }
 }
 
@@ -6748,6 +6748,47 @@ extension DeletePullRequestApprovalRuleInputBody: Swift.Decodable {
     }
 }
 
+extension DeletePullRequestApprovalRuleOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DeletePullRequestApprovalRuleOutputBody = try responseDecoder.decode(responseBody: data)
+            self.approvalRuleId = output.approvalRuleId
+        } else {
+            self.approvalRuleId = nil
+        }
+    }
+}
+
+public struct DeletePullRequestApprovalRuleOutput: Swift.Equatable {
+    /// The ID of the deleted approval rule. If the approval rule was deleted in an earlier API call, the response is 200 OK without content.
+    /// This member is required.
+    public var approvalRuleId: Swift.String?
+
+    public init(
+        approvalRuleId: Swift.String? = nil
+    )
+    {
+        self.approvalRuleId = approvalRuleId
+    }
+}
+
+struct DeletePullRequestApprovalRuleOutputBody: Swift.Equatable {
+    let approvalRuleId: Swift.String?
+}
+
+extension DeletePullRequestApprovalRuleOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case approvalRuleId
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let approvalRuleIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .approvalRuleId)
+        approvalRuleId = approvalRuleIdDecoded
+    }
+}
+
 enum DeletePullRequestApprovalRuleOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -6767,47 +6808,6 @@ enum DeletePullRequestApprovalRuleOutputError: ClientRuntime.HttpResponseErrorBi
             case "PullRequestIdRequiredException": return try await PullRequestIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension DeletePullRequestApprovalRuleOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: DeletePullRequestApprovalRuleOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.approvalRuleId = output.approvalRuleId
-        } else {
-            self.approvalRuleId = nil
-        }
-    }
-}
-
-public struct DeletePullRequestApprovalRuleOutputResponse: Swift.Equatable {
-    /// The ID of the deleted approval rule. If the approval rule was deleted in an earlier API call, the response is 200 OK without content.
-    /// This member is required.
-    public var approvalRuleId: Swift.String?
-
-    public init(
-        approvalRuleId: Swift.String? = nil
-    )
-    {
-        self.approvalRuleId = approvalRuleId
-    }
-}
-
-struct DeletePullRequestApprovalRuleOutputResponseBody: Swift.Equatable {
-    let approvalRuleId: Swift.String?
-}
-
-extension DeletePullRequestApprovalRuleOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case approvalRuleId
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let approvalRuleIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .approvalRuleId)
-        approvalRuleId = approvalRuleIdDecoded
     }
 }
 
@@ -6860,6 +6860,47 @@ extension DeleteRepositoryInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteRepositoryOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DeleteRepositoryOutputBody = try responseDecoder.decode(responseBody: data)
+            self.repositoryId = output.repositoryId
+        } else {
+            self.repositoryId = nil
+        }
+    }
+}
+
+/// Represents the output of a delete repository operation.
+public struct DeleteRepositoryOutput: Swift.Equatable {
+    /// The ID of the repository that was deleted.
+    public var repositoryId: Swift.String?
+
+    public init(
+        repositoryId: Swift.String? = nil
+    )
+    {
+        self.repositoryId = repositoryId
+    }
+}
+
+struct DeleteRepositoryOutputBody: Swift.Equatable {
+    let repositoryId: Swift.String?
+}
+
+extension DeleteRepositoryOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case repositoryId
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let repositoryIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .repositoryId)
+        repositoryId = repositoryIdDecoded
+    }
+}
+
 enum DeleteRepositoryOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -6874,47 +6915,6 @@ enum DeleteRepositoryOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "RepositoryNameRequiredException": return try await RepositoryNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension DeleteRepositoryOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: DeleteRepositoryOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.repositoryId = output.repositoryId
-        } else {
-            self.repositoryId = nil
-        }
-    }
-}
-
-/// Represents the output of a delete repository operation.
-public struct DeleteRepositoryOutputResponse: Swift.Equatable {
-    /// The ID of the repository that was deleted.
-    public var repositoryId: Swift.String?
-
-    public init(
-        repositoryId: Swift.String? = nil
-    )
-    {
-        self.repositoryId = repositoryId
-    }
-}
-
-struct DeleteRepositoryOutputResponseBody: Swift.Equatable {
-    let repositoryId: Swift.String?
-}
-
-extension DeleteRepositoryOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case repositoryId
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let repositoryIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .repositoryId)
-        repositoryId = repositoryIdDecoded
     }
 }
 
@@ -7066,44 +7066,11 @@ extension DescribeMergeConflictsInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeMergeConflictsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "CommitDoesNotExistException": return try await CommitDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "CommitRequiredException": return try await CommitRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionIntegrityChecksFailedException": return try await EncryptionIntegrityChecksFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionKeyAccessDeniedException": return try await EncryptionKeyAccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionKeyDisabledException": return try await EncryptionKeyDisabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionKeyNotFoundException": return try await EncryptionKeyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionKeyUnavailableException": return try await EncryptionKeyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "FileDoesNotExistException": return try await FileDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidCommitException": return try await InvalidCommitException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidConflictDetailLevelException": return try await InvalidConflictDetailLevelException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidConflictResolutionStrategyException": return try await InvalidConflictResolutionStrategyException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidContinuationTokenException": return try await InvalidContinuationTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidMaxMergeHunksException": return try await InvalidMaxMergeHunksException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidMergeOptionException": return try await InvalidMergeOptionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidPathException": return try await InvalidPathException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRepositoryNameException": return try await InvalidRepositoryNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MaximumFileContentToLoadExceededException": return try await MaximumFileContentToLoadExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MaximumItemsToCompareExceededException": return try await MaximumItemsToCompareExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MergeOptionRequiredException": return try await MergeOptionRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "PathRequiredException": return try await PathRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "RepositoryDoesNotExistException": return try await RepositoryDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "RepositoryNameRequiredException": return try await RepositoryNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TipsDivergenceExceededException": return try await TipsDivergenceExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeMergeConflictsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeMergeConflictsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeMergeConflictsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeMergeConflictsOutputBody = try responseDecoder.decode(responseBody: data)
             self.baseCommitId = output.baseCommitId
             self.conflictMetadata = output.conflictMetadata
             self.destinationCommitId = output.destinationCommitId
@@ -7121,7 +7088,7 @@ extension DescribeMergeConflictsOutputResponse: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct DescribeMergeConflictsOutputResponse: Swift.Equatable {
+public struct DescribeMergeConflictsOutput: Swift.Equatable {
     /// The commit ID of the merge base.
     public var baseCommitId: Swift.String?
     /// Contains metadata about the conflicts found in the merge.
@@ -7157,7 +7124,7 @@ public struct DescribeMergeConflictsOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeMergeConflictsOutputResponseBody: Swift.Equatable {
+struct DescribeMergeConflictsOutputBody: Swift.Equatable {
     let conflictMetadata: CodeCommitClientTypes.ConflictMetadata?
     let mergeHunks: [CodeCommitClientTypes.MergeHunk]?
     let nextToken: Swift.String?
@@ -7166,7 +7133,7 @@ struct DescribeMergeConflictsOutputResponseBody: Swift.Equatable {
     let baseCommitId: Swift.String?
 }
 
-extension DescribeMergeConflictsOutputResponseBody: Swift.Decodable {
+extension DescribeMergeConflictsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case baseCommitId
         case conflictMetadata
@@ -7199,6 +7166,39 @@ extension DescribeMergeConflictsOutputResponseBody: Swift.Decodable {
         sourceCommitId = sourceCommitIdDecoded
         let baseCommitIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .baseCommitId)
         baseCommitId = baseCommitIdDecoded
+    }
+}
+
+enum DescribeMergeConflictsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "CommitDoesNotExistException": return try await CommitDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "CommitRequiredException": return try await CommitRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionIntegrityChecksFailedException": return try await EncryptionIntegrityChecksFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionKeyAccessDeniedException": return try await EncryptionKeyAccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionKeyDisabledException": return try await EncryptionKeyDisabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionKeyNotFoundException": return try await EncryptionKeyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionKeyUnavailableException": return try await EncryptionKeyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "FileDoesNotExistException": return try await FileDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidCommitException": return try await InvalidCommitException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidConflictDetailLevelException": return try await InvalidConflictDetailLevelException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidConflictResolutionStrategyException": return try await InvalidConflictResolutionStrategyException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidContinuationTokenException": return try await InvalidContinuationTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidMaxMergeHunksException": return try await InvalidMaxMergeHunksException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidMergeOptionException": return try await InvalidMergeOptionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidPathException": return try await InvalidPathException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRepositoryNameException": return try await InvalidRepositoryNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MaximumFileContentToLoadExceededException": return try await MaximumFileContentToLoadExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MaximumItemsToCompareExceededException": return try await MaximumItemsToCompareExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MergeOptionRequiredException": return try await MergeOptionRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PathRequiredException": return try await PathRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RepositoryDoesNotExistException": return try await RepositoryDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RepositoryNameRequiredException": return try await RepositoryNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TipsDivergenceExceededException": return try await TipsDivergenceExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -7298,34 +7298,11 @@ extension DescribePullRequestEventsInputBody: Swift.Decodable {
     }
 }
 
-enum DescribePullRequestEventsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ActorDoesNotExistException": return try await ActorDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionIntegrityChecksFailedException": return try await EncryptionIntegrityChecksFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionKeyAccessDeniedException": return try await EncryptionKeyAccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionKeyDisabledException": return try await EncryptionKeyDisabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionKeyNotFoundException": return try await EncryptionKeyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionKeyUnavailableException": return try await EncryptionKeyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidActorArnException": return try await InvalidActorArnException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidContinuationTokenException": return try await InvalidContinuationTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidMaxResultsException": return try await InvalidMaxResultsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidPullRequestEventTypeException": return try await InvalidPullRequestEventTypeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidPullRequestIdException": return try await InvalidPullRequestIdException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "PullRequestDoesNotExistException": return try await PullRequestDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "PullRequestIdRequiredException": return try await PullRequestIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribePullRequestEventsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribePullRequestEventsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribePullRequestEventsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribePullRequestEventsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.pullRequestEvents = output.pullRequestEvents
         } else {
@@ -7335,7 +7312,7 @@ extension DescribePullRequestEventsOutputResponse: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct DescribePullRequestEventsOutputResponse: Swift.Equatable {
+public struct DescribePullRequestEventsOutput: Swift.Equatable {
     /// An enumeration token that can be used in a request to return the next batch of the results.
     public var nextToken: Swift.String?
     /// Information about the pull request events.
@@ -7352,12 +7329,12 @@ public struct DescribePullRequestEventsOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribePullRequestEventsOutputResponseBody: Swift.Equatable {
+struct DescribePullRequestEventsOutputBody: Swift.Equatable {
     let pullRequestEvents: [CodeCommitClientTypes.PullRequestEvent]?
     let nextToken: Swift.String?
 }
 
-extension DescribePullRequestEventsOutputResponseBody: Swift.Decodable {
+extension DescribePullRequestEventsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken
         case pullRequestEvents
@@ -7378,6 +7355,29 @@ extension DescribePullRequestEventsOutputResponseBody: Swift.Decodable {
         pullRequestEvents = pullRequestEventsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum DescribePullRequestEventsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ActorDoesNotExistException": return try await ActorDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionIntegrityChecksFailedException": return try await EncryptionIntegrityChecksFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionKeyAccessDeniedException": return try await EncryptionKeyAccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionKeyDisabledException": return try await EncryptionKeyDisabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionKeyNotFoundException": return try await EncryptionKeyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionKeyUnavailableException": return try await EncryptionKeyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidActorArnException": return try await InvalidActorArnException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidContinuationTokenException": return try await InvalidContinuationTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidMaxResultsException": return try await InvalidMaxResultsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidPullRequestEventTypeException": return try await InvalidPullRequestEventTypeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidPullRequestIdException": return try await InvalidPullRequestIdException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PullRequestDoesNotExistException": return try await PullRequestDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PullRequestIdRequiredException": return try await PullRequestIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -7553,6 +7553,16 @@ extension DisassociateApprovalRuleTemplateFromRepositoryInputBody: Swift.Decodab
     }
 }
 
+extension DisassociateApprovalRuleTemplateFromRepositoryOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DisassociateApprovalRuleTemplateFromRepositoryOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DisassociateApprovalRuleTemplateFromRepositoryOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -7572,16 +7582,6 @@ enum DisassociateApprovalRuleTemplateFromRepositoryOutputError: ClientRuntime.Ht
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DisassociateApprovalRuleTemplateFromRepositoryOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DisassociateApprovalRuleTemplateFromRepositoryOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension EncryptionIntegrityChecksFailedException {
@@ -7925,6 +7925,47 @@ extension EvaluatePullRequestApprovalRulesInputBody: Swift.Decodable {
     }
 }
 
+extension EvaluatePullRequestApprovalRulesOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: EvaluatePullRequestApprovalRulesOutputBody = try responseDecoder.decode(responseBody: data)
+            self.evaluation = output.evaluation
+        } else {
+            self.evaluation = nil
+        }
+    }
+}
+
+public struct EvaluatePullRequestApprovalRulesOutput: Swift.Equatable {
+    /// The result of the evaluation, including the names of the rules whose conditions have been met (if any), the names of the rules whose conditions have not been met (if any), whether the pull request is in the approved state, and whether the pull request approval rule has been set aside by an override.
+    /// This member is required.
+    public var evaluation: CodeCommitClientTypes.Evaluation?
+
+    public init(
+        evaluation: CodeCommitClientTypes.Evaluation? = nil
+    )
+    {
+        self.evaluation = evaluation
+    }
+}
+
+struct EvaluatePullRequestApprovalRulesOutputBody: Swift.Equatable {
+    let evaluation: CodeCommitClientTypes.Evaluation?
+}
+
+extension EvaluatePullRequestApprovalRulesOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case evaluation
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let evaluationDecoded = try containerValues.decodeIfPresent(CodeCommitClientTypes.Evaluation.self, forKey: .evaluation)
+        evaluation = evaluationDecoded
+    }
+}
+
 enum EvaluatePullRequestApprovalRulesOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -7943,47 +7984,6 @@ enum EvaluatePullRequestApprovalRulesOutputError: ClientRuntime.HttpResponseErro
             case "RevisionNotCurrentException": return try await RevisionNotCurrentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension EvaluatePullRequestApprovalRulesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: EvaluatePullRequestApprovalRulesOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.evaluation = output.evaluation
-        } else {
-            self.evaluation = nil
-        }
-    }
-}
-
-public struct EvaluatePullRequestApprovalRulesOutputResponse: Swift.Equatable {
-    /// The result of the evaluation, including the names of the rules whose conditions have been met (if any), the names of the rules whose conditions have not been met (if any), whether the pull request is in the approved state, and whether the pull request approval rule has been set aside by an override.
-    /// This member is required.
-    public var evaluation: CodeCommitClientTypes.Evaluation?
-
-    public init(
-        evaluation: CodeCommitClientTypes.Evaluation? = nil
-    )
-    {
-        self.evaluation = evaluation
-    }
-}
-
-struct EvaluatePullRequestApprovalRulesOutputResponseBody: Swift.Equatable {
-    let evaluation: CodeCommitClientTypes.Evaluation?
-}
-
-extension EvaluatePullRequestApprovalRulesOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case evaluation
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let evaluationDecoded = try containerValues.decodeIfPresent(CodeCommitClientTypes.Evaluation.self, forKey: .evaluation)
-        evaluation = evaluationDecoded
     }
 }
 
@@ -9137,24 +9137,11 @@ extension GetApprovalRuleTemplateInputBody: Swift.Decodable {
     }
 }
 
-enum GetApprovalRuleTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ApprovalRuleTemplateDoesNotExistException": return try await ApprovalRuleTemplateDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ApprovalRuleTemplateNameRequiredException": return try await ApprovalRuleTemplateNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidApprovalRuleTemplateNameException": return try await InvalidApprovalRuleTemplateNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetApprovalRuleTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetApprovalRuleTemplateOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetApprovalRuleTemplateOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetApprovalRuleTemplateOutputBody = try responseDecoder.decode(responseBody: data)
             self.approvalRuleTemplate = output.approvalRuleTemplate
         } else {
             self.approvalRuleTemplate = nil
@@ -9162,7 +9149,7 @@ extension GetApprovalRuleTemplateOutputResponse: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct GetApprovalRuleTemplateOutputResponse: Swift.Equatable {
+public struct GetApprovalRuleTemplateOutput: Swift.Equatable {
     /// The content and structure of the approval rule template.
     /// This member is required.
     public var approvalRuleTemplate: CodeCommitClientTypes.ApprovalRuleTemplate?
@@ -9175,11 +9162,11 @@ public struct GetApprovalRuleTemplateOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetApprovalRuleTemplateOutputResponseBody: Swift.Equatable {
+struct GetApprovalRuleTemplateOutputBody: Swift.Equatable {
     let approvalRuleTemplate: CodeCommitClientTypes.ApprovalRuleTemplate?
 }
 
-extension GetApprovalRuleTemplateOutputResponseBody: Swift.Decodable {
+extension GetApprovalRuleTemplateOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case approvalRuleTemplate
     }
@@ -9188,6 +9175,19 @@ extension GetApprovalRuleTemplateOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let approvalRuleTemplateDecoded = try containerValues.decodeIfPresent(CodeCommitClientTypes.ApprovalRuleTemplate.self, forKey: .approvalRuleTemplate)
         approvalRuleTemplate = approvalRuleTemplateDecoded
+    }
+}
+
+enum GetApprovalRuleTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ApprovalRuleTemplateDoesNotExistException": return try await ApprovalRuleTemplateDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ApprovalRuleTemplateNameRequiredException": return try await ApprovalRuleTemplateNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidApprovalRuleTemplateNameException": return try await InvalidApprovalRuleTemplateNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -9253,6 +9253,48 @@ extension GetBlobInputBody: Swift.Decodable {
     }
 }
 
+extension GetBlobOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetBlobOutputBody = try responseDecoder.decode(responseBody: data)
+            self.content = output.content
+        } else {
+            self.content = nil
+        }
+    }
+}
+
+/// Represents the output of a get blob operation.
+public struct GetBlobOutput: Swift.Equatable {
+    /// The content of the blob, usually a file.
+    /// This member is required.
+    public var content: ClientRuntime.Data?
+
+    public init(
+        content: ClientRuntime.Data? = nil
+    )
+    {
+        self.content = content
+    }
+}
+
+struct GetBlobOutputBody: Swift.Equatable {
+    let content: ClientRuntime.Data?
+}
+
+extension GetBlobOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case content
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let contentDecoded = try containerValues.decodeIfPresent(ClientRuntime.Data.self, forKey: .content)
+        content = contentDecoded
+    }
+}
+
 enum GetBlobOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -9272,48 +9314,6 @@ enum GetBlobOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "RepositoryNameRequiredException": return try await RepositoryNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetBlobOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetBlobOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.content = output.content
-        } else {
-            self.content = nil
-        }
-    }
-}
-
-/// Represents the output of a get blob operation.
-public struct GetBlobOutputResponse: Swift.Equatable {
-    /// The content of the blob, usually a file.
-    /// This member is required.
-    public var content: ClientRuntime.Data?
-
-    public init(
-        content: ClientRuntime.Data? = nil
-    )
-    {
-        self.content = content
-    }
-}
-
-struct GetBlobOutputResponseBody: Swift.Equatable {
-    let content: ClientRuntime.Data?
-}
-
-extension GetBlobOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case content
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let contentDecoded = try containerValues.decodeIfPresent(ClientRuntime.Data.self, forKey: .content)
-        content = contentDecoded
     }
 }
 
@@ -9377,6 +9377,47 @@ extension GetBranchInputBody: Swift.Decodable {
     }
 }
 
+extension GetBranchOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetBranchOutputBody = try responseDecoder.decode(responseBody: data)
+            self.branch = output.branch
+        } else {
+            self.branch = nil
+        }
+    }
+}
+
+/// Represents the output of a get branch operation.
+public struct GetBranchOutput: Swift.Equatable {
+    /// The name of the branch.
+    public var branch: CodeCommitClientTypes.BranchInfo?
+
+    public init(
+        branch: CodeCommitClientTypes.BranchInfo? = nil
+    )
+    {
+        self.branch = branch
+    }
+}
+
+struct GetBranchOutputBody: Swift.Equatable {
+    let branch: CodeCommitClientTypes.BranchInfo?
+}
+
+extension GetBranchOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case branch
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let branchDecoded = try containerValues.decodeIfPresent(CodeCommitClientTypes.BranchInfo.self, forKey: .branch)
+        branch = branchDecoded
+    }
+}
+
 enum GetBranchOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -9395,47 +9436,6 @@ enum GetBranchOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "RepositoryNameRequiredException": return try await RepositoryNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetBranchOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetBranchOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.branch = output.branch
-        } else {
-            self.branch = nil
-        }
-    }
-}
-
-/// Represents the output of a get branch operation.
-public struct GetBranchOutputResponse: Swift.Equatable {
-    /// The name of the branch.
-    public var branch: CodeCommitClientTypes.BranchInfo?
-
-    public init(
-        branch: CodeCommitClientTypes.BranchInfo? = nil
-    )
-    {
-        self.branch = branch
-    }
-}
-
-struct GetBranchOutputResponseBody: Swift.Equatable {
-    let branch: CodeCommitClientTypes.BranchInfo?
-}
-
-extension GetBranchOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case branch
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let branchDecoded = try containerValues.decodeIfPresent(CodeCommitClientTypes.BranchInfo.self, forKey: .branch)
-        branch = branchDecoded
     }
 }
 
@@ -9487,6 +9487,46 @@ extension GetCommentInputBody: Swift.Decodable {
     }
 }
 
+extension GetCommentOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetCommentOutputBody = try responseDecoder.decode(responseBody: data)
+            self.comment = output.comment
+        } else {
+            self.comment = nil
+        }
+    }
+}
+
+public struct GetCommentOutput: Swift.Equatable {
+    /// The contents of the comment.
+    public var comment: CodeCommitClientTypes.Comment?
+
+    public init(
+        comment: CodeCommitClientTypes.Comment? = nil
+    )
+    {
+        self.comment = comment
+    }
+}
+
+struct GetCommentOutputBody: Swift.Equatable {
+    let comment: CodeCommitClientTypes.Comment?
+}
+
+extension GetCommentOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case comment
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let commentDecoded = try containerValues.decodeIfPresent(CodeCommitClientTypes.Comment.self, forKey: .comment)
+        comment = commentDecoded
+    }
+}
+
 enum GetCommentOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -9503,46 +9543,6 @@ enum GetCommentOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "InvalidCommentIdException": return try await InvalidCommentIdException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetCommentOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetCommentOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.comment = output.comment
-        } else {
-            self.comment = nil
-        }
-    }
-}
-
-public struct GetCommentOutputResponse: Swift.Equatable {
-    /// The contents of the comment.
-    public var comment: CodeCommitClientTypes.Comment?
-
-    public init(
-        comment: CodeCommitClientTypes.Comment? = nil
-    )
-    {
-        self.comment = comment
-    }
-}
-
-struct GetCommentOutputResponseBody: Swift.Equatable {
-    let comment: CodeCommitClientTypes.Comment?
-}
-
-extension GetCommentOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case comment
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let commentDecoded = try containerValues.decodeIfPresent(CodeCommitClientTypes.Comment.self, forKey: .comment)
-        comment = commentDecoded
     }
 }
 
@@ -9630,28 +9630,11 @@ extension GetCommentReactionsInputBody: Swift.Decodable {
     }
 }
 
-enum GetCommentReactionsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "CommentDeletedException": return try await CommentDeletedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "CommentDoesNotExistException": return try await CommentDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "CommentIdRequiredException": return try await CommentIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidCommentIdException": return try await InvalidCommentIdException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidContinuationTokenException": return try await InvalidContinuationTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidMaxResultsException": return try await InvalidMaxResultsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidReactionUserArnException": return try await InvalidReactionUserArnException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetCommentReactionsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetCommentReactionsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetCommentReactionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetCommentReactionsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.reactionsForComment = output.reactionsForComment
         } else {
@@ -9661,7 +9644,7 @@ extension GetCommentReactionsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetCommentReactionsOutputResponse: Swift.Equatable {
+public struct GetCommentReactionsOutput: Swift.Equatable {
     /// An enumeration token that can be used in a request to return the next batch of the results.
     public var nextToken: Swift.String?
     /// An array of reactions to the specified comment.
@@ -9678,12 +9661,12 @@ public struct GetCommentReactionsOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetCommentReactionsOutputResponseBody: Swift.Equatable {
+struct GetCommentReactionsOutputBody: Swift.Equatable {
     let reactionsForComment: [CodeCommitClientTypes.ReactionForComment]?
     let nextToken: Swift.String?
 }
 
-extension GetCommentReactionsOutputResponseBody: Swift.Decodable {
+extension GetCommentReactionsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken
         case reactionsForComment
@@ -9704,6 +9687,23 @@ extension GetCommentReactionsOutputResponseBody: Swift.Decodable {
         reactionsForComment = reactionsForCommentDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum GetCommentReactionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "CommentDeletedException": return try await CommentDeletedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "CommentDoesNotExistException": return try await CommentDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "CommentIdRequiredException": return try await CommentIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidCommentIdException": return try await InvalidCommentIdException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidContinuationTokenException": return try await InvalidContinuationTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidMaxResultsException": return try await InvalidMaxResultsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidReactionUserArnException": return try await InvalidReactionUserArnException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -9804,34 +9804,11 @@ extension GetCommentsForComparedCommitInputBody: Swift.Decodable {
     }
 }
 
-enum GetCommentsForComparedCommitOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "CommitDoesNotExistException": return try await CommitDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "CommitIdRequiredException": return try await CommitIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionIntegrityChecksFailedException": return try await EncryptionIntegrityChecksFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionKeyAccessDeniedException": return try await EncryptionKeyAccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionKeyDisabledException": return try await EncryptionKeyDisabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionKeyNotFoundException": return try await EncryptionKeyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionKeyUnavailableException": return try await EncryptionKeyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidCommitIdException": return try await InvalidCommitIdException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidContinuationTokenException": return try await InvalidContinuationTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidMaxResultsException": return try await InvalidMaxResultsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRepositoryNameException": return try await InvalidRepositoryNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "RepositoryDoesNotExistException": return try await RepositoryDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "RepositoryNameRequiredException": return try await RepositoryNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetCommentsForComparedCommitOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetCommentsForComparedCommitOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetCommentsForComparedCommitOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetCommentsForComparedCommitOutputBody = try responseDecoder.decode(responseBody: data)
             self.commentsForComparedCommitData = output.commentsForComparedCommitData
             self.nextToken = output.nextToken
         } else {
@@ -9841,7 +9818,7 @@ extension GetCommentsForComparedCommitOutputResponse: ClientRuntime.HttpResponse
     }
 }
 
-public struct GetCommentsForComparedCommitOutputResponse: Swift.Equatable {
+public struct GetCommentsForComparedCommitOutput: Swift.Equatable {
     /// A list of comment objects on the compared commit.
     public var commentsForComparedCommitData: [CodeCommitClientTypes.CommentsForComparedCommit]?
     /// An enumeration token that can be used in a request to return the next batch of the results.
@@ -9857,12 +9834,12 @@ public struct GetCommentsForComparedCommitOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetCommentsForComparedCommitOutputResponseBody: Swift.Equatable {
+struct GetCommentsForComparedCommitOutputBody: Swift.Equatable {
     let commentsForComparedCommitData: [CodeCommitClientTypes.CommentsForComparedCommit]?
     let nextToken: Swift.String?
 }
 
-extension GetCommentsForComparedCommitOutputResponseBody: Swift.Decodable {
+extension GetCommentsForComparedCommitOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case commentsForComparedCommitData
         case nextToken
@@ -9883,6 +9860,29 @@ extension GetCommentsForComparedCommitOutputResponseBody: Swift.Decodable {
         commentsForComparedCommitData = commentsForComparedCommitDataDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum GetCommentsForComparedCommitOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "CommitDoesNotExistException": return try await CommitDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "CommitIdRequiredException": return try await CommitIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionIntegrityChecksFailedException": return try await EncryptionIntegrityChecksFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionKeyAccessDeniedException": return try await EncryptionKeyAccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionKeyDisabledException": return try await EncryptionKeyDisabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionKeyNotFoundException": return try await EncryptionKeyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionKeyUnavailableException": return try await EncryptionKeyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidCommitIdException": return try await InvalidCommitIdException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidContinuationTokenException": return try await InvalidContinuationTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidMaxResultsException": return try await InvalidMaxResultsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRepositoryNameException": return try await InvalidRepositoryNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RepositoryDoesNotExistException": return try await RepositoryDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RepositoryNameRequiredException": return try await RepositoryNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -9994,6 +9994,65 @@ extension GetCommentsForPullRequestInputBody: Swift.Decodable {
     }
 }
 
+extension GetCommentsForPullRequestOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetCommentsForPullRequestOutputBody = try responseDecoder.decode(responseBody: data)
+            self.commentsForPullRequestData = output.commentsForPullRequestData
+            self.nextToken = output.nextToken
+        } else {
+            self.commentsForPullRequestData = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct GetCommentsForPullRequestOutput: Swift.Equatable {
+    /// An array of comment objects on the pull request.
+    public var commentsForPullRequestData: [CodeCommitClientTypes.CommentsForPullRequest]?
+    /// An enumeration token that can be used in a request to return the next batch of the results.
+    public var nextToken: Swift.String?
+
+    public init(
+        commentsForPullRequestData: [CodeCommitClientTypes.CommentsForPullRequest]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.commentsForPullRequestData = commentsForPullRequestData
+        self.nextToken = nextToken
+    }
+}
+
+struct GetCommentsForPullRequestOutputBody: Swift.Equatable {
+    let commentsForPullRequestData: [CodeCommitClientTypes.CommentsForPullRequest]?
+    let nextToken: Swift.String?
+}
+
+extension GetCommentsForPullRequestOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case commentsForPullRequestData
+        case nextToken
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let commentsForPullRequestDataContainer = try containerValues.decodeIfPresent([CodeCommitClientTypes.CommentsForPullRequest?].self, forKey: .commentsForPullRequestData)
+        var commentsForPullRequestDataDecoded0:[CodeCommitClientTypes.CommentsForPullRequest]? = nil
+        if let commentsForPullRequestDataContainer = commentsForPullRequestDataContainer {
+            commentsForPullRequestDataDecoded0 = [CodeCommitClientTypes.CommentsForPullRequest]()
+            for structure0 in commentsForPullRequestDataContainer {
+                if let structure0 = structure0 {
+                    commentsForPullRequestDataDecoded0?.append(structure0)
+                }
+            }
+        }
+        commentsForPullRequestData = commentsForPullRequestDataDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
 enum GetCommentsForPullRequestOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -10018,65 +10077,6 @@ enum GetCommentsForPullRequestOutputError: ClientRuntime.HttpResponseErrorBindin
             case "RepositoryNotAssociatedWithPullRequestException": return try await RepositoryNotAssociatedWithPullRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetCommentsForPullRequestOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetCommentsForPullRequestOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.commentsForPullRequestData = output.commentsForPullRequestData
-            self.nextToken = output.nextToken
-        } else {
-            self.commentsForPullRequestData = nil
-            self.nextToken = nil
-        }
-    }
-}
-
-public struct GetCommentsForPullRequestOutputResponse: Swift.Equatable {
-    /// An array of comment objects on the pull request.
-    public var commentsForPullRequestData: [CodeCommitClientTypes.CommentsForPullRequest]?
-    /// An enumeration token that can be used in a request to return the next batch of the results.
-    public var nextToken: Swift.String?
-
-    public init(
-        commentsForPullRequestData: [CodeCommitClientTypes.CommentsForPullRequest]? = nil,
-        nextToken: Swift.String? = nil
-    )
-    {
-        self.commentsForPullRequestData = commentsForPullRequestData
-        self.nextToken = nextToken
-    }
-}
-
-struct GetCommentsForPullRequestOutputResponseBody: Swift.Equatable {
-    let commentsForPullRequestData: [CodeCommitClientTypes.CommentsForPullRequest]?
-    let nextToken: Swift.String?
-}
-
-extension GetCommentsForPullRequestOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case commentsForPullRequestData
-        case nextToken
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let commentsForPullRequestDataContainer = try containerValues.decodeIfPresent([CodeCommitClientTypes.CommentsForPullRequest?].self, forKey: .commentsForPullRequestData)
-        var commentsForPullRequestDataDecoded0:[CodeCommitClientTypes.CommentsForPullRequest]? = nil
-        if let commentsForPullRequestDataContainer = commentsForPullRequestDataContainer {
-            commentsForPullRequestDataDecoded0 = [CodeCommitClientTypes.CommentsForPullRequest]()
-            for structure0 in commentsForPullRequestDataContainer {
-                if let structure0 = structure0 {
-                    commentsForPullRequestDataDecoded0?.append(structure0)
-                }
-            }
-        }
-        commentsForPullRequestData = commentsForPullRequestDataDecoded0
-        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
-        nextToken = nextTokenDecoded
     }
 }
 
@@ -10142,6 +10142,48 @@ extension GetCommitInputBody: Swift.Decodable {
     }
 }
 
+extension GetCommitOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetCommitOutputBody = try responseDecoder.decode(responseBody: data)
+            self.commit = output.commit
+        } else {
+            self.commit = nil
+        }
+    }
+}
+
+/// Represents the output of a get commit operation.
+public struct GetCommitOutput: Swift.Equatable {
+    /// A commit data type object that contains information about the specified commit.
+    /// This member is required.
+    public var commit: CodeCommitClientTypes.Commit?
+
+    public init(
+        commit: CodeCommitClientTypes.Commit? = nil
+    )
+    {
+        self.commit = commit
+    }
+}
+
+struct GetCommitOutputBody: Swift.Equatable {
+    let commit: CodeCommitClientTypes.Commit?
+}
+
+extension GetCommitOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case commit
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let commitDecoded = try containerValues.decodeIfPresent(CodeCommitClientTypes.Commit.self, forKey: .commit)
+        commit = commitDecoded
+    }
+}
+
 enum GetCommitOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -10160,48 +10202,6 @@ enum GetCommitOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "RepositoryNameRequiredException": return try await RepositoryNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetCommitOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetCommitOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.commit = output.commit
-        } else {
-            self.commit = nil
-        }
-    }
-}
-
-/// Represents the output of a get commit operation.
-public struct GetCommitOutputResponse: Swift.Equatable {
-    /// A commit data type object that contains information about the specified commit.
-    /// This member is required.
-    public var commit: CodeCommitClientTypes.Commit?
-
-    public init(
-        commit: CodeCommitClientTypes.Commit? = nil
-    )
-    {
-        self.commit = commit
-    }
-}
-
-struct GetCommitOutputResponseBody: Swift.Equatable {
-    let commit: CodeCommitClientTypes.Commit?
-}
-
-extension GetCommitOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case commit
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let commitDecoded = try containerValues.decodeIfPresent(CodeCommitClientTypes.Commit.self, forKey: .commit)
-        commit = commitDecoded
     }
 }
 
@@ -10326,6 +10326,65 @@ extension GetDifferencesInputBody: Swift.Decodable {
     }
 }
 
+extension GetDifferencesOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetDifferencesOutputBody = try responseDecoder.decode(responseBody: data)
+            self.differences = output.differences
+            self.nextToken = output.nextToken
+        } else {
+            self.nextToken = nil
+            self.differences = nil
+        }
+    }
+}
+
+public struct GetDifferencesOutput: Swift.Equatable {
+    /// A data type object that contains information about the differences, including whether the difference is added, modified, or deleted (A, D, M).
+    public var differences: [CodeCommitClientTypes.Difference]?
+    /// An enumeration token that can be used in a request to return the next batch of the results.
+    public var nextToken: Swift.String?
+
+    public init(
+        differences: [CodeCommitClientTypes.Difference]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.differences = differences
+        self.nextToken = nextToken
+    }
+}
+
+struct GetDifferencesOutputBody: Swift.Equatable {
+    let differences: [CodeCommitClientTypes.Difference]?
+    let nextToken: Swift.String?
+}
+
+extension GetDifferencesOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken = "NextToken"
+        case differences
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let differencesContainer = try containerValues.decodeIfPresent([CodeCommitClientTypes.Difference?].self, forKey: .differences)
+        var differencesDecoded0:[CodeCommitClientTypes.Difference]? = nil
+        if let differencesContainer = differencesContainer {
+            differencesDecoded0 = [CodeCommitClientTypes.Difference]()
+            for structure0 in differencesContainer {
+                if let structure0 = structure0 {
+                    differencesDecoded0?.append(structure0)
+                }
+            }
+        }
+        differences = differencesDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
 enum GetDifferencesOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -10349,65 +10408,6 @@ enum GetDifferencesOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "RepositoryNameRequiredException": return try await RepositoryNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetDifferencesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetDifferencesOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.differences = output.differences
-            self.nextToken = output.nextToken
-        } else {
-            self.nextToken = nil
-            self.differences = nil
-        }
-    }
-}
-
-public struct GetDifferencesOutputResponse: Swift.Equatable {
-    /// A data type object that contains information about the differences, including whether the difference is added, modified, or deleted (A, D, M).
-    public var differences: [CodeCommitClientTypes.Difference]?
-    /// An enumeration token that can be used in a request to return the next batch of the results.
-    public var nextToken: Swift.String?
-
-    public init(
-        differences: [CodeCommitClientTypes.Difference]? = nil,
-        nextToken: Swift.String? = nil
-    )
-    {
-        self.differences = differences
-        self.nextToken = nextToken
-    }
-}
-
-struct GetDifferencesOutputResponseBody: Swift.Equatable {
-    let differences: [CodeCommitClientTypes.Difference]?
-    let nextToken: Swift.String?
-}
-
-extension GetDifferencesOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case nextToken = "NextToken"
-        case differences
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let differencesContainer = try containerValues.decodeIfPresent([CodeCommitClientTypes.Difference?].self, forKey: .differences)
-        var differencesDecoded0:[CodeCommitClientTypes.Difference]? = nil
-        if let differencesContainer = differencesContainer {
-            differencesDecoded0 = [CodeCommitClientTypes.Difference]()
-            for structure0 in differencesContainer {
-                if let structure0 = structure0 {
-                    differencesDecoded0?.append(structure0)
-                }
-            }
-        }
-        differences = differencesDecoded0
-        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
-        nextToken = nextTokenDecoded
     }
 }
 
@@ -10484,35 +10484,11 @@ extension GetFileInputBody: Swift.Decodable {
     }
 }
 
-enum GetFileOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "CommitDoesNotExistException": return try await CommitDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionIntegrityChecksFailedException": return try await EncryptionIntegrityChecksFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionKeyAccessDeniedException": return try await EncryptionKeyAccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionKeyDisabledException": return try await EncryptionKeyDisabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionKeyNotFoundException": return try await EncryptionKeyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionKeyUnavailableException": return try await EncryptionKeyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "FileDoesNotExistException": return try await FileDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "FileTooLargeException": return try await FileTooLargeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidCommitException": return try await InvalidCommitException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidPathException": return try await InvalidPathException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRepositoryNameException": return try await InvalidRepositoryNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "PathRequiredException": return try await PathRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "RepositoryDoesNotExistException": return try await RepositoryDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "RepositoryNameRequiredException": return try await RepositoryNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetFileOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetFileOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetFileOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetFileOutputBody = try responseDecoder.decode(responseBody: data)
             self.blobId = output.blobId
             self.commitId = output.commitId
             self.fileContent = output.fileContent
@@ -10530,7 +10506,7 @@ extension GetFileOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetFileOutputResponse: Swift.Equatable {
+public struct GetFileOutput: Swift.Equatable {
     /// The blob ID of the object that represents the file content.
     /// This member is required.
     public var blobId: Swift.String?
@@ -10568,7 +10544,7 @@ public struct GetFileOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetFileOutputResponseBody: Swift.Equatable {
+struct GetFileOutputBody: Swift.Equatable {
     let commitId: Swift.String?
     let blobId: Swift.String?
     let filePath: Swift.String?
@@ -10577,7 +10553,7 @@ struct GetFileOutputResponseBody: Swift.Equatable {
     let fileContent: ClientRuntime.Data?
 }
 
-extension GetFileOutputResponseBody: Swift.Decodable {
+extension GetFileOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case blobId
         case commitId
@@ -10601,6 +10577,30 @@ extension GetFileOutputResponseBody: Swift.Decodable {
         fileSize = fileSizeDecoded
         let fileContentDecoded = try containerValues.decodeIfPresent(ClientRuntime.Data.self, forKey: .fileContent)
         fileContent = fileContentDecoded
+    }
+}
+
+enum GetFileOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "CommitDoesNotExistException": return try await CommitDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionIntegrityChecksFailedException": return try await EncryptionIntegrityChecksFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionKeyAccessDeniedException": return try await EncryptionKeyAccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionKeyDisabledException": return try await EncryptionKeyDisabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionKeyNotFoundException": return try await EncryptionKeyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionKeyUnavailableException": return try await EncryptionKeyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "FileDoesNotExistException": return try await FileDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "FileTooLargeException": return try await FileTooLargeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidCommitException": return try await InvalidCommitException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidPathException": return try await InvalidPathException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRepositoryNameException": return try await InvalidRepositoryNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PathRequiredException": return try await PathRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RepositoryDoesNotExistException": return try await RepositoryDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RepositoryNameRequiredException": return try await RepositoryNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -10677,34 +10677,11 @@ extension GetFolderInputBody: Swift.Decodable {
     }
 }
 
-enum GetFolderOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "CommitDoesNotExistException": return try await CommitDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionIntegrityChecksFailedException": return try await EncryptionIntegrityChecksFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionKeyAccessDeniedException": return try await EncryptionKeyAccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionKeyDisabledException": return try await EncryptionKeyDisabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionKeyNotFoundException": return try await EncryptionKeyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionKeyUnavailableException": return try await EncryptionKeyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "FolderDoesNotExistException": return try await FolderDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidCommitException": return try await InvalidCommitException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidPathException": return try await InvalidPathException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRepositoryNameException": return try await InvalidRepositoryNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "PathRequiredException": return try await PathRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "RepositoryDoesNotExistException": return try await RepositoryDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "RepositoryNameRequiredException": return try await RepositoryNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetFolderOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetFolderOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetFolderOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetFolderOutputBody = try responseDecoder.decode(responseBody: data)
             self.commitId = output.commitId
             self.files = output.files
             self.folderPath = output.folderPath
@@ -10724,7 +10701,7 @@ extension GetFolderOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetFolderOutputResponse: Swift.Equatable {
+public struct GetFolderOutput: Swift.Equatable {
     /// The full commit ID used as a reference for the returned version of the folder content.
     /// This member is required.
     public var commitId: Swift.String?
@@ -10762,7 +10739,7 @@ public struct GetFolderOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetFolderOutputResponseBody: Swift.Equatable {
+struct GetFolderOutputBody: Swift.Equatable {
     let commitId: Swift.String?
     let folderPath: Swift.String?
     let treeId: Swift.String?
@@ -10772,7 +10749,7 @@ struct GetFolderOutputResponseBody: Swift.Equatable {
     let subModules: [CodeCommitClientTypes.SubModule]?
 }
 
-extension GetFolderOutputResponseBody: Swift.Decodable {
+extension GetFolderOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case commitId
         case files
@@ -10835,6 +10812,29 @@ extension GetFolderOutputResponseBody: Swift.Decodable {
             }
         }
         subModules = subModulesDecoded0
+    }
+}
+
+enum GetFolderOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "CommitDoesNotExistException": return try await CommitDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionIntegrityChecksFailedException": return try await EncryptionIntegrityChecksFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionKeyAccessDeniedException": return try await EncryptionKeyAccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionKeyDisabledException": return try await EncryptionKeyDisabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionKeyNotFoundException": return try await EncryptionKeyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionKeyUnavailableException": return try await EncryptionKeyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "FolderDoesNotExistException": return try await FolderDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidCommitException": return try await InvalidCommitException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidPathException": return try await InvalidPathException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRepositoryNameException": return try await InvalidRepositoryNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PathRequiredException": return try await PathRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RepositoryDoesNotExistException": return try await RepositoryDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RepositoryNameRequiredException": return try await RepositoryNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -10936,34 +10936,11 @@ extension GetMergeCommitInputBody: Swift.Decodable {
     }
 }
 
-enum GetMergeCommitOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "CommitDoesNotExistException": return try await CommitDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "CommitRequiredException": return try await CommitRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionIntegrityChecksFailedException": return try await EncryptionIntegrityChecksFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionKeyAccessDeniedException": return try await EncryptionKeyAccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionKeyDisabledException": return try await EncryptionKeyDisabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionKeyNotFoundException": return try await EncryptionKeyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionKeyUnavailableException": return try await EncryptionKeyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidCommitException": return try await InvalidCommitException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidConflictDetailLevelException": return try await InvalidConflictDetailLevelException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidConflictResolutionStrategyException": return try await InvalidConflictResolutionStrategyException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRepositoryNameException": return try await InvalidRepositoryNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "RepositoryDoesNotExistException": return try await RepositoryDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "RepositoryNameRequiredException": return try await RepositoryNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetMergeCommitOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetMergeCommitOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetMergeCommitOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetMergeCommitOutputBody = try responseDecoder.decode(responseBody: data)
             self.baseCommitId = output.baseCommitId
             self.destinationCommitId = output.destinationCommitId
             self.mergedCommitId = output.mergedCommitId
@@ -10977,7 +10954,7 @@ extension GetMergeCommitOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetMergeCommitOutputResponse: Swift.Equatable {
+public struct GetMergeCommitOutput: Swift.Equatable {
     /// The commit ID of the merge base.
     public var baseCommitId: Swift.String?
     /// The commit ID of the destination commit specifier that was used in the merge evaluation.
@@ -11001,14 +10978,14 @@ public struct GetMergeCommitOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetMergeCommitOutputResponseBody: Swift.Equatable {
+struct GetMergeCommitOutputBody: Swift.Equatable {
     let sourceCommitId: Swift.String?
     let destinationCommitId: Swift.String?
     let baseCommitId: Swift.String?
     let mergedCommitId: Swift.String?
 }
 
-extension GetMergeCommitOutputResponseBody: Swift.Decodable {
+extension GetMergeCommitOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case baseCommitId
         case destinationCommitId
@@ -11026,6 +11003,29 @@ extension GetMergeCommitOutputResponseBody: Swift.Decodable {
         baseCommitId = baseCommitIdDecoded
         let mergedCommitIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .mergedCommitId)
         mergedCommitId = mergedCommitIdDecoded
+    }
+}
+
+enum GetMergeCommitOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "CommitDoesNotExistException": return try await CommitDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "CommitRequiredException": return try await CommitRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionIntegrityChecksFailedException": return try await EncryptionIntegrityChecksFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionKeyAccessDeniedException": return try await EncryptionKeyAccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionKeyDisabledException": return try await EncryptionKeyDisabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionKeyNotFoundException": return try await EncryptionKeyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionKeyUnavailableException": return try await EncryptionKeyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidCommitException": return try await InvalidCommitException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidConflictDetailLevelException": return try await InvalidConflictDetailLevelException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidConflictResolutionStrategyException": return try await InvalidConflictResolutionStrategyException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRepositoryNameException": return try await InvalidRepositoryNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RepositoryDoesNotExistException": return try await RepositoryDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RepositoryNameRequiredException": return try await RepositoryNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -11164,43 +11164,11 @@ extension GetMergeConflictsInputBody: Swift.Decodable {
     }
 }
 
-enum GetMergeConflictsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "CommitDoesNotExistException": return try await CommitDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "CommitRequiredException": return try await CommitRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionIntegrityChecksFailedException": return try await EncryptionIntegrityChecksFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionKeyAccessDeniedException": return try await EncryptionKeyAccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionKeyDisabledException": return try await EncryptionKeyDisabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionKeyNotFoundException": return try await EncryptionKeyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionKeyUnavailableException": return try await EncryptionKeyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidCommitException": return try await InvalidCommitException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidConflictDetailLevelException": return try await InvalidConflictDetailLevelException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidConflictResolutionStrategyException": return try await InvalidConflictResolutionStrategyException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidContinuationTokenException": return try await InvalidContinuationTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidDestinationCommitSpecifierException": return try await InvalidDestinationCommitSpecifierException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidMaxConflictFilesException": return try await InvalidMaxConflictFilesException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidMergeOptionException": return try await InvalidMergeOptionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRepositoryNameException": return try await InvalidRepositoryNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidSourceCommitSpecifierException": return try await InvalidSourceCommitSpecifierException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MaximumFileContentToLoadExceededException": return try await MaximumFileContentToLoadExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MaximumItemsToCompareExceededException": return try await MaximumItemsToCompareExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MergeOptionRequiredException": return try await MergeOptionRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "RepositoryDoesNotExistException": return try await RepositoryDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "RepositoryNameRequiredException": return try await RepositoryNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TipsDivergenceExceededException": return try await TipsDivergenceExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetMergeConflictsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetMergeConflictsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetMergeConflictsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetMergeConflictsOutputBody = try responseDecoder.decode(responseBody: data)
             self.baseCommitId = output.baseCommitId
             self.conflictMetadataList = output.conflictMetadataList
             self.destinationCommitId = output.destinationCommitId
@@ -11218,7 +11186,7 @@ extension GetMergeConflictsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetMergeConflictsOutputResponse: Swift.Equatable {
+public struct GetMergeConflictsOutput: Swift.Equatable {
     /// The commit ID of the merge base.
     public var baseCommitId: Swift.String?
     /// A list of metadata for any conflicting files. If the specified merge strategy is FAST_FORWARD_MERGE, this list is always empty.
@@ -11254,7 +11222,7 @@ public struct GetMergeConflictsOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetMergeConflictsOutputResponseBody: Swift.Equatable {
+struct GetMergeConflictsOutputBody: Swift.Equatable {
     let mergeable: Swift.Bool
     let destinationCommitId: Swift.String?
     let sourceCommitId: Swift.String?
@@ -11263,7 +11231,7 @@ struct GetMergeConflictsOutputResponseBody: Swift.Equatable {
     let nextToken: Swift.String?
 }
 
-extension GetMergeConflictsOutputResponseBody: Swift.Decodable {
+extension GetMergeConflictsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case baseCommitId
         case conflictMetadataList
@@ -11296,6 +11264,38 @@ extension GetMergeConflictsOutputResponseBody: Swift.Decodable {
         conflictMetadataList = conflictMetadataListDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum GetMergeConflictsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "CommitDoesNotExistException": return try await CommitDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "CommitRequiredException": return try await CommitRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionIntegrityChecksFailedException": return try await EncryptionIntegrityChecksFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionKeyAccessDeniedException": return try await EncryptionKeyAccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionKeyDisabledException": return try await EncryptionKeyDisabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionKeyNotFoundException": return try await EncryptionKeyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionKeyUnavailableException": return try await EncryptionKeyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidCommitException": return try await InvalidCommitException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidConflictDetailLevelException": return try await InvalidConflictDetailLevelException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidConflictResolutionStrategyException": return try await InvalidConflictResolutionStrategyException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidContinuationTokenException": return try await InvalidContinuationTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidDestinationCommitSpecifierException": return try await InvalidDestinationCommitSpecifierException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidMaxConflictFilesException": return try await InvalidMaxConflictFilesException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidMergeOptionException": return try await InvalidMergeOptionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRepositoryNameException": return try await InvalidRepositoryNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidSourceCommitSpecifierException": return try await InvalidSourceCommitSpecifierException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MaximumFileContentToLoadExceededException": return try await MaximumFileContentToLoadExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MaximumItemsToCompareExceededException": return try await MaximumItemsToCompareExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MergeOptionRequiredException": return try await MergeOptionRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RepositoryDoesNotExistException": return try await RepositoryDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RepositoryNameRequiredException": return try await RepositoryNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TipsDivergenceExceededException": return try await TipsDivergenceExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -11397,37 +11397,11 @@ extension GetMergeOptionsInputBody: Swift.Decodable {
     }
 }
 
-enum GetMergeOptionsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "CommitDoesNotExistException": return try await CommitDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "CommitRequiredException": return try await CommitRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionIntegrityChecksFailedException": return try await EncryptionIntegrityChecksFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionKeyAccessDeniedException": return try await EncryptionKeyAccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionKeyDisabledException": return try await EncryptionKeyDisabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionKeyNotFoundException": return try await EncryptionKeyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionKeyUnavailableException": return try await EncryptionKeyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidCommitException": return try await InvalidCommitException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidConflictDetailLevelException": return try await InvalidConflictDetailLevelException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidConflictResolutionStrategyException": return try await InvalidConflictResolutionStrategyException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRepositoryNameException": return try await InvalidRepositoryNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MaximumFileContentToLoadExceededException": return try await MaximumFileContentToLoadExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MaximumItemsToCompareExceededException": return try await MaximumItemsToCompareExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "RepositoryDoesNotExistException": return try await RepositoryDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "RepositoryNameRequiredException": return try await RepositoryNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TipsDivergenceExceededException": return try await TipsDivergenceExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetMergeOptionsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetMergeOptionsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetMergeOptionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetMergeOptionsOutputBody = try responseDecoder.decode(responseBody: data)
             self.baseCommitId = output.baseCommitId
             self.destinationCommitId = output.destinationCommitId
             self.mergeOptions = output.mergeOptions
@@ -11441,7 +11415,7 @@ extension GetMergeOptionsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetMergeOptionsOutputResponse: Swift.Equatable {
+public struct GetMergeOptionsOutput: Swift.Equatable {
     /// The commit ID of the merge base.
     /// This member is required.
     public var baseCommitId: Swift.String?
@@ -11469,14 +11443,14 @@ public struct GetMergeOptionsOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetMergeOptionsOutputResponseBody: Swift.Equatable {
+struct GetMergeOptionsOutputBody: Swift.Equatable {
     let mergeOptions: [CodeCommitClientTypes.MergeOptionTypeEnum]?
     let sourceCommitId: Swift.String?
     let destinationCommitId: Swift.String?
     let baseCommitId: Swift.String?
 }
 
-extension GetMergeOptionsOutputResponseBody: Swift.Decodable {
+extension GetMergeOptionsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case baseCommitId
         case destinationCommitId
@@ -11503,6 +11477,32 @@ extension GetMergeOptionsOutputResponseBody: Swift.Decodable {
         destinationCommitId = destinationCommitIdDecoded
         let baseCommitIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .baseCommitId)
         baseCommitId = baseCommitIdDecoded
+    }
+}
+
+enum GetMergeOptionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "CommitDoesNotExistException": return try await CommitDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "CommitRequiredException": return try await CommitRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionIntegrityChecksFailedException": return try await EncryptionIntegrityChecksFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionKeyAccessDeniedException": return try await EncryptionKeyAccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionKeyDisabledException": return try await EncryptionKeyDisabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionKeyNotFoundException": return try await EncryptionKeyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionKeyUnavailableException": return try await EncryptionKeyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidCommitException": return try await InvalidCommitException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidConflictDetailLevelException": return try await InvalidConflictDetailLevelException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidConflictResolutionStrategyException": return try await InvalidConflictResolutionStrategyException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRepositoryNameException": return try await InvalidRepositoryNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MaximumFileContentToLoadExceededException": return try await MaximumFileContentToLoadExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MaximumItemsToCompareExceededException": return try await MaximumItemsToCompareExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RepositoryDoesNotExistException": return try await RepositoryDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RepositoryNameRequiredException": return try await RepositoryNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TipsDivergenceExceededException": return try await TipsDivergenceExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -11567,31 +11567,11 @@ extension GetPullRequestApprovalStatesInputBody: Swift.Decodable {
     }
 }
 
-enum GetPullRequestApprovalStatesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "EncryptionIntegrityChecksFailedException": return try await EncryptionIntegrityChecksFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionKeyAccessDeniedException": return try await EncryptionKeyAccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionKeyDisabledException": return try await EncryptionKeyDisabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionKeyNotFoundException": return try await EncryptionKeyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionKeyUnavailableException": return try await EncryptionKeyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidPullRequestIdException": return try await InvalidPullRequestIdException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRevisionIdException": return try await InvalidRevisionIdException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "PullRequestDoesNotExistException": return try await PullRequestDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "PullRequestIdRequiredException": return try await PullRequestIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "RevisionIdRequiredException": return try await RevisionIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetPullRequestApprovalStatesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetPullRequestApprovalStatesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetPullRequestApprovalStatesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetPullRequestApprovalStatesOutputBody = try responseDecoder.decode(responseBody: data)
             self.approvals = output.approvals
         } else {
             self.approvals = nil
@@ -11599,7 +11579,7 @@ extension GetPullRequestApprovalStatesOutputResponse: ClientRuntime.HttpResponse
     }
 }
 
-public struct GetPullRequestApprovalStatesOutputResponse: Swift.Equatable {
+public struct GetPullRequestApprovalStatesOutput: Swift.Equatable {
     /// Information about users who have approved the pull request.
     public var approvals: [CodeCommitClientTypes.Approval]?
 
@@ -11611,11 +11591,11 @@ public struct GetPullRequestApprovalStatesOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetPullRequestApprovalStatesOutputResponseBody: Swift.Equatable {
+struct GetPullRequestApprovalStatesOutputBody: Swift.Equatable {
     let approvals: [CodeCommitClientTypes.Approval]?
 }
 
-extension GetPullRequestApprovalStatesOutputResponseBody: Swift.Decodable {
+extension GetPullRequestApprovalStatesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case approvals
     }
@@ -11633,6 +11613,26 @@ extension GetPullRequestApprovalStatesOutputResponseBody: Swift.Decodable {
             }
         }
         approvals = approvalsDecoded0
+    }
+}
+
+enum GetPullRequestApprovalStatesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "EncryptionIntegrityChecksFailedException": return try await EncryptionIntegrityChecksFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionKeyAccessDeniedException": return try await EncryptionKeyAccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionKeyDisabledException": return try await EncryptionKeyDisabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionKeyNotFoundException": return try await EncryptionKeyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionKeyUnavailableException": return try await EncryptionKeyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidPullRequestIdException": return try await InvalidPullRequestIdException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRevisionIdException": return try await InvalidRevisionIdException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PullRequestDoesNotExistException": return try await PullRequestDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PullRequestIdRequiredException": return try await PullRequestIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RevisionIdRequiredException": return try await RevisionIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -11684,6 +11684,47 @@ extension GetPullRequestInputBody: Swift.Decodable {
     }
 }
 
+extension GetPullRequestOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetPullRequestOutputBody = try responseDecoder.decode(responseBody: data)
+            self.pullRequest = output.pullRequest
+        } else {
+            self.pullRequest = nil
+        }
+    }
+}
+
+public struct GetPullRequestOutput: Swift.Equatable {
+    /// Information about the specified pull request.
+    /// This member is required.
+    public var pullRequest: CodeCommitClientTypes.PullRequest?
+
+    public init(
+        pullRequest: CodeCommitClientTypes.PullRequest? = nil
+    )
+    {
+        self.pullRequest = pullRequest
+    }
+}
+
+struct GetPullRequestOutputBody: Swift.Equatable {
+    let pullRequest: CodeCommitClientTypes.PullRequest?
+}
+
+extension GetPullRequestOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case pullRequest
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let pullRequestDecoded = try containerValues.decodeIfPresent(CodeCommitClientTypes.PullRequest.self, forKey: .pullRequest)
+        pullRequest = pullRequestDecoded
+    }
+}
+
 enum GetPullRequestOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -11699,47 +11740,6 @@ enum GetPullRequestOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "PullRequestIdRequiredException": return try await PullRequestIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetPullRequestOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetPullRequestOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.pullRequest = output.pullRequest
-        } else {
-            self.pullRequest = nil
-        }
-    }
-}
-
-public struct GetPullRequestOutputResponse: Swift.Equatable {
-    /// Information about the specified pull request.
-    /// This member is required.
-    public var pullRequest: CodeCommitClientTypes.PullRequest?
-
-    public init(
-        pullRequest: CodeCommitClientTypes.PullRequest? = nil
-    )
-    {
-        self.pullRequest = pullRequest
-    }
-}
-
-struct GetPullRequestOutputResponseBody: Swift.Equatable {
-    let pullRequest: CodeCommitClientTypes.PullRequest?
-}
-
-extension GetPullRequestOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case pullRequest
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let pullRequestDecoded = try containerValues.decodeIfPresent(CodeCommitClientTypes.PullRequest.self, forKey: .pullRequest)
-        pullRequest = pullRequestDecoded
     }
 }
 
@@ -11804,6 +11804,56 @@ extension GetPullRequestOverrideStateInputBody: Swift.Decodable {
     }
 }
 
+extension GetPullRequestOverrideStateOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetPullRequestOverrideStateOutputBody = try responseDecoder.decode(responseBody: data)
+            self.overridden = output.overridden
+            self.overrider = output.overrider
+        } else {
+            self.overridden = false
+            self.overrider = nil
+        }
+    }
+}
+
+public struct GetPullRequestOverrideStateOutput: Swift.Equatable {
+    /// A Boolean value that indicates whether a pull request has had its rules set aside (TRUE) or whether all approval rules still apply (FALSE).
+    public var overridden: Swift.Bool
+    /// The Amazon Resource Name (ARN) of the user or identity that overrode the rules and their requirements for the pull request.
+    public var overrider: Swift.String?
+
+    public init(
+        overridden: Swift.Bool = false,
+        overrider: Swift.String? = nil
+    )
+    {
+        self.overridden = overridden
+        self.overrider = overrider
+    }
+}
+
+struct GetPullRequestOverrideStateOutputBody: Swift.Equatable {
+    let overridden: Swift.Bool
+    let overrider: Swift.String?
+}
+
+extension GetPullRequestOverrideStateOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case overridden
+        case overrider
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let overriddenDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .overridden) ?? false
+        overridden = overriddenDecoded
+        let overriderDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .overrider)
+        overrider = overriderDecoded
+    }
+}
+
 enum GetPullRequestOverrideStateOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -11821,56 +11871,6 @@ enum GetPullRequestOverrideStateOutputError: ClientRuntime.HttpResponseErrorBind
             case "RevisionIdRequiredException": return try await RevisionIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetPullRequestOverrideStateOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetPullRequestOverrideStateOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.overridden = output.overridden
-            self.overrider = output.overrider
-        } else {
-            self.overridden = false
-            self.overrider = nil
-        }
-    }
-}
-
-public struct GetPullRequestOverrideStateOutputResponse: Swift.Equatable {
-    /// A Boolean value that indicates whether a pull request has had its rules set aside (TRUE) or whether all approval rules still apply (FALSE).
-    public var overridden: Swift.Bool
-    /// The Amazon Resource Name (ARN) of the user or identity that overrode the rules and their requirements for the pull request.
-    public var overrider: Swift.String?
-
-    public init(
-        overridden: Swift.Bool = false,
-        overrider: Swift.String? = nil
-    )
-    {
-        self.overridden = overridden
-        self.overrider = overrider
-    }
-}
-
-struct GetPullRequestOverrideStateOutputResponseBody: Swift.Equatable {
-    let overridden: Swift.Bool
-    let overrider: Swift.String?
-}
-
-extension GetPullRequestOverrideStateOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case overridden
-        case overrider
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let overriddenDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .overridden) ?? false
-        overridden = overriddenDecoded
-        let overriderDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .overrider)
-        overrider = overriderDecoded
     }
 }
 
@@ -11923,6 +11923,47 @@ extension GetRepositoryInputBody: Swift.Decodable {
     }
 }
 
+extension GetRepositoryOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetRepositoryOutputBody = try responseDecoder.decode(responseBody: data)
+            self.repositoryMetadata = output.repositoryMetadata
+        } else {
+            self.repositoryMetadata = nil
+        }
+    }
+}
+
+/// Represents the output of a get repository operation.
+public struct GetRepositoryOutput: Swift.Equatable {
+    /// Information about the repository.
+    public var repositoryMetadata: CodeCommitClientTypes.RepositoryMetadata?
+
+    public init(
+        repositoryMetadata: CodeCommitClientTypes.RepositoryMetadata? = nil
+    )
+    {
+        self.repositoryMetadata = repositoryMetadata
+    }
+}
+
+struct GetRepositoryOutputBody: Swift.Equatable {
+    let repositoryMetadata: CodeCommitClientTypes.RepositoryMetadata?
+}
+
+extension GetRepositoryOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case repositoryMetadata
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let repositoryMetadataDecoded = try containerValues.decodeIfPresent(CodeCommitClientTypes.RepositoryMetadata.self, forKey: .repositoryMetadata)
+        repositoryMetadata = repositoryMetadataDecoded
+    }
+}
+
 enum GetRepositoryOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -11938,47 +11979,6 @@ enum GetRepositoryOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "RepositoryNameRequiredException": return try await RepositoryNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetRepositoryOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetRepositoryOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.repositoryMetadata = output.repositoryMetadata
-        } else {
-            self.repositoryMetadata = nil
-        }
-    }
-}
-
-/// Represents the output of a get repository operation.
-public struct GetRepositoryOutputResponse: Swift.Equatable {
-    /// Information about the repository.
-    public var repositoryMetadata: CodeCommitClientTypes.RepositoryMetadata?
-
-    public init(
-        repositoryMetadata: CodeCommitClientTypes.RepositoryMetadata? = nil
-    )
-    {
-        self.repositoryMetadata = repositoryMetadata
-    }
-}
-
-struct GetRepositoryOutputResponseBody: Swift.Equatable {
-    let repositoryMetadata: CodeCommitClientTypes.RepositoryMetadata?
-}
-
-extension GetRepositoryOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case repositoryMetadata
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let repositoryMetadataDecoded = try containerValues.decodeIfPresent(CodeCommitClientTypes.RepositoryMetadata.self, forKey: .repositoryMetadata)
-        repositoryMetadata = repositoryMetadataDecoded
     }
 }
 
@@ -12031,29 +12031,11 @@ extension GetRepositoryTriggersInputBody: Swift.Decodable {
     }
 }
 
-enum GetRepositoryTriggersOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "EncryptionIntegrityChecksFailedException": return try await EncryptionIntegrityChecksFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionKeyAccessDeniedException": return try await EncryptionKeyAccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionKeyDisabledException": return try await EncryptionKeyDisabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionKeyNotFoundException": return try await EncryptionKeyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionKeyUnavailableException": return try await EncryptionKeyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRepositoryNameException": return try await InvalidRepositoryNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "RepositoryDoesNotExistException": return try await RepositoryDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "RepositoryNameRequiredException": return try await RepositoryNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetRepositoryTriggersOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetRepositoryTriggersOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetRepositoryTriggersOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetRepositoryTriggersOutputBody = try responseDecoder.decode(responseBody: data)
             self.configurationId = output.configurationId
             self.triggers = output.triggers
         } else {
@@ -12064,7 +12046,7 @@ extension GetRepositoryTriggersOutputResponse: ClientRuntime.HttpResponseBinding
 }
 
 /// Represents the output of a get repository triggers operation.
-public struct GetRepositoryTriggersOutputResponse: Swift.Equatable {
+public struct GetRepositoryTriggersOutput: Swift.Equatable {
     /// The system-generated unique ID for the trigger.
     public var configurationId: Swift.String?
     /// The JSON block of configuration information for each trigger.
@@ -12080,12 +12062,12 @@ public struct GetRepositoryTriggersOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetRepositoryTriggersOutputResponseBody: Swift.Equatable {
+struct GetRepositoryTriggersOutputBody: Swift.Equatable {
     let configurationId: Swift.String?
     let triggers: [CodeCommitClientTypes.RepositoryTrigger]?
 }
 
-extension GetRepositoryTriggersOutputResponseBody: Swift.Decodable {
+extension GetRepositoryTriggersOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case configurationId
         case triggers
@@ -12106,6 +12088,24 @@ extension GetRepositoryTriggersOutputResponseBody: Swift.Decodable {
             }
         }
         triggers = triggersDecoded0
+    }
+}
+
+enum GetRepositoryTriggersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "EncryptionIntegrityChecksFailedException": return try await EncryptionIntegrityChecksFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionKeyAccessDeniedException": return try await EncryptionKeyAccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionKeyDisabledException": return try await EncryptionKeyDisabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionKeyNotFoundException": return try await EncryptionKeyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionKeyUnavailableException": return try await EncryptionKeyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRepositoryNameException": return try await InvalidRepositoryNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RepositoryDoesNotExistException": return try await RepositoryDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RepositoryNameRequiredException": return try await RepositoryNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -15807,23 +15807,11 @@ extension ListApprovalRuleTemplatesInputBody: Swift.Decodable {
     }
 }
 
-enum ListApprovalRuleTemplatesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidContinuationTokenException": return try await InvalidContinuationTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidMaxResultsException": return try await InvalidMaxResultsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListApprovalRuleTemplatesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListApprovalRuleTemplatesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListApprovalRuleTemplatesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListApprovalRuleTemplatesOutputBody = try responseDecoder.decode(responseBody: data)
             self.approvalRuleTemplateNames = output.approvalRuleTemplateNames
             self.nextToken = output.nextToken
         } else {
@@ -15833,7 +15821,7 @@ extension ListApprovalRuleTemplatesOutputResponse: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct ListApprovalRuleTemplatesOutputResponse: Swift.Equatable {
+public struct ListApprovalRuleTemplatesOutput: Swift.Equatable {
     /// The names of all the approval rule templates found in the Amazon Web Services Region for your Amazon Web Services account.
     public var approvalRuleTemplateNames: [Swift.String]?
     /// An enumeration token that allows the operation to batch the next results of the operation.
@@ -15849,12 +15837,12 @@ public struct ListApprovalRuleTemplatesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListApprovalRuleTemplatesOutputResponseBody: Swift.Equatable {
+struct ListApprovalRuleTemplatesOutputBody: Swift.Equatable {
     let approvalRuleTemplateNames: [Swift.String]?
     let nextToken: Swift.String?
 }
 
-extension ListApprovalRuleTemplatesOutputResponseBody: Swift.Decodable {
+extension ListApprovalRuleTemplatesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case approvalRuleTemplateNames
         case nextToken
@@ -15875,6 +15863,18 @@ extension ListApprovalRuleTemplatesOutputResponseBody: Swift.Decodable {
         approvalRuleTemplateNames = approvalRuleTemplateNamesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListApprovalRuleTemplatesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidContinuationTokenException": return try await InvalidContinuationTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidMaxResultsException": return try await InvalidMaxResultsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -15950,31 +15950,11 @@ extension ListAssociatedApprovalRuleTemplatesForRepositoryInputBody: Swift.Decod
     }
 }
 
-enum ListAssociatedApprovalRuleTemplatesForRepositoryOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "EncryptionIntegrityChecksFailedException": return try await EncryptionIntegrityChecksFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionKeyAccessDeniedException": return try await EncryptionKeyAccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionKeyDisabledException": return try await EncryptionKeyDisabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionKeyNotFoundException": return try await EncryptionKeyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionKeyUnavailableException": return try await EncryptionKeyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidContinuationTokenException": return try await InvalidContinuationTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidMaxResultsException": return try await InvalidMaxResultsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRepositoryNameException": return try await InvalidRepositoryNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "RepositoryDoesNotExistException": return try await RepositoryDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "RepositoryNameRequiredException": return try await RepositoryNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListAssociatedApprovalRuleTemplatesForRepositoryOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListAssociatedApprovalRuleTemplatesForRepositoryOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListAssociatedApprovalRuleTemplatesForRepositoryOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListAssociatedApprovalRuleTemplatesForRepositoryOutputBody = try responseDecoder.decode(responseBody: data)
             self.approvalRuleTemplateNames = output.approvalRuleTemplateNames
             self.nextToken = output.nextToken
         } else {
@@ -15984,7 +15964,7 @@ extension ListAssociatedApprovalRuleTemplatesForRepositoryOutputResponse: Client
     }
 }
 
-public struct ListAssociatedApprovalRuleTemplatesForRepositoryOutputResponse: Swift.Equatable {
+public struct ListAssociatedApprovalRuleTemplatesForRepositoryOutput: Swift.Equatable {
     /// The names of all approval rule templates associated with the repository.
     public var approvalRuleTemplateNames: [Swift.String]?
     /// An enumeration token that allows the operation to batch the next results of the operation.
@@ -16000,12 +15980,12 @@ public struct ListAssociatedApprovalRuleTemplatesForRepositoryOutputResponse: Sw
     }
 }
 
-struct ListAssociatedApprovalRuleTemplatesForRepositoryOutputResponseBody: Swift.Equatable {
+struct ListAssociatedApprovalRuleTemplatesForRepositoryOutputBody: Swift.Equatable {
     let approvalRuleTemplateNames: [Swift.String]?
     let nextToken: Swift.String?
 }
 
-extension ListAssociatedApprovalRuleTemplatesForRepositoryOutputResponseBody: Swift.Decodable {
+extension ListAssociatedApprovalRuleTemplatesForRepositoryOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case approvalRuleTemplateNames
         case nextToken
@@ -16026,6 +16006,26 @@ extension ListAssociatedApprovalRuleTemplatesForRepositoryOutputResponseBody: Sw
         approvalRuleTemplateNames = approvalRuleTemplateNamesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListAssociatedApprovalRuleTemplatesForRepositoryOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "EncryptionIntegrityChecksFailedException": return try await EncryptionIntegrityChecksFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionKeyAccessDeniedException": return try await EncryptionKeyAccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionKeyDisabledException": return try await EncryptionKeyDisabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionKeyNotFoundException": return try await EncryptionKeyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionKeyUnavailableException": return try await EncryptionKeyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidContinuationTokenException": return try await InvalidContinuationTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidMaxResultsException": return try await InvalidMaxResultsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRepositoryNameException": return try await InvalidRepositoryNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RepositoryDoesNotExistException": return try await RepositoryDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RepositoryNameRequiredException": return try await RepositoryNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -16090,30 +16090,11 @@ extension ListBranchesInputBody: Swift.Decodable {
     }
 }
 
-enum ListBranchesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "EncryptionIntegrityChecksFailedException": return try await EncryptionIntegrityChecksFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionKeyAccessDeniedException": return try await EncryptionKeyAccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionKeyDisabledException": return try await EncryptionKeyDisabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionKeyNotFoundException": return try await EncryptionKeyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionKeyUnavailableException": return try await EncryptionKeyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidContinuationTokenException": return try await InvalidContinuationTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRepositoryNameException": return try await InvalidRepositoryNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "RepositoryDoesNotExistException": return try await RepositoryDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "RepositoryNameRequiredException": return try await RepositoryNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListBranchesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListBranchesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListBranchesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListBranchesOutputBody = try responseDecoder.decode(responseBody: data)
             self.branches = output.branches
             self.nextToken = output.nextToken
         } else {
@@ -16124,7 +16105,7 @@ extension ListBranchesOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the output of a list branches operation.
-public struct ListBranchesOutputResponse: Swift.Equatable {
+public struct ListBranchesOutput: Swift.Equatable {
     /// The list of branch names.
     public var branches: [Swift.String]?
     /// An enumeration token that returns the batch of the results.
@@ -16140,12 +16121,12 @@ public struct ListBranchesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListBranchesOutputResponseBody: Swift.Equatable {
+struct ListBranchesOutputBody: Swift.Equatable {
     let branches: [Swift.String]?
     let nextToken: Swift.String?
 }
 
-extension ListBranchesOutputResponseBody: Swift.Decodable {
+extension ListBranchesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case branches
         case nextToken
@@ -16166,6 +16147,25 @@ extension ListBranchesOutputResponseBody: Swift.Decodable {
         branches = branchesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListBranchesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "EncryptionIntegrityChecksFailedException": return try await EncryptionIntegrityChecksFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionKeyAccessDeniedException": return try await EncryptionKeyAccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionKeyDisabledException": return try await EncryptionKeyDisabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionKeyNotFoundException": return try await EncryptionKeyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionKeyUnavailableException": return try await EncryptionKeyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidContinuationTokenException": return try await InvalidContinuationTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRepositoryNameException": return try await InvalidRepositoryNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RepositoryDoesNotExistException": return try await RepositoryDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RepositoryNameRequiredException": return try await RepositoryNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -16266,6 +16266,66 @@ extension ListFileCommitHistoryInputBody: Swift.Decodable {
     }
 }
 
+extension ListFileCommitHistoryOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListFileCommitHistoryOutputBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.revisionDag = output.revisionDag
+        } else {
+            self.nextToken = nil
+            self.revisionDag = nil
+        }
+    }
+}
+
+public struct ListFileCommitHistoryOutput: Swift.Equatable {
+    /// An enumeration token that can be used to return the next batch of results.
+    public var nextToken: Swift.String?
+    /// An array of FileVersion objects that form a directed acyclic graph (DAG) of the changes to the file made by the commits that changed the file.
+    /// This member is required.
+    public var revisionDag: [CodeCommitClientTypes.FileVersion]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        revisionDag: [CodeCommitClientTypes.FileVersion]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.revisionDag = revisionDag
+    }
+}
+
+struct ListFileCommitHistoryOutputBody: Swift.Equatable {
+    let revisionDag: [CodeCommitClientTypes.FileVersion]?
+    let nextToken: Swift.String?
+}
+
+extension ListFileCommitHistoryOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken
+        case revisionDag
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let revisionDagContainer = try containerValues.decodeIfPresent([CodeCommitClientTypes.FileVersion?].self, forKey: .revisionDag)
+        var revisionDagDecoded0:[CodeCommitClientTypes.FileVersion]? = nil
+        if let revisionDagContainer = revisionDagContainer {
+            revisionDagDecoded0 = [CodeCommitClientTypes.FileVersion]()
+            for structure0 in revisionDagContainer {
+                if let structure0 = structure0 {
+                    revisionDagDecoded0?.append(structure0)
+                }
+            }
+        }
+        revisionDag = revisionDagDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
 enum ListFileCommitHistoryOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -16287,66 +16347,6 @@ enum ListFileCommitHistoryOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TipsDivergenceExceededException": return try await TipsDivergenceExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension ListFileCommitHistoryOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: ListFileCommitHistoryOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.nextToken = output.nextToken
-            self.revisionDag = output.revisionDag
-        } else {
-            self.nextToken = nil
-            self.revisionDag = nil
-        }
-    }
-}
-
-public struct ListFileCommitHistoryOutputResponse: Swift.Equatable {
-    /// An enumeration token that can be used to return the next batch of results.
-    public var nextToken: Swift.String?
-    /// An array of FileVersion objects that form a directed acyclic graph (DAG) of the changes to the file made by the commits that changed the file.
-    /// This member is required.
-    public var revisionDag: [CodeCommitClientTypes.FileVersion]?
-
-    public init(
-        nextToken: Swift.String? = nil,
-        revisionDag: [CodeCommitClientTypes.FileVersion]? = nil
-    )
-    {
-        self.nextToken = nextToken
-        self.revisionDag = revisionDag
-    }
-}
-
-struct ListFileCommitHistoryOutputResponseBody: Swift.Equatable {
-    let revisionDag: [CodeCommitClientTypes.FileVersion]?
-    let nextToken: Swift.String?
-}
-
-extension ListFileCommitHistoryOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case nextToken
-        case revisionDag
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let revisionDagContainer = try containerValues.decodeIfPresent([CodeCommitClientTypes.FileVersion?].self, forKey: .revisionDag)
-        var revisionDagDecoded0:[CodeCommitClientTypes.FileVersion]? = nil
-        if let revisionDagContainer = revisionDagContainer {
-            revisionDagDecoded0 = [CodeCommitClientTypes.FileVersion]()
-            for structure0 in revisionDagContainer {
-                if let structure0 = structure0 {
-                    revisionDagDecoded0?.append(structure0)
-                }
-            }
-        }
-        revisionDag = revisionDagDecoded0
-        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
-        nextToken = nextTokenDecoded
     }
 }
 
@@ -16446,34 +16446,11 @@ extension ListPullRequestsInputBody: Swift.Decodable {
     }
 }
 
-enum ListPullRequestsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AuthorDoesNotExistException": return try await AuthorDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionIntegrityChecksFailedException": return try await EncryptionIntegrityChecksFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionKeyAccessDeniedException": return try await EncryptionKeyAccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionKeyDisabledException": return try await EncryptionKeyDisabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionKeyNotFoundException": return try await EncryptionKeyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionKeyUnavailableException": return try await EncryptionKeyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidAuthorArnException": return try await InvalidAuthorArnException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidContinuationTokenException": return try await InvalidContinuationTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidMaxResultsException": return try await InvalidMaxResultsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidPullRequestStatusException": return try await InvalidPullRequestStatusException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRepositoryNameException": return try await InvalidRepositoryNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "RepositoryDoesNotExistException": return try await RepositoryDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "RepositoryNameRequiredException": return try await RepositoryNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListPullRequestsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListPullRequestsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListPullRequestsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListPullRequestsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.pullRequestIds = output.pullRequestIds
         } else {
@@ -16483,7 +16460,7 @@ extension ListPullRequestsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListPullRequestsOutputResponse: Swift.Equatable {
+public struct ListPullRequestsOutput: Swift.Equatable {
     /// An enumeration token that allows the operation to batch the next results of the operation.
     public var nextToken: Swift.String?
     /// The system-generated IDs of the pull requests.
@@ -16500,12 +16477,12 @@ public struct ListPullRequestsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListPullRequestsOutputResponseBody: Swift.Equatable {
+struct ListPullRequestsOutputBody: Swift.Equatable {
     let pullRequestIds: [Swift.String]?
     let nextToken: Swift.String?
 }
 
-extension ListPullRequestsOutputResponseBody: Swift.Decodable {
+extension ListPullRequestsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken
         case pullRequestIds
@@ -16526,6 +16503,29 @@ extension ListPullRequestsOutputResponseBody: Swift.Decodable {
         pullRequestIds = pullRequestIdsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListPullRequestsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AuthorDoesNotExistException": return try await AuthorDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionIntegrityChecksFailedException": return try await EncryptionIntegrityChecksFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionKeyAccessDeniedException": return try await EncryptionKeyAccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionKeyDisabledException": return try await EncryptionKeyDisabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionKeyNotFoundException": return try await EncryptionKeyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionKeyUnavailableException": return try await EncryptionKeyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidAuthorArnException": return try await InvalidAuthorArnException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidContinuationTokenException": return try await InvalidContinuationTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidMaxResultsException": return try await InvalidMaxResultsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidPullRequestStatusException": return try await InvalidPullRequestStatusException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRepositoryNameException": return try await InvalidRepositoryNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RepositoryDoesNotExistException": return try await RepositoryDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RepositoryNameRequiredException": return try await RepositoryNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -16601,31 +16601,11 @@ extension ListRepositoriesForApprovalRuleTemplateInputBody: Swift.Decodable {
     }
 }
 
-enum ListRepositoriesForApprovalRuleTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ApprovalRuleTemplateDoesNotExistException": return try await ApprovalRuleTemplateDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ApprovalRuleTemplateNameRequiredException": return try await ApprovalRuleTemplateNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionIntegrityChecksFailedException": return try await EncryptionIntegrityChecksFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionKeyAccessDeniedException": return try await EncryptionKeyAccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionKeyDisabledException": return try await EncryptionKeyDisabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionKeyNotFoundException": return try await EncryptionKeyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionKeyUnavailableException": return try await EncryptionKeyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidApprovalRuleTemplateNameException": return try await InvalidApprovalRuleTemplateNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidContinuationTokenException": return try await InvalidContinuationTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidMaxResultsException": return try await InvalidMaxResultsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListRepositoriesForApprovalRuleTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListRepositoriesForApprovalRuleTemplateOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListRepositoriesForApprovalRuleTemplateOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListRepositoriesForApprovalRuleTemplateOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.repositoryNames = output.repositoryNames
         } else {
@@ -16635,7 +16615,7 @@ extension ListRepositoriesForApprovalRuleTemplateOutputResponse: ClientRuntime.H
     }
 }
 
-public struct ListRepositoriesForApprovalRuleTemplateOutputResponse: Swift.Equatable {
+public struct ListRepositoriesForApprovalRuleTemplateOutput: Swift.Equatable {
     /// An enumeration token that allows the operation to batch the next results of the operation.
     public var nextToken: Swift.String?
     /// A list of repository names that are associated with the specified approval rule template.
@@ -16651,12 +16631,12 @@ public struct ListRepositoriesForApprovalRuleTemplateOutputResponse: Swift.Equat
     }
 }
 
-struct ListRepositoriesForApprovalRuleTemplateOutputResponseBody: Swift.Equatable {
+struct ListRepositoriesForApprovalRuleTemplateOutputBody: Swift.Equatable {
     let repositoryNames: [Swift.String]?
     let nextToken: Swift.String?
 }
 
-extension ListRepositoriesForApprovalRuleTemplateOutputResponseBody: Swift.Decodable {
+extension ListRepositoriesForApprovalRuleTemplateOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken
         case repositoryNames
@@ -16677,6 +16657,26 @@ extension ListRepositoriesForApprovalRuleTemplateOutputResponseBody: Swift.Decod
         repositoryNames = repositoryNamesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListRepositoriesForApprovalRuleTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ApprovalRuleTemplateDoesNotExistException": return try await ApprovalRuleTemplateDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ApprovalRuleTemplateNameRequiredException": return try await ApprovalRuleTemplateNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionIntegrityChecksFailedException": return try await EncryptionIntegrityChecksFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionKeyAccessDeniedException": return try await EncryptionKeyAccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionKeyDisabledException": return try await EncryptionKeyDisabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionKeyNotFoundException": return try await EncryptionKeyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionKeyUnavailableException": return try await EncryptionKeyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidApprovalRuleTemplateNameException": return try await InvalidApprovalRuleTemplateNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidContinuationTokenException": return try await InvalidContinuationTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidMaxResultsException": return try await InvalidMaxResultsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -16752,24 +16752,11 @@ extension ListRepositoriesInputBody: Swift.Decodable {
     }
 }
 
-enum ListRepositoriesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidContinuationTokenException": return try await InvalidContinuationTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidOrderException": return try await InvalidOrderException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidSortByException": return try await InvalidSortByException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListRepositoriesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListRepositoriesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListRepositoriesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListRepositoriesOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.repositories = output.repositories
         } else {
@@ -16780,7 +16767,7 @@ extension ListRepositoriesOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the output of a list repositories operation.
-public struct ListRepositoriesOutputResponse: Swift.Equatable {
+public struct ListRepositoriesOutput: Swift.Equatable {
     /// An enumeration token that allows the operation to batch the results of the operation. Batch sizes are 1,000 for list repository operations. When the client sends the token back to CodeCommit, another page of 1,000 records is retrieved.
     public var nextToken: Swift.String?
     /// Lists the repositories called by the list repositories operation.
@@ -16796,12 +16783,12 @@ public struct ListRepositoriesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListRepositoriesOutputResponseBody: Swift.Equatable {
+struct ListRepositoriesOutputBody: Swift.Equatable {
     let repositories: [CodeCommitClientTypes.RepositoryNameIdPair]?
     let nextToken: Swift.String?
 }
 
-extension ListRepositoriesOutputResponseBody: Swift.Decodable {
+extension ListRepositoriesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken
         case repositories
@@ -16822,6 +16809,19 @@ extension ListRepositoriesOutputResponseBody: Swift.Decodable {
         repositories = repositoriesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListRepositoriesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidContinuationTokenException": return try await InvalidContinuationTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidOrderException": return try await InvalidOrderException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidSortByException": return try await InvalidSortByException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -16885,25 +16885,11 @@ extension ListTagsForResourceInputBody: Swift.Decodable {
     }
 }
 
-enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidRepositoryNameException": return try await InvalidRepositoryNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidResourceArnException": return try await InvalidResourceArnException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "RepositoryDoesNotExistException": return try await RepositoryDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceArnRequiredException": return try await ResourceArnRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListTagsForResourceOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.tags = output.tags
         } else {
@@ -16913,7 +16899,7 @@ extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutputResponse: Swift.Equatable {
+public struct ListTagsForResourceOutput: Swift.Equatable {
     /// An enumeration token that allows the operation to batch the next results of the operation.
     public var nextToken: Swift.String?
     /// A list of tag key and value pairs associated with the specified resource.
@@ -16929,12 +16915,12 @@ public struct ListTagsForResourceOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputResponseBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody: Swift.Equatable {
     let tags: [Swift.String:Swift.String]?
     let nextToken: Swift.String?
 }
 
-extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
+extension ListTagsForResourceOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken
         case tags
@@ -16955,6 +16941,20 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
         tags = tagsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidRepositoryNameException": return try await InvalidRepositoryNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidResourceArnException": return try await InvalidResourceArnException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RepositoryDoesNotExistException": return try await RepositoryDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceArnRequiredException": return try await ResourceArnRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -17715,6 +17715,56 @@ extension MergeBranchesByFastForwardInputBody: Swift.Decodable {
     }
 }
 
+extension MergeBranchesByFastForwardOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: MergeBranchesByFastForwardOutputBody = try responseDecoder.decode(responseBody: data)
+            self.commitId = output.commitId
+            self.treeId = output.treeId
+        } else {
+            self.commitId = nil
+            self.treeId = nil
+        }
+    }
+}
+
+public struct MergeBranchesByFastForwardOutput: Swift.Equatable {
+    /// The commit ID of the merge in the destination or target branch.
+    public var commitId: Swift.String?
+    /// The tree ID of the merge in the destination or target branch.
+    public var treeId: Swift.String?
+
+    public init(
+        commitId: Swift.String? = nil,
+        treeId: Swift.String? = nil
+    )
+    {
+        self.commitId = commitId
+        self.treeId = treeId
+    }
+}
+
+struct MergeBranchesByFastForwardOutputBody: Swift.Equatable {
+    let commitId: Swift.String?
+    let treeId: Swift.String?
+}
+
+extension MergeBranchesByFastForwardOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case commitId
+        case treeId
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let commitIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .commitId)
+        commitId = commitIdDecoded
+        let treeIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .treeId)
+        treeId = treeIdDecoded
+    }
+}
+
 enum MergeBranchesByFastForwardOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -17741,56 +17791,6 @@ enum MergeBranchesByFastForwardOutputError: ClientRuntime.HttpResponseErrorBindi
             case "TipsDivergenceExceededException": return try await TipsDivergenceExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension MergeBranchesByFastForwardOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: MergeBranchesByFastForwardOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.commitId = output.commitId
-            self.treeId = output.treeId
-        } else {
-            self.commitId = nil
-            self.treeId = nil
-        }
-    }
-}
-
-public struct MergeBranchesByFastForwardOutputResponse: Swift.Equatable {
-    /// The commit ID of the merge in the destination or target branch.
-    public var commitId: Swift.String?
-    /// The tree ID of the merge in the destination or target branch.
-    public var treeId: Swift.String?
-
-    public init(
-        commitId: Swift.String? = nil,
-        treeId: Swift.String? = nil
-    )
-    {
-        self.commitId = commitId
-        self.treeId = treeId
-    }
-}
-
-struct MergeBranchesByFastForwardOutputResponseBody: Swift.Equatable {
-    let commitId: Swift.String?
-    let treeId: Swift.String?
-}
-
-extension MergeBranchesByFastForwardOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case commitId
-        case treeId
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let commitIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .commitId)
-        commitId = commitIdDecoded
-        let treeIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .treeId)
-        treeId = treeIdDecoded
     }
 }
 
@@ -17964,6 +17964,56 @@ extension MergeBranchesBySquashInputBody: Swift.Decodable {
     }
 }
 
+extension MergeBranchesBySquashOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: MergeBranchesBySquashOutputBody = try responseDecoder.decode(responseBody: data)
+            self.commitId = output.commitId
+            self.treeId = output.treeId
+        } else {
+            self.commitId = nil
+            self.treeId = nil
+        }
+    }
+}
+
+public struct MergeBranchesBySquashOutput: Swift.Equatable {
+    /// The commit ID of the merge in the destination or target branch.
+    public var commitId: Swift.String?
+    /// The tree ID of the merge in the destination or target branch.
+    public var treeId: Swift.String?
+
+    public init(
+        commitId: Swift.String? = nil,
+        treeId: Swift.String? = nil
+    )
+    {
+        self.commitId = commitId
+        self.treeId = treeId
+    }
+}
+
+struct MergeBranchesBySquashOutputBody: Swift.Equatable {
+    let commitId: Swift.String?
+    let treeId: Swift.String?
+}
+
+extension MergeBranchesBySquashOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case commitId
+        case treeId
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let commitIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .commitId)
+        commitId = commitIdDecoded
+        let treeIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .treeId)
+        treeId = treeIdDecoded
+    }
+}
+
 enum MergeBranchesBySquashOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -18010,56 +18060,6 @@ enum MergeBranchesBySquashOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TipsDivergenceExceededException": return try await TipsDivergenceExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension MergeBranchesBySquashOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: MergeBranchesBySquashOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.commitId = output.commitId
-            self.treeId = output.treeId
-        } else {
-            self.commitId = nil
-            self.treeId = nil
-        }
-    }
-}
-
-public struct MergeBranchesBySquashOutputResponse: Swift.Equatable {
-    /// The commit ID of the merge in the destination or target branch.
-    public var commitId: Swift.String?
-    /// The tree ID of the merge in the destination or target branch.
-    public var treeId: Swift.String?
-
-    public init(
-        commitId: Swift.String? = nil,
-        treeId: Swift.String? = nil
-    )
-    {
-        self.commitId = commitId
-        self.treeId = treeId
-    }
-}
-
-struct MergeBranchesBySquashOutputResponseBody: Swift.Equatable {
-    let commitId: Swift.String?
-    let treeId: Swift.String?
-}
-
-extension MergeBranchesBySquashOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case commitId
-        case treeId
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let commitIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .commitId)
-        commitId = commitIdDecoded
-        let treeIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .treeId)
-        treeId = treeIdDecoded
     }
 }
 
@@ -18233,6 +18233,56 @@ extension MergeBranchesByThreeWayInputBody: Swift.Decodable {
     }
 }
 
+extension MergeBranchesByThreeWayOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: MergeBranchesByThreeWayOutputBody = try responseDecoder.decode(responseBody: data)
+            self.commitId = output.commitId
+            self.treeId = output.treeId
+        } else {
+            self.commitId = nil
+            self.treeId = nil
+        }
+    }
+}
+
+public struct MergeBranchesByThreeWayOutput: Swift.Equatable {
+    /// The commit ID of the merge in the destination or target branch.
+    public var commitId: Swift.String?
+    /// The tree ID of the merge in the destination or target branch.
+    public var treeId: Swift.String?
+
+    public init(
+        commitId: Swift.String? = nil,
+        treeId: Swift.String? = nil
+    )
+    {
+        self.commitId = commitId
+        self.treeId = treeId
+    }
+}
+
+struct MergeBranchesByThreeWayOutputBody: Swift.Equatable {
+    let commitId: Swift.String?
+    let treeId: Swift.String?
+}
+
+extension MergeBranchesByThreeWayOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case commitId
+        case treeId
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let commitIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .commitId)
+        commitId = commitIdDecoded
+        let treeIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .treeId)
+        treeId = treeIdDecoded
+    }
+}
+
 enum MergeBranchesByThreeWayOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -18279,56 +18329,6 @@ enum MergeBranchesByThreeWayOutputError: ClientRuntime.HttpResponseErrorBinding 
             case "TipsDivergenceExceededException": return try await TipsDivergenceExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension MergeBranchesByThreeWayOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: MergeBranchesByThreeWayOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.commitId = output.commitId
-            self.treeId = output.treeId
-        } else {
-            self.commitId = nil
-            self.treeId = nil
-        }
-    }
-}
-
-public struct MergeBranchesByThreeWayOutputResponse: Swift.Equatable {
-    /// The commit ID of the merge in the destination or target branch.
-    public var commitId: Swift.String?
-    /// The tree ID of the merge in the destination or target branch.
-    public var treeId: Swift.String?
-
-    public init(
-        commitId: Swift.String? = nil,
-        treeId: Swift.String? = nil
-    )
-    {
-        self.commitId = commitId
-        self.treeId = treeId
-    }
-}
-
-struct MergeBranchesByThreeWayOutputResponseBody: Swift.Equatable {
-    let commitId: Swift.String?
-    let treeId: Swift.String?
-}
-
-extension MergeBranchesByThreeWayOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case commitId
-        case treeId
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let commitIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .commitId)
-        commitId = commitIdDecoded
-        let treeIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .treeId)
-        treeId = treeIdDecoded
     }
 }
 
@@ -18726,6 +18726,46 @@ extension MergePullRequestByFastForwardInputBody: Swift.Decodable {
     }
 }
 
+extension MergePullRequestByFastForwardOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: MergePullRequestByFastForwardOutputBody = try responseDecoder.decode(responseBody: data)
+            self.pullRequest = output.pullRequest
+        } else {
+            self.pullRequest = nil
+        }
+    }
+}
+
+public struct MergePullRequestByFastForwardOutput: Swift.Equatable {
+    /// Information about the specified pull request, including the merge.
+    public var pullRequest: CodeCommitClientTypes.PullRequest?
+
+    public init(
+        pullRequest: CodeCommitClientTypes.PullRequest? = nil
+    )
+    {
+        self.pullRequest = pullRequest
+    }
+}
+
+struct MergePullRequestByFastForwardOutputBody: Swift.Equatable {
+    let pullRequest: CodeCommitClientTypes.PullRequest?
+}
+
+extension MergePullRequestByFastForwardOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case pullRequest
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let pullRequestDecoded = try containerValues.decodeIfPresent(CodeCommitClientTypes.PullRequest.self, forKey: .pullRequest)
+        pullRequest = pullRequestDecoded
+    }
+}
+
 enum MergePullRequestByFastForwardOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -18752,46 +18792,6 @@ enum MergePullRequestByFastForwardOutputError: ClientRuntime.HttpResponseErrorBi
             case "TipOfSourceReferenceIsDifferentException": return try await TipOfSourceReferenceIsDifferentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension MergePullRequestByFastForwardOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: MergePullRequestByFastForwardOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.pullRequest = output.pullRequest
-        } else {
-            self.pullRequest = nil
-        }
-    }
-}
-
-public struct MergePullRequestByFastForwardOutputResponse: Swift.Equatable {
-    /// Information about the specified pull request, including the merge.
-    public var pullRequest: CodeCommitClientTypes.PullRequest?
-
-    public init(
-        pullRequest: CodeCommitClientTypes.PullRequest? = nil
-    )
-    {
-        self.pullRequest = pullRequest
-    }
-}
-
-struct MergePullRequestByFastForwardOutputResponseBody: Swift.Equatable {
-    let pullRequest: CodeCommitClientTypes.PullRequest?
-}
-
-extension MergePullRequestByFastForwardOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case pullRequest
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let pullRequestDecoded = try containerValues.decodeIfPresent(CodeCommitClientTypes.PullRequest.self, forKey: .pullRequest)
-        pullRequest = pullRequestDecoded
     }
 }
 
@@ -18952,6 +18952,46 @@ extension MergePullRequestBySquashInputBody: Swift.Decodable {
     }
 }
 
+extension MergePullRequestBySquashOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: MergePullRequestBySquashOutputBody = try responseDecoder.decode(responseBody: data)
+            self.pullRequest = output.pullRequest
+        } else {
+            self.pullRequest = nil
+        }
+    }
+}
+
+public struct MergePullRequestBySquashOutput: Swift.Equatable {
+    /// Returns information about a pull request.
+    public var pullRequest: CodeCommitClientTypes.PullRequest?
+
+    public init(
+        pullRequest: CodeCommitClientTypes.PullRequest? = nil
+    )
+    {
+        self.pullRequest = pullRequest
+    }
+}
+
+struct MergePullRequestBySquashOutputBody: Swift.Equatable {
+    let pullRequest: CodeCommitClientTypes.PullRequest?
+}
+
+extension MergePullRequestBySquashOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case pullRequest
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let pullRequestDecoded = try containerValues.decodeIfPresent(CodeCommitClientTypes.PullRequest.self, forKey: .pullRequest)
+        pullRequest = pullRequestDecoded
+    }
+}
+
 enum MergePullRequestBySquashOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -18997,46 +19037,6 @@ enum MergePullRequestBySquashOutputError: ClientRuntime.HttpResponseErrorBinding
             case "TipsDivergenceExceededException": return try await TipsDivergenceExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension MergePullRequestBySquashOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: MergePullRequestBySquashOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.pullRequest = output.pullRequest
-        } else {
-            self.pullRequest = nil
-        }
-    }
-}
-
-public struct MergePullRequestBySquashOutputResponse: Swift.Equatable {
-    /// Returns information about a pull request.
-    public var pullRequest: CodeCommitClientTypes.PullRequest?
-
-    public init(
-        pullRequest: CodeCommitClientTypes.PullRequest? = nil
-    )
-    {
-        self.pullRequest = pullRequest
-    }
-}
-
-struct MergePullRequestBySquashOutputResponseBody: Swift.Equatable {
-    let pullRequest: CodeCommitClientTypes.PullRequest?
-}
-
-extension MergePullRequestBySquashOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case pullRequest
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let pullRequestDecoded = try containerValues.decodeIfPresent(CodeCommitClientTypes.PullRequest.self, forKey: .pullRequest)
-        pullRequest = pullRequestDecoded
     }
 }
 
@@ -19197,6 +19197,46 @@ extension MergePullRequestByThreeWayInputBody: Swift.Decodable {
     }
 }
 
+extension MergePullRequestByThreeWayOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: MergePullRequestByThreeWayOutputBody = try responseDecoder.decode(responseBody: data)
+            self.pullRequest = output.pullRequest
+        } else {
+            self.pullRequest = nil
+        }
+    }
+}
+
+public struct MergePullRequestByThreeWayOutput: Swift.Equatable {
+    /// Returns information about a pull request.
+    public var pullRequest: CodeCommitClientTypes.PullRequest?
+
+    public init(
+        pullRequest: CodeCommitClientTypes.PullRequest? = nil
+    )
+    {
+        self.pullRequest = pullRequest
+    }
+}
+
+struct MergePullRequestByThreeWayOutputBody: Swift.Equatable {
+    let pullRequest: CodeCommitClientTypes.PullRequest?
+}
+
+extension MergePullRequestByThreeWayOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case pullRequest
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let pullRequestDecoded = try containerValues.decodeIfPresent(CodeCommitClientTypes.PullRequest.self, forKey: .pullRequest)
+        pullRequest = pullRequestDecoded
+    }
+}
+
 enum MergePullRequestByThreeWayOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -19242,46 +19282,6 @@ enum MergePullRequestByThreeWayOutputError: ClientRuntime.HttpResponseErrorBindi
             case "TipsDivergenceExceededException": return try await TipsDivergenceExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension MergePullRequestByThreeWayOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: MergePullRequestByThreeWayOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.pullRequest = output.pullRequest
-        } else {
-            self.pullRequest = nil
-        }
-    }
-}
-
-public struct MergePullRequestByThreeWayOutputResponse: Swift.Equatable {
-    /// Returns information about a pull request.
-    public var pullRequest: CodeCommitClientTypes.PullRequest?
-
-    public init(
-        pullRequest: CodeCommitClientTypes.PullRequest? = nil
-    )
-    {
-        self.pullRequest = pullRequest
-    }
-}
-
-struct MergePullRequestByThreeWayOutputResponseBody: Swift.Equatable {
-    let pullRequest: CodeCommitClientTypes.PullRequest?
-}
-
-extension MergePullRequestByThreeWayOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case pullRequest
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let pullRequestDecoded = try containerValues.decodeIfPresent(CodeCommitClientTypes.PullRequest.self, forKey: .pullRequest)
-        pullRequest = pullRequestDecoded
     }
 }
 
@@ -19921,6 +19921,16 @@ extension OverridePullRequestApprovalRulesInputBody: Swift.Decodable {
     }
 }
 
+extension OverridePullRequestApprovalRulesOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct OverridePullRequestApprovalRulesOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum OverridePullRequestApprovalRulesOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -19944,16 +19954,6 @@ enum OverridePullRequestApprovalRulesOutputError: ClientRuntime.HttpResponseErro
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension OverridePullRequestApprovalRulesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct OverridePullRequestApprovalRulesOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension CodeCommitClientTypes {
@@ -20434,44 +20434,11 @@ extension PostCommentForComparedCommitInputBody: Swift.Decodable {
     }
 }
 
-enum PostCommentForComparedCommitOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BeforeCommitIdAndAfterCommitIdAreSameException": return try await BeforeCommitIdAndAfterCommitIdAreSameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ClientRequestTokenRequiredException": return try await ClientRequestTokenRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "CommentContentRequiredException": return try await CommentContentRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "CommentContentSizeLimitExceededException": return try await CommentContentSizeLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "CommitDoesNotExistException": return try await CommitDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "CommitIdRequiredException": return try await CommitIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionIntegrityChecksFailedException": return try await EncryptionIntegrityChecksFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionKeyAccessDeniedException": return try await EncryptionKeyAccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionKeyDisabledException": return try await EncryptionKeyDisabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionKeyNotFoundException": return try await EncryptionKeyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionKeyUnavailableException": return try await EncryptionKeyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "IdempotencyParameterMismatchException": return try await IdempotencyParameterMismatchException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidClientRequestTokenException": return try await InvalidClientRequestTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidCommitIdException": return try await InvalidCommitIdException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidFileLocationException": return try await InvalidFileLocationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidFilePositionException": return try await InvalidFilePositionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidPathException": return try await InvalidPathException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRelativeFileVersionEnumException": return try await InvalidRelativeFileVersionEnumException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRepositoryNameException": return try await InvalidRepositoryNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "PathDoesNotExistException": return try await PathDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "PathRequiredException": return try await PathRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "RepositoryDoesNotExistException": return try await RepositoryDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "RepositoryNameRequiredException": return try await RepositoryNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension PostCommentForComparedCommitOutputResponse: ClientRuntime.HttpResponseBinding {
+extension PostCommentForComparedCommitOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: PostCommentForComparedCommitOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: PostCommentForComparedCommitOutputBody = try responseDecoder.decode(responseBody: data)
             self.afterBlobId = output.afterBlobId
             self.afterCommitId = output.afterCommitId
             self.beforeBlobId = output.beforeBlobId
@@ -20491,7 +20458,7 @@ extension PostCommentForComparedCommitOutputResponse: ClientRuntime.HttpResponse
     }
 }
 
-public struct PostCommentForComparedCommitOutputResponse: Swift.Equatable {
+public struct PostCommentForComparedCommitOutput: Swift.Equatable {
     /// In the directionality you established, the blob ID of the after blob.
     public var afterBlobId: Swift.String?
     /// In the directionality you established, the full commit ID of the after commit.
@@ -20527,7 +20494,7 @@ public struct PostCommentForComparedCommitOutputResponse: Swift.Equatable {
     }
 }
 
-struct PostCommentForComparedCommitOutputResponseBody: Swift.Equatable {
+struct PostCommentForComparedCommitOutputBody: Swift.Equatable {
     let repositoryName: Swift.String?
     let beforeCommitId: Swift.String?
     let afterCommitId: Swift.String?
@@ -20537,7 +20504,7 @@ struct PostCommentForComparedCommitOutputResponseBody: Swift.Equatable {
     let comment: CodeCommitClientTypes.Comment?
 }
 
-extension PostCommentForComparedCommitOutputResponseBody: Swift.Decodable {
+extension PostCommentForComparedCommitOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case afterBlobId
         case afterCommitId
@@ -20564,6 +20531,39 @@ extension PostCommentForComparedCommitOutputResponseBody: Swift.Decodable {
         location = locationDecoded
         let commentDecoded = try containerValues.decodeIfPresent(CodeCommitClientTypes.Comment.self, forKey: .comment)
         comment = commentDecoded
+    }
+}
+
+enum PostCommentForComparedCommitOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BeforeCommitIdAndAfterCommitIdAreSameException": return try await BeforeCommitIdAndAfterCommitIdAreSameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ClientRequestTokenRequiredException": return try await ClientRequestTokenRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "CommentContentRequiredException": return try await CommentContentRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "CommentContentSizeLimitExceededException": return try await CommentContentSizeLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "CommitDoesNotExistException": return try await CommitDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "CommitIdRequiredException": return try await CommitIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionIntegrityChecksFailedException": return try await EncryptionIntegrityChecksFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionKeyAccessDeniedException": return try await EncryptionKeyAccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionKeyDisabledException": return try await EncryptionKeyDisabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionKeyNotFoundException": return try await EncryptionKeyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionKeyUnavailableException": return try await EncryptionKeyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "IdempotencyParameterMismatchException": return try await IdempotencyParameterMismatchException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidClientRequestTokenException": return try await InvalidClientRequestTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidCommitIdException": return try await InvalidCommitIdException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidFileLocationException": return try await InvalidFileLocationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidFilePositionException": return try await InvalidFilePositionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidPathException": return try await InvalidPathException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRelativeFileVersionEnumException": return try await InvalidRelativeFileVersionEnumException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRepositoryNameException": return try await InvalidRepositoryNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PathDoesNotExistException": return try await PathDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PathRequiredException": return try await PathRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RepositoryDoesNotExistException": return try await RepositoryDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RepositoryNameRequiredException": return try await RepositoryNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -20691,48 +20691,11 @@ extension PostCommentForPullRequestInputBody: Swift.Decodable {
     }
 }
 
-enum PostCommentForPullRequestOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BeforeCommitIdAndAfterCommitIdAreSameException": return try await BeforeCommitIdAndAfterCommitIdAreSameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ClientRequestTokenRequiredException": return try await ClientRequestTokenRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "CommentContentRequiredException": return try await CommentContentRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "CommentContentSizeLimitExceededException": return try await CommentContentSizeLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "CommitDoesNotExistException": return try await CommitDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "CommitIdRequiredException": return try await CommitIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionIntegrityChecksFailedException": return try await EncryptionIntegrityChecksFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionKeyAccessDeniedException": return try await EncryptionKeyAccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionKeyDisabledException": return try await EncryptionKeyDisabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionKeyNotFoundException": return try await EncryptionKeyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionKeyUnavailableException": return try await EncryptionKeyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "IdempotencyParameterMismatchException": return try await IdempotencyParameterMismatchException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidClientRequestTokenException": return try await InvalidClientRequestTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidCommitIdException": return try await InvalidCommitIdException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidFileLocationException": return try await InvalidFileLocationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidFilePositionException": return try await InvalidFilePositionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidPathException": return try await InvalidPathException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidPullRequestIdException": return try await InvalidPullRequestIdException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRelativeFileVersionEnumException": return try await InvalidRelativeFileVersionEnumException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRepositoryNameException": return try await InvalidRepositoryNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "PathDoesNotExistException": return try await PathDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "PathRequiredException": return try await PathRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "PullRequestDoesNotExistException": return try await PullRequestDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "PullRequestIdRequiredException": return try await PullRequestIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "RepositoryDoesNotExistException": return try await RepositoryDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "RepositoryNameRequiredException": return try await RepositoryNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "RepositoryNotAssociatedWithPullRequestException": return try await RepositoryNotAssociatedWithPullRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension PostCommentForPullRequestOutputResponse: ClientRuntime.HttpResponseBinding {
+extension PostCommentForPullRequestOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: PostCommentForPullRequestOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: PostCommentForPullRequestOutputBody = try responseDecoder.decode(responseBody: data)
             self.afterBlobId = output.afterBlobId
             self.afterCommitId = output.afterCommitId
             self.beforeBlobId = output.beforeBlobId
@@ -20754,7 +20717,7 @@ extension PostCommentForPullRequestOutputResponse: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct PostCommentForPullRequestOutputResponse: Swift.Equatable {
+public struct PostCommentForPullRequestOutput: Swift.Equatable {
     /// In the directionality of the pull request, the blob ID of the after blob.
     public var afterBlobId: Swift.String?
     /// The full commit ID of the commit in the destination branch where the pull request is merged.
@@ -20794,7 +20757,7 @@ public struct PostCommentForPullRequestOutputResponse: Swift.Equatable {
     }
 }
 
-struct PostCommentForPullRequestOutputResponseBody: Swift.Equatable {
+struct PostCommentForPullRequestOutputBody: Swift.Equatable {
     let repositoryName: Swift.String?
     let pullRequestId: Swift.String?
     let beforeCommitId: Swift.String?
@@ -20805,7 +20768,7 @@ struct PostCommentForPullRequestOutputResponseBody: Swift.Equatable {
     let comment: CodeCommitClientTypes.Comment?
 }
 
-extension PostCommentForPullRequestOutputResponseBody: Swift.Decodable {
+extension PostCommentForPullRequestOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case afterBlobId
         case afterCommitId
@@ -20835,6 +20798,43 @@ extension PostCommentForPullRequestOutputResponseBody: Swift.Decodable {
         location = locationDecoded
         let commentDecoded = try containerValues.decodeIfPresent(CodeCommitClientTypes.Comment.self, forKey: .comment)
         comment = commentDecoded
+    }
+}
+
+enum PostCommentForPullRequestOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BeforeCommitIdAndAfterCommitIdAreSameException": return try await BeforeCommitIdAndAfterCommitIdAreSameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ClientRequestTokenRequiredException": return try await ClientRequestTokenRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "CommentContentRequiredException": return try await CommentContentRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "CommentContentSizeLimitExceededException": return try await CommentContentSizeLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "CommitDoesNotExistException": return try await CommitDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "CommitIdRequiredException": return try await CommitIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionIntegrityChecksFailedException": return try await EncryptionIntegrityChecksFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionKeyAccessDeniedException": return try await EncryptionKeyAccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionKeyDisabledException": return try await EncryptionKeyDisabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionKeyNotFoundException": return try await EncryptionKeyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionKeyUnavailableException": return try await EncryptionKeyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "IdempotencyParameterMismatchException": return try await IdempotencyParameterMismatchException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidClientRequestTokenException": return try await InvalidClientRequestTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidCommitIdException": return try await InvalidCommitIdException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidFileLocationException": return try await InvalidFileLocationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidFilePositionException": return try await InvalidFilePositionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidPathException": return try await InvalidPathException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidPullRequestIdException": return try await InvalidPullRequestIdException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRelativeFileVersionEnumException": return try await InvalidRelativeFileVersionEnumException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRepositoryNameException": return try await InvalidRepositoryNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PathDoesNotExistException": return try await PathDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PathRequiredException": return try await PathRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PullRequestDoesNotExistException": return try await PullRequestDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PullRequestIdRequiredException": return try await PullRequestIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RepositoryDoesNotExistException": return try await RepositoryDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RepositoryNameRequiredException": return try await RepositoryNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RepositoryNotAssociatedWithPullRequestException": return try await RepositoryNotAssociatedWithPullRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -20911,6 +20911,46 @@ extension PostCommentReplyInputBody: Swift.Decodable {
     }
 }
 
+extension PostCommentReplyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: PostCommentReplyOutputBody = try responseDecoder.decode(responseBody: data)
+            self.comment = output.comment
+        } else {
+            self.comment = nil
+        }
+    }
+}
+
+public struct PostCommentReplyOutput: Swift.Equatable {
+    /// Information about the reply to a comment.
+    public var comment: CodeCommitClientTypes.Comment?
+
+    public init(
+        comment: CodeCommitClientTypes.Comment? = nil
+    )
+    {
+        self.comment = comment
+    }
+}
+
+struct PostCommentReplyOutputBody: Swift.Equatable {
+    let comment: CodeCommitClientTypes.Comment?
+}
+
+extension PostCommentReplyOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case comment
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let commentDecoded = try containerValues.decodeIfPresent(CodeCommitClientTypes.Comment.self, forKey: .comment)
+        comment = commentDecoded
+    }
+}
+
 enum PostCommentReplyOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -20926,46 +20966,6 @@ enum PostCommentReplyOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "InvalidCommentIdException": return try await InvalidCommentIdException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension PostCommentReplyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: PostCommentReplyOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.comment = output.comment
-        } else {
-            self.comment = nil
-        }
-    }
-}
-
-public struct PostCommentReplyOutputResponse: Swift.Equatable {
-    /// Information about the reply to a comment.
-    public var comment: CodeCommitClientTypes.Comment?
-
-    public init(
-        comment: CodeCommitClientTypes.Comment? = nil
-    )
-    {
-        self.comment = comment
-    }
-}
-
-struct PostCommentReplyOutputResponseBody: Swift.Equatable {
-    let comment: CodeCommitClientTypes.Comment?
-}
-
-extension PostCommentReplyOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case comment
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let commentDecoded = try containerValues.decodeIfPresent(CodeCommitClientTypes.Comment.self, forKey: .comment)
-        comment = commentDecoded
     }
 }
 
@@ -22060,6 +22060,16 @@ extension PutCommentReactionInputBody: Swift.Decodable {
     }
 }
 
+extension PutCommentReactionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct PutCommentReactionOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum PutCommentReactionOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -22075,16 +22085,6 @@ enum PutCommentReactionOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension PutCommentReactionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct PutCommentReactionOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension CodeCommitClientTypes.PutFileEntry: Swift.Codable {
@@ -22356,6 +22356,69 @@ extension PutFileInputBody: Swift.Decodable {
     }
 }
 
+extension PutFileOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: PutFileOutputBody = try responseDecoder.decode(responseBody: data)
+            self.blobId = output.blobId
+            self.commitId = output.commitId
+            self.treeId = output.treeId
+        } else {
+            self.blobId = nil
+            self.commitId = nil
+            self.treeId = nil
+        }
+    }
+}
+
+public struct PutFileOutput: Swift.Equatable {
+    /// The ID of the blob, which is its SHA-1 pointer.
+    /// This member is required.
+    public var blobId: Swift.String?
+    /// The full SHA ID of the commit that contains this file change.
+    /// This member is required.
+    public var commitId: Swift.String?
+    /// The full SHA-1 pointer of the tree information for the commit that contains this file change.
+    /// This member is required.
+    public var treeId: Swift.String?
+
+    public init(
+        blobId: Swift.String? = nil,
+        commitId: Swift.String? = nil,
+        treeId: Swift.String? = nil
+    )
+    {
+        self.blobId = blobId
+        self.commitId = commitId
+        self.treeId = treeId
+    }
+}
+
+struct PutFileOutputBody: Swift.Equatable {
+    let commitId: Swift.String?
+    let blobId: Swift.String?
+    let treeId: Swift.String?
+}
+
+extension PutFileOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case blobId
+        case commitId
+        case treeId
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let commitIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .commitId)
+        commitId = commitIdDecoded
+        let blobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .blobId)
+        blobId = blobIdDecoded
+        let treeIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .treeId)
+        treeId = treeIdDecoded
+    }
+}
+
 enum PutFileOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -22393,69 +22456,6 @@ enum PutFileOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "SameFileContentException": return try await SameFileContentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension PutFileOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: PutFileOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.blobId = output.blobId
-            self.commitId = output.commitId
-            self.treeId = output.treeId
-        } else {
-            self.blobId = nil
-            self.commitId = nil
-            self.treeId = nil
-        }
-    }
-}
-
-public struct PutFileOutputResponse: Swift.Equatable {
-    /// The ID of the blob, which is its SHA-1 pointer.
-    /// This member is required.
-    public var blobId: Swift.String?
-    /// The full SHA ID of the commit that contains this file change.
-    /// This member is required.
-    public var commitId: Swift.String?
-    /// The full SHA-1 pointer of the tree information for the commit that contains this file change.
-    /// This member is required.
-    public var treeId: Swift.String?
-
-    public init(
-        blobId: Swift.String? = nil,
-        commitId: Swift.String? = nil,
-        treeId: Swift.String? = nil
-    )
-    {
-        self.blobId = blobId
-        self.commitId = commitId
-        self.treeId = treeId
-    }
-}
-
-struct PutFileOutputResponseBody: Swift.Equatable {
-    let commitId: Swift.String?
-    let blobId: Swift.String?
-    let treeId: Swift.String?
-}
-
-extension PutFileOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case blobId
-        case commitId
-        case treeId
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let commitIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .commitId)
-        commitId = commitIdDecoded
-        let blobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .blobId)
-        blobId = blobIdDecoded
-        let treeIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .treeId)
-        treeId = treeIdDecoded
     }
 }
 
@@ -22533,6 +22533,47 @@ extension PutRepositoryTriggersInputBody: Swift.Decodable {
     }
 }
 
+extension PutRepositoryTriggersOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: PutRepositoryTriggersOutputBody = try responseDecoder.decode(responseBody: data)
+            self.configurationId = output.configurationId
+        } else {
+            self.configurationId = nil
+        }
+    }
+}
+
+/// Represents the output of a put repository triggers operation.
+public struct PutRepositoryTriggersOutput: Swift.Equatable {
+    /// The system-generated unique ID for the create or update operation.
+    public var configurationId: Swift.String?
+
+    public init(
+        configurationId: Swift.String? = nil
+    )
+    {
+        self.configurationId = configurationId
+    }
+}
+
+struct PutRepositoryTriggersOutputBody: Swift.Equatable {
+    let configurationId: Swift.String?
+}
+
+extension PutRepositoryTriggersOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case configurationId
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let configurationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .configurationId)
+        configurationId = configurationIdDecoded
+    }
+}
+
 enum PutRepositoryTriggersOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -22561,47 +22602,6 @@ enum PutRepositoryTriggersOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "RepositoryTriggersListRequiredException": return try await RepositoryTriggersListRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension PutRepositoryTriggersOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: PutRepositoryTriggersOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.configurationId = output.configurationId
-        } else {
-            self.configurationId = nil
-        }
-    }
-}
-
-/// Represents the output of a put repository triggers operation.
-public struct PutRepositoryTriggersOutputResponse: Swift.Equatable {
-    /// The system-generated unique ID for the create or update operation.
-    public var configurationId: Swift.String?
-
-    public init(
-        configurationId: Swift.String? = nil
-    )
-    {
-        self.configurationId = configurationId
-    }
-}
-
-struct PutRepositoryTriggersOutputResponseBody: Swift.Equatable {
-    let configurationId: Swift.String?
-}
-
-extension PutRepositoryTriggersOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case configurationId
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let configurationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .configurationId)
-        configurationId = configurationIdDecoded
     }
 }
 
@@ -25105,6 +25105,16 @@ extension TagResourceInputBody: Swift.Decodable {
     }
 }
 
+extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct TagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -25122,16 +25132,6 @@ enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct TagResourceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension TagsMapRequiredException {
@@ -25433,42 +25433,11 @@ extension TestRepositoryTriggersInputBody: Swift.Decodable {
     }
 }
 
-enum TestRepositoryTriggersOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "EncryptionIntegrityChecksFailedException": return try await EncryptionIntegrityChecksFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionKeyAccessDeniedException": return try await EncryptionKeyAccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionKeyDisabledException": return try await EncryptionKeyDisabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionKeyNotFoundException": return try await EncryptionKeyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EncryptionKeyUnavailableException": return try await EncryptionKeyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRepositoryNameException": return try await InvalidRepositoryNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRepositoryTriggerBranchNameException": return try await InvalidRepositoryTriggerBranchNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRepositoryTriggerCustomDataException": return try await InvalidRepositoryTriggerCustomDataException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRepositoryTriggerDestinationArnException": return try await InvalidRepositoryTriggerDestinationArnException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRepositoryTriggerEventsException": return try await InvalidRepositoryTriggerEventsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRepositoryTriggerNameException": return try await InvalidRepositoryTriggerNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRepositoryTriggerRegionException": return try await InvalidRepositoryTriggerRegionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MaximumBranchesExceededException": return try await MaximumBranchesExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MaximumRepositoryTriggersExceededException": return try await MaximumRepositoryTriggersExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "RepositoryDoesNotExistException": return try await RepositoryDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "RepositoryNameRequiredException": return try await RepositoryNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "RepositoryTriggerBranchNameListRequiredException": return try await RepositoryTriggerBranchNameListRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "RepositoryTriggerDestinationArnRequiredException": return try await RepositoryTriggerDestinationArnRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "RepositoryTriggerEventsListRequiredException": return try await RepositoryTriggerEventsListRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "RepositoryTriggerNameRequiredException": return try await RepositoryTriggerNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "RepositoryTriggersListRequiredException": return try await RepositoryTriggersListRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension TestRepositoryTriggersOutputResponse: ClientRuntime.HttpResponseBinding {
+extension TestRepositoryTriggersOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: TestRepositoryTriggersOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: TestRepositoryTriggersOutputBody = try responseDecoder.decode(responseBody: data)
             self.failedExecutions = output.failedExecutions
             self.successfulExecutions = output.successfulExecutions
         } else {
@@ -25479,7 +25448,7 @@ extension TestRepositoryTriggersOutputResponse: ClientRuntime.HttpResponseBindin
 }
 
 /// Represents the output of a test repository triggers operation.
-public struct TestRepositoryTriggersOutputResponse: Swift.Equatable {
+public struct TestRepositoryTriggersOutput: Swift.Equatable {
     /// The list of triggers that were not tested. This list provides the names of the triggers that could not be tested, separated by commas.
     public var failedExecutions: [CodeCommitClientTypes.RepositoryTriggerExecutionFailure]?
     /// The list of triggers that were successfully tested. This list provides the names of the triggers that were successfully tested, separated by commas.
@@ -25495,12 +25464,12 @@ public struct TestRepositoryTriggersOutputResponse: Swift.Equatable {
     }
 }
 
-struct TestRepositoryTriggersOutputResponseBody: Swift.Equatable {
+struct TestRepositoryTriggersOutputBody: Swift.Equatable {
     let successfulExecutions: [Swift.String]?
     let failedExecutions: [CodeCommitClientTypes.RepositoryTriggerExecutionFailure]?
 }
 
-extension TestRepositoryTriggersOutputResponseBody: Swift.Decodable {
+extension TestRepositoryTriggersOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case failedExecutions
         case successfulExecutions
@@ -25530,6 +25499,37 @@ extension TestRepositoryTriggersOutputResponseBody: Swift.Decodable {
             }
         }
         failedExecutions = failedExecutionsDecoded0
+    }
+}
+
+enum TestRepositoryTriggersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "EncryptionIntegrityChecksFailedException": return try await EncryptionIntegrityChecksFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionKeyAccessDeniedException": return try await EncryptionKeyAccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionKeyDisabledException": return try await EncryptionKeyDisabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionKeyNotFoundException": return try await EncryptionKeyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionKeyUnavailableException": return try await EncryptionKeyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRepositoryNameException": return try await InvalidRepositoryNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRepositoryTriggerBranchNameException": return try await InvalidRepositoryTriggerBranchNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRepositoryTriggerCustomDataException": return try await InvalidRepositoryTriggerCustomDataException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRepositoryTriggerDestinationArnException": return try await InvalidRepositoryTriggerDestinationArnException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRepositoryTriggerEventsException": return try await InvalidRepositoryTriggerEventsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRepositoryTriggerNameException": return try await InvalidRepositoryTriggerNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRepositoryTriggerRegionException": return try await InvalidRepositoryTriggerRegionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MaximumBranchesExceededException": return try await MaximumBranchesExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MaximumRepositoryTriggersExceededException": return try await MaximumRepositoryTriggersExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RepositoryDoesNotExistException": return try await RepositoryDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RepositoryNameRequiredException": return try await RepositoryNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RepositoryTriggerBranchNameListRequiredException": return try await RepositoryTriggerBranchNameListRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RepositoryTriggerDestinationArnRequiredException": return try await RepositoryTriggerDestinationArnRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RepositoryTriggerEventsListRequiredException": return try await RepositoryTriggerEventsListRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RepositoryTriggerNameRequiredException": return try await RepositoryTriggerNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RepositoryTriggersListRequiredException": return try await RepositoryTriggersListRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -25830,6 +25830,16 @@ extension UntagResourceInputBody: Swift.Decodable {
     }
 }
 
+extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UntagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -25847,16 +25857,6 @@ enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UntagResourceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension UpdateApprovalRuleTemplateContentInput: Swift.Encodable {
@@ -25932,6 +25932,47 @@ extension UpdateApprovalRuleTemplateContentInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateApprovalRuleTemplateContentOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateApprovalRuleTemplateContentOutputBody = try responseDecoder.decode(responseBody: data)
+            self.approvalRuleTemplate = output.approvalRuleTemplate
+        } else {
+            self.approvalRuleTemplate = nil
+        }
+    }
+}
+
+public struct UpdateApprovalRuleTemplateContentOutput: Swift.Equatable {
+    /// Returns information about an approval rule template.
+    /// This member is required.
+    public var approvalRuleTemplate: CodeCommitClientTypes.ApprovalRuleTemplate?
+
+    public init(
+        approvalRuleTemplate: CodeCommitClientTypes.ApprovalRuleTemplate? = nil
+    )
+    {
+        self.approvalRuleTemplate = approvalRuleTemplate
+    }
+}
+
+struct UpdateApprovalRuleTemplateContentOutputBody: Swift.Equatable {
+    let approvalRuleTemplate: CodeCommitClientTypes.ApprovalRuleTemplate?
+}
+
+extension UpdateApprovalRuleTemplateContentOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case approvalRuleTemplate
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let approvalRuleTemplateDecoded = try containerValues.decodeIfPresent(CodeCommitClientTypes.ApprovalRuleTemplate.self, forKey: .approvalRuleTemplate)
+        approvalRuleTemplate = approvalRuleTemplateDecoded
+    }
+}
+
 enum UpdateApprovalRuleTemplateContentOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -25945,47 +25986,6 @@ enum UpdateApprovalRuleTemplateContentOutputError: ClientRuntime.HttpResponseErr
             case "InvalidRuleContentSha256Exception": return try await InvalidRuleContentSha256Exception(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension UpdateApprovalRuleTemplateContentOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: UpdateApprovalRuleTemplateContentOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.approvalRuleTemplate = output.approvalRuleTemplate
-        } else {
-            self.approvalRuleTemplate = nil
-        }
-    }
-}
-
-public struct UpdateApprovalRuleTemplateContentOutputResponse: Swift.Equatable {
-    /// Returns information about an approval rule template.
-    /// This member is required.
-    public var approvalRuleTemplate: CodeCommitClientTypes.ApprovalRuleTemplate?
-
-    public init(
-        approvalRuleTemplate: CodeCommitClientTypes.ApprovalRuleTemplate? = nil
-    )
-    {
-        self.approvalRuleTemplate = approvalRuleTemplate
-    }
-}
-
-struct UpdateApprovalRuleTemplateContentOutputResponseBody: Swift.Equatable {
-    let approvalRuleTemplate: CodeCommitClientTypes.ApprovalRuleTemplate?
-}
-
-extension UpdateApprovalRuleTemplateContentOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case approvalRuleTemplate
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let approvalRuleTemplateDecoded = try containerValues.decodeIfPresent(CodeCommitClientTypes.ApprovalRuleTemplate.self, forKey: .approvalRuleTemplate)
-        approvalRuleTemplate = approvalRuleTemplateDecoded
     }
 }
 
@@ -26050,25 +26050,11 @@ extension UpdateApprovalRuleTemplateDescriptionInputBody: Swift.Decodable {
     }
 }
 
-enum UpdateApprovalRuleTemplateDescriptionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ApprovalRuleTemplateDoesNotExistException": return try await ApprovalRuleTemplateDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ApprovalRuleTemplateNameRequiredException": return try await ApprovalRuleTemplateNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidApprovalRuleTemplateDescriptionException": return try await InvalidApprovalRuleTemplateDescriptionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidApprovalRuleTemplateNameException": return try await InvalidApprovalRuleTemplateNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension UpdateApprovalRuleTemplateDescriptionOutputResponse: ClientRuntime.HttpResponseBinding {
+extension UpdateApprovalRuleTemplateDescriptionOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: UpdateApprovalRuleTemplateDescriptionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: UpdateApprovalRuleTemplateDescriptionOutputBody = try responseDecoder.decode(responseBody: data)
             self.approvalRuleTemplate = output.approvalRuleTemplate
         } else {
             self.approvalRuleTemplate = nil
@@ -26076,7 +26062,7 @@ extension UpdateApprovalRuleTemplateDescriptionOutputResponse: ClientRuntime.Htt
     }
 }
 
-public struct UpdateApprovalRuleTemplateDescriptionOutputResponse: Swift.Equatable {
+public struct UpdateApprovalRuleTemplateDescriptionOutput: Swift.Equatable {
     /// The structure and content of the updated approval rule template.
     /// This member is required.
     public var approvalRuleTemplate: CodeCommitClientTypes.ApprovalRuleTemplate?
@@ -26089,11 +26075,11 @@ public struct UpdateApprovalRuleTemplateDescriptionOutputResponse: Swift.Equatab
     }
 }
 
-struct UpdateApprovalRuleTemplateDescriptionOutputResponseBody: Swift.Equatable {
+struct UpdateApprovalRuleTemplateDescriptionOutputBody: Swift.Equatable {
     let approvalRuleTemplate: CodeCommitClientTypes.ApprovalRuleTemplate?
 }
 
-extension UpdateApprovalRuleTemplateDescriptionOutputResponseBody: Swift.Decodable {
+extension UpdateApprovalRuleTemplateDescriptionOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case approvalRuleTemplate
     }
@@ -26102,6 +26088,20 @@ extension UpdateApprovalRuleTemplateDescriptionOutputResponseBody: Swift.Decodab
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let approvalRuleTemplateDecoded = try containerValues.decodeIfPresent(CodeCommitClientTypes.ApprovalRuleTemplate.self, forKey: .approvalRuleTemplate)
         approvalRuleTemplate = approvalRuleTemplateDecoded
+    }
+}
+
+enum UpdateApprovalRuleTemplateDescriptionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ApprovalRuleTemplateDoesNotExistException": return try await ApprovalRuleTemplateDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ApprovalRuleTemplateNameRequiredException": return try await ApprovalRuleTemplateNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidApprovalRuleTemplateDescriptionException": return try await InvalidApprovalRuleTemplateDescriptionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidApprovalRuleTemplateNameException": return try await InvalidApprovalRuleTemplateNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -26166,25 +26166,11 @@ extension UpdateApprovalRuleTemplateNameInputBody: Swift.Decodable {
     }
 }
 
-enum UpdateApprovalRuleTemplateNameOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ApprovalRuleTemplateDoesNotExistException": return try await ApprovalRuleTemplateDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ApprovalRuleTemplateNameAlreadyExistsException": return try await ApprovalRuleTemplateNameAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ApprovalRuleTemplateNameRequiredException": return try await ApprovalRuleTemplateNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidApprovalRuleTemplateNameException": return try await InvalidApprovalRuleTemplateNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension UpdateApprovalRuleTemplateNameOutputResponse: ClientRuntime.HttpResponseBinding {
+extension UpdateApprovalRuleTemplateNameOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: UpdateApprovalRuleTemplateNameOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: UpdateApprovalRuleTemplateNameOutputBody = try responseDecoder.decode(responseBody: data)
             self.approvalRuleTemplate = output.approvalRuleTemplate
         } else {
             self.approvalRuleTemplate = nil
@@ -26192,7 +26178,7 @@ extension UpdateApprovalRuleTemplateNameOutputResponse: ClientRuntime.HttpRespon
     }
 }
 
-public struct UpdateApprovalRuleTemplateNameOutputResponse: Swift.Equatable {
+public struct UpdateApprovalRuleTemplateNameOutput: Swift.Equatable {
     /// The structure and content of the updated approval rule template.
     /// This member is required.
     public var approvalRuleTemplate: CodeCommitClientTypes.ApprovalRuleTemplate?
@@ -26205,11 +26191,11 @@ public struct UpdateApprovalRuleTemplateNameOutputResponse: Swift.Equatable {
     }
 }
 
-struct UpdateApprovalRuleTemplateNameOutputResponseBody: Swift.Equatable {
+struct UpdateApprovalRuleTemplateNameOutputBody: Swift.Equatable {
     let approvalRuleTemplate: CodeCommitClientTypes.ApprovalRuleTemplate?
 }
 
-extension UpdateApprovalRuleTemplateNameOutputResponseBody: Swift.Decodable {
+extension UpdateApprovalRuleTemplateNameOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case approvalRuleTemplate
     }
@@ -26218,6 +26204,20 @@ extension UpdateApprovalRuleTemplateNameOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let approvalRuleTemplateDecoded = try containerValues.decodeIfPresent(CodeCommitClientTypes.ApprovalRuleTemplate.self, forKey: .approvalRuleTemplate)
         approvalRuleTemplate = approvalRuleTemplateDecoded
+    }
+}
+
+enum UpdateApprovalRuleTemplateNameOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ApprovalRuleTemplateDoesNotExistException": return try await ApprovalRuleTemplateDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ApprovalRuleTemplateNameAlreadyExistsException": return try await ApprovalRuleTemplateNameAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ApprovalRuleTemplateNameRequiredException": return try await ApprovalRuleTemplateNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidApprovalRuleTemplateNameException": return try await InvalidApprovalRuleTemplateNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -26282,6 +26282,46 @@ extension UpdateCommentInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateCommentOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateCommentOutputBody = try responseDecoder.decode(responseBody: data)
+            self.comment = output.comment
+        } else {
+            self.comment = nil
+        }
+    }
+}
+
+public struct UpdateCommentOutput: Swift.Equatable {
+    /// Information about the updated comment.
+    public var comment: CodeCommitClientTypes.Comment?
+
+    public init(
+        comment: CodeCommitClientTypes.Comment? = nil
+    )
+    {
+        self.comment = comment
+    }
+}
+
+struct UpdateCommentOutputBody: Swift.Equatable {
+    let comment: CodeCommitClientTypes.Comment?
+}
+
+extension UpdateCommentOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case comment
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let commentDecoded = try containerValues.decodeIfPresent(CodeCommitClientTypes.Comment.self, forKey: .comment)
+        comment = commentDecoded
+    }
+}
+
 enum UpdateCommentOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -26296,46 +26336,6 @@ enum UpdateCommentOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "InvalidCommentIdException": return try await InvalidCommentIdException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension UpdateCommentOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: UpdateCommentOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.comment = output.comment
-        } else {
-            self.comment = nil
-        }
-    }
-}
-
-public struct UpdateCommentOutputResponse: Swift.Equatable {
-    /// Information about the updated comment.
-    public var comment: CodeCommitClientTypes.Comment?
-
-    public init(
-        comment: CodeCommitClientTypes.Comment? = nil
-    )
-    {
-        self.comment = comment
-    }
-}
-
-struct UpdateCommentOutputResponseBody: Swift.Equatable {
-    let comment: CodeCommitClientTypes.Comment?
-}
-
-extension UpdateCommentOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case comment
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let commentDecoded = try containerValues.decodeIfPresent(CodeCommitClientTypes.Comment.self, forKey: .comment)
-        comment = commentDecoded
     }
 }
 
@@ -26401,6 +26401,16 @@ extension UpdateDefaultBranchInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateDefaultBranchOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UpdateDefaultBranchOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum UpdateDefaultBranchOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -26420,16 +26430,6 @@ enum UpdateDefaultBranchOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension UpdateDefaultBranchOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UpdateDefaultBranchOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension UpdatePullRequestApprovalRuleContentInput: Swift.Encodable {
@@ -26532,6 +26532,47 @@ extension UpdatePullRequestApprovalRuleContentInputBody: Swift.Decodable {
     }
 }
 
+extension UpdatePullRequestApprovalRuleContentOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdatePullRequestApprovalRuleContentOutputBody = try responseDecoder.decode(responseBody: data)
+            self.approvalRule = output.approvalRule
+        } else {
+            self.approvalRule = nil
+        }
+    }
+}
+
+public struct UpdatePullRequestApprovalRuleContentOutput: Swift.Equatable {
+    /// Information about the updated approval rule.
+    /// This member is required.
+    public var approvalRule: CodeCommitClientTypes.ApprovalRule?
+
+    public init(
+        approvalRule: CodeCommitClientTypes.ApprovalRule? = nil
+    )
+    {
+        self.approvalRule = approvalRule
+    }
+}
+
+struct UpdatePullRequestApprovalRuleContentOutputBody: Swift.Equatable {
+    let approvalRule: CodeCommitClientTypes.ApprovalRule?
+}
+
+extension UpdatePullRequestApprovalRuleContentOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case approvalRule
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let approvalRuleDecoded = try containerValues.decodeIfPresent(CodeCommitClientTypes.ApprovalRule.self, forKey: .approvalRule)
+        approvalRule = approvalRuleDecoded
+    }
+}
+
 enum UpdatePullRequestApprovalRuleContentOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -26555,47 +26596,6 @@ enum UpdatePullRequestApprovalRuleContentOutputError: ClientRuntime.HttpResponse
             case "PullRequestIdRequiredException": return try await PullRequestIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension UpdatePullRequestApprovalRuleContentOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: UpdatePullRequestApprovalRuleContentOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.approvalRule = output.approvalRule
-        } else {
-            self.approvalRule = nil
-        }
-    }
-}
-
-public struct UpdatePullRequestApprovalRuleContentOutputResponse: Swift.Equatable {
-    /// Information about the updated approval rule.
-    /// This member is required.
-    public var approvalRule: CodeCommitClientTypes.ApprovalRule?
-
-    public init(
-        approvalRule: CodeCommitClientTypes.ApprovalRule? = nil
-    )
-    {
-        self.approvalRule = approvalRule
-    }
-}
-
-struct UpdatePullRequestApprovalRuleContentOutputResponseBody: Swift.Equatable {
-    let approvalRule: CodeCommitClientTypes.ApprovalRule?
-}
-
-extension UpdatePullRequestApprovalRuleContentOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case approvalRule
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let approvalRuleDecoded = try containerValues.decodeIfPresent(CodeCommitClientTypes.ApprovalRule.self, forKey: .approvalRule)
-        approvalRule = approvalRuleDecoded
     }
 }
 
@@ -26673,6 +26673,16 @@ extension UpdatePullRequestApprovalStateInputBody: Swift.Decodable {
     }
 }
 
+extension UpdatePullRequestApprovalStateOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UpdatePullRequestApprovalStateOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum UpdatePullRequestApprovalStateOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -26697,16 +26707,6 @@ enum UpdatePullRequestApprovalStateOutputError: ClientRuntime.HttpResponseErrorB
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension UpdatePullRequestApprovalStateOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UpdatePullRequestApprovalStateOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension UpdatePullRequestDescriptionInput: Swift.Encodable {
@@ -26770,26 +26770,11 @@ extension UpdatePullRequestDescriptionInputBody: Swift.Decodable {
     }
 }
 
-enum UpdatePullRequestDescriptionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidDescriptionException": return try await InvalidDescriptionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidPullRequestIdException": return try await InvalidPullRequestIdException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "PullRequestAlreadyClosedException": return try await PullRequestAlreadyClosedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "PullRequestDoesNotExistException": return try await PullRequestDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "PullRequestIdRequiredException": return try await PullRequestIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension UpdatePullRequestDescriptionOutputResponse: ClientRuntime.HttpResponseBinding {
+extension UpdatePullRequestDescriptionOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: UpdatePullRequestDescriptionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: UpdatePullRequestDescriptionOutputBody = try responseDecoder.decode(responseBody: data)
             self.pullRequest = output.pullRequest
         } else {
             self.pullRequest = nil
@@ -26797,7 +26782,7 @@ extension UpdatePullRequestDescriptionOutputResponse: ClientRuntime.HttpResponse
     }
 }
 
-public struct UpdatePullRequestDescriptionOutputResponse: Swift.Equatable {
+public struct UpdatePullRequestDescriptionOutput: Swift.Equatable {
     /// Information about the updated pull request.
     /// This member is required.
     public var pullRequest: CodeCommitClientTypes.PullRequest?
@@ -26810,11 +26795,11 @@ public struct UpdatePullRequestDescriptionOutputResponse: Swift.Equatable {
     }
 }
 
-struct UpdatePullRequestDescriptionOutputResponseBody: Swift.Equatable {
+struct UpdatePullRequestDescriptionOutputBody: Swift.Equatable {
     let pullRequest: CodeCommitClientTypes.PullRequest?
 }
 
-extension UpdatePullRequestDescriptionOutputResponseBody: Swift.Decodable {
+extension UpdatePullRequestDescriptionOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case pullRequest
     }
@@ -26823,6 +26808,21 @@ extension UpdatePullRequestDescriptionOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let pullRequestDecoded = try containerValues.decodeIfPresent(CodeCommitClientTypes.PullRequest.self, forKey: .pullRequest)
         pullRequest = pullRequestDecoded
+    }
+}
+
+enum UpdatePullRequestDescriptionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidDescriptionException": return try await InvalidDescriptionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidPullRequestIdException": return try await InvalidPullRequestIdException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PullRequestAlreadyClosedException": return try await PullRequestAlreadyClosedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PullRequestDoesNotExistException": return try await PullRequestDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PullRequestIdRequiredException": return try await PullRequestIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -26887,6 +26887,47 @@ extension UpdatePullRequestStatusInputBody: Swift.Decodable {
     }
 }
 
+extension UpdatePullRequestStatusOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdatePullRequestStatusOutputBody = try responseDecoder.decode(responseBody: data)
+            self.pullRequest = output.pullRequest
+        } else {
+            self.pullRequest = nil
+        }
+    }
+}
+
+public struct UpdatePullRequestStatusOutput: Swift.Equatable {
+    /// Information about the pull request.
+    /// This member is required.
+    public var pullRequest: CodeCommitClientTypes.PullRequest?
+
+    public init(
+        pullRequest: CodeCommitClientTypes.PullRequest? = nil
+    )
+    {
+        self.pullRequest = pullRequest
+    }
+}
+
+struct UpdatePullRequestStatusOutputBody: Swift.Equatable {
+    let pullRequest: CodeCommitClientTypes.PullRequest?
+}
+
+extension UpdatePullRequestStatusOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case pullRequest
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let pullRequestDecoded = try containerValues.decodeIfPresent(CodeCommitClientTypes.PullRequest.self, forKey: .pullRequest)
+        pullRequest = pullRequestDecoded
+    }
+}
+
 enum UpdatePullRequestStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -26905,47 +26946,6 @@ enum UpdatePullRequestStatusOutputError: ClientRuntime.HttpResponseErrorBinding 
             case "PullRequestStatusRequiredException": return try await PullRequestStatusRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension UpdatePullRequestStatusOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: UpdatePullRequestStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.pullRequest = output.pullRequest
-        } else {
-            self.pullRequest = nil
-        }
-    }
-}
-
-public struct UpdatePullRequestStatusOutputResponse: Swift.Equatable {
-    /// Information about the pull request.
-    /// This member is required.
-    public var pullRequest: CodeCommitClientTypes.PullRequest?
-
-    public init(
-        pullRequest: CodeCommitClientTypes.PullRequest? = nil
-    )
-    {
-        self.pullRequest = pullRequest
-    }
-}
-
-struct UpdatePullRequestStatusOutputResponseBody: Swift.Equatable {
-    let pullRequest: CodeCommitClientTypes.PullRequest?
-}
-
-extension UpdatePullRequestStatusOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case pullRequest
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let pullRequestDecoded = try containerValues.decodeIfPresent(CodeCommitClientTypes.PullRequest.self, forKey: .pullRequest)
-        pullRequest = pullRequestDecoded
     }
 }
 
@@ -27010,6 +27010,47 @@ extension UpdatePullRequestTitleInputBody: Swift.Decodable {
     }
 }
 
+extension UpdatePullRequestTitleOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdatePullRequestTitleOutputBody = try responseDecoder.decode(responseBody: data)
+            self.pullRequest = output.pullRequest
+        } else {
+            self.pullRequest = nil
+        }
+    }
+}
+
+public struct UpdatePullRequestTitleOutput: Swift.Equatable {
+    /// Information about the updated pull request.
+    /// This member is required.
+    public var pullRequest: CodeCommitClientTypes.PullRequest?
+
+    public init(
+        pullRequest: CodeCommitClientTypes.PullRequest? = nil
+    )
+    {
+        self.pullRequest = pullRequest
+    }
+}
+
+struct UpdatePullRequestTitleOutputBody: Swift.Equatable {
+    let pullRequest: CodeCommitClientTypes.PullRequest?
+}
+
+extension UpdatePullRequestTitleOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case pullRequest
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let pullRequestDecoded = try containerValues.decodeIfPresent(CodeCommitClientTypes.PullRequest.self, forKey: .pullRequest)
+        pullRequest = pullRequestDecoded
+    }
+}
+
 enum UpdatePullRequestTitleOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -27023,47 +27064,6 @@ enum UpdatePullRequestTitleOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TitleRequiredException": return try await TitleRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension UpdatePullRequestTitleOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: UpdatePullRequestTitleOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.pullRequest = output.pullRequest
-        } else {
-            self.pullRequest = nil
-        }
-    }
-}
-
-public struct UpdatePullRequestTitleOutputResponse: Swift.Equatable {
-    /// Information about the updated pull request.
-    /// This member is required.
-    public var pullRequest: CodeCommitClientTypes.PullRequest?
-
-    public init(
-        pullRequest: CodeCommitClientTypes.PullRequest? = nil
-    )
-    {
-        self.pullRequest = pullRequest
-    }
-}
-
-struct UpdatePullRequestTitleOutputResponseBody: Swift.Equatable {
-    let pullRequest: CodeCommitClientTypes.PullRequest?
-}
-
-extension UpdatePullRequestTitleOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case pullRequest
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let pullRequestDecoded = try containerValues.decodeIfPresent(CodeCommitClientTypes.PullRequest.self, forKey: .pullRequest)
-        pullRequest = pullRequestDecoded
     }
 }
 
@@ -27128,6 +27128,16 @@ extension UpdateRepositoryDescriptionInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateRepositoryDescriptionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UpdateRepositoryDescriptionOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum UpdateRepositoryDescriptionOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -27145,16 +27155,6 @@ enum UpdateRepositoryDescriptionOutputError: ClientRuntime.HttpResponseErrorBind
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension UpdateRepositoryDescriptionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UpdateRepositoryDescriptionOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension UpdateRepositoryNameInput: Swift.Encodable {
@@ -27219,6 +27219,16 @@ extension UpdateRepositoryNameInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateRepositoryNameOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UpdateRepositoryNameOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum UpdateRepositoryNameOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -27231,16 +27241,6 @@ enum UpdateRepositoryNameOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension UpdateRepositoryNameOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UpdateRepositoryNameOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension CodeCommitClientTypes.UserInfo: Swift.Codable {

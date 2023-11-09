@@ -8,7 +8,7 @@ public protocol DocDBElasticClientProtocol {
     ///
     /// - Parameter CreateClusterInput : [no documentation found]
     ///
-    /// - Returns: `CreateClusterOutputResponse` : [no documentation found]
+    /// - Returns: `CreateClusterOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -19,12 +19,12 @@ public protocol DocDBElasticClientProtocol {
     /// - `ServiceQuotaExceededException` : The service quota for the action was exceeded.
     /// - `ThrottlingException` : ThrottlingException will be thrown when request was denied due to request throttling.
     /// - `ValidationException` : A structure defining a validation exception.
-    func createCluster(input: CreateClusterInput) async throws -> CreateClusterOutputResponse
+    func createCluster(input: CreateClusterInput) async throws -> CreateClusterOutput
     /// Creates a snapshot of a cluster.
     ///
     /// - Parameter CreateClusterSnapshotInput : [no documentation found]
     ///
-    /// - Returns: `CreateClusterSnapshotOutputResponse` : [no documentation found]
+    /// - Returns: `CreateClusterSnapshotOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -36,12 +36,12 @@ public protocol DocDBElasticClientProtocol {
     /// - `ServiceQuotaExceededException` : The service quota for the action was exceeded.
     /// - `ThrottlingException` : ThrottlingException will be thrown when request was denied due to request throttling.
     /// - `ValidationException` : A structure defining a validation exception.
-    func createClusterSnapshot(input: CreateClusterSnapshotInput) async throws -> CreateClusterSnapshotOutputResponse
+    func createClusterSnapshot(input: CreateClusterSnapshotInput) async throws -> CreateClusterSnapshotOutput
     /// Delete a Elastic DocumentDB cluster.
     ///
     /// - Parameter DeleteClusterInput : [no documentation found]
     ///
-    /// - Returns: `DeleteClusterOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteClusterOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -52,12 +52,12 @@ public protocol DocDBElasticClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be located.
     /// - `ThrottlingException` : ThrottlingException will be thrown when request was denied due to request throttling.
     /// - `ValidationException` : A structure defining a validation exception.
-    func deleteCluster(input: DeleteClusterInput) async throws -> DeleteClusterOutputResponse
+    func deleteCluster(input: DeleteClusterInput) async throws -> DeleteClusterOutput
     /// Delete a Elastic DocumentDB snapshot.
     ///
     /// - Parameter DeleteClusterSnapshotInput : [no documentation found]
     ///
-    /// - Returns: `DeleteClusterSnapshotOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteClusterSnapshotOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -68,12 +68,12 @@ public protocol DocDBElasticClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be located.
     /// - `ThrottlingException` : ThrottlingException will be thrown when request was denied due to request throttling.
     /// - `ValidationException` : A structure defining a validation exception.
-    func deleteClusterSnapshot(input: DeleteClusterSnapshotInput) async throws -> DeleteClusterSnapshotOutputResponse
+    func deleteClusterSnapshot(input: DeleteClusterSnapshotInput) async throws -> DeleteClusterSnapshotOutput
     /// Returns information about a specific Elastic DocumentDB cluster.
     ///
     /// - Parameter GetClusterInput : [no documentation found]
     ///
-    /// - Returns: `GetClusterOutputResponse` : [no documentation found]
+    /// - Returns: `GetClusterOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -83,12 +83,12 @@ public protocol DocDBElasticClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be located.
     /// - `ThrottlingException` : ThrottlingException will be thrown when request was denied due to request throttling.
     /// - `ValidationException` : A structure defining a validation exception.
-    func getCluster(input: GetClusterInput) async throws -> GetClusterOutputResponse
+    func getCluster(input: GetClusterInput) async throws -> GetClusterOutput
     /// Returns information about a specific Elastic DocumentDB snapshot
     ///
     /// - Parameter GetClusterSnapshotInput : [no documentation found]
     ///
-    /// - Returns: `GetClusterSnapshotOutputResponse` : [no documentation found]
+    /// - Returns: `GetClusterSnapshotOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -98,12 +98,12 @@ public protocol DocDBElasticClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be located.
     /// - `ThrottlingException` : ThrottlingException will be thrown when request was denied due to request throttling.
     /// - `ValidationException` : A structure defining a validation exception.
-    func getClusterSnapshot(input: GetClusterSnapshotInput) async throws -> GetClusterSnapshotOutputResponse
+    func getClusterSnapshot(input: GetClusterSnapshotInput) async throws -> GetClusterSnapshotOutput
     /// Returns information about provisioned Elastic DocumentDB clusters.
     ///
     /// - Parameter ListClustersInput : [no documentation found]
     ///
-    /// - Returns: `ListClustersOutputResponse` : [no documentation found]
+    /// - Returns: `ListClustersOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -112,12 +112,12 @@ public protocol DocDBElasticClientProtocol {
     /// - `InternalServerException` : There was an internal server error.
     /// - `ThrottlingException` : ThrottlingException will be thrown when request was denied due to request throttling.
     /// - `ValidationException` : A structure defining a validation exception.
-    func listClusters(input: ListClustersInput) async throws -> ListClustersOutputResponse
+    func listClusters(input: ListClustersInput) async throws -> ListClustersOutput
     /// Returns information about Elastic DocumentDB snapshots for a specified cluster.
     ///
     /// - Parameter ListClusterSnapshotsInput : [no documentation found]
     ///
-    /// - Returns: `ListClusterSnapshotsOutputResponse` : [no documentation found]
+    /// - Returns: `ListClusterSnapshotsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -126,12 +126,12 @@ public protocol DocDBElasticClientProtocol {
     /// - `InternalServerException` : There was an internal server error.
     /// - `ThrottlingException` : ThrottlingException will be thrown when request was denied due to request throttling.
     /// - `ValidationException` : A structure defining a validation exception.
-    func listClusterSnapshots(input: ListClusterSnapshotsInput) async throws -> ListClusterSnapshotsOutputResponse
+    func listClusterSnapshots(input: ListClusterSnapshotsInput) async throws -> ListClusterSnapshotsOutput
     /// Lists all tags on a Elastic DocumentDB resource
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -140,12 +140,12 @@ public protocol DocDBElasticClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be located.
     /// - `ThrottlingException` : ThrottlingException will be thrown when request was denied due to request throttling.
     /// - `ValidationException` : A structure defining a validation exception.
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     /// Restores a Elastic DocumentDB cluster from a snapshot.
     ///
     /// - Parameter RestoreClusterFromSnapshotInput : [no documentation found]
     ///
-    /// - Returns: `RestoreClusterFromSnapshotOutputResponse` : [no documentation found]
+    /// - Returns: `RestoreClusterFromSnapshotOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -157,12 +157,12 @@ public protocol DocDBElasticClientProtocol {
     /// - `ServiceQuotaExceededException` : The service quota for the action was exceeded.
     /// - `ThrottlingException` : ThrottlingException will be thrown when request was denied due to request throttling.
     /// - `ValidationException` : A structure defining a validation exception.
-    func restoreClusterFromSnapshot(input: RestoreClusterFromSnapshotInput) async throws -> RestoreClusterFromSnapshotOutputResponse
+    func restoreClusterFromSnapshot(input: RestoreClusterFromSnapshotInput) async throws -> RestoreClusterFromSnapshotOutput
     /// Adds metadata tags to a Elastic DocumentDB resource
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -171,12 +171,12 @@ public protocol DocDBElasticClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be located.
     /// - `ThrottlingException` : ThrottlingException will be thrown when request was denied due to request throttling.
     /// - `ValidationException` : A structure defining a validation exception.
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     /// Removes metadata tags to a Elastic DocumentDB resource
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -185,12 +185,12 @@ public protocol DocDBElasticClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be located.
     /// - `ThrottlingException` : ThrottlingException will be thrown when request was denied due to request throttling.
     /// - `ValidationException` : A structure defining a validation exception.
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
     /// Modifies a Elastic DocumentDB cluster. This includes updating admin-username/password, upgrading API version setting up a backup window and maintenance window
     ///
     /// - Parameter UpdateClusterInput : [no documentation found]
     ///
-    /// - Returns: `UpdateClusterOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateClusterOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -201,7 +201,7 @@ public protocol DocDBElasticClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be located.
     /// - `ThrottlingException` : ThrottlingException will be thrown when request was denied due to request throttling.
     /// - `ValidationException` : A structure defining a validation exception.
-    func updateCluster(input: UpdateClusterInput) async throws -> UpdateClusterOutputResponse
+    func updateCluster(input: UpdateClusterInput) async throws -> UpdateClusterOutput
 }
 
 public enum DocDBElasticClientTypes {}

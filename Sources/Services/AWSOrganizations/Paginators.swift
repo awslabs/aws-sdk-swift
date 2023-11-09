@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension OrganizationsClient {
-    /// Paginate over `[ListAccountsOutputResponse]` results.
+    /// Paginate over `[ListAccountsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListAccountsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListAccountsOutputResponse`
-    public func listAccountsPaginated(input: ListAccountsInput) -> ClientRuntime.PaginatorSequence<ListAccountsInput, ListAccountsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListAccountsInput, ListAccountsOutputResponse>(input: input, inputKey: \ListAccountsInput.nextToken, outputKey: \ListAccountsOutputResponse.nextToken, paginationFunction: self.listAccounts(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAccountsOutput`
+    public func listAccountsPaginated(input: ListAccountsInput) -> ClientRuntime.PaginatorSequence<ListAccountsInput, ListAccountsOutput> {
+        return ClientRuntime.PaginatorSequence<ListAccountsInput, ListAccountsOutput>(input: input, inputKey: \ListAccountsInput.nextToken, outputKey: \ListAccountsOutput.nextToken, paginationFunction: self.listAccounts(input:))
     }
 }
 
@@ -24,16 +24,16 @@ extension ListAccountsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension OrganizationsClient {
-    /// Paginate over `[ListAccountsForParentOutputResponse]` results.
+    /// Paginate over `[ListAccountsForParentOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListAccountsForParentInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListAccountsForParentOutputResponse`
-    public func listAccountsForParentPaginated(input: ListAccountsForParentInput) -> ClientRuntime.PaginatorSequence<ListAccountsForParentInput, ListAccountsForParentOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListAccountsForParentInput, ListAccountsForParentOutputResponse>(input: input, inputKey: \ListAccountsForParentInput.nextToken, outputKey: \ListAccountsForParentOutputResponse.nextToken, paginationFunction: self.listAccountsForParent(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAccountsForParentOutput`
+    public func listAccountsForParentPaginated(input: ListAccountsForParentInput) -> ClientRuntime.PaginatorSequence<ListAccountsForParentInput, ListAccountsForParentOutput> {
+        return ClientRuntime.PaginatorSequence<ListAccountsForParentInput, ListAccountsForParentOutput>(input: input, inputKey: \ListAccountsForParentInput.nextToken, outputKey: \ListAccountsForParentOutput.nextToken, paginationFunction: self.listAccountsForParent(input:))
     }
 }
 
@@ -46,16 +46,16 @@ extension ListAccountsForParentInput: ClientRuntime.PaginateToken {
         )}
 }
 extension OrganizationsClient {
-    /// Paginate over `[ListAWSServiceAccessForOrganizationOutputResponse]` results.
+    /// Paginate over `[ListAWSServiceAccessForOrganizationOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListAWSServiceAccessForOrganizationInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListAWSServiceAccessForOrganizationOutputResponse`
-    public func listAWSServiceAccessForOrganizationPaginated(input: ListAWSServiceAccessForOrganizationInput) -> ClientRuntime.PaginatorSequence<ListAWSServiceAccessForOrganizationInput, ListAWSServiceAccessForOrganizationOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListAWSServiceAccessForOrganizationInput, ListAWSServiceAccessForOrganizationOutputResponse>(input: input, inputKey: \ListAWSServiceAccessForOrganizationInput.nextToken, outputKey: \ListAWSServiceAccessForOrganizationOutputResponse.nextToken, paginationFunction: self.listAWSServiceAccessForOrganization(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAWSServiceAccessForOrganizationOutput`
+    public func listAWSServiceAccessForOrganizationPaginated(input: ListAWSServiceAccessForOrganizationInput) -> ClientRuntime.PaginatorSequence<ListAWSServiceAccessForOrganizationInput, ListAWSServiceAccessForOrganizationOutput> {
+        return ClientRuntime.PaginatorSequence<ListAWSServiceAccessForOrganizationInput, ListAWSServiceAccessForOrganizationOutput>(input: input, inputKey: \ListAWSServiceAccessForOrganizationInput.nextToken, outputKey: \ListAWSServiceAccessForOrganizationOutput.nextToken, paginationFunction: self.listAWSServiceAccessForOrganization(input:))
     }
 }
 
@@ -67,16 +67,16 @@ extension ListAWSServiceAccessForOrganizationInput: ClientRuntime.PaginateToken 
         )}
 }
 extension OrganizationsClient {
-    /// Paginate over `[ListChildrenOutputResponse]` results.
+    /// Paginate over `[ListChildrenOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListChildrenInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListChildrenOutputResponse`
-    public func listChildrenPaginated(input: ListChildrenInput) -> ClientRuntime.PaginatorSequence<ListChildrenInput, ListChildrenOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListChildrenInput, ListChildrenOutputResponse>(input: input, inputKey: \ListChildrenInput.nextToken, outputKey: \ListChildrenOutputResponse.nextToken, paginationFunction: self.listChildren(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListChildrenOutput`
+    public func listChildrenPaginated(input: ListChildrenInput) -> ClientRuntime.PaginatorSequence<ListChildrenInput, ListChildrenOutput> {
+        return ClientRuntime.PaginatorSequence<ListChildrenInput, ListChildrenOutput>(input: input, inputKey: \ListChildrenInput.nextToken, outputKey: \ListChildrenOutput.nextToken, paginationFunction: self.listChildren(input:))
     }
 }
 
@@ -90,16 +90,16 @@ extension ListChildrenInput: ClientRuntime.PaginateToken {
         )}
 }
 extension OrganizationsClient {
-    /// Paginate over `[ListCreateAccountStatusOutputResponse]` results.
+    /// Paginate over `[ListCreateAccountStatusOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListCreateAccountStatusInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListCreateAccountStatusOutputResponse`
-    public func listCreateAccountStatusPaginated(input: ListCreateAccountStatusInput) -> ClientRuntime.PaginatorSequence<ListCreateAccountStatusInput, ListCreateAccountStatusOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListCreateAccountStatusInput, ListCreateAccountStatusOutputResponse>(input: input, inputKey: \ListCreateAccountStatusInput.nextToken, outputKey: \ListCreateAccountStatusOutputResponse.nextToken, paginationFunction: self.listCreateAccountStatus(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListCreateAccountStatusOutput`
+    public func listCreateAccountStatusPaginated(input: ListCreateAccountStatusInput) -> ClientRuntime.PaginatorSequence<ListCreateAccountStatusInput, ListCreateAccountStatusOutput> {
+        return ClientRuntime.PaginatorSequence<ListCreateAccountStatusInput, ListCreateAccountStatusOutput>(input: input, inputKey: \ListCreateAccountStatusInput.nextToken, outputKey: \ListCreateAccountStatusOutput.nextToken, paginationFunction: self.listCreateAccountStatus(input:))
     }
 }
 
@@ -112,16 +112,16 @@ extension ListCreateAccountStatusInput: ClientRuntime.PaginateToken {
         )}
 }
 extension OrganizationsClient {
-    /// Paginate over `[ListDelegatedAdministratorsOutputResponse]` results.
+    /// Paginate over `[ListDelegatedAdministratorsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListDelegatedAdministratorsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListDelegatedAdministratorsOutputResponse`
-    public func listDelegatedAdministratorsPaginated(input: ListDelegatedAdministratorsInput) -> ClientRuntime.PaginatorSequence<ListDelegatedAdministratorsInput, ListDelegatedAdministratorsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListDelegatedAdministratorsInput, ListDelegatedAdministratorsOutputResponse>(input: input, inputKey: \ListDelegatedAdministratorsInput.nextToken, outputKey: \ListDelegatedAdministratorsOutputResponse.nextToken, paginationFunction: self.listDelegatedAdministrators(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDelegatedAdministratorsOutput`
+    public func listDelegatedAdministratorsPaginated(input: ListDelegatedAdministratorsInput) -> ClientRuntime.PaginatorSequence<ListDelegatedAdministratorsInput, ListDelegatedAdministratorsOutput> {
+        return ClientRuntime.PaginatorSequence<ListDelegatedAdministratorsInput, ListDelegatedAdministratorsOutput>(input: input, inputKey: \ListDelegatedAdministratorsInput.nextToken, outputKey: \ListDelegatedAdministratorsOutput.nextToken, paginationFunction: self.listDelegatedAdministrators(input:))
     }
 }
 
@@ -134,7 +134,7 @@ extension ListDelegatedAdministratorsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListDelegatedAdministratorsInput, Output == ListDelegatedAdministratorsOutputResponse {
+extension PaginatorSequence where Input == ListDelegatedAdministratorsInput, Output == ListDelegatedAdministratorsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listDelegatedAdministratorsPaginated`
     /// to access the nested member `[OrganizationsClientTypes.DelegatedAdministrator]`
     /// - Returns: `[OrganizationsClientTypes.DelegatedAdministrator]`
@@ -143,16 +143,16 @@ extension PaginatorSequence where Input == ListDelegatedAdministratorsInput, Out
     }
 }
 extension OrganizationsClient {
-    /// Paginate over `[ListDelegatedServicesForAccountOutputResponse]` results.
+    /// Paginate over `[ListDelegatedServicesForAccountOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListDelegatedServicesForAccountInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListDelegatedServicesForAccountOutputResponse`
-    public func listDelegatedServicesForAccountPaginated(input: ListDelegatedServicesForAccountInput) -> ClientRuntime.PaginatorSequence<ListDelegatedServicesForAccountInput, ListDelegatedServicesForAccountOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListDelegatedServicesForAccountInput, ListDelegatedServicesForAccountOutputResponse>(input: input, inputKey: \ListDelegatedServicesForAccountInput.nextToken, outputKey: \ListDelegatedServicesForAccountOutputResponse.nextToken, paginationFunction: self.listDelegatedServicesForAccount(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDelegatedServicesForAccountOutput`
+    public func listDelegatedServicesForAccountPaginated(input: ListDelegatedServicesForAccountInput) -> ClientRuntime.PaginatorSequence<ListDelegatedServicesForAccountInput, ListDelegatedServicesForAccountOutput> {
+        return ClientRuntime.PaginatorSequence<ListDelegatedServicesForAccountInput, ListDelegatedServicesForAccountOutput>(input: input, inputKey: \ListDelegatedServicesForAccountInput.nextToken, outputKey: \ListDelegatedServicesForAccountOutput.nextToken, paginationFunction: self.listDelegatedServicesForAccount(input:))
     }
 }
 
@@ -165,7 +165,7 @@ extension ListDelegatedServicesForAccountInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListDelegatedServicesForAccountInput, Output == ListDelegatedServicesForAccountOutputResponse {
+extension PaginatorSequence where Input == ListDelegatedServicesForAccountInput, Output == ListDelegatedServicesForAccountOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listDelegatedServicesForAccountPaginated`
     /// to access the nested member `[OrganizationsClientTypes.DelegatedService]`
     /// - Returns: `[OrganizationsClientTypes.DelegatedService]`
@@ -174,16 +174,16 @@ extension PaginatorSequence where Input == ListDelegatedServicesForAccountInput,
     }
 }
 extension OrganizationsClient {
-    /// Paginate over `[ListHandshakesForAccountOutputResponse]` results.
+    /// Paginate over `[ListHandshakesForAccountOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListHandshakesForAccountInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListHandshakesForAccountOutputResponse`
-    public func listHandshakesForAccountPaginated(input: ListHandshakesForAccountInput) -> ClientRuntime.PaginatorSequence<ListHandshakesForAccountInput, ListHandshakesForAccountOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListHandshakesForAccountInput, ListHandshakesForAccountOutputResponse>(input: input, inputKey: \ListHandshakesForAccountInput.nextToken, outputKey: \ListHandshakesForAccountOutputResponse.nextToken, paginationFunction: self.listHandshakesForAccount(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListHandshakesForAccountOutput`
+    public func listHandshakesForAccountPaginated(input: ListHandshakesForAccountInput) -> ClientRuntime.PaginatorSequence<ListHandshakesForAccountInput, ListHandshakesForAccountOutput> {
+        return ClientRuntime.PaginatorSequence<ListHandshakesForAccountInput, ListHandshakesForAccountOutput>(input: input, inputKey: \ListHandshakesForAccountInput.nextToken, outputKey: \ListHandshakesForAccountOutput.nextToken, paginationFunction: self.listHandshakesForAccount(input:))
     }
 }
 
@@ -196,16 +196,16 @@ extension ListHandshakesForAccountInput: ClientRuntime.PaginateToken {
         )}
 }
 extension OrganizationsClient {
-    /// Paginate over `[ListHandshakesForOrganizationOutputResponse]` results.
+    /// Paginate over `[ListHandshakesForOrganizationOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListHandshakesForOrganizationInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListHandshakesForOrganizationOutputResponse`
-    public func listHandshakesForOrganizationPaginated(input: ListHandshakesForOrganizationInput) -> ClientRuntime.PaginatorSequence<ListHandshakesForOrganizationInput, ListHandshakesForOrganizationOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListHandshakesForOrganizationInput, ListHandshakesForOrganizationOutputResponse>(input: input, inputKey: \ListHandshakesForOrganizationInput.nextToken, outputKey: \ListHandshakesForOrganizationOutputResponse.nextToken, paginationFunction: self.listHandshakesForOrganization(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListHandshakesForOrganizationOutput`
+    public func listHandshakesForOrganizationPaginated(input: ListHandshakesForOrganizationInput) -> ClientRuntime.PaginatorSequence<ListHandshakesForOrganizationInput, ListHandshakesForOrganizationOutput> {
+        return ClientRuntime.PaginatorSequence<ListHandshakesForOrganizationInput, ListHandshakesForOrganizationOutput>(input: input, inputKey: \ListHandshakesForOrganizationInput.nextToken, outputKey: \ListHandshakesForOrganizationOutput.nextToken, paginationFunction: self.listHandshakesForOrganization(input:))
     }
 }
 
@@ -218,16 +218,16 @@ extension ListHandshakesForOrganizationInput: ClientRuntime.PaginateToken {
         )}
 }
 extension OrganizationsClient {
-    /// Paginate over `[ListOrganizationalUnitsForParentOutputResponse]` results.
+    /// Paginate over `[ListOrganizationalUnitsForParentOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListOrganizationalUnitsForParentInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListOrganizationalUnitsForParentOutputResponse`
-    public func listOrganizationalUnitsForParentPaginated(input: ListOrganizationalUnitsForParentInput) -> ClientRuntime.PaginatorSequence<ListOrganizationalUnitsForParentInput, ListOrganizationalUnitsForParentOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListOrganizationalUnitsForParentInput, ListOrganizationalUnitsForParentOutputResponse>(input: input, inputKey: \ListOrganizationalUnitsForParentInput.nextToken, outputKey: \ListOrganizationalUnitsForParentOutputResponse.nextToken, paginationFunction: self.listOrganizationalUnitsForParent(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListOrganizationalUnitsForParentOutput`
+    public func listOrganizationalUnitsForParentPaginated(input: ListOrganizationalUnitsForParentInput) -> ClientRuntime.PaginatorSequence<ListOrganizationalUnitsForParentInput, ListOrganizationalUnitsForParentOutput> {
+        return ClientRuntime.PaginatorSequence<ListOrganizationalUnitsForParentInput, ListOrganizationalUnitsForParentOutput>(input: input, inputKey: \ListOrganizationalUnitsForParentInput.nextToken, outputKey: \ListOrganizationalUnitsForParentOutput.nextToken, paginationFunction: self.listOrganizationalUnitsForParent(input:))
     }
 }
 
@@ -240,16 +240,16 @@ extension ListOrganizationalUnitsForParentInput: ClientRuntime.PaginateToken {
         )}
 }
 extension OrganizationsClient {
-    /// Paginate over `[ListParentsOutputResponse]` results.
+    /// Paginate over `[ListParentsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListParentsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListParentsOutputResponse`
-    public func listParentsPaginated(input: ListParentsInput) -> ClientRuntime.PaginatorSequence<ListParentsInput, ListParentsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListParentsInput, ListParentsOutputResponse>(input: input, inputKey: \ListParentsInput.nextToken, outputKey: \ListParentsOutputResponse.nextToken, paginationFunction: self.listParents(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListParentsOutput`
+    public func listParentsPaginated(input: ListParentsInput) -> ClientRuntime.PaginatorSequence<ListParentsInput, ListParentsOutput> {
+        return ClientRuntime.PaginatorSequence<ListParentsInput, ListParentsOutput>(input: input, inputKey: \ListParentsInput.nextToken, outputKey: \ListParentsOutput.nextToken, paginationFunction: self.listParents(input:))
     }
 }
 
@@ -262,16 +262,16 @@ extension ListParentsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension OrganizationsClient {
-    /// Paginate over `[ListPoliciesOutputResponse]` results.
+    /// Paginate over `[ListPoliciesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListPoliciesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListPoliciesOutputResponse`
-    public func listPoliciesPaginated(input: ListPoliciesInput) -> ClientRuntime.PaginatorSequence<ListPoliciesInput, ListPoliciesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListPoliciesInput, ListPoliciesOutputResponse>(input: input, inputKey: \ListPoliciesInput.nextToken, outputKey: \ListPoliciesOutputResponse.nextToken, paginationFunction: self.listPolicies(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListPoliciesOutput`
+    public func listPoliciesPaginated(input: ListPoliciesInput) -> ClientRuntime.PaginatorSequence<ListPoliciesInput, ListPoliciesOutput> {
+        return ClientRuntime.PaginatorSequence<ListPoliciesInput, ListPoliciesOutput>(input: input, inputKey: \ListPoliciesInput.nextToken, outputKey: \ListPoliciesOutput.nextToken, paginationFunction: self.listPolicies(input:))
     }
 }
 
@@ -284,16 +284,16 @@ extension ListPoliciesInput: ClientRuntime.PaginateToken {
         )}
 }
 extension OrganizationsClient {
-    /// Paginate over `[ListPoliciesForTargetOutputResponse]` results.
+    /// Paginate over `[ListPoliciesForTargetOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListPoliciesForTargetInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListPoliciesForTargetOutputResponse`
-    public func listPoliciesForTargetPaginated(input: ListPoliciesForTargetInput) -> ClientRuntime.PaginatorSequence<ListPoliciesForTargetInput, ListPoliciesForTargetOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListPoliciesForTargetInput, ListPoliciesForTargetOutputResponse>(input: input, inputKey: \ListPoliciesForTargetInput.nextToken, outputKey: \ListPoliciesForTargetOutputResponse.nextToken, paginationFunction: self.listPoliciesForTarget(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListPoliciesForTargetOutput`
+    public func listPoliciesForTargetPaginated(input: ListPoliciesForTargetInput) -> ClientRuntime.PaginatorSequence<ListPoliciesForTargetInput, ListPoliciesForTargetOutput> {
+        return ClientRuntime.PaginatorSequence<ListPoliciesForTargetInput, ListPoliciesForTargetOutput>(input: input, inputKey: \ListPoliciesForTargetInput.nextToken, outputKey: \ListPoliciesForTargetOutput.nextToken, paginationFunction: self.listPoliciesForTarget(input:))
     }
 }
 
@@ -307,16 +307,16 @@ extension ListPoliciesForTargetInput: ClientRuntime.PaginateToken {
         )}
 }
 extension OrganizationsClient {
-    /// Paginate over `[ListRootsOutputResponse]` results.
+    /// Paginate over `[ListRootsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListRootsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListRootsOutputResponse`
-    public func listRootsPaginated(input: ListRootsInput) -> ClientRuntime.PaginatorSequence<ListRootsInput, ListRootsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListRootsInput, ListRootsOutputResponse>(input: input, inputKey: \ListRootsInput.nextToken, outputKey: \ListRootsOutputResponse.nextToken, paginationFunction: self.listRoots(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListRootsOutput`
+    public func listRootsPaginated(input: ListRootsInput) -> ClientRuntime.PaginatorSequence<ListRootsInput, ListRootsOutput> {
+        return ClientRuntime.PaginatorSequence<ListRootsInput, ListRootsOutput>(input: input, inputKey: \ListRootsInput.nextToken, outputKey: \ListRootsOutput.nextToken, paginationFunction: self.listRoots(input:))
     }
 }
 
@@ -328,16 +328,16 @@ extension ListRootsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension OrganizationsClient {
-    /// Paginate over `[ListTagsForResourceOutputResponse]` results.
+    /// Paginate over `[ListTagsForResourceOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListTagsForResourceInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListTagsForResourceOutputResponse`
-    public func listTagsForResourcePaginated(input: ListTagsForResourceInput) -> ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutputResponse>(input: input, inputKey: \ListTagsForResourceInput.nextToken, outputKey: \ListTagsForResourceOutputResponse.nextToken, paginationFunction: self.listTagsForResource(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListTagsForResourceOutput`
+    public func listTagsForResourcePaginated(input: ListTagsForResourceInput) -> ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutput> {
+        return ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutput>(input: input, inputKey: \ListTagsForResourceInput.nextToken, outputKey: \ListTagsForResourceOutput.nextToken, paginationFunction: self.listTagsForResource(input:))
     }
 }
 
@@ -349,7 +349,7 @@ extension ListTagsForResourceInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListTagsForResourceInput, Output == ListTagsForResourceOutputResponse {
+extension PaginatorSequence where Input == ListTagsForResourceInput, Output == ListTagsForResourceOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listTagsForResourcePaginated`
     /// to access the nested member `[OrganizationsClientTypes.Tag]`
     /// - Returns: `[OrganizationsClientTypes.Tag]`
@@ -358,16 +358,16 @@ extension PaginatorSequence where Input == ListTagsForResourceInput, Output == L
     }
 }
 extension OrganizationsClient {
-    /// Paginate over `[ListTargetsForPolicyOutputResponse]` results.
+    /// Paginate over `[ListTargetsForPolicyOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListTargetsForPolicyInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListTargetsForPolicyOutputResponse`
-    public func listTargetsForPolicyPaginated(input: ListTargetsForPolicyInput) -> ClientRuntime.PaginatorSequence<ListTargetsForPolicyInput, ListTargetsForPolicyOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListTargetsForPolicyInput, ListTargetsForPolicyOutputResponse>(input: input, inputKey: \ListTargetsForPolicyInput.nextToken, outputKey: \ListTargetsForPolicyOutputResponse.nextToken, paginationFunction: self.listTargetsForPolicy(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListTargetsForPolicyOutput`
+    public func listTargetsForPolicyPaginated(input: ListTargetsForPolicyInput) -> ClientRuntime.PaginatorSequence<ListTargetsForPolicyInput, ListTargetsForPolicyOutput> {
+        return ClientRuntime.PaginatorSequence<ListTargetsForPolicyInput, ListTargetsForPolicyOutput>(input: input, inputKey: \ListTargetsForPolicyInput.nextToken, outputKey: \ListTargetsForPolicyOutput.nextToken, paginationFunction: self.listTargetsForPolicy(input:))
     }
 }
 

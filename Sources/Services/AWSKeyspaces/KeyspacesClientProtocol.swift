@@ -8,7 +8,7 @@ public protocol KeyspacesClientProtocol {
     ///
     /// - Parameter CreateKeyspaceInput : [no documentation found]
     ///
-    /// - Returns: `CreateKeyspaceOutputResponse` : [no documentation found]
+    /// - Returns: `CreateKeyspaceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -18,12 +18,12 @@ public protocol KeyspacesClientProtocol {
     /// - `InternalServerException` : Amazon Keyspaces was unable to fully process this request because of an internal server error.
     /// - `ServiceQuotaExceededException` : The operation exceeded the service quota for this resource. For more information on service quotas, see [Quotas](https://docs.aws.amazon.com/keyspaces/latest/devguide/quotas.html) in the Amazon Keyspaces Developer Guide.
     /// - `ValidationException` : The operation failed due to an invalid or malformed request.
-    func createKeyspace(input: CreateKeyspaceInput) async throws -> CreateKeyspaceOutputResponse
+    func createKeyspace(input: CreateKeyspaceInput) async throws -> CreateKeyspaceOutput
     /// The CreateTable operation adds a new table to the specified keyspace. Within a keyspace, table names must be unique. CreateTable is an asynchronous operation. When the request is received, the status of the table is set to CREATING. You can monitor the creation status of the new table by using the GetTable operation, which returns the current status of the table. You can start using a table when the status is ACTIVE. For more information, see [Creating tables](https://docs.aws.amazon.com/keyspaces/latest/devguide/working-with-tables.html#tables-create) in the Amazon Keyspaces Developer Guide.
     ///
     /// - Parameter CreateTableInput : [no documentation found]
     ///
-    /// - Returns: `CreateTableOutputResponse` : [no documentation found]
+    /// - Returns: `CreateTableOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -34,12 +34,12 @@ public protocol KeyspacesClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access a keyspace or table that doesn't exist. The resource might not be specified correctly, or its status might not be ACTIVE.
     /// - `ServiceQuotaExceededException` : The operation exceeded the service quota for this resource. For more information on service quotas, see [Quotas](https://docs.aws.amazon.com/keyspaces/latest/devguide/quotas.html) in the Amazon Keyspaces Developer Guide.
     /// - `ValidationException` : The operation failed due to an invalid or malformed request.
-    func createTable(input: CreateTableInput) async throws -> CreateTableOutputResponse
+    func createTable(input: CreateTableInput) async throws -> CreateTableOutput
     /// The DeleteKeyspace operation deletes a keyspace and all of its tables.
     ///
     /// - Parameter DeleteKeyspaceInput : [no documentation found]
     ///
-    /// - Returns: `DeleteKeyspaceOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteKeyspaceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -50,12 +50,12 @@ public protocol KeyspacesClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access a keyspace or table that doesn't exist. The resource might not be specified correctly, or its status might not be ACTIVE.
     /// - `ServiceQuotaExceededException` : The operation exceeded the service quota for this resource. For more information on service quotas, see [Quotas](https://docs.aws.amazon.com/keyspaces/latest/devguide/quotas.html) in the Amazon Keyspaces Developer Guide.
     /// - `ValidationException` : The operation failed due to an invalid or malformed request.
-    func deleteKeyspace(input: DeleteKeyspaceInput) async throws -> DeleteKeyspaceOutputResponse
+    func deleteKeyspace(input: DeleteKeyspaceInput) async throws -> DeleteKeyspaceOutput
     /// The DeleteTable operation deletes a table and all of its data. After a DeleteTable request is received, the specified table is in the DELETING state until Amazon Keyspaces completes the deletion. If the table is in the ACTIVE state, you can delete it. If a table is either in the CREATING or UPDATING states, then Amazon Keyspaces returns a ResourceInUseException. If the specified table does not exist, Amazon Keyspaces returns a ResourceNotFoundException. If the table is already in the DELETING state, no error is returned.
     ///
     /// - Parameter DeleteTableInput : [no documentation found]
     ///
-    /// - Returns: `DeleteTableOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteTableOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -66,12 +66,12 @@ public protocol KeyspacesClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access a keyspace or table that doesn't exist. The resource might not be specified correctly, or its status might not be ACTIVE.
     /// - `ServiceQuotaExceededException` : The operation exceeded the service quota for this resource. For more information on service quotas, see [Quotas](https://docs.aws.amazon.com/keyspaces/latest/devguide/quotas.html) in the Amazon Keyspaces Developer Guide.
     /// - `ValidationException` : The operation failed due to an invalid or malformed request.
-    func deleteTable(input: DeleteTableInput) async throws -> DeleteTableOutputResponse
+    func deleteTable(input: DeleteTableInput) async throws -> DeleteTableOutput
     /// Returns the name and the Amazon Resource Name (ARN) of the specified table.
     ///
     /// - Parameter GetKeyspaceInput : [no documentation found]
     ///
-    /// - Returns: `GetKeyspaceOutputResponse` : [no documentation found]
+    /// - Returns: `GetKeyspaceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -81,12 +81,12 @@ public protocol KeyspacesClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access a keyspace or table that doesn't exist. The resource might not be specified correctly, or its status might not be ACTIVE.
     /// - `ServiceQuotaExceededException` : The operation exceeded the service quota for this resource. For more information on service quotas, see [Quotas](https://docs.aws.amazon.com/keyspaces/latest/devguide/quotas.html) in the Amazon Keyspaces Developer Guide.
     /// - `ValidationException` : The operation failed due to an invalid or malformed request.
-    func getKeyspace(input: GetKeyspaceInput) async throws -> GetKeyspaceOutputResponse
+    func getKeyspace(input: GetKeyspaceInput) async throws -> GetKeyspaceOutput
     /// Returns information about the table, including the table's name and current status, the keyspace name, configuration settings, and metadata. To read table metadata using GetTable, Select action permissions for the table and system tables are required to complete the operation.
     ///
     /// - Parameter GetTableInput : [no documentation found]
     ///
-    /// - Returns: `GetTableOutputResponse` : [no documentation found]
+    /// - Returns: `GetTableOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -96,12 +96,12 @@ public protocol KeyspacesClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access a keyspace or table that doesn't exist. The resource might not be specified correctly, or its status might not be ACTIVE.
     /// - `ServiceQuotaExceededException` : The operation exceeded the service quota for this resource. For more information on service quotas, see [Quotas](https://docs.aws.amazon.com/keyspaces/latest/devguide/quotas.html) in the Amazon Keyspaces Developer Guide.
     /// - `ValidationException` : The operation failed due to an invalid or malformed request.
-    func getTable(input: GetTableInput) async throws -> GetTableOutputResponse
+    func getTable(input: GetTableInput) async throws -> GetTableOutput
     /// Returns a list of keyspaces.
     ///
     /// - Parameter ListKeyspacesInput : [no documentation found]
     ///
-    /// - Returns: `ListKeyspacesOutputResponse` : [no documentation found]
+    /// - Returns: `ListKeyspacesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -111,12 +111,12 @@ public protocol KeyspacesClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access a keyspace or table that doesn't exist. The resource might not be specified correctly, or its status might not be ACTIVE.
     /// - `ServiceQuotaExceededException` : The operation exceeded the service quota for this resource. For more information on service quotas, see [Quotas](https://docs.aws.amazon.com/keyspaces/latest/devguide/quotas.html) in the Amazon Keyspaces Developer Guide.
     /// - `ValidationException` : The operation failed due to an invalid or malformed request.
-    func listKeyspaces(input: ListKeyspacesInput) async throws -> ListKeyspacesOutputResponse
+    func listKeyspaces(input: ListKeyspacesInput) async throws -> ListKeyspacesOutput
     /// Returns a list of tables for a specified keyspace.
     ///
     /// - Parameter ListTablesInput : [no documentation found]
     ///
-    /// - Returns: `ListTablesOutputResponse` : [no documentation found]
+    /// - Returns: `ListTablesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -126,12 +126,12 @@ public protocol KeyspacesClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access a keyspace or table that doesn't exist. The resource might not be specified correctly, or its status might not be ACTIVE.
     /// - `ServiceQuotaExceededException` : The operation exceeded the service quota for this resource. For more information on service quotas, see [Quotas](https://docs.aws.amazon.com/keyspaces/latest/devguide/quotas.html) in the Amazon Keyspaces Developer Guide.
     /// - `ValidationException` : The operation failed due to an invalid or malformed request.
-    func listTables(input: ListTablesInput) async throws -> ListTablesOutputResponse
+    func listTables(input: ListTablesInput) async throws -> ListTablesOutput
     /// Returns a list of all tags associated with the specified Amazon Keyspaces resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -141,7 +141,7 @@ public protocol KeyspacesClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access a keyspace or table that doesn't exist. The resource might not be specified correctly, or its status might not be ACTIVE.
     /// - `ServiceQuotaExceededException` : The operation exceeded the service quota for this resource. For more information on service quotas, see [Quotas](https://docs.aws.amazon.com/keyspaces/latest/devguide/quotas.html) in the Amazon Keyspaces Developer Guide.
     /// - `ValidationException` : The operation failed due to an invalid or malformed request.
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     /// Restores the specified table to the specified point in time within the earliest_restorable_timestamp and the current time. For more information about restore points, see [ Time window for PITR continuous backups](https://docs.aws.amazon.com/keyspaces/latest/devguide/PointInTimeRecovery_HowItWorks.html#howitworks_backup_window) in the Amazon Keyspaces Developer Guide. Any number of users can execute up to 4 concurrent restores (any type of restore) in a given account. When you restore using point in time recovery, Amazon Keyspaces restores your source table's schema and data to the state based on the selected timestamp (day:hour:minute:second) to a new table. The Time to Live (TTL) settings are also restored to the state based on the selected timestamp. In addition to the table's schema, data, and TTL settings, RestoreTable restores the capacity mode, encryption, and point-in-time recovery settings from the source table. Unlike the table's schema data and TTL settings, which are restored based on the selected timestamp, these settings are always restored based on the table's settings as of the current time or when the table was deleted. You can also overwrite these settings during restore:
     ///
     /// * Read/write capacity mode
@@ -163,7 +163,7 @@ public protocol KeyspacesClientProtocol {
     ///
     /// - Parameter RestoreTableInput : [no documentation found]
     ///
-    /// - Returns: `RestoreTableOutputResponse` : [no documentation found]
+    /// - Returns: `RestoreTableOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -174,12 +174,12 @@ public protocol KeyspacesClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access a keyspace or table that doesn't exist. The resource might not be specified correctly, or its status might not be ACTIVE.
     /// - `ServiceQuotaExceededException` : The operation exceeded the service quota for this resource. For more information on service quotas, see [Quotas](https://docs.aws.amazon.com/keyspaces/latest/devguide/quotas.html) in the Amazon Keyspaces Developer Guide.
     /// - `ValidationException` : The operation failed due to an invalid or malformed request.
-    func restoreTable(input: RestoreTableInput) async throws -> RestoreTableOutputResponse
+    func restoreTable(input: RestoreTableInput) async throws -> RestoreTableOutput
     /// Associates a set of tags with a Amazon Keyspaces resource. You can then activate these user-defined tags so that they appear on the Cost Management Console for cost allocation tracking. For more information, see [Adding tags and labels to Amazon Keyspaces resources](https://docs.aws.amazon.com/keyspaces/latest/devguide/tagging-keyspaces.html) in the Amazon Keyspaces Developer Guide. For IAM policy examples that show how to control access to Amazon Keyspaces resources based on tags, see [Amazon Keyspaces resource access based on tags](https://docs.aws.amazon.com/keyspaces/latest/devguide/security_iam_id-based-policy-examples.html#security_iam_id-based-policy-examples-tags) in the Amazon Keyspaces Developer Guide.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -189,12 +189,12 @@ public protocol KeyspacesClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access a keyspace or table that doesn't exist. The resource might not be specified correctly, or its status might not be ACTIVE.
     /// - `ServiceQuotaExceededException` : The operation exceeded the service quota for this resource. For more information on service quotas, see [Quotas](https://docs.aws.amazon.com/keyspaces/latest/devguide/quotas.html) in the Amazon Keyspaces Developer Guide.
     /// - `ValidationException` : The operation failed due to an invalid or malformed request.
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     /// Removes the association of tags from a Amazon Keyspaces resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -205,12 +205,12 @@ public protocol KeyspacesClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access a keyspace or table that doesn't exist. The resource might not be specified correctly, or its status might not be ACTIVE.
     /// - `ServiceQuotaExceededException` : The operation exceeded the service quota for this resource. For more information on service quotas, see [Quotas](https://docs.aws.amazon.com/keyspaces/latest/devguide/quotas.html) in the Amazon Keyspaces Developer Guide.
     /// - `ValidationException` : The operation failed due to an invalid or malformed request.
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
     /// Adds new columns to the table or updates one of the table's settings, for example capacity mode, encryption, point-in-time recovery, or ttl settings. Note that you can only update one specific table setting per update operation.
     ///
     /// - Parameter UpdateTableInput : [no documentation found]
     ///
-    /// - Returns: `UpdateTableOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateTableOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -221,7 +221,7 @@ public protocol KeyspacesClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access a keyspace or table that doesn't exist. The resource might not be specified correctly, or its status might not be ACTIVE.
     /// - `ServiceQuotaExceededException` : The operation exceeded the service quota for this resource. For more information on service quotas, see [Quotas](https://docs.aws.amazon.com/keyspaces/latest/devguide/quotas.html) in the Amazon Keyspaces Developer Guide.
     /// - `ValidationException` : The operation failed due to an invalid or malformed request.
-    func updateTable(input: UpdateTableInput) async throws -> UpdateTableOutputResponse
+    func updateTable(input: UpdateTableInput) async throws -> UpdateTableOutput
 }
 
 public enum KeyspacesClientTypes {}

@@ -744,6 +744,46 @@ extension CreateClusterInputBody: Swift.Decodable {
     }
 }
 
+extension CreateClusterOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateClusterOutputBody = try responseDecoder.decode(responseBody: data)
+            self.cluster = output.cluster
+        } else {
+            self.cluster = nil
+        }
+    }
+}
+
+public struct CreateClusterOutput: Swift.Equatable {
+    /// A description of the DAX cluster that you have created.
+    public var cluster: DAXClientTypes.Cluster?
+
+    public init(
+        cluster: DAXClientTypes.Cluster? = nil
+    )
+    {
+        self.cluster = cluster
+    }
+}
+
+struct CreateClusterOutputBody: Swift.Equatable {
+    let cluster: DAXClientTypes.Cluster?
+}
+
+extension CreateClusterOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case cluster = "Cluster"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let clusterDecoded = try containerValues.decodeIfPresent(DAXClientTypes.Cluster.self, forKey: .cluster)
+        cluster = clusterDecoded
+    }
+}
+
 enum CreateClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -766,46 +806,6 @@ enum CreateClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TagQuotaPerResourceExceeded": return try await TagQuotaPerResourceExceeded(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension CreateClusterOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateClusterOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.cluster = output.cluster
-        } else {
-            self.cluster = nil
-        }
-    }
-}
-
-public struct CreateClusterOutputResponse: Swift.Equatable {
-    /// A description of the DAX cluster that you have created.
-    public var cluster: DAXClientTypes.Cluster?
-
-    public init(
-        cluster: DAXClientTypes.Cluster? = nil
-    )
-    {
-        self.cluster = cluster
-    }
-}
-
-struct CreateClusterOutputResponseBody: Swift.Equatable {
-    let cluster: DAXClientTypes.Cluster?
-}
-
-extension CreateClusterOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case cluster = "Cluster"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let clusterDecoded = try containerValues.decodeIfPresent(DAXClientTypes.Cluster.self, forKey: .cluster)
-        cluster = clusterDecoded
     }
 }
 
@@ -869,6 +869,46 @@ extension CreateParameterGroupInputBody: Swift.Decodable {
     }
 }
 
+extension CreateParameterGroupOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateParameterGroupOutputBody = try responseDecoder.decode(responseBody: data)
+            self.parameterGroup = output.parameterGroup
+        } else {
+            self.parameterGroup = nil
+        }
+    }
+}
+
+public struct CreateParameterGroupOutput: Swift.Equatable {
+    /// Represents the output of a CreateParameterGroup action.
+    public var parameterGroup: DAXClientTypes.ParameterGroup?
+
+    public init(
+        parameterGroup: DAXClientTypes.ParameterGroup? = nil
+    )
+    {
+        self.parameterGroup = parameterGroup
+    }
+}
+
+struct CreateParameterGroupOutputBody: Swift.Equatable {
+    let parameterGroup: DAXClientTypes.ParameterGroup?
+}
+
+extension CreateParameterGroupOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case parameterGroup = "ParameterGroup"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let parameterGroupDecoded = try containerValues.decodeIfPresent(DAXClientTypes.ParameterGroup.self, forKey: .parameterGroup)
+        parameterGroup = parameterGroupDecoded
+    }
+}
+
 enum CreateParameterGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -882,46 +922,6 @@ enum CreateParameterGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ServiceLinkedRoleNotFoundFault": return try await ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension CreateParameterGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateParameterGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.parameterGroup = output.parameterGroup
-        } else {
-            self.parameterGroup = nil
-        }
-    }
-}
-
-public struct CreateParameterGroupOutputResponse: Swift.Equatable {
-    /// Represents the output of a CreateParameterGroup action.
-    public var parameterGroup: DAXClientTypes.ParameterGroup?
-
-    public init(
-        parameterGroup: DAXClientTypes.ParameterGroup? = nil
-    )
-    {
-        self.parameterGroup = parameterGroup
-    }
-}
-
-struct CreateParameterGroupOutputResponseBody: Swift.Equatable {
-    let parameterGroup: DAXClientTypes.ParameterGroup?
-}
-
-extension CreateParameterGroupOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case parameterGroup = "ParameterGroup"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let parameterGroupDecoded = try containerValues.decodeIfPresent(DAXClientTypes.ParameterGroup.self, forKey: .parameterGroup)
-        parameterGroup = parameterGroupDecoded
     }
 }
 
@@ -1010,6 +1010,46 @@ extension CreateSubnetGroupInputBody: Swift.Decodable {
     }
 }
 
+extension CreateSubnetGroupOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateSubnetGroupOutputBody = try responseDecoder.decode(responseBody: data)
+            self.subnetGroup = output.subnetGroup
+        } else {
+            self.subnetGroup = nil
+        }
+    }
+}
+
+public struct CreateSubnetGroupOutput: Swift.Equatable {
+    /// Represents the output of a CreateSubnetGroup operation.
+    public var subnetGroup: DAXClientTypes.SubnetGroup?
+
+    public init(
+        subnetGroup: DAXClientTypes.SubnetGroup? = nil
+    )
+    {
+        self.subnetGroup = subnetGroup
+    }
+}
+
+struct CreateSubnetGroupOutputBody: Swift.Equatable {
+    let subnetGroup: DAXClientTypes.SubnetGroup?
+}
+
+extension CreateSubnetGroupOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case subnetGroup = "SubnetGroup"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let subnetGroupDecoded = try containerValues.decodeIfPresent(DAXClientTypes.SubnetGroup.self, forKey: .subnetGroup)
+        subnetGroup = subnetGroupDecoded
+    }
+}
+
 enum CreateSubnetGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -1022,46 +1062,6 @@ enum CreateSubnetGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "SubnetQuotaExceededFault": return try await SubnetQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension CreateSubnetGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateSubnetGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.subnetGroup = output.subnetGroup
-        } else {
-            self.subnetGroup = nil
-        }
-    }
-}
-
-public struct CreateSubnetGroupOutputResponse: Swift.Equatable {
-    /// Represents the output of a CreateSubnetGroup operation.
-    public var subnetGroup: DAXClientTypes.SubnetGroup?
-
-    public init(
-        subnetGroup: DAXClientTypes.SubnetGroup? = nil
-    )
-    {
-        self.subnetGroup = subnetGroup
-    }
-}
-
-struct CreateSubnetGroupOutputResponseBody: Swift.Equatable {
-    let subnetGroup: DAXClientTypes.SubnetGroup?
-}
-
-extension CreateSubnetGroupOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case subnetGroup = "SubnetGroup"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let subnetGroupDecoded = try containerValues.decodeIfPresent(DAXClientTypes.SubnetGroup.self, forKey: .subnetGroup)
-        subnetGroup = subnetGroupDecoded
     }
 }
 
@@ -1174,6 +1174,46 @@ extension DecreaseReplicationFactorInputBody: Swift.Decodable {
     }
 }
 
+extension DecreaseReplicationFactorOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DecreaseReplicationFactorOutputBody = try responseDecoder.decode(responseBody: data)
+            self.cluster = output.cluster
+        } else {
+            self.cluster = nil
+        }
+    }
+}
+
+public struct DecreaseReplicationFactorOutput: Swift.Equatable {
+    /// A description of the DAX cluster, after you have decreased its replication factor.
+    public var cluster: DAXClientTypes.Cluster?
+
+    public init(
+        cluster: DAXClientTypes.Cluster? = nil
+    )
+    {
+        self.cluster = cluster
+    }
+}
+
+struct DecreaseReplicationFactorOutputBody: Swift.Equatable {
+    let cluster: DAXClientTypes.Cluster?
+}
+
+extension DecreaseReplicationFactorOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case cluster = "Cluster"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let clusterDecoded = try containerValues.decodeIfPresent(DAXClientTypes.Cluster.self, forKey: .cluster)
+        cluster = clusterDecoded
+    }
+}
+
 enum DecreaseReplicationFactorOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -1187,46 +1227,6 @@ enum DecreaseReplicationFactorOutputError: ClientRuntime.HttpResponseErrorBindin
             case "ServiceLinkedRoleNotFoundFault": return try await ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension DecreaseReplicationFactorOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: DecreaseReplicationFactorOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.cluster = output.cluster
-        } else {
-            self.cluster = nil
-        }
-    }
-}
-
-public struct DecreaseReplicationFactorOutputResponse: Swift.Equatable {
-    /// A description of the DAX cluster, after you have decreased its replication factor.
-    public var cluster: DAXClientTypes.Cluster?
-
-    public init(
-        cluster: DAXClientTypes.Cluster? = nil
-    )
-    {
-        self.cluster = cluster
-    }
-}
-
-struct DecreaseReplicationFactorOutputResponseBody: Swift.Equatable {
-    let cluster: DAXClientTypes.Cluster?
-}
-
-extension DecreaseReplicationFactorOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case cluster = "Cluster"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let clusterDecoded = try containerValues.decodeIfPresent(DAXClientTypes.Cluster.self, forKey: .cluster)
-        cluster = clusterDecoded
     }
 }
 
@@ -1278,6 +1278,46 @@ extension DeleteClusterInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteClusterOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DeleteClusterOutputBody = try responseDecoder.decode(responseBody: data)
+            self.cluster = output.cluster
+        } else {
+            self.cluster = nil
+        }
+    }
+}
+
+public struct DeleteClusterOutput: Swift.Equatable {
+    /// A description of the DAX cluster that is being deleted.
+    public var cluster: DAXClientTypes.Cluster?
+
+    public init(
+        cluster: DAXClientTypes.Cluster? = nil
+    )
+    {
+        self.cluster = cluster
+    }
+}
+
+struct DeleteClusterOutputBody: Swift.Equatable {
+    let cluster: DAXClientTypes.Cluster?
+}
+
+extension DeleteClusterOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case cluster = "Cluster"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let clusterDecoded = try containerValues.decodeIfPresent(DAXClientTypes.Cluster.self, forKey: .cluster)
+        cluster = clusterDecoded
+    }
+}
+
 enum DeleteClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -1290,46 +1330,6 @@ enum DeleteClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ServiceLinkedRoleNotFoundFault": return try await ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension DeleteClusterOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: DeleteClusterOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.cluster = output.cluster
-        } else {
-            self.cluster = nil
-        }
-    }
-}
-
-public struct DeleteClusterOutputResponse: Swift.Equatable {
-    /// A description of the DAX cluster that is being deleted.
-    public var cluster: DAXClientTypes.Cluster?
-
-    public init(
-        cluster: DAXClientTypes.Cluster? = nil
-    )
-    {
-        self.cluster = cluster
-    }
-}
-
-struct DeleteClusterOutputResponseBody: Swift.Equatable {
-    let cluster: DAXClientTypes.Cluster?
-}
-
-extension DeleteClusterOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case cluster = "Cluster"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let clusterDecoded = try containerValues.decodeIfPresent(DAXClientTypes.Cluster.self, forKey: .cluster)
-        cluster = clusterDecoded
     }
 }
 
@@ -1381,6 +1381,46 @@ extension DeleteParameterGroupInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteParameterGroupOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DeleteParameterGroupOutputBody = try responseDecoder.decode(responseBody: data)
+            self.deletionMessage = output.deletionMessage
+        } else {
+            self.deletionMessage = nil
+        }
+    }
+}
+
+public struct DeleteParameterGroupOutput: Swift.Equatable {
+    /// A user-specified message for this action (i.e., a reason for deleting the parameter group).
+    public var deletionMessage: Swift.String?
+
+    public init(
+        deletionMessage: Swift.String? = nil
+    )
+    {
+        self.deletionMessage = deletionMessage
+    }
+}
+
+struct DeleteParameterGroupOutputBody: Swift.Equatable {
+    let deletionMessage: Swift.String?
+}
+
+extension DeleteParameterGroupOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case deletionMessage = "DeletionMessage"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let deletionMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deletionMessage)
+        deletionMessage = deletionMessageDecoded
+    }
+}
+
 enum DeleteParameterGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -1393,46 +1433,6 @@ enum DeleteParameterGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ServiceLinkedRoleNotFoundFault": return try await ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension DeleteParameterGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: DeleteParameterGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.deletionMessage = output.deletionMessage
-        } else {
-            self.deletionMessage = nil
-        }
-    }
-}
-
-public struct DeleteParameterGroupOutputResponse: Swift.Equatable {
-    /// A user-specified message for this action (i.e., a reason for deleting the parameter group).
-    public var deletionMessage: Swift.String?
-
-    public init(
-        deletionMessage: Swift.String? = nil
-    )
-    {
-        self.deletionMessage = deletionMessage
-    }
-}
-
-struct DeleteParameterGroupOutputResponseBody: Swift.Equatable {
-    let deletionMessage: Swift.String?
-}
-
-extension DeleteParameterGroupOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case deletionMessage = "DeletionMessage"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let deletionMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deletionMessage)
-        deletionMessage = deletionMessageDecoded
     }
 }
 
@@ -1484,24 +1484,11 @@ extension DeleteSubnetGroupInputBody: Swift.Decodable {
     }
 }
 
-enum DeleteSubnetGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ServiceLinkedRoleNotFoundFault": return try await ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "SubnetGroupInUse": return try await SubnetGroupInUseFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "SubnetGroupNotFoundFault": return try await SubnetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DeleteSubnetGroupOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DeleteSubnetGroupOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DeleteSubnetGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DeleteSubnetGroupOutputBody = try responseDecoder.decode(responseBody: data)
             self.deletionMessage = output.deletionMessage
         } else {
             self.deletionMessage = nil
@@ -1509,7 +1496,7 @@ extension DeleteSubnetGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteSubnetGroupOutputResponse: Swift.Equatable {
+public struct DeleteSubnetGroupOutput: Swift.Equatable {
     /// A user-specified message for this action (i.e., a reason for deleting the subnet group).
     public var deletionMessage: Swift.String?
 
@@ -1521,11 +1508,11 @@ public struct DeleteSubnetGroupOutputResponse: Swift.Equatable {
     }
 }
 
-struct DeleteSubnetGroupOutputResponseBody: Swift.Equatable {
+struct DeleteSubnetGroupOutputBody: Swift.Equatable {
     let deletionMessage: Swift.String?
 }
 
-extension DeleteSubnetGroupOutputResponseBody: Swift.Decodable {
+extension DeleteSubnetGroupOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case deletionMessage = "DeletionMessage"
     }
@@ -1534,6 +1521,19 @@ extension DeleteSubnetGroupOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let deletionMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deletionMessage)
         deletionMessage = deletionMessageDecoded
+    }
+}
+
+enum DeleteSubnetGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ServiceLinkedRoleNotFoundFault": return try await ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "SubnetGroupInUse": return try await SubnetGroupInUseFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "SubnetGroupNotFoundFault": return try await SubnetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1620,25 +1620,11 @@ extension DescribeClustersInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeClustersOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ClusterNotFound": return try await ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceLinkedRoleNotFoundFault": return try await ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeClustersOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeClustersOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeClustersOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeClustersOutputBody = try responseDecoder.decode(responseBody: data)
             self.clusters = output.clusters
             self.nextToken = output.nextToken
         } else {
@@ -1648,7 +1634,7 @@ extension DescribeClustersOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeClustersOutputResponse: Swift.Equatable {
+public struct DescribeClustersOutput: Swift.Equatable {
     /// The descriptions of your DAX clusters, in response to a DescribeClusters request.
     public var clusters: [DAXClientTypes.Cluster]?
     /// Provides an identifier to allow retrieval of paginated results.
@@ -1664,12 +1650,12 @@ public struct DescribeClustersOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeClustersOutputResponseBody: Swift.Equatable {
+struct DescribeClustersOutputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let clusters: [DAXClientTypes.Cluster]?
 }
 
-extension DescribeClustersOutputResponseBody: Swift.Decodable {
+extension DescribeClustersOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clusters = "Clusters"
         case nextToken = "NextToken"
@@ -1690,6 +1676,20 @@ extension DescribeClustersOutputResponseBody: Swift.Decodable {
             }
         }
         clusters = clustersDecoded0
+    }
+}
+
+enum DescribeClustersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ClusterNotFound": return try await ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceLinkedRoleNotFoundFault": return try await ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1752,24 +1752,11 @@ extension DescribeDefaultParametersInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeDefaultParametersOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceLinkedRoleNotFoundFault": return try await ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeDefaultParametersOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeDefaultParametersOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeDefaultParametersOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeDefaultParametersOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.parameters = output.parameters
         } else {
@@ -1779,7 +1766,7 @@ extension DescribeDefaultParametersOutputResponse: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct DescribeDefaultParametersOutputResponse: Swift.Equatable {
+public struct DescribeDefaultParametersOutput: Swift.Equatable {
     /// Provides an identifier to allow retrieval of paginated results.
     public var nextToken: Swift.String?
     /// A list of parameters. Each element in the list represents one parameter.
@@ -1795,12 +1782,12 @@ public struct DescribeDefaultParametersOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeDefaultParametersOutputResponseBody: Swift.Equatable {
+struct DescribeDefaultParametersOutputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let parameters: [DAXClientTypes.Parameter]?
 }
 
-extension DescribeDefaultParametersOutputResponseBody: Swift.Decodable {
+extension DescribeDefaultParametersOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case parameters = "Parameters"
@@ -1821,6 +1808,19 @@ extension DescribeDefaultParametersOutputResponseBody: Swift.Decodable {
             }
         }
         parameters = parametersDecoded0
+    }
+}
+
+enum DescribeDefaultParametersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceLinkedRoleNotFoundFault": return try await ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1943,24 +1943,11 @@ extension DescribeEventsInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeEventsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceLinkedRoleNotFoundFault": return try await ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeEventsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeEventsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeEventsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeEventsOutputBody = try responseDecoder.decode(responseBody: data)
             self.events = output.events
             self.nextToken = output.nextToken
         } else {
@@ -1970,7 +1957,7 @@ extension DescribeEventsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeEventsOutputResponse: Swift.Equatable {
+public struct DescribeEventsOutput: Swift.Equatable {
     /// An array of events. Each element in the array represents one event.
     public var events: [DAXClientTypes.Event]?
     /// Provides an identifier to allow retrieval of paginated results.
@@ -1986,12 +1973,12 @@ public struct DescribeEventsOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeEventsOutputResponseBody: Swift.Equatable {
+struct DescribeEventsOutputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let events: [DAXClientTypes.Event]?
 }
 
-extension DescribeEventsOutputResponseBody: Swift.Decodable {
+extension DescribeEventsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case events = "Events"
         case nextToken = "NextToken"
@@ -2012,6 +1999,19 @@ extension DescribeEventsOutputResponseBody: Swift.Decodable {
             }
         }
         events = eventsDecoded0
+    }
+}
+
+enum DescribeEventsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceLinkedRoleNotFoundFault": return try await ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2098,25 +2098,11 @@ extension DescribeParameterGroupsInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeParameterGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ParameterGroupNotFound": return try await ParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceLinkedRoleNotFoundFault": return try await ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeParameterGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeParameterGroupsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeParameterGroupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeParameterGroupsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.parameterGroups = output.parameterGroups
         } else {
@@ -2126,7 +2112,7 @@ extension DescribeParameterGroupsOutputResponse: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct DescribeParameterGroupsOutputResponse: Swift.Equatable {
+public struct DescribeParameterGroupsOutput: Swift.Equatable {
     /// Provides an identifier to allow retrieval of paginated results.
     public var nextToken: Swift.String?
     /// An array of parameter groups. Each element in the array represents one parameter group.
@@ -2142,12 +2128,12 @@ public struct DescribeParameterGroupsOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeParameterGroupsOutputResponseBody: Swift.Equatable {
+struct DescribeParameterGroupsOutputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let parameterGroups: [DAXClientTypes.ParameterGroup]?
 }
 
-extension DescribeParameterGroupsOutputResponseBody: Swift.Decodable {
+extension DescribeParameterGroupsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case parameterGroups = "ParameterGroups"
@@ -2168,6 +2154,20 @@ extension DescribeParameterGroupsOutputResponseBody: Swift.Decodable {
             }
         }
         parameterGroups = parameterGroupsDecoded0
+    }
+}
+
+enum DescribeParameterGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ParameterGroupNotFound": return try await ParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceLinkedRoleNotFoundFault": return try await ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2255,25 +2255,11 @@ extension DescribeParametersInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeParametersOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ParameterGroupNotFound": return try await ParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceLinkedRoleNotFoundFault": return try await ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeParametersOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeParametersOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeParametersOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeParametersOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.parameters = output.parameters
         } else {
@@ -2283,7 +2269,7 @@ extension DescribeParametersOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeParametersOutputResponse: Swift.Equatable {
+public struct DescribeParametersOutput: Swift.Equatable {
     /// Provides an identifier to allow retrieval of paginated results.
     public var nextToken: Swift.String?
     /// A list of parameters within a parameter group. Each element in the list represents one parameter.
@@ -2299,12 +2285,12 @@ public struct DescribeParametersOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeParametersOutputResponseBody: Swift.Equatable {
+struct DescribeParametersOutputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let parameters: [DAXClientTypes.Parameter]?
 }
 
-extension DescribeParametersOutputResponseBody: Swift.Decodable {
+extension DescribeParametersOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case parameters = "Parameters"
@@ -2325,6 +2311,20 @@ extension DescribeParametersOutputResponseBody: Swift.Decodable {
             }
         }
         parameters = parametersDecoded0
+    }
+}
+
+enum DescribeParametersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ParameterGroupNotFound": return try await ParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceLinkedRoleNotFoundFault": return try await ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2411,23 +2411,11 @@ extension DescribeSubnetGroupsInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeSubnetGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ServiceLinkedRoleNotFoundFault": return try await ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "SubnetGroupNotFoundFault": return try await SubnetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeSubnetGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeSubnetGroupsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeSubnetGroupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeSubnetGroupsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.subnetGroups = output.subnetGroups
         } else {
@@ -2437,7 +2425,7 @@ extension DescribeSubnetGroupsOutputResponse: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct DescribeSubnetGroupsOutputResponse: Swift.Equatable {
+public struct DescribeSubnetGroupsOutput: Swift.Equatable {
     /// Provides an identifier to allow retrieval of paginated results.
     public var nextToken: Swift.String?
     /// An array of subnet groups. Each element in the array represents a single subnet group.
@@ -2453,12 +2441,12 @@ public struct DescribeSubnetGroupsOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeSubnetGroupsOutputResponseBody: Swift.Equatable {
+struct DescribeSubnetGroupsOutputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let subnetGroups: [DAXClientTypes.SubnetGroup]?
 }
 
-extension DescribeSubnetGroupsOutputResponseBody: Swift.Decodable {
+extension DescribeSubnetGroupsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case subnetGroups = "SubnetGroups"
@@ -2479,6 +2467,18 @@ extension DescribeSubnetGroupsOutputResponseBody: Swift.Decodable {
             }
         }
         subnetGroups = subnetGroupsDecoded0
+    }
+}
+
+enum DescribeSubnetGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ServiceLinkedRoleNotFoundFault": return try await ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "SubnetGroupNotFoundFault": return try await SubnetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2687,6 +2687,46 @@ extension IncreaseReplicationFactorInputBody: Swift.Decodable {
     }
 }
 
+extension IncreaseReplicationFactorOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: IncreaseReplicationFactorOutputBody = try responseDecoder.decode(responseBody: data)
+            self.cluster = output.cluster
+        } else {
+            self.cluster = nil
+        }
+    }
+}
+
+public struct IncreaseReplicationFactorOutput: Swift.Equatable {
+    /// A description of the DAX cluster. with its new replication factor.
+    public var cluster: DAXClientTypes.Cluster?
+
+    public init(
+        cluster: DAXClientTypes.Cluster? = nil
+    )
+    {
+        self.cluster = cluster
+    }
+}
+
+struct IncreaseReplicationFactorOutputBody: Swift.Equatable {
+    let cluster: DAXClientTypes.Cluster?
+}
+
+extension IncreaseReplicationFactorOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case cluster = "Cluster"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let clusterDecoded = try containerValues.decodeIfPresent(DAXClientTypes.Cluster.self, forKey: .cluster)
+        cluster = clusterDecoded
+    }
+}
+
 enum IncreaseReplicationFactorOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -2703,46 +2743,6 @@ enum IncreaseReplicationFactorOutputError: ClientRuntime.HttpResponseErrorBindin
             case "ServiceLinkedRoleNotFoundFault": return try await ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension IncreaseReplicationFactorOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: IncreaseReplicationFactorOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.cluster = output.cluster
-        } else {
-            self.cluster = nil
-        }
-    }
-}
-
-public struct IncreaseReplicationFactorOutputResponse: Swift.Equatable {
-    /// A description of the DAX cluster. with its new replication factor.
-    public var cluster: DAXClientTypes.Cluster?
-
-    public init(
-        cluster: DAXClientTypes.Cluster? = nil
-    )
-    {
-        self.cluster = cluster
-    }
-}
-
-struct IncreaseReplicationFactorOutputResponseBody: Swift.Equatable {
-    let cluster: DAXClientTypes.Cluster?
-}
-
-extension IncreaseReplicationFactorOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case cluster = "Cluster"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let clusterDecoded = try containerValues.decodeIfPresent(DAXClientTypes.Cluster.self, forKey: .cluster)
-        cluster = clusterDecoded
     }
 }
 
@@ -3281,27 +3281,11 @@ extension ListTagsInputBody: Swift.Decodable {
     }
 }
 
-enum ListTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ClusterNotFound": return try await ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidARN": return try await InvalidARNFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidClusterState": return try await InvalidClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceLinkedRoleNotFoundFault": return try await ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListTagsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListTagsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListTagsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListTagsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.tags = output.tags
         } else {
@@ -3311,7 +3295,7 @@ extension ListTagsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsOutputResponse: Swift.Equatable {
+public struct ListTagsOutput: Swift.Equatable {
     /// If this value is present, there are additional results to be displayed. To retrieve them, call ListTags again, with NextToken set to this value.
     public var nextToken: Swift.String?
     /// A list of tags currently associated with the DAX cluster.
@@ -3327,12 +3311,12 @@ public struct ListTagsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListTagsOutputResponseBody: Swift.Equatable {
+struct ListTagsOutputBody: Swift.Equatable {
     let tags: [DAXClientTypes.Tag]?
     let nextToken: Swift.String?
 }
 
-extension ListTagsOutputResponseBody: Swift.Decodable {
+extension ListTagsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case tags = "Tags"
@@ -3353,6 +3337,22 @@ extension ListTagsOutputResponseBody: Swift.Decodable {
         tags = tagsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ClusterNotFound": return try await ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidARN": return try await InvalidARNFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidClusterState": return try await InvalidClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceLinkedRoleNotFoundFault": return try await ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -4248,6 +4248,46 @@ extension RebootNodeInputBody: Swift.Decodable {
     }
 }
 
+extension RebootNodeOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: RebootNodeOutputBody = try responseDecoder.decode(responseBody: data)
+            self.cluster = output.cluster
+        } else {
+            self.cluster = nil
+        }
+    }
+}
+
+public struct RebootNodeOutput: Swift.Equatable {
+    /// A description of the DAX cluster after a node has been rebooted.
+    public var cluster: DAXClientTypes.Cluster?
+
+    public init(
+        cluster: DAXClientTypes.Cluster? = nil
+    )
+    {
+        self.cluster = cluster
+    }
+}
+
+struct RebootNodeOutputBody: Swift.Equatable {
+    let cluster: DAXClientTypes.Cluster?
+}
+
+extension RebootNodeOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case cluster = "Cluster"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let clusterDecoded = try containerValues.decodeIfPresent(DAXClientTypes.Cluster.self, forKey: .cluster)
+        cluster = clusterDecoded
+    }
+}
+
 enum RebootNodeOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -4261,46 +4301,6 @@ enum RebootNodeOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ServiceLinkedRoleNotFoundFault": return try await ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension RebootNodeOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: RebootNodeOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.cluster = output.cluster
-        } else {
-            self.cluster = nil
-        }
-    }
-}
-
-public struct RebootNodeOutputResponse: Swift.Equatable {
-    /// A description of the DAX cluster after a node has been rebooted.
-    public var cluster: DAXClientTypes.Cluster?
-
-    public init(
-        cluster: DAXClientTypes.Cluster? = nil
-    )
-    {
-        self.cluster = cluster
-    }
-}
-
-struct RebootNodeOutputResponseBody: Swift.Equatable {
-    let cluster: DAXClientTypes.Cluster?
-}
-
-extension RebootNodeOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case cluster = "Cluster"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let clusterDecoded = try containerValues.decodeIfPresent(DAXClientTypes.Cluster.self, forKey: .cluster)
-        cluster = clusterDecoded
     }
 }
 
@@ -5261,28 +5261,11 @@ extension TagResourceInputBody: Swift.Decodable {
     }
 }
 
-enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ClusterNotFound": return try await ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidARN": return try await InvalidARNFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidClusterState": return try await InvalidClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceLinkedRoleNotFoundFault": return try await ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TagQuotaPerResourceExceeded": return try await TagQuotaPerResourceExceeded(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
+extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: TagResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: TagResourceOutputBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
         } else {
             self.tags = nil
@@ -5290,7 +5273,7 @@ extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutputResponse: Swift.Equatable {
+public struct TagResourceOutput: Swift.Equatable {
     /// The list of tags that are associated with the DAX resource.
     public var tags: [DAXClientTypes.Tag]?
 
@@ -5302,11 +5285,11 @@ public struct TagResourceOutputResponse: Swift.Equatable {
     }
 }
 
-struct TagResourceOutputResponseBody: Swift.Equatable {
+struct TagResourceOutputBody: Swift.Equatable {
     let tags: [DAXClientTypes.Tag]?
 }
 
-extension TagResourceOutputResponseBody: Swift.Decodable {
+extension TagResourceOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case tags = "Tags"
     }
@@ -5324,6 +5307,23 @@ extension TagResourceOutputResponseBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+    }
+}
+
+enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ClusterNotFound": return try await ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidARN": return try await InvalidARNFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidClusterState": return try await InvalidClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceLinkedRoleNotFoundFault": return try await ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TagQuotaPerResourceExceeded": return try await TagQuotaPerResourceExceeded(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5400,28 +5400,11 @@ extension UntagResourceInputBody: Swift.Decodable {
     }
 }
 
-enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ClusterNotFound": return try await ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidARN": return try await InvalidARNFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidClusterState": return try await InvalidClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceLinkedRoleNotFoundFault": return try await ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TagNotFound": return try await TagNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
+extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: UntagResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: UntagResourceOutputBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
         } else {
             self.tags = nil
@@ -5429,7 +5412,7 @@ extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutputResponse: Swift.Equatable {
+public struct UntagResourceOutput: Swift.Equatable {
     /// The tag keys that have been removed from the cluster.
     public var tags: [DAXClientTypes.Tag]?
 
@@ -5441,11 +5424,11 @@ public struct UntagResourceOutputResponse: Swift.Equatable {
     }
 }
 
-struct UntagResourceOutputResponseBody: Swift.Equatable {
+struct UntagResourceOutputBody: Swift.Equatable {
     let tags: [DAXClientTypes.Tag]?
 }
 
-extension UntagResourceOutputResponseBody: Swift.Decodable {
+extension UntagResourceOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case tags = "Tags"
     }
@@ -5463,6 +5446,23 @@ extension UntagResourceOutputResponseBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+    }
+}
+
+enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ClusterNotFound": return try await ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidARN": return try await InvalidARNFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidClusterState": return try await InvalidClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceLinkedRoleNotFoundFault": return try await ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TagNotFound": return try await TagNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5598,6 +5598,46 @@ extension UpdateClusterInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateClusterOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateClusterOutputBody = try responseDecoder.decode(responseBody: data)
+            self.cluster = output.cluster
+        } else {
+            self.cluster = nil
+        }
+    }
+}
+
+public struct UpdateClusterOutput: Swift.Equatable {
+    /// A description of the DAX cluster, after it has been modified.
+    public var cluster: DAXClientTypes.Cluster?
+
+    public init(
+        cluster: DAXClientTypes.Cluster? = nil
+    )
+    {
+        self.cluster = cluster
+    }
+}
+
+struct UpdateClusterOutputBody: Swift.Equatable {
+    let cluster: DAXClientTypes.Cluster?
+}
+
+extension UpdateClusterOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case cluster = "Cluster"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let clusterDecoded = try containerValues.decodeIfPresent(DAXClientTypes.Cluster.self, forKey: .cluster)
+        cluster = clusterDecoded
+    }
+}
+
 enum UpdateClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -5612,46 +5652,6 @@ enum UpdateClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ServiceLinkedRoleNotFoundFault": return try await ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension UpdateClusterOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: UpdateClusterOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.cluster = output.cluster
-        } else {
-            self.cluster = nil
-        }
-    }
-}
-
-public struct UpdateClusterOutputResponse: Swift.Equatable {
-    /// A description of the DAX cluster, after it has been modified.
-    public var cluster: DAXClientTypes.Cluster?
-
-    public init(
-        cluster: DAXClientTypes.Cluster? = nil
-    )
-    {
-        self.cluster = cluster
-    }
-}
-
-struct UpdateClusterOutputResponseBody: Swift.Equatable {
-    let cluster: DAXClientTypes.Cluster?
-}
-
-extension UpdateClusterOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case cluster = "Cluster"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let clusterDecoded = try containerValues.decodeIfPresent(DAXClientTypes.Cluster.self, forKey: .cluster)
-        cluster = clusterDecoded
     }
 }
 
@@ -5728,6 +5728,46 @@ extension UpdateParameterGroupInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateParameterGroupOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateParameterGroupOutputBody = try responseDecoder.decode(responseBody: data)
+            self.parameterGroup = output.parameterGroup
+        } else {
+            self.parameterGroup = nil
+        }
+    }
+}
+
+public struct UpdateParameterGroupOutput: Swift.Equatable {
+    /// The parameter group that has been modified.
+    public var parameterGroup: DAXClientTypes.ParameterGroup?
+
+    public init(
+        parameterGroup: DAXClientTypes.ParameterGroup? = nil
+    )
+    {
+        self.parameterGroup = parameterGroup
+    }
+}
+
+struct UpdateParameterGroupOutputBody: Swift.Equatable {
+    let parameterGroup: DAXClientTypes.ParameterGroup?
+}
+
+extension UpdateParameterGroupOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case parameterGroup = "ParameterGroup"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let parameterGroupDecoded = try containerValues.decodeIfPresent(DAXClientTypes.ParameterGroup.self, forKey: .parameterGroup)
+        parameterGroup = parameterGroupDecoded
+    }
+}
+
 enum UpdateParameterGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -5740,46 +5780,6 @@ enum UpdateParameterGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ServiceLinkedRoleNotFoundFault": return try await ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension UpdateParameterGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: UpdateParameterGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.parameterGroup = output.parameterGroup
-        } else {
-            self.parameterGroup = nil
-        }
-    }
-}
-
-public struct UpdateParameterGroupOutputResponse: Swift.Equatable {
-    /// The parameter group that has been modified.
-    public var parameterGroup: DAXClientTypes.ParameterGroup?
-
-    public init(
-        parameterGroup: DAXClientTypes.ParameterGroup? = nil
-    )
-    {
-        self.parameterGroup = parameterGroup
-    }
-}
-
-struct UpdateParameterGroupOutputResponseBody: Swift.Equatable {
-    let parameterGroup: DAXClientTypes.ParameterGroup?
-}
-
-extension UpdateParameterGroupOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case parameterGroup = "ParameterGroup"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let parameterGroupDecoded = try containerValues.decodeIfPresent(DAXClientTypes.ParameterGroup.self, forKey: .parameterGroup)
-        parameterGroup = parameterGroupDecoded
     }
 }
 
@@ -5867,6 +5867,46 @@ extension UpdateSubnetGroupInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateSubnetGroupOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateSubnetGroupOutputBody = try responseDecoder.decode(responseBody: data)
+            self.subnetGroup = output.subnetGroup
+        } else {
+            self.subnetGroup = nil
+        }
+    }
+}
+
+public struct UpdateSubnetGroupOutput: Swift.Equatable {
+    /// The subnet group that has been modified.
+    public var subnetGroup: DAXClientTypes.SubnetGroup?
+
+    public init(
+        subnetGroup: DAXClientTypes.SubnetGroup? = nil
+    )
+    {
+        self.subnetGroup = subnetGroup
+    }
+}
+
+struct UpdateSubnetGroupOutputBody: Swift.Equatable {
+    let subnetGroup: DAXClientTypes.SubnetGroup?
+}
+
+extension UpdateSubnetGroupOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case subnetGroup = "SubnetGroup"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let subnetGroupDecoded = try containerValues.decodeIfPresent(DAXClientTypes.SubnetGroup.self, forKey: .subnetGroup)
+        subnetGroup = subnetGroupDecoded
+    }
+}
+
 enum UpdateSubnetGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -5879,45 +5919,5 @@ enum UpdateSubnetGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "SubnetQuotaExceededFault": return try await SubnetQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension UpdateSubnetGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: UpdateSubnetGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.subnetGroup = output.subnetGroup
-        } else {
-            self.subnetGroup = nil
-        }
-    }
-}
-
-public struct UpdateSubnetGroupOutputResponse: Swift.Equatable {
-    /// The subnet group that has been modified.
-    public var subnetGroup: DAXClientTypes.SubnetGroup?
-
-    public init(
-        subnetGroup: DAXClientTypes.SubnetGroup? = nil
-    )
-    {
-        self.subnetGroup = subnetGroup
-    }
-}
-
-struct UpdateSubnetGroupOutputResponseBody: Swift.Equatable {
-    let subnetGroup: DAXClientTypes.SubnetGroup?
-}
-
-extension UpdateSubnetGroupOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case subnetGroup = "SubnetGroup"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let subnetGroupDecoded = try containerValues.decodeIfPresent(DAXClientTypes.SubnetGroup.self, forKey: .subnetGroup)
-        subnetGroup = subnetGroupDecoded
     }
 }

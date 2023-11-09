@@ -71,7 +71,7 @@ extension MacieClient: MacieClientProtocol {
     ///
     /// - Parameter AssociateMemberAccountInput : [no documentation found]
     ///
-    /// - Returns: `AssociateMemberAccountOutputResponse` : [no documentation found]
+    /// - Returns: `AssociateMemberAccountOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -79,7 +79,7 @@ extension MacieClient: MacieClientProtocol {
     /// - `InternalException` : (Discontinued) Internal server error.
     /// - `InvalidInputException` : (Discontinued) The request was rejected because an invalid or out-of-range value was supplied for an input parameter.
     /// - `LimitExceededException` : (Discontinued) The request was rejected because it attempted to create resources beyond the current Amazon Web Services account quotas. The error code describes the quota exceeded.
-    public func associateMemberAccount(input: AssociateMemberAccountInput) async throws -> AssociateMemberAccountOutputResponse
+    public func associateMemberAccount(input: AssociateMemberAccountInput) async throws -> AssociateMemberAccountOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -95,21 +95,21 @@ extension MacieClient: MacieClientProtocol {
                       .withSigningName(value: "macie")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<AssociateMemberAccountInput, AssociateMemberAccountOutputResponse, AssociateMemberAccountOutputError>(id: "associateMemberAccount")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateMemberAccountInput, AssociateMemberAccountOutputResponse, AssociateMemberAccountOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateMemberAccountInput, AssociateMemberAccountOutputResponse>())
+        var operation = ClientRuntime.OperationStack<AssociateMemberAccountInput, AssociateMemberAccountOutput, AssociateMemberAccountOutputError>(id: "associateMemberAccount")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateMemberAccountInput, AssociateMemberAccountOutput, AssociateMemberAccountOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateMemberAccountInput, AssociateMemberAccountOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateMemberAccountOutputResponse, AssociateMemberAccountOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateMemberAccountOutput, AssociateMemberAccountOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<AssociateMemberAccountInput, AssociateMemberAccountOutputResponse>(xAmzTarget: "MacieService.AssociateMemberAccount"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AssociateMemberAccountInput, AssociateMemberAccountOutputResponse>(xmlName: "AssociateMemberAccountRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AssociateMemberAccountInput, AssociateMemberAccountOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<AssociateMemberAccountInput, AssociateMemberAccountOutput>(xAmzTarget: "MacieService.AssociateMemberAccount"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AssociateMemberAccountInput, AssociateMemberAccountOutput>(xmlName: "AssociateMemberAccountRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AssociateMemberAccountInput, AssociateMemberAccountOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AssociateMemberAccountOutputResponse, AssociateMemberAccountOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AssociateMemberAccountOutput, AssociateMemberAccountOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateMemberAccountOutputResponse, AssociateMemberAccountOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateMemberAccountOutputResponse, AssociateMemberAccountOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateMemberAccountOutputResponse, AssociateMemberAccountOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateMemberAccountOutput, AssociateMemberAccountOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateMemberAccountOutput, AssociateMemberAccountOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateMemberAccountOutput, AssociateMemberAccountOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -118,7 +118,7 @@ extension MacieClient: MacieClientProtocol {
     ///
     /// - Parameter AssociateS3ResourcesInput : [no documentation found]
     ///
-    /// - Returns: `AssociateS3ResourcesOutputResponse` : [no documentation found]
+    /// - Returns: `AssociateS3ResourcesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -127,7 +127,7 @@ extension MacieClient: MacieClientProtocol {
     /// - `InternalException` : (Discontinued) Internal server error.
     /// - `InvalidInputException` : (Discontinued) The request was rejected because an invalid or out-of-range value was supplied for an input parameter.
     /// - `LimitExceededException` : (Discontinued) The request was rejected because it attempted to create resources beyond the current Amazon Web Services account quotas. The error code describes the quota exceeded.
-    public func associateS3Resources(input: AssociateS3ResourcesInput) async throws -> AssociateS3ResourcesOutputResponse
+    public func associateS3Resources(input: AssociateS3ResourcesInput) async throws -> AssociateS3ResourcesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -143,21 +143,21 @@ extension MacieClient: MacieClientProtocol {
                       .withSigningName(value: "macie")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<AssociateS3ResourcesInput, AssociateS3ResourcesOutputResponse, AssociateS3ResourcesOutputError>(id: "associateS3Resources")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateS3ResourcesInput, AssociateS3ResourcesOutputResponse, AssociateS3ResourcesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateS3ResourcesInput, AssociateS3ResourcesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<AssociateS3ResourcesInput, AssociateS3ResourcesOutput, AssociateS3ResourcesOutputError>(id: "associateS3Resources")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateS3ResourcesInput, AssociateS3ResourcesOutput, AssociateS3ResourcesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateS3ResourcesInput, AssociateS3ResourcesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateS3ResourcesOutputResponse, AssociateS3ResourcesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateS3ResourcesOutput, AssociateS3ResourcesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<AssociateS3ResourcesInput, AssociateS3ResourcesOutputResponse>(xAmzTarget: "MacieService.AssociateS3Resources"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AssociateS3ResourcesInput, AssociateS3ResourcesOutputResponse>(xmlName: "AssociateS3ResourcesRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AssociateS3ResourcesInput, AssociateS3ResourcesOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<AssociateS3ResourcesInput, AssociateS3ResourcesOutput>(xAmzTarget: "MacieService.AssociateS3Resources"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AssociateS3ResourcesInput, AssociateS3ResourcesOutput>(xmlName: "AssociateS3ResourcesRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AssociateS3ResourcesInput, AssociateS3ResourcesOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AssociateS3ResourcesOutputResponse, AssociateS3ResourcesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AssociateS3ResourcesOutput, AssociateS3ResourcesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateS3ResourcesOutputResponse, AssociateS3ResourcesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateS3ResourcesOutputResponse, AssociateS3ResourcesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateS3ResourcesOutputResponse, AssociateS3ResourcesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateS3ResourcesOutput, AssociateS3ResourcesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateS3ResourcesOutput, AssociateS3ResourcesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateS3ResourcesOutput, AssociateS3ResourcesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -166,14 +166,14 @@ extension MacieClient: MacieClientProtocol {
     ///
     /// - Parameter DisassociateMemberAccountInput : [no documentation found]
     ///
-    /// - Returns: `DisassociateMemberAccountOutputResponse` : [no documentation found]
+    /// - Returns: `DisassociateMemberAccountOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalException` : (Discontinued) Internal server error.
     /// - `InvalidInputException` : (Discontinued) The request was rejected because an invalid or out-of-range value was supplied for an input parameter.
-    public func disassociateMemberAccount(input: DisassociateMemberAccountInput) async throws -> DisassociateMemberAccountOutputResponse
+    public func disassociateMemberAccount(input: DisassociateMemberAccountInput) async throws -> DisassociateMemberAccountOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -189,21 +189,21 @@ extension MacieClient: MacieClientProtocol {
                       .withSigningName(value: "macie")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DisassociateMemberAccountInput, DisassociateMemberAccountOutputResponse, DisassociateMemberAccountOutputError>(id: "disassociateMemberAccount")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateMemberAccountInput, DisassociateMemberAccountOutputResponse, DisassociateMemberAccountOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateMemberAccountInput, DisassociateMemberAccountOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DisassociateMemberAccountInput, DisassociateMemberAccountOutput, DisassociateMemberAccountOutputError>(id: "disassociateMemberAccount")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateMemberAccountInput, DisassociateMemberAccountOutput, DisassociateMemberAccountOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateMemberAccountInput, DisassociateMemberAccountOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociateMemberAccountOutputResponse, DisassociateMemberAccountOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociateMemberAccountOutput, DisassociateMemberAccountOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DisassociateMemberAccountInput, DisassociateMemberAccountOutputResponse>(xAmzTarget: "MacieService.DisassociateMemberAccount"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DisassociateMemberAccountInput, DisassociateMemberAccountOutputResponse>(xmlName: "DisassociateMemberAccountRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DisassociateMemberAccountInput, DisassociateMemberAccountOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DisassociateMemberAccountInput, DisassociateMemberAccountOutput>(xAmzTarget: "MacieService.DisassociateMemberAccount"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DisassociateMemberAccountInput, DisassociateMemberAccountOutput>(xmlName: "DisassociateMemberAccountRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DisassociateMemberAccountInput, DisassociateMemberAccountOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisassociateMemberAccountOutputResponse, DisassociateMemberAccountOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisassociateMemberAccountOutput, DisassociateMemberAccountOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateMemberAccountOutputResponse, DisassociateMemberAccountOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateMemberAccountOutputResponse, DisassociateMemberAccountOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateMemberAccountOutputResponse, DisassociateMemberAccountOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateMemberAccountOutput, DisassociateMemberAccountOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateMemberAccountOutput, DisassociateMemberAccountOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateMemberAccountOutput, DisassociateMemberAccountOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -212,7 +212,7 @@ extension MacieClient: MacieClientProtocol {
     ///
     /// - Parameter DisassociateS3ResourcesInput : [no documentation found]
     ///
-    /// - Returns: `DisassociateS3ResourcesOutputResponse` : [no documentation found]
+    /// - Returns: `DisassociateS3ResourcesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -220,7 +220,7 @@ extension MacieClient: MacieClientProtocol {
     /// - `AccessDeniedException` : (Discontinued) You do not have required permissions to access the requested resource.
     /// - `InternalException` : (Discontinued) Internal server error.
     /// - `InvalidInputException` : (Discontinued) The request was rejected because an invalid or out-of-range value was supplied for an input parameter.
-    public func disassociateS3Resources(input: DisassociateS3ResourcesInput) async throws -> DisassociateS3ResourcesOutputResponse
+    public func disassociateS3Resources(input: DisassociateS3ResourcesInput) async throws -> DisassociateS3ResourcesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -236,21 +236,21 @@ extension MacieClient: MacieClientProtocol {
                       .withSigningName(value: "macie")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DisassociateS3ResourcesInput, DisassociateS3ResourcesOutputResponse, DisassociateS3ResourcesOutputError>(id: "disassociateS3Resources")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateS3ResourcesInput, DisassociateS3ResourcesOutputResponse, DisassociateS3ResourcesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateS3ResourcesInput, DisassociateS3ResourcesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DisassociateS3ResourcesInput, DisassociateS3ResourcesOutput, DisassociateS3ResourcesOutputError>(id: "disassociateS3Resources")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateS3ResourcesInput, DisassociateS3ResourcesOutput, DisassociateS3ResourcesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateS3ResourcesInput, DisassociateS3ResourcesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociateS3ResourcesOutputResponse, DisassociateS3ResourcesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociateS3ResourcesOutput, DisassociateS3ResourcesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DisassociateS3ResourcesInput, DisassociateS3ResourcesOutputResponse>(xAmzTarget: "MacieService.DisassociateS3Resources"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DisassociateS3ResourcesInput, DisassociateS3ResourcesOutputResponse>(xmlName: "DisassociateS3ResourcesRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DisassociateS3ResourcesInput, DisassociateS3ResourcesOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DisassociateS3ResourcesInput, DisassociateS3ResourcesOutput>(xAmzTarget: "MacieService.DisassociateS3Resources"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DisassociateS3ResourcesInput, DisassociateS3ResourcesOutput>(xmlName: "DisassociateS3ResourcesRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DisassociateS3ResourcesInput, DisassociateS3ResourcesOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisassociateS3ResourcesOutputResponse, DisassociateS3ResourcesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisassociateS3ResourcesOutput, DisassociateS3ResourcesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateS3ResourcesOutputResponse, DisassociateS3ResourcesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateS3ResourcesOutputResponse, DisassociateS3ResourcesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateS3ResourcesOutputResponse, DisassociateS3ResourcesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateS3ResourcesOutput, DisassociateS3ResourcesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateS3ResourcesOutput, DisassociateS3ResourcesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateS3ResourcesOutput, DisassociateS3ResourcesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -259,14 +259,14 @@ extension MacieClient: MacieClientProtocol {
     ///
     /// - Parameter ListMemberAccountsInput : [no documentation found]
     ///
-    /// - Returns: `ListMemberAccountsOutputResponse` : [no documentation found]
+    /// - Returns: `ListMemberAccountsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalException` : (Discontinued) Internal server error.
     /// - `InvalidInputException` : (Discontinued) The request was rejected because an invalid or out-of-range value was supplied for an input parameter.
-    public func listMemberAccounts(input: ListMemberAccountsInput) async throws -> ListMemberAccountsOutputResponse
+    public func listMemberAccounts(input: ListMemberAccountsInput) async throws -> ListMemberAccountsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -282,21 +282,21 @@ extension MacieClient: MacieClientProtocol {
                       .withSigningName(value: "macie")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListMemberAccountsInput, ListMemberAccountsOutputResponse, ListMemberAccountsOutputError>(id: "listMemberAccounts")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListMemberAccountsInput, ListMemberAccountsOutputResponse, ListMemberAccountsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListMemberAccountsInput, ListMemberAccountsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListMemberAccountsInput, ListMemberAccountsOutput, ListMemberAccountsOutputError>(id: "listMemberAccounts")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListMemberAccountsInput, ListMemberAccountsOutput, ListMemberAccountsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListMemberAccountsInput, ListMemberAccountsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListMemberAccountsOutputResponse, ListMemberAccountsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListMemberAccountsOutput, ListMemberAccountsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListMemberAccountsInput, ListMemberAccountsOutputResponse>(xAmzTarget: "MacieService.ListMemberAccounts"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListMemberAccountsInput, ListMemberAccountsOutputResponse>(xmlName: "ListMemberAccountsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListMemberAccountsInput, ListMemberAccountsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListMemberAccountsInput, ListMemberAccountsOutput>(xAmzTarget: "MacieService.ListMemberAccounts"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListMemberAccountsInput, ListMemberAccountsOutput>(xmlName: "ListMemberAccountsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListMemberAccountsInput, ListMemberAccountsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListMemberAccountsOutputResponse, ListMemberAccountsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListMemberAccountsOutput, ListMemberAccountsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListMemberAccountsOutputResponse, ListMemberAccountsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListMemberAccountsOutputResponse, ListMemberAccountsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListMemberAccountsOutputResponse, ListMemberAccountsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListMemberAccountsOutput, ListMemberAccountsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListMemberAccountsOutput, ListMemberAccountsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListMemberAccountsOutput, ListMemberAccountsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -305,7 +305,7 @@ extension MacieClient: MacieClientProtocol {
     ///
     /// - Parameter ListS3ResourcesInput : [no documentation found]
     ///
-    /// - Returns: `ListS3ResourcesOutputResponse` : [no documentation found]
+    /// - Returns: `ListS3ResourcesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -313,7 +313,7 @@ extension MacieClient: MacieClientProtocol {
     /// - `AccessDeniedException` : (Discontinued) You do not have required permissions to access the requested resource.
     /// - `InternalException` : (Discontinued) Internal server error.
     /// - `InvalidInputException` : (Discontinued) The request was rejected because an invalid or out-of-range value was supplied for an input parameter.
-    public func listS3Resources(input: ListS3ResourcesInput) async throws -> ListS3ResourcesOutputResponse
+    public func listS3Resources(input: ListS3ResourcesInput) async throws -> ListS3ResourcesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -329,21 +329,21 @@ extension MacieClient: MacieClientProtocol {
                       .withSigningName(value: "macie")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListS3ResourcesInput, ListS3ResourcesOutputResponse, ListS3ResourcesOutputError>(id: "listS3Resources")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListS3ResourcesInput, ListS3ResourcesOutputResponse, ListS3ResourcesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListS3ResourcesInput, ListS3ResourcesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListS3ResourcesInput, ListS3ResourcesOutput, ListS3ResourcesOutputError>(id: "listS3Resources")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListS3ResourcesInput, ListS3ResourcesOutput, ListS3ResourcesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListS3ResourcesInput, ListS3ResourcesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListS3ResourcesOutputResponse, ListS3ResourcesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListS3ResourcesOutput, ListS3ResourcesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListS3ResourcesInput, ListS3ResourcesOutputResponse>(xAmzTarget: "MacieService.ListS3Resources"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListS3ResourcesInput, ListS3ResourcesOutputResponse>(xmlName: "ListS3ResourcesRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListS3ResourcesInput, ListS3ResourcesOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListS3ResourcesInput, ListS3ResourcesOutput>(xAmzTarget: "MacieService.ListS3Resources"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListS3ResourcesInput, ListS3ResourcesOutput>(xmlName: "ListS3ResourcesRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListS3ResourcesInput, ListS3ResourcesOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListS3ResourcesOutputResponse, ListS3ResourcesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListS3ResourcesOutput, ListS3ResourcesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListS3ResourcesOutputResponse, ListS3ResourcesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListS3ResourcesOutputResponse, ListS3ResourcesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListS3ResourcesOutputResponse, ListS3ResourcesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListS3ResourcesOutput, ListS3ResourcesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListS3ResourcesOutput, ListS3ResourcesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListS3ResourcesOutput, ListS3ResourcesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -352,7 +352,7 @@ extension MacieClient: MacieClientProtocol {
     ///
     /// - Parameter UpdateS3ResourcesInput : [no documentation found]
     ///
-    /// - Returns: `UpdateS3ResourcesOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateS3ResourcesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -360,7 +360,7 @@ extension MacieClient: MacieClientProtocol {
     /// - `AccessDeniedException` : (Discontinued) You do not have required permissions to access the requested resource.
     /// - `InternalException` : (Discontinued) Internal server error.
     /// - `InvalidInputException` : (Discontinued) The request was rejected because an invalid or out-of-range value was supplied for an input parameter.
-    public func updateS3Resources(input: UpdateS3ResourcesInput) async throws -> UpdateS3ResourcesOutputResponse
+    public func updateS3Resources(input: UpdateS3ResourcesInput) async throws -> UpdateS3ResourcesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -376,21 +376,21 @@ extension MacieClient: MacieClientProtocol {
                       .withSigningName(value: "macie")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateS3ResourcesInput, UpdateS3ResourcesOutputResponse, UpdateS3ResourcesOutputError>(id: "updateS3Resources")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateS3ResourcesInput, UpdateS3ResourcesOutputResponse, UpdateS3ResourcesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateS3ResourcesInput, UpdateS3ResourcesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateS3ResourcesInput, UpdateS3ResourcesOutput, UpdateS3ResourcesOutputError>(id: "updateS3Resources")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateS3ResourcesInput, UpdateS3ResourcesOutput, UpdateS3ResourcesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateS3ResourcesInput, UpdateS3ResourcesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateS3ResourcesOutputResponse, UpdateS3ResourcesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateS3ResourcesOutput, UpdateS3ResourcesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateS3ResourcesInput, UpdateS3ResourcesOutputResponse>(xAmzTarget: "MacieService.UpdateS3Resources"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateS3ResourcesInput, UpdateS3ResourcesOutputResponse>(xmlName: "UpdateS3ResourcesRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateS3ResourcesInput, UpdateS3ResourcesOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateS3ResourcesInput, UpdateS3ResourcesOutput>(xAmzTarget: "MacieService.UpdateS3Resources"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateS3ResourcesInput, UpdateS3ResourcesOutput>(xmlName: "UpdateS3ResourcesRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateS3ResourcesInput, UpdateS3ResourcesOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateS3ResourcesOutputResponse, UpdateS3ResourcesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateS3ResourcesOutput, UpdateS3ResourcesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateS3ResourcesOutputResponse, UpdateS3ResourcesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateS3ResourcesOutputResponse, UpdateS3ResourcesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateS3ResourcesOutputResponse, UpdateS3ResourcesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateS3ResourcesOutput, UpdateS3ResourcesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateS3ResourcesOutput, UpdateS3ResourcesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateS3ResourcesOutput, UpdateS3ResourcesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

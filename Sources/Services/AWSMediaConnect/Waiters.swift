@@ -4,9 +4,9 @@ import ClientRuntime
 
 extension MediaConnectClientProtocol {
 
-    static func flowActiveWaiterConfig() throws -> WaiterConfiguration<DescribeFlowInput, DescribeFlowOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeFlowInput, DescribeFlowOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeFlowInput, result: Result<DescribeFlowOutputResponse, Error>) -> Bool in
+    static func flowActiveWaiterConfig() throws -> WaiterConfiguration<DescribeFlowInput, DescribeFlowOutput> {
+        let acceptors: [WaiterConfiguration<DescribeFlowInput, DescribeFlowOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeFlowInput, result: Result<DescribeFlowOutput, Error>) -> Bool in
                 // JMESPath expression: "Flow.Status"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "ACTIVE"
@@ -15,7 +15,7 @@ extension MediaConnectClientProtocol {
                 let status = flow?.status
                 return JMESUtils.compare(status, ==, "ACTIVE")
             }),
-            .init(state: .retry, matcher: { (input: DescribeFlowInput, result: Result<DescribeFlowOutputResponse, Error>) -> Bool in
+            .init(state: .retry, matcher: { (input: DescribeFlowInput, result: Result<DescribeFlowOutput, Error>) -> Bool in
                 // JMESPath expression: "Flow.Status"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "STARTING"
@@ -24,7 +24,7 @@ extension MediaConnectClientProtocol {
                 let status = flow?.status
                 return JMESUtils.compare(status, ==, "STARTING")
             }),
-            .init(state: .retry, matcher: { (input: DescribeFlowInput, result: Result<DescribeFlowOutputResponse, Error>) -> Bool in
+            .init(state: .retry, matcher: { (input: DescribeFlowInput, result: Result<DescribeFlowOutput, Error>) -> Bool in
                 // JMESPath expression: "Flow.Status"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "UPDATING"
@@ -33,15 +33,15 @@ extension MediaConnectClientProtocol {
                 let status = flow?.status
                 return JMESUtils.compare(status, ==, "UPDATING")
             }),
-            .init(state: .retry, matcher: { (input: DescribeFlowInput, result: Result<DescribeFlowOutputResponse, Error>) -> Bool in
+            .init(state: .retry, matcher: { (input: DescribeFlowInput, result: Result<DescribeFlowOutput, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
                 return (error as? ServiceError)?.typeName == "InternalServerErrorException"
             }),
-            .init(state: .retry, matcher: { (input: DescribeFlowInput, result: Result<DescribeFlowOutputResponse, Error>) -> Bool in
+            .init(state: .retry, matcher: { (input: DescribeFlowInput, result: Result<DescribeFlowOutput, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
                 return (error as? ServiceError)?.typeName == "ServiceUnavailableException"
             }),
-            .init(state: .failure, matcher: { (input: DescribeFlowInput, result: Result<DescribeFlowOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeFlowInput, result: Result<DescribeFlowOutput, Error>) -> Bool in
                 // JMESPath expression: "Flow.Status"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "ERROR"
@@ -51,7 +51,7 @@ extension MediaConnectClientProtocol {
                 return JMESUtils.compare(status, ==, "ERROR")
             }),
         ]
-        return try WaiterConfiguration<DescribeFlowInput, DescribeFlowOutputResponse>(acceptors: acceptors, minDelay: 3.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeFlowInput, DescribeFlowOutput>(acceptors: acceptors, minDelay: 3.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the FlowActive event on the describeFlow operation.
@@ -65,18 +65,18 @@ extension MediaConnectClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilFlowActive(options: WaiterOptions, input: DescribeFlowInput) async throws -> WaiterOutcome<DescribeFlowOutputResponse> {
+    public func waitUntilFlowActive(options: WaiterOptions, input: DescribeFlowInput) async throws -> WaiterOutcome<DescribeFlowOutput> {
         let waiter = Waiter(config: try Self.flowActiveWaiterConfig(), operation: self.describeFlow(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func flowDeletedWaiterConfig() throws -> WaiterConfiguration<DescribeFlowInput, DescribeFlowOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeFlowInput, DescribeFlowOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeFlowInput, result: Result<DescribeFlowOutputResponse, Error>) -> Bool in
+    static func flowDeletedWaiterConfig() throws -> WaiterConfiguration<DescribeFlowInput, DescribeFlowOutput> {
+        let acceptors: [WaiterConfiguration<DescribeFlowInput, DescribeFlowOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeFlowInput, result: Result<DescribeFlowOutput, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
                 return (error as? ServiceError)?.typeName == "NotFoundException"
             }),
-            .init(state: .retry, matcher: { (input: DescribeFlowInput, result: Result<DescribeFlowOutputResponse, Error>) -> Bool in
+            .init(state: .retry, matcher: { (input: DescribeFlowInput, result: Result<DescribeFlowOutput, Error>) -> Bool in
                 // JMESPath expression: "Flow.Status"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "DELETING"
@@ -85,15 +85,15 @@ extension MediaConnectClientProtocol {
                 let status = flow?.status
                 return JMESUtils.compare(status, ==, "DELETING")
             }),
-            .init(state: .retry, matcher: { (input: DescribeFlowInput, result: Result<DescribeFlowOutputResponse, Error>) -> Bool in
+            .init(state: .retry, matcher: { (input: DescribeFlowInput, result: Result<DescribeFlowOutput, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
                 return (error as? ServiceError)?.typeName == "InternalServerErrorException"
             }),
-            .init(state: .retry, matcher: { (input: DescribeFlowInput, result: Result<DescribeFlowOutputResponse, Error>) -> Bool in
+            .init(state: .retry, matcher: { (input: DescribeFlowInput, result: Result<DescribeFlowOutput, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
                 return (error as? ServiceError)?.typeName == "ServiceUnavailableException"
             }),
-            .init(state: .failure, matcher: { (input: DescribeFlowInput, result: Result<DescribeFlowOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeFlowInput, result: Result<DescribeFlowOutput, Error>) -> Bool in
                 // JMESPath expression: "Flow.Status"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "ERROR"
@@ -103,7 +103,7 @@ extension MediaConnectClientProtocol {
                 return JMESUtils.compare(status, ==, "ERROR")
             }),
         ]
-        return try WaiterConfiguration<DescribeFlowInput, DescribeFlowOutputResponse>(acceptors: acceptors, minDelay: 3.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeFlowInput, DescribeFlowOutput>(acceptors: acceptors, minDelay: 3.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the FlowDeleted event on the describeFlow operation.
@@ -117,14 +117,14 @@ extension MediaConnectClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilFlowDeleted(options: WaiterOptions, input: DescribeFlowInput) async throws -> WaiterOutcome<DescribeFlowOutputResponse> {
+    public func waitUntilFlowDeleted(options: WaiterOptions, input: DescribeFlowInput) async throws -> WaiterOutcome<DescribeFlowOutput> {
         let waiter = Waiter(config: try Self.flowDeletedWaiterConfig(), operation: self.describeFlow(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
 
-    static func flowStandbyWaiterConfig() throws -> WaiterConfiguration<DescribeFlowInput, DescribeFlowOutputResponse> {
-        let acceptors: [WaiterConfiguration<DescribeFlowInput, DescribeFlowOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: DescribeFlowInput, result: Result<DescribeFlowOutputResponse, Error>) -> Bool in
+    static func flowStandbyWaiterConfig() throws -> WaiterConfiguration<DescribeFlowInput, DescribeFlowOutput> {
+        let acceptors: [WaiterConfiguration<DescribeFlowInput, DescribeFlowOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeFlowInput, result: Result<DescribeFlowOutput, Error>) -> Bool in
                 // JMESPath expression: "Flow.Status"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "STANDBY"
@@ -133,7 +133,7 @@ extension MediaConnectClientProtocol {
                 let status = flow?.status
                 return JMESUtils.compare(status, ==, "STANDBY")
             }),
-            .init(state: .retry, matcher: { (input: DescribeFlowInput, result: Result<DescribeFlowOutputResponse, Error>) -> Bool in
+            .init(state: .retry, matcher: { (input: DescribeFlowInput, result: Result<DescribeFlowOutput, Error>) -> Bool in
                 // JMESPath expression: "Flow.Status"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "STOPPING"
@@ -142,15 +142,15 @@ extension MediaConnectClientProtocol {
                 let status = flow?.status
                 return JMESUtils.compare(status, ==, "STOPPING")
             }),
-            .init(state: .retry, matcher: { (input: DescribeFlowInput, result: Result<DescribeFlowOutputResponse, Error>) -> Bool in
+            .init(state: .retry, matcher: { (input: DescribeFlowInput, result: Result<DescribeFlowOutput, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
                 return (error as? ServiceError)?.typeName == "InternalServerErrorException"
             }),
-            .init(state: .retry, matcher: { (input: DescribeFlowInput, result: Result<DescribeFlowOutputResponse, Error>) -> Bool in
+            .init(state: .retry, matcher: { (input: DescribeFlowInput, result: Result<DescribeFlowOutput, Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
                 return (error as? ServiceError)?.typeName == "ServiceUnavailableException"
             }),
-            .init(state: .failure, matcher: { (input: DescribeFlowInput, result: Result<DescribeFlowOutputResponse, Error>) -> Bool in
+            .init(state: .failure, matcher: { (input: DescribeFlowInput, result: Result<DescribeFlowOutput, Error>) -> Bool in
                 // JMESPath expression: "Flow.Status"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "ERROR"
@@ -160,7 +160,7 @@ extension MediaConnectClientProtocol {
                 return JMESUtils.compare(status, ==, "ERROR")
             }),
         ]
-        return try WaiterConfiguration<DescribeFlowInput, DescribeFlowOutputResponse>(acceptors: acceptors, minDelay: 3.0, maxDelay: 120.0)
+        return try WaiterConfiguration<DescribeFlowInput, DescribeFlowOutput>(acceptors: acceptors, minDelay: 3.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the FlowStandby event on the describeFlow operation.
@@ -174,7 +174,7 @@ extension MediaConnectClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilFlowStandby(options: WaiterOptions, input: DescribeFlowInput) async throws -> WaiterOutcome<DescribeFlowOutputResponse> {
+    public func waitUntilFlowStandby(options: WaiterOptions, input: DescribeFlowInput) async throws -> WaiterOutcome<DescribeFlowOutput> {
         let waiter = Waiter(config: try Self.flowStandbyWaiterConfig(), operation: self.describeFlow(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }

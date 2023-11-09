@@ -45,7 +45,7 @@ public protocol ProtonClientProtocol {
     ///
     /// - Parameter AcceptEnvironmentAccountConnectionInput : [no documentation found]
     ///
-    /// - Returns: `AcceptEnvironmentAccountConnectionOutputResponse` : [no documentation found]
+    /// - Returns: `AcceptEnvironmentAccountConnectionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -56,12 +56,12 @@ public protocol ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    func acceptEnvironmentAccountConnection(input: AcceptEnvironmentAccountConnectionInput) async throws -> AcceptEnvironmentAccountConnectionOutputResponse
+    func acceptEnvironmentAccountConnection(input: AcceptEnvironmentAccountConnectionInput) async throws -> AcceptEnvironmentAccountConnectionOutput
     /// Attempts to cancel a component deployment (for a component that is in the IN_PROGRESS deployment status). For more information about components, see [Proton components](https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html) in the Proton User Guide.
     ///
     /// - Parameter CancelComponentDeploymentInput : [no documentation found]
     ///
-    /// - Returns: `CancelComponentDeploymentOutputResponse` : [no documentation found]
+    /// - Returns: `CancelComponentDeploymentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -72,7 +72,7 @@ public protocol ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    func cancelComponentDeployment(input: CancelComponentDeploymentInput) async throws -> CancelComponentDeploymentOutputResponse
+    func cancelComponentDeployment(input: CancelComponentDeploymentInput) async throws -> CancelComponentDeploymentOutput
     /// Attempts to cancel an environment deployment on an [UpdateEnvironment] action, if the deployment is IN_PROGRESS. For more information, see [Update an environment](https://docs.aws.amazon.com/proton/latest/userguide/ag-env-update.html) in the Proton User guide. The following list includes potential cancellation scenarios.
     ///
     /// * If the cancellation attempt succeeds, the resulting deployment state is CANCELLED.
@@ -83,7 +83,7 @@ public protocol ProtonClientProtocol {
     ///
     /// - Parameter CancelEnvironmentDeploymentInput : [no documentation found]
     ///
-    /// - Returns: `CancelEnvironmentDeploymentOutputResponse` : [no documentation found]
+    /// - Returns: `CancelEnvironmentDeploymentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -94,7 +94,7 @@ public protocol ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    func cancelEnvironmentDeployment(input: CancelEnvironmentDeploymentInput) async throws -> CancelEnvironmentDeploymentOutputResponse
+    func cancelEnvironmentDeployment(input: CancelEnvironmentDeploymentInput) async throws -> CancelEnvironmentDeploymentOutput
     /// Attempts to cancel a service instance deployment on an [UpdateServiceInstance] action, if the deployment is IN_PROGRESS. For more information, see [Update a service instance](https://docs.aws.amazon.com/proton/latest/userguide/ag-svc-instance-update.html) in the Proton User guide. The following list includes potential cancellation scenarios.
     ///
     /// * If the cancellation attempt succeeds, the resulting deployment state is CANCELLED.
@@ -105,7 +105,7 @@ public protocol ProtonClientProtocol {
     ///
     /// - Parameter CancelServiceInstanceDeploymentInput : [no documentation found]
     ///
-    /// - Returns: `CancelServiceInstanceDeploymentOutputResponse` : [no documentation found]
+    /// - Returns: `CancelServiceInstanceDeploymentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -116,7 +116,7 @@ public protocol ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    func cancelServiceInstanceDeployment(input: CancelServiceInstanceDeploymentInput) async throws -> CancelServiceInstanceDeploymentOutputResponse
+    func cancelServiceInstanceDeployment(input: CancelServiceInstanceDeploymentInput) async throws -> CancelServiceInstanceDeploymentOutput
     /// Attempts to cancel a service pipeline deployment on an [UpdateServicePipeline] action, if the deployment is IN_PROGRESS. For more information, see [Update a service pipeline](https://docs.aws.amazon.com/proton/latest/userguide/ag-svc-pipeline-update.html) in the Proton User guide. The following list includes potential cancellation scenarios.
     ///
     /// * If the cancellation attempt succeeds, the resulting deployment state is CANCELLED.
@@ -127,7 +127,7 @@ public protocol ProtonClientProtocol {
     ///
     /// - Parameter CancelServicePipelineDeploymentInput : [no documentation found]
     ///
-    /// - Returns: `CancelServicePipelineDeploymentOutputResponse` : [no documentation found]
+    /// - Returns: `CancelServicePipelineDeploymentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -138,12 +138,12 @@ public protocol ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    func cancelServicePipelineDeployment(input: CancelServicePipelineDeploymentInput) async throws -> CancelServicePipelineDeploymentOutputResponse
+    func cancelServicePipelineDeployment(input: CancelServicePipelineDeploymentInput) async throws -> CancelServicePipelineDeploymentOutput
     /// Create an Proton component. A component is an infrastructure extension for a service instance. For more information about components, see [Proton components](https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html) in the Proton User Guide.
     ///
     /// - Parameter CreateComponentInput : [no documentation found]
     ///
-    /// - Returns: `CreateComponentOutputResponse` : [no documentation found]
+    /// - Returns: `CreateComponentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -155,7 +155,7 @@ public protocol ProtonClientProtocol {
     /// - `ServiceQuotaExceededException` : A quota was exceeded. For more information, see [Proton Quotas](https://docs.aws.amazon.com/proton/latest/userguide/ag-limits.html) in the Proton User Guide.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    func createComponent(input: CreateComponentInput) async throws -> CreateComponentOutputResponse
+    func createComponent(input: CreateComponentInput) async throws -> CreateComponentOutput
     /// Deploy a new environment. An Proton environment is created from an environment template that defines infrastructure and resources that can be shared across services. You can provision environments using the following methods:
     ///
     /// * Amazon Web Services-managed provisioning: Proton makes direct calls to provision your resources.
@@ -167,7 +167,7 @@ public protocol ProtonClientProtocol {
     ///
     /// - Parameter CreateEnvironmentInput : [no documentation found]
     ///
-    /// - Returns: `CreateEnvironmentOutputResponse` : [no documentation found]
+    /// - Returns: `CreateEnvironmentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -179,12 +179,12 @@ public protocol ProtonClientProtocol {
     /// - `ServiceQuotaExceededException` : A quota was exceeded. For more information, see [Proton Quotas](https://docs.aws.amazon.com/proton/latest/userguide/ag-limits.html) in the Proton User Guide.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    func createEnvironment(input: CreateEnvironmentInput) async throws -> CreateEnvironmentOutputResponse
+    func createEnvironment(input: CreateEnvironmentInput) async throws -> CreateEnvironmentOutput
     /// Create an environment account connection in an environment account so that environment infrastructure resources can be provisioned in the environment account from a management account. An environment account connection is a secure bi-directional connection between a management account and an environment account that maintains authorization and permissions. For more information, see [Environment account connections](https://docs.aws.amazon.com/proton/latest/userguide/ag-env-account-connections.html) in the Proton User guide.
     ///
     /// - Parameter CreateEnvironmentAccountConnectionInput : [no documentation found]
     ///
-    /// - Returns: `CreateEnvironmentAccountConnectionOutputResponse` : [no documentation found]
+    /// - Returns: `CreateEnvironmentAccountConnectionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -195,7 +195,7 @@ public protocol ProtonClientProtocol {
     /// - `ServiceQuotaExceededException` : A quota was exceeded. For more information, see [Proton Quotas](https://docs.aws.amazon.com/proton/latest/userguide/ag-limits.html) in the Proton User Guide.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    func createEnvironmentAccountConnection(input: CreateEnvironmentAccountConnectionInput) async throws -> CreateEnvironmentAccountConnectionOutputResponse
+    func createEnvironmentAccountConnection(input: CreateEnvironmentAccountConnectionInput) async throws -> CreateEnvironmentAccountConnectionOutput
     /// Create an environment template for Proton. For more information, see [Environment Templates](https://docs.aws.amazon.com/proton/latest/userguide/ag-templates.html) in the Proton User Guide. You can create an environment template in one of the two following ways:
     ///
     /// * Register and publish a standard environment template that instructs Proton to deploy and manage environment infrastructure.
@@ -204,7 +204,7 @@ public protocol ProtonClientProtocol {
     ///
     /// - Parameter CreateEnvironmentTemplateInput : [no documentation found]
     ///
-    /// - Returns: `CreateEnvironmentTemplateOutputResponse` : [no documentation found]
+    /// - Returns: `CreateEnvironmentTemplateOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -215,12 +215,12 @@ public protocol ProtonClientProtocol {
     /// - `ServiceQuotaExceededException` : A quota was exceeded. For more information, see [Proton Quotas](https://docs.aws.amazon.com/proton/latest/userguide/ag-limits.html) in the Proton User Guide.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    func createEnvironmentTemplate(input: CreateEnvironmentTemplateInput) async throws -> CreateEnvironmentTemplateOutputResponse
+    func createEnvironmentTemplate(input: CreateEnvironmentTemplateInput) async throws -> CreateEnvironmentTemplateOutput
     /// Create a new major or minor version of an environment template. A major version of an environment template is a version that isn't backwards compatible. A minor version of an environment template is a version that's backwards compatible within its major version.
     ///
     /// - Parameter CreateEnvironmentTemplateVersionInput : [no documentation found]
     ///
-    /// - Returns: `CreateEnvironmentTemplateVersionOutputResponse` : [no documentation found]
+    /// - Returns: `CreateEnvironmentTemplateVersionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -232,12 +232,12 @@ public protocol ProtonClientProtocol {
     /// - `ServiceQuotaExceededException` : A quota was exceeded. For more information, see [Proton Quotas](https://docs.aws.amazon.com/proton/latest/userguide/ag-limits.html) in the Proton User Guide.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    func createEnvironmentTemplateVersion(input: CreateEnvironmentTemplateVersionInput) async throws -> CreateEnvironmentTemplateVersionOutputResponse
+    func createEnvironmentTemplateVersion(input: CreateEnvironmentTemplateVersionInput) async throws -> CreateEnvironmentTemplateVersionOutput
     /// Create and register a link to a repository. Proton uses the link to repeatedly access the repository, to either push to it (self-managed provisioning) or pull from it (template sync). You can share a linked repository across multiple resources (like environments using self-managed provisioning, or synced templates). When you create a repository link, Proton creates a [service-linked role](https://docs.aws.amazon.com/proton/latest/userguide/using-service-linked-roles.html) for you. For more information, see [Self-managed provisioning](https://docs.aws.amazon.com/proton/latest/userguide/ag-works-prov-methods.html#ag-works-prov-methods-self), [Template bundles](https://docs.aws.amazon.com/proton/latest/userguide/ag-template-authoring.html#ag-template-bundles), and [Template sync configurations](https://docs.aws.amazon.com/proton/latest/userguide/ag-template-sync-configs.html) in the Proton User Guide.
     ///
     /// - Parameter CreateRepositoryInput : [no documentation found]
     ///
-    /// - Returns: `CreateRepositoryOutputResponse` : [no documentation found]
+    /// - Returns: `CreateRepositoryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -248,12 +248,12 @@ public protocol ProtonClientProtocol {
     /// - `ServiceQuotaExceededException` : A quota was exceeded. For more information, see [Proton Quotas](https://docs.aws.amazon.com/proton/latest/userguide/ag-limits.html) in the Proton User Guide.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    func createRepository(input: CreateRepositoryInput) async throws -> CreateRepositoryOutputResponse
+    func createRepository(input: CreateRepositoryInput) async throws -> CreateRepositoryOutput
     /// Create an Proton service. An Proton service is an instantiation of a service template and often includes several service instances and pipeline. For more information, see [Services](https://docs.aws.amazon.com/proton/latest/userguide/ag-services.html) in the Proton User Guide.
     ///
     /// - Parameter CreateServiceInput : [no documentation found]
     ///
-    /// - Returns: `CreateServiceOutputResponse` : [no documentation found]
+    /// - Returns: `CreateServiceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -265,12 +265,12 @@ public protocol ProtonClientProtocol {
     /// - `ServiceQuotaExceededException` : A quota was exceeded. For more information, see [Proton Quotas](https://docs.aws.amazon.com/proton/latest/userguide/ag-limits.html) in the Proton User Guide.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    func createService(input: CreateServiceInput) async throws -> CreateServiceOutputResponse
+    func createService(input: CreateServiceInput) async throws -> CreateServiceOutput
     /// Create a service instance.
     ///
     /// - Parameter CreateServiceInstanceInput : [no documentation found]
     ///
-    /// - Returns: `CreateServiceInstanceOutputResponse` : [no documentation found]
+    /// - Returns: `CreateServiceInstanceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -281,12 +281,12 @@ public protocol ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    func createServiceInstance(input: CreateServiceInstanceInput) async throws -> CreateServiceInstanceOutputResponse
+    func createServiceInstance(input: CreateServiceInstanceInput) async throws -> CreateServiceInstanceOutput
     /// Create the Proton Ops configuration file.
     ///
     /// - Parameter CreateServiceSyncConfigInput : [no documentation found]
     ///
-    /// - Returns: `CreateServiceSyncConfigOutputResponse` : [no documentation found]
+    /// - Returns: `CreateServiceSyncConfigOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -297,12 +297,12 @@ public protocol ProtonClientProtocol {
     /// - `ServiceQuotaExceededException` : A quota was exceeded. For more information, see [Proton Quotas](https://docs.aws.amazon.com/proton/latest/userguide/ag-limits.html) in the Proton User Guide.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    func createServiceSyncConfig(input: CreateServiceSyncConfigInput) async throws -> CreateServiceSyncConfigOutputResponse
+    func createServiceSyncConfig(input: CreateServiceSyncConfigInput) async throws -> CreateServiceSyncConfigOutput
     /// Create a service template. The administrator creates a service template to define standardized infrastructure and an optional CI/CD service pipeline. Developers, in turn, select the service template from Proton. If the selected service template includes a service pipeline definition, they provide a link to their source code repository. Proton then deploys and manages the infrastructure defined by the selected service template. For more information, see [Proton templates](https://docs.aws.amazon.com/proton/latest/userguide/ag-templates.html) in the Proton User Guide.
     ///
     /// - Parameter CreateServiceTemplateInput : [no documentation found]
     ///
-    /// - Returns: `CreateServiceTemplateOutputResponse` : [no documentation found]
+    /// - Returns: `CreateServiceTemplateOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -313,12 +313,12 @@ public protocol ProtonClientProtocol {
     /// - `ServiceQuotaExceededException` : A quota was exceeded. For more information, see [Proton Quotas](https://docs.aws.amazon.com/proton/latest/userguide/ag-limits.html) in the Proton User Guide.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    func createServiceTemplate(input: CreateServiceTemplateInput) async throws -> CreateServiceTemplateOutputResponse
+    func createServiceTemplate(input: CreateServiceTemplateInput) async throws -> CreateServiceTemplateOutput
     /// Create a new major or minor version of a service template. A major version of a service template is a version that isn't backward compatible. A minor version of a service template is a version that's backward compatible within its major version.
     ///
     /// - Parameter CreateServiceTemplateVersionInput : [no documentation found]
     ///
-    /// - Returns: `CreateServiceTemplateVersionOutputResponse` : [no documentation found]
+    /// - Returns: `CreateServiceTemplateVersionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -330,12 +330,12 @@ public protocol ProtonClientProtocol {
     /// - `ServiceQuotaExceededException` : A quota was exceeded. For more information, see [Proton Quotas](https://docs.aws.amazon.com/proton/latest/userguide/ag-limits.html) in the Proton User Guide.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    func createServiceTemplateVersion(input: CreateServiceTemplateVersionInput) async throws -> CreateServiceTemplateVersionOutputResponse
+    func createServiceTemplateVersion(input: CreateServiceTemplateVersionInput) async throws -> CreateServiceTemplateVersionOutput
     /// Set up a template to create new template versions automatically by tracking a linked repository. A linked repository is a repository that has been registered with Proton. For more information, see [CreateRepository]. When a commit is pushed to your linked repository, Proton checks for changes to your repository template bundles. If it detects a template bundle change, a new major or minor version of its template is created, if the version doesn’t already exist. For more information, see [Template sync configurations](https://docs.aws.amazon.com/proton/latest/userguide/ag-template-sync-configs.html) in the Proton User Guide.
     ///
     /// - Parameter CreateTemplateSyncConfigInput : [no documentation found]
     ///
-    /// - Returns: `CreateTemplateSyncConfigOutputResponse` : [no documentation found]
+    /// - Returns: `CreateTemplateSyncConfigOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -346,12 +346,12 @@ public protocol ProtonClientProtocol {
     /// - `ServiceQuotaExceededException` : A quota was exceeded. For more information, see [Proton Quotas](https://docs.aws.amazon.com/proton/latest/userguide/ag-limits.html) in the Proton User Guide.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    func createTemplateSyncConfig(input: CreateTemplateSyncConfigInput) async throws -> CreateTemplateSyncConfigOutputResponse
+    func createTemplateSyncConfig(input: CreateTemplateSyncConfigInput) async throws -> CreateTemplateSyncConfigOutput
     /// Delete an Proton component resource. For more information about components, see [Proton components](https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html) in the Proton User Guide.
     ///
     /// - Parameter DeleteComponentInput : [no documentation found]
     ///
-    /// - Returns: `DeleteComponentOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteComponentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -362,12 +362,12 @@ public protocol ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    func deleteComponent(input: DeleteComponentInput) async throws -> DeleteComponentOutputResponse
+    func deleteComponent(input: DeleteComponentInput) async throws -> DeleteComponentOutput
     /// Delete the deployment.
     ///
     /// - Parameter DeleteDeploymentInput : [no documentation found]
     ///
-    /// - Returns: `DeleteDeploymentOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteDeploymentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -377,12 +377,12 @@ public protocol ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    func deleteDeployment(input: DeleteDeploymentInput) async throws -> DeleteDeploymentOutputResponse
+    func deleteDeployment(input: DeleteDeploymentInput) async throws -> DeleteDeploymentOutput
     /// Delete an environment.
     ///
     /// - Parameter DeleteEnvironmentInput : [no documentation found]
     ///
-    /// - Returns: `DeleteEnvironmentOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteEnvironmentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -393,12 +393,12 @@ public protocol ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    func deleteEnvironment(input: DeleteEnvironmentInput) async throws -> DeleteEnvironmentOutputResponse
+    func deleteEnvironment(input: DeleteEnvironmentInput) async throws -> DeleteEnvironmentOutput
     /// In an environment account, delete an environment account connection. After you delete an environment account connection that’s in use by an Proton environment, Proton can’t manage the environment infrastructure resources until a new environment account connection is accepted for the environment account and associated environment. You're responsible for cleaning up provisioned resources that remain without an environment connection. For more information, see [Environment account connections](https://docs.aws.amazon.com/proton/latest/userguide/ag-env-account-connections.html) in the Proton User guide.
     ///
     /// - Parameter DeleteEnvironmentAccountConnectionInput : [no documentation found]
     ///
-    /// - Returns: `DeleteEnvironmentAccountConnectionOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteEnvironmentAccountConnectionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -409,12 +409,12 @@ public protocol ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    func deleteEnvironmentAccountConnection(input: DeleteEnvironmentAccountConnectionInput) async throws -> DeleteEnvironmentAccountConnectionOutputResponse
+    func deleteEnvironmentAccountConnection(input: DeleteEnvironmentAccountConnectionInput) async throws -> DeleteEnvironmentAccountConnectionOutput
     /// If no other major or minor versions of an environment template exist, delete the environment template.
     ///
     /// - Parameter DeleteEnvironmentTemplateInput : [no documentation found]
     ///
-    /// - Returns: `DeleteEnvironmentTemplateOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteEnvironmentTemplateOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -425,12 +425,12 @@ public protocol ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    func deleteEnvironmentTemplate(input: DeleteEnvironmentTemplateInput) async throws -> DeleteEnvironmentTemplateOutputResponse
+    func deleteEnvironmentTemplate(input: DeleteEnvironmentTemplateInput) async throws -> DeleteEnvironmentTemplateOutput
     /// If no other minor versions of an environment template exist, delete a major version of the environment template if it's not the Recommended version. Delete the Recommended version of the environment template if no other major versions or minor versions of the environment template exist. A major version of an environment template is a version that's not backward compatible. Delete a minor version of an environment template if it isn't the Recommended version. Delete a Recommended minor version of the environment template if no other minor versions of the environment template exist. A minor version of an environment template is a version that's backward compatible.
     ///
     /// - Parameter DeleteEnvironmentTemplateVersionInput : [no documentation found]
     ///
-    /// - Returns: `DeleteEnvironmentTemplateVersionOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteEnvironmentTemplateVersionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -441,12 +441,12 @@ public protocol ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    func deleteEnvironmentTemplateVersion(input: DeleteEnvironmentTemplateVersionInput) async throws -> DeleteEnvironmentTemplateVersionOutputResponse
+    func deleteEnvironmentTemplateVersion(input: DeleteEnvironmentTemplateVersionInput) async throws -> DeleteEnvironmentTemplateVersionOutput
     /// De-register and unlink your repository.
     ///
     /// - Parameter DeleteRepositoryInput : [no documentation found]
     ///
-    /// - Returns: `DeleteRepositoryOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteRepositoryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -457,12 +457,12 @@ public protocol ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    func deleteRepository(input: DeleteRepositoryInput) async throws -> DeleteRepositoryOutputResponse
+    func deleteRepository(input: DeleteRepositoryInput) async throws -> DeleteRepositoryOutput
     /// Delete a service, with its instances and pipeline. You can't delete a service if it has any service instances that have components attached to them. For more information about components, see [Proton components](https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html) in the Proton User Guide.
     ///
     /// - Parameter DeleteServiceInput : [no documentation found]
     ///
-    /// - Returns: `DeleteServiceOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteServiceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -473,12 +473,12 @@ public protocol ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    func deleteService(input: DeleteServiceInput) async throws -> DeleteServiceOutputResponse
+    func deleteService(input: DeleteServiceInput) async throws -> DeleteServiceOutput
     /// Delete the Proton Ops file.
     ///
     /// - Parameter DeleteServiceSyncConfigInput : [no documentation found]
     ///
-    /// - Returns: `DeleteServiceSyncConfigOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteServiceSyncConfigOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -489,12 +489,12 @@ public protocol ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    func deleteServiceSyncConfig(input: DeleteServiceSyncConfigInput) async throws -> DeleteServiceSyncConfigOutputResponse
+    func deleteServiceSyncConfig(input: DeleteServiceSyncConfigInput) async throws -> DeleteServiceSyncConfigOutput
     /// If no other major or minor versions of the service template exist, delete the service template.
     ///
     /// - Parameter DeleteServiceTemplateInput : [no documentation found]
     ///
-    /// - Returns: `DeleteServiceTemplateOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteServiceTemplateOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -505,12 +505,12 @@ public protocol ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    func deleteServiceTemplate(input: DeleteServiceTemplateInput) async throws -> DeleteServiceTemplateOutputResponse
+    func deleteServiceTemplate(input: DeleteServiceTemplateInput) async throws -> DeleteServiceTemplateOutput
     /// If no other minor versions of a service template exist, delete a major version of the service template if it's not the Recommended version. Delete the Recommended version of the service template if no other major versions or minor versions of the service template exist. A major version of a service template is a version that isn't backwards compatible. Delete a minor version of a service template if it's not the Recommended version. Delete a Recommended minor version of the service template if no other minor versions of the service template exist. A minor version of a service template is a version that's backwards compatible.
     ///
     /// - Parameter DeleteServiceTemplateVersionInput : [no documentation found]
     ///
-    /// - Returns: `DeleteServiceTemplateVersionOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteServiceTemplateVersionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -521,12 +521,12 @@ public protocol ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    func deleteServiceTemplateVersion(input: DeleteServiceTemplateVersionInput) async throws -> DeleteServiceTemplateVersionOutputResponse
+    func deleteServiceTemplateVersion(input: DeleteServiceTemplateVersionInput) async throws -> DeleteServiceTemplateVersionOutput
     /// Delete a template sync configuration.
     ///
     /// - Parameter DeleteTemplateSyncConfigInput : [no documentation found]
     ///
-    /// - Returns: `DeleteTemplateSyncConfigOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteTemplateSyncConfigOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -537,12 +537,12 @@ public protocol ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    func deleteTemplateSyncConfig(input: DeleteTemplateSyncConfigInput) async throws -> DeleteTemplateSyncConfigOutputResponse
+    func deleteTemplateSyncConfig(input: DeleteTemplateSyncConfigInput) async throws -> DeleteTemplateSyncConfigOutput
     /// Get detail data for Proton account-wide settings.
     ///
     /// - Parameter GetAccountSettingsInput : [no documentation found]
     ///
-    /// - Returns: `GetAccountSettingsOutputResponse` : [no documentation found]
+    /// - Returns: `GetAccountSettingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -552,12 +552,12 @@ public protocol ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    func getAccountSettings(input: GetAccountSettingsInput) async throws -> GetAccountSettingsOutputResponse
+    func getAccountSettings(input: GetAccountSettingsInput) async throws -> GetAccountSettingsOutput
     /// Get detailed data for a component. For more information about components, see [Proton components](https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html) in the Proton User Guide.
     ///
     /// - Parameter GetComponentInput : [no documentation found]
     ///
-    /// - Returns: `GetComponentOutputResponse` : [no documentation found]
+    /// - Returns: `GetComponentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -567,12 +567,12 @@ public protocol ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    func getComponent(input: GetComponentInput) async throws -> GetComponentOutputResponse
+    func getComponent(input: GetComponentInput) async throws -> GetComponentOutput
     /// Get detailed data for a deployment.
     ///
     /// - Parameter GetDeploymentInput : [no documentation found]
     ///
-    /// - Returns: `GetDeploymentOutputResponse` : [no documentation found]
+    /// - Returns: `GetDeploymentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -582,12 +582,12 @@ public protocol ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    func getDeployment(input: GetDeploymentInput) async throws -> GetDeploymentOutputResponse
+    func getDeployment(input: GetDeploymentInput) async throws -> GetDeploymentOutput
     /// Get detailed data for an environment.
     ///
     /// - Parameter GetEnvironmentInput : [no documentation found]
     ///
-    /// - Returns: `GetEnvironmentOutputResponse` : [no documentation found]
+    /// - Returns: `GetEnvironmentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -597,12 +597,12 @@ public protocol ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    func getEnvironment(input: GetEnvironmentInput) async throws -> GetEnvironmentOutputResponse
+    func getEnvironment(input: GetEnvironmentInput) async throws -> GetEnvironmentOutput
     /// In an environment account, get the detailed data for an environment account connection. For more information, see [Environment account connections](https://docs.aws.amazon.com/proton/latest/userguide/ag-env-account-connections.html) in the Proton User guide.
     ///
     /// - Parameter GetEnvironmentAccountConnectionInput : [no documentation found]
     ///
-    /// - Returns: `GetEnvironmentAccountConnectionOutputResponse` : [no documentation found]
+    /// - Returns: `GetEnvironmentAccountConnectionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -612,12 +612,12 @@ public protocol ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    func getEnvironmentAccountConnection(input: GetEnvironmentAccountConnectionInput) async throws -> GetEnvironmentAccountConnectionOutputResponse
+    func getEnvironmentAccountConnection(input: GetEnvironmentAccountConnectionInput) async throws -> GetEnvironmentAccountConnectionOutput
     /// Get detailed data for an environment template.
     ///
     /// - Parameter GetEnvironmentTemplateInput : [no documentation found]
     ///
-    /// - Returns: `GetEnvironmentTemplateOutputResponse` : [no documentation found]
+    /// - Returns: `GetEnvironmentTemplateOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -627,12 +627,12 @@ public protocol ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    func getEnvironmentTemplate(input: GetEnvironmentTemplateInput) async throws -> GetEnvironmentTemplateOutputResponse
+    func getEnvironmentTemplate(input: GetEnvironmentTemplateInput) async throws -> GetEnvironmentTemplateOutput
     /// Get detailed data for a major or minor version of an environment template.
     ///
     /// - Parameter GetEnvironmentTemplateVersionInput : [no documentation found]
     ///
-    /// - Returns: `GetEnvironmentTemplateVersionOutputResponse` : [no documentation found]
+    /// - Returns: `GetEnvironmentTemplateVersionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -642,12 +642,12 @@ public protocol ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    func getEnvironmentTemplateVersion(input: GetEnvironmentTemplateVersionInput) async throws -> GetEnvironmentTemplateVersionOutputResponse
+    func getEnvironmentTemplateVersion(input: GetEnvironmentTemplateVersionInput) async throws -> GetEnvironmentTemplateVersionOutput
     /// Get detail data for a linked repository.
     ///
     /// - Parameter GetRepositoryInput : [no documentation found]
     ///
-    /// - Returns: `GetRepositoryOutputResponse` : [no documentation found]
+    /// - Returns: `GetRepositoryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -657,12 +657,12 @@ public protocol ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    func getRepository(input: GetRepositoryInput) async throws -> GetRepositoryOutputResponse
+    func getRepository(input: GetRepositoryInput) async throws -> GetRepositoryOutput
     /// Get the sync status of a repository used for Proton template sync. For more information about template sync, see . A repository sync status isn't tied to the Proton Repository resource (or any other Proton resource). Therefore, tags on an Proton Repository resource have no effect on this action. Specifically, you can't use these tags to control access to this action using Attribute-based access control (ABAC). For more information about ABAC, see [ABAC](https://docs.aws.amazon.com/proton/latest/userguide/security_iam_service-with-iam.html#security_iam_service-with-iam-tags) in the Proton User Guide.
     ///
     /// - Parameter GetRepositorySyncStatusInput : [no documentation found]
     ///
-    /// - Returns: `GetRepositorySyncStatusOutputResponse` : [no documentation found]
+    /// - Returns: `GetRepositorySyncStatusOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -672,12 +672,12 @@ public protocol ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    func getRepositorySyncStatus(input: GetRepositorySyncStatusInput) async throws -> GetRepositorySyncStatusOutputResponse
+    func getRepositorySyncStatus(input: GetRepositorySyncStatusInput) async throws -> GetRepositorySyncStatusOutput
     /// Get counts of Proton resources. For infrastructure-provisioning resources (environments, services, service instances, pipelines), the action returns staleness counts. A resource is stale when it's behind the recommended version of the Proton template that it uses and it needs an update to become current. The action returns staleness counts (counts of resources that are up-to-date, behind a template major version, or behind a template minor version), the total number of resources, and the number of resources that are in a failed state, grouped by resource type. Components, environments, and service templates return less information - see the components, environments, and serviceTemplates field descriptions. For context, the action also returns the total number of each type of Proton template in the Amazon Web Services account. For more information, see [Proton dashboard](https://docs.aws.amazon.com/proton/latest/userguide/monitoring-dashboard.html) in the Proton User Guide.
     ///
     /// - Parameter GetResourcesSummaryInput : [no documentation found]
     ///
-    /// - Returns: `GetResourcesSummaryOutputResponse` : [no documentation found]
+    /// - Returns: `GetResourcesSummaryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -686,12 +686,12 @@ public protocol ProtonClientProtocol {
     /// - `InternalServerException` : The request failed to register with the service.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    func getResourcesSummary(input: GetResourcesSummaryInput) async throws -> GetResourcesSummaryOutputResponse
+    func getResourcesSummary(input: GetResourcesSummaryInput) async throws -> GetResourcesSummaryOutput
     /// Get detailed data for a service.
     ///
     /// - Parameter GetServiceInput : [no documentation found]
     ///
-    /// - Returns: `GetServiceOutputResponse` : [no documentation found]
+    /// - Returns: `GetServiceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -701,12 +701,12 @@ public protocol ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    func getService(input: GetServiceInput) async throws -> GetServiceOutputResponse
+    func getService(input: GetServiceInput) async throws -> GetServiceOutput
     /// Get detailed data for a service instance. A service instance is an instantiation of service template and it runs in a specific environment.
     ///
     /// - Parameter GetServiceInstanceInput : [no documentation found]
     ///
-    /// - Returns: `GetServiceInstanceOutputResponse` : [no documentation found]
+    /// - Returns: `GetServiceInstanceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -716,12 +716,12 @@ public protocol ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    func getServiceInstance(input: GetServiceInstanceInput) async throws -> GetServiceInstanceOutputResponse
+    func getServiceInstance(input: GetServiceInstanceInput) async throws -> GetServiceInstanceOutput
     /// Get the status of the synced service instance.
     ///
     /// - Parameter GetServiceInstanceSyncStatusInput : [no documentation found]
     ///
-    /// - Returns: `GetServiceInstanceSyncStatusOutputResponse` : [no documentation found]
+    /// - Returns: `GetServiceInstanceSyncStatusOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -731,12 +731,12 @@ public protocol ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    func getServiceInstanceSyncStatus(input: GetServiceInstanceSyncStatusInput) async throws -> GetServiceInstanceSyncStatusOutputResponse
+    func getServiceInstanceSyncStatus(input: GetServiceInstanceSyncStatusInput) async throws -> GetServiceInstanceSyncStatusOutput
     /// Get detailed data for the service sync blocker summary.
     ///
     /// - Parameter GetServiceSyncBlockerSummaryInput : [no documentation found]
     ///
-    /// - Returns: `GetServiceSyncBlockerSummaryOutputResponse` : [no documentation found]
+    /// - Returns: `GetServiceSyncBlockerSummaryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -746,12 +746,12 @@ public protocol ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    func getServiceSyncBlockerSummary(input: GetServiceSyncBlockerSummaryInput) async throws -> GetServiceSyncBlockerSummaryOutputResponse
+    func getServiceSyncBlockerSummary(input: GetServiceSyncBlockerSummaryInput) async throws -> GetServiceSyncBlockerSummaryOutput
     /// Get detailed information for the service sync configuration.
     ///
     /// - Parameter GetServiceSyncConfigInput : [no documentation found]
     ///
-    /// - Returns: `GetServiceSyncConfigOutputResponse` : [no documentation found]
+    /// - Returns: `GetServiceSyncConfigOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -761,12 +761,12 @@ public protocol ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    func getServiceSyncConfig(input: GetServiceSyncConfigInput) async throws -> GetServiceSyncConfigOutputResponse
+    func getServiceSyncConfig(input: GetServiceSyncConfigInput) async throws -> GetServiceSyncConfigOutput
     /// Get detailed data for a service template.
     ///
     /// - Parameter GetServiceTemplateInput : [no documentation found]
     ///
-    /// - Returns: `GetServiceTemplateOutputResponse` : [no documentation found]
+    /// - Returns: `GetServiceTemplateOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -776,12 +776,12 @@ public protocol ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    func getServiceTemplate(input: GetServiceTemplateInput) async throws -> GetServiceTemplateOutputResponse
+    func getServiceTemplate(input: GetServiceTemplateInput) async throws -> GetServiceTemplateOutput
     /// Get detailed data for a major or minor version of a service template.
     ///
     /// - Parameter GetServiceTemplateVersionInput : [no documentation found]
     ///
-    /// - Returns: `GetServiceTemplateVersionOutputResponse` : [no documentation found]
+    /// - Returns: `GetServiceTemplateVersionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -791,12 +791,12 @@ public protocol ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    func getServiceTemplateVersion(input: GetServiceTemplateVersionInput) async throws -> GetServiceTemplateVersionOutputResponse
+    func getServiceTemplateVersion(input: GetServiceTemplateVersionInput) async throws -> GetServiceTemplateVersionOutput
     /// Get detail data for a template sync configuration.
     ///
     /// - Parameter GetTemplateSyncConfigInput : [no documentation found]
     ///
-    /// - Returns: `GetTemplateSyncConfigOutputResponse` : [no documentation found]
+    /// - Returns: `GetTemplateSyncConfigOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -806,12 +806,12 @@ public protocol ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    func getTemplateSyncConfig(input: GetTemplateSyncConfigInput) async throws -> GetTemplateSyncConfigOutputResponse
+    func getTemplateSyncConfig(input: GetTemplateSyncConfigInput) async throws -> GetTemplateSyncConfigOutput
     /// Get the status of a template sync.
     ///
     /// - Parameter GetTemplateSyncStatusInput : [no documentation found]
     ///
-    /// - Returns: `GetTemplateSyncStatusOutputResponse` : [no documentation found]
+    /// - Returns: `GetTemplateSyncStatusOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -821,12 +821,12 @@ public protocol ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    func getTemplateSyncStatus(input: GetTemplateSyncStatusInput) async throws -> GetTemplateSyncStatusOutputResponse
+    func getTemplateSyncStatus(input: GetTemplateSyncStatusInput) async throws -> GetTemplateSyncStatusOutput
     /// Get a list of component Infrastructure as Code (IaC) outputs. For more information about components, see [Proton components](https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html) in the Proton User Guide.
     ///
     /// - Parameter ListComponentOutputsInput : [no documentation found]
     ///
-    /// - Returns: `ListComponentOutputsOutputResponse` : [no documentation found]
+    /// - Returns: `ListComponentOutputsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -836,12 +836,12 @@ public protocol ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    func listComponentOutputs(input: ListComponentOutputsInput) async throws -> ListComponentOutputsOutputResponse
+    func listComponentOutputs(input: ListComponentOutputsInput) async throws -> ListComponentOutputsOutput
     /// List provisioned resources for a component with details. For more information about components, see [Proton components](https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html) in the Proton User Guide.
     ///
     /// - Parameter ListComponentProvisionedResourcesInput : [no documentation found]
     ///
-    /// - Returns: `ListComponentProvisionedResourcesOutputResponse` : [no documentation found]
+    /// - Returns: `ListComponentProvisionedResourcesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -851,12 +851,12 @@ public protocol ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    func listComponentProvisionedResources(input: ListComponentProvisionedResourcesInput) async throws -> ListComponentProvisionedResourcesOutputResponse
+    func listComponentProvisionedResources(input: ListComponentProvisionedResourcesInput) async throws -> ListComponentProvisionedResourcesOutput
     /// List components with summary data. You can filter the result list by environment, service, or a single service instance. For more information about components, see [Proton components](https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html) in the Proton User Guide.
     ///
     /// - Parameter ListComponentsInput : [no documentation found]
     ///
-    /// - Returns: `ListComponentsOutputResponse` : [no documentation found]
+    /// - Returns: `ListComponentsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -865,12 +865,12 @@ public protocol ProtonClientProtocol {
     /// - `InternalServerException` : The request failed to register with the service.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    func listComponents(input: ListComponentsInput) async throws -> ListComponentsOutputResponse
+    func listComponents(input: ListComponentsInput) async throws -> ListComponentsOutput
     /// List deployments. You can filter the result list by environment, service, or a single service instance.
     ///
     /// - Parameter ListDeploymentsInput : [no documentation found]
     ///
-    /// - Returns: `ListDeploymentsOutputResponse` : [no documentation found]
+    /// - Returns: `ListDeploymentsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -880,12 +880,12 @@ public protocol ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    func listDeployments(input: ListDeploymentsInput) async throws -> ListDeploymentsOutputResponse
+    func listDeployments(input: ListDeploymentsInput) async throws -> ListDeploymentsOutput
     /// View a list of environment account connections. For more information, see [Environment account connections](https://docs.aws.amazon.com/proton/latest/userguide/ag-env-account-connections.html) in the Proton User guide.
     ///
     /// - Parameter ListEnvironmentAccountConnectionsInput : [no documentation found]
     ///
-    /// - Returns: `ListEnvironmentAccountConnectionsOutputResponse` : [no documentation found]
+    /// - Returns: `ListEnvironmentAccountConnectionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -894,12 +894,12 @@ public protocol ProtonClientProtocol {
     /// - `InternalServerException` : The request failed to register with the service.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    func listEnvironmentAccountConnections(input: ListEnvironmentAccountConnectionsInput) async throws -> ListEnvironmentAccountConnectionsOutputResponse
+    func listEnvironmentAccountConnections(input: ListEnvironmentAccountConnectionsInput) async throws -> ListEnvironmentAccountConnectionsOutput
     /// List the infrastructure as code outputs for your environment.
     ///
     /// - Parameter ListEnvironmentOutputsInput : [no documentation found]
     ///
-    /// - Returns: `ListEnvironmentOutputsOutputResponse` : [no documentation found]
+    /// - Returns: `ListEnvironmentOutputsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -909,12 +909,12 @@ public protocol ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    func listEnvironmentOutputs(input: ListEnvironmentOutputsInput) async throws -> ListEnvironmentOutputsOutputResponse
+    func listEnvironmentOutputs(input: ListEnvironmentOutputsInput) async throws -> ListEnvironmentOutputsOutput
     /// List the provisioned resources for your environment.
     ///
     /// - Parameter ListEnvironmentProvisionedResourcesInput : [no documentation found]
     ///
-    /// - Returns: `ListEnvironmentProvisionedResourcesOutputResponse` : [no documentation found]
+    /// - Returns: `ListEnvironmentProvisionedResourcesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -924,12 +924,12 @@ public protocol ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    func listEnvironmentProvisionedResources(input: ListEnvironmentProvisionedResourcesInput) async throws -> ListEnvironmentProvisionedResourcesOutputResponse
+    func listEnvironmentProvisionedResources(input: ListEnvironmentProvisionedResourcesInput) async throws -> ListEnvironmentProvisionedResourcesOutput
     /// List environments with detail data summaries.
     ///
     /// - Parameter ListEnvironmentsInput : [no documentation found]
     ///
-    /// - Returns: `ListEnvironmentsOutputResponse` : [no documentation found]
+    /// - Returns: `ListEnvironmentsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -939,12 +939,12 @@ public protocol ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    func listEnvironments(input: ListEnvironmentsInput) async throws -> ListEnvironmentsOutputResponse
+    func listEnvironments(input: ListEnvironmentsInput) async throws -> ListEnvironmentsOutput
     /// List environment templates.
     ///
     /// - Parameter ListEnvironmentTemplatesInput : [no documentation found]
     ///
-    /// - Returns: `ListEnvironmentTemplatesOutputResponse` : [no documentation found]
+    /// - Returns: `ListEnvironmentTemplatesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -953,12 +953,12 @@ public protocol ProtonClientProtocol {
     /// - `InternalServerException` : The request failed to register with the service.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    func listEnvironmentTemplates(input: ListEnvironmentTemplatesInput) async throws -> ListEnvironmentTemplatesOutputResponse
+    func listEnvironmentTemplates(input: ListEnvironmentTemplatesInput) async throws -> ListEnvironmentTemplatesOutput
     /// List major or minor versions of an environment template with detail data.
     ///
     /// - Parameter ListEnvironmentTemplateVersionsInput : [no documentation found]
     ///
-    /// - Returns: `ListEnvironmentTemplateVersionsOutputResponse` : [no documentation found]
+    /// - Returns: `ListEnvironmentTemplateVersionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -968,12 +968,12 @@ public protocol ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    func listEnvironmentTemplateVersions(input: ListEnvironmentTemplateVersionsInput) async throws -> ListEnvironmentTemplateVersionsOutputResponse
+    func listEnvironmentTemplateVersions(input: ListEnvironmentTemplateVersionsInput) async throws -> ListEnvironmentTemplateVersionsOutput
     /// List linked repositories with detail data.
     ///
     /// - Parameter ListRepositoriesInput : [no documentation found]
     ///
-    /// - Returns: `ListRepositoriesOutputResponse` : [no documentation found]
+    /// - Returns: `ListRepositoriesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -983,12 +983,12 @@ public protocol ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    func listRepositories(input: ListRepositoriesInput) async throws -> ListRepositoriesOutputResponse
+    func listRepositories(input: ListRepositoriesInput) async throws -> ListRepositoriesOutput
     /// List repository sync definitions with detail data.
     ///
     /// - Parameter ListRepositorySyncDefinitionsInput : [no documentation found]
     ///
-    /// - Returns: `ListRepositorySyncDefinitionsOutputResponse` : [no documentation found]
+    /// - Returns: `ListRepositorySyncDefinitionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -997,12 +997,12 @@ public protocol ProtonClientProtocol {
     /// - `InternalServerException` : The request failed to register with the service.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    func listRepositorySyncDefinitions(input: ListRepositorySyncDefinitionsInput) async throws -> ListRepositorySyncDefinitionsOutputResponse
+    func listRepositorySyncDefinitions(input: ListRepositorySyncDefinitionsInput) async throws -> ListRepositorySyncDefinitionsOutput
     /// Get a list service of instance Infrastructure as Code (IaC) outputs.
     ///
     /// - Parameter ListServiceInstanceOutputsInput : [no documentation found]
     ///
-    /// - Returns: `ListServiceInstanceOutputsOutputResponse` : [no documentation found]
+    /// - Returns: `ListServiceInstanceOutputsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1012,12 +1012,12 @@ public protocol ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    func listServiceInstanceOutputs(input: ListServiceInstanceOutputsInput) async throws -> ListServiceInstanceOutputsOutputResponse
+    func listServiceInstanceOutputs(input: ListServiceInstanceOutputsInput) async throws -> ListServiceInstanceOutputsOutput
     /// List provisioned resources for a service instance with details.
     ///
     /// - Parameter ListServiceInstanceProvisionedResourcesInput : [no documentation found]
     ///
-    /// - Returns: `ListServiceInstanceProvisionedResourcesOutputResponse` : [no documentation found]
+    /// - Returns: `ListServiceInstanceProvisionedResourcesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1027,12 +1027,12 @@ public protocol ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    func listServiceInstanceProvisionedResources(input: ListServiceInstanceProvisionedResourcesInput) async throws -> ListServiceInstanceProvisionedResourcesOutputResponse
+    func listServiceInstanceProvisionedResources(input: ListServiceInstanceProvisionedResourcesInput) async throws -> ListServiceInstanceProvisionedResourcesOutput
     /// List service instances with summary data. This action lists service instances of all services in the Amazon Web Services account.
     ///
     /// - Parameter ListServiceInstancesInput : [no documentation found]
     ///
-    /// - Returns: `ListServiceInstancesOutputResponse` : [no documentation found]
+    /// - Returns: `ListServiceInstancesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1042,12 +1042,12 @@ public protocol ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    func listServiceInstances(input: ListServiceInstancesInput) async throws -> ListServiceInstancesOutputResponse
+    func listServiceInstances(input: ListServiceInstancesInput) async throws -> ListServiceInstancesOutput
     /// Get a list of service pipeline Infrastructure as Code (IaC) outputs.
     ///
     /// - Parameter ListServicePipelineOutputsInput : [no documentation found]
     ///
-    /// - Returns: `ListServicePipelineOutputsOutputResponse` : [no documentation found]
+    /// - Returns: `ListServicePipelineOutputsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1057,12 +1057,12 @@ public protocol ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    func listServicePipelineOutputs(input: ListServicePipelineOutputsInput) async throws -> ListServicePipelineOutputsOutputResponse
+    func listServicePipelineOutputs(input: ListServicePipelineOutputsInput) async throws -> ListServicePipelineOutputsOutput
     /// List provisioned resources for a service and pipeline with details.
     ///
     /// - Parameter ListServicePipelineProvisionedResourcesInput : [no documentation found]
     ///
-    /// - Returns: `ListServicePipelineProvisionedResourcesOutputResponse` : [no documentation found]
+    /// - Returns: `ListServicePipelineProvisionedResourcesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1072,12 +1072,12 @@ public protocol ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    func listServicePipelineProvisionedResources(input: ListServicePipelineProvisionedResourcesInput) async throws -> ListServicePipelineProvisionedResourcesOutputResponse
+    func listServicePipelineProvisionedResources(input: ListServicePipelineProvisionedResourcesInput) async throws -> ListServicePipelineProvisionedResourcesOutput
     /// List services with summaries of detail data.
     ///
     /// - Parameter ListServicesInput : [no documentation found]
     ///
-    /// - Returns: `ListServicesOutputResponse` : [no documentation found]
+    /// - Returns: `ListServicesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1086,12 +1086,12 @@ public protocol ProtonClientProtocol {
     /// - `InternalServerException` : The request failed to register with the service.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    func listServices(input: ListServicesInput) async throws -> ListServicesOutputResponse
+    func listServices(input: ListServicesInput) async throws -> ListServicesOutput
     /// List service templates with detail data.
     ///
     /// - Parameter ListServiceTemplatesInput : [no documentation found]
     ///
-    /// - Returns: `ListServiceTemplatesOutputResponse` : [no documentation found]
+    /// - Returns: `ListServiceTemplatesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1100,12 +1100,12 @@ public protocol ProtonClientProtocol {
     /// - `InternalServerException` : The request failed to register with the service.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    func listServiceTemplates(input: ListServiceTemplatesInput) async throws -> ListServiceTemplatesOutputResponse
+    func listServiceTemplates(input: ListServiceTemplatesInput) async throws -> ListServiceTemplatesOutput
     /// List major or minor versions of a service template with detail data.
     ///
     /// - Parameter ListServiceTemplateVersionsInput : [no documentation found]
     ///
-    /// - Returns: `ListServiceTemplateVersionsOutputResponse` : [no documentation found]
+    /// - Returns: `ListServiceTemplateVersionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1115,12 +1115,12 @@ public protocol ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    func listServiceTemplateVersions(input: ListServiceTemplateVersionsInput) async throws -> ListServiceTemplateVersionsOutputResponse
+    func listServiceTemplateVersions(input: ListServiceTemplateVersionsInput) async throws -> ListServiceTemplateVersionsOutput
     /// List tags for a resource. For more information, see [Proton resources and tagging](https://docs.aws.amazon.com/proton/latest/userguide/resources.html) in the Proton User Guide.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1130,12 +1130,12 @@ public protocol ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     /// Notify Proton of status changes to a provisioned resource when you use self-managed provisioning. For more information, see [Self-managed provisioning](https://docs.aws.amazon.com/proton/latest/userguide/ag-works-prov-methods.html#ag-works-prov-methods-self) in the Proton User Guide.
     ///
     /// - Parameter NotifyResourceDeploymentStatusChangeInput : [no documentation found]
     ///
-    /// - Returns: `NotifyResourceDeploymentStatusChangeOutputResponse` : [no documentation found]
+    /// - Returns: `NotifyResourceDeploymentStatusChangeOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1147,12 +1147,12 @@ public protocol ProtonClientProtocol {
     /// - `ServiceQuotaExceededException` : A quota was exceeded. For more information, see [Proton Quotas](https://docs.aws.amazon.com/proton/latest/userguide/ag-limits.html) in the Proton User Guide.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    func notifyResourceDeploymentStatusChange(input: NotifyResourceDeploymentStatusChangeInput) async throws -> NotifyResourceDeploymentStatusChangeOutputResponse
+    func notifyResourceDeploymentStatusChange(input: NotifyResourceDeploymentStatusChangeInput) async throws -> NotifyResourceDeploymentStatusChangeOutput
     /// In a management account, reject an environment account connection from another environment account. After you reject an environment account connection request, you can't accept or use the rejected environment account connection. You can’t reject an environment account connection that's connected to an environment. For more information, see [Environment account connections](https://docs.aws.amazon.com/proton/latest/userguide/ag-env-account-connections.html) in the Proton User guide.
     ///
     /// - Parameter RejectEnvironmentAccountConnectionInput : [no documentation found]
     ///
-    /// - Returns: `RejectEnvironmentAccountConnectionOutputResponse` : [no documentation found]
+    /// - Returns: `RejectEnvironmentAccountConnectionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1163,12 +1163,12 @@ public protocol ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    func rejectEnvironmentAccountConnection(input: RejectEnvironmentAccountConnectionInput) async throws -> RejectEnvironmentAccountConnectionOutputResponse
+    func rejectEnvironmentAccountConnection(input: RejectEnvironmentAccountConnectionInput) async throws -> RejectEnvironmentAccountConnectionOutput
     /// Tag a resource. A tag is a key-value pair of metadata that you associate with an Proton resource. For more information, see [Proton resources and tagging](https://docs.aws.amazon.com/proton/latest/userguide/resources.html) in the Proton User Guide.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1179,12 +1179,12 @@ public protocol ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     /// Remove a customer tag from a resource. A tag is a key-value pair of metadata associated with an Proton resource. For more information, see [Proton resources and tagging](https://docs.aws.amazon.com/proton/latest/userguide/resources.html) in the Proton User Guide.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1195,12 +1195,12 @@ public protocol ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
     /// Update Proton settings that are used for multiple services in the Amazon Web Services account.
     ///
     /// - Parameter UpdateAccountSettingsInput : [no documentation found]
     ///
-    /// - Returns: `UpdateAccountSettingsOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateAccountSettingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1210,12 +1210,12 @@ public protocol ProtonClientProtocol {
     /// - `InternalServerException` : The request failed to register with the service.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    func updateAccountSettings(input: UpdateAccountSettingsInput) async throws -> UpdateAccountSettingsOutputResponse
+    func updateAccountSettings(input: UpdateAccountSettingsInput) async throws -> UpdateAccountSettingsOutput
     /// Update a component. There are a few modes for updating a component. The deploymentType field defines the mode. You can't update a component while its deployment status, or the deployment status of a service instance attached to it, is IN_PROGRESS. For more information about components, see [Proton components](https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html) in the Proton User Guide.
     ///
     /// - Parameter UpdateComponentInput : [no documentation found]
     ///
-    /// - Returns: `UpdateComponentOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateComponentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1227,12 +1227,12 @@ public protocol ProtonClientProtocol {
     /// - `ServiceQuotaExceededException` : A quota was exceeded. For more information, see [Proton Quotas](https://docs.aws.amazon.com/proton/latest/userguide/ag-limits.html) in the Proton User Guide.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    func updateComponent(input: UpdateComponentInput) async throws -> UpdateComponentOutputResponse
+    func updateComponent(input: UpdateComponentInput) async throws -> UpdateComponentOutput
     /// Update an environment. If the environment is associated with an environment account connection, don't update or include the protonServiceRoleArn and provisioningRepository parameter to update or connect to an environment account connection. You can only update to a new environment account connection if that connection was created in the same environment account that the current environment account connection was created in. The account connection must also be associated with the current environment. If the environment isn't associated with an environment account connection, don't update or include the environmentAccountConnectionId parameter. You can't update or connect the environment to an environment account connection if it isn't already associated with an environment connection. You can update either the environmentAccountConnectionId or protonServiceRoleArn parameter and value. You can’t update both. If the environment was configured for Amazon Web Services-managed provisioning, omit the provisioningRepository parameter. If the environment was configured for self-managed provisioning, specify the provisioningRepository parameter and omit the protonServiceRoleArn and environmentAccountConnectionId parameters. For more information, see [Environments](https://docs.aws.amazon.com/proton/latest/userguide/ag-environments.html) and [Provisioning methods](https://docs.aws.amazon.com/proton/latest/userguide/ag-works-prov-methods.html) in the Proton User Guide. There are four modes for updating an environment. The deploymentType field defines the mode. NONE In this mode, a deployment doesn't occur. Only the requested metadata parameters are updated. CURRENT_VERSION In this mode, the environment is deployed and updated with the new spec that you provide. Only requested parameters are updated. Don’t include minor or major version parameters when you use this deployment-type. MINOR_VERSION In this mode, the environment is deployed and updated with the published, recommended (latest) minor version of the current major version in use, by default. You can also specify a different minor version of the current major version in use. MAJOR_VERSION In this mode, the environment is deployed and updated with the published, recommended (latest) major and minor version of the current template, by default. You can also specify a different major version that's higher than the major version in use and a minor version.
     ///
     /// - Parameter UpdateEnvironmentInput : [no documentation found]
     ///
-    /// - Returns: `UpdateEnvironmentOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateEnvironmentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1243,12 +1243,12 @@ public protocol ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    func updateEnvironment(input: UpdateEnvironmentInput) async throws -> UpdateEnvironmentOutputResponse
+    func updateEnvironment(input: UpdateEnvironmentInput) async throws -> UpdateEnvironmentOutput
     /// In an environment account, update an environment account connection to use a new IAM role. For more information, see [Environment account connections](https://docs.aws.amazon.com/proton/latest/userguide/ag-env-account-connections.html) in the Proton User guide.
     ///
     /// - Parameter UpdateEnvironmentAccountConnectionInput : [no documentation found]
     ///
-    /// - Returns: `UpdateEnvironmentAccountConnectionOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateEnvironmentAccountConnectionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1259,12 +1259,12 @@ public protocol ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    func updateEnvironmentAccountConnection(input: UpdateEnvironmentAccountConnectionInput) async throws -> UpdateEnvironmentAccountConnectionOutputResponse
+    func updateEnvironmentAccountConnection(input: UpdateEnvironmentAccountConnectionInput) async throws -> UpdateEnvironmentAccountConnectionOutput
     /// Update an environment template.
     ///
     /// - Parameter UpdateEnvironmentTemplateInput : [no documentation found]
     ///
-    /// - Returns: `UpdateEnvironmentTemplateOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateEnvironmentTemplateOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1275,12 +1275,12 @@ public protocol ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    func updateEnvironmentTemplate(input: UpdateEnvironmentTemplateInput) async throws -> UpdateEnvironmentTemplateOutputResponse
+    func updateEnvironmentTemplate(input: UpdateEnvironmentTemplateInput) async throws -> UpdateEnvironmentTemplateOutput
     /// Update a major or minor version of an environment template.
     ///
     /// - Parameter UpdateEnvironmentTemplateVersionInput : [no documentation found]
     ///
-    /// - Returns: `UpdateEnvironmentTemplateVersionOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateEnvironmentTemplateVersionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1291,12 +1291,12 @@ public protocol ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    func updateEnvironmentTemplateVersion(input: UpdateEnvironmentTemplateVersionInput) async throws -> UpdateEnvironmentTemplateVersionOutputResponse
+    func updateEnvironmentTemplateVersion(input: UpdateEnvironmentTemplateVersionInput) async throws -> UpdateEnvironmentTemplateVersionOutput
     /// Edit a service description or use a spec to add and delete service instances. Existing service instances and the service pipeline can't be edited using this API. They can only be deleted. Use the description parameter to modify the description. Edit the spec parameter to add or delete instances. You can't delete a service instance (remove it from the spec) if it has an attached component. For more information about components, see [Proton components](https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html) in the Proton User Guide.
     ///
     /// - Parameter UpdateServiceInput : [no documentation found]
     ///
-    /// - Returns: `UpdateServiceOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateServiceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1308,12 +1308,12 @@ public protocol ProtonClientProtocol {
     /// - `ServiceQuotaExceededException` : A quota was exceeded. For more information, see [Proton Quotas](https://docs.aws.amazon.com/proton/latest/userguide/ag-limits.html) in the Proton User Guide.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    func updateService(input: UpdateServiceInput) async throws -> UpdateServiceOutputResponse
+    func updateService(input: UpdateServiceInput) async throws -> UpdateServiceOutput
     /// Update a service instance. There are a few modes for updating a service instance. The deploymentType field defines the mode. You can't update a service instance while its deployment status, or the deployment status of a component attached to it, is IN_PROGRESS. For more information about components, see [Proton components](https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html) in the Proton User Guide.
     ///
     /// - Parameter UpdateServiceInstanceInput : [no documentation found]
     ///
-    /// - Returns: `UpdateServiceInstanceOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateServiceInstanceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1324,12 +1324,12 @@ public protocol ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    func updateServiceInstance(input: UpdateServiceInstanceInput) async throws -> UpdateServiceInstanceOutputResponse
+    func updateServiceInstance(input: UpdateServiceInstanceInput) async throws -> UpdateServiceInstanceOutput
     /// Update the service pipeline. There are four modes for updating a service pipeline. The deploymentType field defines the mode. NONE In this mode, a deployment doesn't occur. Only the requested metadata parameters are updated. CURRENT_VERSION In this mode, the service pipeline is deployed and updated with the new spec that you provide. Only requested parameters are updated. Don’t include major or minor version parameters when you use this deployment-type. MINOR_VERSION In this mode, the service pipeline is deployed and updated with the published, recommended (latest) minor version of the current major version in use, by default. You can specify a different minor version of the current major version in use. MAJOR_VERSION In this mode, the service pipeline is deployed and updated with the published, recommended (latest) major and minor version of the current template by default. You can specify a different major version that's higher than the major version in use and a minor version.
     ///
     /// - Parameter UpdateServicePipelineInput : [no documentation found]
     ///
-    /// - Returns: `UpdateServicePipelineOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateServicePipelineOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1340,12 +1340,12 @@ public protocol ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    func updateServicePipeline(input: UpdateServicePipelineInput) async throws -> UpdateServicePipelineOutputResponse
+    func updateServicePipeline(input: UpdateServicePipelineInput) async throws -> UpdateServicePipelineOutput
     /// Update the service sync blocker by resolving it.
     ///
     /// - Parameter UpdateServiceSyncBlockerInput : [no documentation found]
     ///
-    /// - Returns: `UpdateServiceSyncBlockerOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateServiceSyncBlockerOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1356,12 +1356,12 @@ public protocol ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    func updateServiceSyncBlocker(input: UpdateServiceSyncBlockerInput) async throws -> UpdateServiceSyncBlockerOutputResponse
+    func updateServiceSyncBlocker(input: UpdateServiceSyncBlockerInput) async throws -> UpdateServiceSyncBlockerOutput
     /// Update the Proton Ops config file.
     ///
     /// - Parameter UpdateServiceSyncConfigInput : [no documentation found]
     ///
-    /// - Returns: `UpdateServiceSyncConfigOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateServiceSyncConfigOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1372,12 +1372,12 @@ public protocol ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    func updateServiceSyncConfig(input: UpdateServiceSyncConfigInput) async throws -> UpdateServiceSyncConfigOutputResponse
+    func updateServiceSyncConfig(input: UpdateServiceSyncConfigInput) async throws -> UpdateServiceSyncConfigOutput
     /// Update a service template.
     ///
     /// - Parameter UpdateServiceTemplateInput : [no documentation found]
     ///
-    /// - Returns: `UpdateServiceTemplateOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateServiceTemplateOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1388,12 +1388,12 @@ public protocol ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    func updateServiceTemplate(input: UpdateServiceTemplateInput) async throws -> UpdateServiceTemplateOutputResponse
+    func updateServiceTemplate(input: UpdateServiceTemplateInput) async throws -> UpdateServiceTemplateOutput
     /// Update a major or minor version of a service template.
     ///
     /// - Parameter UpdateServiceTemplateVersionInput : [no documentation found]
     ///
-    /// - Returns: `UpdateServiceTemplateVersionOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateServiceTemplateVersionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1404,12 +1404,12 @@ public protocol ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    func updateServiceTemplateVersion(input: UpdateServiceTemplateVersionInput) async throws -> UpdateServiceTemplateVersionOutputResponse
+    func updateServiceTemplateVersion(input: UpdateServiceTemplateVersionInput) async throws -> UpdateServiceTemplateVersionOutput
     /// Update template sync configuration parameters, except for the templateName and templateType. Repository details (branch, name, and provider) should be of a linked repository. A linked repository is a repository that has been registered with Proton. For more information, see [CreateRepository].
     ///
     /// - Parameter UpdateTemplateSyncConfigInput : [no documentation found]
     ///
-    /// - Returns: `UpdateTemplateSyncConfigOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateTemplateSyncConfigOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1420,7 +1420,7 @@ public protocol ProtonClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource wasn't found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
-    func updateTemplateSyncConfig(input: UpdateTemplateSyncConfigInput) async throws -> UpdateTemplateSyncConfigOutputResponse
+    func updateTemplateSyncConfig(input: UpdateTemplateSyncConfigInput) async throws -> UpdateTemplateSyncConfigOutput
 }
 
 public enum ProtonClientTypes {}

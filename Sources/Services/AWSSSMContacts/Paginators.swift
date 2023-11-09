@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension SSMContactsClient {
-    /// Paginate over `[ListContactChannelsOutputResponse]` results.
+    /// Paginate over `[ListContactChannelsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListContactChannelsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListContactChannelsOutputResponse`
-    public func listContactChannelsPaginated(input: ListContactChannelsInput) -> ClientRuntime.PaginatorSequence<ListContactChannelsInput, ListContactChannelsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListContactChannelsInput, ListContactChannelsOutputResponse>(input: input, inputKey: \ListContactChannelsInput.nextToken, outputKey: \ListContactChannelsOutputResponse.nextToken, paginationFunction: self.listContactChannels(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListContactChannelsOutput`
+    public func listContactChannelsPaginated(input: ListContactChannelsInput) -> ClientRuntime.PaginatorSequence<ListContactChannelsInput, ListContactChannelsOutput> {
+        return ClientRuntime.PaginatorSequence<ListContactChannelsInput, ListContactChannelsOutput>(input: input, inputKey: \ListContactChannelsInput.nextToken, outputKey: \ListContactChannelsOutput.nextToken, paginationFunction: self.listContactChannels(input:))
     }
 }
 
@@ -25,7 +25,7 @@ extension ListContactChannelsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListContactChannelsInput, Output == ListContactChannelsOutputResponse {
+extension PaginatorSequence where Input == ListContactChannelsInput, Output == ListContactChannelsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listContactChannelsPaginated`
     /// to access the nested member `[SSMContactsClientTypes.ContactChannel]`
     /// - Returns: `[SSMContactsClientTypes.ContactChannel]`
@@ -34,16 +34,16 @@ extension PaginatorSequence where Input == ListContactChannelsInput, Output == L
     }
 }
 extension SSMContactsClient {
-    /// Paginate over `[ListContactsOutputResponse]` results.
+    /// Paginate over `[ListContactsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListContactsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListContactsOutputResponse`
-    public func listContactsPaginated(input: ListContactsInput) -> ClientRuntime.PaginatorSequence<ListContactsInput, ListContactsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListContactsInput, ListContactsOutputResponse>(input: input, inputKey: \ListContactsInput.nextToken, outputKey: \ListContactsOutputResponse.nextToken, paginationFunction: self.listContacts(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListContactsOutput`
+    public func listContactsPaginated(input: ListContactsInput) -> ClientRuntime.PaginatorSequence<ListContactsInput, ListContactsOutput> {
+        return ClientRuntime.PaginatorSequence<ListContactsInput, ListContactsOutput>(input: input, inputKey: \ListContactsInput.nextToken, outputKey: \ListContactsOutput.nextToken, paginationFunction: self.listContacts(input:))
     }
 }
 
@@ -57,7 +57,7 @@ extension ListContactsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListContactsInput, Output == ListContactsOutputResponse {
+extension PaginatorSequence where Input == ListContactsInput, Output == ListContactsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listContactsPaginated`
     /// to access the nested member `[SSMContactsClientTypes.Contact]`
     /// - Returns: `[SSMContactsClientTypes.Contact]`
@@ -66,16 +66,16 @@ extension PaginatorSequence where Input == ListContactsInput, Output == ListCont
     }
 }
 extension SSMContactsClient {
-    /// Paginate over `[ListEngagementsOutputResponse]` results.
+    /// Paginate over `[ListEngagementsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListEngagementsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListEngagementsOutputResponse`
-    public func listEngagementsPaginated(input: ListEngagementsInput) -> ClientRuntime.PaginatorSequence<ListEngagementsInput, ListEngagementsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListEngagementsInput, ListEngagementsOutputResponse>(input: input, inputKey: \ListEngagementsInput.nextToken, outputKey: \ListEngagementsOutputResponse.nextToken, paginationFunction: self.listEngagements(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListEngagementsOutput`
+    public func listEngagementsPaginated(input: ListEngagementsInput) -> ClientRuntime.PaginatorSequence<ListEngagementsInput, ListEngagementsOutput> {
+        return ClientRuntime.PaginatorSequence<ListEngagementsInput, ListEngagementsOutput>(input: input, inputKey: \ListEngagementsInput.nextToken, outputKey: \ListEngagementsOutput.nextToken, paginationFunction: self.listEngagements(input:))
     }
 }
 
@@ -89,7 +89,7 @@ extension ListEngagementsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListEngagementsInput, Output == ListEngagementsOutputResponse {
+extension PaginatorSequence where Input == ListEngagementsInput, Output == ListEngagementsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listEngagementsPaginated`
     /// to access the nested member `[SSMContactsClientTypes.Engagement]`
     /// - Returns: `[SSMContactsClientTypes.Engagement]`
@@ -98,16 +98,16 @@ extension PaginatorSequence where Input == ListEngagementsInput, Output == ListE
     }
 }
 extension SSMContactsClient {
-    /// Paginate over `[ListPageReceiptsOutputResponse]` results.
+    /// Paginate over `[ListPageReceiptsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListPageReceiptsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListPageReceiptsOutputResponse`
-    public func listPageReceiptsPaginated(input: ListPageReceiptsInput) -> ClientRuntime.PaginatorSequence<ListPageReceiptsInput, ListPageReceiptsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListPageReceiptsInput, ListPageReceiptsOutputResponse>(input: input, inputKey: \ListPageReceiptsInput.nextToken, outputKey: \ListPageReceiptsOutputResponse.nextToken, paginationFunction: self.listPageReceipts(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListPageReceiptsOutput`
+    public func listPageReceiptsPaginated(input: ListPageReceiptsInput) -> ClientRuntime.PaginatorSequence<ListPageReceiptsInput, ListPageReceiptsOutput> {
+        return ClientRuntime.PaginatorSequence<ListPageReceiptsInput, ListPageReceiptsOutput>(input: input, inputKey: \ListPageReceiptsInput.nextToken, outputKey: \ListPageReceiptsOutput.nextToken, paginationFunction: self.listPageReceipts(input:))
     }
 }
 
@@ -120,7 +120,7 @@ extension ListPageReceiptsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListPageReceiptsInput, Output == ListPageReceiptsOutputResponse {
+extension PaginatorSequence where Input == ListPageReceiptsInput, Output == ListPageReceiptsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listPageReceiptsPaginated`
     /// to access the nested member `[SSMContactsClientTypes.Receipt]`
     /// - Returns: `[SSMContactsClientTypes.Receipt]`
@@ -129,16 +129,16 @@ extension PaginatorSequence where Input == ListPageReceiptsInput, Output == List
     }
 }
 extension SSMContactsClient {
-    /// Paginate over `[ListPageResolutionsOutputResponse]` results.
+    /// Paginate over `[ListPageResolutionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListPageResolutionsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListPageResolutionsOutputResponse`
-    public func listPageResolutionsPaginated(input: ListPageResolutionsInput) -> ClientRuntime.PaginatorSequence<ListPageResolutionsInput, ListPageResolutionsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListPageResolutionsInput, ListPageResolutionsOutputResponse>(input: input, inputKey: \ListPageResolutionsInput.nextToken, outputKey: \ListPageResolutionsOutputResponse.nextToken, paginationFunction: self.listPageResolutions(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListPageResolutionsOutput`
+    public func listPageResolutionsPaginated(input: ListPageResolutionsInput) -> ClientRuntime.PaginatorSequence<ListPageResolutionsInput, ListPageResolutionsOutput> {
+        return ClientRuntime.PaginatorSequence<ListPageResolutionsInput, ListPageResolutionsOutput>(input: input, inputKey: \ListPageResolutionsInput.nextToken, outputKey: \ListPageResolutionsOutput.nextToken, paginationFunction: self.listPageResolutions(input:))
     }
 }
 
@@ -150,7 +150,7 @@ extension ListPageResolutionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListPageResolutionsInput, Output == ListPageResolutionsOutputResponse {
+extension PaginatorSequence where Input == ListPageResolutionsInput, Output == ListPageResolutionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listPageResolutionsPaginated`
     /// to access the nested member `[SSMContactsClientTypes.ResolutionContact]`
     /// - Returns: `[SSMContactsClientTypes.ResolutionContact]`
@@ -159,16 +159,16 @@ extension PaginatorSequence where Input == ListPageResolutionsInput, Output == L
     }
 }
 extension SSMContactsClient {
-    /// Paginate over `[ListPagesByContactOutputResponse]` results.
+    /// Paginate over `[ListPagesByContactOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListPagesByContactInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListPagesByContactOutputResponse`
-    public func listPagesByContactPaginated(input: ListPagesByContactInput) -> ClientRuntime.PaginatorSequence<ListPagesByContactInput, ListPagesByContactOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListPagesByContactInput, ListPagesByContactOutputResponse>(input: input, inputKey: \ListPagesByContactInput.nextToken, outputKey: \ListPagesByContactOutputResponse.nextToken, paginationFunction: self.listPagesByContact(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListPagesByContactOutput`
+    public func listPagesByContactPaginated(input: ListPagesByContactInput) -> ClientRuntime.PaginatorSequence<ListPagesByContactInput, ListPagesByContactOutput> {
+        return ClientRuntime.PaginatorSequence<ListPagesByContactInput, ListPagesByContactOutput>(input: input, inputKey: \ListPagesByContactInput.nextToken, outputKey: \ListPagesByContactOutput.nextToken, paginationFunction: self.listPagesByContact(input:))
     }
 }
 
@@ -181,7 +181,7 @@ extension ListPagesByContactInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListPagesByContactInput, Output == ListPagesByContactOutputResponse {
+extension PaginatorSequence where Input == ListPagesByContactInput, Output == ListPagesByContactOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listPagesByContactPaginated`
     /// to access the nested member `[SSMContactsClientTypes.Page]`
     /// - Returns: `[SSMContactsClientTypes.Page]`
@@ -190,16 +190,16 @@ extension PaginatorSequence where Input == ListPagesByContactInput, Output == Li
     }
 }
 extension SSMContactsClient {
-    /// Paginate over `[ListPagesByEngagementOutputResponse]` results.
+    /// Paginate over `[ListPagesByEngagementOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListPagesByEngagementInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListPagesByEngagementOutputResponse`
-    public func listPagesByEngagementPaginated(input: ListPagesByEngagementInput) -> ClientRuntime.PaginatorSequence<ListPagesByEngagementInput, ListPagesByEngagementOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListPagesByEngagementInput, ListPagesByEngagementOutputResponse>(input: input, inputKey: \ListPagesByEngagementInput.nextToken, outputKey: \ListPagesByEngagementOutputResponse.nextToken, paginationFunction: self.listPagesByEngagement(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListPagesByEngagementOutput`
+    public func listPagesByEngagementPaginated(input: ListPagesByEngagementInput) -> ClientRuntime.PaginatorSequence<ListPagesByEngagementInput, ListPagesByEngagementOutput> {
+        return ClientRuntime.PaginatorSequence<ListPagesByEngagementInput, ListPagesByEngagementOutput>(input: input, inputKey: \ListPagesByEngagementInput.nextToken, outputKey: \ListPagesByEngagementOutput.nextToken, paginationFunction: self.listPagesByEngagement(input:))
     }
 }
 
@@ -212,7 +212,7 @@ extension ListPagesByEngagementInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListPagesByEngagementInput, Output == ListPagesByEngagementOutputResponse {
+extension PaginatorSequence where Input == ListPagesByEngagementInput, Output == ListPagesByEngagementOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listPagesByEngagementPaginated`
     /// to access the nested member `[SSMContactsClientTypes.Page]`
     /// - Returns: `[SSMContactsClientTypes.Page]`
@@ -221,16 +221,16 @@ extension PaginatorSequence where Input == ListPagesByEngagementInput, Output ==
     }
 }
 extension SSMContactsClient {
-    /// Paginate over `[ListPreviewRotationShiftsOutputResponse]` results.
+    /// Paginate over `[ListPreviewRotationShiftsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListPreviewRotationShiftsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListPreviewRotationShiftsOutputResponse`
-    public func listPreviewRotationShiftsPaginated(input: ListPreviewRotationShiftsInput) -> ClientRuntime.PaginatorSequence<ListPreviewRotationShiftsInput, ListPreviewRotationShiftsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListPreviewRotationShiftsInput, ListPreviewRotationShiftsOutputResponse>(input: input, inputKey: \ListPreviewRotationShiftsInput.nextToken, outputKey: \ListPreviewRotationShiftsOutputResponse.nextToken, paginationFunction: self.listPreviewRotationShifts(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListPreviewRotationShiftsOutput`
+    public func listPreviewRotationShiftsPaginated(input: ListPreviewRotationShiftsInput) -> ClientRuntime.PaginatorSequence<ListPreviewRotationShiftsInput, ListPreviewRotationShiftsOutput> {
+        return ClientRuntime.PaginatorSequence<ListPreviewRotationShiftsInput, ListPreviewRotationShiftsOutput>(input: input, inputKey: \ListPreviewRotationShiftsInput.nextToken, outputKey: \ListPreviewRotationShiftsOutput.nextToken, paginationFunction: self.listPreviewRotationShifts(input:))
     }
 }
 
@@ -249,7 +249,7 @@ extension ListPreviewRotationShiftsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListPreviewRotationShiftsInput, Output == ListPreviewRotationShiftsOutputResponse {
+extension PaginatorSequence where Input == ListPreviewRotationShiftsInput, Output == ListPreviewRotationShiftsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listPreviewRotationShiftsPaginated`
     /// to access the nested member `[SSMContactsClientTypes.RotationShift]`
     /// - Returns: `[SSMContactsClientTypes.RotationShift]`
@@ -258,16 +258,16 @@ extension PaginatorSequence where Input == ListPreviewRotationShiftsInput, Outpu
     }
 }
 extension SSMContactsClient {
-    /// Paginate over `[ListRotationOverridesOutputResponse]` results.
+    /// Paginate over `[ListRotationOverridesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListRotationOverridesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListRotationOverridesOutputResponse`
-    public func listRotationOverridesPaginated(input: ListRotationOverridesInput) -> ClientRuntime.PaginatorSequence<ListRotationOverridesInput, ListRotationOverridesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListRotationOverridesInput, ListRotationOverridesOutputResponse>(input: input, inputKey: \ListRotationOverridesInput.nextToken, outputKey: \ListRotationOverridesOutputResponse.nextToken, paginationFunction: self.listRotationOverrides(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListRotationOverridesOutput`
+    public func listRotationOverridesPaginated(input: ListRotationOverridesInput) -> ClientRuntime.PaginatorSequence<ListRotationOverridesInput, ListRotationOverridesOutput> {
+        return ClientRuntime.PaginatorSequence<ListRotationOverridesInput, ListRotationOverridesOutput>(input: input, inputKey: \ListRotationOverridesInput.nextToken, outputKey: \ListRotationOverridesOutput.nextToken, paginationFunction: self.listRotationOverrides(input:))
     }
 }
 
@@ -282,7 +282,7 @@ extension ListRotationOverridesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListRotationOverridesInput, Output == ListRotationOverridesOutputResponse {
+extension PaginatorSequence where Input == ListRotationOverridesInput, Output == ListRotationOverridesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listRotationOverridesPaginated`
     /// to access the nested member `[SSMContactsClientTypes.RotationOverride]`
     /// - Returns: `[SSMContactsClientTypes.RotationOverride]`
@@ -291,16 +291,16 @@ extension PaginatorSequence where Input == ListRotationOverridesInput, Output ==
     }
 }
 extension SSMContactsClient {
-    /// Paginate over `[ListRotationsOutputResponse]` results.
+    /// Paginate over `[ListRotationsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListRotationsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListRotationsOutputResponse`
-    public func listRotationsPaginated(input: ListRotationsInput) -> ClientRuntime.PaginatorSequence<ListRotationsInput, ListRotationsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListRotationsInput, ListRotationsOutputResponse>(input: input, inputKey: \ListRotationsInput.nextToken, outputKey: \ListRotationsOutputResponse.nextToken, paginationFunction: self.listRotations(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListRotationsOutput`
+    public func listRotationsPaginated(input: ListRotationsInput) -> ClientRuntime.PaginatorSequence<ListRotationsInput, ListRotationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListRotationsInput, ListRotationsOutput>(input: input, inputKey: \ListRotationsInput.nextToken, outputKey: \ListRotationsOutput.nextToken, paginationFunction: self.listRotations(input:))
     }
 }
 
@@ -313,7 +313,7 @@ extension ListRotationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListRotationsInput, Output == ListRotationsOutputResponse {
+extension PaginatorSequence where Input == ListRotationsInput, Output == ListRotationsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listRotationsPaginated`
     /// to access the nested member `[SSMContactsClientTypes.Rotation]`
     /// - Returns: `[SSMContactsClientTypes.Rotation]`
@@ -322,16 +322,16 @@ extension PaginatorSequence where Input == ListRotationsInput, Output == ListRot
     }
 }
 extension SSMContactsClient {
-    /// Paginate over `[ListRotationShiftsOutputResponse]` results.
+    /// Paginate over `[ListRotationShiftsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListRotationShiftsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListRotationShiftsOutputResponse`
-    public func listRotationShiftsPaginated(input: ListRotationShiftsInput) -> ClientRuntime.PaginatorSequence<ListRotationShiftsInput, ListRotationShiftsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListRotationShiftsInput, ListRotationShiftsOutputResponse>(input: input, inputKey: \ListRotationShiftsInput.nextToken, outputKey: \ListRotationShiftsOutputResponse.nextToken, paginationFunction: self.listRotationShifts(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListRotationShiftsOutput`
+    public func listRotationShiftsPaginated(input: ListRotationShiftsInput) -> ClientRuntime.PaginatorSequence<ListRotationShiftsInput, ListRotationShiftsOutput> {
+        return ClientRuntime.PaginatorSequence<ListRotationShiftsInput, ListRotationShiftsOutput>(input: input, inputKey: \ListRotationShiftsInput.nextToken, outputKey: \ListRotationShiftsOutput.nextToken, paginationFunction: self.listRotationShifts(input:))
     }
 }
 
@@ -346,7 +346,7 @@ extension ListRotationShiftsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListRotationShiftsInput, Output == ListRotationShiftsOutputResponse {
+extension PaginatorSequence where Input == ListRotationShiftsInput, Output == ListRotationShiftsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listRotationShiftsPaginated`
     /// to access the nested member `[SSMContactsClientTypes.RotationShift]`
     /// - Returns: `[SSMContactsClientTypes.RotationShift]`

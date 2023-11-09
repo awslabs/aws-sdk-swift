@@ -8,7 +8,7 @@ public protocol ServiceCatalogAppRegistryClientProtocol {
     ///
     /// - Parameter AssociateAttributeGroupInput : [no documentation found]
     ///
-    /// - Returns: `AssociateAttributeGroupOutputResponse` : [no documentation found]
+    /// - Returns: `AssociateAttributeGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -18,12 +18,12 @@ public protocol ServiceCatalogAppRegistryClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceQuotaExceededException` : The maximum number of resources per account has been reached.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    func associateAttributeGroup(input: AssociateAttributeGroupInput) async throws -> AssociateAttributeGroupOutputResponse
+    func associateAttributeGroup(input: AssociateAttributeGroupInput) async throws -> AssociateAttributeGroupOutput
     /// Associates a resource with an application. The resource can be specified by its ARN or name. The application can be specified by ARN, ID, or name.
     ///
     /// - Parameter AssociateResourceInput : [no documentation found]
     ///
-    /// - Returns: `AssociateResourceOutputResponse` : [no documentation found]
+    /// - Returns: `AssociateResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -34,12 +34,12 @@ public protocol ServiceCatalogAppRegistryClientProtocol {
     /// - `ServiceQuotaExceededException` : The maximum number of resources per account has been reached.
     /// - `ThrottlingException` : The maximum number of API requests has been exceeded.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    func associateResource(input: AssociateResourceInput) async throws -> AssociateResourceOutputResponse
+    func associateResource(input: AssociateResourceInput) async throws -> AssociateResourceOutput
     /// Creates a new application that is the top-level node in a hierarchy of related cloud resource abstractions.
     ///
     /// - Parameter CreateApplicationInput : [no documentation found]
     ///
-    /// - Returns: `CreateApplicationOutputResponse` : [no documentation found]
+    /// - Returns: `CreateApplicationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -49,12 +49,12 @@ public protocol ServiceCatalogAppRegistryClientProtocol {
     /// - `ServiceQuotaExceededException` : The maximum number of resources per account has been reached.
     /// - `ThrottlingException` : The maximum number of API requests has been exceeded.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    func createApplication(input: CreateApplicationInput) async throws -> CreateApplicationOutputResponse
+    func createApplication(input: CreateApplicationInput) async throws -> CreateApplicationOutput
     /// Creates a new attribute group as a container for user-defined attributes. This feature enables users to have full control over their cloud application's metadata in a rich machine-readable format to facilitate integration with automated workflows and third-party tools.
     ///
     /// - Parameter CreateAttributeGroupInput : [no documentation found]
     ///
-    /// - Returns: `CreateAttributeGroupOutputResponse` : [no documentation found]
+    /// - Returns: `CreateAttributeGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -63,12 +63,12 @@ public protocol ServiceCatalogAppRegistryClientProtocol {
     /// - `InternalServerException` : The service is experiencing internal problems.
     /// - `ServiceQuotaExceededException` : The maximum number of resources per account has been reached.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    func createAttributeGroup(input: CreateAttributeGroupInput) async throws -> CreateAttributeGroupOutputResponse
+    func createAttributeGroup(input: CreateAttributeGroupInput) async throws -> CreateAttributeGroupOutput
     /// Deletes an application that is specified either by its application ID, name, or ARN. All associated attribute groups and resources must be disassociated from it before deleting an application.
     ///
     /// - Parameter DeleteApplicationInput : [no documentation found]
     ///
-    /// - Returns: `DeleteApplicationOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteApplicationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -76,12 +76,12 @@ public protocol ServiceCatalogAppRegistryClientProtocol {
     /// - `InternalServerException` : The service is experiencing internal problems.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    func deleteApplication(input: DeleteApplicationInput) async throws -> DeleteApplicationOutputResponse
+    func deleteApplication(input: DeleteApplicationInput) async throws -> DeleteApplicationOutput
     /// Deletes an attribute group, specified either by its attribute group ID, name, or ARN.
     ///
     /// - Parameter DeleteAttributeGroupInput : [no documentation found]
     ///
-    /// - Returns: `DeleteAttributeGroupOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteAttributeGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -89,12 +89,12 @@ public protocol ServiceCatalogAppRegistryClientProtocol {
     /// - `InternalServerException` : The service is experiencing internal problems.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    func deleteAttributeGroup(input: DeleteAttributeGroupInput) async throws -> DeleteAttributeGroupOutputResponse
+    func deleteAttributeGroup(input: DeleteAttributeGroupInput) async throws -> DeleteAttributeGroupOutput
     /// Disassociates an attribute group from an application to remove the extra attributes contained in the attribute group from the application's metadata. This operation reverts AssociateAttributeGroup.
     ///
     /// - Parameter DisassociateAttributeGroupInput : [no documentation found]
     ///
-    /// - Returns: `DisassociateAttributeGroupOutputResponse` : [no documentation found]
+    /// - Returns: `DisassociateAttributeGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -102,12 +102,12 @@ public protocol ServiceCatalogAppRegistryClientProtocol {
     /// - `InternalServerException` : The service is experiencing internal problems.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    func disassociateAttributeGroup(input: DisassociateAttributeGroupInput) async throws -> DisassociateAttributeGroupOutputResponse
+    func disassociateAttributeGroup(input: DisassociateAttributeGroupInput) async throws -> DisassociateAttributeGroupOutput
     /// Disassociates a resource from application. Both the resource and the application can be specified either by ID or name.
     ///
     /// - Parameter DisassociateResourceInput : [no documentation found]
     ///
-    /// - Returns: `DisassociateResourceOutputResponse` : [no documentation found]
+    /// - Returns: `DisassociateResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -116,12 +116,12 @@ public protocol ServiceCatalogAppRegistryClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The maximum number of API requests has been exceeded.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    func disassociateResource(input: DisassociateResourceInput) async throws -> DisassociateResourceOutputResponse
+    func disassociateResource(input: DisassociateResourceInput) async throws -> DisassociateResourceOutput
     /// Retrieves metadata information about one of your applications. The application can be specified by its ARN, ID, or name (which is unique within one account in one region at a given point in time). Specify by ARN or ID in automated workflows if you want to make sure that the exact same application is returned or a ResourceNotFoundException is thrown, avoiding the ABA addressing problem.
     ///
     /// - Parameter GetApplicationInput : [no documentation found]
     ///
-    /// - Returns: `GetApplicationOutputResponse` : [no documentation found]
+    /// - Returns: `GetApplicationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -130,12 +130,12 @@ public protocol ServiceCatalogAppRegistryClientProtocol {
     /// - `InternalServerException` : The service is experiencing internal problems.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    func getApplication(input: GetApplicationInput) async throws -> GetApplicationOutputResponse
+    func getApplication(input: GetApplicationInput) async throws -> GetApplicationOutput
     /// Gets the resource associated with the application.
     ///
     /// - Parameter GetAssociatedResourceInput : [no documentation found]
     ///
-    /// - Returns: `GetAssociatedResourceOutputResponse` : [no documentation found]
+    /// - Returns: `GetAssociatedResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -143,12 +143,12 @@ public protocol ServiceCatalogAppRegistryClientProtocol {
     /// - `InternalServerException` : The service is experiencing internal problems.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    func getAssociatedResource(input: GetAssociatedResourceInput) async throws -> GetAssociatedResourceOutputResponse
+    func getAssociatedResource(input: GetAssociatedResourceInput) async throws -> GetAssociatedResourceOutput
     /// Retrieves an attribute group by its ARN, ID, or name. The attribute group can be specified by its ARN, ID, or name.
     ///
     /// - Parameter GetAttributeGroupInput : [no documentation found]
     ///
-    /// - Returns: `GetAttributeGroupOutputResponse` : [no documentation found]
+    /// - Returns: `GetAttributeGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -157,35 +157,35 @@ public protocol ServiceCatalogAppRegistryClientProtocol {
     /// - `InternalServerException` : The service is experiencing internal problems.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    func getAttributeGroup(input: GetAttributeGroupInput) async throws -> GetAttributeGroupOutputResponse
+    func getAttributeGroup(input: GetAttributeGroupInput) async throws -> GetAttributeGroupOutput
     /// Retrieves a TagKey configuration from an account.
     ///
     /// - Parameter GetConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `GetConfigurationOutputResponse` : [no documentation found]
+    /// - Returns: `GetConfigurationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : The service is experiencing internal problems.
-    func getConfiguration(input: GetConfigurationInput) async throws -> GetConfigurationOutputResponse
+    func getConfiguration(input: GetConfigurationInput) async throws -> GetConfigurationOutput
     /// Retrieves a list of all of your applications. Results are paginated.
     ///
     /// - Parameter ListApplicationsInput : [no documentation found]
     ///
-    /// - Returns: `ListApplicationsOutputResponse` : [no documentation found]
+    /// - Returns: `ListApplicationsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : The service is experiencing internal problems.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    func listApplications(input: ListApplicationsInput) async throws -> ListApplicationsOutputResponse
+    func listApplications(input: ListApplicationsInput) async throws -> ListApplicationsOutput
     /// Lists all attribute groups that are associated with specified application. Results are paginated.
     ///
     /// - Parameter ListAssociatedAttributeGroupsInput : [no documentation found]
     ///
-    /// - Returns: `ListAssociatedAttributeGroupsOutputResponse` : [no documentation found]
+    /// - Returns: `ListAssociatedAttributeGroupsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -193,12 +193,12 @@ public protocol ServiceCatalogAppRegistryClientProtocol {
     /// - `InternalServerException` : The service is experiencing internal problems.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    func listAssociatedAttributeGroups(input: ListAssociatedAttributeGroupsInput) async throws -> ListAssociatedAttributeGroupsOutputResponse
+    func listAssociatedAttributeGroups(input: ListAssociatedAttributeGroupsInput) async throws -> ListAssociatedAttributeGroupsOutput
     /// Lists all of the resources that are associated with the specified application. Results are paginated. If you share an application, and a consumer account associates a tag query to the application, all of the users who can access the application can also view the tag values in all accounts that are associated with it using this API.
     ///
     /// - Parameter ListAssociatedResourcesInput : [no documentation found]
     ///
-    /// - Returns: `ListAssociatedResourcesOutputResponse` : [no documentation found]
+    /// - Returns: `ListAssociatedResourcesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -206,24 +206,24 @@ public protocol ServiceCatalogAppRegistryClientProtocol {
     /// - `InternalServerException` : The service is experiencing internal problems.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    func listAssociatedResources(input: ListAssociatedResourcesInput) async throws -> ListAssociatedResourcesOutputResponse
+    func listAssociatedResources(input: ListAssociatedResourcesInput) async throws -> ListAssociatedResourcesOutput
     /// Lists all attribute groups which you have access to. Results are paginated.
     ///
     /// - Parameter ListAttributeGroupsInput : [no documentation found]
     ///
-    /// - Returns: `ListAttributeGroupsOutputResponse` : [no documentation found]
+    /// - Returns: `ListAttributeGroupsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : The service is experiencing internal problems.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    func listAttributeGroups(input: ListAttributeGroupsInput) async throws -> ListAttributeGroupsOutputResponse
+    func listAttributeGroups(input: ListAttributeGroupsInput) async throws -> ListAttributeGroupsOutput
     /// Lists the details of all attribute groups associated with a specific application. The results display in pages.
     ///
     /// - Parameter ListAttributeGroupsForApplicationInput : [no documentation found]
     ///
-    /// - Returns: `ListAttributeGroupsForApplicationOutputResponse` : [no documentation found]
+    /// - Returns: `ListAttributeGroupsForApplicationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -231,12 +231,12 @@ public protocol ServiceCatalogAppRegistryClientProtocol {
     /// - `InternalServerException` : The service is experiencing internal problems.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    func listAttributeGroupsForApplication(input: ListAttributeGroupsForApplicationInput) async throws -> ListAttributeGroupsForApplicationOutputResponse
+    func listAttributeGroupsForApplication(input: ListAttributeGroupsForApplicationInput) async throws -> ListAttributeGroupsForApplicationOutput
     /// Lists all of the tags on the resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -244,12 +244,12 @@ public protocol ServiceCatalogAppRegistryClientProtocol {
     /// - `InternalServerException` : The service is experiencing internal problems.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     /// Associates a TagKey configuration to an account.
     ///
     /// - Parameter PutConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `PutConfigurationOutputResponse` : [no documentation found]
+    /// - Returns: `PutConfigurationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -257,12 +257,12 @@ public protocol ServiceCatalogAppRegistryClientProtocol {
     /// - `ConflictException` : There was a conflict when processing the request (for example, a resource with the given name already exists within the account).
     /// - `InternalServerException` : The service is experiencing internal problems.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    func putConfiguration(input: PutConfigurationInput) async throws -> PutConfigurationOutputResponse
+    func putConfiguration(input: PutConfigurationInput) async throws -> PutConfigurationOutput
     /// Syncs the resource with current AppRegistry records. Specifically, the resource’s AppRegistry system tags sync with its associated application. We remove the resource's AppRegistry system tags if it does not associate with the application. The caller must have permissions to read and update the resource.
     ///
     /// - Parameter SyncResourceInput : [no documentation found]
     ///
-    /// - Returns: `SyncResourceOutputResponse` : [no documentation found]
+    /// - Returns: `SyncResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -272,12 +272,12 @@ public protocol ServiceCatalogAppRegistryClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The maximum number of API requests has been exceeded.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    func syncResource(input: SyncResourceInput) async throws -> SyncResourceOutputResponse
+    func syncResource(input: SyncResourceInput) async throws -> SyncResourceOutput
     /// Assigns one or more tags (key-value pairs) to the specified resource. Each tag consists of a key and an optional value. If a tag with the same key is already associated with the resource, this action updates its value. This operation returns an empty response if the call was successful.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -285,12 +285,12 @@ public protocol ServiceCatalogAppRegistryClientProtocol {
     /// - `InternalServerException` : The service is experiencing internal problems.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     /// Removes tags from a resource. This operation returns an empty response if the call was successful.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -298,12 +298,12 @@ public protocol ServiceCatalogAppRegistryClientProtocol {
     /// - `InternalServerException` : The service is experiencing internal problems.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
     /// Updates an existing application with new attributes.
     ///
     /// - Parameter UpdateApplicationInput : [no documentation found]
     ///
-    /// - Returns: `UpdateApplicationOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateApplicationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -313,12 +313,12 @@ public protocol ServiceCatalogAppRegistryClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The maximum number of API requests has been exceeded.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    func updateApplication(input: UpdateApplicationInput) async throws -> UpdateApplicationOutputResponse
+    func updateApplication(input: UpdateApplicationInput) async throws -> UpdateApplicationOutput
     /// Updates an existing attribute group with new details.
     ///
     /// - Parameter UpdateAttributeGroupInput : [no documentation found]
     ///
-    /// - Returns: `UpdateAttributeGroupOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateAttributeGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -327,7 +327,7 @@ public protocol ServiceCatalogAppRegistryClientProtocol {
     /// - `InternalServerException` : The service is experiencing internal problems.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ValidationException` : The request has invalid or missing parameters.
-    func updateAttributeGroup(input: UpdateAttributeGroupInput) async throws -> UpdateAttributeGroupOutputResponse
+    func updateAttributeGroup(input: UpdateAttributeGroupInput) async throws -> UpdateAttributeGroupOutput
 }
 
 public enum ServiceCatalogAppRegistryClientTypes {}

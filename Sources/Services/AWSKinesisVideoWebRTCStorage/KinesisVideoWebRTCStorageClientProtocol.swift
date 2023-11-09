@@ -8,7 +8,7 @@ public protocol KinesisVideoWebRTCStorageClientProtocol {
     ///
     /// - Parameter JoinStorageSessionInput : [no documentation found]
     ///
-    /// - Returns: `JoinStorageSessionOutputResponse` : [no documentation found]
+    /// - Returns: `JoinStorageSessionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -17,7 +17,7 @@ public protocol KinesisVideoWebRTCStorageClientProtocol {
     /// - `ClientLimitExceededException` : Kinesis Video Streams has throttled the request because you have exceeded the limit of allowed client calls. Try making the call later.
     /// - `InvalidArgumentException` : The value for this input parameter is invalid.
     /// - `ResourceNotFoundException` : The specified resource is not found.
-    func joinStorageSession(input: JoinStorageSessionInput) async throws -> JoinStorageSessionOutputResponse
+    func joinStorageSession(input: JoinStorageSessionInput) async throws -> JoinStorageSessionOutput
 }
 
 public enum KinesisVideoWebRTCStorageClientTypes {}

@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension TimestreamQueryClient {
-    /// Paginate over `[ListScheduledQueriesOutputResponse]` results.
+    /// Paginate over `[ListScheduledQueriesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListScheduledQueriesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListScheduledQueriesOutputResponse`
-    public func listScheduledQueriesPaginated(input: ListScheduledQueriesInput) -> ClientRuntime.PaginatorSequence<ListScheduledQueriesInput, ListScheduledQueriesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListScheduledQueriesInput, ListScheduledQueriesOutputResponse>(input: input, inputKey: \ListScheduledQueriesInput.nextToken, outputKey: \ListScheduledQueriesOutputResponse.nextToken, paginationFunction: self.listScheduledQueries(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListScheduledQueriesOutput`
+    public func listScheduledQueriesPaginated(input: ListScheduledQueriesInput) -> ClientRuntime.PaginatorSequence<ListScheduledQueriesInput, ListScheduledQueriesOutput> {
+        return ClientRuntime.PaginatorSequence<ListScheduledQueriesInput, ListScheduledQueriesOutput>(input: input, inputKey: \ListScheduledQueriesInput.nextToken, outputKey: \ListScheduledQueriesOutput.nextToken, paginationFunction: self.listScheduledQueries(input:))
     }
 }
 
@@ -24,7 +24,7 @@ extension ListScheduledQueriesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListScheduledQueriesInput, Output == ListScheduledQueriesOutputResponse {
+extension PaginatorSequence where Input == ListScheduledQueriesInput, Output == ListScheduledQueriesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listScheduledQueriesPaginated`
     /// to access the nested member `[TimestreamQueryClientTypes.ScheduledQuery]`
     /// - Returns: `[TimestreamQueryClientTypes.ScheduledQuery]`
@@ -33,16 +33,16 @@ extension PaginatorSequence where Input == ListScheduledQueriesInput, Output == 
     }
 }
 extension TimestreamQueryClient {
-    /// Paginate over `[ListTagsForResourceOutputResponse]` results.
+    /// Paginate over `[ListTagsForResourceOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListTagsForResourceInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListTagsForResourceOutputResponse`
-    public func listTagsForResourcePaginated(input: ListTagsForResourceInput) -> ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutputResponse>(input: input, inputKey: \ListTagsForResourceInput.nextToken, outputKey: \ListTagsForResourceOutputResponse.nextToken, paginationFunction: self.listTagsForResource(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListTagsForResourceOutput`
+    public func listTagsForResourcePaginated(input: ListTagsForResourceInput) -> ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutput> {
+        return ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutput>(input: input, inputKey: \ListTagsForResourceInput.nextToken, outputKey: \ListTagsForResourceOutput.nextToken, paginationFunction: self.listTagsForResource(input:))
     }
 }
 
@@ -55,7 +55,7 @@ extension ListTagsForResourceInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListTagsForResourceInput, Output == ListTagsForResourceOutputResponse {
+extension PaginatorSequence where Input == ListTagsForResourceInput, Output == ListTagsForResourceOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listTagsForResourcePaginated`
     /// to access the nested member `[TimestreamQueryClientTypes.Tag]`
     /// - Returns: `[TimestreamQueryClientTypes.Tag]`
@@ -64,16 +64,16 @@ extension PaginatorSequence where Input == ListTagsForResourceInput, Output == L
     }
 }
 extension TimestreamQueryClient {
-    /// Paginate over `[QueryOutputResponse]` results.
+    /// Paginate over `[QueryOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[QueryInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `QueryOutputResponse`
-    public func queryPaginated(input: QueryInput) -> ClientRuntime.PaginatorSequence<QueryInput, QueryOutputResponse> {
-        return ClientRuntime.PaginatorSequence<QueryInput, QueryOutputResponse>(input: input, inputKey: \QueryInput.nextToken, outputKey: \QueryOutputResponse.nextToken, paginationFunction: self.query(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `QueryOutput`
+    public func queryPaginated(input: QueryInput) -> ClientRuntime.PaginatorSequence<QueryInput, QueryOutput> {
+        return ClientRuntime.PaginatorSequence<QueryInput, QueryOutput>(input: input, inputKey: \QueryInput.nextToken, outputKey: \QueryOutput.nextToken, paginationFunction: self.query(input:))
     }
 }
 
@@ -87,7 +87,7 @@ extension QueryInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == QueryInput, Output == QueryOutputResponse {
+extension PaginatorSequence where Input == QueryInput, Output == QueryOutput {
     /// This paginator transforms the `AsyncSequence` returned by `queryPaginated`
     /// to access the nested member `[TimestreamQueryClientTypes.Row]`
     /// - Returns: `[TimestreamQueryClientTypes.Row]`

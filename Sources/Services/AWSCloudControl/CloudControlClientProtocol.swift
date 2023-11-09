@@ -8,19 +8,19 @@ public protocol CloudControlClientProtocol {
     ///
     /// - Parameter CancelResourceRequestInput : [no documentation found]
     ///
-    /// - Returns: `CancelResourceRequestOutputResponse` : [no documentation found]
+    /// - Returns: `CancelResourceRequestOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ConcurrentModificationException` : The resource is currently being modified by another operation.
     /// - `RequestTokenNotFoundException` : A resource operation with the specified request token can't be found.
-    func cancelResourceRequest(input: CancelResourceRequestInput) async throws -> CancelResourceRequestOutputResponse
+    func cancelResourceRequest(input: CancelResourceRequestInput) async throws -> CancelResourceRequestOutput
     /// Creates the specified resource. For more information, see [Creating a resource](https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/resource-operations-create.html) in the Amazon Web Services Cloud Control API User Guide. After you have initiated a resource creation request, you can monitor the progress of your request by calling [GetResourceRequestStatus](https://docs.aws.amazon.com/cloudcontrolapi/latest/APIReference/API_GetResourceRequestStatus.html) using the RequestToken of the ProgressEvent type returned by CreateResource.
     ///
     /// - Parameter CreateResourceInput : [no documentation found]
     ///
-    /// - Returns: `CreateResourceOutputResponse` : [no documentation found]
+    /// - Returns: `CreateResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -44,12 +44,12 @@ public protocol CloudControlClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `TypeNotFoundException` : The specified extension doesn't exist in the CloudFormation registry.
     /// - `UnsupportedActionException` : The specified resource doesn't support this resource operation.
-    func createResource(input: CreateResourceInput) async throws -> CreateResourceOutputResponse
+    func createResource(input: CreateResourceInput) async throws -> CreateResourceOutput
     /// Deletes the specified resource. For details, see [Deleting a resource](https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/resource-operations-delete.html) in the Amazon Web Services Cloud Control API User Guide. After you have initiated a resource deletion request, you can monitor the progress of your request by calling [GetResourceRequestStatus](https://docs.aws.amazon.com/cloudcontrolapi/latest/APIReference/API_GetResourceRequestStatus.html) using the RequestToken of the ProgressEvent returned by DeleteResource.
     ///
     /// - Parameter DeleteResourceInput : [no documentation found]
     ///
-    /// - Returns: `DeleteResourceOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -73,12 +73,12 @@ public protocol CloudControlClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `TypeNotFoundException` : The specified extension doesn't exist in the CloudFormation registry.
     /// - `UnsupportedActionException` : The specified resource doesn't support this resource operation.
-    func deleteResource(input: DeleteResourceInput) async throws -> DeleteResourceOutputResponse
+    func deleteResource(input: DeleteResourceInput) async throws -> DeleteResourceOutput
     /// Returns information about the current state of the specified resource. For details, see [Reading a resource's current state](https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/resource-operations-read.html). You can use this action to return information about an existing resource in your account and Amazon Web Services Region, whether those resources were provisioned using Cloud Control API.
     ///
     /// - Parameter GetResourceInput : [no documentation found]
     ///
-    /// - Returns: `GetResourceOutputResponse` : [no documentation found]
+    /// - Returns: `GetResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -100,29 +100,29 @@ public protocol CloudControlClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `TypeNotFoundException` : The specified extension doesn't exist in the CloudFormation registry.
     /// - `UnsupportedActionException` : The specified resource doesn't support this resource operation.
-    func getResource(input: GetResourceInput) async throws -> GetResourceOutputResponse
+    func getResource(input: GetResourceInput) async throws -> GetResourceOutput
     /// Returns the current status of a resource operation request. For more information, see [Tracking the progress of resource operation requests](https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/resource-operations-manage-requests.html#resource-operations-manage-requests-track) in the Amazon Web Services Cloud Control API User Guide.
     ///
     /// - Parameter GetResourceRequestStatusInput : [no documentation found]
     ///
-    /// - Returns: `GetResourceRequestStatusOutputResponse` : [no documentation found]
+    /// - Returns: `GetResourceRequestStatusOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `RequestTokenNotFoundException` : A resource operation with the specified request token can't be found.
-    func getResourceRequestStatus(input: GetResourceRequestStatusInput) async throws -> GetResourceRequestStatusOutputResponse
+    func getResourceRequestStatus(input: GetResourceRequestStatusInput) async throws -> GetResourceRequestStatusOutput
     /// Returns existing resource operation requests. This includes requests of all status types. For more information, see [Listing active resource operation requests](https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/resource-operations-manage-requests.html#resource-operations-manage-requests-list) in the Amazon Web Services Cloud Control API User Guide. Resource operation requests expire after 7 days.
     ///
     /// - Parameter ListResourceRequestsInput : [no documentation found]
     ///
-    /// - Returns: `ListResourceRequestsOutputResponse` : [no documentation found]
-    func listResourceRequests(input: ListResourceRequestsInput) async throws -> ListResourceRequestsOutputResponse
+    /// - Returns: `ListResourceRequestsOutput` : [no documentation found]
+    func listResourceRequests(input: ListResourceRequestsInput) async throws -> ListResourceRequestsOutput
     /// Returns information about the specified resources. For more information, see [Discovering resources](https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/resource-operations-list.html) in the Amazon Web Services Cloud Control API User Guide. You can use this action to return information about existing resources in your account and Amazon Web Services Region, whether those resources were provisioned using Cloud Control API.
     ///
     /// - Parameter ListResourcesInput : [no documentation found]
     ///
-    /// - Returns: `ListResourcesOutputResponse` : [no documentation found]
+    /// - Returns: `ListResourcesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -144,12 +144,12 @@ public protocol CloudControlClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `TypeNotFoundException` : The specified extension doesn't exist in the CloudFormation registry.
     /// - `UnsupportedActionException` : The specified resource doesn't support this resource operation.
-    func listResources(input: ListResourcesInput) async throws -> ListResourcesOutputResponse
+    func listResources(input: ListResourcesInput) async throws -> ListResourcesOutput
     /// Updates the specified property values in the resource. You specify your resource property updates as a list of patch operations contained in a JSON patch document that adheres to the [ RFC 6902 - JavaScript Object Notation (JSON) Patch ](https://datatracker.ietf.org/doc/html/rfc6902) standard. For details on how Cloud Control API performs resource update operations, see [Updating a resource](https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/resource-operations-update.html) in the Amazon Web Services Cloud Control API User Guide. After you have initiated a resource update request, you can monitor the progress of your request by calling [GetResourceRequestStatus](https://docs.aws.amazon.com/cloudcontrolapi/latest/APIReference/API_GetResourceRequestStatus.html) using the RequestToken of the ProgressEvent returned by UpdateResource. For more information about the properties of a specific resource, refer to the related topic for the resource in the [Resource and property types reference](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html) in the CloudFormation Users Guide.
     ///
     /// - Parameter UpdateResourceInput : [no documentation found]
     ///
-    /// - Returns: `UpdateResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -173,7 +173,7 @@ public protocol CloudControlClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `TypeNotFoundException` : The specified extension doesn't exist in the CloudFormation registry.
     /// - `UnsupportedActionException` : The specified resource doesn't support this resource operation.
-    func updateResource(input: UpdateResourceInput) async throws -> UpdateResourceOutputResponse
+    func updateResource(input: UpdateResourceInput) async throws -> UpdateResourceOutput
 }
 
 public enum CloudControlClientTypes {}

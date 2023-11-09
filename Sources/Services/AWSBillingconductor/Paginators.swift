@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension BillingconductorClient {
-    /// Paginate over `[ListAccountAssociationsOutputResponse]` results.
+    /// Paginate over `[ListAccountAssociationsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListAccountAssociationsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListAccountAssociationsOutputResponse`
-    public func listAccountAssociationsPaginated(input: ListAccountAssociationsInput) -> ClientRuntime.PaginatorSequence<ListAccountAssociationsInput, ListAccountAssociationsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListAccountAssociationsInput, ListAccountAssociationsOutputResponse>(input: input, inputKey: \ListAccountAssociationsInput.nextToken, outputKey: \ListAccountAssociationsOutputResponse.nextToken, paginationFunction: self.listAccountAssociations(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAccountAssociationsOutput`
+    public func listAccountAssociationsPaginated(input: ListAccountAssociationsInput) -> ClientRuntime.PaginatorSequence<ListAccountAssociationsInput, ListAccountAssociationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListAccountAssociationsInput, ListAccountAssociationsOutput>(input: input, inputKey: \ListAccountAssociationsInput.nextToken, outputKey: \ListAccountAssociationsOutput.nextToken, paginationFunction: self.listAccountAssociations(input:))
     }
 }
 
@@ -25,7 +25,7 @@ extension ListAccountAssociationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListAccountAssociationsInput, Output == ListAccountAssociationsOutputResponse {
+extension PaginatorSequence where Input == ListAccountAssociationsInput, Output == ListAccountAssociationsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listAccountAssociationsPaginated`
     /// to access the nested member `[BillingconductorClientTypes.AccountAssociationsListElement]`
     /// - Returns: `[BillingconductorClientTypes.AccountAssociationsListElement]`
@@ -34,16 +34,16 @@ extension PaginatorSequence where Input == ListAccountAssociationsInput, Output 
     }
 }
 extension BillingconductorClient {
-    /// Paginate over `[ListBillingGroupCostReportsOutputResponse]` results.
+    /// Paginate over `[ListBillingGroupCostReportsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListBillingGroupCostReportsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListBillingGroupCostReportsOutputResponse`
-    public func listBillingGroupCostReportsPaginated(input: ListBillingGroupCostReportsInput) -> ClientRuntime.PaginatorSequence<ListBillingGroupCostReportsInput, ListBillingGroupCostReportsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListBillingGroupCostReportsInput, ListBillingGroupCostReportsOutputResponse>(input: input, inputKey: \ListBillingGroupCostReportsInput.nextToken, outputKey: \ListBillingGroupCostReportsOutputResponse.nextToken, paginationFunction: self.listBillingGroupCostReports(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListBillingGroupCostReportsOutput`
+    public func listBillingGroupCostReportsPaginated(input: ListBillingGroupCostReportsInput) -> ClientRuntime.PaginatorSequence<ListBillingGroupCostReportsInput, ListBillingGroupCostReportsOutput> {
+        return ClientRuntime.PaginatorSequence<ListBillingGroupCostReportsInput, ListBillingGroupCostReportsOutput>(input: input, inputKey: \ListBillingGroupCostReportsInput.nextToken, outputKey: \ListBillingGroupCostReportsOutput.nextToken, paginationFunction: self.listBillingGroupCostReports(input:))
     }
 }
 
@@ -57,7 +57,7 @@ extension ListBillingGroupCostReportsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListBillingGroupCostReportsInput, Output == ListBillingGroupCostReportsOutputResponse {
+extension PaginatorSequence where Input == ListBillingGroupCostReportsInput, Output == ListBillingGroupCostReportsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listBillingGroupCostReportsPaginated`
     /// to access the nested member `[BillingconductorClientTypes.BillingGroupCostReportElement]`
     /// - Returns: `[BillingconductorClientTypes.BillingGroupCostReportElement]`

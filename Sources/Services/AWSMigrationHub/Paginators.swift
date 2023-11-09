@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension MigrationHubClient {
-    /// Paginate over `[ListApplicationStatesOutputResponse]` results.
+    /// Paginate over `[ListApplicationStatesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListApplicationStatesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListApplicationStatesOutputResponse`
-    public func listApplicationStatesPaginated(input: ListApplicationStatesInput) -> ClientRuntime.PaginatorSequence<ListApplicationStatesInput, ListApplicationStatesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListApplicationStatesInput, ListApplicationStatesOutputResponse>(input: input, inputKey: \ListApplicationStatesInput.nextToken, outputKey: \ListApplicationStatesOutputResponse.nextToken, paginationFunction: self.listApplicationStates(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListApplicationStatesOutput`
+    public func listApplicationStatesPaginated(input: ListApplicationStatesInput) -> ClientRuntime.PaginatorSequence<ListApplicationStatesInput, ListApplicationStatesOutput> {
+        return ClientRuntime.PaginatorSequence<ListApplicationStatesInput, ListApplicationStatesOutput>(input: input, inputKey: \ListApplicationStatesInput.nextToken, outputKey: \ListApplicationStatesOutput.nextToken, paginationFunction: self.listApplicationStates(input:))
     }
 }
 
@@ -25,7 +25,7 @@ extension ListApplicationStatesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListApplicationStatesInput, Output == ListApplicationStatesOutputResponse {
+extension PaginatorSequence where Input == ListApplicationStatesInput, Output == ListApplicationStatesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listApplicationStatesPaginated`
     /// to access the nested member `[MigrationHubClientTypes.ApplicationState]`
     /// - Returns: `[MigrationHubClientTypes.ApplicationState]`
@@ -34,16 +34,16 @@ extension PaginatorSequence where Input == ListApplicationStatesInput, Output ==
     }
 }
 extension MigrationHubClient {
-    /// Paginate over `[ListCreatedArtifactsOutputResponse]` results.
+    /// Paginate over `[ListCreatedArtifactsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListCreatedArtifactsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListCreatedArtifactsOutputResponse`
-    public func listCreatedArtifactsPaginated(input: ListCreatedArtifactsInput) -> ClientRuntime.PaginatorSequence<ListCreatedArtifactsInput, ListCreatedArtifactsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListCreatedArtifactsInput, ListCreatedArtifactsOutputResponse>(input: input, inputKey: \ListCreatedArtifactsInput.nextToken, outputKey: \ListCreatedArtifactsOutputResponse.nextToken, paginationFunction: self.listCreatedArtifacts(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListCreatedArtifactsOutput`
+    public func listCreatedArtifactsPaginated(input: ListCreatedArtifactsInput) -> ClientRuntime.PaginatorSequence<ListCreatedArtifactsInput, ListCreatedArtifactsOutput> {
+        return ClientRuntime.PaginatorSequence<ListCreatedArtifactsInput, ListCreatedArtifactsOutput>(input: input, inputKey: \ListCreatedArtifactsInput.nextToken, outputKey: \ListCreatedArtifactsOutput.nextToken, paginationFunction: self.listCreatedArtifacts(input:))
     }
 }
 
@@ -57,7 +57,7 @@ extension ListCreatedArtifactsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListCreatedArtifactsInput, Output == ListCreatedArtifactsOutputResponse {
+extension PaginatorSequence where Input == ListCreatedArtifactsInput, Output == ListCreatedArtifactsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listCreatedArtifactsPaginated`
     /// to access the nested member `[MigrationHubClientTypes.CreatedArtifact]`
     /// - Returns: `[MigrationHubClientTypes.CreatedArtifact]`
@@ -66,16 +66,16 @@ extension PaginatorSequence where Input == ListCreatedArtifactsInput, Output == 
     }
 }
 extension MigrationHubClient {
-    /// Paginate over `[ListDiscoveredResourcesOutputResponse]` results.
+    /// Paginate over `[ListDiscoveredResourcesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListDiscoveredResourcesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListDiscoveredResourcesOutputResponse`
-    public func listDiscoveredResourcesPaginated(input: ListDiscoveredResourcesInput) -> ClientRuntime.PaginatorSequence<ListDiscoveredResourcesInput, ListDiscoveredResourcesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListDiscoveredResourcesInput, ListDiscoveredResourcesOutputResponse>(input: input, inputKey: \ListDiscoveredResourcesInput.nextToken, outputKey: \ListDiscoveredResourcesOutputResponse.nextToken, paginationFunction: self.listDiscoveredResources(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDiscoveredResourcesOutput`
+    public func listDiscoveredResourcesPaginated(input: ListDiscoveredResourcesInput) -> ClientRuntime.PaginatorSequence<ListDiscoveredResourcesInput, ListDiscoveredResourcesOutput> {
+        return ClientRuntime.PaginatorSequence<ListDiscoveredResourcesInput, ListDiscoveredResourcesOutput>(input: input, inputKey: \ListDiscoveredResourcesInput.nextToken, outputKey: \ListDiscoveredResourcesOutput.nextToken, paginationFunction: self.listDiscoveredResources(input:))
     }
 }
 
@@ -89,7 +89,7 @@ extension ListDiscoveredResourcesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListDiscoveredResourcesInput, Output == ListDiscoveredResourcesOutputResponse {
+extension PaginatorSequence where Input == ListDiscoveredResourcesInput, Output == ListDiscoveredResourcesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listDiscoveredResourcesPaginated`
     /// to access the nested member `[MigrationHubClientTypes.DiscoveredResource]`
     /// - Returns: `[MigrationHubClientTypes.DiscoveredResource]`
@@ -98,16 +98,16 @@ extension PaginatorSequence where Input == ListDiscoveredResourcesInput, Output 
     }
 }
 extension MigrationHubClient {
-    /// Paginate over `[ListMigrationTasksOutputResponse]` results.
+    /// Paginate over `[ListMigrationTasksOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListMigrationTasksInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListMigrationTasksOutputResponse`
-    public func listMigrationTasksPaginated(input: ListMigrationTasksInput) -> ClientRuntime.PaginatorSequence<ListMigrationTasksInput, ListMigrationTasksOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListMigrationTasksInput, ListMigrationTasksOutputResponse>(input: input, inputKey: \ListMigrationTasksInput.nextToken, outputKey: \ListMigrationTasksOutputResponse.nextToken, paginationFunction: self.listMigrationTasks(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListMigrationTasksOutput`
+    public func listMigrationTasksPaginated(input: ListMigrationTasksInput) -> ClientRuntime.PaginatorSequence<ListMigrationTasksInput, ListMigrationTasksOutput> {
+        return ClientRuntime.PaginatorSequence<ListMigrationTasksInput, ListMigrationTasksOutput>(input: input, inputKey: \ListMigrationTasksInput.nextToken, outputKey: \ListMigrationTasksOutput.nextToken, paginationFunction: self.listMigrationTasks(input:))
     }
 }
 
@@ -120,7 +120,7 @@ extension ListMigrationTasksInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListMigrationTasksInput, Output == ListMigrationTasksOutputResponse {
+extension PaginatorSequence where Input == ListMigrationTasksInput, Output == ListMigrationTasksOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listMigrationTasksPaginated`
     /// to access the nested member `[MigrationHubClientTypes.MigrationTaskSummary]`
     /// - Returns: `[MigrationHubClientTypes.MigrationTaskSummary]`
@@ -129,16 +129,16 @@ extension PaginatorSequence where Input == ListMigrationTasksInput, Output == Li
     }
 }
 extension MigrationHubClient {
-    /// Paginate over `[ListProgressUpdateStreamsOutputResponse]` results.
+    /// Paginate over `[ListProgressUpdateStreamsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListProgressUpdateStreamsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListProgressUpdateStreamsOutputResponse`
-    public func listProgressUpdateStreamsPaginated(input: ListProgressUpdateStreamsInput) -> ClientRuntime.PaginatorSequence<ListProgressUpdateStreamsInput, ListProgressUpdateStreamsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListProgressUpdateStreamsInput, ListProgressUpdateStreamsOutputResponse>(input: input, inputKey: \ListProgressUpdateStreamsInput.nextToken, outputKey: \ListProgressUpdateStreamsOutputResponse.nextToken, paginationFunction: self.listProgressUpdateStreams(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListProgressUpdateStreamsOutput`
+    public func listProgressUpdateStreamsPaginated(input: ListProgressUpdateStreamsInput) -> ClientRuntime.PaginatorSequence<ListProgressUpdateStreamsInput, ListProgressUpdateStreamsOutput> {
+        return ClientRuntime.PaginatorSequence<ListProgressUpdateStreamsInput, ListProgressUpdateStreamsOutput>(input: input, inputKey: \ListProgressUpdateStreamsInput.nextToken, outputKey: \ListProgressUpdateStreamsOutput.nextToken, paginationFunction: self.listProgressUpdateStreams(input:))
     }
 }
 
@@ -150,7 +150,7 @@ extension ListProgressUpdateStreamsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListProgressUpdateStreamsInput, Output == ListProgressUpdateStreamsOutputResponse {
+extension PaginatorSequence where Input == ListProgressUpdateStreamsInput, Output == ListProgressUpdateStreamsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listProgressUpdateStreamsPaginated`
     /// to access the nested member `[MigrationHubClientTypes.ProgressUpdateStreamSummary]`
     /// - Returns: `[MigrationHubClientTypes.ProgressUpdateStreamSummary]`

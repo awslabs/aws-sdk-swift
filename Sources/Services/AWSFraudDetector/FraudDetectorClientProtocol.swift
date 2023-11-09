@@ -8,7 +8,7 @@ public protocol FraudDetectorClientProtocol {
     ///
     /// - Parameter BatchCreateVariableInput : [no documentation found]
     ///
-    /// - Returns: `BatchCreateVariableOutputResponse` : [no documentation found]
+    /// - Returns: `BatchCreateVariableOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -17,12 +17,12 @@ public protocol FraudDetectorClientProtocol {
     /// - `InternalServerException` : An exception indicating an internal server error.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    func batchCreateVariable(input: BatchCreateVariableInput) async throws -> BatchCreateVariableOutputResponse
+    func batchCreateVariable(input: BatchCreateVariableInput) async throws -> BatchCreateVariableOutput
     /// Gets a batch of variables.
     ///
     /// - Parameter BatchGetVariableInput : [no documentation found]
     ///
-    /// - Returns: `BatchGetVariableOutputResponse` : [no documentation found]
+    /// - Returns: `BatchGetVariableOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -31,12 +31,12 @@ public protocol FraudDetectorClientProtocol {
     /// - `InternalServerException` : An exception indicating an internal server error.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    func batchGetVariable(input: BatchGetVariableInput) async throws -> BatchGetVariableOutputResponse
+    func batchGetVariable(input: BatchGetVariableInput) async throws -> BatchGetVariableOutput
     /// Cancels an in-progress batch import job.
     ///
     /// - Parameter CancelBatchImportJobInput : [no documentation found]
     ///
-    /// - Returns: `CancelBatchImportJobOutputResponse` : [no documentation found]
+    /// - Returns: `CancelBatchImportJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -46,12 +46,12 @@ public protocol FraudDetectorClientProtocol {
     /// - `ResourceNotFoundException` : An exception indicating the specified resource was not found.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    func cancelBatchImportJob(input: CancelBatchImportJobInput) async throws -> CancelBatchImportJobOutputResponse
+    func cancelBatchImportJob(input: CancelBatchImportJobInput) async throws -> CancelBatchImportJobOutput
     /// Cancels the specified batch prediction job.
     ///
     /// - Parameter CancelBatchPredictionJobInput : [no documentation found]
     ///
-    /// - Returns: `CancelBatchPredictionJobOutputResponse` : [no documentation found]
+    /// - Returns: `CancelBatchPredictionJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -61,12 +61,12 @@ public protocol FraudDetectorClientProtocol {
     /// - `ResourceNotFoundException` : An exception indicating the specified resource was not found.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    func cancelBatchPredictionJob(input: CancelBatchPredictionJobInput) async throws -> CancelBatchPredictionJobOutputResponse
+    func cancelBatchPredictionJob(input: CancelBatchPredictionJobInput) async throws -> CancelBatchPredictionJobOutput
     /// Creates a batch import job.
     ///
     /// - Parameter CreateBatchImportJobInput : [no documentation found]
     ///
-    /// - Returns: `CreateBatchImportJobOutputResponse` : [no documentation found]
+    /// - Returns: `CreateBatchImportJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -76,12 +76,12 @@ public protocol FraudDetectorClientProtocol {
     /// - `ResourceNotFoundException` : An exception indicating the specified resource was not found.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    func createBatchImportJob(input: CreateBatchImportJobInput) async throws -> CreateBatchImportJobOutputResponse
+    func createBatchImportJob(input: CreateBatchImportJobInput) async throws -> CreateBatchImportJobOutput
     /// Creates a batch prediction job.
     ///
     /// - Parameter CreateBatchPredictionJobInput : [no documentation found]
     ///
-    /// - Returns: `CreateBatchPredictionJobOutputResponse` : [no documentation found]
+    /// - Returns: `CreateBatchPredictionJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -91,12 +91,12 @@ public protocol FraudDetectorClientProtocol {
     /// - `ResourceNotFoundException` : An exception indicating the specified resource was not found.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    func createBatchPredictionJob(input: CreateBatchPredictionJobInput) async throws -> CreateBatchPredictionJobOutputResponse
+    func createBatchPredictionJob(input: CreateBatchPredictionJobInput) async throws -> CreateBatchPredictionJobOutput
     /// Creates a detector version. The detector version starts in a DRAFT status.
     ///
     /// - Parameter CreateDetectorVersionInput : [no documentation found]
     ///
-    /// - Returns: `CreateDetectorVersionOutputResponse` : [no documentation found]
+    /// - Returns: `CreateDetectorVersionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -106,12 +106,12 @@ public protocol FraudDetectorClientProtocol {
     /// - `ResourceNotFoundException` : An exception indicating the specified resource was not found.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    func createDetectorVersion(input: CreateDetectorVersionInput) async throws -> CreateDetectorVersionOutputResponse
+    func createDetectorVersion(input: CreateDetectorVersionInput) async throws -> CreateDetectorVersionOutput
     /// Creates a list. List is a set of input data for a variable in your event dataset. You use the input data in a rule that's associated with your detector. For more information, see [Lists](https://docs.aws.amazon.com/frauddetector/latest/ug/lists.html).
     ///
     /// - Parameter CreateListInput : [no documentation found]
     ///
-    /// - Returns: `CreateListOutputResponse` : [no documentation found]
+    /// - Returns: `CreateListOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -120,12 +120,12 @@ public protocol FraudDetectorClientProtocol {
     /// - `InternalServerException` : An exception indicating an internal server error.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    func createList(input: CreateListInput) async throws -> CreateListOutputResponse
+    func createList(input: CreateListInput) async throws -> CreateListOutput
     /// Creates a model using the specified model type.
     ///
     /// - Parameter CreateModelInput : [no documentation found]
     ///
-    /// - Returns: `CreateModelOutputResponse` : [no documentation found]
+    /// - Returns: `CreateModelOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -134,12 +134,12 @@ public protocol FraudDetectorClientProtocol {
     /// - `InternalServerException` : An exception indicating an internal server error.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    func createModel(input: CreateModelInput) async throws -> CreateModelOutputResponse
+    func createModel(input: CreateModelInput) async throws -> CreateModelOutput
     /// Creates a version of the model using the specified model type and model id.
     ///
     /// - Parameter CreateModelVersionInput : [no documentation found]
     ///
-    /// - Returns: `CreateModelVersionOutputResponse` : [no documentation found]
+    /// - Returns: `CreateModelVersionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -149,12 +149,12 @@ public protocol FraudDetectorClientProtocol {
     /// - `ResourceNotFoundException` : An exception indicating the specified resource was not found.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    func createModelVersion(input: CreateModelVersionInput) async throws -> CreateModelVersionOutputResponse
+    func createModelVersion(input: CreateModelVersionInput) async throws -> CreateModelVersionOutput
     /// Creates a rule for use with the specified detector.
     ///
     /// - Parameter CreateRuleInput : [no documentation found]
     ///
-    /// - Returns: `CreateRuleOutputResponse` : [no documentation found]
+    /// - Returns: `CreateRuleOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -163,12 +163,12 @@ public protocol FraudDetectorClientProtocol {
     /// - `InternalServerException` : An exception indicating an internal server error.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    func createRule(input: CreateRuleInput) async throws -> CreateRuleOutputResponse
+    func createRule(input: CreateRuleInput) async throws -> CreateRuleOutput
     /// Creates a variable.
     ///
     /// - Parameter CreateVariableInput : [no documentation found]
     ///
-    /// - Returns: `CreateVariableOutputResponse` : [no documentation found]
+    /// - Returns: `CreateVariableOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -177,12 +177,12 @@ public protocol FraudDetectorClientProtocol {
     /// - `InternalServerException` : An exception indicating an internal server error.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    func createVariable(input: CreateVariableInput) async throws -> CreateVariableOutputResponse
+    func createVariable(input: CreateVariableInput) async throws -> CreateVariableOutput
     /// Deletes the specified batch import job ID record. This action does not delete the data that was batch imported.
     ///
     /// - Parameter DeleteBatchImportJobInput : [no documentation found]
     ///
-    /// - Returns: `DeleteBatchImportJobOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteBatchImportJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -191,12 +191,12 @@ public protocol FraudDetectorClientProtocol {
     /// - `InternalServerException` : An exception indicating an internal server error.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    func deleteBatchImportJob(input: DeleteBatchImportJobInput) async throws -> DeleteBatchImportJobOutputResponse
+    func deleteBatchImportJob(input: DeleteBatchImportJobInput) async throws -> DeleteBatchImportJobOutput
     /// Deletes a batch prediction job.
     ///
     /// - Parameter DeleteBatchPredictionJobInput : [no documentation found]
     ///
-    /// - Returns: `DeleteBatchPredictionJobOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteBatchPredictionJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -205,12 +205,12 @@ public protocol FraudDetectorClientProtocol {
     /// - `InternalServerException` : An exception indicating an internal server error.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    func deleteBatchPredictionJob(input: DeleteBatchPredictionJobInput) async throws -> DeleteBatchPredictionJobOutputResponse
+    func deleteBatchPredictionJob(input: DeleteBatchPredictionJobInput) async throws -> DeleteBatchPredictionJobOutput
     /// Deletes the detector. Before deleting a detector, you must first delete all detector versions and rule versions associated with the detector. When you delete a detector, Amazon Fraud Detector permanently deletes the detector and the data is no longer stored in Amazon Fraud Detector.
     ///
     /// - Parameter DeleteDetectorInput : [no documentation found]
     ///
-    /// - Returns: `DeleteDetectorOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteDetectorOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -220,12 +220,12 @@ public protocol FraudDetectorClientProtocol {
     /// - `InternalServerException` : An exception indicating an internal server error.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    func deleteDetector(input: DeleteDetectorInput) async throws -> DeleteDetectorOutputResponse
+    func deleteDetector(input: DeleteDetectorInput) async throws -> DeleteDetectorOutput
     /// Deletes the detector version. You cannot delete detector versions that are in ACTIVE status. When you delete a detector version, Amazon Fraud Detector permanently deletes the detector and the data is no longer stored in Amazon Fraud Detector.
     ///
     /// - Parameter DeleteDetectorVersionInput : [no documentation found]
     ///
-    /// - Returns: `DeleteDetectorVersionOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteDetectorVersionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -236,12 +236,12 @@ public protocol FraudDetectorClientProtocol {
     /// - `ResourceNotFoundException` : An exception indicating the specified resource was not found.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    func deleteDetectorVersion(input: DeleteDetectorVersionInput) async throws -> DeleteDetectorVersionOutputResponse
+    func deleteDetectorVersion(input: DeleteDetectorVersionInput) async throws -> DeleteDetectorVersionOutput
     /// Deletes an entity type. You cannot delete an entity type that is included in an event type. When you delete an entity type, Amazon Fraud Detector permanently deletes that entity type and the data is no longer stored in Amazon Fraud Detector.
     ///
     /// - Parameter DeleteEntityTypeInput : [no documentation found]
     ///
-    /// - Returns: `DeleteEntityTypeOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteEntityTypeOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -251,12 +251,12 @@ public protocol FraudDetectorClientProtocol {
     /// - `InternalServerException` : An exception indicating an internal server error.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    func deleteEntityType(input: DeleteEntityTypeInput) async throws -> DeleteEntityTypeOutputResponse
+    func deleteEntityType(input: DeleteEntityTypeInput) async throws -> DeleteEntityTypeOutput
     /// Deletes the specified event. When you delete an event, Amazon Fraud Detector permanently deletes that event and the event data is no longer stored in Amazon Fraud Detector. If deleteAuditHistory is True, event data is available through search for up to 30 seconds after the delete operation is completed.
     ///
     /// - Parameter DeleteEventInput : [no documentation found]
     ///
-    /// - Returns: `DeleteEventOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteEventOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -265,12 +265,12 @@ public protocol FraudDetectorClientProtocol {
     /// - `InternalServerException` : An exception indicating an internal server error.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    func deleteEvent(input: DeleteEventInput) async throws -> DeleteEventOutputResponse
+    func deleteEvent(input: DeleteEventInput) async throws -> DeleteEventOutput
     /// Deletes all events of a particular event type.
     ///
     /// - Parameter DeleteEventsByEventTypeInput : [no documentation found]
     ///
-    /// - Returns: `DeleteEventsByEventTypeOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteEventsByEventTypeOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -281,12 +281,12 @@ public protocol FraudDetectorClientProtocol {
     /// - `ResourceNotFoundException` : An exception indicating the specified resource was not found.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    func deleteEventsByEventType(input: DeleteEventsByEventTypeInput) async throws -> DeleteEventsByEventTypeOutputResponse
+    func deleteEventsByEventType(input: DeleteEventsByEventTypeInput) async throws -> DeleteEventsByEventTypeOutput
     /// Deletes an event type. You cannot delete an event type that is used in a detector or a model. When you delete an event type, Amazon Fraud Detector permanently deletes that event type and the data is no longer stored in Amazon Fraud Detector.
     ///
     /// - Parameter DeleteEventTypeInput : [no documentation found]
     ///
-    /// - Returns: `DeleteEventTypeOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteEventTypeOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -296,12 +296,12 @@ public protocol FraudDetectorClientProtocol {
     /// - `InternalServerException` : An exception indicating an internal server error.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    func deleteEventType(input: DeleteEventTypeInput) async throws -> DeleteEventTypeOutputResponse
+    func deleteEventType(input: DeleteEventTypeInput) async throws -> DeleteEventTypeOutput
     /// Removes a SageMaker model from Amazon Fraud Detector. You can remove an Amazon SageMaker model if it is not associated with a detector version. Removing a SageMaker model disconnects it from Amazon Fraud Detector, but the model remains available in SageMaker.
     ///
     /// - Parameter DeleteExternalModelInput : [no documentation found]
     ///
-    /// - Returns: `DeleteExternalModelOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteExternalModelOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -311,12 +311,12 @@ public protocol FraudDetectorClientProtocol {
     /// - `InternalServerException` : An exception indicating an internal server error.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    func deleteExternalModel(input: DeleteExternalModelInput) async throws -> DeleteExternalModelOutputResponse
+    func deleteExternalModel(input: DeleteExternalModelInput) async throws -> DeleteExternalModelOutput
     /// Deletes a label. You cannot delete labels that are included in an event type in Amazon Fraud Detector. You cannot delete a label assigned to an event ID. You must first delete the relevant event ID. When you delete a label, Amazon Fraud Detector permanently deletes that label and the data is no longer stored in Amazon Fraud Detector.
     ///
     /// - Parameter DeleteLabelInput : [no documentation found]
     ///
-    /// - Returns: `DeleteLabelOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteLabelOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -325,12 +325,12 @@ public protocol FraudDetectorClientProtocol {
     /// - `InternalServerException` : An exception indicating an internal server error.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    func deleteLabel(input: DeleteLabelInput) async throws -> DeleteLabelOutputResponse
+    func deleteLabel(input: DeleteLabelInput) async throws -> DeleteLabelOutput
     /// Deletes the list, provided it is not used in a rule. When you delete a list, Amazon Fraud Detector permanently deletes that list and the elements in the list.
     ///
     /// - Parameter DeleteListInput : [no documentation found]
     ///
-    /// - Returns: `DeleteListOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteListOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -340,12 +340,12 @@ public protocol FraudDetectorClientProtocol {
     /// - `InternalServerException` : An exception indicating an internal server error.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    func deleteList(input: DeleteListInput) async throws -> DeleteListOutputResponse
+    func deleteList(input: DeleteListInput) async throws -> DeleteListOutput
     /// Deletes a model. You can delete models and model versions in Amazon Fraud Detector, provided that they are not associated with a detector version. When you delete a model, Amazon Fraud Detector permanently deletes that model and the data is no longer stored in Amazon Fraud Detector.
     ///
     /// - Parameter DeleteModelInput : [no documentation found]
     ///
-    /// - Returns: `DeleteModelOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteModelOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -355,12 +355,12 @@ public protocol FraudDetectorClientProtocol {
     /// - `InternalServerException` : An exception indicating an internal server error.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    func deleteModel(input: DeleteModelInput) async throws -> DeleteModelOutputResponse
+    func deleteModel(input: DeleteModelInput) async throws -> DeleteModelOutput
     /// Deletes a model version. You can delete models and model versions in Amazon Fraud Detector, provided that they are not associated with a detector version. When you delete a model version, Amazon Fraud Detector permanently deletes that model version and the data is no longer stored in Amazon Fraud Detector.
     ///
     /// - Parameter DeleteModelVersionInput : [no documentation found]
     ///
-    /// - Returns: `DeleteModelVersionOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteModelVersionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -370,12 +370,12 @@ public protocol FraudDetectorClientProtocol {
     /// - `InternalServerException` : An exception indicating an internal server error.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    func deleteModelVersion(input: DeleteModelVersionInput) async throws -> DeleteModelVersionOutputResponse
+    func deleteModelVersion(input: DeleteModelVersionInput) async throws -> DeleteModelVersionOutput
     /// Deletes an outcome. You cannot delete an outcome that is used in a rule version. When you delete an outcome, Amazon Fraud Detector permanently deletes that outcome and the data is no longer stored in Amazon Fraud Detector.
     ///
     /// - Parameter DeleteOutcomeInput : [no documentation found]
     ///
-    /// - Returns: `DeleteOutcomeOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteOutcomeOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -385,12 +385,12 @@ public protocol FraudDetectorClientProtocol {
     /// - `InternalServerException` : An exception indicating an internal server error.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    func deleteOutcome(input: DeleteOutcomeInput) async throws -> DeleteOutcomeOutputResponse
+    func deleteOutcome(input: DeleteOutcomeInput) async throws -> DeleteOutcomeOutput
     /// Deletes the rule. You cannot delete a rule if it is used by an ACTIVE or INACTIVE detector version. When you delete a rule, Amazon Fraud Detector permanently deletes that rule and the data is no longer stored in Amazon Fraud Detector.
     ///
     /// - Parameter DeleteRuleInput : [no documentation found]
     ///
-    /// - Returns: `DeleteRuleOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteRuleOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -400,12 +400,12 @@ public protocol FraudDetectorClientProtocol {
     /// - `InternalServerException` : An exception indicating an internal server error.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    func deleteRule(input: DeleteRuleInput) async throws -> DeleteRuleOutputResponse
+    func deleteRule(input: DeleteRuleInput) async throws -> DeleteRuleOutput
     /// Deletes a variable. You can't delete variables that are included in an event type in Amazon Fraud Detector. Amazon Fraud Detector automatically deletes model output variables and SageMaker model output variables when you delete the model. You can't delete these variables manually. When you delete a variable, Amazon Fraud Detector permanently deletes that variable and the data is no longer stored in Amazon Fraud Detector.
     ///
     /// - Parameter DeleteVariableInput : [no documentation found]
     ///
-    /// - Returns: `DeleteVariableOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteVariableOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -415,12 +415,12 @@ public protocol FraudDetectorClientProtocol {
     /// - `InternalServerException` : An exception indicating an internal server error.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    func deleteVariable(input: DeleteVariableInput) async throws -> DeleteVariableOutputResponse
+    func deleteVariable(input: DeleteVariableInput) async throws -> DeleteVariableOutput
     /// Gets all versions for a specified detector.
     ///
     /// - Parameter DescribeDetectorInput : [no documentation found]
     ///
-    /// - Returns: `DescribeDetectorOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeDetectorOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -430,12 +430,12 @@ public protocol FraudDetectorClientProtocol {
     /// - `ResourceNotFoundException` : An exception indicating the specified resource was not found.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    func describeDetector(input: DescribeDetectorInput) async throws -> DescribeDetectorOutputResponse
+    func describeDetector(input: DescribeDetectorInput) async throws -> DescribeDetectorOutput
     /// Gets all of the model versions for the specified model type or for the specified model type and model ID. You can also get details for a single, specified model version.
     ///
     /// - Parameter DescribeModelVersionsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeModelVersionsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeModelVersionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -445,12 +445,12 @@ public protocol FraudDetectorClientProtocol {
     /// - `ResourceNotFoundException` : An exception indicating the specified resource was not found.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    func describeModelVersions(input: DescribeModelVersionsInput) async throws -> DescribeModelVersionsOutputResponse
+    func describeModelVersions(input: DescribeModelVersionsInput) async throws -> DescribeModelVersionsOutput
     /// Gets all batch import jobs or a specific job of the specified ID. This is a paginated API. If you provide a null maxResults, this action retrieves a maximum of 50 records per page. If you provide a maxResults, the value must be between 1 and 50. To get the next page results, provide the pagination token from the GetBatchImportJobsResponse as part of your request. A null pagination token fetches the records from the beginning.
     ///
     /// - Parameter GetBatchImportJobsInput : [no documentation found]
     ///
-    /// - Returns: `GetBatchImportJobsOutputResponse` : [no documentation found]
+    /// - Returns: `GetBatchImportJobsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -460,12 +460,12 @@ public protocol FraudDetectorClientProtocol {
     /// - `ResourceNotFoundException` : An exception indicating the specified resource was not found.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    func getBatchImportJobs(input: GetBatchImportJobsInput) async throws -> GetBatchImportJobsOutputResponse
+    func getBatchImportJobs(input: GetBatchImportJobsInput) async throws -> GetBatchImportJobsOutput
     /// Gets all batch prediction jobs or a specific job if you specify a job ID. This is a paginated API. If you provide a null maxResults, this action retrieves a maximum of 50 records per page. If you provide a maxResults, the value must be between 1 and 50. To get the next page results, provide the pagination token from the GetBatchPredictionJobsResponse as part of your request. A null pagination token fetches the records from the beginning.
     ///
     /// - Parameter GetBatchPredictionJobsInput : [no documentation found]
     ///
-    /// - Returns: `GetBatchPredictionJobsOutputResponse` : [no documentation found]
+    /// - Returns: `GetBatchPredictionJobsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -475,12 +475,12 @@ public protocol FraudDetectorClientProtocol {
     /// - `ResourceNotFoundException` : An exception indicating the specified resource was not found.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    func getBatchPredictionJobs(input: GetBatchPredictionJobsInput) async throws -> GetBatchPredictionJobsOutputResponse
+    func getBatchPredictionJobs(input: GetBatchPredictionJobsInput) async throws -> GetBatchPredictionJobsOutput
     /// Retrieves the status of a DeleteEventsByEventType action.
     ///
     /// - Parameter GetDeleteEventsByEventTypeStatusInput : [no documentation found]
     ///
-    /// - Returns: `GetDeleteEventsByEventTypeStatusOutputResponse` : [no documentation found]
+    /// - Returns: `GetDeleteEventsByEventTypeStatusOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -490,12 +490,12 @@ public protocol FraudDetectorClientProtocol {
     /// - `ResourceNotFoundException` : An exception indicating the specified resource was not found.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    func getDeleteEventsByEventTypeStatus(input: GetDeleteEventsByEventTypeStatusInput) async throws -> GetDeleteEventsByEventTypeStatusOutputResponse
+    func getDeleteEventsByEventTypeStatus(input: GetDeleteEventsByEventTypeStatusInput) async throws -> GetDeleteEventsByEventTypeStatusOutput
     /// Gets all detectors or a single detector if a detectorId is specified. This is a paginated API. If you provide a null maxResults, this action retrieves a maximum of 10 records per page. If you provide a maxResults, the value must be between 5 and 10. To get the next page results, provide the pagination token from the GetDetectorsResponse as part of your request. A null pagination token fetches the records from the beginning.
     ///
     /// - Parameter GetDetectorsInput : [no documentation found]
     ///
-    /// - Returns: `GetDetectorsOutputResponse` : [no documentation found]
+    /// - Returns: `GetDetectorsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -505,12 +505,12 @@ public protocol FraudDetectorClientProtocol {
     /// - `ResourceNotFoundException` : An exception indicating the specified resource was not found.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    func getDetectors(input: GetDetectorsInput) async throws -> GetDetectorsOutputResponse
+    func getDetectors(input: GetDetectorsInput) async throws -> GetDetectorsOutput
     /// Gets a particular detector version.
     ///
     /// - Parameter GetDetectorVersionInput : [no documentation found]
     ///
-    /// - Returns: `GetDetectorVersionOutputResponse` : [no documentation found]
+    /// - Returns: `GetDetectorVersionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -520,12 +520,12 @@ public protocol FraudDetectorClientProtocol {
     /// - `ResourceNotFoundException` : An exception indicating the specified resource was not found.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    func getDetectorVersion(input: GetDetectorVersionInput) async throws -> GetDetectorVersionOutputResponse
+    func getDetectorVersion(input: GetDetectorVersionInput) async throws -> GetDetectorVersionOutput
     /// Gets all entity types or a specific entity type if a name is specified. This is a paginated API. If you provide a null maxResults, this action retrieves a maximum of 10 records per page. If you provide a maxResults, the value must be between 5 and 10. To get the next page results, provide the pagination token from the GetEntityTypesResponse as part of your request. A null pagination token fetches the records from the beginning.
     ///
     /// - Parameter GetEntityTypesInput : [no documentation found]
     ///
-    /// - Returns: `GetEntityTypesOutputResponse` : [no documentation found]
+    /// - Returns: `GetEntityTypesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -535,12 +535,12 @@ public protocol FraudDetectorClientProtocol {
     /// - `ResourceNotFoundException` : An exception indicating the specified resource was not found.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    func getEntityTypes(input: GetEntityTypesInput) async throws -> GetEntityTypesOutputResponse
+    func getEntityTypes(input: GetEntityTypesInput) async throws -> GetEntityTypesOutput
     /// Retrieves details of events stored with Amazon Fraud Detector. This action does not retrieve prediction results.
     ///
     /// - Parameter GetEventInput : [no documentation found]
     ///
-    /// - Returns: `GetEventOutputResponse` : [no documentation found]
+    /// - Returns: `GetEventOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -550,12 +550,12 @@ public protocol FraudDetectorClientProtocol {
     /// - `ResourceNotFoundException` : An exception indicating the specified resource was not found.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    func getEvent(input: GetEventInput) async throws -> GetEventOutputResponse
+    func getEvent(input: GetEventInput) async throws -> GetEventOutput
     /// Evaluates an event against a detector version. If a version ID is not provided, the detector’s (ACTIVE) version is used.
     ///
     /// - Parameter GetEventPredictionInput : [no documentation found]
     ///
-    /// - Returns: `GetEventPredictionOutputResponse` : [no documentation found]
+    /// - Returns: `GetEventPredictionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -567,12 +567,12 @@ public protocol FraudDetectorClientProtocol {
     /// - `ResourceUnavailableException` : An exception indicating that the attached customer-owned (external) model threw an exception when Amazon Fraud Detector invoked the model.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    func getEventPrediction(input: GetEventPredictionInput) async throws -> GetEventPredictionOutputResponse
+    func getEventPrediction(input: GetEventPredictionInput) async throws -> GetEventPredictionOutput
     /// Gets details of the past fraud predictions for the specified event ID, event type, detector ID, and detector version ID that was generated in the specified time period.
     ///
     /// - Parameter GetEventPredictionMetadataInput : [no documentation found]
     ///
-    /// - Returns: `GetEventPredictionMetadataOutputResponse` : [no documentation found]
+    /// - Returns: `GetEventPredictionMetadataOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -582,12 +582,12 @@ public protocol FraudDetectorClientProtocol {
     /// - `ResourceNotFoundException` : An exception indicating the specified resource was not found.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    func getEventPredictionMetadata(input: GetEventPredictionMetadataInput) async throws -> GetEventPredictionMetadataOutputResponse
+    func getEventPredictionMetadata(input: GetEventPredictionMetadataInput) async throws -> GetEventPredictionMetadataOutput
     /// Gets all event types or a specific event type if name is provided. This is a paginated API. If you provide a null maxResults, this action retrieves a maximum of 10 records per page. If you provide a maxResults, the value must be between 5 and 10. To get the next page results, provide the pagination token from the GetEventTypesResponse as part of your request. A null pagination token fetches the records from the beginning.
     ///
     /// - Parameter GetEventTypesInput : [no documentation found]
     ///
-    /// - Returns: `GetEventTypesOutputResponse` : [no documentation found]
+    /// - Returns: `GetEventTypesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -597,12 +597,12 @@ public protocol FraudDetectorClientProtocol {
     /// - `ResourceNotFoundException` : An exception indicating the specified resource was not found.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    func getEventTypes(input: GetEventTypesInput) async throws -> GetEventTypesOutputResponse
+    func getEventTypes(input: GetEventTypesInput) async throws -> GetEventTypesOutput
     /// Gets the details for one or more Amazon SageMaker models that have been imported into the service. This is a paginated API. If you provide a null maxResults, this actions retrieves a maximum of 10 records per page. If you provide a maxResults, the value must be between 5 and 10. To get the next page results, provide the pagination token from the GetExternalModelsResult as part of your request. A null pagination token fetches the records from the beginning.
     ///
     /// - Parameter GetExternalModelsInput : [no documentation found]
     ///
-    /// - Returns: `GetExternalModelsOutputResponse` : [no documentation found]
+    /// - Returns: `GetExternalModelsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -612,12 +612,12 @@ public protocol FraudDetectorClientProtocol {
     /// - `ResourceNotFoundException` : An exception indicating the specified resource was not found.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    func getExternalModels(input: GetExternalModelsInput) async throws -> GetExternalModelsOutputResponse
+    func getExternalModels(input: GetExternalModelsInput) async throws -> GetExternalModelsOutput
     /// Gets the encryption key if a KMS key has been specified to be used to encrypt content in Amazon Fraud Detector.
     ///
     /// - Parameter GetKMSEncryptionKeyInput : [no documentation found]
     ///
-    /// - Returns: `GetKMSEncryptionKeyOutputResponse` : [no documentation found]
+    /// - Returns: `GetKMSEncryptionKeyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -626,12 +626,12 @@ public protocol FraudDetectorClientProtocol {
     /// - `InternalServerException` : An exception indicating an internal server error.
     /// - `ResourceNotFoundException` : An exception indicating the specified resource was not found.
     /// - `ThrottlingException` : An exception indicating a throttling error.
-    func getKMSEncryptionKey(input: GetKMSEncryptionKeyInput) async throws -> GetKMSEncryptionKeyOutputResponse
+    func getKMSEncryptionKey(input: GetKMSEncryptionKeyInput) async throws -> GetKMSEncryptionKeyOutput
     /// Gets all labels or a specific label if name is provided. This is a paginated API. If you provide a null maxResults, this action retrieves a maximum of 50 records per page. If you provide a maxResults, the value must be between 10 and 50. To get the next page results, provide the pagination token from the GetGetLabelsResponse as part of your request. A null pagination token fetches the records from the beginning.
     ///
     /// - Parameter GetLabelsInput : [no documentation found]
     ///
-    /// - Returns: `GetLabelsOutputResponse` : [no documentation found]
+    /// - Returns: `GetLabelsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -641,12 +641,12 @@ public protocol FraudDetectorClientProtocol {
     /// - `ResourceNotFoundException` : An exception indicating the specified resource was not found.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    func getLabels(input: GetLabelsInput) async throws -> GetLabelsOutputResponse
+    func getLabels(input: GetLabelsInput) async throws -> GetLabelsOutput
     /// Gets all the elements in the specified list.
     ///
     /// - Parameter GetListElementsInput : [no documentation found]
     ///
-    /// - Returns: `GetListElementsOutputResponse` : [no documentation found]
+    /// - Returns: `GetListElementsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -656,12 +656,12 @@ public protocol FraudDetectorClientProtocol {
     /// - `ResourceNotFoundException` : An exception indicating the specified resource was not found.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    func getListElements(input: GetListElementsInput) async throws -> GetListElementsOutputResponse
+    func getListElements(input: GetListElementsInput) async throws -> GetListElementsOutput
     /// Gets the metadata of either all the lists under the account or the specified list.
     ///
     /// - Parameter GetListsMetadataInput : [no documentation found]
     ///
-    /// - Returns: `GetListsMetadataOutputResponse` : [no documentation found]
+    /// - Returns: `GetListsMetadataOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -671,12 +671,12 @@ public protocol FraudDetectorClientProtocol {
     /// - `ResourceNotFoundException` : An exception indicating the specified resource was not found.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    func getListsMetadata(input: GetListsMetadataInput) async throws -> GetListsMetadataOutputResponse
+    func getListsMetadata(input: GetListsMetadataInput) async throws -> GetListsMetadataOutput
     /// Gets one or more models. Gets all models for the Amazon Web Services account if no model type and no model id provided. Gets all models for the Amazon Web Services account and model type, if the model type is specified but model id is not provided. Gets a specific model if (model type, model id) tuple is specified. This is a paginated API. If you provide a null maxResults, this action retrieves a maximum of 10 records per page. If you provide a maxResults, the value must be between 1 and 10. To get the next page results, provide the pagination token from the response as part of your request. A null pagination token fetches the records from the beginning.
     ///
     /// - Parameter GetModelsInput : [no documentation found]
     ///
-    /// - Returns: `GetModelsOutputResponse` : [no documentation found]
+    /// - Returns: `GetModelsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -686,12 +686,12 @@ public protocol FraudDetectorClientProtocol {
     /// - `ResourceNotFoundException` : An exception indicating the specified resource was not found.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    func getModels(input: GetModelsInput) async throws -> GetModelsOutputResponse
+    func getModels(input: GetModelsInput) async throws -> GetModelsOutput
     /// Gets the details of the specified model version.
     ///
     /// - Parameter GetModelVersionInput : [no documentation found]
     ///
-    /// - Returns: `GetModelVersionOutputResponse` : [no documentation found]
+    /// - Returns: `GetModelVersionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -701,12 +701,12 @@ public protocol FraudDetectorClientProtocol {
     /// - `ResourceNotFoundException` : An exception indicating the specified resource was not found.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    func getModelVersion(input: GetModelVersionInput) async throws -> GetModelVersionOutputResponse
+    func getModelVersion(input: GetModelVersionInput) async throws -> GetModelVersionOutput
     /// Gets one or more outcomes. This is a paginated API. If you provide a null maxResults, this actions retrieves a maximum of 100 records per page. If you provide a maxResults, the value must be between 50 and 100. To get the next page results, provide the pagination token from the GetOutcomesResult as part of your request. A null pagination token fetches the records from the beginning.
     ///
     /// - Parameter GetOutcomesInput : [no documentation found]
     ///
-    /// - Returns: `GetOutcomesOutputResponse` : [no documentation found]
+    /// - Returns: `GetOutcomesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -716,12 +716,12 @@ public protocol FraudDetectorClientProtocol {
     /// - `ResourceNotFoundException` : An exception indicating the specified resource was not found.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    func getOutcomes(input: GetOutcomesInput) async throws -> GetOutcomesOutputResponse
+    func getOutcomes(input: GetOutcomesInput) async throws -> GetOutcomesOutput
     /// Get all rules for a detector (paginated) if ruleId and ruleVersion are not specified. Gets all rules for the detector and the ruleId if present (paginated). Gets a specific rule if both the ruleId and the ruleVersion are specified. This is a paginated API. Providing null maxResults results in retrieving maximum of 100 records per page. If you provide maxResults the value must be between 50 and 100. To get the next page result, a provide a pagination token from GetRulesResult as part of your request. Null pagination token fetches the records from the beginning.
     ///
     /// - Parameter GetRulesInput : [no documentation found]
     ///
-    /// - Returns: `GetRulesOutputResponse` : [no documentation found]
+    /// - Returns: `GetRulesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -731,12 +731,12 @@ public protocol FraudDetectorClientProtocol {
     /// - `ResourceNotFoundException` : An exception indicating the specified resource was not found.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    func getRules(input: GetRulesInput) async throws -> GetRulesOutputResponse
+    func getRules(input: GetRulesInput) async throws -> GetRulesOutput
     /// Gets all of the variables or the specific variable. This is a paginated API. Providing null maxSizePerPage results in retrieving maximum of 100 records per page. If you provide maxSizePerPage the value must be between 50 and 100. To get the next page result, a provide a pagination token from GetVariablesResult as part of your request. Null pagination token fetches the records from the beginning.
     ///
     /// - Parameter GetVariablesInput : [no documentation found]
     ///
-    /// - Returns: `GetVariablesOutputResponse` : [no documentation found]
+    /// - Returns: `GetVariablesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -746,12 +746,12 @@ public protocol FraudDetectorClientProtocol {
     /// - `ResourceNotFoundException` : An exception indicating the specified resource was not found.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    func getVariables(input: GetVariablesInput) async throws -> GetVariablesOutputResponse
+    func getVariables(input: GetVariablesInput) async throws -> GetVariablesOutput
     /// Gets a list of past predictions. The list can be filtered by detector ID, detector version ID, event ID, event type, or by specifying a time period. If filter is not specified, the most recent prediction is returned. For example, the following filter lists all past predictions for xyz event type - { "eventType":{ "value": "xyz" }” }  This is a paginated API. If you provide a null maxResults, this action will retrieve a maximum of 10 records per page. If you provide a maxResults, the value must be between 50 and 100. To get the next page results, provide the nextToken from the response as part of your request. A null nextToken fetches the records from the beginning.
     ///
     /// - Parameter ListEventPredictionsInput : [no documentation found]
     ///
-    /// - Returns: `ListEventPredictionsOutputResponse` : [no documentation found]
+    /// - Returns: `ListEventPredictionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -760,12 +760,12 @@ public protocol FraudDetectorClientProtocol {
     /// - `InternalServerException` : An exception indicating an internal server error.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    func listEventPredictions(input: ListEventPredictionsInput) async throws -> ListEventPredictionsOutputResponse
+    func listEventPredictions(input: ListEventPredictionsInput) async throws -> ListEventPredictionsOutput
     /// Lists all tags associated with the resource. This is a paginated API. To get the next page results, provide the pagination token from the response as part of your request. A null pagination token fetches the records from the beginning.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -774,12 +774,12 @@ public protocol FraudDetectorClientProtocol {
     /// - `ResourceNotFoundException` : An exception indicating the specified resource was not found.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     /// Creates or updates a detector.
     ///
     /// - Parameter PutDetectorInput : [no documentation found]
     ///
-    /// - Returns: `PutDetectorOutputResponse` : [no documentation found]
+    /// - Returns: `PutDetectorOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -789,12 +789,12 @@ public protocol FraudDetectorClientProtocol {
     /// - `InternalServerException` : An exception indicating an internal server error.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    func putDetector(input: PutDetectorInput) async throws -> PutDetectorOutputResponse
+    func putDetector(input: PutDetectorInput) async throws -> PutDetectorOutput
     /// Creates or updates an entity type. An entity represents who is performing the event. As part of a fraud prediction, you pass the entity ID to indicate the specific entity who performed the event. An entity type classifies the entity. Example classifications include customer, merchant, or account.
     ///
     /// - Parameter PutEntityTypeInput : [no documentation found]
     ///
-    /// - Returns: `PutEntityTypeOutputResponse` : [no documentation found]
+    /// - Returns: `PutEntityTypeOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -804,12 +804,12 @@ public protocol FraudDetectorClientProtocol {
     /// - `InternalServerException` : An exception indicating an internal server error.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    func putEntityType(input: PutEntityTypeInput) async throws -> PutEntityTypeOutputResponse
+    func putEntityType(input: PutEntityTypeInput) async throws -> PutEntityTypeOutput
     /// Creates or updates an event type. An event is a business activity that is evaluated for fraud risk. With Amazon Fraud Detector, you generate fraud predictions for events. An event type defines the structure for an event sent to Amazon Fraud Detector. This includes the variables sent as part of the event, the entity performing the event (such as a customer), and the labels that classify the event. Example event types include online payment transactions, account registrations, and authentications.
     ///
     /// - Parameter PutEventTypeInput : [no documentation found]
     ///
-    /// - Returns: `PutEventTypeOutputResponse` : [no documentation found]
+    /// - Returns: `PutEventTypeOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -819,12 +819,12 @@ public protocol FraudDetectorClientProtocol {
     /// - `InternalServerException` : An exception indicating an internal server error.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    func putEventType(input: PutEventTypeInput) async throws -> PutEventTypeOutputResponse
+    func putEventType(input: PutEventTypeInput) async throws -> PutEventTypeOutput
     /// Creates or updates an Amazon SageMaker model endpoint. You can also use this action to update the configuration of the model endpoint, including the IAM role and/or the mapped variables.
     ///
     /// - Parameter PutExternalModelInput : [no documentation found]
     ///
-    /// - Returns: `PutExternalModelOutputResponse` : [no documentation found]
+    /// - Returns: `PutExternalModelOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -834,12 +834,12 @@ public protocol FraudDetectorClientProtocol {
     /// - `InternalServerException` : An exception indicating an internal server error.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    func putExternalModel(input: PutExternalModelInput) async throws -> PutExternalModelOutputResponse
+    func putExternalModel(input: PutExternalModelInput) async throws -> PutExternalModelOutput
     /// Specifies the KMS key to be used to encrypt content in Amazon Fraud Detector.
     ///
     /// - Parameter PutKMSEncryptionKeyInput : [no documentation found]
     ///
-    /// - Returns: `PutKMSEncryptionKeyOutputResponse` : [no documentation found]
+    /// - Returns: `PutKMSEncryptionKeyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -850,12 +850,12 @@ public protocol FraudDetectorClientProtocol {
     /// - `ResourceNotFoundException` : An exception indicating the specified resource was not found.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    func putKMSEncryptionKey(input: PutKMSEncryptionKeyInput) async throws -> PutKMSEncryptionKeyOutputResponse
+    func putKMSEncryptionKey(input: PutKMSEncryptionKeyInput) async throws -> PutKMSEncryptionKeyOutput
     /// Creates or updates label. A label classifies an event as fraudulent or legitimate. Labels are associated with event types and used to train supervised machine learning models in Amazon Fraud Detector.
     ///
     /// - Parameter PutLabelInput : [no documentation found]
     ///
-    /// - Returns: `PutLabelOutputResponse` : [no documentation found]
+    /// - Returns: `PutLabelOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -865,12 +865,12 @@ public protocol FraudDetectorClientProtocol {
     /// - `InternalServerException` : An exception indicating an internal server error.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    func putLabel(input: PutLabelInput) async throws -> PutLabelOutputResponse
+    func putLabel(input: PutLabelInput) async throws -> PutLabelOutput
     /// Creates or updates an outcome.
     ///
     /// - Parameter PutOutcomeInput : [no documentation found]
     ///
-    /// - Returns: `PutOutcomeOutputResponse` : [no documentation found]
+    /// - Returns: `PutOutcomeOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -880,12 +880,12 @@ public protocol FraudDetectorClientProtocol {
     /// - `InternalServerException` : An exception indicating an internal server error.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    func putOutcome(input: PutOutcomeInput) async throws -> PutOutcomeOutputResponse
+    func putOutcome(input: PutOutcomeInput) async throws -> PutOutcomeOutput
     /// Stores events in Amazon Fraud Detector without generating fraud predictions for those events. For example, you can use SendEvent to upload a historical dataset, which you can then later use to train a model.
     ///
     /// - Parameter SendEventInput : [no documentation found]
     ///
-    /// - Returns: `SendEventOutputResponse` : [no documentation found]
+    /// - Returns: `SendEventOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -896,12 +896,12 @@ public protocol FraudDetectorClientProtocol {
     /// - `ResourceNotFoundException` : An exception indicating the specified resource was not found.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    func sendEvent(input: SendEventInput) async throws -> SendEventOutputResponse
+    func sendEvent(input: SendEventInput) async throws -> SendEventOutput
     /// Assigns tags to a resource.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -910,12 +910,12 @@ public protocol FraudDetectorClientProtocol {
     /// - `ResourceNotFoundException` : An exception indicating the specified resource was not found.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     /// Removes tags from a resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -924,12 +924,12 @@ public protocol FraudDetectorClientProtocol {
     /// - `ResourceNotFoundException` : An exception indicating the specified resource was not found.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
     /// Updates a detector version. The detector version attributes that you can update include models, external model endpoints, rules, rule execution mode, and description. You can only update a DRAFT detector version.
     ///
     /// - Parameter UpdateDetectorVersionInput : [no documentation found]
     ///
-    /// - Returns: `UpdateDetectorVersionOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateDetectorVersionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -940,12 +940,12 @@ public protocol FraudDetectorClientProtocol {
     /// - `ResourceNotFoundException` : An exception indicating the specified resource was not found.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    func updateDetectorVersion(input: UpdateDetectorVersionInput) async throws -> UpdateDetectorVersionOutputResponse
+    func updateDetectorVersion(input: UpdateDetectorVersionInput) async throws -> UpdateDetectorVersionOutput
     /// Updates the detector version's description. You can update the metadata for any detector version (DRAFT, ACTIVE, or INACTIVE).
     ///
     /// - Parameter UpdateDetectorVersionMetadataInput : [no documentation found]
     ///
-    /// - Returns: `UpdateDetectorVersionMetadataOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateDetectorVersionMetadataOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -955,12 +955,12 @@ public protocol FraudDetectorClientProtocol {
     /// - `InternalServerException` : An exception indicating an internal server error.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    func updateDetectorVersionMetadata(input: UpdateDetectorVersionMetadataInput) async throws -> UpdateDetectorVersionMetadataOutputResponse
+    func updateDetectorVersionMetadata(input: UpdateDetectorVersionMetadataInput) async throws -> UpdateDetectorVersionMetadataOutput
     /// Updates the detector version’s status. You can perform the following promotions or demotions using UpdateDetectorVersionStatus: DRAFT to ACTIVE, ACTIVE to INACTIVE, and INACTIVE to ACTIVE.
     ///
     /// - Parameter UpdateDetectorVersionStatusInput : [no documentation found]
     ///
-    /// - Returns: `UpdateDetectorVersionStatusOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateDetectorVersionStatusOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -971,12 +971,12 @@ public protocol FraudDetectorClientProtocol {
     /// - `ResourceNotFoundException` : An exception indicating the specified resource was not found.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    func updateDetectorVersionStatus(input: UpdateDetectorVersionStatusInput) async throws -> UpdateDetectorVersionStatusOutputResponse
+    func updateDetectorVersionStatus(input: UpdateDetectorVersionStatusInput) async throws -> UpdateDetectorVersionStatusOutput
     /// Updates the specified event with a new label.
     ///
     /// - Parameter UpdateEventLabelInput : [no documentation found]
     ///
-    /// - Returns: `UpdateEventLabelOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateEventLabelOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -987,12 +987,12 @@ public protocol FraudDetectorClientProtocol {
     /// - `ResourceNotFoundException` : An exception indicating the specified resource was not found.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    func updateEventLabel(input: UpdateEventLabelInput) async throws -> UpdateEventLabelOutputResponse
+    func updateEventLabel(input: UpdateEventLabelInput) async throws -> UpdateEventLabelOutput
     /// Updates a list.
     ///
     /// - Parameter UpdateListInput : [no documentation found]
     ///
-    /// - Returns: `UpdateListOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateListOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1003,12 +1003,12 @@ public protocol FraudDetectorClientProtocol {
     /// - `ResourceNotFoundException` : An exception indicating the specified resource was not found.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    func updateList(input: UpdateListInput) async throws -> UpdateListOutputResponse
+    func updateList(input: UpdateListInput) async throws -> UpdateListOutput
     /// Updates model description.
     ///
     /// - Parameter UpdateModelInput : [no documentation found]
     ///
-    /// - Returns: `UpdateModelOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateModelOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1019,12 +1019,12 @@ public protocol FraudDetectorClientProtocol {
     /// - `ResourceNotFoundException` : An exception indicating the specified resource was not found.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    func updateModel(input: UpdateModelInput) async throws -> UpdateModelOutputResponse
+    func updateModel(input: UpdateModelInput) async throws -> UpdateModelOutput
     /// Updates a model version. Updating a model version retrains an existing model version using updated training data and produces a new minor version of the model. You can update the training data set location and data access role attributes using this action. This action creates and trains a new minor version of the model, for example version 1.01, 1.02, 1.03.
     ///
     /// - Parameter UpdateModelVersionInput : [no documentation found]
     ///
-    /// - Returns: `UpdateModelVersionOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateModelVersionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1035,7 +1035,7 @@ public protocol FraudDetectorClientProtocol {
     /// - `ResourceNotFoundException` : An exception indicating the specified resource was not found.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    func updateModelVersion(input: UpdateModelVersionInput) async throws -> UpdateModelVersionOutputResponse
+    func updateModelVersion(input: UpdateModelVersionInput) async throws -> UpdateModelVersionOutput
     /// Updates the status of a model version. You can perform the following status updates:
     ///
     /// * Change the TRAINING_IN_PROGRESS status to TRAINING_CANCELLED.
@@ -1046,7 +1046,7 @@ public protocol FraudDetectorClientProtocol {
     ///
     /// - Parameter UpdateModelVersionStatusInput : [no documentation found]
     ///
-    /// - Returns: `UpdateModelVersionStatusOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateModelVersionStatusOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1057,12 +1057,12 @@ public protocol FraudDetectorClientProtocol {
     /// - `ResourceNotFoundException` : An exception indicating the specified resource was not found.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    func updateModelVersionStatus(input: UpdateModelVersionStatusInput) async throws -> UpdateModelVersionStatusOutputResponse
+    func updateModelVersionStatus(input: UpdateModelVersionStatusInput) async throws -> UpdateModelVersionStatusOutput
     /// Updates a rule's metadata. The description attribute can be updated.
     ///
     /// - Parameter UpdateRuleMetadataInput : [no documentation found]
     ///
-    /// - Returns: `UpdateRuleMetadataOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateRuleMetadataOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1073,12 +1073,12 @@ public protocol FraudDetectorClientProtocol {
     /// - `ResourceNotFoundException` : An exception indicating the specified resource was not found.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    func updateRuleMetadata(input: UpdateRuleMetadataInput) async throws -> UpdateRuleMetadataOutputResponse
+    func updateRuleMetadata(input: UpdateRuleMetadataInput) async throws -> UpdateRuleMetadataOutput
     /// Updates a rule version resulting in a new rule version. Updates a rule version resulting in a new rule version (version 1, 2, 3 ...).
     ///
     /// - Parameter UpdateRuleVersionInput : [no documentation found]
     ///
-    /// - Returns: `UpdateRuleVersionOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateRuleVersionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1089,12 +1089,12 @@ public protocol FraudDetectorClientProtocol {
     /// - `ResourceNotFoundException` : An exception indicating the specified resource was not found.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    func updateRuleVersion(input: UpdateRuleVersionInput) async throws -> UpdateRuleVersionOutputResponse
+    func updateRuleVersion(input: UpdateRuleVersionInput) async throws -> UpdateRuleVersionOutput
     /// Updates a variable.
     ///
     /// - Parameter UpdateVariableInput : [no documentation found]
     ///
-    /// - Returns: `UpdateVariableOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateVariableOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1105,7 +1105,7 @@ public protocol FraudDetectorClientProtocol {
     /// - `ResourceNotFoundException` : An exception indicating the specified resource was not found.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
-    func updateVariable(input: UpdateVariableInput) async throws -> UpdateVariableOutputResponse
+    func updateVariable(input: UpdateVariableInput) async throws -> UpdateVariableOutput
 }
 
 public enum FraudDetectorClientTypes {}

@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension RAMClient {
-    /// Paginate over `[GetResourcePoliciesOutputResponse]` results.
+    /// Paginate over `[GetResourcePoliciesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[GetResourcePoliciesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `GetResourcePoliciesOutputResponse`
-    public func getResourcePoliciesPaginated(input: GetResourcePoliciesInput) -> ClientRuntime.PaginatorSequence<GetResourcePoliciesInput, GetResourcePoliciesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<GetResourcePoliciesInput, GetResourcePoliciesOutputResponse>(input: input, inputKey: \GetResourcePoliciesInput.nextToken, outputKey: \GetResourcePoliciesOutputResponse.nextToken, paginationFunction: self.getResourcePolicies(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `GetResourcePoliciesOutput`
+    public func getResourcePoliciesPaginated(input: GetResourcePoliciesInput) -> ClientRuntime.PaginatorSequence<GetResourcePoliciesInput, GetResourcePoliciesOutput> {
+        return ClientRuntime.PaginatorSequence<GetResourcePoliciesInput, GetResourcePoliciesOutput>(input: input, inputKey: \GetResourcePoliciesInput.nextToken, outputKey: \GetResourcePoliciesOutput.nextToken, paginationFunction: self.getResourcePolicies(input:))
     }
 }
 
@@ -26,16 +26,16 @@ extension GetResourcePoliciesInput: ClientRuntime.PaginateToken {
         )}
 }
 extension RAMClient {
-    /// Paginate over `[GetResourceShareAssociationsOutputResponse]` results.
+    /// Paginate over `[GetResourceShareAssociationsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[GetResourceShareAssociationsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `GetResourceShareAssociationsOutputResponse`
-    public func getResourceShareAssociationsPaginated(input: GetResourceShareAssociationsInput) -> ClientRuntime.PaginatorSequence<GetResourceShareAssociationsInput, GetResourceShareAssociationsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<GetResourceShareAssociationsInput, GetResourceShareAssociationsOutputResponse>(input: input, inputKey: \GetResourceShareAssociationsInput.nextToken, outputKey: \GetResourceShareAssociationsOutputResponse.nextToken, paginationFunction: self.getResourceShareAssociations(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `GetResourceShareAssociationsOutput`
+    public func getResourceShareAssociationsPaginated(input: GetResourceShareAssociationsInput) -> ClientRuntime.PaginatorSequence<GetResourceShareAssociationsInput, GetResourceShareAssociationsOutput> {
+        return ClientRuntime.PaginatorSequence<GetResourceShareAssociationsInput, GetResourceShareAssociationsOutput>(input: input, inputKey: \GetResourceShareAssociationsInput.nextToken, outputKey: \GetResourceShareAssociationsOutput.nextToken, paginationFunction: self.getResourceShareAssociations(input:))
     }
 }
 
@@ -52,16 +52,16 @@ extension GetResourceShareAssociationsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension RAMClient {
-    /// Paginate over `[GetResourceShareInvitationsOutputResponse]` results.
+    /// Paginate over `[GetResourceShareInvitationsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[GetResourceShareInvitationsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `GetResourceShareInvitationsOutputResponse`
-    public func getResourceShareInvitationsPaginated(input: GetResourceShareInvitationsInput) -> ClientRuntime.PaginatorSequence<GetResourceShareInvitationsInput, GetResourceShareInvitationsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<GetResourceShareInvitationsInput, GetResourceShareInvitationsOutputResponse>(input: input, inputKey: \GetResourceShareInvitationsInput.nextToken, outputKey: \GetResourceShareInvitationsOutputResponse.nextToken, paginationFunction: self.getResourceShareInvitations(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `GetResourceShareInvitationsOutput`
+    public func getResourceShareInvitationsPaginated(input: GetResourceShareInvitationsInput) -> ClientRuntime.PaginatorSequence<GetResourceShareInvitationsInput, GetResourceShareInvitationsOutput> {
+        return ClientRuntime.PaginatorSequence<GetResourceShareInvitationsInput, GetResourceShareInvitationsOutput>(input: input, inputKey: \GetResourceShareInvitationsInput.nextToken, outputKey: \GetResourceShareInvitationsOutput.nextToken, paginationFunction: self.getResourceShareInvitations(input:))
     }
 }
 
@@ -75,16 +75,16 @@ extension GetResourceShareInvitationsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension RAMClient {
-    /// Paginate over `[GetResourceSharesOutputResponse]` results.
+    /// Paginate over `[GetResourceSharesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[GetResourceSharesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `GetResourceSharesOutputResponse`
-    public func getResourceSharesPaginated(input: GetResourceSharesInput) -> ClientRuntime.PaginatorSequence<GetResourceSharesInput, GetResourceSharesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<GetResourceSharesInput, GetResourceSharesOutputResponse>(input: input, inputKey: \GetResourceSharesInput.nextToken, outputKey: \GetResourceSharesOutputResponse.nextToken, paginationFunction: self.getResourceShares(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `GetResourceSharesOutput`
+    public func getResourceSharesPaginated(input: GetResourceSharesInput) -> ClientRuntime.PaginatorSequence<GetResourceSharesInput, GetResourceSharesOutput> {
+        return ClientRuntime.PaginatorSequence<GetResourceSharesInput, GetResourceSharesOutput>(input: input, inputKey: \GetResourceSharesInput.nextToken, outputKey: \GetResourceSharesOutput.nextToken, paginationFunction: self.getResourceShares(input:))
     }
 }
 
@@ -103,16 +103,16 @@ extension GetResourceSharesInput: ClientRuntime.PaginateToken {
         )}
 }
 extension RAMClient {
-    /// Paginate over `[ListPendingInvitationResourcesOutputResponse]` results.
+    /// Paginate over `[ListPendingInvitationResourcesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListPendingInvitationResourcesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListPendingInvitationResourcesOutputResponse`
-    public func listPendingInvitationResourcesPaginated(input: ListPendingInvitationResourcesInput) -> ClientRuntime.PaginatorSequence<ListPendingInvitationResourcesInput, ListPendingInvitationResourcesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListPendingInvitationResourcesInput, ListPendingInvitationResourcesOutputResponse>(input: input, inputKey: \ListPendingInvitationResourcesInput.nextToken, outputKey: \ListPendingInvitationResourcesOutputResponse.nextToken, paginationFunction: self.listPendingInvitationResources(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListPendingInvitationResourcesOutput`
+    public func listPendingInvitationResourcesPaginated(input: ListPendingInvitationResourcesInput) -> ClientRuntime.PaginatorSequence<ListPendingInvitationResourcesInput, ListPendingInvitationResourcesOutput> {
+        return ClientRuntime.PaginatorSequence<ListPendingInvitationResourcesInput, ListPendingInvitationResourcesOutput>(input: input, inputKey: \ListPendingInvitationResourcesInput.nextToken, outputKey: \ListPendingInvitationResourcesOutput.nextToken, paginationFunction: self.listPendingInvitationResources(input:))
     }
 }
 
@@ -126,16 +126,16 @@ extension ListPendingInvitationResourcesInput: ClientRuntime.PaginateToken {
         )}
 }
 extension RAMClient {
-    /// Paginate over `[ListPermissionAssociationsOutputResponse]` results.
+    /// Paginate over `[ListPermissionAssociationsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListPermissionAssociationsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListPermissionAssociationsOutputResponse`
-    public func listPermissionAssociationsPaginated(input: ListPermissionAssociationsInput) -> ClientRuntime.PaginatorSequence<ListPermissionAssociationsInput, ListPermissionAssociationsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListPermissionAssociationsInput, ListPermissionAssociationsOutputResponse>(input: input, inputKey: \ListPermissionAssociationsInput.nextToken, outputKey: \ListPermissionAssociationsOutputResponse.nextToken, paginationFunction: self.listPermissionAssociations(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListPermissionAssociationsOutput`
+    public func listPermissionAssociationsPaginated(input: ListPermissionAssociationsInput) -> ClientRuntime.PaginatorSequence<ListPermissionAssociationsInput, ListPermissionAssociationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListPermissionAssociationsInput, ListPermissionAssociationsOutput>(input: input, inputKey: \ListPermissionAssociationsInput.nextToken, outputKey: \ListPermissionAssociationsOutput.nextToken, paginationFunction: self.listPermissionAssociations(input:))
     }
 }
 
@@ -153,16 +153,16 @@ extension ListPermissionAssociationsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension RAMClient {
-    /// Paginate over `[ListPermissionsOutputResponse]` results.
+    /// Paginate over `[ListPermissionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListPermissionsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListPermissionsOutputResponse`
-    public func listPermissionsPaginated(input: ListPermissionsInput) -> ClientRuntime.PaginatorSequence<ListPermissionsInput, ListPermissionsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListPermissionsInput, ListPermissionsOutputResponse>(input: input, inputKey: \ListPermissionsInput.nextToken, outputKey: \ListPermissionsOutputResponse.nextToken, paginationFunction: self.listPermissions(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListPermissionsOutput`
+    public func listPermissionsPaginated(input: ListPermissionsInput) -> ClientRuntime.PaginatorSequence<ListPermissionsInput, ListPermissionsOutput> {
+        return ClientRuntime.PaginatorSequence<ListPermissionsInput, ListPermissionsOutput>(input: input, inputKey: \ListPermissionsInput.nextToken, outputKey: \ListPermissionsOutput.nextToken, paginationFunction: self.listPermissions(input:))
     }
 }
 
@@ -176,16 +176,16 @@ extension ListPermissionsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension RAMClient {
-    /// Paginate over `[ListPermissionVersionsOutputResponse]` results.
+    /// Paginate over `[ListPermissionVersionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListPermissionVersionsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListPermissionVersionsOutputResponse`
-    public func listPermissionVersionsPaginated(input: ListPermissionVersionsInput) -> ClientRuntime.PaginatorSequence<ListPermissionVersionsInput, ListPermissionVersionsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListPermissionVersionsInput, ListPermissionVersionsOutputResponse>(input: input, inputKey: \ListPermissionVersionsInput.nextToken, outputKey: \ListPermissionVersionsOutputResponse.nextToken, paginationFunction: self.listPermissionVersions(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListPermissionVersionsOutput`
+    public func listPermissionVersionsPaginated(input: ListPermissionVersionsInput) -> ClientRuntime.PaginatorSequence<ListPermissionVersionsInput, ListPermissionVersionsOutput> {
+        return ClientRuntime.PaginatorSequence<ListPermissionVersionsInput, ListPermissionVersionsOutput>(input: input, inputKey: \ListPermissionVersionsInput.nextToken, outputKey: \ListPermissionVersionsOutput.nextToken, paginationFunction: self.listPermissionVersions(input:))
     }
 }
 
@@ -198,16 +198,16 @@ extension ListPermissionVersionsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension RAMClient {
-    /// Paginate over `[ListPrincipalsOutputResponse]` results.
+    /// Paginate over `[ListPrincipalsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListPrincipalsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListPrincipalsOutputResponse`
-    public func listPrincipalsPaginated(input: ListPrincipalsInput) -> ClientRuntime.PaginatorSequence<ListPrincipalsInput, ListPrincipalsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListPrincipalsInput, ListPrincipalsOutputResponse>(input: input, inputKey: \ListPrincipalsInput.nextToken, outputKey: \ListPrincipalsOutputResponse.nextToken, paginationFunction: self.listPrincipals(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListPrincipalsOutput`
+    public func listPrincipalsPaginated(input: ListPrincipalsInput) -> ClientRuntime.PaginatorSequence<ListPrincipalsInput, ListPrincipalsOutput> {
+        return ClientRuntime.PaginatorSequence<ListPrincipalsInput, ListPrincipalsOutput>(input: input, inputKey: \ListPrincipalsInput.nextToken, outputKey: \ListPrincipalsOutput.nextToken, paginationFunction: self.listPrincipals(input:))
     }
 }
 
@@ -224,16 +224,16 @@ extension ListPrincipalsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension RAMClient {
-    /// Paginate over `[ListReplacePermissionAssociationsWorkOutputResponse]` results.
+    /// Paginate over `[ListReplacePermissionAssociationsWorkOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListReplacePermissionAssociationsWorkInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListReplacePermissionAssociationsWorkOutputResponse`
-    public func listReplacePermissionAssociationsWorkPaginated(input: ListReplacePermissionAssociationsWorkInput) -> ClientRuntime.PaginatorSequence<ListReplacePermissionAssociationsWorkInput, ListReplacePermissionAssociationsWorkOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListReplacePermissionAssociationsWorkInput, ListReplacePermissionAssociationsWorkOutputResponse>(input: input, inputKey: \ListReplacePermissionAssociationsWorkInput.nextToken, outputKey: \ListReplacePermissionAssociationsWorkOutputResponse.nextToken, paginationFunction: self.listReplacePermissionAssociationsWork(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListReplacePermissionAssociationsWorkOutput`
+    public func listReplacePermissionAssociationsWorkPaginated(input: ListReplacePermissionAssociationsWorkInput) -> ClientRuntime.PaginatorSequence<ListReplacePermissionAssociationsWorkInput, ListReplacePermissionAssociationsWorkOutput> {
+        return ClientRuntime.PaginatorSequence<ListReplacePermissionAssociationsWorkInput, ListReplacePermissionAssociationsWorkOutput>(input: input, inputKey: \ListReplacePermissionAssociationsWorkInput.nextToken, outputKey: \ListReplacePermissionAssociationsWorkOutput.nextToken, paginationFunction: self.listReplacePermissionAssociationsWork(input:))
     }
 }
 
@@ -247,16 +247,16 @@ extension ListReplacePermissionAssociationsWorkInput: ClientRuntime.PaginateToke
         )}
 }
 extension RAMClient {
-    /// Paginate over `[ListResourcesOutputResponse]` results.
+    /// Paginate over `[ListResourcesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListResourcesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListResourcesOutputResponse`
-    public func listResourcesPaginated(input: ListResourcesInput) -> ClientRuntime.PaginatorSequence<ListResourcesInput, ListResourcesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListResourcesInput, ListResourcesOutputResponse>(input: input, inputKey: \ListResourcesInput.nextToken, outputKey: \ListResourcesOutputResponse.nextToken, paginationFunction: self.listResources(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListResourcesOutput`
+    public func listResourcesPaginated(input: ListResourcesInput) -> ClientRuntime.PaginatorSequence<ListResourcesInput, ListResourcesOutput> {
+        return ClientRuntime.PaginatorSequence<ListResourcesInput, ListResourcesOutput>(input: input, inputKey: \ListResourcesInput.nextToken, outputKey: \ListResourcesOutput.nextToken, paginationFunction: self.listResources(input:))
     }
 }
 
@@ -274,16 +274,16 @@ extension ListResourcesInput: ClientRuntime.PaginateToken {
         )}
 }
 extension RAMClient {
-    /// Paginate over `[ListResourceSharePermissionsOutputResponse]` results.
+    /// Paginate over `[ListResourceSharePermissionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListResourceSharePermissionsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListResourceSharePermissionsOutputResponse`
-    public func listResourceSharePermissionsPaginated(input: ListResourceSharePermissionsInput) -> ClientRuntime.PaginatorSequence<ListResourceSharePermissionsInput, ListResourceSharePermissionsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListResourceSharePermissionsInput, ListResourceSharePermissionsOutputResponse>(input: input, inputKey: \ListResourceSharePermissionsInput.nextToken, outputKey: \ListResourceSharePermissionsOutputResponse.nextToken, paginationFunction: self.listResourceSharePermissions(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListResourceSharePermissionsOutput`
+    public func listResourceSharePermissionsPaginated(input: ListResourceSharePermissionsInput) -> ClientRuntime.PaginatorSequence<ListResourceSharePermissionsInput, ListResourceSharePermissionsOutput> {
+        return ClientRuntime.PaginatorSequence<ListResourceSharePermissionsInput, ListResourceSharePermissionsOutput>(input: input, inputKey: \ListResourceSharePermissionsInput.nextToken, outputKey: \ListResourceSharePermissionsOutput.nextToken, paginationFunction: self.listResourceSharePermissions(input:))
     }
 }
 
@@ -296,16 +296,16 @@ extension ListResourceSharePermissionsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension RAMClient {
-    /// Paginate over `[ListResourceTypesOutputResponse]` results.
+    /// Paginate over `[ListResourceTypesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListResourceTypesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListResourceTypesOutputResponse`
-    public func listResourceTypesPaginated(input: ListResourceTypesInput) -> ClientRuntime.PaginatorSequence<ListResourceTypesInput, ListResourceTypesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListResourceTypesInput, ListResourceTypesOutputResponse>(input: input, inputKey: \ListResourceTypesInput.nextToken, outputKey: \ListResourceTypesOutputResponse.nextToken, paginationFunction: self.listResourceTypes(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListResourceTypesOutput`
+    public func listResourceTypesPaginated(input: ListResourceTypesInput) -> ClientRuntime.PaginatorSequence<ListResourceTypesInput, ListResourceTypesOutput> {
+        return ClientRuntime.PaginatorSequence<ListResourceTypesInput, ListResourceTypesOutput>(input: input, inputKey: \ListResourceTypesInput.nextToken, outputKey: \ListResourceTypesOutput.nextToken, paginationFunction: self.listResourceTypes(input:))
     }
 }
 

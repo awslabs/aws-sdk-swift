@@ -806,22 +806,11 @@ extension SearchInputBody: Swift.Decodable {
     }
 }
 
-enum SearchOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "SearchException": return try await SearchException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension SearchOutputResponse: ClientRuntime.HttpResponseBinding {
+extension SearchOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: SearchOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: SearchOutputBody = try responseDecoder.decode(responseBody: data)
             self.facets = output.facets
             self.hits = output.hits
             self.stats = output.stats
@@ -836,7 +825,7 @@ extension SearchOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// The result of a Search request. Contains the documents that match the specified search criteria and any requested fields, highlights, and facet information.
-public struct SearchOutputResponse: Swift.Equatable {
+public struct SearchOutput: Swift.Equatable {
     /// The requested facet information.
     public var facets: [Swift.String:CloudSearchDomainClientTypes.BucketInfo]?
     /// The documents that match the search criteria.
@@ -860,14 +849,14 @@ public struct SearchOutputResponse: Swift.Equatable {
     }
 }
 
-struct SearchOutputResponseBody: Swift.Equatable {
+struct SearchOutputBody: Swift.Equatable {
     let status: CloudSearchDomainClientTypes.SearchStatus?
     let hits: CloudSearchDomainClientTypes.Hits?
     let facets: [Swift.String:CloudSearchDomainClientTypes.BucketInfo]?
     let stats: [Swift.String:CloudSearchDomainClientTypes.FieldStats]?
 }
 
-extension SearchOutputResponseBody: Swift.Decodable {
+extension SearchOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case facets
         case hits
@@ -903,6 +892,17 @@ extension SearchOutputResponseBody: Swift.Decodable {
             }
         }
         stats = statsDecoded0
+    }
+}
+
+enum SearchOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "SearchException": return try await SearchException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1083,22 +1083,11 @@ extension CloudSearchDomainClientTypes {
 
 }
 
-enum SuggestOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "SearchException": return try await SearchException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension SuggestOutputResponse: ClientRuntime.HttpResponseBinding {
+extension SuggestOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: SuggestOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: SuggestOutputBody = try responseDecoder.decode(responseBody: data)
             self.status = output.status
             self.suggest = output.suggest
         } else {
@@ -1109,7 +1098,7 @@ extension SuggestOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the response to a Suggest request.
-public struct SuggestOutputResponse: Swift.Equatable {
+public struct SuggestOutput: Swift.Equatable {
     /// The status of a SuggestRequest. Contains the resource ID (rid) and how long it took to process the request (timems).
     public var status: CloudSearchDomainClientTypes.SuggestStatus?
     /// Container for the matching search suggestion information.
@@ -1125,12 +1114,12 @@ public struct SuggestOutputResponse: Swift.Equatable {
     }
 }
 
-struct SuggestOutputResponseBody: Swift.Equatable {
+struct SuggestOutputBody: Swift.Equatable {
     let status: CloudSearchDomainClientTypes.SuggestStatus?
     let suggest: CloudSearchDomainClientTypes.SuggestModel?
 }
 
-extension SuggestOutputResponseBody: Swift.Decodable {
+extension SuggestOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case status
         case suggest
@@ -1142,6 +1131,17 @@ extension SuggestOutputResponseBody: Swift.Decodable {
         status = statusDecoded
         let suggestDecoded = try containerValues.decodeIfPresent(CloudSearchDomainClientTypes.SuggestModel.self, forKey: .suggest)
         suggest = suggestDecoded
+    }
+}
+
+enum SuggestOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "SearchException": return try await SearchException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1252,7 +1252,7 @@ public struct UploadDocumentsInputBodyMiddleware: ClientRuntime.Middleware {
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<UploadDocumentsInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<UploadDocumentsOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<UploadDocumentsOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -1266,7 +1266,7 @@ public struct UploadDocumentsInputBodyMiddleware: ClientRuntime.Middleware {
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<UploadDocumentsInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<UploadDocumentsOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<UploadDocumentsOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -1348,22 +1348,11 @@ extension UploadDocumentsInputBody: Swift.Decodable {
     }
 }
 
-enum UploadDocumentsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "DocumentServiceException": return try await DocumentServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension UploadDocumentsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension UploadDocumentsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: UploadDocumentsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: UploadDocumentsOutputBody = try responseDecoder.decode(responseBody: data)
             self.adds = output.adds
             self.deletes = output.deletes
             self.status = output.status
@@ -1378,7 +1367,7 @@ extension UploadDocumentsOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the response to an UploadDocuments request.
-public struct UploadDocumentsOutputResponse: Swift.Equatable {
+public struct UploadDocumentsOutput: Swift.Equatable {
     /// The number of documents that were added to the search domain.
     public var adds: Swift.Int
     /// The number of documents that were deleted from the search domain.
@@ -1402,14 +1391,14 @@ public struct UploadDocumentsOutputResponse: Swift.Equatable {
     }
 }
 
-struct UploadDocumentsOutputResponseBody: Swift.Equatable {
+struct UploadDocumentsOutputBody: Swift.Equatable {
     let status: Swift.String?
     let adds: Swift.Int
     let deletes: Swift.Int
     let warnings: [CloudSearchDomainClientTypes.DocumentServiceWarning]?
 }
 
-extension UploadDocumentsOutputResponseBody: Swift.Decodable {
+extension UploadDocumentsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case adds
         case deletes
@@ -1436,5 +1425,16 @@ extension UploadDocumentsOutputResponseBody: Swift.Decodable {
             }
         }
         warnings = warningsDecoded0
+    }
+}
+
+enum UploadDocumentsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DocumentServiceException": return try await DocumentServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }

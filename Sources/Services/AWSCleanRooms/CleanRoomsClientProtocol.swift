@@ -8,7 +8,7 @@ public protocol CleanRoomsClientProtocol {
     ///
     /// - Parameter BatchGetCollaborationAnalysisTemplateInput : [no documentation found]
     ///
-    /// - Returns: `BatchGetCollaborationAnalysisTemplateOutputResponse` : [no documentation found]
+    /// - Returns: `BatchGetCollaborationAnalysisTemplateOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -18,12 +18,12 @@ public protocol CleanRoomsClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource which does not exist.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
-    func batchGetCollaborationAnalysisTemplate(input: BatchGetCollaborationAnalysisTemplateInput) async throws -> BatchGetCollaborationAnalysisTemplateOutputResponse
+    func batchGetCollaborationAnalysisTemplate(input: BatchGetCollaborationAnalysisTemplateInput) async throws -> BatchGetCollaborationAnalysisTemplateOutput
     /// Retrieves multiple schemas by their identifiers.
     ///
     /// - Parameter BatchGetSchemaInput : [no documentation found]
     ///
-    /// - Returns: `BatchGetSchemaOutputResponse` : [no documentation found]
+    /// - Returns: `BatchGetSchemaOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -33,12 +33,12 @@ public protocol CleanRoomsClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource which does not exist.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
-    func batchGetSchema(input: BatchGetSchemaInput) async throws -> BatchGetSchemaOutputResponse
+    func batchGetSchema(input: BatchGetSchemaInput) async throws -> BatchGetSchemaOutput
     /// Creates a new analysis template.
     ///
     /// - Parameter CreateAnalysisTemplateInput : [no documentation found]
     ///
-    /// - Returns: `CreateAnalysisTemplateOutputResponse` : [no documentation found]
+    /// - Returns: `CreateAnalysisTemplateOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -50,12 +50,12 @@ public protocol CleanRoomsClientProtocol {
     /// - `ServiceQuotaExceededException` : Request denied because service quota has been exceeded.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
-    func createAnalysisTemplate(input: CreateAnalysisTemplateInput) async throws -> CreateAnalysisTemplateOutputResponse
+    func createAnalysisTemplate(input: CreateAnalysisTemplateInput) async throws -> CreateAnalysisTemplateOutput
     /// Creates a new collaboration.
     ///
     /// - Parameter CreateCollaborationInput : [no documentation found]
     ///
-    /// - Returns: `CreateCollaborationOutputResponse` : [no documentation found]
+    /// - Returns: `CreateCollaborationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -65,12 +65,12 @@ public protocol CleanRoomsClientProtocol {
     /// - `ServiceQuotaExceededException` : Request denied because service quota has been exceeded.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
-    func createCollaboration(input: CreateCollaborationInput) async throws -> CreateCollaborationOutputResponse
+    func createCollaboration(input: CreateCollaborationInput) async throws -> CreateCollaborationOutput
     /// Creates a new configured table resource.
     ///
     /// - Parameter CreateConfiguredTableInput : [no documentation found]
     ///
-    /// - Returns: `CreateConfiguredTableOutputResponse` : [no documentation found]
+    /// - Returns: `CreateConfiguredTableOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -82,12 +82,12 @@ public protocol CleanRoomsClientProtocol {
     /// - `ServiceQuotaExceededException` : Request denied because service quota has been exceeded.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
-    func createConfiguredTable(input: CreateConfiguredTableInput) async throws -> CreateConfiguredTableOutputResponse
+    func createConfiguredTable(input: CreateConfiguredTableInput) async throws -> CreateConfiguredTableOutput
     /// Creates a new analysis rule for a configured table. Currently, only one analysis rule can be created for a given configured table.
     ///
     /// - Parameter CreateConfiguredTableAnalysisRuleInput : [no documentation found]
     ///
-    /// - Returns: `CreateConfiguredTableAnalysisRuleOutputResponse` : [no documentation found]
+    /// - Returns: `CreateConfiguredTableAnalysisRuleOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -98,12 +98,12 @@ public protocol CleanRoomsClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource which does not exist.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
-    func createConfiguredTableAnalysisRule(input: CreateConfiguredTableAnalysisRuleInput) async throws -> CreateConfiguredTableAnalysisRuleOutputResponse
+    func createConfiguredTableAnalysisRule(input: CreateConfiguredTableAnalysisRuleInput) async throws -> CreateConfiguredTableAnalysisRuleOutput
     /// Creates a configured table association. A configured table association links a configured table with a collaboration.
     ///
     /// - Parameter CreateConfiguredTableAssociationInput : [no documentation found]
     ///
-    /// - Returns: `CreateConfiguredTableAssociationOutputResponse` : [no documentation found]
+    /// - Returns: `CreateConfiguredTableAssociationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -115,12 +115,12 @@ public protocol CleanRoomsClientProtocol {
     /// - `ServiceQuotaExceededException` : Request denied because service quota has been exceeded.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
-    func createConfiguredTableAssociation(input: CreateConfiguredTableAssociationInput) async throws -> CreateConfiguredTableAssociationOutputResponse
+    func createConfiguredTableAssociation(input: CreateConfiguredTableAssociationInput) async throws -> CreateConfiguredTableAssociationOutput
     /// Creates a membership for a specific collaboration identifier and joins the collaboration.
     ///
     /// - Parameter CreateMembershipInput : [no documentation found]
     ///
-    /// - Returns: `CreateMembershipOutputResponse` : [no documentation found]
+    /// - Returns: `CreateMembershipOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -132,12 +132,12 @@ public protocol CleanRoomsClientProtocol {
     /// - `ServiceQuotaExceededException` : Request denied because service quota has been exceeded.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
-    func createMembership(input: CreateMembershipInput) async throws -> CreateMembershipOutputResponse
+    func createMembership(input: CreateMembershipInput) async throws -> CreateMembershipOutput
     /// Deletes an analysis template.
     ///
     /// - Parameter DeleteAnalysisTemplateInput : [no documentation found]
     ///
-    /// - Returns: `DeleteAnalysisTemplateOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteAnalysisTemplateOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -147,12 +147,12 @@ public protocol CleanRoomsClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource which does not exist.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
-    func deleteAnalysisTemplate(input: DeleteAnalysisTemplateInput) async throws -> DeleteAnalysisTemplateOutputResponse
+    func deleteAnalysisTemplate(input: DeleteAnalysisTemplateInput) async throws -> DeleteAnalysisTemplateOutput
     /// Deletes a collaboration. It can only be called by the collaboration owner.
     ///
     /// - Parameter DeleteCollaborationInput : [no documentation found]
     ///
-    /// - Returns: `DeleteCollaborationOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteCollaborationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -161,12 +161,12 @@ public protocol CleanRoomsClientProtocol {
     /// - `InternalServerException` : Unexpected error during processing of request.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
-    func deleteCollaboration(input: DeleteCollaborationInput) async throws -> DeleteCollaborationOutputResponse
+    func deleteCollaboration(input: DeleteCollaborationInput) async throws -> DeleteCollaborationOutput
     /// Deletes a configured table.
     ///
     /// - Parameter DeleteConfiguredTableInput : [no documentation found]
     ///
-    /// - Returns: `DeleteConfiguredTableOutputResponse` : The empty output for a successful deletion.
+    /// - Returns: `DeleteConfiguredTableOutput` : The empty output for a successful deletion.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -177,12 +177,12 @@ public protocol CleanRoomsClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource which does not exist.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
-    func deleteConfiguredTable(input: DeleteConfiguredTableInput) async throws -> DeleteConfiguredTableOutputResponse
+    func deleteConfiguredTable(input: DeleteConfiguredTableInput) async throws -> DeleteConfiguredTableOutput
     /// Deletes a configured table analysis rule.
     ///
     /// - Parameter DeleteConfiguredTableAnalysisRuleInput : [no documentation found]
     ///
-    /// - Returns: `DeleteConfiguredTableAnalysisRuleOutputResponse` : An empty response that indicates a successful delete.
+    /// - Returns: `DeleteConfiguredTableAnalysisRuleOutput` : An empty response that indicates a successful delete.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -193,12 +193,12 @@ public protocol CleanRoomsClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource which does not exist.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
-    func deleteConfiguredTableAnalysisRule(input: DeleteConfiguredTableAnalysisRuleInput) async throws -> DeleteConfiguredTableAnalysisRuleOutputResponse
+    func deleteConfiguredTableAnalysisRule(input: DeleteConfiguredTableAnalysisRuleInput) async throws -> DeleteConfiguredTableAnalysisRuleOutput
     /// Deletes a configured table association.
     ///
     /// - Parameter DeleteConfiguredTableAssociationInput : [no documentation found]
     ///
-    /// - Returns: `DeleteConfiguredTableAssociationOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteConfiguredTableAssociationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -209,12 +209,12 @@ public protocol CleanRoomsClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource which does not exist.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
-    func deleteConfiguredTableAssociation(input: DeleteConfiguredTableAssociationInput) async throws -> DeleteConfiguredTableAssociationOutputResponse
+    func deleteConfiguredTableAssociation(input: DeleteConfiguredTableAssociationInput) async throws -> DeleteConfiguredTableAssociationOutput
     /// Removes the specified member from a collaboration. The removed member is placed in the Removed status and can't interact with the collaboration. The removed member's data is inaccessible to active members of the collaboration.
     ///
     /// - Parameter DeleteMemberInput : [no documentation found]
     ///
-    /// - Returns: `DeleteMemberOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteMemberOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -225,12 +225,12 @@ public protocol CleanRoomsClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource which does not exist.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
-    func deleteMember(input: DeleteMemberInput) async throws -> DeleteMemberOutputResponse
+    func deleteMember(input: DeleteMemberInput) async throws -> DeleteMemberOutput
     /// Deletes a specified membership. All resources under a membership must be deleted.
     ///
     /// - Parameter DeleteMembershipInput : [no documentation found]
     ///
-    /// - Returns: `DeleteMembershipOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteMembershipOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -241,12 +241,12 @@ public protocol CleanRoomsClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource which does not exist.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
-    func deleteMembership(input: DeleteMembershipInput) async throws -> DeleteMembershipOutputResponse
+    func deleteMembership(input: DeleteMembershipInput) async throws -> DeleteMembershipOutput
     /// Retrieves an analysis template.
     ///
     /// - Parameter GetAnalysisTemplateInput : [no documentation found]
     ///
-    /// - Returns: `GetAnalysisTemplateOutputResponse` : [no documentation found]
+    /// - Returns: `GetAnalysisTemplateOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -256,12 +256,12 @@ public protocol CleanRoomsClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource which does not exist.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
-    func getAnalysisTemplate(input: GetAnalysisTemplateInput) async throws -> GetAnalysisTemplateOutputResponse
+    func getAnalysisTemplate(input: GetAnalysisTemplateInput) async throws -> GetAnalysisTemplateOutput
     /// Returns metadata about a collaboration.
     ///
     /// - Parameter GetCollaborationInput : [no documentation found]
     ///
-    /// - Returns: `GetCollaborationOutputResponse` : [no documentation found]
+    /// - Returns: `GetCollaborationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -270,12 +270,12 @@ public protocol CleanRoomsClientProtocol {
     /// - `InternalServerException` : Unexpected error during processing of request.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
-    func getCollaboration(input: GetCollaborationInput) async throws -> GetCollaborationOutputResponse
+    func getCollaboration(input: GetCollaborationInput) async throws -> GetCollaborationOutput
     /// Retrieves an analysis template within a collaboration.
     ///
     /// - Parameter GetCollaborationAnalysisTemplateInput : [no documentation found]
     ///
-    /// - Returns: `GetCollaborationAnalysisTemplateOutputResponse` : [no documentation found]
+    /// - Returns: `GetCollaborationAnalysisTemplateOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -285,12 +285,12 @@ public protocol CleanRoomsClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource which does not exist.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
-    func getCollaborationAnalysisTemplate(input: GetCollaborationAnalysisTemplateInput) async throws -> GetCollaborationAnalysisTemplateOutputResponse
+    func getCollaborationAnalysisTemplate(input: GetCollaborationAnalysisTemplateInput) async throws -> GetCollaborationAnalysisTemplateOutput
     /// Retrieves a configured table.
     ///
     /// - Parameter GetConfiguredTableInput : [no documentation found]
     ///
-    /// - Returns: `GetConfiguredTableOutputResponse` : [no documentation found]
+    /// - Returns: `GetConfiguredTableOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -300,12 +300,12 @@ public protocol CleanRoomsClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource which does not exist.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
-    func getConfiguredTable(input: GetConfiguredTableInput) async throws -> GetConfiguredTableOutputResponse
+    func getConfiguredTable(input: GetConfiguredTableInput) async throws -> GetConfiguredTableOutput
     /// Retrieves a configured table analysis rule.
     ///
     /// - Parameter GetConfiguredTableAnalysisRuleInput : [no documentation found]
     ///
-    /// - Returns: `GetConfiguredTableAnalysisRuleOutputResponse` : [no documentation found]
+    /// - Returns: `GetConfiguredTableAnalysisRuleOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -315,12 +315,12 @@ public protocol CleanRoomsClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource which does not exist.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
-    func getConfiguredTableAnalysisRule(input: GetConfiguredTableAnalysisRuleInput) async throws -> GetConfiguredTableAnalysisRuleOutputResponse
+    func getConfiguredTableAnalysisRule(input: GetConfiguredTableAnalysisRuleInput) async throws -> GetConfiguredTableAnalysisRuleOutput
     /// Retrieves a configured table association.
     ///
     /// - Parameter GetConfiguredTableAssociationInput : [no documentation found]
     ///
-    /// - Returns: `GetConfiguredTableAssociationOutputResponse` : [no documentation found]
+    /// - Returns: `GetConfiguredTableAssociationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -330,12 +330,12 @@ public protocol CleanRoomsClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource which does not exist.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
-    func getConfiguredTableAssociation(input: GetConfiguredTableAssociationInput) async throws -> GetConfiguredTableAssociationOutputResponse
+    func getConfiguredTableAssociation(input: GetConfiguredTableAssociationInput) async throws -> GetConfiguredTableAssociationOutput
     /// Retrieves a specified membership for an identifier.
     ///
     /// - Parameter GetMembershipInput : [no documentation found]
     ///
-    /// - Returns: `GetMembershipOutputResponse` : [no documentation found]
+    /// - Returns: `GetMembershipOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -345,12 +345,12 @@ public protocol CleanRoomsClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource which does not exist.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
-    func getMembership(input: GetMembershipInput) async throws -> GetMembershipOutputResponse
+    func getMembership(input: GetMembershipInput) async throws -> GetMembershipOutput
     /// Returns query processing metadata.
     ///
     /// - Parameter GetProtectedQueryInput : [no documentation found]
     ///
-    /// - Returns: `GetProtectedQueryOutputResponse` : [no documentation found]
+    /// - Returns: `GetProtectedQueryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -360,12 +360,12 @@ public protocol CleanRoomsClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource which does not exist.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
-    func getProtectedQuery(input: GetProtectedQueryInput) async throws -> GetProtectedQueryOutputResponse
+    func getProtectedQuery(input: GetProtectedQueryInput) async throws -> GetProtectedQueryOutput
     /// Retrieves the schema for a relation within a collaboration.
     ///
     /// - Parameter GetSchemaInput : [no documentation found]
     ///
-    /// - Returns: `GetSchemaOutputResponse` : [no documentation found]
+    /// - Returns: `GetSchemaOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -375,12 +375,12 @@ public protocol CleanRoomsClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource which does not exist.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
-    func getSchema(input: GetSchemaInput) async throws -> GetSchemaOutputResponse
+    func getSchema(input: GetSchemaInput) async throws -> GetSchemaOutput
     /// Retrieves a schema analysis rule.
     ///
     /// - Parameter GetSchemaAnalysisRuleInput : [no documentation found]
     ///
-    /// - Returns: `GetSchemaAnalysisRuleOutputResponse` : [no documentation found]
+    /// - Returns: `GetSchemaAnalysisRuleOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -390,12 +390,12 @@ public protocol CleanRoomsClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource which does not exist.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
-    func getSchemaAnalysisRule(input: GetSchemaAnalysisRuleInput) async throws -> GetSchemaAnalysisRuleOutputResponse
+    func getSchemaAnalysisRule(input: GetSchemaAnalysisRuleInput) async throws -> GetSchemaAnalysisRuleOutput
     /// Lists analysis templates that the caller owns.
     ///
     /// - Parameter ListAnalysisTemplatesInput : [no documentation found]
     ///
-    /// - Returns: `ListAnalysisTemplatesOutputResponse` : [no documentation found]
+    /// - Returns: `ListAnalysisTemplatesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -405,12 +405,12 @@ public protocol CleanRoomsClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource which does not exist.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
-    func listAnalysisTemplates(input: ListAnalysisTemplatesInput) async throws -> ListAnalysisTemplatesOutputResponse
+    func listAnalysisTemplates(input: ListAnalysisTemplatesInput) async throws -> ListAnalysisTemplatesOutput
     /// Lists analysis templates within a collaboration.
     ///
     /// - Parameter ListCollaborationAnalysisTemplatesInput : [no documentation found]
     ///
-    /// - Returns: `ListCollaborationAnalysisTemplatesOutputResponse` : [no documentation found]
+    /// - Returns: `ListCollaborationAnalysisTemplatesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -420,12 +420,12 @@ public protocol CleanRoomsClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource which does not exist.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
-    func listCollaborationAnalysisTemplates(input: ListCollaborationAnalysisTemplatesInput) async throws -> ListCollaborationAnalysisTemplatesOutputResponse
+    func listCollaborationAnalysisTemplates(input: ListCollaborationAnalysisTemplatesInput) async throws -> ListCollaborationAnalysisTemplatesOutput
     /// Lists collaborations the caller owns, is active in, or has been invited to.
     ///
     /// - Parameter ListCollaborationsInput : [no documentation found]
     ///
-    /// - Returns: `ListCollaborationsOutputResponse` : [no documentation found]
+    /// - Returns: `ListCollaborationsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -434,12 +434,12 @@ public protocol CleanRoomsClientProtocol {
     /// - `InternalServerException` : Unexpected error during processing of request.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
-    func listCollaborations(input: ListCollaborationsInput) async throws -> ListCollaborationsOutputResponse
+    func listCollaborations(input: ListCollaborationsInput) async throws -> ListCollaborationsOutput
     /// Lists configured table associations for a membership.
     ///
     /// - Parameter ListConfiguredTableAssociationsInput : [no documentation found]
     ///
-    /// - Returns: `ListConfiguredTableAssociationsOutputResponse` : [no documentation found]
+    /// - Returns: `ListConfiguredTableAssociationsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -449,12 +449,12 @@ public protocol CleanRoomsClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource which does not exist.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
-    func listConfiguredTableAssociations(input: ListConfiguredTableAssociationsInput) async throws -> ListConfiguredTableAssociationsOutputResponse
+    func listConfiguredTableAssociations(input: ListConfiguredTableAssociationsInput) async throws -> ListConfiguredTableAssociationsOutput
     /// Lists configured tables.
     ///
     /// - Parameter ListConfiguredTablesInput : [no documentation found]
     ///
-    /// - Returns: `ListConfiguredTablesOutputResponse` : [no documentation found]
+    /// - Returns: `ListConfiguredTablesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -463,12 +463,12 @@ public protocol CleanRoomsClientProtocol {
     /// - `InternalServerException` : Unexpected error during processing of request.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
-    func listConfiguredTables(input: ListConfiguredTablesInput) async throws -> ListConfiguredTablesOutputResponse
+    func listConfiguredTables(input: ListConfiguredTablesInput) async throws -> ListConfiguredTablesOutput
     /// Lists all members within a collaboration.
     ///
     /// - Parameter ListMembersInput : [no documentation found]
     ///
-    /// - Returns: `ListMembersOutputResponse` : [no documentation found]
+    /// - Returns: `ListMembersOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -478,12 +478,12 @@ public protocol CleanRoomsClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource which does not exist.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
-    func listMembers(input: ListMembersInput) async throws -> ListMembersOutputResponse
+    func listMembers(input: ListMembersInput) async throws -> ListMembersOutput
     /// Lists all memberships resources within the caller's account.
     ///
     /// - Parameter ListMembershipsInput : [no documentation found]
     ///
-    /// - Returns: `ListMembershipsOutputResponse` : [no documentation found]
+    /// - Returns: `ListMembershipsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -492,12 +492,12 @@ public protocol CleanRoomsClientProtocol {
     /// - `InternalServerException` : Unexpected error during processing of request.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
-    func listMemberships(input: ListMembershipsInput) async throws -> ListMembershipsOutputResponse
+    func listMemberships(input: ListMembershipsInput) async throws -> ListMembershipsOutput
     /// Lists protected queries, sorted by the most recent query.
     ///
     /// - Parameter ListProtectedQueriesInput : [no documentation found]
     ///
-    /// - Returns: `ListProtectedQueriesOutputResponse` : [no documentation found]
+    /// - Returns: `ListProtectedQueriesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -507,12 +507,12 @@ public protocol CleanRoomsClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource which does not exist.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
-    func listProtectedQueries(input: ListProtectedQueriesInput) async throws -> ListProtectedQueriesOutputResponse
+    func listProtectedQueries(input: ListProtectedQueriesInput) async throws -> ListProtectedQueriesOutput
     /// Lists the schemas for relations within a collaboration.
     ///
     /// - Parameter ListSchemasInput : [no documentation found]
     ///
-    /// - Returns: `ListSchemasOutputResponse` : [no documentation found]
+    /// - Returns: `ListSchemasOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -522,24 +522,24 @@ public protocol CleanRoomsClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource which does not exist.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
-    func listSchemas(input: ListSchemasInput) async throws -> ListSchemasOutputResponse
+    func listSchemas(input: ListSchemasInput) async throws -> ListSchemasOutput
     /// Lists all of the tags that have been added to a resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Request references a resource which does not exist.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     /// Creates a protected query that is started by Clean Rooms.
     ///
     /// - Parameter StartProtectedQueryInput : [no documentation found]
     ///
-    /// - Returns: `StartProtectedQueryOutputResponse` : [no documentation found]
+    /// - Returns: `StartProtectedQueryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -550,36 +550,36 @@ public protocol CleanRoomsClientProtocol {
     /// - `ServiceQuotaExceededException` : Request denied because service quota has been exceeded.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
-    func startProtectedQuery(input: StartProtectedQueryInput) async throws -> StartProtectedQueryOutputResponse
+    func startProtectedQuery(input: StartProtectedQueryInput) async throws -> StartProtectedQueryOutput
     /// Tags a resource.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Request references a resource which does not exist.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     /// Removes a tag or list of tags from a resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Request references a resource which does not exist.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
     /// Updates the analysis template metadata.
     ///
     /// - Parameter UpdateAnalysisTemplateInput : [no documentation found]
     ///
-    /// - Returns: `UpdateAnalysisTemplateOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateAnalysisTemplateOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -589,12 +589,12 @@ public protocol CleanRoomsClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource which does not exist.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
-    func updateAnalysisTemplate(input: UpdateAnalysisTemplateInput) async throws -> UpdateAnalysisTemplateOutputResponse
+    func updateAnalysisTemplate(input: UpdateAnalysisTemplateInput) async throws -> UpdateAnalysisTemplateOutput
     /// Updates collaboration metadata and can only be called by the collaboration owner.
     ///
     /// - Parameter UpdateCollaborationInput : [no documentation found]
     ///
-    /// - Returns: `UpdateCollaborationOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateCollaborationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -603,12 +603,12 @@ public protocol CleanRoomsClientProtocol {
     /// - `InternalServerException` : Unexpected error during processing of request.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
-    func updateCollaboration(input: UpdateCollaborationInput) async throws -> UpdateCollaborationOutputResponse
+    func updateCollaboration(input: UpdateCollaborationInput) async throws -> UpdateCollaborationOutput
     /// Updates a configured table.
     ///
     /// - Parameter UpdateConfiguredTableInput : [no documentation found]
     ///
-    /// - Returns: `UpdateConfiguredTableOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateConfiguredTableOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -619,12 +619,12 @@ public protocol CleanRoomsClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource which does not exist.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
-    func updateConfiguredTable(input: UpdateConfiguredTableInput) async throws -> UpdateConfiguredTableOutputResponse
+    func updateConfiguredTable(input: UpdateConfiguredTableInput) async throws -> UpdateConfiguredTableOutput
     /// Updates a configured table analysis rule.
     ///
     /// - Parameter UpdateConfiguredTableAnalysisRuleInput : [no documentation found]
     ///
-    /// - Returns: `UpdateConfiguredTableAnalysisRuleOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateConfiguredTableAnalysisRuleOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -635,12 +635,12 @@ public protocol CleanRoomsClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource which does not exist.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
-    func updateConfiguredTableAnalysisRule(input: UpdateConfiguredTableAnalysisRuleInput) async throws -> UpdateConfiguredTableAnalysisRuleOutputResponse
+    func updateConfiguredTableAnalysisRule(input: UpdateConfiguredTableAnalysisRuleInput) async throws -> UpdateConfiguredTableAnalysisRuleOutput
     /// Updates a configured table association.
     ///
     /// - Parameter UpdateConfiguredTableAssociationInput : [no documentation found]
     ///
-    /// - Returns: `UpdateConfiguredTableAssociationOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateConfiguredTableAssociationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -651,12 +651,12 @@ public protocol CleanRoomsClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource which does not exist.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
-    func updateConfiguredTableAssociation(input: UpdateConfiguredTableAssociationInput) async throws -> UpdateConfiguredTableAssociationOutputResponse
+    func updateConfiguredTableAssociation(input: UpdateConfiguredTableAssociationInput) async throws -> UpdateConfiguredTableAssociationOutput
     /// Updates a membership.
     ///
     /// - Parameter UpdateMembershipInput : [no documentation found]
     ///
-    /// - Returns: `UpdateMembershipOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateMembershipOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -667,12 +667,12 @@ public protocol CleanRoomsClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource which does not exist.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
-    func updateMembership(input: UpdateMembershipInput) async throws -> UpdateMembershipOutputResponse
+    func updateMembership(input: UpdateMembershipInput) async throws -> UpdateMembershipOutput
     /// Updates the processing of a currently running query.
     ///
     /// - Parameter UpdateProtectedQueryInput : [no documentation found]
     ///
-    /// - Returns: `UpdateProtectedQueryOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateProtectedQueryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -683,7 +683,7 @@ public protocol CleanRoomsClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource which does not exist.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
-    func updateProtectedQuery(input: UpdateProtectedQueryInput) async throws -> UpdateProtectedQueryOutputResponse
+    func updateProtectedQuery(input: UpdateProtectedQueryInput) async throws -> UpdateProtectedQueryOutput
 }
 
 public enum CleanRoomsClientTypes {}

@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension ServiceCatalogClient {
-    /// Paginate over `[DescribePortfolioSharesOutputResponse]` results.
+    /// Paginate over `[DescribePortfolioSharesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribePortfolioSharesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribePortfolioSharesOutputResponse`
-    public func describePortfolioSharesPaginated(input: DescribePortfolioSharesInput) -> ClientRuntime.PaginatorSequence<DescribePortfolioSharesInput, DescribePortfolioSharesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribePortfolioSharesInput, DescribePortfolioSharesOutputResponse>(input: input, inputKey: \DescribePortfolioSharesInput.pageToken, outputKey: \DescribePortfolioSharesOutputResponse.nextPageToken, paginationFunction: self.describePortfolioShares(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribePortfolioSharesOutput`
+    public func describePortfolioSharesPaginated(input: DescribePortfolioSharesInput) -> ClientRuntime.PaginatorSequence<DescribePortfolioSharesInput, DescribePortfolioSharesOutput> {
+        return ClientRuntime.PaginatorSequence<DescribePortfolioSharesInput, DescribePortfolioSharesOutput>(input: input, inputKey: \DescribePortfolioSharesInput.pageToken, outputKey: \DescribePortfolioSharesOutput.nextPageToken, paginationFunction: self.describePortfolioShares(input:))
     }
 }
 
@@ -26,16 +26,16 @@ extension DescribePortfolioSharesInput: ClientRuntime.PaginateToken {
         )}
 }
 extension ServiceCatalogClient {
-    /// Paginate over `[GetProvisionedProductOutputsOutputResponse]` results.
+    /// Paginate over `[GetProvisionedProductOutputsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[GetProvisionedProductOutputsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `GetProvisionedProductOutputsOutputResponse`
-    public func getProvisionedProductOutputsPaginated(input: GetProvisionedProductOutputsInput) -> ClientRuntime.PaginatorSequence<GetProvisionedProductOutputsInput, GetProvisionedProductOutputsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<GetProvisionedProductOutputsInput, GetProvisionedProductOutputsOutputResponse>(input: input, inputKey: \GetProvisionedProductOutputsInput.pageToken, outputKey: \GetProvisionedProductOutputsOutputResponse.nextPageToken, paginationFunction: self.getProvisionedProductOutputs(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `GetProvisionedProductOutputsOutput`
+    public func getProvisionedProductOutputsPaginated(input: GetProvisionedProductOutputsInput) -> ClientRuntime.PaginatorSequence<GetProvisionedProductOutputsInput, GetProvisionedProductOutputsOutput> {
+        return ClientRuntime.PaginatorSequence<GetProvisionedProductOutputsInput, GetProvisionedProductOutputsOutput>(input: input, inputKey: \GetProvisionedProductOutputsInput.pageToken, outputKey: \GetProvisionedProductOutputsOutput.nextPageToken, paginationFunction: self.getProvisionedProductOutputs(input:))
     }
 }
 
@@ -51,16 +51,16 @@ extension GetProvisionedProductOutputsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension ServiceCatalogClient {
-    /// Paginate over `[ListAcceptedPortfolioSharesOutputResponse]` results.
+    /// Paginate over `[ListAcceptedPortfolioSharesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListAcceptedPortfolioSharesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListAcceptedPortfolioSharesOutputResponse`
-    public func listAcceptedPortfolioSharesPaginated(input: ListAcceptedPortfolioSharesInput) -> ClientRuntime.PaginatorSequence<ListAcceptedPortfolioSharesInput, ListAcceptedPortfolioSharesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListAcceptedPortfolioSharesInput, ListAcceptedPortfolioSharesOutputResponse>(input: input, inputKey: \ListAcceptedPortfolioSharesInput.pageToken, outputKey: \ListAcceptedPortfolioSharesOutputResponse.nextPageToken, paginationFunction: self.listAcceptedPortfolioShares(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAcceptedPortfolioSharesOutput`
+    public func listAcceptedPortfolioSharesPaginated(input: ListAcceptedPortfolioSharesInput) -> ClientRuntime.PaginatorSequence<ListAcceptedPortfolioSharesInput, ListAcceptedPortfolioSharesOutput> {
+        return ClientRuntime.PaginatorSequence<ListAcceptedPortfolioSharesInput, ListAcceptedPortfolioSharesOutput>(input: input, inputKey: \ListAcceptedPortfolioSharesInput.pageToken, outputKey: \ListAcceptedPortfolioSharesOutput.nextPageToken, paginationFunction: self.listAcceptedPortfolioShares(input:))
     }
 }
 
@@ -74,16 +74,16 @@ extension ListAcceptedPortfolioSharesInput: ClientRuntime.PaginateToken {
         )}
 }
 extension ServiceCatalogClient {
-    /// Paginate over `[ListBudgetsForResourceOutputResponse]` results.
+    /// Paginate over `[ListBudgetsForResourceOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListBudgetsForResourceInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListBudgetsForResourceOutputResponse`
-    public func listBudgetsForResourcePaginated(input: ListBudgetsForResourceInput) -> ClientRuntime.PaginatorSequence<ListBudgetsForResourceInput, ListBudgetsForResourceOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListBudgetsForResourceInput, ListBudgetsForResourceOutputResponse>(input: input, inputKey: \ListBudgetsForResourceInput.pageToken, outputKey: \ListBudgetsForResourceOutputResponse.nextPageToken, paginationFunction: self.listBudgetsForResource(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListBudgetsForResourceOutput`
+    public func listBudgetsForResourcePaginated(input: ListBudgetsForResourceInput) -> ClientRuntime.PaginatorSequence<ListBudgetsForResourceInput, ListBudgetsForResourceOutput> {
+        return ClientRuntime.PaginatorSequence<ListBudgetsForResourceInput, ListBudgetsForResourceOutput>(input: input, inputKey: \ListBudgetsForResourceInput.pageToken, outputKey: \ListBudgetsForResourceOutput.nextPageToken, paginationFunction: self.listBudgetsForResource(input:))
     }
 }
 
@@ -97,16 +97,16 @@ extension ListBudgetsForResourceInput: ClientRuntime.PaginateToken {
         )}
 }
 extension ServiceCatalogClient {
-    /// Paginate over `[ListConstraintsForPortfolioOutputResponse]` results.
+    /// Paginate over `[ListConstraintsForPortfolioOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListConstraintsForPortfolioInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListConstraintsForPortfolioOutputResponse`
-    public func listConstraintsForPortfolioPaginated(input: ListConstraintsForPortfolioInput) -> ClientRuntime.PaginatorSequence<ListConstraintsForPortfolioInput, ListConstraintsForPortfolioOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListConstraintsForPortfolioInput, ListConstraintsForPortfolioOutputResponse>(input: input, inputKey: \ListConstraintsForPortfolioInput.pageToken, outputKey: \ListConstraintsForPortfolioOutputResponse.nextPageToken, paginationFunction: self.listConstraintsForPortfolio(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListConstraintsForPortfolioOutput`
+    public func listConstraintsForPortfolioPaginated(input: ListConstraintsForPortfolioInput) -> ClientRuntime.PaginatorSequence<ListConstraintsForPortfolioInput, ListConstraintsForPortfolioOutput> {
+        return ClientRuntime.PaginatorSequence<ListConstraintsForPortfolioInput, ListConstraintsForPortfolioOutput>(input: input, inputKey: \ListConstraintsForPortfolioInput.pageToken, outputKey: \ListConstraintsForPortfolioOutput.nextPageToken, paginationFunction: self.listConstraintsForPortfolio(input:))
     }
 }
 
@@ -121,16 +121,16 @@ extension ListConstraintsForPortfolioInput: ClientRuntime.PaginateToken {
         )}
 }
 extension ServiceCatalogClient {
-    /// Paginate over `[ListLaunchPathsOutputResponse]` results.
+    /// Paginate over `[ListLaunchPathsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListLaunchPathsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListLaunchPathsOutputResponse`
-    public func listLaunchPathsPaginated(input: ListLaunchPathsInput) -> ClientRuntime.PaginatorSequence<ListLaunchPathsInput, ListLaunchPathsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListLaunchPathsInput, ListLaunchPathsOutputResponse>(input: input, inputKey: \ListLaunchPathsInput.pageToken, outputKey: \ListLaunchPathsOutputResponse.nextPageToken, paginationFunction: self.listLaunchPaths(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListLaunchPathsOutput`
+    public func listLaunchPathsPaginated(input: ListLaunchPathsInput) -> ClientRuntime.PaginatorSequence<ListLaunchPathsInput, ListLaunchPathsOutput> {
+        return ClientRuntime.PaginatorSequence<ListLaunchPathsInput, ListLaunchPathsOutput>(input: input, inputKey: \ListLaunchPathsInput.pageToken, outputKey: \ListLaunchPathsOutput.nextPageToken, paginationFunction: self.listLaunchPaths(input:))
     }
 }
 
@@ -144,16 +144,16 @@ extension ListLaunchPathsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension ServiceCatalogClient {
-    /// Paginate over `[ListOrganizationPortfolioAccessOutputResponse]` results.
+    /// Paginate over `[ListOrganizationPortfolioAccessOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListOrganizationPortfolioAccessInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListOrganizationPortfolioAccessOutputResponse`
-    public func listOrganizationPortfolioAccessPaginated(input: ListOrganizationPortfolioAccessInput) -> ClientRuntime.PaginatorSequence<ListOrganizationPortfolioAccessInput, ListOrganizationPortfolioAccessOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListOrganizationPortfolioAccessInput, ListOrganizationPortfolioAccessOutputResponse>(input: input, inputKey: \ListOrganizationPortfolioAccessInput.pageToken, outputKey: \ListOrganizationPortfolioAccessOutputResponse.nextPageToken, paginationFunction: self.listOrganizationPortfolioAccess(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListOrganizationPortfolioAccessOutput`
+    public func listOrganizationPortfolioAccessPaginated(input: ListOrganizationPortfolioAccessInput) -> ClientRuntime.PaginatorSequence<ListOrganizationPortfolioAccessInput, ListOrganizationPortfolioAccessOutput> {
+        return ClientRuntime.PaginatorSequence<ListOrganizationPortfolioAccessInput, ListOrganizationPortfolioAccessOutput>(input: input, inputKey: \ListOrganizationPortfolioAccessInput.pageToken, outputKey: \ListOrganizationPortfolioAccessOutput.nextPageToken, paginationFunction: self.listOrganizationPortfolioAccess(input:))
     }
 }
 
@@ -168,16 +168,16 @@ extension ListOrganizationPortfolioAccessInput: ClientRuntime.PaginateToken {
         )}
 }
 extension ServiceCatalogClient {
-    /// Paginate over `[ListPortfolioAccessOutputResponse]` results.
+    /// Paginate over `[ListPortfolioAccessOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListPortfolioAccessInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListPortfolioAccessOutputResponse`
-    public func listPortfolioAccessPaginated(input: ListPortfolioAccessInput) -> ClientRuntime.PaginatorSequence<ListPortfolioAccessInput, ListPortfolioAccessOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListPortfolioAccessInput, ListPortfolioAccessOutputResponse>(input: input, inputKey: \ListPortfolioAccessInput.pageToken, outputKey: \ListPortfolioAccessOutputResponse.nextPageToken, paginationFunction: self.listPortfolioAccess(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListPortfolioAccessOutput`
+    public func listPortfolioAccessPaginated(input: ListPortfolioAccessInput) -> ClientRuntime.PaginatorSequence<ListPortfolioAccessInput, ListPortfolioAccessOutput> {
+        return ClientRuntime.PaginatorSequence<ListPortfolioAccessInput, ListPortfolioAccessOutput>(input: input, inputKey: \ListPortfolioAccessInput.pageToken, outputKey: \ListPortfolioAccessOutput.nextPageToken, paginationFunction: self.listPortfolioAccess(input:))
     }
 }
 
@@ -192,16 +192,16 @@ extension ListPortfolioAccessInput: ClientRuntime.PaginateToken {
         )}
 }
 extension ServiceCatalogClient {
-    /// Paginate over `[ListPortfoliosOutputResponse]` results.
+    /// Paginate over `[ListPortfoliosOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListPortfoliosInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListPortfoliosOutputResponse`
-    public func listPortfoliosPaginated(input: ListPortfoliosInput) -> ClientRuntime.PaginatorSequence<ListPortfoliosInput, ListPortfoliosOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListPortfoliosInput, ListPortfoliosOutputResponse>(input: input, inputKey: \ListPortfoliosInput.pageToken, outputKey: \ListPortfoliosOutputResponse.nextPageToken, paginationFunction: self.listPortfolios(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListPortfoliosOutput`
+    public func listPortfoliosPaginated(input: ListPortfoliosInput) -> ClientRuntime.PaginatorSequence<ListPortfoliosInput, ListPortfoliosOutput> {
+        return ClientRuntime.PaginatorSequence<ListPortfoliosInput, ListPortfoliosOutput>(input: input, inputKey: \ListPortfoliosInput.pageToken, outputKey: \ListPortfoliosOutput.nextPageToken, paginationFunction: self.listPortfolios(input:))
     }
 }
 
@@ -214,16 +214,16 @@ extension ListPortfoliosInput: ClientRuntime.PaginateToken {
         )}
 }
 extension ServiceCatalogClient {
-    /// Paginate over `[ListPortfoliosForProductOutputResponse]` results.
+    /// Paginate over `[ListPortfoliosForProductOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListPortfoliosForProductInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListPortfoliosForProductOutputResponse`
-    public func listPortfoliosForProductPaginated(input: ListPortfoliosForProductInput) -> ClientRuntime.PaginatorSequence<ListPortfoliosForProductInput, ListPortfoliosForProductOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListPortfoliosForProductInput, ListPortfoliosForProductOutputResponse>(input: input, inputKey: \ListPortfoliosForProductInput.pageToken, outputKey: \ListPortfoliosForProductOutputResponse.nextPageToken, paginationFunction: self.listPortfoliosForProduct(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListPortfoliosForProductOutput`
+    public func listPortfoliosForProductPaginated(input: ListPortfoliosForProductInput) -> ClientRuntime.PaginatorSequence<ListPortfoliosForProductInput, ListPortfoliosForProductOutput> {
+        return ClientRuntime.PaginatorSequence<ListPortfoliosForProductInput, ListPortfoliosForProductOutput>(input: input, inputKey: \ListPortfoliosForProductInput.pageToken, outputKey: \ListPortfoliosForProductOutput.nextPageToken, paginationFunction: self.listPortfoliosForProduct(input:))
     }
 }
 
@@ -237,16 +237,16 @@ extension ListPortfoliosForProductInput: ClientRuntime.PaginateToken {
         )}
 }
 extension ServiceCatalogClient {
-    /// Paginate over `[ListPrincipalsForPortfolioOutputResponse]` results.
+    /// Paginate over `[ListPrincipalsForPortfolioOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListPrincipalsForPortfolioInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListPrincipalsForPortfolioOutputResponse`
-    public func listPrincipalsForPortfolioPaginated(input: ListPrincipalsForPortfolioInput) -> ClientRuntime.PaginatorSequence<ListPrincipalsForPortfolioInput, ListPrincipalsForPortfolioOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListPrincipalsForPortfolioInput, ListPrincipalsForPortfolioOutputResponse>(input: input, inputKey: \ListPrincipalsForPortfolioInput.pageToken, outputKey: \ListPrincipalsForPortfolioOutputResponse.nextPageToken, paginationFunction: self.listPrincipalsForPortfolio(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListPrincipalsForPortfolioOutput`
+    public func listPrincipalsForPortfolioPaginated(input: ListPrincipalsForPortfolioInput) -> ClientRuntime.PaginatorSequence<ListPrincipalsForPortfolioInput, ListPrincipalsForPortfolioOutput> {
+        return ClientRuntime.PaginatorSequence<ListPrincipalsForPortfolioInput, ListPrincipalsForPortfolioOutput>(input: input, inputKey: \ListPrincipalsForPortfolioInput.pageToken, outputKey: \ListPrincipalsForPortfolioOutput.nextPageToken, paginationFunction: self.listPrincipalsForPortfolio(input:))
     }
 }
 
@@ -260,16 +260,16 @@ extension ListPrincipalsForPortfolioInput: ClientRuntime.PaginateToken {
         )}
 }
 extension ServiceCatalogClient {
-    /// Paginate over `[ListProvisioningArtifactsForServiceActionOutputResponse]` results.
+    /// Paginate over `[ListProvisioningArtifactsForServiceActionOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListProvisioningArtifactsForServiceActionInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListProvisioningArtifactsForServiceActionOutputResponse`
-    public func listProvisioningArtifactsForServiceActionPaginated(input: ListProvisioningArtifactsForServiceActionInput) -> ClientRuntime.PaginatorSequence<ListProvisioningArtifactsForServiceActionInput, ListProvisioningArtifactsForServiceActionOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListProvisioningArtifactsForServiceActionInput, ListProvisioningArtifactsForServiceActionOutputResponse>(input: input, inputKey: \ListProvisioningArtifactsForServiceActionInput.pageToken, outputKey: \ListProvisioningArtifactsForServiceActionOutputResponse.nextPageToken, paginationFunction: self.listProvisioningArtifactsForServiceAction(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListProvisioningArtifactsForServiceActionOutput`
+    public func listProvisioningArtifactsForServiceActionPaginated(input: ListProvisioningArtifactsForServiceActionInput) -> ClientRuntime.PaginatorSequence<ListProvisioningArtifactsForServiceActionInput, ListProvisioningArtifactsForServiceActionOutput> {
+        return ClientRuntime.PaginatorSequence<ListProvisioningArtifactsForServiceActionInput, ListProvisioningArtifactsForServiceActionOutput>(input: input, inputKey: \ListProvisioningArtifactsForServiceActionInput.pageToken, outputKey: \ListProvisioningArtifactsForServiceActionOutput.nextPageToken, paginationFunction: self.listProvisioningArtifactsForServiceAction(input:))
     }
 }
 
@@ -283,16 +283,16 @@ extension ListProvisioningArtifactsForServiceActionInput: ClientRuntime.Paginate
         )}
 }
 extension ServiceCatalogClient {
-    /// Paginate over `[ListResourcesForTagOptionOutputResponse]` results.
+    /// Paginate over `[ListResourcesForTagOptionOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListResourcesForTagOptionInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListResourcesForTagOptionOutputResponse`
-    public func listResourcesForTagOptionPaginated(input: ListResourcesForTagOptionInput) -> ClientRuntime.PaginatorSequence<ListResourcesForTagOptionInput, ListResourcesForTagOptionOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListResourcesForTagOptionInput, ListResourcesForTagOptionOutputResponse>(input: input, inputKey: \ListResourcesForTagOptionInput.pageToken, outputKey: \ListResourcesForTagOptionOutputResponse.pageToken, paginationFunction: self.listResourcesForTagOption(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListResourcesForTagOptionOutput`
+    public func listResourcesForTagOptionPaginated(input: ListResourcesForTagOptionInput) -> ClientRuntime.PaginatorSequence<ListResourcesForTagOptionInput, ListResourcesForTagOptionOutput> {
+        return ClientRuntime.PaginatorSequence<ListResourcesForTagOptionInput, ListResourcesForTagOptionOutput>(input: input, inputKey: \ListResourcesForTagOptionInput.pageToken, outputKey: \ListResourcesForTagOptionOutput.pageToken, paginationFunction: self.listResourcesForTagOption(input:))
     }
 }
 
@@ -306,16 +306,16 @@ extension ListResourcesForTagOptionInput: ClientRuntime.PaginateToken {
         )}
 }
 extension ServiceCatalogClient {
-    /// Paginate over `[ListServiceActionsOutputResponse]` results.
+    /// Paginate over `[ListServiceActionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListServiceActionsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListServiceActionsOutputResponse`
-    public func listServiceActionsPaginated(input: ListServiceActionsInput) -> ClientRuntime.PaginatorSequence<ListServiceActionsInput, ListServiceActionsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListServiceActionsInput, ListServiceActionsOutputResponse>(input: input, inputKey: \ListServiceActionsInput.pageToken, outputKey: \ListServiceActionsOutputResponse.nextPageToken, paginationFunction: self.listServiceActions(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListServiceActionsOutput`
+    public func listServiceActionsPaginated(input: ListServiceActionsInput) -> ClientRuntime.PaginatorSequence<ListServiceActionsInput, ListServiceActionsOutput> {
+        return ClientRuntime.PaginatorSequence<ListServiceActionsInput, ListServiceActionsOutput>(input: input, inputKey: \ListServiceActionsInput.pageToken, outputKey: \ListServiceActionsOutput.nextPageToken, paginationFunction: self.listServiceActions(input:))
     }
 }
 
@@ -328,16 +328,16 @@ extension ListServiceActionsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension ServiceCatalogClient {
-    /// Paginate over `[ListServiceActionsForProvisioningArtifactOutputResponse]` results.
+    /// Paginate over `[ListServiceActionsForProvisioningArtifactOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListServiceActionsForProvisioningArtifactInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListServiceActionsForProvisioningArtifactOutputResponse`
-    public func listServiceActionsForProvisioningArtifactPaginated(input: ListServiceActionsForProvisioningArtifactInput) -> ClientRuntime.PaginatorSequence<ListServiceActionsForProvisioningArtifactInput, ListServiceActionsForProvisioningArtifactOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListServiceActionsForProvisioningArtifactInput, ListServiceActionsForProvisioningArtifactOutputResponse>(input: input, inputKey: \ListServiceActionsForProvisioningArtifactInput.pageToken, outputKey: \ListServiceActionsForProvisioningArtifactOutputResponse.nextPageToken, paginationFunction: self.listServiceActionsForProvisioningArtifact(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListServiceActionsForProvisioningArtifactOutput`
+    public func listServiceActionsForProvisioningArtifactPaginated(input: ListServiceActionsForProvisioningArtifactInput) -> ClientRuntime.PaginatorSequence<ListServiceActionsForProvisioningArtifactInput, ListServiceActionsForProvisioningArtifactOutput> {
+        return ClientRuntime.PaginatorSequence<ListServiceActionsForProvisioningArtifactInput, ListServiceActionsForProvisioningArtifactOutput>(input: input, inputKey: \ListServiceActionsForProvisioningArtifactInput.pageToken, outputKey: \ListServiceActionsForProvisioningArtifactOutput.nextPageToken, paginationFunction: self.listServiceActionsForProvisioningArtifact(input:))
     }
 }
 
@@ -352,16 +352,16 @@ extension ListServiceActionsForProvisioningArtifactInput: ClientRuntime.Paginate
         )}
 }
 extension ServiceCatalogClient {
-    /// Paginate over `[ListTagOptionsOutputResponse]` results.
+    /// Paginate over `[ListTagOptionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListTagOptionsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListTagOptionsOutputResponse`
-    public func listTagOptionsPaginated(input: ListTagOptionsInput) -> ClientRuntime.PaginatorSequence<ListTagOptionsInput, ListTagOptionsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListTagOptionsInput, ListTagOptionsOutputResponse>(input: input, inputKey: \ListTagOptionsInput.pageToken, outputKey: \ListTagOptionsOutputResponse.pageToken, paginationFunction: self.listTagOptions(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListTagOptionsOutput`
+    public func listTagOptionsPaginated(input: ListTagOptionsInput) -> ClientRuntime.PaginatorSequence<ListTagOptionsInput, ListTagOptionsOutput> {
+        return ClientRuntime.PaginatorSequence<ListTagOptionsInput, ListTagOptionsOutput>(input: input, inputKey: \ListTagOptionsInput.pageToken, outputKey: \ListTagOptionsOutput.pageToken, paginationFunction: self.listTagOptions(input:))
     }
 }
 
@@ -374,16 +374,16 @@ extension ListTagOptionsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension ServiceCatalogClient {
-    /// Paginate over `[SearchProductsOutputResponse]` results.
+    /// Paginate over `[SearchProductsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[SearchProductsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `SearchProductsOutputResponse`
-    public func searchProductsPaginated(input: SearchProductsInput) -> ClientRuntime.PaginatorSequence<SearchProductsInput, SearchProductsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<SearchProductsInput, SearchProductsOutputResponse>(input: input, inputKey: \SearchProductsInput.pageToken, outputKey: \SearchProductsOutputResponse.nextPageToken, paginationFunction: self.searchProducts(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `SearchProductsOutput`
+    public func searchProductsPaginated(input: SearchProductsInput) -> ClientRuntime.PaginatorSequence<SearchProductsInput, SearchProductsOutput> {
+        return ClientRuntime.PaginatorSequence<SearchProductsInput, SearchProductsOutput>(input: input, inputKey: \SearchProductsInput.pageToken, outputKey: \SearchProductsOutput.nextPageToken, paginationFunction: self.searchProducts(input:))
     }
 }
 
@@ -399,16 +399,16 @@ extension SearchProductsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension ServiceCatalogClient {
-    /// Paginate over `[SearchProductsAsAdminOutputResponse]` results.
+    /// Paginate over `[SearchProductsAsAdminOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[SearchProductsAsAdminInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `SearchProductsAsAdminOutputResponse`
-    public func searchProductsAsAdminPaginated(input: SearchProductsAsAdminInput) -> ClientRuntime.PaginatorSequence<SearchProductsAsAdminInput, SearchProductsAsAdminOutputResponse> {
-        return ClientRuntime.PaginatorSequence<SearchProductsAsAdminInput, SearchProductsAsAdminOutputResponse>(input: input, inputKey: \SearchProductsAsAdminInput.pageToken, outputKey: \SearchProductsAsAdminOutputResponse.nextPageToken, paginationFunction: self.searchProductsAsAdmin(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `SearchProductsAsAdminOutput`
+    public func searchProductsAsAdminPaginated(input: SearchProductsAsAdminInput) -> ClientRuntime.PaginatorSequence<SearchProductsAsAdminInput, SearchProductsAsAdminOutput> {
+        return ClientRuntime.PaginatorSequence<SearchProductsAsAdminInput, SearchProductsAsAdminOutput>(input: input, inputKey: \SearchProductsAsAdminInput.pageToken, outputKey: \SearchProductsAsAdminOutput.nextPageToken, paginationFunction: self.searchProductsAsAdmin(input:))
     }
 }
 
@@ -426,16 +426,16 @@ extension SearchProductsAsAdminInput: ClientRuntime.PaginateToken {
         )}
 }
 extension ServiceCatalogClient {
-    /// Paginate over `[SearchProvisionedProductsOutputResponse]` results.
+    /// Paginate over `[SearchProvisionedProductsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[SearchProvisionedProductsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `SearchProvisionedProductsOutputResponse`
-    public func searchProvisionedProductsPaginated(input: SearchProvisionedProductsInput) -> ClientRuntime.PaginatorSequence<SearchProvisionedProductsInput, SearchProvisionedProductsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<SearchProvisionedProductsInput, SearchProvisionedProductsOutputResponse>(input: input, inputKey: \SearchProvisionedProductsInput.pageToken, outputKey: \SearchProvisionedProductsOutputResponse.nextPageToken, paginationFunction: self.searchProvisionedProducts(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `SearchProvisionedProductsOutput`
+    public func searchProvisionedProductsPaginated(input: SearchProvisionedProductsInput) -> ClientRuntime.PaginatorSequence<SearchProvisionedProductsInput, SearchProvisionedProductsOutput> {
+        return ClientRuntime.PaginatorSequence<SearchProvisionedProductsInput, SearchProvisionedProductsOutput>(input: input, inputKey: \SearchProvisionedProductsInput.pageToken, outputKey: \SearchProvisionedProductsOutput.nextPageToken, paginationFunction: self.searchProvisionedProducts(input:))
     }
 }
 

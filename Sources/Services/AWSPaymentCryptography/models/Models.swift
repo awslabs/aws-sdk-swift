@@ -218,6 +218,47 @@ extension CreateAliasInputBody: Swift.Decodable {
     }
 }
 
+extension CreateAliasOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateAliasOutputBody = try responseDecoder.decode(responseBody: data)
+            self.alias = output.alias
+        } else {
+            self.alias = nil
+        }
+    }
+}
+
+public struct CreateAliasOutput: Swift.Equatable {
+    /// The alias for the key.
+    /// This member is required.
+    public var alias: PaymentCryptographyClientTypes.Alias?
+
+    public init(
+        alias: PaymentCryptographyClientTypes.Alias? = nil
+    )
+    {
+        self.alias = alias
+    }
+}
+
+struct CreateAliasOutputBody: Swift.Equatable {
+    let alias: PaymentCryptographyClientTypes.Alias?
+}
+
+extension CreateAliasOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case alias = "Alias"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let aliasDecoded = try containerValues.decodeIfPresent(PaymentCryptographyClientTypes.Alias.self, forKey: .alias)
+        alias = aliasDecoded
+    }
+}
+
 enum CreateAliasOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -233,47 +274,6 @@ enum CreateAliasOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension CreateAliasOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateAliasOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.alias = output.alias
-        } else {
-            self.alias = nil
-        }
-    }
-}
-
-public struct CreateAliasOutputResponse: Swift.Equatable {
-    /// The alias for the key.
-    /// This member is required.
-    public var alias: PaymentCryptographyClientTypes.Alias?
-
-    public init(
-        alias: PaymentCryptographyClientTypes.Alias? = nil
-    )
-    {
-        self.alias = alias
-    }
-}
-
-struct CreateAliasOutputResponseBody: Swift.Equatable {
-    let alias: PaymentCryptographyClientTypes.Alias?
-}
-
-extension CreateAliasOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case alias = "Alias"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let aliasDecoded = try containerValues.decodeIfPresent(PaymentCryptographyClientTypes.Alias.self, forKey: .alias)
-        alias = aliasDecoded
     }
 }
 
@@ -386,6 +386,47 @@ extension CreateKeyInputBody: Swift.Decodable {
     }
 }
 
+extension CreateKeyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateKeyOutputBody = try responseDecoder.decode(responseBody: data)
+            self.key = output.key
+        } else {
+            self.key = nil
+        }
+    }
+}
+
+public struct CreateKeyOutput: Swift.Equatable {
+    /// The key material that contains all the key attributes.
+    /// This member is required.
+    public var key: PaymentCryptographyClientTypes.Key?
+
+    public init(
+        key: PaymentCryptographyClientTypes.Key? = nil
+    )
+    {
+        self.key = key
+    }
+}
+
+struct CreateKeyOutputBody: Swift.Equatable {
+    let key: PaymentCryptographyClientTypes.Key?
+}
+
+extension CreateKeyOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case key = "Key"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let keyDecoded = try containerValues.decodeIfPresent(PaymentCryptographyClientTypes.Key.self, forKey: .key)
+        key = keyDecoded
+    }
+}
+
 enum CreateKeyOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -401,47 +442,6 @@ enum CreateKeyOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension CreateKeyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateKeyOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.key = output.key
-        } else {
-            self.key = nil
-        }
-    }
-}
-
-public struct CreateKeyOutputResponse: Swift.Equatable {
-    /// The key material that contains all the key attributes.
-    /// This member is required.
-    public var key: PaymentCryptographyClientTypes.Key?
-
-    public init(
-        key: PaymentCryptographyClientTypes.Key? = nil
-    )
-    {
-        self.key = key
-    }
-}
-
-struct CreateKeyOutputResponseBody: Swift.Equatable {
-    let key: PaymentCryptographyClientTypes.Key?
-}
-
-extension CreateKeyOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case key = "Key"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let keyDecoded = try containerValues.decodeIfPresent(PaymentCryptographyClientTypes.Key.self, forKey: .key)
-        key = keyDecoded
     }
 }
 
@@ -493,6 +493,16 @@ extension DeleteAliasInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteAliasOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteAliasOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteAliasOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -508,16 +518,6 @@ enum DeleteAliasOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteAliasOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteAliasOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteKeyInput: Swift.Encodable {
@@ -580,6 +580,47 @@ extension DeleteKeyInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteKeyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DeleteKeyOutputBody = try responseDecoder.decode(responseBody: data)
+            self.key = output.key
+        } else {
+            self.key = nil
+        }
+    }
+}
+
+public struct DeleteKeyOutput: Swift.Equatable {
+    /// The KeyARN of the key that is scheduled for deletion.
+    /// This member is required.
+    public var key: PaymentCryptographyClientTypes.Key?
+
+    public init(
+        key: PaymentCryptographyClientTypes.Key? = nil
+    )
+    {
+        self.key = key
+    }
+}
+
+struct DeleteKeyOutputBody: Swift.Equatable {
+    let key: PaymentCryptographyClientTypes.Key?
+}
+
+extension DeleteKeyOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case key = "Key"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let keyDecoded = try containerValues.decodeIfPresent(PaymentCryptographyClientTypes.Key.self, forKey: .key)
+        key = keyDecoded
+    }
+}
+
 enum DeleteKeyOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -594,47 +635,6 @@ enum DeleteKeyOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension DeleteKeyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: DeleteKeyOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.key = output.key
-        } else {
-            self.key = nil
-        }
-    }
-}
-
-public struct DeleteKeyOutputResponse: Swift.Equatable {
-    /// The KeyARN of the key that is scheduled for deletion.
-    /// This member is required.
-    public var key: PaymentCryptographyClientTypes.Key?
-
-    public init(
-        key: PaymentCryptographyClientTypes.Key? = nil
-    )
-    {
-        self.key = key
-    }
-}
-
-struct DeleteKeyOutputResponseBody: Swift.Equatable {
-    let key: PaymentCryptographyClientTypes.Key?
-}
-
-extension DeleteKeyOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case key = "Key"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let keyDecoded = try containerValues.decodeIfPresent(PaymentCryptographyClientTypes.Key.self, forKey: .key)
-        key = keyDecoded
     }
 }
 
@@ -746,6 +746,46 @@ extension PaymentCryptographyClientTypes {
 
 }
 
+extension ExportKeyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ExportKeyOutputBody = try responseDecoder.decode(responseBody: data)
+            self.wrappedKey = output.wrappedKey
+        } else {
+            self.wrappedKey = nil
+        }
+    }
+}
+
+public struct ExportKeyOutput: Swift.Equatable {
+    /// The key material under export as a TR-34 or TR-31 wrapped key block.
+    public var wrappedKey: PaymentCryptographyClientTypes.WrappedKey?
+
+    public init(
+        wrappedKey: PaymentCryptographyClientTypes.WrappedKey? = nil
+    )
+    {
+        self.wrappedKey = wrappedKey
+    }
+}
+
+struct ExportKeyOutputBody: Swift.Equatable {
+    let wrappedKey: PaymentCryptographyClientTypes.WrappedKey?
+}
+
+extension ExportKeyOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case wrappedKey = "WrappedKey"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let wrappedKeyDecoded = try containerValues.decodeIfPresent(PaymentCryptographyClientTypes.WrappedKey.self, forKey: .wrappedKey)
+        wrappedKey = wrappedKeyDecoded
+    }
+}
+
 enum ExportKeyOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -760,46 +800,6 @@ enum ExportKeyOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension ExportKeyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: ExportKeyOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.wrappedKey = output.wrappedKey
-        } else {
-            self.wrappedKey = nil
-        }
-    }
-}
-
-public struct ExportKeyOutputResponse: Swift.Equatable {
-    /// The key material under export as a TR-34 or TR-31 wrapped key block.
-    public var wrappedKey: PaymentCryptographyClientTypes.WrappedKey?
-
-    public init(
-        wrappedKey: PaymentCryptographyClientTypes.WrappedKey? = nil
-    )
-    {
-        self.wrappedKey = wrappedKey
-    }
-}
-
-struct ExportKeyOutputResponseBody: Swift.Equatable {
-    let wrappedKey: PaymentCryptographyClientTypes.WrappedKey?
-}
-
-extension ExportKeyOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case wrappedKey = "WrappedKey"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let wrappedKeyDecoded = try containerValues.decodeIfPresent(PaymentCryptographyClientTypes.WrappedKey.self, forKey: .wrappedKey)
-        wrappedKey = wrappedKeyDecoded
     }
 }
 
@@ -971,6 +971,47 @@ extension GetAliasInputBody: Swift.Decodable {
     }
 }
 
+extension GetAliasOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetAliasOutputBody = try responseDecoder.decode(responseBody: data)
+            self.alias = output.alias
+        } else {
+            self.alias = nil
+        }
+    }
+}
+
+public struct GetAliasOutput: Swift.Equatable {
+    /// The alias of the Amazon Web Services Payment Cryptography key.
+    /// This member is required.
+    public var alias: PaymentCryptographyClientTypes.Alias?
+
+    public init(
+        alias: PaymentCryptographyClientTypes.Alias? = nil
+    )
+    {
+        self.alias = alias
+    }
+}
+
+struct GetAliasOutputBody: Swift.Equatable {
+    let alias: PaymentCryptographyClientTypes.Alias?
+}
+
+extension GetAliasOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case alias = "Alias"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let aliasDecoded = try containerValues.decodeIfPresent(PaymentCryptographyClientTypes.Alias.self, forKey: .alias)
+        alias = aliasDecoded
+    }
+}
+
 enum GetAliasOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -984,47 +1025,6 @@ enum GetAliasOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetAliasOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetAliasOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.alias = output.alias
-        } else {
-            self.alias = nil
-        }
-    }
-}
-
-public struct GetAliasOutputResponse: Swift.Equatable {
-    /// The alias of the Amazon Web Services Payment Cryptography key.
-    /// This member is required.
-    public var alias: PaymentCryptographyClientTypes.Alias?
-
-    public init(
-        alias: PaymentCryptographyClientTypes.Alias? = nil
-    )
-    {
-        self.alias = alias
-    }
-}
-
-struct GetAliasOutputResponseBody: Swift.Equatable {
-    let alias: PaymentCryptographyClientTypes.Alias?
-}
-
-extension GetAliasOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case alias = "Alias"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let aliasDecoded = try containerValues.decodeIfPresent(PaymentCryptographyClientTypes.Alias.self, forKey: .alias)
-        alias = aliasDecoded
     }
 }
 
@@ -1076,6 +1076,47 @@ extension GetKeyInputBody: Swift.Decodable {
     }
 }
 
+extension GetKeyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetKeyOutputBody = try responseDecoder.decode(responseBody: data)
+            self.key = output.key
+        } else {
+            self.key = nil
+        }
+    }
+}
+
+public struct GetKeyOutput: Swift.Equatable {
+    /// The key material, including the immutable and mutable data for the key.
+    /// This member is required.
+    public var key: PaymentCryptographyClientTypes.Key?
+
+    public init(
+        key: PaymentCryptographyClientTypes.Key? = nil
+    )
+    {
+        self.key = key
+    }
+}
+
+struct GetKeyOutputBody: Swift.Equatable {
+    let key: PaymentCryptographyClientTypes.Key?
+}
+
+extension GetKeyOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case key = "Key"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let keyDecoded = try containerValues.decodeIfPresent(PaymentCryptographyClientTypes.Key.self, forKey: .key)
+        key = keyDecoded
+    }
+}
+
 enum GetKeyOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -1089,47 +1130,6 @@ enum GetKeyOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetKeyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetKeyOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.key = output.key
-        } else {
-            self.key = nil
-        }
-    }
-}
-
-public struct GetKeyOutputResponse: Swift.Equatable {
-    /// The key material, including the immutable and mutable data for the key.
-    /// This member is required.
-    public var key: PaymentCryptographyClientTypes.Key?
-
-    public init(
-        key: PaymentCryptographyClientTypes.Key? = nil
-    )
-    {
-        self.key = key
-    }
-}
-
-struct GetKeyOutputResponseBody: Swift.Equatable {
-    let key: PaymentCryptographyClientTypes.Key?
-}
-
-extension GetKeyOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case key = "Key"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let keyDecoded = try containerValues.decodeIfPresent(PaymentCryptographyClientTypes.Key.self, forKey: .key)
-        key = keyDecoded
     }
 }
 
@@ -1194,34 +1194,16 @@ extension GetParametersForExportInputBody: Swift.Decodable {
     }
 }
 
-enum GetParametersForExportOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetParametersForExportOutputResponse: Swift.CustomDebugStringConvertible {
+extension GetParametersForExportOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetParametersForExportOutputResponse(exportToken: \(Swift.String(describing: exportToken)), parametersValidUntilTimestamp: \(Swift.String(describing: parametersValidUntilTimestamp)), signingKeyAlgorithm: \(Swift.String(describing: signingKeyAlgorithm)), signingKeyCertificate: \"CONTENT_REDACTED\", signingKeyCertificateChain: \"CONTENT_REDACTED\")"}
+        "GetParametersForExportOutput(exportToken: \(Swift.String(describing: exportToken)), parametersValidUntilTimestamp: \(Swift.String(describing: parametersValidUntilTimestamp)), signingKeyAlgorithm: \(Swift.String(describing: signingKeyAlgorithm)), signingKeyCertificate: \"CONTENT_REDACTED\", signingKeyCertificateChain: \"CONTENT_REDACTED\")"}
 }
 
-extension GetParametersForExportOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetParametersForExportOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetParametersForExportOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetParametersForExportOutputBody = try responseDecoder.decode(responseBody: data)
             self.exportToken = output.exportToken
             self.parametersValidUntilTimestamp = output.parametersValidUntilTimestamp
             self.signingKeyAlgorithm = output.signingKeyAlgorithm
@@ -1237,7 +1219,7 @@ extension GetParametersForExportOutputResponse: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct GetParametersForExportOutputResponse: Swift.Equatable {
+public struct GetParametersForExportOutput: Swift.Equatable {
     /// The export token to initiate key export from Amazon Web Services Payment Cryptography. The export token expires after 7 days. You can use the same export token to export multiple keys from the same service account.
     /// This member is required.
     public var exportToken: Swift.String?
@@ -1270,7 +1252,7 @@ public struct GetParametersForExportOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetParametersForExportOutputResponseBody: Swift.Equatable {
+struct GetParametersForExportOutputBody: Swift.Equatable {
     let signingKeyCertificate: Swift.String?
     let signingKeyCertificateChain: Swift.String?
     let signingKeyAlgorithm: PaymentCryptographyClientTypes.KeyAlgorithm?
@@ -1278,7 +1260,7 @@ struct GetParametersForExportOutputResponseBody: Swift.Equatable {
     let parametersValidUntilTimestamp: ClientRuntime.Date?
 }
 
-extension GetParametersForExportOutputResponseBody: Swift.Decodable {
+extension GetParametersForExportOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case exportToken = "ExportToken"
         case parametersValidUntilTimestamp = "ParametersValidUntilTimestamp"
@@ -1299,6 +1281,24 @@ extension GetParametersForExportOutputResponseBody: Swift.Decodable {
         exportToken = exportTokenDecoded
         let parametersValidUntilTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .parametersValidUntilTimestamp)
         parametersValidUntilTimestamp = parametersValidUntilTimestampDecoded
+    }
+}
+
+enum GetParametersForExportOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1363,34 +1363,16 @@ extension GetParametersForImportInputBody: Swift.Decodable {
     }
 }
 
-enum GetParametersForImportOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetParametersForImportOutputResponse: Swift.CustomDebugStringConvertible {
+extension GetParametersForImportOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetParametersForImportOutputResponse(importToken: \(Swift.String(describing: importToken)), parametersValidUntilTimestamp: \(Swift.String(describing: parametersValidUntilTimestamp)), wrappingKeyAlgorithm: \(Swift.String(describing: wrappingKeyAlgorithm)), wrappingKeyCertificate: \"CONTENT_REDACTED\", wrappingKeyCertificateChain: \"CONTENT_REDACTED\")"}
+        "GetParametersForImportOutput(importToken: \(Swift.String(describing: importToken)), parametersValidUntilTimestamp: \(Swift.String(describing: parametersValidUntilTimestamp)), wrappingKeyAlgorithm: \(Swift.String(describing: wrappingKeyAlgorithm)), wrappingKeyCertificate: \"CONTENT_REDACTED\", wrappingKeyCertificateChain: \"CONTENT_REDACTED\")"}
 }
 
-extension GetParametersForImportOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetParametersForImportOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetParametersForImportOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetParametersForImportOutputBody = try responseDecoder.decode(responseBody: data)
             self.importToken = output.importToken
             self.parametersValidUntilTimestamp = output.parametersValidUntilTimestamp
             self.wrappingKeyAlgorithm = output.wrappingKeyAlgorithm
@@ -1406,7 +1388,7 @@ extension GetParametersForImportOutputResponse: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct GetParametersForImportOutputResponse: Swift.Equatable {
+public struct GetParametersForImportOutput: Swift.Equatable {
     /// The import token to initiate key import into Amazon Web Services Payment Cryptography. The import token expires after 7 days. You can use the same import token to import multiple keys to the same service account.
     /// This member is required.
     public var importToken: Swift.String?
@@ -1439,7 +1421,7 @@ public struct GetParametersForImportOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetParametersForImportOutputResponseBody: Swift.Equatable {
+struct GetParametersForImportOutputBody: Swift.Equatable {
     let wrappingKeyCertificate: Swift.String?
     let wrappingKeyCertificateChain: Swift.String?
     let wrappingKeyAlgorithm: PaymentCryptographyClientTypes.KeyAlgorithm?
@@ -1447,7 +1429,7 @@ struct GetParametersForImportOutputResponseBody: Swift.Equatable {
     let parametersValidUntilTimestamp: ClientRuntime.Date?
 }
 
-extension GetParametersForImportOutputResponseBody: Swift.Decodable {
+extension GetParametersForImportOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case importToken = "ImportToken"
         case parametersValidUntilTimestamp = "ParametersValidUntilTimestamp"
@@ -1468,6 +1450,24 @@ extension GetParametersForImportOutputResponseBody: Swift.Decodable {
         importToken = importTokenDecoded
         let parametersValidUntilTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .parametersValidUntilTimestamp)
         parametersValidUntilTimestamp = parametersValidUntilTimestampDecoded
+    }
+}
+
+enum GetParametersForImportOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1519,32 +1519,16 @@ extension GetPublicKeyCertificateInputBody: Swift.Decodable {
     }
 }
 
-enum GetPublicKeyCertificateOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetPublicKeyCertificateOutputResponse: Swift.CustomDebugStringConvertible {
+extension GetPublicKeyCertificateOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetPublicKeyCertificateOutputResponse(keyCertificate: \"CONTENT_REDACTED\", keyCertificateChain: \"CONTENT_REDACTED\")"}
+        "GetPublicKeyCertificateOutput(keyCertificate: \"CONTENT_REDACTED\", keyCertificateChain: \"CONTENT_REDACTED\")"}
 }
 
-extension GetPublicKeyCertificateOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetPublicKeyCertificateOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetPublicKeyCertificateOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetPublicKeyCertificateOutputBody = try responseDecoder.decode(responseBody: data)
             self.keyCertificate = output.keyCertificate
             self.keyCertificateChain = output.keyCertificateChain
         } else {
@@ -1554,7 +1538,7 @@ extension GetPublicKeyCertificateOutputResponse: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct GetPublicKeyCertificateOutputResponse: Swift.Equatable {
+public struct GetPublicKeyCertificateOutput: Swift.Equatable {
     /// The public key component of the asymmetric key pair in a certificate (PEM) format. It is signed by the root certificate authority (CA) within your service account. The certificate expires in 90 days.
     /// This member is required.
     public var keyCertificate: Swift.String?
@@ -1572,12 +1556,12 @@ public struct GetPublicKeyCertificateOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetPublicKeyCertificateOutputResponseBody: Swift.Equatable {
+struct GetPublicKeyCertificateOutputBody: Swift.Equatable {
     let keyCertificate: Swift.String?
     let keyCertificateChain: Swift.String?
 }
 
-extension GetPublicKeyCertificateOutputResponseBody: Swift.Decodable {
+extension GetPublicKeyCertificateOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case keyCertificate = "KeyCertificate"
         case keyCertificateChain = "KeyCertificateChain"
@@ -1589,6 +1573,22 @@ extension GetPublicKeyCertificateOutputResponseBody: Swift.Decodable {
         keyCertificate = keyCertificateDecoded
         let keyCertificateChainDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .keyCertificateChain)
         keyCertificateChain = keyCertificateChainDecoded
+    }
+}
+
+enum GetPublicKeyCertificateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1755,6 +1755,47 @@ extension PaymentCryptographyClientTypes {
 
 }
 
+extension ImportKeyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ImportKeyOutputBody = try responseDecoder.decode(responseBody: data)
+            self.key = output.key
+        } else {
+            self.key = nil
+        }
+    }
+}
+
+public struct ImportKeyOutput: Swift.Equatable {
+    /// The KeyARN of the key material imported within Amazon Web Services Payment Cryptography.
+    /// This member is required.
+    public var key: PaymentCryptographyClientTypes.Key?
+
+    public init(
+        key: PaymentCryptographyClientTypes.Key? = nil
+    )
+    {
+        self.key = key
+    }
+}
+
+struct ImportKeyOutputBody: Swift.Equatable {
+    let key: PaymentCryptographyClientTypes.Key?
+}
+
+extension ImportKeyOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case key = "Key"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let keyDecoded = try containerValues.decodeIfPresent(PaymentCryptographyClientTypes.Key.self, forKey: .key)
+        key = keyDecoded
+    }
+}
+
 enum ImportKeyOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -1770,47 +1811,6 @@ enum ImportKeyOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension ImportKeyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: ImportKeyOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.key = output.key
-        } else {
-            self.key = nil
-        }
-    }
-}
-
-public struct ImportKeyOutputResponse: Swift.Equatable {
-    /// The KeyARN of the key material imported within Amazon Web Services Payment Cryptography.
-    /// This member is required.
-    public var key: PaymentCryptographyClientTypes.Key?
-
-    public init(
-        key: PaymentCryptographyClientTypes.Key? = nil
-    )
-    {
-        self.key = key
-    }
-}
-
-struct ImportKeyOutputResponseBody: Swift.Equatable {
-    let key: PaymentCryptographyClientTypes.Key?
-}
-
-extension ImportKeyOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case key = "Key"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let keyDecoded = try containerValues.decodeIfPresent(PaymentCryptographyClientTypes.Key.self, forKey: .key)
-        key = keyDecoded
     }
 }
 
@@ -2831,27 +2831,11 @@ extension ListAliasesInputBody: Swift.Decodable {
     }
 }
 
-enum ListAliasesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListAliasesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListAliasesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListAliasesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListAliasesOutputBody = try responseDecoder.decode(responseBody: data)
             self.aliases = output.aliases
             self.nextToken = output.nextToken
         } else {
@@ -2861,7 +2845,7 @@ extension ListAliasesOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAliasesOutputResponse: Swift.Equatable {
+public struct ListAliasesOutput: Swift.Equatable {
     /// The list of aliases. Each alias describes the KeyArn contained within.
     /// This member is required.
     public var aliases: [PaymentCryptographyClientTypes.Alias]?
@@ -2878,12 +2862,12 @@ public struct ListAliasesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListAliasesOutputResponseBody: Swift.Equatable {
+struct ListAliasesOutputBody: Swift.Equatable {
     let aliases: [PaymentCryptographyClientTypes.Alias]?
     let nextToken: Swift.String?
 }
 
-extension ListAliasesOutputResponseBody: Swift.Decodable {
+extension ListAliasesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case aliases = "Aliases"
         case nextToken = "NextToken"
@@ -2904,6 +2888,22 @@ extension ListAliasesOutputResponseBody: Swift.Decodable {
         aliases = aliasesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListAliasesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2978,27 +2978,11 @@ extension ListKeysInputBody: Swift.Decodable {
     }
 }
 
-enum ListKeysOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListKeysOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListKeysOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListKeysOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListKeysOutputBody = try responseDecoder.decode(responseBody: data)
             self.keys = output.keys
             self.nextToken = output.nextToken
         } else {
@@ -3008,7 +2992,7 @@ extension ListKeysOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListKeysOutputResponse: Swift.Equatable {
+public struct ListKeysOutput: Swift.Equatable {
     /// The list of keys created within the caller's Amazon Web Services account and Amazon Web Services Region.
     /// This member is required.
     public var keys: [PaymentCryptographyClientTypes.KeySummary]?
@@ -3025,12 +3009,12 @@ public struct ListKeysOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListKeysOutputResponseBody: Swift.Equatable {
+struct ListKeysOutputBody: Swift.Equatable {
     let keys: [PaymentCryptographyClientTypes.KeySummary]?
     let nextToken: Swift.String?
 }
 
-extension ListKeysOutputResponseBody: Swift.Decodable {
+extension ListKeysOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case keys = "Keys"
         case nextToken = "NextToken"
@@ -3051,6 +3035,22 @@ extension ListKeysOutputResponseBody: Swift.Decodable {
         keys = keysDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListKeysOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3126,27 +3126,11 @@ extension ListTagsForResourceInputBody: Swift.Decodable {
     }
 }
 
-enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListTagsForResourceOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.tags = output.tags
         } else {
@@ -3156,7 +3140,7 @@ extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutputResponse: Swift.Equatable {
+public struct ListTagsForResourceOutput: Swift.Equatable {
     /// The token for the next set of results, or an empty or null value if there are no more results.
     public var nextToken: Swift.String?
     /// The list of tags associated with a ResourceArn. Each tag will list the key-value pair contained within that tag.
@@ -3173,12 +3157,12 @@ public struct ListTagsForResourceOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputResponseBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody: Swift.Equatable {
     let tags: [PaymentCryptographyClientTypes.Tag]?
     let nextToken: Swift.String?
 }
 
-extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
+extension ListTagsForResourceOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case tags = "Tags"
@@ -3199,6 +3183,22 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
         tags = tagsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3306,6 +3306,47 @@ extension RestoreKeyInputBody: Swift.Decodable {
     }
 }
 
+extension RestoreKeyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: RestoreKeyOutputBody = try responseDecoder.decode(responseBody: data)
+            self.key = output.key
+        } else {
+            self.key = nil
+        }
+    }
+}
+
+public struct RestoreKeyOutput: Swift.Equatable {
+    /// The key material of the restored key. The KeyState will change to CREATE_COMPLETE and value for DeletePendingTimestamp gets removed.
+    /// This member is required.
+    public var key: PaymentCryptographyClientTypes.Key?
+
+    public init(
+        key: PaymentCryptographyClientTypes.Key? = nil
+    )
+    {
+        self.key = key
+    }
+}
+
+struct RestoreKeyOutputBody: Swift.Equatable {
+    let key: PaymentCryptographyClientTypes.Key?
+}
+
+extension RestoreKeyOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case key = "Key"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let keyDecoded = try containerValues.decodeIfPresent(PaymentCryptographyClientTypes.Key.self, forKey: .key)
+        key = keyDecoded
+    }
+}
+
 enum RestoreKeyOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -3321,47 +3362,6 @@ enum RestoreKeyOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension RestoreKeyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: RestoreKeyOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.key = output.key
-        } else {
-            self.key = nil
-        }
-    }
-}
-
-public struct RestoreKeyOutputResponse: Swift.Equatable {
-    /// The key material of the restored key. The KeyState will change to CREATE_COMPLETE and value for DeletePendingTimestamp gets removed.
-    /// This member is required.
-    public var key: PaymentCryptographyClientTypes.Key?
-
-    public init(
-        key: PaymentCryptographyClientTypes.Key? = nil
-    )
-    {
-        self.key = key
-    }
-}
-
-struct RestoreKeyOutputResponseBody: Swift.Equatable {
-    let key: PaymentCryptographyClientTypes.Key?
-}
-
-extension RestoreKeyOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case key = "Key"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let keyDecoded = try containerValues.decodeIfPresent(PaymentCryptographyClientTypes.Key.self, forKey: .key)
-        key = keyDecoded
     }
 }
 
@@ -3575,6 +3575,47 @@ extension StartKeyUsageInputBody: Swift.Decodable {
     }
 }
 
+extension StartKeyUsageOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: StartKeyUsageOutputBody = try responseDecoder.decode(responseBody: data)
+            self.key = output.key
+        } else {
+            self.key = nil
+        }
+    }
+}
+
+public struct StartKeyUsageOutput: Swift.Equatable {
+    /// The KeyARN of the Amazon Web Services Payment Cryptography key activated for use.
+    /// This member is required.
+    public var key: PaymentCryptographyClientTypes.Key?
+
+    public init(
+        key: PaymentCryptographyClientTypes.Key? = nil
+    )
+    {
+        self.key = key
+    }
+}
+
+struct StartKeyUsageOutputBody: Swift.Equatable {
+    let key: PaymentCryptographyClientTypes.Key?
+}
+
+extension StartKeyUsageOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case key = "Key"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let keyDecoded = try containerValues.decodeIfPresent(PaymentCryptographyClientTypes.Key.self, forKey: .key)
+        key = keyDecoded
+    }
+}
+
 enum StartKeyUsageOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -3590,47 +3631,6 @@ enum StartKeyUsageOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension StartKeyUsageOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: StartKeyUsageOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.key = output.key
-        } else {
-            self.key = nil
-        }
-    }
-}
-
-public struct StartKeyUsageOutputResponse: Swift.Equatable {
-    /// The KeyARN of the Amazon Web Services Payment Cryptography key activated for use.
-    /// This member is required.
-    public var key: PaymentCryptographyClientTypes.Key?
-
-    public init(
-        key: PaymentCryptographyClientTypes.Key? = nil
-    )
-    {
-        self.key = key
-    }
-}
-
-struct StartKeyUsageOutputResponseBody: Swift.Equatable {
-    let key: PaymentCryptographyClientTypes.Key?
-}
-
-extension StartKeyUsageOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case key = "Key"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let keyDecoded = try containerValues.decodeIfPresent(PaymentCryptographyClientTypes.Key.self, forKey: .key)
-        key = keyDecoded
     }
 }
 
@@ -3682,6 +3682,47 @@ extension StopKeyUsageInputBody: Swift.Decodable {
     }
 }
 
+extension StopKeyUsageOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: StopKeyUsageOutputBody = try responseDecoder.decode(responseBody: data)
+            self.key = output.key
+        } else {
+            self.key = nil
+        }
+    }
+}
+
+public struct StopKeyUsageOutput: Swift.Equatable {
+    /// The KeyARN of the key.
+    /// This member is required.
+    public var key: PaymentCryptographyClientTypes.Key?
+
+    public init(
+        key: PaymentCryptographyClientTypes.Key? = nil
+    )
+    {
+        self.key = key
+    }
+}
+
+struct StopKeyUsageOutputBody: Swift.Equatable {
+    let key: PaymentCryptographyClientTypes.Key?
+}
+
+extension StopKeyUsageOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case key = "Key"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let keyDecoded = try containerValues.decodeIfPresent(PaymentCryptographyClientTypes.Key.self, forKey: .key)
+        key = keyDecoded
+    }
+}
+
 enum StopKeyUsageOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -3697,47 +3738,6 @@ enum StopKeyUsageOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension StopKeyUsageOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: StopKeyUsageOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.key = output.key
-        } else {
-            self.key = nil
-        }
-    }
-}
-
-public struct StopKeyUsageOutputResponse: Swift.Equatable {
-    /// The KeyARN of the key.
-    /// This member is required.
-    public var key: PaymentCryptographyClientTypes.Key?
-
-    public init(
-        key: PaymentCryptographyClientTypes.Key? = nil
-    )
-    {
-        self.key = key
-    }
-}
-
-struct StopKeyUsageOutputResponseBody: Swift.Equatable {
-    let key: PaymentCryptographyClientTypes.Key?
-}
-
-extension StopKeyUsageOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case key = "Key"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let keyDecoded = try containerValues.decodeIfPresent(PaymentCryptographyClientTypes.Key.self, forKey: .key)
-        key = keyDecoded
     }
 }
 
@@ -3860,6 +3860,16 @@ extension TagResourceInputBody: Swift.Decodable {
     }
 }
 
+extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct TagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -3876,16 +3886,6 @@ enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct TagResourceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension ThrottlingException {
@@ -4108,6 +4108,16 @@ extension UntagResourceInputBody: Swift.Decodable {
     }
 }
 
+extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UntagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -4123,16 +4133,6 @@ enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UntagResourceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension UpdateAliasInput: Swift.Encodable {
@@ -4195,6 +4195,47 @@ extension UpdateAliasInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateAliasOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateAliasOutputBody = try responseDecoder.decode(responseBody: data)
+            self.alias = output.alias
+        } else {
+            self.alias = nil
+        }
+    }
+}
+
+public struct UpdateAliasOutput: Swift.Equatable {
+    /// The alias name.
+    /// This member is required.
+    public var alias: PaymentCryptographyClientTypes.Alias?
+
+    public init(
+        alias: PaymentCryptographyClientTypes.Alias? = nil
+    )
+    {
+        self.alias = alias
+    }
+}
+
+struct UpdateAliasOutputBody: Swift.Equatable {
+    let alias: PaymentCryptographyClientTypes.Alias?
+}
+
+extension UpdateAliasOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case alias = "Alias"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let aliasDecoded = try containerValues.decodeIfPresent(PaymentCryptographyClientTypes.Alias.self, forKey: .alias)
+        alias = aliasDecoded
+    }
+}
+
 enum UpdateAliasOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -4209,47 +4250,6 @@ enum UpdateAliasOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension UpdateAliasOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: UpdateAliasOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.alias = output.alias
-        } else {
-            self.alias = nil
-        }
-    }
-}
-
-public struct UpdateAliasOutputResponse: Swift.Equatable {
-    /// The alias name.
-    /// This member is required.
-    public var alias: PaymentCryptographyClientTypes.Alias?
-
-    public init(
-        alias: PaymentCryptographyClientTypes.Alias? = nil
-    )
-    {
-        self.alias = alias
-    }
-}
-
-struct UpdateAliasOutputResponseBody: Swift.Equatable {
-    let alias: PaymentCryptographyClientTypes.Alias?
-}
-
-extension UpdateAliasOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case alias = "Alias"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let aliasDecoded = try containerValues.decodeIfPresent(PaymentCryptographyClientTypes.Alias.self, forKey: .alias)
-        alias = aliasDecoded
     }
 }
 

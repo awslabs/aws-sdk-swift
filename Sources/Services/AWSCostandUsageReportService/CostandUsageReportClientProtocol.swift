@@ -10,42 +10,42 @@ public protocol CostandUsageReportClientProtocol {
     ///
     /// - Parameter DeleteReportDefinitionInput : Deletes the specified report.
     ///
-    /// - Returns: `DeleteReportDefinitionOutputResponse` : If the action is successful, the service sends back an HTTP 200 response.
+    /// - Returns: `DeleteReportDefinitionOutput` : If the action is successful, the service sends back an HTTP 200 response.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalErrorException` : An error on the server occurred during the processing of your request. Try again later.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func deleteReportDefinition(input: DeleteReportDefinitionInput) async throws -> DeleteReportDefinitionOutputResponse
+    func deleteReportDefinition(input: DeleteReportDefinitionInput) async throws -> DeleteReportDefinitionOutput
     /// Lists the AWS Cost and Usage reports available to this account.
     ///
     /// - Parameter DescribeReportDefinitionsInput : Requests a list of AWS Cost and Usage reports owned by the account.
     ///
-    /// - Returns: `DescribeReportDefinitionsOutputResponse` : If the action is successful, the service sends back an HTTP 200 response.
+    /// - Returns: `DescribeReportDefinitionsOutput` : If the action is successful, the service sends back an HTTP 200 response.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalErrorException` : An error on the server occurred during the processing of your request. Try again later.
-    func describeReportDefinitions(input: DescribeReportDefinitionsInput) async throws -> DescribeReportDefinitionsOutputResponse
+    func describeReportDefinitions(input: DescribeReportDefinitionsInput) async throws -> DescribeReportDefinitionsOutput
     /// Allows you to programatically update your report preferences.
     ///
     /// - Parameter ModifyReportDefinitionInput : [no documentation found]
     ///
-    /// - Returns: `ModifyReportDefinitionOutputResponse` : [no documentation found]
+    /// - Returns: `ModifyReportDefinitionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalErrorException` : An error on the server occurred during the processing of your request. Try again later.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func modifyReportDefinition(input: ModifyReportDefinitionInput) async throws -> ModifyReportDefinitionOutputResponse
+    func modifyReportDefinition(input: ModifyReportDefinitionInput) async throws -> ModifyReportDefinitionOutput
     /// Creates a new report using the description that you provide.
     ///
     /// - Parameter PutReportDefinitionInput : Creates a Cost and Usage Report.
     ///
-    /// - Returns: `PutReportDefinitionOutputResponse` : If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body.
+    /// - Returns: `PutReportDefinitionOutput` : If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -54,7 +54,7 @@ public protocol CostandUsageReportClientProtocol {
     /// - `InternalErrorException` : An error on the server occurred during the processing of your request. Try again later.
     /// - `ReportLimitReachedException` : This account already has five reports defined. To define a new report, you must delete an existing report.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func putReportDefinition(input: PutReportDefinitionInput) async throws -> PutReportDefinitionOutputResponse
+    func putReportDefinition(input: PutReportDefinitionInput) async throws -> PutReportDefinitionOutput
 }
 
 public enum CostandUsageReportClientTypes {}

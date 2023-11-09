@@ -8,7 +8,7 @@ public protocol LookoutEquipmentClientProtocol {
     ///
     /// - Parameter CreateDatasetInput : [no documentation found]
     ///
-    /// - Returns: `CreateDatasetOutputResponse` : [no documentation found]
+    /// - Returns: `CreateDatasetOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -19,12 +19,12 @@ public protocol LookoutEquipmentClientProtocol {
     /// - `ServiceQuotaExceededException` : Resource limitations have been exceeded.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    func createDataset(input: CreateDatasetInput) async throws -> CreateDatasetOutputResponse
+    func createDataset(input: CreateDatasetInput) async throws -> CreateDatasetOutput
     /// Creates a scheduled inference. Scheduling an inference is setting up a continuous real-time inference plan to analyze new measurement data. When setting up the schedule, you provide an S3 bucket location for the input data, assign it a delimiter between separate entries in the data, set an offset delay if desired, and set the frequency of inferencing. You must also provide an S3 bucket location for the output data.
     ///
     /// - Parameter CreateInferenceSchedulerInput : [no documentation found]
     ///
-    /// - Returns: `CreateInferenceSchedulerOutputResponse` : [no documentation found]
+    /// - Returns: `CreateInferenceSchedulerOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -36,12 +36,12 @@ public protocol LookoutEquipmentClientProtocol {
     /// - `ServiceQuotaExceededException` : Resource limitations have been exceeded.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    func createInferenceScheduler(input: CreateInferenceSchedulerInput) async throws -> CreateInferenceSchedulerOutputResponse
+    func createInferenceScheduler(input: CreateInferenceSchedulerInput) async throws -> CreateInferenceSchedulerOutput
     /// Creates a label for an event.
     ///
     /// - Parameter CreateLabelInput : [no documentation found]
     ///
-    /// - Returns: `CreateLabelOutputResponse` : [no documentation found]
+    /// - Returns: `CreateLabelOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -53,12 +53,12 @@ public protocol LookoutEquipmentClientProtocol {
     /// - `ServiceQuotaExceededException` : Resource limitations have been exceeded.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    func createLabel(input: CreateLabelInput) async throws -> CreateLabelOutputResponse
+    func createLabel(input: CreateLabelInput) async throws -> CreateLabelOutput
     /// Creates a group of labels.
     ///
     /// - Parameter CreateLabelGroupInput : [no documentation found]
     ///
-    /// - Returns: `CreateLabelGroupOutputResponse` : [no documentation found]
+    /// - Returns: `CreateLabelGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -69,12 +69,12 @@ public protocol LookoutEquipmentClientProtocol {
     /// - `ServiceQuotaExceededException` : Resource limitations have been exceeded.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    func createLabelGroup(input: CreateLabelGroupInput) async throws -> CreateLabelGroupOutputResponse
+    func createLabelGroup(input: CreateLabelGroupInput) async throws -> CreateLabelGroupOutput
     /// Creates a machine learning model for data inference. A machine-learning (ML) model is a mathematical model that finds patterns in your data. In Amazon Lookout for Equipment, the model learns the patterns of normal behavior and detects abnormal behavior that could be potential equipment failure (or maintenance events). The models are made by analyzing normal data and abnormalities in machine behavior that have already occurred. Your model is trained using a portion of the data from your dataset and uses that data to learn patterns of normal behavior and abnormal patterns that lead to equipment failure. Another portion of the data is used to evaluate the model's accuracy.
     ///
     /// - Parameter CreateModelInput : [no documentation found]
     ///
-    /// - Returns: `CreateModelOutputResponse` : [no documentation found]
+    /// - Returns: `CreateModelOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -86,12 +86,12 @@ public protocol LookoutEquipmentClientProtocol {
     /// - `ServiceQuotaExceededException` : Resource limitations have been exceeded.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    func createModel(input: CreateModelInput) async throws -> CreateModelOutputResponse
+    func createModel(input: CreateModelInput) async throws -> CreateModelOutput
     /// Creates a retraining scheduler on the specified model.
     ///
     /// - Parameter CreateRetrainingSchedulerInput : [no documentation found]
     ///
-    /// - Returns: `CreateRetrainingSchedulerOutputResponse` : [no documentation found]
+    /// - Returns: `CreateRetrainingSchedulerOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -102,12 +102,12 @@ public protocol LookoutEquipmentClientProtocol {
     /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    func createRetrainingScheduler(input: CreateRetrainingSchedulerInput) async throws -> CreateRetrainingSchedulerOutputResponse
+    func createRetrainingScheduler(input: CreateRetrainingSchedulerInput) async throws -> CreateRetrainingSchedulerOutput
     /// Deletes a dataset and associated artifacts. The operation will check to see if any inference scheduler or data ingestion job is currently using the dataset, and if there isn't, the dataset, its metadata, and any associated data stored in S3 will be deleted. This does not affect any models that used this dataset for training and evaluation, but does prevent it from being used in the future.
     ///
     /// - Parameter DeleteDatasetInput : [no documentation found]
     ///
-    /// - Returns: `DeleteDatasetOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteDatasetOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -118,12 +118,12 @@ public protocol LookoutEquipmentClientProtocol {
     /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    func deleteDataset(input: DeleteDatasetInput) async throws -> DeleteDatasetOutputResponse
+    func deleteDataset(input: DeleteDatasetInput) async throws -> DeleteDatasetOutput
     /// Deletes an inference scheduler that has been set up. Prior inference results will not be deleted.
     ///
     /// - Parameter DeleteInferenceSchedulerInput : [no documentation found]
     ///
-    /// - Returns: `DeleteInferenceSchedulerOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteInferenceSchedulerOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -134,12 +134,12 @@ public protocol LookoutEquipmentClientProtocol {
     /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    func deleteInferenceScheduler(input: DeleteInferenceSchedulerInput) async throws -> DeleteInferenceSchedulerOutputResponse
+    func deleteInferenceScheduler(input: DeleteInferenceSchedulerInput) async throws -> DeleteInferenceSchedulerOutput
     /// Deletes a label.
     ///
     /// - Parameter DeleteLabelInput : [no documentation found]
     ///
-    /// - Returns: `DeleteLabelOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteLabelOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -150,12 +150,12 @@ public protocol LookoutEquipmentClientProtocol {
     /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    func deleteLabel(input: DeleteLabelInput) async throws -> DeleteLabelOutputResponse
+    func deleteLabel(input: DeleteLabelInput) async throws -> DeleteLabelOutput
     /// Deletes a group of labels.
     ///
     /// - Parameter DeleteLabelGroupInput : [no documentation found]
     ///
-    /// - Returns: `DeleteLabelGroupOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteLabelGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -166,12 +166,12 @@ public protocol LookoutEquipmentClientProtocol {
     /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    func deleteLabelGroup(input: DeleteLabelGroupInput) async throws -> DeleteLabelGroupOutputResponse
+    func deleteLabelGroup(input: DeleteLabelGroupInput) async throws -> DeleteLabelGroupOutput
     /// Deletes a machine learning model currently available for Amazon Lookout for Equipment. This will prevent it from being used with an inference scheduler, even one that is already set up.
     ///
     /// - Parameter DeleteModelInput : [no documentation found]
     ///
-    /// - Returns: `DeleteModelOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteModelOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -182,12 +182,12 @@ public protocol LookoutEquipmentClientProtocol {
     /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    func deleteModel(input: DeleteModelInput) async throws -> DeleteModelOutputResponse
+    func deleteModel(input: DeleteModelInput) async throws -> DeleteModelOutput
     /// Deletes the resource policy attached to the resource.
     ///
     /// - Parameter DeleteResourcePolicyInput : [no documentation found]
     ///
-    /// - Returns: `DeleteResourcePolicyOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteResourcePolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -198,12 +198,12 @@ public protocol LookoutEquipmentClientProtocol {
     /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    func deleteResourcePolicy(input: DeleteResourcePolicyInput) async throws -> DeleteResourcePolicyOutputResponse
+    func deleteResourcePolicy(input: DeleteResourcePolicyInput) async throws -> DeleteResourcePolicyOutput
     /// Deletes a retraining scheduler from a model. The retraining scheduler must be in the STOPPED status.
     ///
     /// - Parameter DeleteRetrainingSchedulerInput : [no documentation found]
     ///
-    /// - Returns: `DeleteRetrainingSchedulerOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteRetrainingSchedulerOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -214,12 +214,12 @@ public protocol LookoutEquipmentClientProtocol {
     /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    func deleteRetrainingScheduler(input: DeleteRetrainingSchedulerInput) async throws -> DeleteRetrainingSchedulerOutputResponse
+    func deleteRetrainingScheduler(input: DeleteRetrainingSchedulerInput) async throws -> DeleteRetrainingSchedulerOutput
     /// Provides information on a specific data ingestion job such as creation time, dataset ARN, and status.
     ///
     /// - Parameter DescribeDataIngestionJobInput : [no documentation found]
     ///
-    /// - Returns: `DescribeDataIngestionJobOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeDataIngestionJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -229,12 +229,12 @@ public protocol LookoutEquipmentClientProtocol {
     /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    func describeDataIngestionJob(input: DescribeDataIngestionJobInput) async throws -> DescribeDataIngestionJobOutputResponse
+    func describeDataIngestionJob(input: DescribeDataIngestionJobInput) async throws -> DescribeDataIngestionJobOutput
     /// Provides a JSON description of the data in each time series dataset, including names, column names, and data types.
     ///
     /// - Parameter DescribeDatasetInput : [no documentation found]
     ///
-    /// - Returns: `DescribeDatasetOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeDatasetOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -244,12 +244,12 @@ public protocol LookoutEquipmentClientProtocol {
     /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    func describeDataset(input: DescribeDatasetInput) async throws -> DescribeDatasetOutputResponse
+    func describeDataset(input: DescribeDatasetInput) async throws -> DescribeDatasetOutput
     /// Specifies information about the inference scheduler being used, including name, model, status, and associated metadata
     ///
     /// - Parameter DescribeInferenceSchedulerInput : [no documentation found]
     ///
-    /// - Returns: `DescribeInferenceSchedulerOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeInferenceSchedulerOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -259,12 +259,12 @@ public protocol LookoutEquipmentClientProtocol {
     /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    func describeInferenceScheduler(input: DescribeInferenceSchedulerInput) async throws -> DescribeInferenceSchedulerOutputResponse
+    func describeInferenceScheduler(input: DescribeInferenceSchedulerInput) async throws -> DescribeInferenceSchedulerOutput
     /// Returns the name of the label.
     ///
     /// - Parameter DescribeLabelInput : [no documentation found]
     ///
-    /// - Returns: `DescribeLabelOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeLabelOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -274,12 +274,12 @@ public protocol LookoutEquipmentClientProtocol {
     /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    func describeLabel(input: DescribeLabelInput) async throws -> DescribeLabelOutputResponse
+    func describeLabel(input: DescribeLabelInput) async throws -> DescribeLabelOutput
     /// Returns information about the label group.
     ///
     /// - Parameter DescribeLabelGroupInput : [no documentation found]
     ///
-    /// - Returns: `DescribeLabelGroupOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeLabelGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -289,12 +289,12 @@ public protocol LookoutEquipmentClientProtocol {
     /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    func describeLabelGroup(input: DescribeLabelGroupInput) async throws -> DescribeLabelGroupOutputResponse
+    func describeLabelGroup(input: DescribeLabelGroupInput) async throws -> DescribeLabelGroupOutput
     /// Provides a JSON containing the overall information about a specific machine learning model, including model name and ARN, dataset, training and evaluation information, status, and so on.
     ///
     /// - Parameter DescribeModelInput : [no documentation found]
     ///
-    /// - Returns: `DescribeModelOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeModelOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -304,12 +304,12 @@ public protocol LookoutEquipmentClientProtocol {
     /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    func describeModel(input: DescribeModelInput) async throws -> DescribeModelOutputResponse
+    func describeModel(input: DescribeModelInput) async throws -> DescribeModelOutput
     /// Retrieves information about a specific machine learning model version.
     ///
     /// - Parameter DescribeModelVersionInput : [no documentation found]
     ///
-    /// - Returns: `DescribeModelVersionOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeModelVersionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -319,12 +319,12 @@ public protocol LookoutEquipmentClientProtocol {
     /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    func describeModelVersion(input: DescribeModelVersionInput) async throws -> DescribeModelVersionOutputResponse
+    func describeModelVersion(input: DescribeModelVersionInput) async throws -> DescribeModelVersionOutput
     /// Provides the details of a resource policy attached to a resource.
     ///
     /// - Parameter DescribeResourcePolicyInput : [no documentation found]
     ///
-    /// - Returns: `DescribeResourcePolicyOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeResourcePolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -334,12 +334,12 @@ public protocol LookoutEquipmentClientProtocol {
     /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    func describeResourcePolicy(input: DescribeResourcePolicyInput) async throws -> DescribeResourcePolicyOutputResponse
+    func describeResourcePolicy(input: DescribeResourcePolicyInput) async throws -> DescribeResourcePolicyOutput
     /// Provides a description of the retraining scheduler, including information such as the model name and retraining parameters.
     ///
     /// - Parameter DescribeRetrainingSchedulerInput : [no documentation found]
     ///
-    /// - Returns: `DescribeRetrainingSchedulerOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeRetrainingSchedulerOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -349,12 +349,12 @@ public protocol LookoutEquipmentClientProtocol {
     /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    func describeRetrainingScheduler(input: DescribeRetrainingSchedulerInput) async throws -> DescribeRetrainingSchedulerOutputResponse
+    func describeRetrainingScheduler(input: DescribeRetrainingSchedulerInput) async throws -> DescribeRetrainingSchedulerOutput
     /// Imports a dataset.
     ///
     /// - Parameter ImportDatasetInput : [no documentation found]
     ///
-    /// - Returns: `ImportDatasetOutputResponse` : [no documentation found]
+    /// - Returns: `ImportDatasetOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -366,12 +366,12 @@ public protocol LookoutEquipmentClientProtocol {
     /// - `ServiceQuotaExceededException` : Resource limitations have been exceeded.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    func importDataset(input: ImportDatasetInput) async throws -> ImportDatasetOutputResponse
+    func importDataset(input: ImportDatasetInput) async throws -> ImportDatasetOutput
     /// Imports a model that has been trained successfully.
     ///
     /// - Parameter ImportModelVersionInput : [no documentation found]
     ///
-    /// - Returns: `ImportModelVersionOutputResponse` : [no documentation found]
+    /// - Returns: `ImportModelVersionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -383,12 +383,12 @@ public protocol LookoutEquipmentClientProtocol {
     /// - `ServiceQuotaExceededException` : Resource limitations have been exceeded.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    func importModelVersion(input: ImportModelVersionInput) async throws -> ImportModelVersionOutputResponse
+    func importModelVersion(input: ImportModelVersionInput) async throws -> ImportModelVersionOutput
     /// Provides a list of all data ingestion jobs, including dataset name and ARN, S3 location of the input data, status, and so on.
     ///
     /// - Parameter ListDataIngestionJobsInput : [no documentation found]
     ///
-    /// - Returns: `ListDataIngestionJobsOutputResponse` : [no documentation found]
+    /// - Returns: `ListDataIngestionJobsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -397,12 +397,12 @@ public protocol LookoutEquipmentClientProtocol {
     /// - `InternalServerException` : Processing of the request has failed because of an unknown error, exception or failure.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    func listDataIngestionJobs(input: ListDataIngestionJobsInput) async throws -> ListDataIngestionJobsOutputResponse
+    func listDataIngestionJobs(input: ListDataIngestionJobsInput) async throws -> ListDataIngestionJobsOutput
     /// Lists all datasets currently available in your account, filtering on the dataset name.
     ///
     /// - Parameter ListDatasetsInput : [no documentation found]
     ///
-    /// - Returns: `ListDatasetsOutputResponse` : [no documentation found]
+    /// - Returns: `ListDatasetsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -411,12 +411,12 @@ public protocol LookoutEquipmentClientProtocol {
     /// - `InternalServerException` : Processing of the request has failed because of an unknown error, exception or failure.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    func listDatasets(input: ListDatasetsInput) async throws -> ListDatasetsOutputResponse
+    func listDatasets(input: ListDatasetsInput) async throws -> ListDatasetsOutput
     /// Lists all inference events that have been found for the specified inference scheduler.
     ///
     /// - Parameter ListInferenceEventsInput : [no documentation found]
     ///
-    /// - Returns: `ListInferenceEventsOutputResponse` : [no documentation found]
+    /// - Returns: `ListInferenceEventsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -426,12 +426,12 @@ public protocol LookoutEquipmentClientProtocol {
     /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    func listInferenceEvents(input: ListInferenceEventsInput) async throws -> ListInferenceEventsOutputResponse
+    func listInferenceEvents(input: ListInferenceEventsInput) async throws -> ListInferenceEventsOutput
     /// Lists all inference executions that have been performed by the specified inference scheduler.
     ///
     /// - Parameter ListInferenceExecutionsInput : [no documentation found]
     ///
-    /// - Returns: `ListInferenceExecutionsOutputResponse` : [no documentation found]
+    /// - Returns: `ListInferenceExecutionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -441,12 +441,12 @@ public protocol LookoutEquipmentClientProtocol {
     /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    func listInferenceExecutions(input: ListInferenceExecutionsInput) async throws -> ListInferenceExecutionsOutputResponse
+    func listInferenceExecutions(input: ListInferenceExecutionsInput) async throws -> ListInferenceExecutionsOutput
     /// Retrieves a list of all inference schedulers currently available for your account.
     ///
     /// - Parameter ListInferenceSchedulersInput : [no documentation found]
     ///
-    /// - Returns: `ListInferenceSchedulersOutputResponse` : [no documentation found]
+    /// - Returns: `ListInferenceSchedulersOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -455,12 +455,12 @@ public protocol LookoutEquipmentClientProtocol {
     /// - `InternalServerException` : Processing of the request has failed because of an unknown error, exception or failure.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    func listInferenceSchedulers(input: ListInferenceSchedulersInput) async throws -> ListInferenceSchedulersOutputResponse
+    func listInferenceSchedulers(input: ListInferenceSchedulersInput) async throws -> ListInferenceSchedulersOutput
     /// Returns a list of the label groups.
     ///
     /// - Parameter ListLabelGroupsInput : [no documentation found]
     ///
-    /// - Returns: `ListLabelGroupsOutputResponse` : [no documentation found]
+    /// - Returns: `ListLabelGroupsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -469,12 +469,12 @@ public protocol LookoutEquipmentClientProtocol {
     /// - `InternalServerException` : Processing of the request has failed because of an unknown error, exception or failure.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    func listLabelGroups(input: ListLabelGroupsInput) async throws -> ListLabelGroupsOutputResponse
+    func listLabelGroups(input: ListLabelGroupsInput) async throws -> ListLabelGroupsOutput
     /// Provides a list of labels.
     ///
     /// - Parameter ListLabelsInput : [no documentation found]
     ///
-    /// - Returns: `ListLabelsOutputResponse` : [no documentation found]
+    /// - Returns: `ListLabelsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -483,12 +483,12 @@ public protocol LookoutEquipmentClientProtocol {
     /// - `InternalServerException` : Processing of the request has failed because of an unknown error, exception or failure.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    func listLabels(input: ListLabelsInput) async throws -> ListLabelsOutputResponse
+    func listLabels(input: ListLabelsInput) async throws -> ListLabelsOutput
     /// Generates a list of all models in the account, including model name and ARN, dataset, and status.
     ///
     /// - Parameter ListModelsInput : [no documentation found]
     ///
-    /// - Returns: `ListModelsOutputResponse` : [no documentation found]
+    /// - Returns: `ListModelsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -497,12 +497,12 @@ public protocol LookoutEquipmentClientProtocol {
     /// - `InternalServerException` : Processing of the request has failed because of an unknown error, exception or failure.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    func listModels(input: ListModelsInput) async throws -> ListModelsOutputResponse
+    func listModels(input: ListModelsInput) async throws -> ListModelsOutput
     /// Generates a list of all model versions for a given model, including the model version, model version ARN, and status. To list a subset of versions, use the MaxModelVersion and MinModelVersion fields.
     ///
     /// - Parameter ListModelVersionsInput : [no documentation found]
     ///
-    /// - Returns: `ListModelVersionsOutputResponse` : [no documentation found]
+    /// - Returns: `ListModelVersionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -512,12 +512,12 @@ public protocol LookoutEquipmentClientProtocol {
     /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    func listModelVersions(input: ListModelVersionsInput) async throws -> ListModelVersionsOutputResponse
+    func listModelVersions(input: ListModelVersionsInput) async throws -> ListModelVersionsOutput
     /// Lists all retraining schedulers in your account, filtering by model name prefix and status.
     ///
     /// - Parameter ListRetrainingSchedulersInput : [no documentation found]
     ///
-    /// - Returns: `ListRetrainingSchedulersOutputResponse` : [no documentation found]
+    /// - Returns: `ListRetrainingSchedulersOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -526,12 +526,12 @@ public protocol LookoutEquipmentClientProtocol {
     /// - `InternalServerException` : Processing of the request has failed because of an unknown error, exception or failure.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    func listRetrainingSchedulers(input: ListRetrainingSchedulersInput) async throws -> ListRetrainingSchedulersOutputResponse
+    func listRetrainingSchedulers(input: ListRetrainingSchedulersInput) async throws -> ListRetrainingSchedulersOutput
     /// Lists statistics about the data collected for each of the sensors that have been successfully ingested in the particular dataset. Can also be used to retreive Sensor Statistics for a previous ingestion job.
     ///
     /// - Parameter ListSensorStatisticsInput : [no documentation found]
     ///
-    /// - Returns: `ListSensorStatisticsOutputResponse` : [no documentation found]
+    /// - Returns: `ListSensorStatisticsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -541,12 +541,12 @@ public protocol LookoutEquipmentClientProtocol {
     /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    func listSensorStatistics(input: ListSensorStatisticsInput) async throws -> ListSensorStatisticsOutputResponse
+    func listSensorStatistics(input: ListSensorStatisticsInput) async throws -> ListSensorStatisticsOutput
     /// Lists all the tags for a specified resource, including key and value.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -556,12 +556,12 @@ public protocol LookoutEquipmentClientProtocol {
     /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     /// Creates a resource control policy for a given resource.
     ///
     /// - Parameter PutResourcePolicyInput : [no documentation found]
     ///
-    /// - Returns: `PutResourcePolicyOutputResponse` : [no documentation found]
+    /// - Returns: `PutResourcePolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -573,12 +573,12 @@ public protocol LookoutEquipmentClientProtocol {
     /// - `ServiceQuotaExceededException` : Resource limitations have been exceeded.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    func putResourcePolicy(input: PutResourcePolicyInput) async throws -> PutResourcePolicyOutputResponse
+    func putResourcePolicy(input: PutResourcePolicyInput) async throws -> PutResourcePolicyOutput
     /// Starts a data ingestion job. Amazon Lookout for Equipment returns the job status.
     ///
     /// - Parameter StartDataIngestionJobInput : [no documentation found]
     ///
-    /// - Returns: `StartDataIngestionJobOutputResponse` : [no documentation found]
+    /// - Returns: `StartDataIngestionJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -590,12 +590,12 @@ public protocol LookoutEquipmentClientProtocol {
     /// - `ServiceQuotaExceededException` : Resource limitations have been exceeded.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    func startDataIngestionJob(input: StartDataIngestionJobInput) async throws -> StartDataIngestionJobOutputResponse
+    func startDataIngestionJob(input: StartDataIngestionJobInput) async throws -> StartDataIngestionJobOutput
     /// Starts an inference scheduler.
     ///
     /// - Parameter StartInferenceSchedulerInput : [no documentation found]
     ///
-    /// - Returns: `StartInferenceSchedulerOutputResponse` : [no documentation found]
+    /// - Returns: `StartInferenceSchedulerOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -606,12 +606,12 @@ public protocol LookoutEquipmentClientProtocol {
     /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    func startInferenceScheduler(input: StartInferenceSchedulerInput) async throws -> StartInferenceSchedulerOutputResponse
+    func startInferenceScheduler(input: StartInferenceSchedulerInput) async throws -> StartInferenceSchedulerOutput
     /// Starts a retraining scheduler.
     ///
     /// - Parameter StartRetrainingSchedulerInput : [no documentation found]
     ///
-    /// - Returns: `StartRetrainingSchedulerOutputResponse` : [no documentation found]
+    /// - Returns: `StartRetrainingSchedulerOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -622,12 +622,12 @@ public protocol LookoutEquipmentClientProtocol {
     /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    func startRetrainingScheduler(input: StartRetrainingSchedulerInput) async throws -> StartRetrainingSchedulerOutputResponse
+    func startRetrainingScheduler(input: StartRetrainingSchedulerInput) async throws -> StartRetrainingSchedulerOutput
     /// Stops an inference scheduler.
     ///
     /// - Parameter StopInferenceSchedulerInput : [no documentation found]
     ///
-    /// - Returns: `StopInferenceSchedulerOutputResponse` : [no documentation found]
+    /// - Returns: `StopInferenceSchedulerOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -638,12 +638,12 @@ public protocol LookoutEquipmentClientProtocol {
     /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    func stopInferenceScheduler(input: StopInferenceSchedulerInput) async throws -> StopInferenceSchedulerOutputResponse
+    func stopInferenceScheduler(input: StopInferenceSchedulerInput) async throws -> StopInferenceSchedulerOutput
     /// Stops a retraining scheduler.
     ///
     /// - Parameter StopRetrainingSchedulerInput : [no documentation found]
     ///
-    /// - Returns: `StopRetrainingSchedulerOutputResponse` : [no documentation found]
+    /// - Returns: `StopRetrainingSchedulerOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -654,12 +654,12 @@ public protocol LookoutEquipmentClientProtocol {
     /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    func stopRetrainingScheduler(input: StopRetrainingSchedulerInput) async throws -> StopRetrainingSchedulerOutputResponse
+    func stopRetrainingScheduler(input: StopRetrainingSchedulerInput) async throws -> StopRetrainingSchedulerOutput
     /// Associates a given tag to a resource in your account. A tag is a key-value pair which can be added to an Amazon Lookout for Equipment resource as metadata. Tags can be used for organizing your resources as well as helping you to search and filter by tag. Multiple tags can be added to a resource, either when you create it, or later. Up to 50 tags can be associated with each resource.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -670,12 +670,12 @@ public protocol LookoutEquipmentClientProtocol {
     /// - `ServiceQuotaExceededException` : Resource limitations have been exceeded.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     /// Removes a specific tag from a given resource. The tag is specified by its key.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -685,12 +685,12 @@ public protocol LookoutEquipmentClientProtocol {
     /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
     /// Sets the active model version for a given machine learning model.
     ///
     /// - Parameter UpdateActiveModelVersionInput : [no documentation found]
     ///
-    /// - Returns: `UpdateActiveModelVersionOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateActiveModelVersionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -701,12 +701,12 @@ public protocol LookoutEquipmentClientProtocol {
     /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    func updateActiveModelVersion(input: UpdateActiveModelVersionInput) async throws -> UpdateActiveModelVersionOutputResponse
+    func updateActiveModelVersion(input: UpdateActiveModelVersionInput) async throws -> UpdateActiveModelVersionOutput
     /// Updates an inference scheduler.
     ///
     /// - Parameter UpdateInferenceSchedulerInput : [no documentation found]
     ///
-    /// - Returns: `UpdateInferenceSchedulerOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateInferenceSchedulerOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -717,12 +717,12 @@ public protocol LookoutEquipmentClientProtocol {
     /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    func updateInferenceScheduler(input: UpdateInferenceSchedulerInput) async throws -> UpdateInferenceSchedulerOutputResponse
+    func updateInferenceScheduler(input: UpdateInferenceSchedulerInput) async throws -> UpdateInferenceSchedulerOutput
     /// Updates the label group.
     ///
     /// - Parameter UpdateLabelGroupInput : [no documentation found]
     ///
-    /// - Returns: `UpdateLabelGroupOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateLabelGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -733,12 +733,12 @@ public protocol LookoutEquipmentClientProtocol {
     /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    func updateLabelGroup(input: UpdateLabelGroupInput) async throws -> UpdateLabelGroupOutputResponse
+    func updateLabelGroup(input: UpdateLabelGroupInput) async throws -> UpdateLabelGroupOutput
     /// Updates a model in the account.
     ///
     /// - Parameter UpdateModelInput : [no documentation found]
     ///
-    /// - Returns: `UpdateModelOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateModelOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -749,12 +749,12 @@ public protocol LookoutEquipmentClientProtocol {
     /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    func updateModel(input: UpdateModelInput) async throws -> UpdateModelOutputResponse
+    func updateModel(input: UpdateModelInput) async throws -> UpdateModelOutput
     /// Updates a retraining scheduler.
     ///
     /// - Parameter UpdateRetrainingSchedulerInput : [no documentation found]
     ///
-    /// - Returns: `UpdateRetrainingSchedulerOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateRetrainingSchedulerOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -765,7 +765,7 @@ public protocol LookoutEquipmentClientProtocol {
     /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
-    func updateRetrainingScheduler(input: UpdateRetrainingSchedulerInput) async throws -> UpdateRetrainingSchedulerOutputResponse
+    func updateRetrainingScheduler(input: UpdateRetrainingSchedulerInput) async throws -> UpdateRetrainingSchedulerOutput
 }
 
 public enum LookoutEquipmentClientTypes {}

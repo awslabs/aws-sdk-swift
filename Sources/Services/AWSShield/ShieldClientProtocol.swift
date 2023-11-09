@@ -8,7 +8,7 @@ public protocol ShieldClientProtocol {
     ///
     /// - Parameter AssociateDRTLogBucketInput : [no documentation found]
     ///
-    /// - Returns: `AssociateDRTLogBucketOutputResponse` : [no documentation found]
+    /// - Returns: `AssociateDRTLogBucketOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -21,12 +21,12 @@ public protocol ShieldClientProtocol {
     /// - `NoAssociatedRoleException` : The ARN of the role that you specified does not exist.
     /// - `OptimisticLockException` : Exception that indicates that the resource state has been modified by another client. Retrieve the resource and then retry your request.
     /// - `ResourceNotFoundException` : Exception indicating the specified resource does not exist. If available, this exception includes details in additional properties.
-    func associateDRTLogBucket(input: AssociateDRTLogBucketInput) async throws -> AssociateDRTLogBucketOutputResponse
+    func associateDRTLogBucket(input: AssociateDRTLogBucketInput) async throws -> AssociateDRTLogBucketOutput
     /// Authorizes the Shield Response Team (SRT) using the specified role, to access your Amazon Web Services account to assist with DDoS attack mitigation during potential attacks. This enables the SRT to inspect your WAF configuration and create or update WAF rules and web ACLs. You can associate only one RoleArn with your subscription. If you submit an AssociateDRTRole request for an account that already has an associated role, the new RoleArn will replace the existing RoleArn. Prior to making the AssociateDRTRole request, you must attach the AWSShieldDRTAccessPolicy managed policy to the role that you'll specify in the request. You can access this policy in the IAM console at [AWSShieldDRTAccessPolicy](https://console.aws.amazon.com/iam/home?#/policies/arn:aws:iam::aws:policy/service-role/AWSShieldDRTAccessPolicy). For more information see [Adding and removing IAM identity permissions](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_manage-attach-detach.html). The role must also trust the service principal drt.shield.amazonaws.com. For more information, see [IAM JSON policy elements: Principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_principal.html). The SRT will have access only to your WAF and Shield resources. By submitting this request, you authorize the SRT to inspect your WAF and Shield configuration and create and update WAF rules and web ACLs on your behalf. The SRT takes these actions only if explicitly authorized by you. You must have the iam:PassRole permission to make an AssociateDRTRole request. For more information, see [Granting a user permissions to pass a role to an Amazon Web Services service](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_passrole.html). To use the services of the SRT and make an AssociateDRTRole request, you must be subscribed to the [Business Support plan](http://aws.amazon.com/premiumsupport/business-support/) or the [Enterprise Support plan](http://aws.amazon.com/premiumsupport/enterprise-support/).
     ///
     /// - Parameter AssociateDRTRoleInput : [no documentation found]
     ///
-    /// - Returns: `AssociateDRTRoleOutputResponse` : [no documentation found]
+    /// - Returns: `AssociateDRTRoleOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -37,12 +37,12 @@ public protocol ShieldClientProtocol {
     /// - `InvalidParameterException` : Exception that indicates that the parameters passed to the API are invalid. If available, this exception includes details in additional properties.
     /// - `OptimisticLockException` : Exception that indicates that the resource state has been modified by another client. Retrieve the resource and then retry your request.
     /// - `ResourceNotFoundException` : Exception indicating the specified resource does not exist. If available, this exception includes details in additional properties.
-    func associateDRTRole(input: AssociateDRTRoleInput) async throws -> AssociateDRTRoleOutputResponse
+    func associateDRTRole(input: AssociateDRTRoleInput) async throws -> AssociateDRTRoleOutput
     /// Adds health-based detection to the Shield Advanced protection for a resource. Shield Advanced health-based detection uses the health of your Amazon Web Services resource to improve responsiveness and accuracy in attack detection and response. You define the health check in Route 53 and then associate it with your Shield Advanced protection. For more information, see [Shield Advanced Health-Based Detection](https://docs.aws.amazon.com/waf/latest/developerguide/ddos-overview.html#ddos-advanced-health-check-option) in the WAF Developer Guide.
     ///
     /// - Parameter AssociateHealthCheckInput : [no documentation found]
     ///
-    /// - Returns: `AssociateHealthCheckOutputResponse` : [no documentation found]
+    /// - Returns: `AssociateHealthCheckOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -53,12 +53,12 @@ public protocol ShieldClientProtocol {
     /// - `LimitsExceededException` : Exception that indicates that the operation would exceed a limit.
     /// - `OptimisticLockException` : Exception that indicates that the resource state has been modified by another client. Retrieve the resource and then retry your request.
     /// - `ResourceNotFoundException` : Exception indicating the specified resource does not exist. If available, this exception includes details in additional properties.
-    func associateHealthCheck(input: AssociateHealthCheckInput) async throws -> AssociateHealthCheckOutputResponse
+    func associateHealthCheck(input: AssociateHealthCheckInput) async throws -> AssociateHealthCheckOutput
     /// Initializes proactive engagement and sets the list of contacts for the Shield Response Team (SRT) to use. You must provide at least one phone number in the emergency contact list. After you have initialized proactive engagement using this call, to disable or enable proactive engagement, use the calls DisableProactiveEngagement and EnableProactiveEngagement. This call defines the list of email addresses and phone numbers that the SRT can use to contact you for escalations to the SRT and to initiate proactive customer support. The contacts that you provide in the request replace any contacts that were already defined. If you already have contacts defined and want to use them, retrieve the list using DescribeEmergencyContactSettings and then provide it to this call.
     ///
     /// - Parameter AssociateProactiveEngagementDetailsInput : [no documentation found]
     ///
-    /// - Returns: `AssociateProactiveEngagementDetailsOutputResponse` : [no documentation found]
+    /// - Returns: `AssociateProactiveEngagementDetailsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -68,12 +68,12 @@ public protocol ShieldClientProtocol {
     /// - `InvalidParameterException` : Exception that indicates that the parameters passed to the API are invalid. If available, this exception includes details in additional properties.
     /// - `OptimisticLockException` : Exception that indicates that the resource state has been modified by another client. Retrieve the resource and then retry your request.
     /// - `ResourceNotFoundException` : Exception indicating the specified resource does not exist. If available, this exception includes details in additional properties.
-    func associateProactiveEngagementDetails(input: AssociateProactiveEngagementDetailsInput) async throws -> AssociateProactiveEngagementDetailsOutputResponse
+    func associateProactiveEngagementDetails(input: AssociateProactiveEngagementDetailsInput) async throws -> AssociateProactiveEngagementDetailsOutput
     /// Enables Shield Advanced for a specific Amazon Web Services resource. The resource can be an Amazon CloudFront distribution, Amazon Route 53 hosted zone, Global Accelerator standard accelerator, Elastic IP Address, Application Load Balancer, or a Classic Load Balancer. You can protect Amazon EC2 instances and Network Load Balancers by association with protected Amazon EC2 Elastic IP addresses. You can add protection to only a single resource with each CreateProtection request. You can add protection to multiple resources at once through the Shield Advanced console at [https://console.aws.amazon.com/wafv2/shieldv2#/](https://console.aws.amazon.com/wafv2/shieldv2#/). For more information see [Getting Started with Shield Advanced](https://docs.aws.amazon.com/waf/latest/developerguide/getting-started-ddos.html) and [Adding Shield Advanced protection to Amazon Web Services resources](https://docs.aws.amazon.com/waf/latest/developerguide/configure-new-protection.html).
     ///
     /// - Parameter CreateProtectionInput : [no documentation found]
     ///
-    /// - Returns: `CreateProtectionOutputResponse` : [no documentation found]
+    /// - Returns: `CreateProtectionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -86,12 +86,12 @@ public protocol ShieldClientProtocol {
     /// - `OptimisticLockException` : Exception that indicates that the resource state has been modified by another client. Retrieve the resource and then retry your request.
     /// - `ResourceAlreadyExistsException` : Exception indicating the specified resource already exists. If available, this exception includes details in additional properties.
     /// - `ResourceNotFoundException` : Exception indicating the specified resource does not exist. If available, this exception includes details in additional properties.
-    func createProtection(input: CreateProtectionInput) async throws -> CreateProtectionOutputResponse
+    func createProtection(input: CreateProtectionInput) async throws -> CreateProtectionOutput
     /// Creates a grouping of protected resources so they can be handled as a collective. This resource grouping improves the accuracy of detection and reduces false positives.
     ///
     /// - Parameter CreateProtectionGroupInput : [no documentation found]
     ///
-    /// - Returns: `CreateProtectionGroupOutputResponse` : [no documentation found]
+    /// - Returns: `CreateProtectionGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -102,24 +102,24 @@ public protocol ShieldClientProtocol {
     /// - `OptimisticLockException` : Exception that indicates that the resource state has been modified by another client. Retrieve the resource and then retry your request.
     /// - `ResourceAlreadyExistsException` : Exception indicating the specified resource already exists. If available, this exception includes details in additional properties.
     /// - `ResourceNotFoundException` : Exception indicating the specified resource does not exist. If available, this exception includes details in additional properties.
-    func createProtectionGroup(input: CreateProtectionGroupInput) async throws -> CreateProtectionGroupOutputResponse
+    func createProtectionGroup(input: CreateProtectionGroupInput) async throws -> CreateProtectionGroupOutput
     /// Activates Shield Advanced for an account. For accounts that are members of an Organizations organization, Shield Advanced subscriptions are billed against the organization's payer account, regardless of whether the payer account itself is subscribed. When you initially create a subscription, your subscription is set to be automatically renewed at the end of the existing subscription period. You can change this by submitting an UpdateSubscription request.
     ///
     /// - Parameter CreateSubscriptionInput : [no documentation found]
     ///
-    /// - Returns: `CreateSubscriptionOutputResponse` : [no documentation found]
+    /// - Returns: `CreateSubscriptionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalErrorException` : Exception that indicates that a problem occurred with the service infrastructure. You can retry the request.
     /// - `ResourceAlreadyExistsException` : Exception indicating the specified resource already exists. If available, this exception includes details in additional properties.
-    func createSubscription(input: CreateSubscriptionInput) async throws -> CreateSubscriptionOutputResponse
+    func createSubscription(input: CreateSubscriptionInput) async throws -> CreateSubscriptionOutput
     /// Deletes an Shield Advanced [Protection].
     ///
     /// - Parameter DeleteProtectionInput : [no documentation found]
     ///
-    /// - Returns: `DeleteProtectionOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteProtectionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -127,12 +127,12 @@ public protocol ShieldClientProtocol {
     /// - `InternalErrorException` : Exception that indicates that a problem occurred with the service infrastructure. You can retry the request.
     /// - `OptimisticLockException` : Exception that indicates that the resource state has been modified by another client. Retrieve the resource and then retry your request.
     /// - `ResourceNotFoundException` : Exception indicating the specified resource does not exist. If available, this exception includes details in additional properties.
-    func deleteProtection(input: DeleteProtectionInput) async throws -> DeleteProtectionOutputResponse
+    func deleteProtection(input: DeleteProtectionInput) async throws -> DeleteProtectionOutput
     /// Removes the specified protection group.
     ///
     /// - Parameter DeleteProtectionGroupInput : [no documentation found]
     ///
-    /// - Returns: `DeleteProtectionGroupOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteProtectionGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -140,13 +140,13 @@ public protocol ShieldClientProtocol {
     /// - `InternalErrorException` : Exception that indicates that a problem occurred with the service infrastructure. You can retry the request.
     /// - `OptimisticLockException` : Exception that indicates that the resource state has been modified by another client. Retrieve the resource and then retry your request.
     /// - `ResourceNotFoundException` : Exception indicating the specified resource does not exist. If available, this exception includes details in additional properties.
-    func deleteProtectionGroup(input: DeleteProtectionGroupInput) async throws -> DeleteProtectionGroupOutputResponse
+    func deleteProtectionGroup(input: DeleteProtectionGroupInput) async throws -> DeleteProtectionGroupOutput
     /// Removes Shield Advanced from an account. Shield Advanced requires a 1-year subscription commitment. You cannot delete a subscription prior to the completion of that commitment.
     @available(*, deprecated)
     ///
     /// - Parameter DeleteSubscriptionInput : [no documentation found]
     ///
-    /// - Returns: `DeleteSubscriptionOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteSubscriptionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -154,59 +154,59 @@ public protocol ShieldClientProtocol {
     /// - `InternalErrorException` : Exception that indicates that a problem occurred with the service infrastructure. You can retry the request.
     /// - `LockedSubscriptionException` : You are trying to update a subscription that has not yet completed the 1-year commitment. You can change the AutoRenew parameter during the last 30 days of your subscription. This exception indicates that you are attempting to change AutoRenew prior to that period.
     /// - `ResourceNotFoundException` : Exception indicating the specified resource does not exist. If available, this exception includes details in additional properties.
-    func deleteSubscription(input: DeleteSubscriptionInput) async throws -> DeleteSubscriptionOutputResponse
+    func deleteSubscription(input: DeleteSubscriptionInput) async throws -> DeleteSubscriptionOutput
     /// Describes the details of a DDoS attack.
     ///
     /// - Parameter DescribeAttackInput : [no documentation found]
     ///
-    /// - Returns: `DescribeAttackOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeAttackOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : Exception that indicates the specified AttackId does not exist, or the requester does not have the appropriate permissions to access the AttackId.
     /// - `InternalErrorException` : Exception that indicates that a problem occurred with the service infrastructure. You can retry the request.
-    func describeAttack(input: DescribeAttackInput) async throws -> DescribeAttackOutputResponse
+    func describeAttack(input: DescribeAttackInput) async throws -> DescribeAttackOutput
     /// Provides information about the number and type of attacks Shield has detected in the last year for all resources that belong to your account, regardless of whether you've defined Shield protections for them. This operation is available to Shield customers as well as to Shield Advanced customers. The operation returns data for the time range of midnight UTC, one year ago, to midnight UTC, today. For example, if the current time is 2020-10-26 15:39:32 PDT, equal to 2020-10-26 22:39:32 UTC, then the time range for the attack data returned is from 2019-10-26 00:00:00 UTC to 2020-10-26 00:00:00 UTC. The time range indicates the period covered by the attack statistics data items.
     ///
     /// - Parameter DescribeAttackStatisticsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeAttackStatisticsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeAttackStatisticsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalErrorException` : Exception that indicates that a problem occurred with the service infrastructure. You can retry the request.
-    func describeAttackStatistics(input: DescribeAttackStatisticsInput) async throws -> DescribeAttackStatisticsOutputResponse
+    func describeAttackStatistics(input: DescribeAttackStatisticsInput) async throws -> DescribeAttackStatisticsOutput
     /// Returns the current role and list of Amazon S3 log buckets used by the Shield Response Team (SRT) to access your Amazon Web Services account while assisting with attack mitigation.
     ///
     /// - Parameter DescribeDRTAccessInput : [no documentation found]
     ///
-    /// - Returns: `DescribeDRTAccessOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeDRTAccessOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalErrorException` : Exception that indicates that a problem occurred with the service infrastructure. You can retry the request.
     /// - `ResourceNotFoundException` : Exception indicating the specified resource does not exist. If available, this exception includes details in additional properties.
-    func describeDRTAccess(input: DescribeDRTAccessInput) async throws -> DescribeDRTAccessOutputResponse
+    func describeDRTAccess(input: DescribeDRTAccessInput) async throws -> DescribeDRTAccessOutput
     /// A list of email addresses and phone numbers that the Shield Response Team (SRT) can use to contact you if you have proactive engagement enabled, for escalations to the SRT and to initiate proactive customer support.
     ///
     /// - Parameter DescribeEmergencyContactSettingsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeEmergencyContactSettingsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeEmergencyContactSettingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalErrorException` : Exception that indicates that a problem occurred with the service infrastructure. You can retry the request.
     /// - `ResourceNotFoundException` : Exception indicating the specified resource does not exist. If available, this exception includes details in additional properties.
-    func describeEmergencyContactSettings(input: DescribeEmergencyContactSettingsInput) async throws -> DescribeEmergencyContactSettingsOutputResponse
+    func describeEmergencyContactSettings(input: DescribeEmergencyContactSettingsInput) async throws -> DescribeEmergencyContactSettingsOutput
     /// Lists the details of a [Protection] object.
     ///
     /// - Parameter DescribeProtectionInput : [no documentation found]
     ///
-    /// - Returns: `DescribeProtectionOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeProtectionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -214,36 +214,36 @@ public protocol ShieldClientProtocol {
     /// - `InternalErrorException` : Exception that indicates that a problem occurred with the service infrastructure. You can retry the request.
     /// - `InvalidParameterException` : Exception that indicates that the parameters passed to the API are invalid. If available, this exception includes details in additional properties.
     /// - `ResourceNotFoundException` : Exception indicating the specified resource does not exist. If available, this exception includes details in additional properties.
-    func describeProtection(input: DescribeProtectionInput) async throws -> DescribeProtectionOutputResponse
+    func describeProtection(input: DescribeProtectionInput) async throws -> DescribeProtectionOutput
     /// Returns the specification for the specified protection group.
     ///
     /// - Parameter DescribeProtectionGroupInput : [no documentation found]
     ///
-    /// - Returns: `DescribeProtectionGroupOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeProtectionGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalErrorException` : Exception that indicates that a problem occurred with the service infrastructure. You can retry the request.
     /// - `ResourceNotFoundException` : Exception indicating the specified resource does not exist. If available, this exception includes details in additional properties.
-    func describeProtectionGroup(input: DescribeProtectionGroupInput) async throws -> DescribeProtectionGroupOutputResponse
+    func describeProtectionGroup(input: DescribeProtectionGroupInput) async throws -> DescribeProtectionGroupOutput
     /// Provides details about the Shield Advanced subscription for an account.
     ///
     /// - Parameter DescribeSubscriptionInput : [no documentation found]
     ///
-    /// - Returns: `DescribeSubscriptionOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeSubscriptionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalErrorException` : Exception that indicates that a problem occurred with the service infrastructure. You can retry the request.
     /// - `ResourceNotFoundException` : Exception indicating the specified resource does not exist. If available, this exception includes details in additional properties.
-    func describeSubscription(input: DescribeSubscriptionInput) async throws -> DescribeSubscriptionOutputResponse
+    func describeSubscription(input: DescribeSubscriptionInput) async throws -> DescribeSubscriptionOutput
     /// Disable the Shield Advanced automatic application layer DDoS mitigation feature for the protected resource. This stops Shield Advanced from creating, verifying, and applying WAF rules for attacks that it detects for the resource.
     ///
     /// - Parameter DisableApplicationLayerAutomaticResponseInput : [no documentation found]
     ///
-    /// - Returns: `DisableApplicationLayerAutomaticResponseOutputResponse` : [no documentation found]
+    /// - Returns: `DisableApplicationLayerAutomaticResponseOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -253,12 +253,12 @@ public protocol ShieldClientProtocol {
     /// - `InvalidParameterException` : Exception that indicates that the parameters passed to the API are invalid. If available, this exception includes details in additional properties.
     /// - `OptimisticLockException` : Exception that indicates that the resource state has been modified by another client. Retrieve the resource and then retry your request.
     /// - `ResourceNotFoundException` : Exception indicating the specified resource does not exist. If available, this exception includes details in additional properties.
-    func disableApplicationLayerAutomaticResponse(input: DisableApplicationLayerAutomaticResponseInput) async throws -> DisableApplicationLayerAutomaticResponseOutputResponse
+    func disableApplicationLayerAutomaticResponse(input: DisableApplicationLayerAutomaticResponseInput) async throws -> DisableApplicationLayerAutomaticResponseOutput
     /// Removes authorization from the Shield Response Team (SRT) to notify contacts about escalations to the SRT and to initiate proactive customer support.
     ///
     /// - Parameter DisableProactiveEngagementInput : [no documentation found]
     ///
-    /// - Returns: `DisableProactiveEngagementOutputResponse` : [no documentation found]
+    /// - Returns: `DisableProactiveEngagementOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -268,12 +268,12 @@ public protocol ShieldClientProtocol {
     /// - `InvalidParameterException` : Exception that indicates that the parameters passed to the API are invalid. If available, this exception includes details in additional properties.
     /// - `OptimisticLockException` : Exception that indicates that the resource state has been modified by another client. Retrieve the resource and then retry your request.
     /// - `ResourceNotFoundException` : Exception indicating the specified resource does not exist. If available, this exception includes details in additional properties.
-    func disableProactiveEngagement(input: DisableProactiveEngagementInput) async throws -> DisableProactiveEngagementOutputResponse
+    func disableProactiveEngagement(input: DisableProactiveEngagementInput) async throws -> DisableProactiveEngagementOutput
     /// Removes the Shield Response Team's (SRT) access to the specified Amazon S3 bucket containing the logs that you shared previously.
     ///
     /// - Parameter DisassociateDRTLogBucketInput : [no documentation found]
     ///
-    /// - Returns: `DisassociateDRTLogBucketOutputResponse` : [no documentation found]
+    /// - Returns: `DisassociateDRTLogBucketOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -284,12 +284,12 @@ public protocol ShieldClientProtocol {
     /// - `NoAssociatedRoleException` : The ARN of the role that you specified does not exist.
     /// - `OptimisticLockException` : Exception that indicates that the resource state has been modified by another client. Retrieve the resource and then retry your request.
     /// - `ResourceNotFoundException` : Exception indicating the specified resource does not exist. If available, this exception includes details in additional properties.
-    func disassociateDRTLogBucket(input: DisassociateDRTLogBucketInput) async throws -> DisassociateDRTLogBucketOutputResponse
+    func disassociateDRTLogBucket(input: DisassociateDRTLogBucketInput) async throws -> DisassociateDRTLogBucketOutput
     /// Removes the Shield Response Team's (SRT) access to your Amazon Web Services account.
     ///
     /// - Parameter DisassociateDRTRoleInput : [no documentation found]
     ///
-    /// - Returns: `DisassociateDRTRoleOutputResponse` : [no documentation found]
+    /// - Returns: `DisassociateDRTRoleOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -298,12 +298,12 @@ public protocol ShieldClientProtocol {
     /// - `InvalidOperationException` : Exception that indicates that the operation would not cause any change to occur.
     /// - `OptimisticLockException` : Exception that indicates that the resource state has been modified by another client. Retrieve the resource and then retry your request.
     /// - `ResourceNotFoundException` : Exception indicating the specified resource does not exist. If available, this exception includes details in additional properties.
-    func disassociateDRTRole(input: DisassociateDRTRoleInput) async throws -> DisassociateDRTRoleOutputResponse
+    func disassociateDRTRole(input: DisassociateDRTRoleInput) async throws -> DisassociateDRTRoleOutput
     /// Removes health-based detection from the Shield Advanced protection for a resource. Shield Advanced health-based detection uses the health of your Amazon Web Services resource to improve responsiveness and accuracy in attack detection and response. You define the health check in Route 53 and then associate or disassociate it with your Shield Advanced protection. For more information, see [Shield Advanced Health-Based Detection](https://docs.aws.amazon.com/waf/latest/developerguide/ddos-overview.html#ddos-advanced-health-check-option) in the WAF Developer Guide.
     ///
     /// - Parameter DisassociateHealthCheckInput : [no documentation found]
     ///
-    /// - Returns: `DisassociateHealthCheckOutputResponse` : [no documentation found]
+    /// - Returns: `DisassociateHealthCheckOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -313,12 +313,12 @@ public protocol ShieldClientProtocol {
     /// - `InvalidResourceException` : Exception that indicates that the resource is invalid. You might not have access to the resource, or the resource might not exist.
     /// - `OptimisticLockException` : Exception that indicates that the resource state has been modified by another client. Retrieve the resource and then retry your request.
     /// - `ResourceNotFoundException` : Exception indicating the specified resource does not exist. If available, this exception includes details in additional properties.
-    func disassociateHealthCheck(input: DisassociateHealthCheckInput) async throws -> DisassociateHealthCheckOutputResponse
+    func disassociateHealthCheck(input: DisassociateHealthCheckInput) async throws -> DisassociateHealthCheckOutput
     /// Enable the Shield Advanced automatic application layer DDoS mitigation for the protected resource. This feature is available for Amazon CloudFront distributions and Application Load Balancers only. This causes Shield Advanced to create, verify, and apply WAF rules for DDoS attacks that it detects for the resource. Shield Advanced applies the rules in a Shield rule group inside the web ACL that you've associated with the resource. For information about how automatic mitigation works and the requirements for using it, see [Shield Advanced automatic application layer DDoS mitigation](https://docs.aws.amazon.com/waf/latest/developerguide/ddos-advanced-automatic-app-layer-response.html). Don't use this action to make changes to automatic mitigation settings when it's already enabled for a resource. Instead, use [UpdateApplicationLayerAutomaticResponse]. To use this feature, you must associate a web ACL with the protected resource. The web ACL must be created using the latest version of WAF (v2). You can associate the web ACL through the Shield Advanced console at [https://console.aws.amazon.com/wafv2/shieldv2#/](https://console.aws.amazon.com/wafv2/shieldv2#/). For more information, see [Getting Started with Shield Advanced](https://docs.aws.amazon.com/waf/latest/developerguide/getting-started-ddos.html). You can also associate the web ACL to the resource through the WAF console or the WAF API, but you must manage Shield Advanced automatic mitigation through Shield Advanced. For information about WAF, see [WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/).
     ///
     /// - Parameter EnableApplicationLayerAutomaticResponseInput : [no documentation found]
     ///
-    /// - Returns: `EnableApplicationLayerAutomaticResponseOutputResponse` : [no documentation found]
+    /// - Returns: `EnableApplicationLayerAutomaticResponseOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -329,12 +329,12 @@ public protocol ShieldClientProtocol {
     /// - `LimitsExceededException` : Exception that indicates that the operation would exceed a limit.
     /// - `OptimisticLockException` : Exception that indicates that the resource state has been modified by another client. Retrieve the resource and then retry your request.
     /// - `ResourceNotFoundException` : Exception indicating the specified resource does not exist. If available, this exception includes details in additional properties.
-    func enableApplicationLayerAutomaticResponse(input: EnableApplicationLayerAutomaticResponseInput) async throws -> EnableApplicationLayerAutomaticResponseOutputResponse
+    func enableApplicationLayerAutomaticResponse(input: EnableApplicationLayerAutomaticResponseInput) async throws -> EnableApplicationLayerAutomaticResponseOutput
     /// Authorizes the Shield Response Team (SRT) to use email and phone to notify contacts about escalations to the SRT and to initiate proactive customer support.
     ///
     /// - Parameter EnableProactiveEngagementInput : [no documentation found]
     ///
-    /// - Returns: `EnableProactiveEngagementOutputResponse` : [no documentation found]
+    /// - Returns: `EnableProactiveEngagementOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -344,23 +344,23 @@ public protocol ShieldClientProtocol {
     /// - `InvalidParameterException` : Exception that indicates that the parameters passed to the API are invalid. If available, this exception includes details in additional properties.
     /// - `OptimisticLockException` : Exception that indicates that the resource state has been modified by another client. Retrieve the resource and then retry your request.
     /// - `ResourceNotFoundException` : Exception indicating the specified resource does not exist. If available, this exception includes details in additional properties.
-    func enableProactiveEngagement(input: EnableProactiveEngagementInput) async throws -> EnableProactiveEngagementOutputResponse
+    func enableProactiveEngagement(input: EnableProactiveEngagementInput) async throws -> EnableProactiveEngagementOutput
     /// Returns the SubscriptionState, either Active or Inactive.
     ///
     /// - Parameter GetSubscriptionStateInput : [no documentation found]
     ///
-    /// - Returns: `GetSubscriptionStateOutputResponse` : [no documentation found]
+    /// - Returns: `GetSubscriptionStateOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalErrorException` : Exception that indicates that a problem occurred with the service infrastructure. You can retry the request.
-    func getSubscriptionState(input: GetSubscriptionStateInput) async throws -> GetSubscriptionStateOutputResponse
+    func getSubscriptionState(input: GetSubscriptionStateInput) async throws -> GetSubscriptionStateOutput
     /// Returns all ongoing DDoS attacks or all DDoS attacks during a specified time period.
     ///
     /// - Parameter ListAttacksInput : [no documentation found]
     ///
-    /// - Returns: `ListAttacksOutputResponse` : [no documentation found]
+    /// - Returns: `ListAttacksOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -368,12 +368,12 @@ public protocol ShieldClientProtocol {
     /// - `InternalErrorException` : Exception that indicates that a problem occurred with the service infrastructure. You can retry the request.
     /// - `InvalidOperationException` : Exception that indicates that the operation would not cause any change to occur.
     /// - `InvalidParameterException` : Exception that indicates that the parameters passed to the API are invalid. If available, this exception includes details in additional properties.
-    func listAttacks(input: ListAttacksInput) async throws -> ListAttacksOutputResponse
+    func listAttacks(input: ListAttacksInput) async throws -> ListAttacksOutput
     /// Retrieves [ProtectionGroup] objects for the account. You can retrieve all protection groups or you can provide filtering criteria and retrieve just the subset of protection groups that match the criteria.
     ///
     /// - Parameter ListProtectionGroupsInput : [no documentation found]
     ///
-    /// - Returns: `ListProtectionGroupsOutputResponse` : [no documentation found]
+    /// - Returns: `ListProtectionGroupsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -381,12 +381,12 @@ public protocol ShieldClientProtocol {
     /// - `InternalErrorException` : Exception that indicates that a problem occurred with the service infrastructure. You can retry the request.
     /// - `InvalidPaginationTokenException` : Exception that indicates that the NextToken specified in the request is invalid. Submit the request using the NextToken value that was returned in the prior response.
     /// - `ResourceNotFoundException` : Exception indicating the specified resource does not exist. If available, this exception includes details in additional properties.
-    func listProtectionGroups(input: ListProtectionGroupsInput) async throws -> ListProtectionGroupsOutputResponse
+    func listProtectionGroups(input: ListProtectionGroupsInput) async throws -> ListProtectionGroupsOutput
     /// Retrieves [Protection] objects for the account. You can retrieve all protections or you can provide filtering criteria and retrieve just the subset of protections that match the criteria.
     ///
     /// - Parameter ListProtectionsInput : [no documentation found]
     ///
-    /// - Returns: `ListProtectionsOutputResponse` : [no documentation found]
+    /// - Returns: `ListProtectionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -394,12 +394,12 @@ public protocol ShieldClientProtocol {
     /// - `InternalErrorException` : Exception that indicates that a problem occurred with the service infrastructure. You can retry the request.
     /// - `InvalidPaginationTokenException` : Exception that indicates that the NextToken specified in the request is invalid. Submit the request using the NextToken value that was returned in the prior response.
     /// - `ResourceNotFoundException` : Exception indicating the specified resource does not exist. If available, this exception includes details in additional properties.
-    func listProtections(input: ListProtectionsInput) async throws -> ListProtectionsOutputResponse
+    func listProtections(input: ListProtectionsInput) async throws -> ListProtectionsOutput
     /// Retrieves the resources that are included in the protection group.
     ///
     /// - Parameter ListResourcesInProtectionGroupInput : [no documentation found]
     ///
-    /// - Returns: `ListResourcesInProtectionGroupOutputResponse` : [no documentation found]
+    /// - Returns: `ListResourcesInProtectionGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -407,12 +407,12 @@ public protocol ShieldClientProtocol {
     /// - `InternalErrorException` : Exception that indicates that a problem occurred with the service infrastructure. You can retry the request.
     /// - `InvalidPaginationTokenException` : Exception that indicates that the NextToken specified in the request is invalid. Submit the request using the NextToken value that was returned in the prior response.
     /// - `ResourceNotFoundException` : Exception indicating the specified resource does not exist. If available, this exception includes details in additional properties.
-    func listResourcesInProtectionGroup(input: ListResourcesInProtectionGroupInput) async throws -> ListResourcesInProtectionGroupOutputResponse
+    func listResourcesInProtectionGroup(input: ListResourcesInProtectionGroupInput) async throws -> ListResourcesInProtectionGroupOutput
     /// Gets information about Amazon Web Services tags for a specified Amazon Resource Name (ARN) in Shield.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -420,12 +420,12 @@ public protocol ShieldClientProtocol {
     /// - `InternalErrorException` : Exception that indicates that a problem occurred with the service infrastructure. You can retry the request.
     /// - `InvalidResourceException` : Exception that indicates that the resource is invalid. You might not have access to the resource, or the resource might not exist.
     /// - `ResourceNotFoundException` : Exception indicating the specified resource does not exist. If available, this exception includes details in additional properties.
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     /// Adds or updates tags for a resource in Shield.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -434,12 +434,12 @@ public protocol ShieldClientProtocol {
     /// - `InvalidParameterException` : Exception that indicates that the parameters passed to the API are invalid. If available, this exception includes details in additional properties.
     /// - `InvalidResourceException` : Exception that indicates that the resource is invalid. You might not have access to the resource, or the resource might not exist.
     /// - `ResourceNotFoundException` : Exception indicating the specified resource does not exist. If available, this exception includes details in additional properties.
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     /// Removes tags from a resource in Shield.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -448,12 +448,12 @@ public protocol ShieldClientProtocol {
     /// - `InvalidParameterException` : Exception that indicates that the parameters passed to the API are invalid. If available, this exception includes details in additional properties.
     /// - `InvalidResourceException` : Exception that indicates that the resource is invalid. You might not have access to the resource, or the resource might not exist.
     /// - `ResourceNotFoundException` : Exception indicating the specified resource does not exist. If available, this exception includes details in additional properties.
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
     /// Updates an existing Shield Advanced automatic application layer DDoS mitigation configuration for the specified resource.
     ///
     /// - Parameter UpdateApplicationLayerAutomaticResponseInput : [no documentation found]
     ///
-    /// - Returns: `UpdateApplicationLayerAutomaticResponseOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateApplicationLayerAutomaticResponseOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -463,12 +463,12 @@ public protocol ShieldClientProtocol {
     /// - `InvalidParameterException` : Exception that indicates that the parameters passed to the API are invalid. If available, this exception includes details in additional properties.
     /// - `OptimisticLockException` : Exception that indicates that the resource state has been modified by another client. Retrieve the resource and then retry your request.
     /// - `ResourceNotFoundException` : Exception indicating the specified resource does not exist. If available, this exception includes details in additional properties.
-    func updateApplicationLayerAutomaticResponse(input: UpdateApplicationLayerAutomaticResponseInput) async throws -> UpdateApplicationLayerAutomaticResponseOutputResponse
+    func updateApplicationLayerAutomaticResponse(input: UpdateApplicationLayerAutomaticResponseInput) async throws -> UpdateApplicationLayerAutomaticResponseOutput
     /// Updates the details of the list of email addresses and phone numbers that the Shield Response Team (SRT) can use to contact you if you have proactive engagement enabled, for escalations to the SRT and to initiate proactive customer support.
     ///
     /// - Parameter UpdateEmergencyContactSettingsInput : [no documentation found]
     ///
-    /// - Returns: `UpdateEmergencyContactSettingsOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateEmergencyContactSettingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -477,12 +477,12 @@ public protocol ShieldClientProtocol {
     /// - `InvalidParameterException` : Exception that indicates that the parameters passed to the API are invalid. If available, this exception includes details in additional properties.
     /// - `OptimisticLockException` : Exception that indicates that the resource state has been modified by another client. Retrieve the resource and then retry your request.
     /// - `ResourceNotFoundException` : Exception indicating the specified resource does not exist. If available, this exception includes details in additional properties.
-    func updateEmergencyContactSettings(input: UpdateEmergencyContactSettingsInput) async throws -> UpdateEmergencyContactSettingsOutputResponse
+    func updateEmergencyContactSettings(input: UpdateEmergencyContactSettingsInput) async throws -> UpdateEmergencyContactSettingsOutput
     /// Updates an existing protection group. A protection group is a grouping of protected resources so they can be handled as a collective. This resource grouping improves the accuracy of detection and reduces false positives.
     ///
     /// - Parameter UpdateProtectionGroupInput : [no documentation found]
     ///
-    /// - Returns: `UpdateProtectionGroupOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateProtectionGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -491,12 +491,12 @@ public protocol ShieldClientProtocol {
     /// - `InvalidParameterException` : Exception that indicates that the parameters passed to the API are invalid. If available, this exception includes details in additional properties.
     /// - `OptimisticLockException` : Exception that indicates that the resource state has been modified by another client. Retrieve the resource and then retry your request.
     /// - `ResourceNotFoundException` : Exception indicating the specified resource does not exist. If available, this exception includes details in additional properties.
-    func updateProtectionGroup(input: UpdateProtectionGroupInput) async throws -> UpdateProtectionGroupOutputResponse
+    func updateProtectionGroup(input: UpdateProtectionGroupInput) async throws -> UpdateProtectionGroupOutput
     /// Updates the details of an existing subscription. Only enter values for parameters you want to change. Empty parameters are not updated. For accounts that are members of an Organizations organization, Shield Advanced subscriptions are billed against the organization's payer account, regardless of whether the payer account itself is subscribed.
     ///
     /// - Parameter UpdateSubscriptionInput : [no documentation found]
     ///
-    /// - Returns: `UpdateSubscriptionOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateSubscriptionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -506,7 +506,7 @@ public protocol ShieldClientProtocol {
     /// - `LockedSubscriptionException` : You are trying to update a subscription that has not yet completed the 1-year commitment. You can change the AutoRenew parameter during the last 30 days of your subscription. This exception indicates that you are attempting to change AutoRenew prior to that period.
     /// - `OptimisticLockException` : Exception that indicates that the resource state has been modified by another client. Retrieve the resource and then retry your request.
     /// - `ResourceNotFoundException` : Exception indicating the specified resource does not exist. If available, this exception includes details in additional properties.
-    func updateSubscription(input: UpdateSubscriptionInput) async throws -> UpdateSubscriptionOutputResponse
+    func updateSubscription(input: UpdateSubscriptionInput) async throws -> UpdateSubscriptionOutput
 }
 
 public enum ShieldClientTypes {}

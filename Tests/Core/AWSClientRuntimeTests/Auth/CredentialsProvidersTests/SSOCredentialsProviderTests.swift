@@ -41,7 +41,4 @@ class SSOCredentialsProviderTests: XCTestCase {
         )
         // SUCCESS: creation didn't throw error
     }
-    
-    // TODO: add integration tests that automatically test that SSO crednetials provider correctly exchanges SSO token for temporary AWS credentails.
-    // Manual integration testing confirmed SSOCredentialsProvider works as of 081723.
 }

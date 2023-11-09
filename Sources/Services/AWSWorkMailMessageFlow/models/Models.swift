@@ -33,18 +33,7 @@ extension GetRawMessageContentInputBody: Swift.Decodable {
     }
 }
 
-enum GetRawMessageContentOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetRawMessageContentOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetRawMessageContentOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         switch httpResponse.body {
         case .data(let data):
@@ -57,7 +46,7 @@ extension GetRawMessageContentOutputResponse: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct GetRawMessageContentOutputResponse: Swift.Equatable {
+public struct GetRawMessageContentOutput: Swift.Equatable {
     /// The raw content of the email message, in MIME format.
     /// This member is required.
     public var messageContent: ClientRuntime.ByteStream?
@@ -70,11 +59,11 @@ public struct GetRawMessageContentOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetRawMessageContentOutputResponseBody: Swift.Equatable {
+struct GetRawMessageContentOutputBody: Swift.Equatable {
     let messageContent: ClientRuntime.ByteStream?
 }
 
-extension GetRawMessageContentOutputResponseBody: Swift.Decodable {
+extension GetRawMessageContentOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case messageContent
     }
@@ -83,6 +72,17 @@ extension GetRawMessageContentOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageContentDecoded = try containerValues.decodeIfPresent(ClientRuntime.ByteStream.self, forKey: .messageContent)
         messageContent = messageContentDecoded
+    }
+}
+
+enum GetRawMessageContentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -313,6 +313,16 @@ extension PutRawMessageContentInputBody: Swift.Decodable {
     }
 }
 
+extension PutRawMessageContentOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct PutRawMessageContentOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum PutRawMessageContentOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -325,16 +335,6 @@ enum PutRawMessageContentOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension PutRawMessageContentOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct PutRawMessageContentOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension WorkMailMessageFlowClientTypes.RawMessageContent: Swift.Codable {

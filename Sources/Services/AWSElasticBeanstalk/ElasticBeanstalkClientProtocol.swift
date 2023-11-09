@@ -8,70 +8,70 @@ public protocol ElasticBeanstalkClientProtocol {
     ///
     /// - Parameter AbortEnvironmentUpdateInput :
     ///
-    /// - Returns: `AbortEnvironmentUpdateOutputResponse` : [no documentation found]
+    /// - Returns: `AbortEnvironmentUpdateOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more AWS services.
-    func abortEnvironmentUpdate(input: AbortEnvironmentUpdateInput) async throws -> AbortEnvironmentUpdateOutputResponse
+    func abortEnvironmentUpdate(input: AbortEnvironmentUpdateInput) async throws -> AbortEnvironmentUpdateOutput
     /// Applies a scheduled managed action immediately. A managed action can be applied only if its status is Scheduled. Get the status and action ID of a managed action with [DescribeEnvironmentManagedActions].
     ///
     /// - Parameter ApplyEnvironmentManagedActionInput : Request to execute a scheduled managed action immediately.
     ///
-    /// - Returns: `ApplyEnvironmentManagedActionOutputResponse` : The result message containing information about the managed action.
+    /// - Returns: `ApplyEnvironmentManagedActionOutput` : The result message containing information about the managed action.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ElasticBeanstalkServiceException` : A generic service exception has occurred.
     /// - `ManagedActionInvalidStateException` : Cannot modify the managed action in its current state.
-    func applyEnvironmentManagedAction(input: ApplyEnvironmentManagedActionInput) async throws -> ApplyEnvironmentManagedActionOutputResponse
+    func applyEnvironmentManagedAction(input: ApplyEnvironmentManagedActionInput) async throws -> ApplyEnvironmentManagedActionOutput
     /// Add or change the operations role used by an environment. After this call is made, Elastic Beanstalk uses the associated operations role for permissions to downstream services during subsequent calls acting on this environment. For more information, see [Operations roles](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/iam-operationsrole.html) in the AWS Elastic Beanstalk Developer Guide.
     ///
     /// - Parameter AssociateEnvironmentOperationsRoleInput : Request to add or change the operations role used by an environment.
     ///
-    /// - Returns: `AssociateEnvironmentOperationsRoleOutputResponse` : [no documentation found]
+    /// - Returns: `AssociateEnvironmentOperationsRoleOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more AWS services.
-    func associateEnvironmentOperationsRole(input: AssociateEnvironmentOperationsRoleInput) async throws -> AssociateEnvironmentOperationsRoleOutputResponse
+    func associateEnvironmentOperationsRole(input: AssociateEnvironmentOperationsRoleInput) async throws -> AssociateEnvironmentOperationsRoleOutput
     /// Checks if the specified CNAME is available.
     ///
     /// - Parameter CheckDNSAvailabilityInput : Results message indicating whether a CNAME is available.
     ///
-    /// - Returns: `CheckDNSAvailabilityOutputResponse` : Indicates if the specified CNAME is available.
-    func checkDNSAvailability(input: CheckDNSAvailabilityInput) async throws -> CheckDNSAvailabilityOutputResponse
+    /// - Returns: `CheckDNSAvailabilityOutput` : Indicates if the specified CNAME is available.
+    func checkDNSAvailability(input: CheckDNSAvailabilityInput) async throws -> CheckDNSAvailabilityOutput
     /// Create or update a group of environments that each run a separate component of a single application. Takes a list of version labels that specify application source bundles for each of the environments to create or update. The name of each environment and other required information must be included in the source bundles in an environment manifest named env.yaml. See [Compose Environments](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/environment-mgmt-compose.html) for details.
     ///
     /// - Parameter ComposeEnvironmentsInput : Request to create or update a group of environments.
     ///
-    /// - Returns: `ComposeEnvironmentsOutputResponse` : Result message containing a list of environment descriptions.
+    /// - Returns: `ComposeEnvironmentsOutput` : Result message containing a list of environment descriptions.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more AWS services.
     /// - `TooManyEnvironmentsException` : The specified account has reached its limit of environments.
-    func composeEnvironments(input: ComposeEnvironmentsInput) async throws -> ComposeEnvironmentsOutputResponse
+    func composeEnvironments(input: ComposeEnvironmentsInput) async throws -> ComposeEnvironmentsOutput
     /// Creates an application that has one configuration template named default and no application versions.
     ///
     /// - Parameter CreateApplicationInput : Request to create an application.
     ///
-    /// - Returns: `CreateApplicationOutputResponse` : Result message containing a single description of an application.
+    /// - Returns: `CreateApplicationOutput` : Result message containing a single description of an application.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `TooManyApplicationsException` : The specified account has reached its limit of applications.
-    func createApplication(input: CreateApplicationInput) async throws -> CreateApplicationOutputResponse
+    func createApplication(input: CreateApplicationInput) async throws -> CreateApplicationOutput
     /// Creates an application version for the specified application. You can create an application version from a source bundle in Amazon S3, a commit in AWS CodeCommit, or the output of an AWS CodeBuild build as follows: Specify a commit in an AWS CodeCommit repository with SourceBuildInformation. Specify a build in an AWS CodeBuild with SourceBuildInformation and BuildConfiguration. Specify a source bundle in S3 with SourceBundle Omit both SourceBuildInformation and SourceBundle to use the default sample application. After you create an application version with a specified Amazon S3 bucket and key location, you can't change that Amazon S3 location. If you change the Amazon S3 location, you receive an exception when you attempt to launch an environment from the application version.
     ///
     /// - Parameter CreateApplicationVersionInput :
     ///
-    /// - Returns: `CreateApplicationVersionOutputResponse` : Result message wrapping a single description of an application version.
+    /// - Returns: `CreateApplicationVersionOutput` : Result message wrapping a single description of an application version.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -87,7 +87,7 @@ public protocol ElasticBeanstalkClientProtocol {
     /// * DUB/eu-west-1
     /// - `TooManyApplicationsException` : The specified account has reached its limit of applications.
     /// - `TooManyApplicationVersionsException` : The specified account has reached its limit of application versions.
-    func createApplicationVersion(input: CreateApplicationVersionInput) async throws -> CreateApplicationVersionOutputResponse
+    func createApplicationVersion(input: CreateApplicationVersionInput) async throws -> CreateApplicationVersionOutput
     /// Creates an AWS Elastic Beanstalk configuration template, associated with a specific Elastic Beanstalk application. You define application configuration settings in a configuration template. You can then use the configuration template to deploy different versions of the application with the same configuration settings. Templates aren't associated with any environment. The EnvironmentName response element is always null. Related Topics
     ///
     /// * [DescribeConfigurationOptions]
@@ -98,7 +98,7 @@ public protocol ElasticBeanstalkClientProtocol {
     ///
     /// - Parameter CreateConfigurationTemplateInput : Request to create a configuration template.
     ///
-    /// - Returns: `CreateConfigurationTemplateOutputResponse` : Describes the settings for a configuration set.
+    /// - Returns: `CreateConfigurationTemplateOutput` : Describes the settings for a configuration set.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -106,24 +106,24 @@ public protocol ElasticBeanstalkClientProtocol {
     /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more AWS services.
     /// - `TooManyBucketsException` : The specified account has reached its limit of Amazon S3 buckets.
     /// - `TooManyConfigurationTemplatesException` : The specified account has reached its limit of configuration templates.
-    func createConfigurationTemplate(input: CreateConfigurationTemplateInput) async throws -> CreateConfigurationTemplateOutputResponse
+    func createConfigurationTemplate(input: CreateConfigurationTemplateInput) async throws -> CreateConfigurationTemplateOutput
     /// Launches an AWS Elastic Beanstalk environment for the specified application using the specified configuration.
     ///
     /// - Parameter CreateEnvironmentInput :
     ///
-    /// - Returns: `CreateEnvironmentOutputResponse` : Describes the properties of an environment.
+    /// - Returns: `CreateEnvironmentOutput` : Describes the properties of an environment.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more AWS services.
     /// - `TooManyEnvironmentsException` : The specified account has reached its limit of environments.
-    func createEnvironment(input: CreateEnvironmentInput) async throws -> CreateEnvironmentOutputResponse
+    func createEnvironment(input: CreateEnvironmentInput) async throws -> CreateEnvironmentOutput
     /// Create a new version of your custom platform.
     ///
     /// - Parameter CreatePlatformVersionInput : Request to create a new platform version.
     ///
-    /// - Returns: `CreatePlatformVersionOutputResponse` : [no documentation found]
+    /// - Returns: `CreatePlatformVersionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -131,12 +131,12 @@ public protocol ElasticBeanstalkClientProtocol {
     /// - `ElasticBeanstalkServiceException` : A generic service exception has occurred.
     /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more AWS services.
     /// - `TooManyPlatformsException` : You have exceeded the maximum number of allowed platforms associated with the account.
-    func createPlatformVersion(input: CreatePlatformVersionInput) async throws -> CreatePlatformVersionOutputResponse
+    func createPlatformVersion(input: CreatePlatformVersionInput) async throws -> CreatePlatformVersionOutput
     /// Creates a bucket in Amazon S3 to store application versions, logs, and other files used by Elastic Beanstalk environments. The Elastic Beanstalk console and EB CLI call this API the first time you create an environment in a region. If the storage location already exists, CreateStorageLocation still returns the bucket name but does not create a new bucket.
     ///
     /// - Parameter CreateStorageLocationInput : [no documentation found]
     ///
-    /// - Returns: `CreateStorageLocationOutputResponse` : Results of a [CreateStorageLocationResult] call.
+    /// - Returns: `CreateStorageLocationOutput` : Results of a [CreateStorageLocationResult] call.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -144,23 +144,23 @@ public protocol ElasticBeanstalkClientProtocol {
     /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more AWS services.
     /// - `S3SubscriptionRequiredException` : The specified account does not have a subscription to Amazon S3.
     /// - `TooManyBucketsException` : The specified account has reached its limit of Amazon S3 buckets.
-    func createStorageLocation(input: CreateStorageLocationInput) async throws -> CreateStorageLocationOutputResponse
+    func createStorageLocation(input: CreateStorageLocationInput) async throws -> CreateStorageLocationOutput
     /// Deletes the specified application along with all associated versions and configurations. The application versions will not be deleted from your Amazon S3 bucket. You cannot delete an application that has a running environment.
     ///
     /// - Parameter DeleteApplicationInput : Request to delete an application.
     ///
-    /// - Returns: `DeleteApplicationOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteApplicationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `OperationInProgressException` : Unable to perform the specified operation because another operation that effects an element in this activity is already in progress.
-    func deleteApplication(input: DeleteApplicationInput) async throws -> DeleteApplicationOutputResponse
+    func deleteApplication(input: DeleteApplicationInput) async throws -> DeleteApplicationOutput
     /// Deletes the specified version from the specified application. You cannot delete an application version that is associated with a running environment.
     ///
     /// - Parameter DeleteApplicationVersionInput : Request to delete an application version.
     ///
-    /// - Returns: `DeleteApplicationVersionOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteApplicationVersionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -175,29 +175,29 @@ public protocol ElasticBeanstalkClientProtocol {
     ///
     /// * DUB/eu-west-1
     /// - `SourceBundleDeletionException` : Unable to delete the Amazon S3 source bundle associated with the application version. The application version was deleted successfully.
-    func deleteApplicationVersion(input: DeleteApplicationVersionInput) async throws -> DeleteApplicationVersionOutputResponse
+    func deleteApplicationVersion(input: DeleteApplicationVersionInput) async throws -> DeleteApplicationVersionOutput
     /// Deletes the specified configuration template. When you launch an environment using a configuration template, the environment gets a copy of the template. You can delete or modify the environment's copy of the template without affecting the running environment.
     ///
     /// - Parameter DeleteConfigurationTemplateInput : Request to delete a configuration template.
     ///
-    /// - Returns: `DeleteConfigurationTemplateOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteConfigurationTemplateOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `OperationInProgressException` : Unable to perform the specified operation because another operation that effects an element in this activity is already in progress.
-    func deleteConfigurationTemplate(input: DeleteConfigurationTemplateInput) async throws -> DeleteConfigurationTemplateOutputResponse
+    func deleteConfigurationTemplate(input: DeleteConfigurationTemplateInput) async throws -> DeleteConfigurationTemplateOutput
     /// Deletes the draft configuration associated with the running environment. Updating a running environment with any configuration changes creates a draft configuration set. You can get the draft configuration using [DescribeConfigurationSettings] while the update is in progress or if the update fails. The DeploymentStatus for the draft configuration indicates whether the deployment is in process or has failed. The draft configuration remains in existence until it is deleted with this action.
     ///
     /// - Parameter DeleteEnvironmentConfigurationInput : Request to delete a draft environment configuration.
     ///
-    /// - Returns: `DeleteEnvironmentConfigurationOutputResponse` : [no documentation found]
-    func deleteEnvironmentConfiguration(input: DeleteEnvironmentConfigurationInput) async throws -> DeleteEnvironmentConfigurationOutputResponse
+    /// - Returns: `DeleteEnvironmentConfigurationOutput` : [no documentation found]
+    func deleteEnvironmentConfiguration(input: DeleteEnvironmentConfigurationInput) async throws -> DeleteEnvironmentConfigurationOutput
     /// Deletes the specified version of a custom platform.
     ///
     /// - Parameter DeletePlatformVersionInput : [no documentation found]
     ///
-    /// - Returns: `DeletePlatformVersionOutputResponse` : [no documentation found]
+    /// - Returns: `DeletePlatformVersionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -206,175 +206,175 @@ public protocol ElasticBeanstalkClientProtocol {
     /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more AWS services.
     /// - `OperationInProgressException` : Unable to perform the specified operation because another operation that effects an element in this activity is already in progress.
     /// - `PlatformVersionStillReferencedException` : You cannot delete the platform version because there are still environments running on it.
-    func deletePlatformVersion(input: DeletePlatformVersionInput) async throws -> DeletePlatformVersionOutputResponse
+    func deletePlatformVersion(input: DeletePlatformVersionInput) async throws -> DeletePlatformVersionOutput
     /// Returns attributes related to AWS Elastic Beanstalk that are associated with the calling AWS account. The result currently has one set of attributes—resource quotas.
     ///
     /// - Parameter DescribeAccountAttributesInput : [no documentation found]
     ///
-    /// - Returns: `DescribeAccountAttributesOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeAccountAttributesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more AWS services.
-    func describeAccountAttributes(input: DescribeAccountAttributesInput) async throws -> DescribeAccountAttributesOutputResponse
+    func describeAccountAttributes(input: DescribeAccountAttributesInput) async throws -> DescribeAccountAttributesOutput
     /// Returns the descriptions of existing applications.
     ///
     /// - Parameter DescribeApplicationsInput : Request to describe one or more applications.
     ///
-    /// - Returns: `DescribeApplicationsOutputResponse` : Result message containing a list of application descriptions.
-    func describeApplications(input: DescribeApplicationsInput) async throws -> DescribeApplicationsOutputResponse
+    /// - Returns: `DescribeApplicationsOutput` : Result message containing a list of application descriptions.
+    func describeApplications(input: DescribeApplicationsInput) async throws -> DescribeApplicationsOutput
     /// Retrieve a list of application versions.
     ///
     /// - Parameter DescribeApplicationVersionsInput : Request to describe application versions.
     ///
-    /// - Returns: `DescribeApplicationVersionsOutputResponse` : Result message wrapping a list of application version descriptions.
-    func describeApplicationVersions(input: DescribeApplicationVersionsInput) async throws -> DescribeApplicationVersionsOutputResponse
+    /// - Returns: `DescribeApplicationVersionsOutput` : Result message wrapping a list of application version descriptions.
+    func describeApplicationVersions(input: DescribeApplicationVersionsInput) async throws -> DescribeApplicationVersionsOutput
     /// Describes the configuration options that are used in a particular configuration template or environment, or that a specified solution stack defines. The description includes the values the options, their default values, and an indication of the required action on a running environment if an option value is changed.
     ///
     /// - Parameter DescribeConfigurationOptionsInput : Result message containing a list of application version descriptions.
     ///
-    /// - Returns: `DescribeConfigurationOptionsOutputResponse` : Describes the settings for a specified configuration set.
+    /// - Returns: `DescribeConfigurationOptionsOutput` : Describes the settings for a specified configuration set.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `TooManyBucketsException` : The specified account has reached its limit of Amazon S3 buckets.
-    func describeConfigurationOptions(input: DescribeConfigurationOptionsInput) async throws -> DescribeConfigurationOptionsOutputResponse
+    func describeConfigurationOptions(input: DescribeConfigurationOptionsInput) async throws -> DescribeConfigurationOptionsOutput
     /// Returns a description of the settings for the specified configuration set, that is, either a configuration template or the configuration set associated with a running environment. When describing the settings for the configuration set associated with a running environment, it is possible to receive two sets of setting descriptions. One is the deployed configuration set, and the other is a draft configuration of an environment that is either in the process of deployment or that failed to deploy. Related Topics
     ///
     /// * [DeleteEnvironmentConfiguration]
     ///
     /// - Parameter DescribeConfigurationSettingsInput : Result message containing all of the configuration settings for a specified solution stack or configuration template.
     ///
-    /// - Returns: `DescribeConfigurationSettingsOutputResponse` : The results from a request to change the configuration settings of an environment.
+    /// - Returns: `DescribeConfigurationSettingsOutput` : The results from a request to change the configuration settings of an environment.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `TooManyBucketsException` : The specified account has reached its limit of Amazon S3 buckets.
-    func describeConfigurationSettings(input: DescribeConfigurationSettingsInput) async throws -> DescribeConfigurationSettingsOutputResponse
+    func describeConfigurationSettings(input: DescribeConfigurationSettingsInput) async throws -> DescribeConfigurationSettingsOutput
     /// Returns information about the overall health of the specified environment. The DescribeEnvironmentHealth operation is only available with AWS Elastic Beanstalk Enhanced Health.
     ///
     /// - Parameter DescribeEnvironmentHealthInput : See the example below to learn how to create a request body.
     ///
-    /// - Returns: `DescribeEnvironmentHealthOutputResponse` : Health details for an AWS Elastic Beanstalk environment.
+    /// - Returns: `DescribeEnvironmentHealthOutput` : Health details for an AWS Elastic Beanstalk environment.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ElasticBeanstalkServiceException` : A generic service exception has occurred.
     /// - `InvalidRequestException` : One or more input parameters is not valid. Please correct the input parameters and try the operation again.
-    func describeEnvironmentHealth(input: DescribeEnvironmentHealthInput) async throws -> DescribeEnvironmentHealthOutputResponse
+    func describeEnvironmentHealth(input: DescribeEnvironmentHealthInput) async throws -> DescribeEnvironmentHealthOutput
     /// Lists an environment's completed and failed managed actions.
     ///
     /// - Parameter DescribeEnvironmentManagedActionHistoryInput : Request to list completed and failed managed actions.
     ///
-    /// - Returns: `DescribeEnvironmentManagedActionHistoryOutputResponse` : A result message containing a list of completed and failed managed actions.
+    /// - Returns: `DescribeEnvironmentManagedActionHistoryOutput` : A result message containing a list of completed and failed managed actions.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ElasticBeanstalkServiceException` : A generic service exception has occurred.
-    func describeEnvironmentManagedActionHistory(input: DescribeEnvironmentManagedActionHistoryInput) async throws -> DescribeEnvironmentManagedActionHistoryOutputResponse
+    func describeEnvironmentManagedActionHistory(input: DescribeEnvironmentManagedActionHistoryInput) async throws -> DescribeEnvironmentManagedActionHistoryOutput
     /// Lists an environment's upcoming and in-progress managed actions.
     ///
     /// - Parameter DescribeEnvironmentManagedActionsInput : Request to list an environment's upcoming and in-progress managed actions.
     ///
-    /// - Returns: `DescribeEnvironmentManagedActionsOutputResponse` : The result message containing a list of managed actions.
+    /// - Returns: `DescribeEnvironmentManagedActionsOutput` : The result message containing a list of managed actions.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ElasticBeanstalkServiceException` : A generic service exception has occurred.
-    func describeEnvironmentManagedActions(input: DescribeEnvironmentManagedActionsInput) async throws -> DescribeEnvironmentManagedActionsOutputResponse
+    func describeEnvironmentManagedActions(input: DescribeEnvironmentManagedActionsInput) async throws -> DescribeEnvironmentManagedActionsOutput
     /// Returns AWS resources for this environment.
     ///
     /// - Parameter DescribeEnvironmentResourcesInput : Request to describe the resources in an environment.
     ///
-    /// - Returns: `DescribeEnvironmentResourcesOutputResponse` : Result message containing a list of environment resource descriptions.
+    /// - Returns: `DescribeEnvironmentResourcesOutput` : Result message containing a list of environment resource descriptions.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more AWS services.
-    func describeEnvironmentResources(input: DescribeEnvironmentResourcesInput) async throws -> DescribeEnvironmentResourcesOutputResponse
+    func describeEnvironmentResources(input: DescribeEnvironmentResourcesInput) async throws -> DescribeEnvironmentResourcesOutput
     /// Returns descriptions for existing environments.
     ///
     /// - Parameter DescribeEnvironmentsInput : Request to describe one or more environments.
     ///
-    /// - Returns: `DescribeEnvironmentsOutputResponse` : Result message containing a list of environment descriptions.
-    func describeEnvironments(input: DescribeEnvironmentsInput) async throws -> DescribeEnvironmentsOutputResponse
+    /// - Returns: `DescribeEnvironmentsOutput` : Result message containing a list of environment descriptions.
+    func describeEnvironments(input: DescribeEnvironmentsInput) async throws -> DescribeEnvironmentsOutput
     /// Returns list of event descriptions matching criteria up to the last 6 weeks. This action returns the most recent 1,000 events from the specified NextToken.
     ///
     /// - Parameter DescribeEventsInput : Request to retrieve a list of events for an environment.
     ///
-    /// - Returns: `DescribeEventsOutputResponse` : Result message wrapping a list of event descriptions.
-    func describeEvents(input: DescribeEventsInput) async throws -> DescribeEventsOutputResponse
+    /// - Returns: `DescribeEventsOutput` : Result message wrapping a list of event descriptions.
+    func describeEvents(input: DescribeEventsInput) async throws -> DescribeEventsOutput
     /// Retrieves detailed information about the health of instances in your AWS Elastic Beanstalk. This operation requires [enhanced health reporting](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/health-enhanced.html).
     ///
     /// - Parameter DescribeInstancesHealthInput : Parameters for a call to DescribeInstancesHealth.
     ///
-    /// - Returns: `DescribeInstancesHealthOutputResponse` : Detailed health information about the Amazon EC2 instances in an AWS Elastic Beanstalk environment.
+    /// - Returns: `DescribeInstancesHealthOutput` : Detailed health information about the Amazon EC2 instances in an AWS Elastic Beanstalk environment.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ElasticBeanstalkServiceException` : A generic service exception has occurred.
     /// - `InvalidRequestException` : One or more input parameters is not valid. Please correct the input parameters and try the operation again.
-    func describeInstancesHealth(input: DescribeInstancesHealthInput) async throws -> DescribeInstancesHealthOutputResponse
+    func describeInstancesHealth(input: DescribeInstancesHealthInput) async throws -> DescribeInstancesHealthOutput
     /// Describes a platform version. Provides full details. Compare to [ListPlatformVersions], which provides summary information about a list of platform versions. For definitions of platform version and other platform-related terms, see [AWS Elastic Beanstalk Platforms Glossary](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/platforms-glossary.html).
     ///
     /// - Parameter DescribePlatformVersionInput : [no documentation found]
     ///
-    /// - Returns: `DescribePlatformVersionOutputResponse` : [no documentation found]
+    /// - Returns: `DescribePlatformVersionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ElasticBeanstalkServiceException` : A generic service exception has occurred.
     /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more AWS services.
-    func describePlatformVersion(input: DescribePlatformVersionInput) async throws -> DescribePlatformVersionOutputResponse
+    func describePlatformVersion(input: DescribePlatformVersionInput) async throws -> DescribePlatformVersionOutput
     /// Disassociate the operations role from an environment. After this call is made, Elastic Beanstalk uses the caller's permissions for permissions to downstream services during subsequent calls acting on this environment. For more information, see [Operations roles](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/iam-operationsrole.html) in the AWS Elastic Beanstalk Developer Guide.
     ///
     /// - Parameter DisassociateEnvironmentOperationsRoleInput : Request to disassociate the operations role from an environment.
     ///
-    /// - Returns: `DisassociateEnvironmentOperationsRoleOutputResponse` : [no documentation found]
+    /// - Returns: `DisassociateEnvironmentOperationsRoleOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more AWS services.
-    func disassociateEnvironmentOperationsRole(input: DisassociateEnvironmentOperationsRoleInput) async throws -> DisassociateEnvironmentOperationsRoleOutputResponse
+    func disassociateEnvironmentOperationsRole(input: DisassociateEnvironmentOperationsRoleInput) async throws -> DisassociateEnvironmentOperationsRoleOutput
     /// Returns a list of the available solution stack names, with the public version first and then in reverse chronological order.
     ///
     /// - Parameter ListAvailableSolutionStacksInput : [no documentation found]
     ///
-    /// - Returns: `ListAvailableSolutionStacksOutputResponse` : A list of available AWS Elastic Beanstalk solution stacks.
-    func listAvailableSolutionStacks(input: ListAvailableSolutionStacksInput) async throws -> ListAvailableSolutionStacksOutputResponse
+    /// - Returns: `ListAvailableSolutionStacksOutput` : A list of available AWS Elastic Beanstalk solution stacks.
+    func listAvailableSolutionStacks(input: ListAvailableSolutionStacksInput) async throws -> ListAvailableSolutionStacksOutput
     /// Lists the platform branches available for your account in an AWS Region. Provides summary information about each platform branch. For definitions of platform branch and other platform-related terms, see [AWS Elastic Beanstalk Platforms Glossary](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/platforms-glossary.html).
     ///
     /// - Parameter ListPlatformBranchesInput : [no documentation found]
     ///
-    /// - Returns: `ListPlatformBranchesOutputResponse` : [no documentation found]
-    func listPlatformBranches(input: ListPlatformBranchesInput) async throws -> ListPlatformBranchesOutputResponse
+    /// - Returns: `ListPlatformBranchesOutput` : [no documentation found]
+    func listPlatformBranches(input: ListPlatformBranchesInput) async throws -> ListPlatformBranchesOutput
     /// Lists the platform versions available for your account in an AWS Region. Provides summary information about each platform version. Compare to [DescribePlatformVersion], which provides full details about a single platform version. For definitions of platform version and other platform-related terms, see [AWS Elastic Beanstalk Platforms Glossary](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/platforms-glossary.html).
     ///
     /// - Parameter ListPlatformVersionsInput : [no documentation found]
     ///
-    /// - Returns: `ListPlatformVersionsOutputResponse` : [no documentation found]
+    /// - Returns: `ListPlatformVersionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ElasticBeanstalkServiceException` : A generic service exception has occurred.
     /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more AWS services.
-    func listPlatformVersions(input: ListPlatformVersionsInput) async throws -> ListPlatformVersionsOutputResponse
+    func listPlatformVersions(input: ListPlatformVersionsInput) async throws -> ListPlatformVersionsOutput
     /// Return the tags applied to an AWS Elastic Beanstalk resource. The response contains a list of tag key-value pairs. Elastic Beanstalk supports tagging of all of its resources. For details about resource tagging, see [Tagging Application Resources](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/applications-tagging-resources.html).
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -382,111 +382,111 @@ public protocol ElasticBeanstalkClientProtocol {
     /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more AWS services.
     /// - `ResourceNotFoundException` : A resource doesn't exist for the specified Amazon Resource Name (ARN).
     /// - `ResourceTypeNotSupportedException` : The type of the specified Amazon Resource Name (ARN) isn't supported for this operation.
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     /// Deletes and recreates all of the AWS resources (for example: the Auto Scaling group, load balancer, etc.) for a specified environment and forces a restart.
     ///
     /// - Parameter RebuildEnvironmentInput :
     ///
-    /// - Returns: `RebuildEnvironmentOutputResponse` : [no documentation found]
+    /// - Returns: `RebuildEnvironmentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more AWS services.
-    func rebuildEnvironment(input: RebuildEnvironmentInput) async throws -> RebuildEnvironmentOutputResponse
+    func rebuildEnvironment(input: RebuildEnvironmentInput) async throws -> RebuildEnvironmentOutput
     /// Initiates a request to compile the specified type of information of the deployed environment. Setting the InfoType to tail compiles the last lines from the application server log files of every Amazon EC2 instance in your environment. Setting the InfoType to bundle compresses the application server log files for every Amazon EC2 instance into a .zip file. Legacy and .NET containers do not support bundle logs. Use [RetrieveEnvironmentInfo] to obtain the set of logs. Related Topics
     ///
     /// * [RetrieveEnvironmentInfo]
     ///
     /// - Parameter RequestEnvironmentInfoInput : Request to retrieve logs from an environment and store them in your Elastic Beanstalk storage bucket.
     ///
-    /// - Returns: `RequestEnvironmentInfoOutputResponse` : [no documentation found]
-    func requestEnvironmentInfo(input: RequestEnvironmentInfoInput) async throws -> RequestEnvironmentInfoOutputResponse
+    /// - Returns: `RequestEnvironmentInfoOutput` : [no documentation found]
+    func requestEnvironmentInfo(input: RequestEnvironmentInfoInput) async throws -> RequestEnvironmentInfoOutput
     /// Causes the environment to restart the application container server running on each Amazon EC2 instance.
     ///
     /// - Parameter RestartAppServerInput :
     ///
-    /// - Returns: `RestartAppServerOutputResponse` : [no documentation found]
-    func restartAppServer(input: RestartAppServerInput) async throws -> RestartAppServerOutputResponse
+    /// - Returns: `RestartAppServerOutput` : [no documentation found]
+    func restartAppServer(input: RestartAppServerInput) async throws -> RestartAppServerOutput
     /// Retrieves the compiled information from a [RequestEnvironmentInfo] request. Related Topics
     ///
     /// * [RequestEnvironmentInfo]
     ///
     /// - Parameter RetrieveEnvironmentInfoInput : Request to download logs retrieved with [RequestEnvironmentInfo].
     ///
-    /// - Returns: `RetrieveEnvironmentInfoOutputResponse` : Result message containing a description of the requested environment info.
-    func retrieveEnvironmentInfo(input: RetrieveEnvironmentInfoInput) async throws -> RetrieveEnvironmentInfoOutputResponse
+    /// - Returns: `RetrieveEnvironmentInfoOutput` : Result message containing a description of the requested environment info.
+    func retrieveEnvironmentInfo(input: RetrieveEnvironmentInfoInput) async throws -> RetrieveEnvironmentInfoOutput
     /// Swaps the CNAMEs of two environments.
     ///
     /// - Parameter SwapEnvironmentCNAMEsInput : Swaps the CNAMEs of two environments.
     ///
-    /// - Returns: `SwapEnvironmentCNAMEsOutputResponse` : [no documentation found]
-    func swapEnvironmentCNAMEs(input: SwapEnvironmentCNAMEsInput) async throws -> SwapEnvironmentCNAMEsOutputResponse
+    /// - Returns: `SwapEnvironmentCNAMEsOutput` : [no documentation found]
+    func swapEnvironmentCNAMEs(input: SwapEnvironmentCNAMEsInput) async throws -> SwapEnvironmentCNAMEsOutput
     /// Terminates the specified environment.
     ///
     /// - Parameter TerminateEnvironmentInput : Request to terminate an environment.
     ///
-    /// - Returns: `TerminateEnvironmentOutputResponse` : Describes the properties of an environment.
+    /// - Returns: `TerminateEnvironmentOutput` : Describes the properties of an environment.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more AWS services.
-    func terminateEnvironment(input: TerminateEnvironmentInput) async throws -> TerminateEnvironmentOutputResponse
+    func terminateEnvironment(input: TerminateEnvironmentInput) async throws -> TerminateEnvironmentOutput
     /// Updates the specified application to have the specified properties. If a property (for example, description) is not provided, the value remains unchanged. To clear these properties, specify an empty string.
     ///
     /// - Parameter UpdateApplicationInput : Request to update an application.
     ///
-    /// - Returns: `UpdateApplicationOutputResponse` : Result message containing a single description of an application.
-    func updateApplication(input: UpdateApplicationInput) async throws -> UpdateApplicationOutputResponse
+    /// - Returns: `UpdateApplicationOutput` : Result message containing a single description of an application.
+    func updateApplication(input: UpdateApplicationInput) async throws -> UpdateApplicationOutput
     /// Modifies lifecycle settings for an application.
     ///
     /// - Parameter UpdateApplicationResourceLifecycleInput : [no documentation found]
     ///
-    /// - Returns: `UpdateApplicationResourceLifecycleOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateApplicationResourceLifecycleOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more AWS services.
-    func updateApplicationResourceLifecycle(input: UpdateApplicationResourceLifecycleInput) async throws -> UpdateApplicationResourceLifecycleOutputResponse
+    func updateApplicationResourceLifecycle(input: UpdateApplicationResourceLifecycleInput) async throws -> UpdateApplicationResourceLifecycleOutput
     /// Updates the specified application version to have the specified properties. If a property (for example, description) is not provided, the value remains unchanged. To clear properties, specify an empty string.
     ///
     /// - Parameter UpdateApplicationVersionInput :
     ///
-    /// - Returns: `UpdateApplicationVersionOutputResponse` : Result message wrapping a single description of an application version.
-    func updateApplicationVersion(input: UpdateApplicationVersionInput) async throws -> UpdateApplicationVersionOutputResponse
+    /// - Returns: `UpdateApplicationVersionOutput` : Result message wrapping a single description of an application version.
+    func updateApplicationVersion(input: UpdateApplicationVersionInput) async throws -> UpdateApplicationVersionOutput
     /// Updates the specified configuration template to have the specified properties or configuration option values. If a property (for example, ApplicationName) is not provided, its value remains unchanged. To clear such properties, specify an empty string. Related Topics
     ///
     /// * [DescribeConfigurationOptions]
     ///
     /// - Parameter UpdateConfigurationTemplateInput : The result message containing the options for the specified solution stack.
     ///
-    /// - Returns: `UpdateConfigurationTemplateOutputResponse` : Describes the settings for a configuration set.
+    /// - Returns: `UpdateConfigurationTemplateOutput` : Describes the settings for a configuration set.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more AWS services.
     /// - `TooManyBucketsException` : The specified account has reached its limit of Amazon S3 buckets.
-    func updateConfigurationTemplate(input: UpdateConfigurationTemplateInput) async throws -> UpdateConfigurationTemplateOutputResponse
+    func updateConfigurationTemplate(input: UpdateConfigurationTemplateInput) async throws -> UpdateConfigurationTemplateOutput
     /// Updates the environment description, deploys a new application version, updates the configuration settings to an entirely new configuration template, or updates select configuration option values in the running environment. Attempting to update both the release and configuration is not allowed and AWS Elastic Beanstalk returns an InvalidParameterCombination error. When updating the configuration settings to a new template or individual settings, a draft configuration is created and [DescribeConfigurationSettings] for this environment returns two setting descriptions with different DeploymentStatus values.
     ///
     /// - Parameter UpdateEnvironmentInput : Request to update an environment.
     ///
-    /// - Returns: `UpdateEnvironmentOutputResponse` : Describes the properties of an environment.
+    /// - Returns: `UpdateEnvironmentOutput` : Describes the properties of an environment.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more AWS services.
     /// - `TooManyBucketsException` : The specified account has reached its limit of Amazon S3 buckets.
-    func updateEnvironment(input: UpdateEnvironmentInput) async throws -> UpdateEnvironmentOutputResponse
+    func updateEnvironment(input: UpdateEnvironmentInput) async throws -> UpdateEnvironmentOutput
     /// Update the list of tags applied to an AWS Elastic Beanstalk resource. Two lists can be passed: TagsToAdd for tags to add or update, and TagsToRemove. Elastic Beanstalk supports tagging of all of its resources. For details about resource tagging, see [Tagging Application Resources](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/applications-tagging-resources.html). If you create a custom IAM user policy to control permission to this operation, specify one of the following two virtual actions (or both) instead of the API operation name: elasticbeanstalk:AddTags Controls permission to call UpdateTagsForResource and pass a list of tags to add in the TagsToAdd parameter. elasticbeanstalk:RemoveTags Controls permission to call UpdateTagsForResource and pass a list of tag keys to remove in the TagsToRemove parameter. For details about creating a custom user policy, see [Creating a Custom User Policy](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/AWSHowTo.iam.managed-policies.html#AWSHowTo.iam.policies).
     ///
     /// - Parameter UpdateTagsForResourceInput : [no documentation found]
     ///
-    /// - Returns: `UpdateTagsForResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateTagsForResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -496,19 +496,19 @@ public protocol ElasticBeanstalkClientProtocol {
     /// - `ResourceNotFoundException` : A resource doesn't exist for the specified Amazon Resource Name (ARN).
     /// - `ResourceTypeNotSupportedException` : The type of the specified Amazon Resource Name (ARN) isn't supported for this operation.
     /// - `TooManyTagsException` : The number of tags in the resource would exceed the number of tags that each resource can have. To calculate this, the operation considers both the number of tags the resource already has and the tags this operation would add if it succeeded.
-    func updateTagsForResource(input: UpdateTagsForResourceInput) async throws -> UpdateTagsForResourceOutputResponse
+    func updateTagsForResource(input: UpdateTagsForResourceInput) async throws -> UpdateTagsForResourceOutput
     /// Takes a set of configuration settings and either a configuration template or environment, and determines whether those values are valid. This action returns a list of messages indicating any errors or warnings associated with the selection of option values.
     ///
     /// - Parameter ValidateConfigurationSettingsInput : A list of validation messages for a specified configuration template.
     ///
-    /// - Returns: `ValidateConfigurationSettingsOutputResponse` : Provides a list of validation messages.
+    /// - Returns: `ValidateConfigurationSettingsOutput` : Provides a list of validation messages.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more AWS services.
     /// - `TooManyBucketsException` : The specified account has reached its limit of Amazon S3 buckets.
-    func validateConfigurationSettings(input: ValidateConfigurationSettingsInput) async throws -> ValidateConfigurationSettingsOutputResponse
+    func validateConfigurationSettings(input: ValidateConfigurationSettingsInput) async throws -> ValidateConfigurationSettingsOutput
 }
 
 public enum ElasticBeanstalkClientTypes {}

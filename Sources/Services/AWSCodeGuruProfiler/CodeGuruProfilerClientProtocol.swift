@@ -8,7 +8,7 @@ public protocol CodeGuruProfilerClientProtocol {
     ///
     /// - Parameter AddNotificationChannelsInput : The structure representing the AddNotificationChannelsRequest.
     ///
-    /// - Returns: `AddNotificationChannelsOutputResponse` : The structure representing the AddNotificationChannelsResponse.
+    /// - Returns: `AddNotificationChannelsOutput` : The structure representing the AddNotificationChannelsResponse.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -19,12 +19,12 @@ public protocol CodeGuruProfilerClientProtocol {
     /// - `ServiceQuotaExceededException` : You have exceeded your service quota. To perform the requested action, remove some of the relevant resources, or use [Service Quotas](https://docs.aws.amazon.com/servicequotas/latest/userguide/intro.html) to request a service quota increase.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The parameter is not valid.
-    func addNotificationChannels(input: AddNotificationChannelsInput) async throws -> AddNotificationChannelsOutputResponse
+    func addNotificationChannels(input: AddNotificationChannelsInput) async throws -> AddNotificationChannelsOutput
     /// Returns the time series of values for a requested list of frame metrics from a time period.
     ///
     /// - Parameter BatchGetFrameMetricDataInput : The structure representing the BatchGetFrameMetricDataRequest.
     ///
-    /// - Returns: `BatchGetFrameMetricDataOutputResponse` : The structure representing the BatchGetFrameMetricDataResponse.
+    /// - Returns: `BatchGetFrameMetricDataOutput` : The structure representing the BatchGetFrameMetricDataResponse.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -33,12 +33,12 @@ public protocol CodeGuruProfilerClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The parameter is not valid.
-    func batchGetFrameMetricData(input: BatchGetFrameMetricDataInput) async throws -> BatchGetFrameMetricDataOutputResponse
+    func batchGetFrameMetricData(input: BatchGetFrameMetricDataInput) async throws -> BatchGetFrameMetricDataOutput
     /// Used by profiler agents to report their current state and to receive remote configuration updates. For example, ConfigureAgent can be used to tell an agent whether to profile or not and for how long to return profiling data.
     ///
     /// - Parameter ConfigureAgentInput : The structure representing the configureAgentRequest.
     ///
-    /// - Returns: `ConfigureAgentOutputResponse` : The structure representing the configureAgentResponse.
+    /// - Returns: `ConfigureAgentOutput` : The structure representing the configureAgentResponse.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -47,12 +47,12 @@ public protocol CodeGuruProfilerClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The parameter is not valid.
-    func configureAgent(input: ConfigureAgentInput) async throws -> ConfigureAgentOutputResponse
+    func configureAgent(input: ConfigureAgentInput) async throws -> ConfigureAgentOutput
     /// Creates a profiling group.
     ///
     /// - Parameter CreateProfilingGroupInput : The structure representing the createProfiliingGroupRequest.
     ///
-    /// - Returns: `CreateProfilingGroupOutputResponse` : The structure representing the createProfilingGroupResponse.
+    /// - Returns: `CreateProfilingGroupOutput` : The structure representing the createProfilingGroupResponse.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -62,12 +62,12 @@ public protocol CodeGuruProfilerClientProtocol {
     /// - `ServiceQuotaExceededException` : You have exceeded your service quota. To perform the requested action, remove some of the relevant resources, or use [Service Quotas](https://docs.aws.amazon.com/servicequotas/latest/userguide/intro.html) to request a service quota increase.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The parameter is not valid.
-    func createProfilingGroup(input: CreateProfilingGroupInput) async throws -> CreateProfilingGroupOutputResponse
+    func createProfilingGroup(input: CreateProfilingGroupInput) async throws -> CreateProfilingGroupOutput
     /// Deletes a profiling group.
     ///
     /// - Parameter DeleteProfilingGroupInput : The structure representing the deleteProfilingGroupRequest.
     ///
-    /// - Returns: `DeleteProfilingGroupOutputResponse` : The structure representing the deleteProfilingGroupResponse.
+    /// - Returns: `DeleteProfilingGroupOutput` : The structure representing the deleteProfilingGroupResponse.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -77,12 +77,12 @@ public protocol CodeGuruProfilerClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The parameter is not valid.
-    func deleteProfilingGroup(input: DeleteProfilingGroupInput) async throws -> DeleteProfilingGroupOutputResponse
+    func deleteProfilingGroup(input: DeleteProfilingGroupInput) async throws -> DeleteProfilingGroupOutput
     /// Returns a [ProfilingGroupDescription](https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_ProfilingGroupDescription.html) object that contains information about the requested profiling group.
     ///
     /// - Parameter DescribeProfilingGroupInput : The structure representing the describeProfilingGroupRequest.
     ///
-    /// - Returns: `DescribeProfilingGroupOutputResponse` : The structure representing the describeProfilingGroupResponse.
+    /// - Returns: `DescribeProfilingGroupOutput` : The structure representing the describeProfilingGroupResponse.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -91,12 +91,12 @@ public protocol CodeGuruProfilerClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The parameter is not valid.
-    func describeProfilingGroup(input: DescribeProfilingGroupInput) async throws -> DescribeProfilingGroupOutputResponse
+    func describeProfilingGroup(input: DescribeProfilingGroupInput) async throws -> DescribeProfilingGroupOutput
     /// Returns a list of [FindingsReportSummary](https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_FindingsReportSummary.html) objects that contain analysis results for all profiling groups in your AWS account.
     ///
     /// - Parameter GetFindingsReportAccountSummaryInput : The structure representing the GetFindingsReportAccountSummaryRequest.
     ///
-    /// - Returns: `GetFindingsReportAccountSummaryOutputResponse` : The structure representing the GetFindingsReportAccountSummaryResponse.
+    /// - Returns: `GetFindingsReportAccountSummaryOutput` : The structure representing the GetFindingsReportAccountSummaryResponse.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -104,12 +104,12 @@ public protocol CodeGuruProfilerClientProtocol {
     /// - `InternalServerException` : The server encountered an internal error and is unable to complete the request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The parameter is not valid.
-    func getFindingsReportAccountSummary(input: GetFindingsReportAccountSummaryInput) async throws -> GetFindingsReportAccountSummaryOutputResponse
+    func getFindingsReportAccountSummary(input: GetFindingsReportAccountSummaryInput) async throws -> GetFindingsReportAccountSummaryOutput
     /// Get the current configuration for anomaly notifications for a profiling group.
     ///
     /// - Parameter GetNotificationConfigurationInput : The structure representing the GetNotificationConfigurationRequest.
     ///
-    /// - Returns: `GetNotificationConfigurationOutputResponse` : The structure representing the GetNotificationConfigurationResponse.
+    /// - Returns: `GetNotificationConfigurationOutput` : The structure representing the GetNotificationConfigurationResponse.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -118,12 +118,12 @@ public protocol CodeGuruProfilerClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The parameter is not valid.
-    func getNotificationConfiguration(input: GetNotificationConfigurationInput) async throws -> GetNotificationConfigurationOutputResponse
+    func getNotificationConfiguration(input: GetNotificationConfigurationInput) async throws -> GetNotificationConfigurationOutput
     /// Returns the JSON-formatted resource-based policy on a profiling group.
     ///
     /// - Parameter GetPolicyInput : The structure representing the getPolicyRequest.
     ///
-    /// - Returns: `GetPolicyOutputResponse` : The structure representing the getPolicyResponse.
+    /// - Returns: `GetPolicyOutput` : The structure representing the getPolicyResponse.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -131,7 +131,7 @@ public protocol CodeGuruProfilerClientProtocol {
     /// - `InternalServerException` : The server encountered an internal error and is unable to complete the request.
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    func getPolicy(input: GetPolicyInput) async throws -> GetPolicyOutputResponse
+    func getPolicy(input: GetPolicyInput) async throws -> GetPolicyOutput
     /// Gets the aggregated profile of a profiling group for a specified time range. Amazon CodeGuru Profiler collects posted agent profiles for a profiling group into aggregated profiles. Because aggregated profiles expire over time GetProfile is not idempotent. Specify the time range for the requested aggregated profile using 1 or 2 of the following parameters: startTime, endTime, period. The maximum time range allowed is 7 days. If you specify all 3 parameters, an exception is thrown. If you specify only period, the latest aggregated profile is returned. Aggregated profiles are available with aggregation periods of 5 minutes, 1 hour, and 1 day, aligned to UTC. The aggregation period of an aggregated profile determines how long it is retained. For more information, see [AggregatedProfileTime](https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_AggregatedProfileTime.html). The aggregated profile's aggregation period determines how long
     ///
     ///
@@ -152,7 +152,7 @@ public protocol CodeGuruProfilerClientProtocol {
     ///
     /// - Parameter GetProfileInput : The structure representing the getProfileRequest.
     ///
-    /// - Returns: `GetProfileOutputResponse` : The structure representing the getProfileResponse.
+    /// - Returns: `GetProfileOutput` : The structure representing the getProfileResponse.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -161,12 +161,12 @@ public protocol CodeGuruProfilerClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The parameter is not valid.
-    func getProfile(input: GetProfileInput) async throws -> GetProfileOutputResponse
+    func getProfile(input: GetProfileInput) async throws -> GetProfileOutput
     /// Returns a list of [Recommendation](https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_Recommendation.html) objects that contain recommendations for a profiling group for a given time period. A list of [Anomaly](https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_Anomaly.html) objects that contains details about anomalies detected in the profiling group for the same time period is also returned.
     ///
     /// - Parameter GetRecommendationsInput : The structure representing the GetRecommendationsRequest.
     ///
-    /// - Returns: `GetRecommendationsOutputResponse` : The structure representing the GetRecommendationsResponse.
+    /// - Returns: `GetRecommendationsOutput` : The structure representing the GetRecommendationsResponse.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -175,12 +175,12 @@ public protocol CodeGuruProfilerClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The parameter is not valid.
-    func getRecommendations(input: GetRecommendationsInput) async throws -> GetRecommendationsOutputResponse
+    func getRecommendations(input: GetRecommendationsInput) async throws -> GetRecommendationsOutput
     /// List the available reports for a given profiling group and time range.
     ///
     /// - Parameter ListFindingsReportsInput : The structure representing the ListFindingsReportsRequest.
     ///
-    /// - Returns: `ListFindingsReportsOutputResponse` : The structure representing the ListFindingsReportsResponse.
+    /// - Returns: `ListFindingsReportsOutput` : The structure representing the ListFindingsReportsResponse.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -189,12 +189,12 @@ public protocol CodeGuruProfilerClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The parameter is not valid.
-    func listFindingsReports(input: ListFindingsReportsInput) async throws -> ListFindingsReportsOutputResponse
+    func listFindingsReports(input: ListFindingsReportsInput) async throws -> ListFindingsReportsOutput
     /// Lists the start times of the available aggregated profiles of a profiling group for an aggregation period within the specified time range.
     ///
     /// - Parameter ListProfileTimesInput : The structure representing the listProfileTimesRequest.
     ///
-    /// - Returns: `ListProfileTimesOutputResponse` : The structure representing the listProfileTimesResponse.
+    /// - Returns: `ListProfileTimesOutput` : The structure representing the listProfileTimesResponse.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -203,24 +203,24 @@ public protocol CodeGuruProfilerClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The parameter is not valid.
-    func listProfileTimes(input: ListProfileTimesInput) async throws -> ListProfileTimesOutputResponse
+    func listProfileTimes(input: ListProfileTimesInput) async throws -> ListProfileTimesOutput
     /// Returns a list of profiling groups. The profiling groups are returned as [ProfilingGroupDescription](https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_ProfilingGroupDescription.html) objects.
     ///
     /// - Parameter ListProfilingGroupsInput : The structure representing the listProfilingGroupsRequest.
     ///
-    /// - Returns: `ListProfilingGroupsOutputResponse` : The structure representing the listProfilingGroupsResponse.
+    /// - Returns: `ListProfilingGroupsOutput` : The structure representing the listProfilingGroupsResponse.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : The server encountered an internal error and is unable to complete the request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    func listProfilingGroups(input: ListProfilingGroupsInput) async throws -> ListProfilingGroupsOutputResponse
+    func listProfilingGroups(input: ListProfilingGroupsInput) async throws -> ListProfilingGroupsOutput
     /// Returns a list of the tags that are assigned to a specified resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -228,12 +228,12 @@ public protocol CodeGuruProfilerClientProtocol {
     /// - `InternalServerException` : The server encountered an internal error and is unable to complete the request.
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ValidationException` : The parameter is not valid.
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     /// Submits profiling data to an aggregated profile of a profiling group. To get an aggregated profile that is created with this profiling data, use [GetProfile](https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_GetProfile.html).
     ///
     /// - Parameter PostAgentProfileInput : The structure representing the postAgentProfileRequest.
     ///
-    /// - Returns: `PostAgentProfileOutputResponse` : The structure representing the postAgentProfileResponse.
+    /// - Returns: `PostAgentProfileOutput` : The structure representing the postAgentProfileResponse.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -242,12 +242,12 @@ public protocol CodeGuruProfilerClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The parameter is not valid.
-    func postAgentProfile(input: PostAgentProfileInput) async throws -> PostAgentProfileOutputResponse
+    func postAgentProfile(input: PostAgentProfileInput) async throws -> PostAgentProfileOutput
     /// Adds permissions to a profiling group's resource-based policy that are provided using an action group. If a profiling group doesn't have a resource-based policy, one is created for it using the permissions in the action group and the roles and users in the principals parameter. The one supported action group that can be added is agentPermission which grants ConfigureAgent and PostAgent permissions. For more information, see [Resource-based policies in CodeGuru Profiler](https://docs.aws.amazon.com/codeguru/latest/profiler-ug/resource-based-policies.html) in the Amazon CodeGuru Profiler User Guide, [ConfigureAgent](https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_ConfigureAgent.html), and [PostAgentProfile](https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_PostAgentProfile.html). The first time you call PutPermission on a profiling group, do not specify a revisionId because it doesn't have a resource-based policy. Subsequent calls must provide a revisionId to specify which revision of the resource-based policy to add the permissions to. The response contains the profiling group's JSON-formatted resource policy.
     ///
     /// - Parameter PutPermissionInput : The structure representing the putPermissionRequest.
     ///
-    /// - Returns: `PutPermissionOutputResponse` : The structure representing the putPermissionResponse.
+    /// - Returns: `PutPermissionOutput` : The structure representing the putPermissionResponse.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -257,12 +257,12 @@ public protocol CodeGuruProfilerClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The parameter is not valid.
-    func putPermission(input: PutPermissionInput) async throws -> PutPermissionOutputResponse
+    func putPermission(input: PutPermissionInput) async throws -> PutPermissionOutput
     /// Remove one anomaly notifications channel for a profiling group.
     ///
     /// - Parameter RemoveNotificationChannelInput : The structure representing the RemoveNotificationChannelRequest.
     ///
-    /// - Returns: `RemoveNotificationChannelOutputResponse` : The structure representing the RemoveNotificationChannelResponse.
+    /// - Returns: `RemoveNotificationChannelOutput` : The structure representing the RemoveNotificationChannelResponse.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -271,12 +271,12 @@ public protocol CodeGuruProfilerClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The parameter is not valid.
-    func removeNotificationChannel(input: RemoveNotificationChannelInput) async throws -> RemoveNotificationChannelOutputResponse
+    func removeNotificationChannel(input: RemoveNotificationChannelInput) async throws -> RemoveNotificationChannelOutput
     /// Removes permissions from a profiling group's resource-based policy that are provided using an action group. The one supported action group that can be removed is agentPermission which grants ConfigureAgent and PostAgent permissions. For more information, see [Resource-based policies in CodeGuru Profiler](https://docs.aws.amazon.com/codeguru/latest/profiler-ug/resource-based-policies.html) in the Amazon CodeGuru Profiler User Guide, [ConfigureAgent](https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_ConfigureAgent.html), and [PostAgentProfile](https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_PostAgentProfile.html).
     ///
     /// - Parameter RemovePermissionInput : The structure representing the removePermissionRequest.
     ///
-    /// - Returns: `RemovePermissionOutputResponse` : The structure representing the removePermissionResponse.
+    /// - Returns: `RemovePermissionOutput` : The structure representing the removePermissionResponse.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -286,12 +286,12 @@ public protocol CodeGuruProfilerClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The parameter is not valid.
-    func removePermission(input: RemovePermissionInput) async throws -> RemovePermissionOutputResponse
+    func removePermission(input: RemovePermissionInput) async throws -> RemovePermissionOutput
     /// Sends feedback to CodeGuru Profiler about whether the anomaly detected by the analysis is useful or not.
     ///
     /// - Parameter SubmitFeedbackInput : The structure representing the SubmitFeedbackRequest.
     ///
-    /// - Returns: `SubmitFeedbackOutputResponse` : The structure representing the SubmitFeedbackResponse.
+    /// - Returns: `SubmitFeedbackOutput` : The structure representing the SubmitFeedbackResponse.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -300,12 +300,12 @@ public protocol CodeGuruProfilerClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The parameter is not valid.
-    func submitFeedback(input: SubmitFeedbackInput) async throws -> SubmitFeedbackOutputResponse
+    func submitFeedback(input: SubmitFeedbackInput) async throws -> SubmitFeedbackOutput
     /// Use to assign one or more tags to a resource.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -313,12 +313,12 @@ public protocol CodeGuruProfilerClientProtocol {
     /// - `InternalServerException` : The server encountered an internal error and is unable to complete the request.
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ValidationException` : The parameter is not valid.
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     /// Use to remove one or more tags from a resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -326,12 +326,12 @@ public protocol CodeGuruProfilerClientProtocol {
     /// - `InternalServerException` : The server encountered an internal error and is unable to complete the request.
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ValidationException` : The parameter is not valid.
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
     /// Updates a profiling group.
     ///
     /// - Parameter UpdateProfilingGroupInput : The structure representing the updateProfilingGroupRequest.
     ///
-    /// - Returns: `UpdateProfilingGroupOutputResponse` : The structure representing the updateProfilingGroupResponse.
+    /// - Returns: `UpdateProfilingGroupOutput` : The structure representing the updateProfilingGroupResponse.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -341,7 +341,7 @@ public protocol CodeGuruProfilerClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The parameter is not valid.
-    func updateProfilingGroup(input: UpdateProfilingGroupInput) async throws -> UpdateProfilingGroupOutputResponse
+    func updateProfilingGroup(input: UpdateProfilingGroupInput) async throws -> UpdateProfilingGroupOutput
 }
 
 public enum CodeGuruProfilerClientTypes {}

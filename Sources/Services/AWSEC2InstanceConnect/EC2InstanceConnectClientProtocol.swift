@@ -8,7 +8,7 @@ public protocol EC2InstanceConnectClientProtocol {
     ///
     /// - Parameter SendSerialConsoleSSHPublicKeyInput : [no documentation found]
     ///
-    /// - Returns: `SendSerialConsoleSSHPublicKeyOutputResponse` : [no documentation found]
+    /// - Returns: `SendSerialConsoleSSHPublicKeyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -24,12 +24,12 @@ public protocol EC2InstanceConnectClientProtocol {
     /// - `SerialConsoleSessionUnavailableException` : Unable to start a serial console session. Please try again.
     /// - `ServiceException` : The service encountered an error. Follow the instructions in the error message and try again.
     /// - `ThrottlingException` : The requests were made too frequently and have been throttled. Wait a while and try again. To increase the limit on your request frequency, contact AWS Support.
-    func sendSerialConsoleSSHPublicKey(input: SendSerialConsoleSSHPublicKeyInput) async throws -> SendSerialConsoleSSHPublicKeyOutputResponse
+    func sendSerialConsoleSSHPublicKey(input: SendSerialConsoleSSHPublicKeyInput) async throws -> SendSerialConsoleSSHPublicKeyOutput
     /// Pushes an SSH public key to the specified EC2 instance for use by the specified user. The key remains for 60 seconds. For more information, see [Connect to your Linux instance using EC2 Instance Connect](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Connect-using-EC2-Instance-Connect.html) in the Amazon EC2 User Guide.
     ///
     /// - Parameter SendSSHPublicKeyInput : [no documentation found]
     ///
-    /// - Returns: `SendSSHPublicKeyOutputResponse` : [no documentation found]
+    /// - Returns: `SendSSHPublicKeyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -41,7 +41,7 @@ public protocol EC2InstanceConnectClientProtocol {
     /// - `InvalidArgsException` : One of the parameters is not valid.
     /// - `ServiceException` : The service encountered an error. Follow the instructions in the error message and try again.
     /// - `ThrottlingException` : The requests were made too frequently and have been throttled. Wait a while and try again. To increase the limit on your request frequency, contact AWS Support.
-    func sendSSHPublicKey(input: SendSSHPublicKeyInput) async throws -> SendSSHPublicKeyOutputResponse
+    func sendSSHPublicKey(input: SendSSHPublicKeyInput) async throws -> SendSSHPublicKeyOutput
 }
 
 public enum EC2InstanceConnectClientTypes {}

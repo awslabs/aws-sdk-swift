@@ -8,7 +8,7 @@ public protocol EKSClientProtocol {
     ///
     /// - Parameter AssociateEncryptionConfigInput : [no documentation found]
     ///
-    /// - Returns: `AssociateEncryptionConfigOutputResponse` : [no documentation found]
+    /// - Returns: `AssociateEncryptionConfigOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -19,12 +19,12 @@ public protocol EKSClientProtocol {
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with [ListClusters]. You can view your available managed node groups with [ListNodegroups]. Amazon EKS clusters and node groups are Region-specific.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
-    func associateEncryptionConfig(input: AssociateEncryptionConfigInput) async throws -> AssociateEncryptionConfigOutputResponse
+    func associateEncryptionConfig(input: AssociateEncryptionConfigInput) async throws -> AssociateEncryptionConfigOutput
     /// Associate an identity provider configuration to a cluster. If you want to authenticate identities using an identity provider, you can create an identity provider configuration and associate it to your cluster. After configuring authentication to your cluster you can create Kubernetes roles and clusterroles to assign permissions to the roles, and then bind the roles to the identities using Kubernetes rolebindings and clusterrolebindings. For more information see [Using RBAC Authorization](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) in the Kubernetes documentation.
     ///
     /// - Parameter AssociateIdentityProviderConfigInput : [no documentation found]
     ///
-    /// - Returns: `AssociateIdentityProviderConfigOutputResponse` : [no documentation found]
+    /// - Returns: `AssociateIdentityProviderConfigOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -35,12 +35,12 @@ public protocol EKSClientProtocol {
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with [ListClusters]. You can view your available managed node groups with [ListNodegroups]. Amazon EKS clusters and node groups are Region-specific.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
-    func associateIdentityProviderConfig(input: AssociateIdentityProviderConfigInput) async throws -> AssociateIdentityProviderConfigOutputResponse
+    func associateIdentityProviderConfig(input: AssociateIdentityProviderConfigInput) async throws -> AssociateIdentityProviderConfigOutput
     /// Creates an Amazon EKS add-on. Amazon EKS add-ons help to automate the provisioning and lifecycle management of common operational software for Amazon EKS clusters. For more information, see [Amazon EKS add-ons](https://docs.aws.amazon.com/eks/latest/userguide/eks-add-ons.html) in the Amazon EKS User Guide.
     ///
     /// - Parameter CreateAddonInput : [no documentation found]
     ///
-    /// - Returns: `CreateAddonOutputResponse` : [no documentation found]
+    /// - Returns: `CreateAddonOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -51,12 +51,12 @@ public protocol EKSClientProtocol {
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with [ListClusters]. You can view your available managed node groups with [ListNodegroups]. Amazon EKS clusters and node groups are Region-specific.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
-    func createAddon(input: CreateAddonInput) async throws -> CreateAddonOutputResponse
+    func createAddon(input: CreateAddonInput) async throws -> CreateAddonOutput
     /// Creates an Amazon EKS control plane. The Amazon EKS control plane consists of control plane instances that run the Kubernetes software, such as etcd and the API server. The control plane runs in an account managed by Amazon Web Services, and the Kubernetes API is exposed by the Amazon EKS API server endpoint. Each Amazon EKS cluster control plane is single tenant and unique. It runs on its own set of Amazon EC2 instances. The cluster control plane is provisioned across multiple Availability Zones and fronted by an Elastic Load Balancing Network Load Balancer. Amazon EKS also provisions elastic network interfaces in your VPC subnets to provide connectivity from the control plane instances to the nodes (for example, to support kubectl exec, logs, and proxy data flows). Amazon EKS nodes run in your Amazon Web Services account and connect to your cluster's control plane over the Kubernetes API server endpoint and a certificate file that is created for your cluster. In most cases, it takes several minutes to create a cluster. After you create an Amazon EKS cluster, you must configure your Kubernetes tooling to communicate with the API server and launch nodes into your cluster. For more information, see [Managing Cluster Authentication](https://docs.aws.amazon.com/eks/latest/userguide/managing-auth.html) and [Launching Amazon EKS nodes](https://docs.aws.amazon.com/eks/latest/userguide/launch-workers.html) in the Amazon EKS User Guide.
     ///
     /// - Parameter CreateClusterInput : [no documentation found]
     ///
-    /// - Returns: `CreateClusterOutputResponse` : [no documentation found]
+    /// - Returns: `CreateClusterOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -68,12 +68,12 @@ public protocol EKSClientProtocol {
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `ServiceUnavailableException` : The service is unavailable. Back off and retry the operation.
     /// - `UnsupportedAvailabilityZoneException` : At least one of your specified cluster subnets is in an Availability Zone that does not support Amazon EKS. The exception output specifies the supported Availability Zones for your account, from which you can choose subnets for your cluster.
-    func createCluster(input: CreateClusterInput) async throws -> CreateClusterOutputResponse
+    func createCluster(input: CreateClusterInput) async throws -> CreateClusterOutput
     /// Creates an Fargate profile for your Amazon EKS cluster. You must have at least one Fargate profile in a cluster to be able to run pods on Fargate. The Fargate profile allows an administrator to declare which pods run on Fargate and specify which pods run on which Fargate profile. This declaration is done through the profile’s selectors. Each profile can have up to five selectors that contain a namespace and labels. A namespace is required for every selector. The label field consists of multiple optional key-value pairs. Pods that match the selectors are scheduled on Fargate. If a to-be-scheduled pod matches any of the selectors in the Fargate profile, then that pod is run on Fargate. When you create a Fargate profile, you must specify a pod execution role to use with the pods that are scheduled with the profile. This role is added to the cluster's Kubernetes [Role Based Access Control](https://kubernetes.io/docs/admin/authorization/rbac/) (RBAC) for authorization so that the kubelet that is running on the Fargate infrastructure can register with your Amazon EKS cluster so that it can appear in your cluster as a node. The pod execution role also provides IAM permissions to the Fargate infrastructure to allow read access to Amazon ECR image repositories. For more information, see [Pod Execution Role](https://docs.aws.amazon.com/eks/latest/userguide/pod-execution-role.html) in the Amazon EKS User Guide. Fargate profiles are immutable. However, you can create a new updated profile to replace an existing profile and then delete the original after the updated profile has finished creating. If any Fargate profiles in a cluster are in the DELETING status, you must wait for that Fargate profile to finish deleting before you can create any other profiles in that cluster. For more information, see [Fargate Profile](https://docs.aws.amazon.com/eks/latest/userguide/fargate-profile.html) in the Amazon EKS User Guide.
     ///
     /// - Parameter CreateFargateProfileInput : [no documentation found]
     ///
-    /// - Returns: `CreateFargateProfileOutputResponse` : [no documentation found]
+    /// - Returns: `CreateFargateProfileOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -84,12 +84,12 @@ public protocol EKSClientProtocol {
     /// - `ResourceLimitExceededException` : You have encountered a service limit on the specified resource.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `UnsupportedAvailabilityZoneException` : At least one of your specified cluster subnets is in an Availability Zone that does not support Amazon EKS. The exception output specifies the supported Availability Zones for your account, from which you can choose subnets for your cluster.
-    func createFargateProfile(input: CreateFargateProfileInput) async throws -> CreateFargateProfileOutputResponse
+    func createFargateProfile(input: CreateFargateProfileInput) async throws -> CreateFargateProfileOutput
     /// Creates a managed node group for an Amazon EKS cluster. You can only create a node group for your cluster that is equal to the current Kubernetes version for the cluster. All node groups are created with the latest AMI release version for the respective minor Kubernetes version of the cluster, unless you deploy a custom AMI using a launch template. For more information about using launch templates, see [Launch template support](https://docs.aws.amazon.com/eks/latest/userguide/launch-templates.html). An Amazon EKS managed node group is an Amazon EC2 Auto Scaling group and associated Amazon EC2 instances that are managed by Amazon Web Services for an Amazon EKS cluster. For more information, see [Managed node groups](https://docs.aws.amazon.com/eks/latest/userguide/managed-node-groups.html) in the Amazon EKS User Guide. Windows AMI types are only supported for commercial Regions that support Windows Amazon EKS.
     ///
     /// - Parameter CreateNodegroupInput : [no documentation found]
     ///
-    /// - Returns: `CreateNodegroupOutputResponse` : [no documentation found]
+    /// - Returns: `CreateNodegroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -101,12 +101,12 @@ public protocol EKSClientProtocol {
     /// - `ResourceLimitExceededException` : You have encountered a service limit on the specified resource.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `ServiceUnavailableException` : The service is unavailable. Back off and retry the operation.
-    func createNodegroup(input: CreateNodegroupInput) async throws -> CreateNodegroupOutputResponse
+    func createNodegroup(input: CreateNodegroupInput) async throws -> CreateNodegroupOutput
     /// Delete an Amazon EKS add-on. When you remove the add-on, it will also be deleted from the cluster. You can always manually start an add-on on the cluster using the Kubernetes API.
     ///
     /// - Parameter DeleteAddonInput : [no documentation found]
     ///
-    /// - Returns: `DeleteAddonOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteAddonOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -116,12 +116,12 @@ public protocol EKSClientProtocol {
     /// - `InvalidRequestException` : The request is invalid given the state of the cluster. Check the state of the cluster and the associated operations.
     /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with [ListClusters]. You can view your available managed node groups with [ListNodegroups]. Amazon EKS clusters and node groups are Region-specific.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
-    func deleteAddon(input: DeleteAddonInput) async throws -> DeleteAddonOutputResponse
+    func deleteAddon(input: DeleteAddonInput) async throws -> DeleteAddonOutput
     /// Deletes the Amazon EKS cluster control plane. If you have active services in your cluster that are associated with a load balancer, you must delete those services before deleting the cluster so that the load balancers are deleted properly. Otherwise, you can have orphaned resources in your VPC that prevent you from being able to delete the VPC. For more information, see [Deleting a Cluster](https://docs.aws.amazon.com/eks/latest/userguide/delete-cluster.html) in the Amazon EKS User Guide. If you have managed node groups or Fargate profiles attached to the cluster, you must delete them first. For more information, see [DeleteNodegroup] and [DeleteFargateProfile].
     ///
     /// - Parameter DeleteClusterInput : [no documentation found]
     ///
-    /// - Returns: `DeleteClusterOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteClusterOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -131,12 +131,12 @@ public protocol EKSClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with [ListClusters]. You can view your available managed node groups with [ListNodegroups]. Amazon EKS clusters and node groups are Region-specific.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `ServiceUnavailableException` : The service is unavailable. Back off and retry the operation.
-    func deleteCluster(input: DeleteClusterInput) async throws -> DeleteClusterOutputResponse
+    func deleteCluster(input: DeleteClusterInput) async throws -> DeleteClusterOutput
     /// Deletes an Fargate profile. When you delete a Fargate profile, any pods running on Fargate that were created with the profile are deleted. If those pods match another Fargate profile, then they are scheduled on Fargate with that profile. If they no longer match any Fargate profiles, then they are not scheduled on Fargate and they may remain in a pending state. Only one Fargate profile in a cluster can be in the DELETING status at a time. You must wait for a Fargate profile to finish deleting before you can delete any other profiles in that cluster.
     ///
     /// - Parameter DeleteFargateProfileInput : [no documentation found]
     ///
-    /// - Returns: `DeleteFargateProfileOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteFargateProfileOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -145,12 +145,12 @@ public protocol EKSClientProtocol {
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
     /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with [ListClusters]. You can view your available managed node groups with [ListNodegroups]. Amazon EKS clusters and node groups are Region-specific.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
-    func deleteFargateProfile(input: DeleteFargateProfileInput) async throws -> DeleteFargateProfileOutputResponse
+    func deleteFargateProfile(input: DeleteFargateProfileInput) async throws -> DeleteFargateProfileOutput
     /// Deletes an Amazon EKS node group for a cluster.
     ///
     /// - Parameter DeleteNodegroupInput : [no documentation found]
     ///
-    /// - Returns: `DeleteNodegroupOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteNodegroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -161,12 +161,12 @@ public protocol EKSClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with [ListClusters]. You can view your available managed node groups with [ListNodegroups]. Amazon EKS clusters and node groups are Region-specific.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `ServiceUnavailableException` : The service is unavailable. Back off and retry the operation.
-    func deleteNodegroup(input: DeleteNodegroupInput) async throws -> DeleteNodegroupOutputResponse
+    func deleteNodegroup(input: DeleteNodegroupInput) async throws -> DeleteNodegroupOutput
     /// Deregisters a connected cluster to remove it from the Amazon EKS control plane.
     ///
     /// - Parameter DeregisterClusterInput : [no documentation found]
     ///
-    /// - Returns: `DeregisterClusterOutputResponse` : [no documentation found]
+    /// - Returns: `DeregisterClusterOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -177,12 +177,12 @@ public protocol EKSClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with [ListClusters]. You can view your available managed node groups with [ListNodegroups]. Amazon EKS clusters and node groups are Region-specific.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `ServiceUnavailableException` : The service is unavailable. Back off and retry the operation.
-    func deregisterCluster(input: DeregisterClusterInput) async throws -> DeregisterClusterOutputResponse
+    func deregisterCluster(input: DeregisterClusterInput) async throws -> DeregisterClusterOutput
     /// Describes an Amazon EKS add-on.
     ///
     /// - Parameter DescribeAddonInput : [no documentation found]
     ///
-    /// - Returns: `DescribeAddonOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeAddonOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -192,12 +192,12 @@ public protocol EKSClientProtocol {
     /// - `InvalidRequestException` : The request is invalid given the state of the cluster. Check the state of the cluster and the associated operations.
     /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with [ListClusters]. You can view your available managed node groups with [ListNodegroups]. Amazon EKS clusters and node groups are Region-specific.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
-    func describeAddon(input: DescribeAddonInput) async throws -> DescribeAddonOutputResponse
+    func describeAddon(input: DescribeAddonInput) async throws -> DescribeAddonOutput
     /// Returns configuration options.
     ///
     /// - Parameter DescribeAddonConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `DescribeAddonConfigurationOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeAddonConfigurationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -205,12 +205,12 @@ public protocol EKSClientProtocol {
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
     /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with [ListClusters]. You can view your available managed node groups with [ListNodegroups]. Amazon EKS clusters and node groups are Region-specific.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
-    func describeAddonConfiguration(input: DescribeAddonConfigurationInput) async throws -> DescribeAddonConfigurationOutputResponse
+    func describeAddonConfiguration(input: DescribeAddonConfigurationInput) async throws -> DescribeAddonConfigurationOutput
     /// Describes the versions for an add-on. Information such as the Kubernetes versions that you can use the add-on with, the owner, publisher, and the type of the add-on are returned.
     ///
     /// - Parameter DescribeAddonVersionsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeAddonVersionsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeAddonVersionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -218,12 +218,12 @@ public protocol EKSClientProtocol {
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
     /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with [ListClusters]. You can view your available managed node groups with [ListNodegroups]. Amazon EKS clusters and node groups are Region-specific.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
-    func describeAddonVersions(input: DescribeAddonVersionsInput) async throws -> DescribeAddonVersionsOutputResponse
+    func describeAddonVersions(input: DescribeAddonVersionsInput) async throws -> DescribeAddonVersionsOutput
     /// Returns descriptive information about an Amazon EKS cluster. The API server endpoint and certificate authority data returned by this operation are required for kubelet and kubectl to communicate with your Kubernetes API server. For more information, see [Create a kubeconfig for Amazon EKS](https://docs.aws.amazon.com/eks/latest/userguide/create-kubeconfig.html). The API server endpoint and certificate authority data aren't available until the cluster reaches the ACTIVE state.
     ///
     /// - Parameter DescribeClusterInput : [no documentation found]
     ///
-    /// - Returns: `DescribeClusterOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeClusterOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -232,12 +232,12 @@ public protocol EKSClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with [ListClusters]. You can view your available managed node groups with [ListNodegroups]. Amazon EKS clusters and node groups are Region-specific.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `ServiceUnavailableException` : The service is unavailable. Back off and retry the operation.
-    func describeCluster(input: DescribeClusterInput) async throws -> DescribeClusterOutputResponse
+    func describeCluster(input: DescribeClusterInput) async throws -> DescribeClusterOutput
     /// Returns descriptive information about an Fargate profile.
     ///
     /// - Parameter DescribeFargateProfileInput : [no documentation found]
     ///
-    /// - Returns: `DescribeFargateProfileOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeFargateProfileOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -246,12 +246,12 @@ public protocol EKSClientProtocol {
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
     /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with [ListClusters]. You can view your available managed node groups with [ListNodegroups]. Amazon EKS clusters and node groups are Region-specific.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
-    func describeFargateProfile(input: DescribeFargateProfileInput) async throws -> DescribeFargateProfileOutputResponse
+    func describeFargateProfile(input: DescribeFargateProfileInput) async throws -> DescribeFargateProfileOutput
     /// Returns descriptive information about an identity provider configuration.
     ///
     /// - Parameter DescribeIdentityProviderConfigInput : [no documentation found]
     ///
-    /// - Returns: `DescribeIdentityProviderConfigOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeIdentityProviderConfigOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -261,12 +261,12 @@ public protocol EKSClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with [ListClusters]. You can view your available managed node groups with [ListNodegroups]. Amazon EKS clusters and node groups are Region-specific.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `ServiceUnavailableException` : The service is unavailable. Back off and retry the operation.
-    func describeIdentityProviderConfig(input: DescribeIdentityProviderConfigInput) async throws -> DescribeIdentityProviderConfigOutputResponse
+    func describeIdentityProviderConfig(input: DescribeIdentityProviderConfigInput) async throws -> DescribeIdentityProviderConfigOutput
     /// Returns descriptive information about an Amazon EKS node group.
     ///
     /// - Parameter DescribeNodegroupInput : [no documentation found]
     ///
-    /// - Returns: `DescribeNodegroupOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeNodegroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -276,12 +276,12 @@ public protocol EKSClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with [ListClusters]. You can view your available managed node groups with [ListNodegroups]. Amazon EKS clusters and node groups are Region-specific.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `ServiceUnavailableException` : The service is unavailable. Back off and retry the operation.
-    func describeNodegroup(input: DescribeNodegroupInput) async throws -> DescribeNodegroupOutputResponse
+    func describeNodegroup(input: DescribeNodegroupInput) async throws -> DescribeNodegroupOutput
     /// Returns descriptive information about an update against your Amazon EKS cluster or associated managed node group or Amazon EKS add-on. When the status of the update is Succeeded, the update is complete. If an update fails, the status is Failed, and an error detail explains the reason for the failure.
     ///
     /// - Parameter DescribeUpdateInput : [no documentation found]
     ///
-    /// - Returns: `DescribeUpdateOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeUpdateOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -290,12 +290,12 @@ public protocol EKSClientProtocol {
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
     /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with [ListClusters]. You can view your available managed node groups with [ListNodegroups]. Amazon EKS clusters and node groups are Region-specific.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
-    func describeUpdate(input: DescribeUpdateInput) async throws -> DescribeUpdateOutputResponse
+    func describeUpdate(input: DescribeUpdateInput) async throws -> DescribeUpdateOutput
     /// Disassociates an identity provider configuration from a cluster. If you disassociate an identity provider from your cluster, users included in the provider can no longer access the cluster. However, you can still access the cluster with Amazon Web Services IAM users.
     ///
     /// - Parameter DisassociateIdentityProviderConfigInput : [no documentation found]
     ///
-    /// - Returns: `DisassociateIdentityProviderConfigOutputResponse` : [no documentation found]
+    /// - Returns: `DisassociateIdentityProviderConfigOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -306,12 +306,12 @@ public protocol EKSClientProtocol {
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with [ListClusters]. You can view your available managed node groups with [ListNodegroups]. Amazon EKS clusters and node groups are Region-specific.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
-    func disassociateIdentityProviderConfig(input: DisassociateIdentityProviderConfigInput) async throws -> DisassociateIdentityProviderConfigOutputResponse
+    func disassociateIdentityProviderConfig(input: DisassociateIdentityProviderConfigInput) async throws -> DisassociateIdentityProviderConfigOutput
     /// Lists the available add-ons.
     ///
     /// - Parameter ListAddonsInput : [no documentation found]
     ///
-    /// - Returns: `ListAddonsOutputResponse` : [no documentation found]
+    /// - Returns: `ListAddonsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -321,12 +321,12 @@ public protocol EKSClientProtocol {
     /// - `InvalidRequestException` : The request is invalid given the state of the cluster. Check the state of the cluster and the associated operations.
     /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with [ListClusters]. You can view your available managed node groups with [ListNodegroups]. Amazon EKS clusters and node groups are Region-specific.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
-    func listAddons(input: ListAddonsInput) async throws -> ListAddonsOutputResponse
+    func listAddons(input: ListAddonsInput) async throws -> ListAddonsOutput
     /// Lists the Amazon EKS clusters in your Amazon Web Services account in the specified Region.
     ///
     /// - Parameter ListClustersInput : [no documentation found]
     ///
-    /// - Returns: `ListClustersOutputResponse` : [no documentation found]
+    /// - Returns: `ListClustersOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -335,12 +335,12 @@ public protocol EKSClientProtocol {
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `ServiceUnavailableException` : The service is unavailable. Back off and retry the operation.
-    func listClusters(input: ListClustersInput) async throws -> ListClustersOutputResponse
+    func listClusters(input: ListClustersInput) async throws -> ListClustersOutput
     /// Lists the Fargate profiles associated with the specified cluster in your Amazon Web Services account in the specified Region.
     ///
     /// - Parameter ListFargateProfilesInput : [no documentation found]
     ///
-    /// - Returns: `ListFargateProfilesOutputResponse` : [no documentation found]
+    /// - Returns: `ListFargateProfilesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -349,12 +349,12 @@ public protocol EKSClientProtocol {
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
     /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with [ListClusters]. You can view your available managed node groups with [ListNodegroups]. Amazon EKS clusters and node groups are Region-specific.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
-    func listFargateProfiles(input: ListFargateProfilesInput) async throws -> ListFargateProfilesOutputResponse
+    func listFargateProfiles(input: ListFargateProfilesInput) async throws -> ListFargateProfilesOutput
     /// A list of identity provider configurations.
     ///
     /// - Parameter ListIdentityProviderConfigsInput : [no documentation found]
     ///
-    /// - Returns: `ListIdentityProviderConfigsOutputResponse` : [no documentation found]
+    /// - Returns: `ListIdentityProviderConfigsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -364,12 +364,12 @@ public protocol EKSClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with [ListClusters]. You can view your available managed node groups with [ListNodegroups]. Amazon EKS clusters and node groups are Region-specific.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `ServiceUnavailableException` : The service is unavailable. Back off and retry the operation.
-    func listIdentityProviderConfigs(input: ListIdentityProviderConfigsInput) async throws -> ListIdentityProviderConfigsOutputResponse
+    func listIdentityProviderConfigs(input: ListIdentityProviderConfigsInput) async throws -> ListIdentityProviderConfigsOutput
     /// Lists the Amazon EKS managed node groups associated with the specified cluster in your Amazon Web Services account in the specified Region. Self-managed node groups are not listed.
     ///
     /// - Parameter ListNodegroupsInput : [no documentation found]
     ///
-    /// - Returns: `ListNodegroupsOutputResponse` : [no documentation found]
+    /// - Returns: `ListNodegroupsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -379,24 +379,24 @@ public protocol EKSClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with [ListClusters]. You can view your available managed node groups with [ListNodegroups]. Amazon EKS clusters and node groups are Region-specific.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `ServiceUnavailableException` : The service is unavailable. Back off and retry the operation.
-    func listNodegroups(input: ListNodegroupsInput) async throws -> ListNodegroupsOutputResponse
+    func listNodegroups(input: ListNodegroupsInput) async throws -> ListNodegroupsOutput
     /// List the tags for an Amazon EKS resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : This exception is thrown if the request contains a semantic error. The precise meaning will depend on the API, and will be documented in the error message.
     /// - `NotFoundException` : A service resource associated with the request could not be found. Clients should not retry such requests.
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     /// Lists the updates associated with an Amazon EKS cluster or managed node group in your Amazon Web Services account, in the specified Region.
     ///
     /// - Parameter ListUpdatesInput : [no documentation found]
     ///
-    /// - Returns: `ListUpdatesOutputResponse` : [no documentation found]
+    /// - Returns: `ListUpdatesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -405,12 +405,12 @@ public protocol EKSClientProtocol {
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
     /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with [ListClusters]. You can view your available managed node groups with [ListNodegroups]. Amazon EKS clusters and node groups are Region-specific.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
-    func listUpdates(input: ListUpdatesInput) async throws -> ListUpdatesOutputResponse
+    func listUpdates(input: ListUpdatesInput) async throws -> ListUpdatesOutput
     /// Connects a Kubernetes cluster to the Amazon EKS control plane. Any Kubernetes cluster can be connected to the Amazon EKS control plane to view current information about the cluster and its nodes. Cluster connection requires two steps. First, send a [RegisterClusterRequest] to add it to the Amazon EKS control plane. Second, a [Manifest](https://amazon-eks.s3.us-west-2.amazonaws.com/eks-connector/manifests/eks-connector/latest/eks-connector.yaml) containing the activationID and activationCode must be applied to the Kubernetes cluster through it's native provider to provide visibility. After the Manifest is updated and applied, then the connected cluster is visible to the Amazon EKS control plane. If the Manifest is not applied within three days, then the connected cluster will no longer be visible and must be deregistered. See [DeregisterCluster].
     ///
     /// - Parameter RegisterClusterInput : [no documentation found]
     ///
-    /// - Returns: `RegisterClusterOutputResponse` : [no documentation found]
+    /// - Returns: `RegisterClusterOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -423,36 +423,36 @@ public protocol EKSClientProtocol {
     /// - `ResourcePropagationDelayException` : Required resources (such as service-linked roles) were created and are still propagating. Retry later.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `ServiceUnavailableException` : The service is unavailable. Back off and retry the operation.
-    func registerCluster(input: RegisterClusterInput) async throws -> RegisterClusterOutputResponse
+    func registerCluster(input: RegisterClusterInput) async throws -> RegisterClusterOutput
     /// Associates the specified tags to a resource with the specified resourceArn. If existing tags on a resource are not specified in the request parameters, they are not changed. When a resource is deleted, the tags associated with that resource are deleted as well. Tags that you create for Amazon EKS resources do not propagate to any other resources associated with the cluster. For example, if you tag a cluster with this operation, that tag does not automatically propagate to the subnets and nodes associated with the cluster.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : This exception is thrown if the request contains a semantic error. The precise meaning will depend on the API, and will be documented in the error message.
     /// - `NotFoundException` : A service resource associated with the request could not be found. Clients should not retry such requests.
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     /// Deletes specified tags from a resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : This exception is thrown if the request contains a semantic error. The precise meaning will depend on the API, and will be documented in the error message.
     /// - `NotFoundException` : A service resource associated with the request could not be found. Clients should not retry such requests.
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
     /// Updates an Amazon EKS add-on.
     ///
     /// - Parameter UpdateAddonInput : [no documentation found]
     ///
-    /// - Returns: `UpdateAddonOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateAddonOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -463,12 +463,12 @@ public protocol EKSClientProtocol {
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with [ListClusters]. You can view your available managed node groups with [ListNodegroups]. Amazon EKS clusters and node groups are Region-specific.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
-    func updateAddon(input: UpdateAddonInput) async throws -> UpdateAddonOutputResponse
+    func updateAddon(input: UpdateAddonInput) async throws -> UpdateAddonOutput
     /// Updates an Amazon EKS cluster configuration. Your cluster continues to function during the update. The response output includes an update ID that you can use to track the status of your cluster update with the [DescribeUpdate] API operation. You can use this API operation to enable or disable exporting the Kubernetes control plane logs for your cluster to CloudWatch Logs. By default, cluster control plane logs aren't exported to CloudWatch Logs. For more information, see [Amazon EKS Cluster Control Plane Logs](https://docs.aws.amazon.com/eks/latest/userguide/control-plane-logs.html) in the Amazon EKS User Guide . CloudWatch Logs ingestion, archive storage, and data scanning rates apply to exported control plane logs. For more information, see [CloudWatch Pricing](http://aws.amazon.com/cloudwatch/pricing/). You can also use this API operation to enable or disable public and private access to your cluster's Kubernetes API server endpoint. By default, public access is enabled, and private access is disabled. For more information, see [Amazon EKS cluster endpoint access control](https://docs.aws.amazon.com/eks/latest/userguide/cluster-endpoint.html) in the Amazon EKS User Guide . You can't update the subnets or security group IDs for an existing cluster. Cluster updates are asynchronous, and they should finish within a few minutes. During an update, the cluster status moves to UPDATING (this status transition is eventually consistent). When the update is complete (either Failed or Successful), the cluster status moves to Active.
     ///
     /// - Parameter UpdateClusterConfigInput : [no documentation found]
     ///
-    /// - Returns: `UpdateClusterConfigOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateClusterConfigOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -479,12 +479,12 @@ public protocol EKSClientProtocol {
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with [ListClusters]. You can view your available managed node groups with [ListNodegroups]. Amazon EKS clusters and node groups are Region-specific.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
-    func updateClusterConfig(input: UpdateClusterConfigInput) async throws -> UpdateClusterConfigOutputResponse
+    func updateClusterConfig(input: UpdateClusterConfigInput) async throws -> UpdateClusterConfigOutput
     /// Updates an Amazon EKS cluster to the specified Kubernetes version. Your cluster continues to function during the update. The response output includes an update ID that you can use to track the status of your cluster update with the [DescribeUpdate] API operation. Cluster updates are asynchronous, and they should finish within a few minutes. During an update, the cluster status moves to UPDATING (this status transition is eventually consistent). When the update is complete (either Failed or Successful), the cluster status moves to Active. If your cluster has managed node groups attached to it, all of your node groups’ Kubernetes versions must match the cluster’s Kubernetes version in order to update the cluster to a new Kubernetes version.
     ///
     /// - Parameter UpdateClusterVersionInput : [no documentation found]
     ///
-    /// - Returns: `UpdateClusterVersionOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateClusterVersionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -495,12 +495,12 @@ public protocol EKSClientProtocol {
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with [ListClusters]. You can view your available managed node groups with [ListNodegroups]. Amazon EKS clusters and node groups are Region-specific.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
-    func updateClusterVersion(input: UpdateClusterVersionInput) async throws -> UpdateClusterVersionOutputResponse
+    func updateClusterVersion(input: UpdateClusterVersionInput) async throws -> UpdateClusterVersionOutput
     /// Updates an Amazon EKS managed node group configuration. Your node group continues to function during the update. The response output includes an update ID that you can use to track the status of your node group update with the [DescribeUpdate] API operation. Currently you can update the Kubernetes labels for a node group or the scaling configuration.
     ///
     /// - Parameter UpdateNodegroupConfigInput : [no documentation found]
     ///
-    /// - Returns: `UpdateNodegroupConfigOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateNodegroupConfigOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -511,12 +511,12 @@ public protocol EKSClientProtocol {
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with [ListClusters]. You can view your available managed node groups with [ListNodegroups]. Amazon EKS clusters and node groups are Region-specific.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
-    func updateNodegroupConfig(input: UpdateNodegroupConfigInput) async throws -> UpdateNodegroupConfigOutputResponse
+    func updateNodegroupConfig(input: UpdateNodegroupConfigInput) async throws -> UpdateNodegroupConfigOutput
     /// Updates the Kubernetes version or AMI version of an Amazon EKS managed node group. You can update a node group using a launch template only if the node group was originally deployed with a launch template. If you need to update a custom AMI in a node group that was deployed with a launch template, then update your custom AMI, specify the new ID in a new version of the launch template, and then update the node group to the new version of the launch template. If you update without a launch template, then you can update to the latest available AMI version of a node group's current Kubernetes version by not specifying a Kubernetes version in the request. You can update to the latest AMI version of your cluster's current Kubernetes version by specifying your cluster's Kubernetes version in the request. For information about Linux versions, see [Amazon EKS optimized Amazon Linux AMI versions](https://docs.aws.amazon.com/eks/latest/userguide/eks-linux-ami-versions.html) in the Amazon EKS User Guide. For information about Windows versions, see [Amazon EKS optimized Windows AMI versions](https://docs.aws.amazon.com/eks/latest/userguide/eks-ami-versions-windows.html) in the Amazon EKS User Guide. You cannot roll back a node group to an earlier Kubernetes version or AMI version. When a node in a managed node group is terminated due to a scaling action or update, the pods in that node are drained first. Amazon EKS attempts to drain the nodes gracefully and will fail if it is unable to do so. You can force the update if Amazon EKS is unable to drain the nodes as a result of a pod disruption budget issue.
     ///
     /// - Parameter UpdateNodegroupVersionInput : [no documentation found]
     ///
-    /// - Returns: `UpdateNodegroupVersionOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateNodegroupVersionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -527,7 +527,7 @@ public protocol EKSClientProtocol {
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with [ListClusters]. You can view your available managed node groups with [ListNodegroups]. Amazon EKS clusters and node groups are Region-specific.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
-    func updateNodegroupVersion(input: UpdateNodegroupVersionInput) async throws -> UpdateNodegroupVersionOutputResponse
+    func updateNodegroupVersion(input: UpdateNodegroupVersionInput) async throws -> UpdateNodegroupVersionOutput
 }
 
 public enum EKSClientTypes {}

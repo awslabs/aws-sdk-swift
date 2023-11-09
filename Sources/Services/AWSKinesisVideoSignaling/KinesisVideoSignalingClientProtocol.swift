@@ -8,7 +8,7 @@ public protocol KinesisVideoSignalingClientProtocol {
     ///
     /// - Parameter GetIceServerConfigInput : [no documentation found]
     ///
-    /// - Returns: `GetIceServerConfigOutputResponse` : [no documentation found]
+    /// - Returns: `GetIceServerConfigOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -19,12 +19,12 @@ public protocol KinesisVideoSignalingClientProtocol {
     /// - `NotAuthorizedException` : The caller is not authorized to perform this operation.
     /// - `ResourceNotFoundException` : The specified resource is not found.
     /// - `SessionExpiredException` : If the client session is expired. Once the client is connected, the session is valid for 45 minutes. Client should reconnect to the channel to continue sending/receiving messages.
-    func getIceServerConfig(input: GetIceServerConfigInput) async throws -> GetIceServerConfigOutputResponse
+    func getIceServerConfig(input: GetIceServerConfigInput) async throws -> GetIceServerConfigOutput
     /// This API allows you to connect WebRTC-enabled devices with Alexa display devices. When invoked, it sends the Alexa Session Description Protocol (SDP) offer to the master peer. The offer is delivered as soon as the master is connected to the specified signaling channel. This API returns the SDP answer from the connected master. If the master is not connected to the signaling channel, redelivery requests are made until the message expires.
     ///
     /// - Parameter SendAlexaOfferToMasterInput : [no documentation found]
     ///
-    /// - Returns: `SendAlexaOfferToMasterOutputResponse` : [no documentation found]
+    /// - Returns: `SendAlexaOfferToMasterOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -33,7 +33,7 @@ public protocol KinesisVideoSignalingClientProtocol {
     /// - `InvalidArgumentException` : The value for this input parameter is invalid.
     /// - `NotAuthorizedException` : The caller is not authorized to perform this operation.
     /// - `ResourceNotFoundException` : The specified resource is not found.
-    func sendAlexaOfferToMaster(input: SendAlexaOfferToMasterInput) async throws -> SendAlexaOfferToMasterOutputResponse
+    func sendAlexaOfferToMaster(input: SendAlexaOfferToMasterInput) async throws -> SendAlexaOfferToMasterOutput
 }
 
 public enum KinesisVideoSignalingClientTypes {}

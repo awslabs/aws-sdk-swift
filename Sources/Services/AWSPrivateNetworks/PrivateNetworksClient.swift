@@ -71,7 +71,7 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
     ///
     /// - Parameter AcknowledgeOrderReceiptInput : [no documentation found]
     ///
-    /// - Returns: `AcknowledgeOrderReceiptOutputResponse` : [no documentation found]
+    /// - Returns: `AcknowledgeOrderReceiptOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -79,7 +79,7 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
     /// - `InternalServerException` : Information about an internal error.
     /// - `ResourceNotFoundException` : The resource was not found.
     /// - `ValidationException` : The request failed validation.
-    public func acknowledgeOrderReceipt(input: AcknowledgeOrderReceiptInput) async throws -> AcknowledgeOrderReceiptOutputResponse
+    public func acknowledgeOrderReceipt(input: AcknowledgeOrderReceiptInput) async throws -> AcknowledgeOrderReceiptOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -95,20 +95,20 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
                       .withSigningName(value: "private-networks")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<AcknowledgeOrderReceiptInput, AcknowledgeOrderReceiptOutputResponse, AcknowledgeOrderReceiptOutputError>(id: "acknowledgeOrderReceipt")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AcknowledgeOrderReceiptInput, AcknowledgeOrderReceiptOutputResponse, AcknowledgeOrderReceiptOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AcknowledgeOrderReceiptInput, AcknowledgeOrderReceiptOutputResponse>())
+        var operation = ClientRuntime.OperationStack<AcknowledgeOrderReceiptInput, AcknowledgeOrderReceiptOutput, AcknowledgeOrderReceiptOutputError>(id: "acknowledgeOrderReceipt")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AcknowledgeOrderReceiptInput, AcknowledgeOrderReceiptOutput, AcknowledgeOrderReceiptOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AcknowledgeOrderReceiptInput, AcknowledgeOrderReceiptOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AcknowledgeOrderReceiptOutputResponse, AcknowledgeOrderReceiptOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AcknowledgeOrderReceiptOutput, AcknowledgeOrderReceiptOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AcknowledgeOrderReceiptInput, AcknowledgeOrderReceiptOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AcknowledgeOrderReceiptInput, AcknowledgeOrderReceiptOutputResponse>(xmlName: "AcknowledgeOrderReceiptRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AcknowledgeOrderReceiptInput, AcknowledgeOrderReceiptOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AcknowledgeOrderReceiptInput, AcknowledgeOrderReceiptOutput>(xmlName: "AcknowledgeOrderReceiptRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AcknowledgeOrderReceiptOutputResponse, AcknowledgeOrderReceiptOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AcknowledgeOrderReceiptOutput, AcknowledgeOrderReceiptOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AcknowledgeOrderReceiptOutputResponse, AcknowledgeOrderReceiptOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AcknowledgeOrderReceiptOutputResponse, AcknowledgeOrderReceiptOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AcknowledgeOrderReceiptOutputResponse, AcknowledgeOrderReceiptOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AcknowledgeOrderReceiptOutput, AcknowledgeOrderReceiptOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AcknowledgeOrderReceiptOutput, AcknowledgeOrderReceiptOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AcknowledgeOrderReceiptOutput, AcknowledgeOrderReceiptOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -117,7 +117,7 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
     ///
     /// - Parameter ActivateDeviceIdentifierInput : [no documentation found]
     ///
-    /// - Returns: `ActivateDeviceIdentifierOutputResponse` : [no documentation found]
+    /// - Returns: `ActivateDeviceIdentifierOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -125,7 +125,7 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
     /// - `InternalServerException` : Information about an internal error.
     /// - `ResourceNotFoundException` : The resource was not found.
     /// - `ValidationException` : The request failed validation.
-    public func activateDeviceIdentifier(input: ActivateDeviceIdentifierInput) async throws -> ActivateDeviceIdentifierOutputResponse
+    public func activateDeviceIdentifier(input: ActivateDeviceIdentifierInput) async throws -> ActivateDeviceIdentifierOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -141,20 +141,20 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
                       .withSigningName(value: "private-networks")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ActivateDeviceIdentifierInput, ActivateDeviceIdentifierOutputResponse, ActivateDeviceIdentifierOutputError>(id: "activateDeviceIdentifier")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ActivateDeviceIdentifierInput, ActivateDeviceIdentifierOutputResponse, ActivateDeviceIdentifierOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ActivateDeviceIdentifierInput, ActivateDeviceIdentifierOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ActivateDeviceIdentifierInput, ActivateDeviceIdentifierOutput, ActivateDeviceIdentifierOutputError>(id: "activateDeviceIdentifier")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ActivateDeviceIdentifierInput, ActivateDeviceIdentifierOutput, ActivateDeviceIdentifierOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ActivateDeviceIdentifierInput, ActivateDeviceIdentifierOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ActivateDeviceIdentifierOutputResponse, ActivateDeviceIdentifierOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ActivateDeviceIdentifierOutput, ActivateDeviceIdentifierOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ActivateDeviceIdentifierInput, ActivateDeviceIdentifierOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ActivateDeviceIdentifierInput, ActivateDeviceIdentifierOutputResponse>(xmlName: "ActivateDeviceIdentifierRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ActivateDeviceIdentifierInput, ActivateDeviceIdentifierOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ActivateDeviceIdentifierInput, ActivateDeviceIdentifierOutput>(xmlName: "ActivateDeviceIdentifierRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ActivateDeviceIdentifierOutputResponse, ActivateDeviceIdentifierOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ActivateDeviceIdentifierOutput, ActivateDeviceIdentifierOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ActivateDeviceIdentifierOutputResponse, ActivateDeviceIdentifierOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ActivateDeviceIdentifierOutputResponse, ActivateDeviceIdentifierOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ActivateDeviceIdentifierOutputResponse, ActivateDeviceIdentifierOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ActivateDeviceIdentifierOutput, ActivateDeviceIdentifierOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ActivateDeviceIdentifierOutput, ActivateDeviceIdentifierOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ActivateDeviceIdentifierOutput, ActivateDeviceIdentifierOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -163,7 +163,7 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
     ///
     /// - Parameter ActivateNetworkSiteInput : [no documentation found]
     ///
-    /// - Returns: `ActivateNetworkSiteOutputResponse` : [no documentation found]
+    /// - Returns: `ActivateNetworkSiteOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -171,7 +171,7 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
     /// - `InternalServerException` : Information about an internal error.
     /// - `ResourceNotFoundException` : The resource was not found.
     /// - `ValidationException` : The request failed validation.
-    public func activateNetworkSite(input: ActivateNetworkSiteInput) async throws -> ActivateNetworkSiteOutputResponse
+    public func activateNetworkSite(input: ActivateNetworkSiteInput) async throws -> ActivateNetworkSiteOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -187,20 +187,20 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
                       .withSigningName(value: "private-networks")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ActivateNetworkSiteInput, ActivateNetworkSiteOutputResponse, ActivateNetworkSiteOutputError>(id: "activateNetworkSite")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ActivateNetworkSiteInput, ActivateNetworkSiteOutputResponse, ActivateNetworkSiteOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ActivateNetworkSiteInput, ActivateNetworkSiteOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ActivateNetworkSiteInput, ActivateNetworkSiteOutput, ActivateNetworkSiteOutputError>(id: "activateNetworkSite")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ActivateNetworkSiteInput, ActivateNetworkSiteOutput, ActivateNetworkSiteOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ActivateNetworkSiteInput, ActivateNetworkSiteOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ActivateNetworkSiteOutputResponse, ActivateNetworkSiteOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ActivateNetworkSiteOutput, ActivateNetworkSiteOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ActivateNetworkSiteInput, ActivateNetworkSiteOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ActivateNetworkSiteInput, ActivateNetworkSiteOutputResponse>(xmlName: "ActivateNetworkSiteRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ActivateNetworkSiteInput, ActivateNetworkSiteOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ActivateNetworkSiteInput, ActivateNetworkSiteOutput>(xmlName: "ActivateNetworkSiteRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ActivateNetworkSiteOutputResponse, ActivateNetworkSiteOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ActivateNetworkSiteOutput, ActivateNetworkSiteOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ActivateNetworkSiteOutputResponse, ActivateNetworkSiteOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ActivateNetworkSiteOutputResponse, ActivateNetworkSiteOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ActivateNetworkSiteOutputResponse, ActivateNetworkSiteOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ActivateNetworkSiteOutput, ActivateNetworkSiteOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ActivateNetworkSiteOutput, ActivateNetworkSiteOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ActivateNetworkSiteOutput, ActivateNetworkSiteOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -209,7 +209,7 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
     ///
     /// - Parameter ConfigureAccessPointInput : [no documentation found]
     ///
-    /// - Returns: `ConfigureAccessPointOutputResponse` : [no documentation found]
+    /// - Returns: `ConfigureAccessPointOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -217,7 +217,7 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
     /// - `InternalServerException` : Information about an internal error.
     /// - `ResourceNotFoundException` : The resource was not found.
     /// - `ValidationException` : The request failed validation.
-    public func configureAccessPoint(input: ConfigureAccessPointInput) async throws -> ConfigureAccessPointOutputResponse
+    public func configureAccessPoint(input: ConfigureAccessPointInput) async throws -> ConfigureAccessPointOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -233,20 +233,20 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
                       .withSigningName(value: "private-networks")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ConfigureAccessPointInput, ConfigureAccessPointOutputResponse, ConfigureAccessPointOutputError>(id: "configureAccessPoint")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ConfigureAccessPointInput, ConfigureAccessPointOutputResponse, ConfigureAccessPointOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ConfigureAccessPointInput, ConfigureAccessPointOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ConfigureAccessPointInput, ConfigureAccessPointOutput, ConfigureAccessPointOutputError>(id: "configureAccessPoint")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ConfigureAccessPointInput, ConfigureAccessPointOutput, ConfigureAccessPointOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ConfigureAccessPointInput, ConfigureAccessPointOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ConfigureAccessPointOutputResponse, ConfigureAccessPointOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ConfigureAccessPointOutput, ConfigureAccessPointOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ConfigureAccessPointInput, ConfigureAccessPointOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ConfigureAccessPointInput, ConfigureAccessPointOutputResponse>(xmlName: "ConfigureAccessPointRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ConfigureAccessPointInput, ConfigureAccessPointOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ConfigureAccessPointInput, ConfigureAccessPointOutput>(xmlName: "ConfigureAccessPointRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ConfigureAccessPointOutputResponse, ConfigureAccessPointOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ConfigureAccessPointOutput, ConfigureAccessPointOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ConfigureAccessPointOutputResponse, ConfigureAccessPointOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ConfigureAccessPointOutputResponse, ConfigureAccessPointOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ConfigureAccessPointOutputResponse, ConfigureAccessPointOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ConfigureAccessPointOutput, ConfigureAccessPointOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ConfigureAccessPointOutput, ConfigureAccessPointOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ConfigureAccessPointOutput, ConfigureAccessPointOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -255,7 +255,7 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
     ///
     /// - Parameter CreateNetworkInput : [no documentation found]
     ///
-    /// - Returns: `CreateNetworkOutputResponse` : [no documentation found]
+    /// - Returns: `CreateNetworkOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -263,7 +263,7 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
     /// - `InternalServerException` : Information about an internal error.
     /// - `LimitExceededException` : The limit was exceeded.
     /// - `ValidationException` : The request failed validation.
-    public func createNetwork(input: CreateNetworkInput) async throws -> CreateNetworkOutputResponse
+    public func createNetwork(input: CreateNetworkInput) async throws -> CreateNetworkOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -279,20 +279,20 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
                       .withSigningName(value: "private-networks")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateNetworkInput, CreateNetworkOutputResponse, CreateNetworkOutputError>(id: "createNetwork")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateNetworkInput, CreateNetworkOutputResponse, CreateNetworkOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateNetworkInput, CreateNetworkOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateNetworkInput, CreateNetworkOutput, CreateNetworkOutputError>(id: "createNetwork")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateNetworkInput, CreateNetworkOutput, CreateNetworkOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateNetworkInput, CreateNetworkOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateNetworkOutputResponse, CreateNetworkOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateNetworkOutput, CreateNetworkOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateNetworkInput, CreateNetworkOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateNetworkInput, CreateNetworkOutputResponse>(xmlName: "CreateNetworkRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateNetworkInput, CreateNetworkOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateNetworkInput, CreateNetworkOutput>(xmlName: "CreateNetworkRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateNetworkOutputResponse, CreateNetworkOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateNetworkOutput, CreateNetworkOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateNetworkOutputResponse, CreateNetworkOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateNetworkOutputResponse, CreateNetworkOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateNetworkOutputResponse, CreateNetworkOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateNetworkOutput, CreateNetworkOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateNetworkOutput, CreateNetworkOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateNetworkOutput, CreateNetworkOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -301,7 +301,7 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
     ///
     /// - Parameter CreateNetworkSiteInput : [no documentation found]
     ///
-    /// - Returns: `CreateNetworkSiteOutputResponse` : [no documentation found]
+    /// - Returns: `CreateNetworkSiteOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -309,7 +309,7 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
     /// - `InternalServerException` : Information about an internal error.
     /// - `ResourceNotFoundException` : The resource was not found.
     /// - `ValidationException` : The request failed validation.
-    public func createNetworkSite(input: CreateNetworkSiteInput) async throws -> CreateNetworkSiteOutputResponse
+    public func createNetworkSite(input: CreateNetworkSiteInput) async throws -> CreateNetworkSiteOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -325,20 +325,20 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
                       .withSigningName(value: "private-networks")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateNetworkSiteInput, CreateNetworkSiteOutputResponse, CreateNetworkSiteOutputError>(id: "createNetworkSite")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateNetworkSiteInput, CreateNetworkSiteOutputResponse, CreateNetworkSiteOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateNetworkSiteInput, CreateNetworkSiteOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateNetworkSiteInput, CreateNetworkSiteOutput, CreateNetworkSiteOutputError>(id: "createNetworkSite")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateNetworkSiteInput, CreateNetworkSiteOutput, CreateNetworkSiteOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateNetworkSiteInput, CreateNetworkSiteOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateNetworkSiteOutputResponse, CreateNetworkSiteOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateNetworkSiteOutput, CreateNetworkSiteOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateNetworkSiteInput, CreateNetworkSiteOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateNetworkSiteInput, CreateNetworkSiteOutputResponse>(xmlName: "CreateNetworkSiteRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateNetworkSiteInput, CreateNetworkSiteOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateNetworkSiteInput, CreateNetworkSiteOutput>(xmlName: "CreateNetworkSiteRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateNetworkSiteOutputResponse, CreateNetworkSiteOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateNetworkSiteOutput, CreateNetworkSiteOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateNetworkSiteOutputResponse, CreateNetworkSiteOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateNetworkSiteOutputResponse, CreateNetworkSiteOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateNetworkSiteOutputResponse, CreateNetworkSiteOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateNetworkSiteOutput, CreateNetworkSiteOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateNetworkSiteOutput, CreateNetworkSiteOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateNetworkSiteOutput, CreateNetworkSiteOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -347,7 +347,7 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
     ///
     /// - Parameter DeactivateDeviceIdentifierInput : [no documentation found]
     ///
-    /// - Returns: `DeactivateDeviceIdentifierOutputResponse` : [no documentation found]
+    /// - Returns: `DeactivateDeviceIdentifierOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -355,7 +355,7 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
     /// - `InternalServerException` : Information about an internal error.
     /// - `ResourceNotFoundException` : The resource was not found.
     /// - `ValidationException` : The request failed validation.
-    public func deactivateDeviceIdentifier(input: DeactivateDeviceIdentifierInput) async throws -> DeactivateDeviceIdentifierOutputResponse
+    public func deactivateDeviceIdentifier(input: DeactivateDeviceIdentifierInput) async throws -> DeactivateDeviceIdentifierOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -371,20 +371,20 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
                       .withSigningName(value: "private-networks")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeactivateDeviceIdentifierInput, DeactivateDeviceIdentifierOutputResponse, DeactivateDeviceIdentifierOutputError>(id: "deactivateDeviceIdentifier")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeactivateDeviceIdentifierInput, DeactivateDeviceIdentifierOutputResponse, DeactivateDeviceIdentifierOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeactivateDeviceIdentifierInput, DeactivateDeviceIdentifierOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeactivateDeviceIdentifierInput, DeactivateDeviceIdentifierOutput, DeactivateDeviceIdentifierOutputError>(id: "deactivateDeviceIdentifier")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeactivateDeviceIdentifierInput, DeactivateDeviceIdentifierOutput, DeactivateDeviceIdentifierOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeactivateDeviceIdentifierInput, DeactivateDeviceIdentifierOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeactivateDeviceIdentifierOutputResponse, DeactivateDeviceIdentifierOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeactivateDeviceIdentifierOutput, DeactivateDeviceIdentifierOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeactivateDeviceIdentifierInput, DeactivateDeviceIdentifierOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeactivateDeviceIdentifierInput, DeactivateDeviceIdentifierOutputResponse>(xmlName: "DeactivateDeviceIdentifierRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeactivateDeviceIdentifierInput, DeactivateDeviceIdentifierOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeactivateDeviceIdentifierInput, DeactivateDeviceIdentifierOutput>(xmlName: "DeactivateDeviceIdentifierRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeactivateDeviceIdentifierOutputResponse, DeactivateDeviceIdentifierOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeactivateDeviceIdentifierOutput, DeactivateDeviceIdentifierOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeactivateDeviceIdentifierOutputResponse, DeactivateDeviceIdentifierOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeactivateDeviceIdentifierOutputResponse, DeactivateDeviceIdentifierOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeactivateDeviceIdentifierOutputResponse, DeactivateDeviceIdentifierOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeactivateDeviceIdentifierOutput, DeactivateDeviceIdentifierOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeactivateDeviceIdentifierOutput, DeactivateDeviceIdentifierOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeactivateDeviceIdentifierOutput, DeactivateDeviceIdentifierOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -393,7 +393,7 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
     ///
     /// - Parameter DeleteNetworkInput : [no documentation found]
     ///
-    /// - Returns: `DeleteNetworkOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteNetworkOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -402,7 +402,7 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
     /// - `InternalServerException` : Information about an internal error.
     /// - `ResourceNotFoundException` : The resource was not found.
     /// - `ValidationException` : The request failed validation.
-    public func deleteNetwork(input: DeleteNetworkInput) async throws -> DeleteNetworkOutputResponse
+    public func deleteNetwork(input: DeleteNetworkInput) async throws -> DeleteNetworkOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -418,18 +418,18 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
                       .withSigningName(value: "private-networks")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteNetworkInput, DeleteNetworkOutputResponse, DeleteNetworkOutputError>(id: "deleteNetwork")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteNetworkInput, DeleteNetworkOutputResponse, DeleteNetworkOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteNetworkInput, DeleteNetworkOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteNetworkInput, DeleteNetworkOutput, DeleteNetworkOutputError>(id: "deleteNetwork")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteNetworkInput, DeleteNetworkOutput, DeleteNetworkOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteNetworkInput, DeleteNetworkOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteNetworkOutputResponse, DeleteNetworkOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteNetworkOutput, DeleteNetworkOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DeleteNetworkInput, DeleteNetworkOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteNetworkOutputResponse, DeleteNetworkOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DeleteNetworkInput, DeleteNetworkOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteNetworkOutput, DeleteNetworkOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteNetworkOutputResponse, DeleteNetworkOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteNetworkOutputResponse, DeleteNetworkOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteNetworkOutputResponse, DeleteNetworkOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteNetworkOutput, DeleteNetworkOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteNetworkOutput, DeleteNetworkOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteNetworkOutput, DeleteNetworkOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -438,7 +438,7 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
     ///
     /// - Parameter DeleteNetworkSiteInput : [no documentation found]
     ///
-    /// - Returns: `DeleteNetworkSiteOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteNetworkSiteOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -447,7 +447,7 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
     /// - `InternalServerException` : Information about an internal error.
     /// - `ResourceNotFoundException` : The resource was not found.
     /// - `ValidationException` : The request failed validation.
-    public func deleteNetworkSite(input: DeleteNetworkSiteInput) async throws -> DeleteNetworkSiteOutputResponse
+    public func deleteNetworkSite(input: DeleteNetworkSiteInput) async throws -> DeleteNetworkSiteOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -463,18 +463,18 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
                       .withSigningName(value: "private-networks")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteNetworkSiteInput, DeleteNetworkSiteOutputResponse, DeleteNetworkSiteOutputError>(id: "deleteNetworkSite")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteNetworkSiteInput, DeleteNetworkSiteOutputResponse, DeleteNetworkSiteOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteNetworkSiteInput, DeleteNetworkSiteOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteNetworkSiteInput, DeleteNetworkSiteOutput, DeleteNetworkSiteOutputError>(id: "deleteNetworkSite")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteNetworkSiteInput, DeleteNetworkSiteOutput, DeleteNetworkSiteOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteNetworkSiteInput, DeleteNetworkSiteOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteNetworkSiteOutputResponse, DeleteNetworkSiteOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteNetworkSiteOutput, DeleteNetworkSiteOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DeleteNetworkSiteInput, DeleteNetworkSiteOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteNetworkSiteOutputResponse, DeleteNetworkSiteOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DeleteNetworkSiteInput, DeleteNetworkSiteOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteNetworkSiteOutput, DeleteNetworkSiteOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteNetworkSiteOutputResponse, DeleteNetworkSiteOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteNetworkSiteOutputResponse, DeleteNetworkSiteOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteNetworkSiteOutputResponse, DeleteNetworkSiteOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteNetworkSiteOutput, DeleteNetworkSiteOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteNetworkSiteOutput, DeleteNetworkSiteOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteNetworkSiteOutput, DeleteNetworkSiteOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -483,7 +483,7 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
     ///
     /// - Parameter GetDeviceIdentifierInput : [no documentation found]
     ///
-    /// - Returns: `GetDeviceIdentifierOutputResponse` : [no documentation found]
+    /// - Returns: `GetDeviceIdentifierOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -491,7 +491,7 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
     /// - `InternalServerException` : Information about an internal error.
     /// - `ResourceNotFoundException` : The resource was not found.
     /// - `ValidationException` : The request failed validation.
-    public func getDeviceIdentifier(input: GetDeviceIdentifierInput) async throws -> GetDeviceIdentifierOutputResponse
+    public func getDeviceIdentifier(input: GetDeviceIdentifierInput) async throws -> GetDeviceIdentifierOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -507,17 +507,17 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
                       .withSigningName(value: "private-networks")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetDeviceIdentifierInput, GetDeviceIdentifierOutputResponse, GetDeviceIdentifierOutputError>(id: "getDeviceIdentifier")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDeviceIdentifierInput, GetDeviceIdentifierOutputResponse, GetDeviceIdentifierOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDeviceIdentifierInput, GetDeviceIdentifierOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetDeviceIdentifierInput, GetDeviceIdentifierOutput, GetDeviceIdentifierOutputError>(id: "getDeviceIdentifier")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDeviceIdentifierInput, GetDeviceIdentifierOutput, GetDeviceIdentifierOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDeviceIdentifierInput, GetDeviceIdentifierOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetDeviceIdentifierOutputResponse, GetDeviceIdentifierOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetDeviceIdentifierOutput, GetDeviceIdentifierOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetDeviceIdentifierOutputResponse, GetDeviceIdentifierOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetDeviceIdentifierOutput, GetDeviceIdentifierOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDeviceIdentifierOutputResponse, GetDeviceIdentifierOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDeviceIdentifierOutputResponse, GetDeviceIdentifierOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetDeviceIdentifierOutputResponse, GetDeviceIdentifierOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDeviceIdentifierOutput, GetDeviceIdentifierOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDeviceIdentifierOutput, GetDeviceIdentifierOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetDeviceIdentifierOutput, GetDeviceIdentifierOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -526,7 +526,7 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
     ///
     /// - Parameter GetNetworkInput : [no documentation found]
     ///
-    /// - Returns: `GetNetworkOutputResponse` : [no documentation found]
+    /// - Returns: `GetNetworkOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -534,7 +534,7 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
     /// - `InternalServerException` : Information about an internal error.
     /// - `ResourceNotFoundException` : The resource was not found.
     /// - `ValidationException` : The request failed validation.
-    public func getNetwork(input: GetNetworkInput) async throws -> GetNetworkOutputResponse
+    public func getNetwork(input: GetNetworkInput) async throws -> GetNetworkOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -550,17 +550,17 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
                       .withSigningName(value: "private-networks")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetNetworkInput, GetNetworkOutputResponse, GetNetworkOutputError>(id: "getNetwork")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetNetworkInput, GetNetworkOutputResponse, GetNetworkOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetNetworkInput, GetNetworkOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetNetworkInput, GetNetworkOutput, GetNetworkOutputError>(id: "getNetwork")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetNetworkInput, GetNetworkOutput, GetNetworkOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetNetworkInput, GetNetworkOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetNetworkOutputResponse, GetNetworkOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetNetworkOutput, GetNetworkOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetNetworkOutputResponse, GetNetworkOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetNetworkOutput, GetNetworkOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetNetworkOutputResponse, GetNetworkOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetNetworkOutputResponse, GetNetworkOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetNetworkOutputResponse, GetNetworkOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetNetworkOutput, GetNetworkOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetNetworkOutput, GetNetworkOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetNetworkOutput, GetNetworkOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -569,7 +569,7 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
     ///
     /// - Parameter GetNetworkResourceInput : [no documentation found]
     ///
-    /// - Returns: `GetNetworkResourceOutputResponse` : [no documentation found]
+    /// - Returns: `GetNetworkResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -577,7 +577,7 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
     /// - `InternalServerException` : Information about an internal error.
     /// - `ResourceNotFoundException` : The resource was not found.
     /// - `ValidationException` : The request failed validation.
-    public func getNetworkResource(input: GetNetworkResourceInput) async throws -> GetNetworkResourceOutputResponse
+    public func getNetworkResource(input: GetNetworkResourceInput) async throws -> GetNetworkResourceOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -593,17 +593,17 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
                       .withSigningName(value: "private-networks")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetNetworkResourceInput, GetNetworkResourceOutputResponse, GetNetworkResourceOutputError>(id: "getNetworkResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetNetworkResourceInput, GetNetworkResourceOutputResponse, GetNetworkResourceOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetNetworkResourceInput, GetNetworkResourceOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetNetworkResourceInput, GetNetworkResourceOutput, GetNetworkResourceOutputError>(id: "getNetworkResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetNetworkResourceInput, GetNetworkResourceOutput, GetNetworkResourceOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetNetworkResourceInput, GetNetworkResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetNetworkResourceOutputResponse, GetNetworkResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetNetworkResourceOutput, GetNetworkResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetNetworkResourceOutputResponse, GetNetworkResourceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetNetworkResourceOutput, GetNetworkResourceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetNetworkResourceOutputResponse, GetNetworkResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetNetworkResourceOutputResponse, GetNetworkResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetNetworkResourceOutputResponse, GetNetworkResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetNetworkResourceOutput, GetNetworkResourceOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetNetworkResourceOutput, GetNetworkResourceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetNetworkResourceOutput, GetNetworkResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -612,7 +612,7 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
     ///
     /// - Parameter GetNetworkSiteInput : [no documentation found]
     ///
-    /// - Returns: `GetNetworkSiteOutputResponse` : [no documentation found]
+    /// - Returns: `GetNetworkSiteOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -620,7 +620,7 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
     /// - `InternalServerException` : Information about an internal error.
     /// - `ResourceNotFoundException` : The resource was not found.
     /// - `ValidationException` : The request failed validation.
-    public func getNetworkSite(input: GetNetworkSiteInput) async throws -> GetNetworkSiteOutputResponse
+    public func getNetworkSite(input: GetNetworkSiteInput) async throws -> GetNetworkSiteOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -636,17 +636,17 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
                       .withSigningName(value: "private-networks")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetNetworkSiteInput, GetNetworkSiteOutputResponse, GetNetworkSiteOutputError>(id: "getNetworkSite")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetNetworkSiteInput, GetNetworkSiteOutputResponse, GetNetworkSiteOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetNetworkSiteInput, GetNetworkSiteOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetNetworkSiteInput, GetNetworkSiteOutput, GetNetworkSiteOutputError>(id: "getNetworkSite")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetNetworkSiteInput, GetNetworkSiteOutput, GetNetworkSiteOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetNetworkSiteInput, GetNetworkSiteOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetNetworkSiteOutputResponse, GetNetworkSiteOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetNetworkSiteOutput, GetNetworkSiteOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetNetworkSiteOutputResponse, GetNetworkSiteOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetNetworkSiteOutput, GetNetworkSiteOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetNetworkSiteOutputResponse, GetNetworkSiteOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetNetworkSiteOutputResponse, GetNetworkSiteOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetNetworkSiteOutputResponse, GetNetworkSiteOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetNetworkSiteOutput, GetNetworkSiteOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetNetworkSiteOutput, GetNetworkSiteOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetNetworkSiteOutput, GetNetworkSiteOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -655,7 +655,7 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
     ///
     /// - Parameter GetOrderInput : [no documentation found]
     ///
-    /// - Returns: `GetOrderOutputResponse` : [no documentation found]
+    /// - Returns: `GetOrderOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -663,7 +663,7 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
     /// - `InternalServerException` : Information about an internal error.
     /// - `ResourceNotFoundException` : The resource was not found.
     /// - `ValidationException` : The request failed validation.
-    public func getOrder(input: GetOrderInput) async throws -> GetOrderOutputResponse
+    public func getOrder(input: GetOrderInput) async throws -> GetOrderOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -679,17 +679,17 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
                       .withSigningName(value: "private-networks")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetOrderInput, GetOrderOutputResponse, GetOrderOutputError>(id: "getOrder")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetOrderInput, GetOrderOutputResponse, GetOrderOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetOrderInput, GetOrderOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetOrderInput, GetOrderOutput, GetOrderOutputError>(id: "getOrder")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetOrderInput, GetOrderOutput, GetOrderOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetOrderInput, GetOrderOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetOrderOutputResponse, GetOrderOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetOrderOutput, GetOrderOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetOrderOutputResponse, GetOrderOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetOrderOutput, GetOrderOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetOrderOutputResponse, GetOrderOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetOrderOutputResponse, GetOrderOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetOrderOutputResponse, GetOrderOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetOrderOutput, GetOrderOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetOrderOutput, GetOrderOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetOrderOutput, GetOrderOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -698,7 +698,7 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
     ///
     /// - Parameter ListDeviceIdentifiersInput : [no documentation found]
     ///
-    /// - Returns: `ListDeviceIdentifiersOutputResponse` : [no documentation found]
+    /// - Returns: `ListDeviceIdentifiersOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -706,7 +706,7 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
     /// - `InternalServerException` : Information about an internal error.
     /// - `ResourceNotFoundException` : The resource was not found.
     /// - `ValidationException` : The request failed validation.
-    public func listDeviceIdentifiers(input: ListDeviceIdentifiersInput) async throws -> ListDeviceIdentifiersOutputResponse
+    public func listDeviceIdentifiers(input: ListDeviceIdentifiersInput) async throws -> ListDeviceIdentifiersOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -722,20 +722,20 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
                       .withSigningName(value: "private-networks")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListDeviceIdentifiersInput, ListDeviceIdentifiersOutputResponse, ListDeviceIdentifiersOutputError>(id: "listDeviceIdentifiers")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDeviceIdentifiersInput, ListDeviceIdentifiersOutputResponse, ListDeviceIdentifiersOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDeviceIdentifiersInput, ListDeviceIdentifiersOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListDeviceIdentifiersInput, ListDeviceIdentifiersOutput, ListDeviceIdentifiersOutputError>(id: "listDeviceIdentifiers")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDeviceIdentifiersInput, ListDeviceIdentifiersOutput, ListDeviceIdentifiersOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDeviceIdentifiersInput, ListDeviceIdentifiersOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListDeviceIdentifiersOutputResponse, ListDeviceIdentifiersOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListDeviceIdentifiersOutput, ListDeviceIdentifiersOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListDeviceIdentifiersInput, ListDeviceIdentifiersOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListDeviceIdentifiersInput, ListDeviceIdentifiersOutputResponse>(xmlName: "ListDeviceIdentifiersRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListDeviceIdentifiersInput, ListDeviceIdentifiersOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListDeviceIdentifiersInput, ListDeviceIdentifiersOutput>(xmlName: "ListDeviceIdentifiersRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListDeviceIdentifiersOutputResponse, ListDeviceIdentifiersOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListDeviceIdentifiersOutput, ListDeviceIdentifiersOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDeviceIdentifiersOutputResponse, ListDeviceIdentifiersOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDeviceIdentifiersOutputResponse, ListDeviceIdentifiersOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDeviceIdentifiersOutputResponse, ListDeviceIdentifiersOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDeviceIdentifiersOutput, ListDeviceIdentifiersOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDeviceIdentifiersOutput, ListDeviceIdentifiersOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDeviceIdentifiersOutput, ListDeviceIdentifiersOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -744,7 +744,7 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
     ///
     /// - Parameter ListNetworkResourcesInput : [no documentation found]
     ///
-    /// - Returns: `ListNetworkResourcesOutputResponse` : [no documentation found]
+    /// - Returns: `ListNetworkResourcesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -752,7 +752,7 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
     /// - `InternalServerException` : Information about an internal error.
     /// - `ResourceNotFoundException` : The resource was not found.
     /// - `ValidationException` : The request failed validation.
-    public func listNetworkResources(input: ListNetworkResourcesInput) async throws -> ListNetworkResourcesOutputResponse
+    public func listNetworkResources(input: ListNetworkResourcesInput) async throws -> ListNetworkResourcesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -768,20 +768,20 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
                       .withSigningName(value: "private-networks")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListNetworkResourcesInput, ListNetworkResourcesOutputResponse, ListNetworkResourcesOutputError>(id: "listNetworkResources")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListNetworkResourcesInput, ListNetworkResourcesOutputResponse, ListNetworkResourcesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListNetworkResourcesInput, ListNetworkResourcesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListNetworkResourcesInput, ListNetworkResourcesOutput, ListNetworkResourcesOutputError>(id: "listNetworkResources")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListNetworkResourcesInput, ListNetworkResourcesOutput, ListNetworkResourcesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListNetworkResourcesInput, ListNetworkResourcesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListNetworkResourcesOutputResponse, ListNetworkResourcesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListNetworkResourcesOutput, ListNetworkResourcesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListNetworkResourcesInput, ListNetworkResourcesOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListNetworkResourcesInput, ListNetworkResourcesOutputResponse>(xmlName: "ListNetworkResourcesRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListNetworkResourcesInput, ListNetworkResourcesOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListNetworkResourcesInput, ListNetworkResourcesOutput>(xmlName: "ListNetworkResourcesRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListNetworkResourcesOutputResponse, ListNetworkResourcesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListNetworkResourcesOutput, ListNetworkResourcesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListNetworkResourcesOutputResponse, ListNetworkResourcesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListNetworkResourcesOutputResponse, ListNetworkResourcesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListNetworkResourcesOutputResponse, ListNetworkResourcesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListNetworkResourcesOutput, ListNetworkResourcesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListNetworkResourcesOutput, ListNetworkResourcesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListNetworkResourcesOutput, ListNetworkResourcesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -790,7 +790,7 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
     ///
     /// - Parameter ListNetworkSitesInput : [no documentation found]
     ///
-    /// - Returns: `ListNetworkSitesOutputResponse` : [no documentation found]
+    /// - Returns: `ListNetworkSitesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -798,7 +798,7 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
     /// - `InternalServerException` : Information about an internal error.
     /// - `ResourceNotFoundException` : The resource was not found.
     /// - `ValidationException` : The request failed validation.
-    public func listNetworkSites(input: ListNetworkSitesInput) async throws -> ListNetworkSitesOutputResponse
+    public func listNetworkSites(input: ListNetworkSitesInput) async throws -> ListNetworkSitesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -814,20 +814,20 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
                       .withSigningName(value: "private-networks")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListNetworkSitesInput, ListNetworkSitesOutputResponse, ListNetworkSitesOutputError>(id: "listNetworkSites")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListNetworkSitesInput, ListNetworkSitesOutputResponse, ListNetworkSitesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListNetworkSitesInput, ListNetworkSitesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListNetworkSitesInput, ListNetworkSitesOutput, ListNetworkSitesOutputError>(id: "listNetworkSites")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListNetworkSitesInput, ListNetworkSitesOutput, ListNetworkSitesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListNetworkSitesInput, ListNetworkSitesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListNetworkSitesOutputResponse, ListNetworkSitesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListNetworkSitesOutput, ListNetworkSitesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListNetworkSitesInput, ListNetworkSitesOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListNetworkSitesInput, ListNetworkSitesOutputResponse>(xmlName: "ListNetworkSitesRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListNetworkSitesInput, ListNetworkSitesOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListNetworkSitesInput, ListNetworkSitesOutput>(xmlName: "ListNetworkSitesRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListNetworkSitesOutputResponse, ListNetworkSitesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListNetworkSitesOutput, ListNetworkSitesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListNetworkSitesOutputResponse, ListNetworkSitesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListNetworkSitesOutputResponse, ListNetworkSitesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListNetworkSitesOutputResponse, ListNetworkSitesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListNetworkSitesOutput, ListNetworkSitesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListNetworkSitesOutput, ListNetworkSitesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListNetworkSitesOutput, ListNetworkSitesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -836,7 +836,7 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
     ///
     /// - Parameter ListNetworksInput : [no documentation found]
     ///
-    /// - Returns: `ListNetworksOutputResponse` : [no documentation found]
+    /// - Returns: `ListNetworksOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -844,7 +844,7 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
     /// - `InternalServerException` : Information about an internal error.
     /// - `ResourceNotFoundException` : The resource was not found.
     /// - `ValidationException` : The request failed validation.
-    public func listNetworks(input: ListNetworksInput) async throws -> ListNetworksOutputResponse
+    public func listNetworks(input: ListNetworksInput) async throws -> ListNetworksOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -860,20 +860,20 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
                       .withSigningName(value: "private-networks")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListNetworksInput, ListNetworksOutputResponse, ListNetworksOutputError>(id: "listNetworks")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListNetworksInput, ListNetworksOutputResponse, ListNetworksOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListNetworksInput, ListNetworksOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListNetworksInput, ListNetworksOutput, ListNetworksOutputError>(id: "listNetworks")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListNetworksInput, ListNetworksOutput, ListNetworksOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListNetworksInput, ListNetworksOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListNetworksOutputResponse, ListNetworksOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListNetworksOutput, ListNetworksOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListNetworksInput, ListNetworksOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListNetworksInput, ListNetworksOutputResponse>(xmlName: "ListNetworksRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListNetworksInput, ListNetworksOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListNetworksInput, ListNetworksOutput>(xmlName: "ListNetworksRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListNetworksOutputResponse, ListNetworksOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListNetworksOutput, ListNetworksOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListNetworksOutputResponse, ListNetworksOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListNetworksOutputResponse, ListNetworksOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListNetworksOutputResponse, ListNetworksOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListNetworksOutput, ListNetworksOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListNetworksOutput, ListNetworksOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListNetworksOutput, ListNetworksOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -882,7 +882,7 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
     ///
     /// - Parameter ListOrdersInput : [no documentation found]
     ///
-    /// - Returns: `ListOrdersOutputResponse` : [no documentation found]
+    /// - Returns: `ListOrdersOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -890,7 +890,7 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
     /// - `InternalServerException` : Information about an internal error.
     /// - `ResourceNotFoundException` : The resource was not found.
     /// - `ValidationException` : The request failed validation.
-    public func listOrders(input: ListOrdersInput) async throws -> ListOrdersOutputResponse
+    public func listOrders(input: ListOrdersInput) async throws -> ListOrdersOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -906,20 +906,20 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
                       .withSigningName(value: "private-networks")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListOrdersInput, ListOrdersOutputResponse, ListOrdersOutputError>(id: "listOrders")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListOrdersInput, ListOrdersOutputResponse, ListOrdersOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListOrdersInput, ListOrdersOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListOrdersInput, ListOrdersOutput, ListOrdersOutputError>(id: "listOrders")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListOrdersInput, ListOrdersOutput, ListOrdersOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListOrdersInput, ListOrdersOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListOrdersOutputResponse, ListOrdersOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListOrdersOutput, ListOrdersOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListOrdersInput, ListOrdersOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListOrdersInput, ListOrdersOutputResponse>(xmlName: "ListOrdersRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListOrdersInput, ListOrdersOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListOrdersInput, ListOrdersOutput>(xmlName: "ListOrdersRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListOrdersOutputResponse, ListOrdersOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListOrdersOutput, ListOrdersOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListOrdersOutputResponse, ListOrdersOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListOrdersOutputResponse, ListOrdersOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListOrdersOutputResponse, ListOrdersOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListOrdersOutput, ListOrdersOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListOrdersOutput, ListOrdersOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListOrdersOutput, ListOrdersOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -928,7 +928,7 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -938,7 +938,7 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
     /// - `ResourceNotFoundException` : The resource was not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request failed validation.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -954,17 +954,17 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
                       .withSigningName(value: "private-networks")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutput, ListTagsForResourceOutputError>(id: "listTagsForResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, ListTagsForResourceOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsForResourceOutput, ListTagsForResourceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -973,13 +973,13 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
     ///
     /// - Parameter PingInput : [no documentation found]
     ///
-    /// - Returns: `PingOutputResponse` : [no documentation found]
+    /// - Returns: `PingOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : Information about an internal error.
-    public func ping(input: PingInput) async throws -> PingOutputResponse
+    public func ping(input: PingInput) async throws -> PingOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -995,17 +995,17 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
                       .withSigningName(value: "private-networks")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<PingInput, PingOutputResponse, PingOutputError>(id: "ping")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PingInput, PingOutputResponse, PingOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PingInput, PingOutputResponse>())
+        var operation = ClientRuntime.OperationStack<PingInput, PingOutput, PingOutputError>(id: "ping")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PingInput, PingOutput, PingOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PingInput, PingOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PingOutputResponse, PingOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PingOutput, PingOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PingOutputResponse, PingOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PingOutput, PingOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PingOutputResponse, PingOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PingOutputResponse, PingOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PingOutputResponse, PingOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PingOutput, PingOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PingOutput, PingOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PingOutput, PingOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1023,7 +1023,7 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
     ///
     /// - Parameter StartNetworkResourceUpdateInput : [no documentation found]
     ///
-    /// - Returns: `StartNetworkResourceUpdateOutputResponse` : [no documentation found]
+    /// - Returns: `StartNetworkResourceUpdateOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1031,7 +1031,7 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
     /// - `InternalServerException` : Information about an internal error.
     /// - `ResourceNotFoundException` : The resource was not found.
     /// - `ValidationException` : The request failed validation.
-    public func startNetworkResourceUpdate(input: StartNetworkResourceUpdateInput) async throws -> StartNetworkResourceUpdateOutputResponse
+    public func startNetworkResourceUpdate(input: StartNetworkResourceUpdateInput) async throws -> StartNetworkResourceUpdateOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1047,20 +1047,20 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
                       .withSigningName(value: "private-networks")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<StartNetworkResourceUpdateInput, StartNetworkResourceUpdateOutputResponse, StartNetworkResourceUpdateOutputError>(id: "startNetworkResourceUpdate")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartNetworkResourceUpdateInput, StartNetworkResourceUpdateOutputResponse, StartNetworkResourceUpdateOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartNetworkResourceUpdateInput, StartNetworkResourceUpdateOutputResponse>())
+        var operation = ClientRuntime.OperationStack<StartNetworkResourceUpdateInput, StartNetworkResourceUpdateOutput, StartNetworkResourceUpdateOutputError>(id: "startNetworkResourceUpdate")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartNetworkResourceUpdateInput, StartNetworkResourceUpdateOutput, StartNetworkResourceUpdateOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartNetworkResourceUpdateInput, StartNetworkResourceUpdateOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartNetworkResourceUpdateOutputResponse, StartNetworkResourceUpdateOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartNetworkResourceUpdateOutput, StartNetworkResourceUpdateOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartNetworkResourceUpdateInput, StartNetworkResourceUpdateOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartNetworkResourceUpdateInput, StartNetworkResourceUpdateOutputResponse>(xmlName: "StartNetworkResourceUpdateRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartNetworkResourceUpdateInput, StartNetworkResourceUpdateOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartNetworkResourceUpdateInput, StartNetworkResourceUpdateOutput>(xmlName: "StartNetworkResourceUpdateRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartNetworkResourceUpdateOutputResponse, StartNetworkResourceUpdateOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartNetworkResourceUpdateOutput, StartNetworkResourceUpdateOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartNetworkResourceUpdateOutputResponse, StartNetworkResourceUpdateOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartNetworkResourceUpdateOutputResponse, StartNetworkResourceUpdateOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartNetworkResourceUpdateOutputResponse, StartNetworkResourceUpdateOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartNetworkResourceUpdateOutput, StartNetworkResourceUpdateOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartNetworkResourceUpdateOutput, StartNetworkResourceUpdateOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartNetworkResourceUpdateOutput, StartNetworkResourceUpdateOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1069,7 +1069,7 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1079,7 +1079,7 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
     /// - `ResourceNotFoundException` : The resource was not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request failed validation.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1095,20 +1095,20 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
                       .withSigningName(value: "private-networks")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
+        var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutput, TagResourceOutputError>(id: "tagResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput, TagResourceOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagResourceOutputResponse, TagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagResourceOutput, TagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TagResourceInput, TagResourceOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<TagResourceInput, TagResourceOutputResponse>(xmlName: "TagResourceRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<TagResourceInput, TagResourceOutput>(xmlName: "TagResourceRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagResourceOutputResponse, TagResourceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagResourceOutput, TagResourceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutput, TagResourceOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutput, TagResourceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutput, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1117,7 +1117,7 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1127,7 +1127,7 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
     /// - `ResourceNotFoundException` : The resource was not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request failed validation.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1143,18 +1143,18 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
                       .withSigningName(value: "private-networks")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutput, UntagResourceOutputError>(id: "untagResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput, UntagResourceOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagResourceOutput, UntagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagResourceOutputResponse, UntagResourceOutputError>(options: config.retryStrategyOptions))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagResourceOutput, UntagResourceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutput, UntagResourceOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutput, UntagResourceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutput, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1163,7 +1163,7 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
     ///
     /// - Parameter UpdateNetworkSiteInput : [no documentation found]
     ///
-    /// - Returns: `UpdateNetworkSiteOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateNetworkSiteOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1171,7 +1171,7 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
     /// - `InternalServerException` : Information about an internal error.
     /// - `ResourceNotFoundException` : The resource was not found.
     /// - `ValidationException` : The request failed validation.
-    public func updateNetworkSite(input: UpdateNetworkSiteInput) async throws -> UpdateNetworkSiteOutputResponse
+    public func updateNetworkSite(input: UpdateNetworkSiteInput) async throws -> UpdateNetworkSiteOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1187,20 +1187,20 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
                       .withSigningName(value: "private-networks")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateNetworkSiteInput, UpdateNetworkSiteOutputResponse, UpdateNetworkSiteOutputError>(id: "updateNetworkSite")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateNetworkSiteInput, UpdateNetworkSiteOutputResponse, UpdateNetworkSiteOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateNetworkSiteInput, UpdateNetworkSiteOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateNetworkSiteInput, UpdateNetworkSiteOutput, UpdateNetworkSiteOutputError>(id: "updateNetworkSite")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateNetworkSiteInput, UpdateNetworkSiteOutput, UpdateNetworkSiteOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateNetworkSiteInput, UpdateNetworkSiteOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateNetworkSiteOutputResponse, UpdateNetworkSiteOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateNetworkSiteOutput, UpdateNetworkSiteOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateNetworkSiteInput, UpdateNetworkSiteOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateNetworkSiteInput, UpdateNetworkSiteOutputResponse>(xmlName: "UpdateNetworkSiteRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateNetworkSiteInput, UpdateNetworkSiteOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateNetworkSiteInput, UpdateNetworkSiteOutput>(xmlName: "UpdateNetworkSiteRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateNetworkSiteOutputResponse, UpdateNetworkSiteOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateNetworkSiteOutput, UpdateNetworkSiteOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateNetworkSiteOutputResponse, UpdateNetworkSiteOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateNetworkSiteOutputResponse, UpdateNetworkSiteOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateNetworkSiteOutputResponse, UpdateNetworkSiteOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateNetworkSiteOutput, UpdateNetworkSiteOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateNetworkSiteOutput, UpdateNetworkSiteOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateNetworkSiteOutput, UpdateNetworkSiteOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1209,7 +1209,7 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
     ///
     /// - Parameter UpdateNetworkSitePlanInput : [no documentation found]
     ///
-    /// - Returns: `UpdateNetworkSitePlanOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateNetworkSitePlanOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1217,7 +1217,7 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
     /// - `InternalServerException` : Information about an internal error.
     /// - `ResourceNotFoundException` : The resource was not found.
     /// - `ValidationException` : The request failed validation.
-    public func updateNetworkSitePlan(input: UpdateNetworkSitePlanInput) async throws -> UpdateNetworkSitePlanOutputResponse
+    public func updateNetworkSitePlan(input: UpdateNetworkSitePlanInput) async throws -> UpdateNetworkSitePlanOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1233,20 +1233,20 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
                       .withSigningName(value: "private-networks")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateNetworkSitePlanInput, UpdateNetworkSitePlanOutputResponse, UpdateNetworkSitePlanOutputError>(id: "updateNetworkSitePlan")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateNetworkSitePlanInput, UpdateNetworkSitePlanOutputResponse, UpdateNetworkSitePlanOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateNetworkSitePlanInput, UpdateNetworkSitePlanOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateNetworkSitePlanInput, UpdateNetworkSitePlanOutput, UpdateNetworkSitePlanOutputError>(id: "updateNetworkSitePlan")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateNetworkSitePlanInput, UpdateNetworkSitePlanOutput, UpdateNetworkSitePlanOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateNetworkSitePlanInput, UpdateNetworkSitePlanOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateNetworkSitePlanOutputResponse, UpdateNetworkSitePlanOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateNetworkSitePlanOutput, UpdateNetworkSitePlanOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateNetworkSitePlanInput, UpdateNetworkSitePlanOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateNetworkSitePlanInput, UpdateNetworkSitePlanOutputResponse>(xmlName: "UpdateNetworkSitePlanRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateNetworkSitePlanInput, UpdateNetworkSitePlanOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateNetworkSitePlanInput, UpdateNetworkSitePlanOutput>(xmlName: "UpdateNetworkSitePlanRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateNetworkSitePlanOutputResponse, UpdateNetworkSitePlanOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateNetworkSitePlanOutput, UpdateNetworkSitePlanOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateNetworkSitePlanOutputResponse, UpdateNetworkSitePlanOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateNetworkSitePlanOutputResponse, UpdateNetworkSitePlanOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateNetworkSitePlanOutputResponse, UpdateNetworkSitePlanOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateNetworkSitePlanOutput, UpdateNetworkSitePlanOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateNetworkSitePlanOutput, UpdateNetworkSitePlanOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateNetworkSitePlanOutput, UpdateNetworkSitePlanOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

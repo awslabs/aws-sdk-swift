@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension IoTAnalyticsClient {
-    /// Paginate over `[ListChannelsOutputResponse]` results.
+    /// Paginate over `[ListChannelsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListChannelsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListChannelsOutputResponse`
-    public func listChannelsPaginated(input: ListChannelsInput) -> ClientRuntime.PaginatorSequence<ListChannelsInput, ListChannelsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListChannelsInput, ListChannelsOutputResponse>(input: input, inputKey: \ListChannelsInput.nextToken, outputKey: \ListChannelsOutputResponse.nextToken, paginationFunction: self.listChannels(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListChannelsOutput`
+    public func listChannelsPaginated(input: ListChannelsInput) -> ClientRuntime.PaginatorSequence<ListChannelsInput, ListChannelsOutput> {
+        return ClientRuntime.PaginatorSequence<ListChannelsInput, ListChannelsOutput>(input: input, inputKey: \ListChannelsInput.nextToken, outputKey: \ListChannelsOutput.nextToken, paginationFunction: self.listChannels(input:))
     }
 }
 
@@ -24,16 +24,16 @@ extension ListChannelsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension IoTAnalyticsClient {
-    /// Paginate over `[ListDatasetContentsOutputResponse]` results.
+    /// Paginate over `[ListDatasetContentsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListDatasetContentsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListDatasetContentsOutputResponse`
-    public func listDatasetContentsPaginated(input: ListDatasetContentsInput) -> ClientRuntime.PaginatorSequence<ListDatasetContentsInput, ListDatasetContentsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListDatasetContentsInput, ListDatasetContentsOutputResponse>(input: input, inputKey: \ListDatasetContentsInput.nextToken, outputKey: \ListDatasetContentsOutputResponse.nextToken, paginationFunction: self.listDatasetContents(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDatasetContentsOutput`
+    public func listDatasetContentsPaginated(input: ListDatasetContentsInput) -> ClientRuntime.PaginatorSequence<ListDatasetContentsInput, ListDatasetContentsOutput> {
+        return ClientRuntime.PaginatorSequence<ListDatasetContentsInput, ListDatasetContentsOutput>(input: input, inputKey: \ListDatasetContentsInput.nextToken, outputKey: \ListDatasetContentsOutput.nextToken, paginationFunction: self.listDatasetContents(input:))
     }
 }
 
@@ -48,16 +48,16 @@ extension ListDatasetContentsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension IoTAnalyticsClient {
-    /// Paginate over `[ListDatasetsOutputResponse]` results.
+    /// Paginate over `[ListDatasetsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListDatasetsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListDatasetsOutputResponse`
-    public func listDatasetsPaginated(input: ListDatasetsInput) -> ClientRuntime.PaginatorSequence<ListDatasetsInput, ListDatasetsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListDatasetsInput, ListDatasetsOutputResponse>(input: input, inputKey: \ListDatasetsInput.nextToken, outputKey: \ListDatasetsOutputResponse.nextToken, paginationFunction: self.listDatasets(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDatasetsOutput`
+    public func listDatasetsPaginated(input: ListDatasetsInput) -> ClientRuntime.PaginatorSequence<ListDatasetsInput, ListDatasetsOutput> {
+        return ClientRuntime.PaginatorSequence<ListDatasetsInput, ListDatasetsOutput>(input: input, inputKey: \ListDatasetsInput.nextToken, outputKey: \ListDatasetsOutput.nextToken, paginationFunction: self.listDatasets(input:))
     }
 }
 
@@ -69,16 +69,16 @@ extension ListDatasetsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension IoTAnalyticsClient {
-    /// Paginate over `[ListDatastoresOutputResponse]` results.
+    /// Paginate over `[ListDatastoresOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListDatastoresInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListDatastoresOutputResponse`
-    public func listDatastoresPaginated(input: ListDatastoresInput) -> ClientRuntime.PaginatorSequence<ListDatastoresInput, ListDatastoresOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListDatastoresInput, ListDatastoresOutputResponse>(input: input, inputKey: \ListDatastoresInput.nextToken, outputKey: \ListDatastoresOutputResponse.nextToken, paginationFunction: self.listDatastores(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDatastoresOutput`
+    public func listDatastoresPaginated(input: ListDatastoresInput) -> ClientRuntime.PaginatorSequence<ListDatastoresInput, ListDatastoresOutput> {
+        return ClientRuntime.PaginatorSequence<ListDatastoresInput, ListDatastoresOutput>(input: input, inputKey: \ListDatastoresInput.nextToken, outputKey: \ListDatastoresOutput.nextToken, paginationFunction: self.listDatastores(input:))
     }
 }
 
@@ -90,16 +90,16 @@ extension ListDatastoresInput: ClientRuntime.PaginateToken {
         )}
 }
 extension IoTAnalyticsClient {
-    /// Paginate over `[ListPipelinesOutputResponse]` results.
+    /// Paginate over `[ListPipelinesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListPipelinesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListPipelinesOutputResponse`
-    public func listPipelinesPaginated(input: ListPipelinesInput) -> ClientRuntime.PaginatorSequence<ListPipelinesInput, ListPipelinesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListPipelinesInput, ListPipelinesOutputResponse>(input: input, inputKey: \ListPipelinesInput.nextToken, outputKey: \ListPipelinesOutputResponse.nextToken, paginationFunction: self.listPipelines(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListPipelinesOutput`
+    public func listPipelinesPaginated(input: ListPipelinesInput) -> ClientRuntime.PaginatorSequence<ListPipelinesInput, ListPipelinesOutput> {
+        return ClientRuntime.PaginatorSequence<ListPipelinesInput, ListPipelinesOutput>(input: input, inputKey: \ListPipelinesInput.nextToken, outputKey: \ListPipelinesOutput.nextToken, paginationFunction: self.listPipelines(input:))
     }
 }
 

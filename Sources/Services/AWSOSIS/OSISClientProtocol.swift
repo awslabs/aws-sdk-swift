@@ -8,7 +8,7 @@ public protocol OSISClientProtocol {
     ///
     /// - Parameter CreatePipelineInput : [no documentation found]
     ///
-    /// - Returns: `CreatePipelineOutputResponse` : [no documentation found]
+    /// - Returns: `CreatePipelineOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -18,12 +18,12 @@ public protocol OSISClientProtocol {
     /// - `LimitExceededException` : You attempted to create more than the allowed number of tags.
     /// - `ResourceAlreadyExistsException` : You attempted to create a resource that already exists.
     /// - `ValidationException` : An exception for missing or invalid input fields.
-    func createPipeline(input: CreatePipelineInput) async throws -> CreatePipelineOutputResponse
+    func createPipeline(input: CreatePipelineInput) async throws -> CreatePipelineOutput
     /// Deletes an OpenSearch Ingestion pipeline. For more information, see [Deleting Amazon OpenSearch Ingestion pipelines](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/delete-pipeline.html).
     ///
     /// - Parameter DeletePipelineInput : [no documentation found]
     ///
-    /// - Returns: `DeletePipelineOutputResponse` : [no documentation found]
+    /// - Returns: `DeletePipelineOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -33,12 +33,12 @@ public protocol OSISClientProtocol {
     /// - `InternalException` : The request failed because of an unknown error, exception, or failure (the failure is internal to the service).
     /// - `ResourceNotFoundException` : You attempted to access or delete a resource that does not exist.
     /// - `ValidationException` : An exception for missing or invalid input fields.
-    func deletePipeline(input: DeletePipelineInput) async throws -> DeletePipelineOutputResponse
+    func deletePipeline(input: DeletePipelineInput) async throws -> DeletePipelineOutput
     /// Retrieves information about an OpenSearch Ingestion pipeline.
     ///
     /// - Parameter GetPipelineInput : [no documentation found]
     ///
-    /// - Returns: `GetPipelineOutputResponse` : [no documentation found]
+    /// - Returns: `GetPipelineOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -47,12 +47,12 @@ public protocol OSISClientProtocol {
     /// - `InternalException` : The request failed because of an unknown error, exception, or failure (the failure is internal to the service).
     /// - `ResourceNotFoundException` : You attempted to access or delete a resource that does not exist.
     /// - `ValidationException` : An exception for missing or invalid input fields.
-    func getPipeline(input: GetPipelineInput) async throws -> GetPipelineOutputResponse
+    func getPipeline(input: GetPipelineInput) async throws -> GetPipelineOutput
     /// Retrieves information about a specific blueprint for OpenSearch Ingestion. Blueprints are templates for the configuration needed for a CreatePipeline request. For more information, see [Using blueprints to create a pipeline](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/creating-pipeline.html#pipeline-blueprint).
     ///
     /// - Parameter GetPipelineBlueprintInput : [no documentation found]
     ///
-    /// - Returns: `GetPipelineBlueprintOutputResponse` : [no documentation found]
+    /// - Returns: `GetPipelineBlueprintOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -61,12 +61,12 @@ public protocol OSISClientProtocol {
     /// - `InternalException` : The request failed because of an unknown error, exception, or failure (the failure is internal to the service).
     /// - `ResourceNotFoundException` : You attempted to access or delete a resource that does not exist.
     /// - `ValidationException` : An exception for missing or invalid input fields.
-    func getPipelineBlueprint(input: GetPipelineBlueprintInput) async throws -> GetPipelineBlueprintOutputResponse
+    func getPipelineBlueprint(input: GetPipelineBlueprintInput) async throws -> GetPipelineBlueprintOutput
     /// Returns progress information for the current change happening on an OpenSearch Ingestion pipeline. Currently, this operation only returns information when a pipeline is being created. For more information, see [Tracking the status of pipeline creation](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/creating-pipeline.html#get-pipeline-progress).
     ///
     /// - Parameter GetPipelineChangeProgressInput : [no documentation found]
     ///
-    /// - Returns: `GetPipelineChangeProgressOutputResponse` : [no documentation found]
+    /// - Returns: `GetPipelineChangeProgressOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -75,12 +75,12 @@ public protocol OSISClientProtocol {
     /// - `InternalException` : The request failed because of an unknown error, exception, or failure (the failure is internal to the service).
     /// - `ResourceNotFoundException` : You attempted to access or delete a resource that does not exist.
     /// - `ValidationException` : An exception for missing or invalid input fields.
-    func getPipelineChangeProgress(input: GetPipelineChangeProgressInput) async throws -> GetPipelineChangeProgressOutputResponse
+    func getPipelineChangeProgress(input: GetPipelineChangeProgressInput) async throws -> GetPipelineChangeProgressOutput
     /// Retrieves a list of all available blueprints for Data Prepper. For more information, see [Using blueprints to create a pipeline](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/creating-pipeline.html#pipeline-blueprint).
     ///
     /// - Parameter ListPipelineBlueprintsInput : [no documentation found]
     ///
-    /// - Returns: `ListPipelineBlueprintsOutputResponse` : [no documentation found]
+    /// - Returns: `ListPipelineBlueprintsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -89,12 +89,12 @@ public protocol OSISClientProtocol {
     /// - `InternalException` : The request failed because of an unknown error, exception, or failure (the failure is internal to the service).
     /// - `InvalidPaginationTokenException` : An invalid pagination token provided in the request.
     /// - `ValidationException` : An exception for missing or invalid input fields.
-    func listPipelineBlueprints(input: ListPipelineBlueprintsInput) async throws -> ListPipelineBlueprintsOutputResponse
+    func listPipelineBlueprints(input: ListPipelineBlueprintsInput) async throws -> ListPipelineBlueprintsOutput
     /// Lists all OpenSearch Ingestion pipelines in the current Amazon Web Services account and Region. For more information, see [Viewing Amazon OpenSearch Ingestion pipelines](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/list-pipeline.html).
     ///
     /// - Parameter ListPipelinesInput : [no documentation found]
     ///
-    /// - Returns: `ListPipelinesOutputResponse` : [no documentation found]
+    /// - Returns: `ListPipelinesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -103,12 +103,12 @@ public protocol OSISClientProtocol {
     /// - `InternalException` : The request failed because of an unknown error, exception, or failure (the failure is internal to the service).
     /// - `InvalidPaginationTokenException` : An invalid pagination token provided in the request.
     /// - `ValidationException` : An exception for missing or invalid input fields.
-    func listPipelines(input: ListPipelinesInput) async throws -> ListPipelinesOutputResponse
+    func listPipelines(input: ListPipelinesInput) async throws -> ListPipelinesOutput
     /// Lists all resource tags associated with an OpenSearch Ingestion pipeline. For more information, see [Tagging Amazon OpenSearch Ingestion pipelines](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/tag-pipeline.html).
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -117,12 +117,12 @@ public protocol OSISClientProtocol {
     /// - `InternalException` : The request failed because of an unknown error, exception, or failure (the failure is internal to the service).
     /// - `ResourceNotFoundException` : You attempted to access or delete a resource that does not exist.
     /// - `ValidationException` : An exception for missing or invalid input fields.
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     /// Starts an OpenSearch Ingestion pipeline. For more information, see [Starting an OpenSearch Ingestion pipeline](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/pipeline--stop-start.html#pipeline--start).
     ///
     /// - Parameter StartPipelineInput : [no documentation found]
     ///
-    /// - Returns: `StartPipelineOutputResponse` : [no documentation found]
+    /// - Returns: `StartPipelineOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -132,12 +132,12 @@ public protocol OSISClientProtocol {
     /// - `InternalException` : The request failed because of an unknown error, exception, or failure (the failure is internal to the service).
     /// - `ResourceNotFoundException` : You attempted to access or delete a resource that does not exist.
     /// - `ValidationException` : An exception for missing or invalid input fields.
-    func startPipeline(input: StartPipelineInput) async throws -> StartPipelineOutputResponse
+    func startPipeline(input: StartPipelineInput) async throws -> StartPipelineOutput
     /// Stops an OpenSearch Ingestion pipeline. For more information, see [Stopping an OpenSearch Ingestion pipeline](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/pipeline--stop-start.html#pipeline--stop).
     ///
     /// - Parameter StopPipelineInput : [no documentation found]
     ///
-    /// - Returns: `StopPipelineOutputResponse` : [no documentation found]
+    /// - Returns: `StopPipelineOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -147,12 +147,12 @@ public protocol OSISClientProtocol {
     /// - `InternalException` : The request failed because of an unknown error, exception, or failure (the failure is internal to the service).
     /// - `ResourceNotFoundException` : You attempted to access or delete a resource that does not exist.
     /// - `ValidationException` : An exception for missing or invalid input fields.
-    func stopPipeline(input: StopPipelineInput) async throws -> StopPipelineOutputResponse
+    func stopPipeline(input: StopPipelineInput) async throws -> StopPipelineOutput
     /// Tags an OpenSearch Ingestion pipeline. For more information, see [Tagging Amazon OpenSearch Ingestion pipelines](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/tag-pipeline.html).
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -162,12 +162,12 @@ public protocol OSISClientProtocol {
     /// - `LimitExceededException` : You attempted to create more than the allowed number of tags.
     /// - `ResourceNotFoundException` : You attempted to access or delete a resource that does not exist.
     /// - `ValidationException` : An exception for missing or invalid input fields.
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     /// Removes one or more tags from an OpenSearch Ingestion pipeline. For more information, see [Tagging Amazon OpenSearch Ingestion pipelines](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/tag-pipeline.html).
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -176,12 +176,12 @@ public protocol OSISClientProtocol {
     /// - `InternalException` : The request failed because of an unknown error, exception, or failure (the failure is internal to the service).
     /// - `ResourceNotFoundException` : You attempted to access or delete a resource that does not exist.
     /// - `ValidationException` : An exception for missing or invalid input fields.
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
     /// Updates an OpenSearch Ingestion pipeline. For more information, see [Updating Amazon OpenSearch Ingestion pipelines](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/update-pipeline.html).
     ///
     /// - Parameter UpdatePipelineInput : [no documentation found]
     ///
-    /// - Returns: `UpdatePipelineOutputResponse` : [no documentation found]
+    /// - Returns: `UpdatePipelineOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -191,12 +191,12 @@ public protocol OSISClientProtocol {
     /// - `InternalException` : The request failed because of an unknown error, exception, or failure (the failure is internal to the service).
     /// - `ResourceNotFoundException` : You attempted to access or delete a resource that does not exist.
     /// - `ValidationException` : An exception for missing or invalid input fields.
-    func updatePipeline(input: UpdatePipelineInput) async throws -> UpdatePipelineOutputResponse
+    func updatePipeline(input: UpdatePipelineInput) async throws -> UpdatePipelineOutput
     /// Checks whether an OpenSearch Ingestion pipeline configuration is valid prior to creation. For more information, see [Creating Amazon OpenSearch Ingestion pipelines](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/creating-pipeline.html).
     ///
     /// - Parameter ValidatePipelineInput : [no documentation found]
     ///
-    /// - Returns: `ValidatePipelineOutputResponse` : [no documentation found]
+    /// - Returns: `ValidatePipelineOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -204,7 +204,7 @@ public protocol OSISClientProtocol {
     /// - `AccessDeniedException` : You don't have permissions to access the resource.
     /// - `InternalException` : The request failed because of an unknown error, exception, or failure (the failure is internal to the service).
     /// - `ValidationException` : An exception for missing or invalid input fields.
-    func validatePipeline(input: ValidatePipelineInput) async throws -> ValidatePipelineOutputResponse
+    func validatePipeline(input: ValidatePipelineInput) async throws -> ValidatePipelineOutput
 }
 
 public enum OSISClientTypes {}

@@ -39,7 +39,7 @@ public protocol DetectiveClientProtocol {
     ///
     /// - Parameter AcceptInvitationInput : [no documentation found]
     ///
-    /// - Returns: `AcceptInvitationOutputResponse` : [no documentation found]
+    /// - Returns: `AcceptInvitationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -49,12 +49,12 @@ public protocol DetectiveClientProtocol {
     /// - `InternalServerException` : The request was valid but failed because of a problem with the service.
     /// - `ResourceNotFoundException` : The request refers to a nonexistent resource.
     /// - `ValidationException` : The request parameters are invalid.
-    func acceptInvitation(input: AcceptInvitationInput) async throws -> AcceptInvitationOutputResponse
+    func acceptInvitation(input: AcceptInvitationInput) async throws -> AcceptInvitationOutput
     /// Gets data source package information for the behavior graph.
     ///
     /// - Parameter BatchGetGraphMemberDatasourcesInput : [no documentation found]
     ///
-    /// - Returns: `BatchGetGraphMemberDatasourcesOutputResponse` : [no documentation found]
+    /// - Returns: `BatchGetGraphMemberDatasourcesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -63,12 +63,12 @@ public protocol DetectiveClientProtocol {
     /// - `InternalServerException` : The request was valid but failed because of a problem with the service.
     /// - `ResourceNotFoundException` : The request refers to a nonexistent resource.
     /// - `ValidationException` : The request parameters are invalid.
-    func batchGetGraphMemberDatasources(input: BatchGetGraphMemberDatasourcesInput) async throws -> BatchGetGraphMemberDatasourcesOutputResponse
+    func batchGetGraphMemberDatasources(input: BatchGetGraphMemberDatasourcesInput) async throws -> BatchGetGraphMemberDatasourcesOutput
     /// Gets information on the data source package history for an account.
     ///
     /// - Parameter BatchGetMembershipDatasourcesInput : [no documentation found]
     ///
-    /// - Returns: `BatchGetMembershipDatasourcesOutputResponse` : [no documentation found]
+    /// - Returns: `BatchGetMembershipDatasourcesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -77,12 +77,12 @@ public protocol DetectiveClientProtocol {
     /// - `InternalServerException` : The request was valid but failed because of a problem with the service.
     /// - `ResourceNotFoundException` : The request refers to a nonexistent resource.
     /// - `ValidationException` : The request parameters are invalid.
-    func batchGetMembershipDatasources(input: BatchGetMembershipDatasourcesInput) async throws -> BatchGetMembershipDatasourcesOutputResponse
+    func batchGetMembershipDatasources(input: BatchGetMembershipDatasourcesInput) async throws -> BatchGetMembershipDatasourcesOutput
     /// Creates a new behavior graph for the calling account, and sets that account as the administrator account. This operation is called by the account that is enabling Detective. Before you try to enable Detective, make sure that your account has been enrolled in Amazon GuardDuty for at least 48 hours. If you do not meet this requirement, you cannot enable Detective. If you do meet the GuardDuty prerequisite, then when you make the request to enable Detective, it checks whether your data volume is within the Detective quota. If it exceeds the quota, then you cannot enable Detective. The operation also enables Detective for the calling account in the currently selected Region. It returns the ARN of the new behavior graph. CreateGraph triggers a process to create the corresponding data tables for the new behavior graph. An account can only be the administrator account for one behavior graph within a Region. If the same account calls CreateGraph with the same administrator account, it always returns the same behavior graph ARN. It does not create a new behavior graph.
     ///
     /// - Parameter CreateGraphInput : [no documentation found]
     ///
-    /// - Returns: `CreateGraphOutputResponse` : [no documentation found]
+    /// - Returns: `CreateGraphOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -97,7 +97,7 @@ public protocol DetectiveClientProtocol {
     /// * The request would cause the data rate for the behavior graph to exceed the maximum allowed.
     ///
     /// * Detective is unable to verify the data rate for the member account. This is usually because the member account is not enrolled in Amazon GuardDuty.
-    func createGraph(input: CreateGraphInput) async throws -> CreateGraphOutputResponse
+    func createGraph(input: CreateGraphInput) async throws -> CreateGraphOutput
     /// CreateMembers is used to send invitations to accounts. For the organization behavior graph, the Detective administrator account uses CreateMembers to enable organization accounts as member accounts. For invited accounts, CreateMembers sends a request to invite the specified Amazon Web Services accounts to be member accounts in the behavior graph. This operation can only be called by the administrator account for a behavior graph. CreateMembers verifies the accounts and then invites the verified accounts. The administrator can optionally specify to not send invitation emails to the member accounts. This would be used when the administrator manages their member accounts centrally. For organization accounts in the organization behavior graph, CreateMembers attempts to enable the accounts. The organization accounts do not receive invitations. The request provides the behavior graph ARN and the list of accounts to invite or to enable. The response separates the requested accounts into two lists:
     ///
     /// * The accounts that CreateMembers was able to process. For invited accounts, includes member accounts that are being verified, that have passed verification and are to be invited, and that have failed verification. For organization accounts in the organization behavior graph, includes accounts that can be enabled and that cannot be enabled.
@@ -106,7 +106,7 @@ public protocol DetectiveClientProtocol {
     ///
     /// - Parameter CreateMembersInput : [no documentation found]
     ///
-    /// - Returns: `CreateMembersOutputResponse` : [no documentation found]
+    /// - Returns: `CreateMembersOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -122,12 +122,12 @@ public protocol DetectiveClientProtocol {
     ///
     /// * Detective is unable to verify the data rate for the member account. This is usually because the member account is not enrolled in Amazon GuardDuty.
     /// - `ValidationException` : The request parameters are invalid.
-    func createMembers(input: CreateMembersInput) async throws -> CreateMembersOutputResponse
+    func createMembers(input: CreateMembersInput) async throws -> CreateMembersOutput
     /// Disables the specified behavior graph and queues it to be deleted. This operation removes the behavior graph from each member account's list of behavior graphs. DeleteGraph can only be called by the administrator account for a behavior graph.
     ///
     /// - Parameter DeleteGraphInput : [no documentation found]
     ///
-    /// - Returns: `DeleteGraphOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteGraphOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -136,12 +136,12 @@ public protocol DetectiveClientProtocol {
     /// - `InternalServerException` : The request was valid but failed because of a problem with the service.
     /// - `ResourceNotFoundException` : The request refers to a nonexistent resource.
     /// - `ValidationException` : The request parameters are invalid.
-    func deleteGraph(input: DeleteGraphInput) async throws -> DeleteGraphOutputResponse
+    func deleteGraph(input: DeleteGraphInput) async throws -> DeleteGraphOutput
     /// Removes the specified member accounts from the behavior graph. The removed accounts no longer contribute data to the behavior graph. This operation can only be called by the administrator account for the behavior graph. For invited accounts, the removed accounts are deleted from the list of accounts in the behavior graph. To restore the account, the administrator account must send another invitation. For organization accounts in the organization behavior graph, the Detective administrator account can always enable the organization account again. Organization accounts that are not enabled as member accounts are not included in the ListMembers results for the organization behavior graph. An administrator account cannot use DeleteMembers to remove their own account from the behavior graph. To disable a behavior graph, the administrator account uses the DeleteGraph API method.
     ///
     /// - Parameter DeleteMembersInput : [no documentation found]
     ///
-    /// - Returns: `DeleteMembersOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteMembersOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -151,12 +151,12 @@ public protocol DetectiveClientProtocol {
     /// - `InternalServerException` : The request was valid but failed because of a problem with the service.
     /// - `ResourceNotFoundException` : The request refers to a nonexistent resource.
     /// - `ValidationException` : The request parameters are invalid.
-    func deleteMembers(input: DeleteMembersInput) async throws -> DeleteMembersOutputResponse
+    func deleteMembers(input: DeleteMembersInput) async throws -> DeleteMembersOutput
     /// Returns information about the configuration for the organization behavior graph. Currently indicates whether to automatically enable new organization accounts as member accounts. Can only be called by the Detective administrator account for the organization.
     ///
     /// - Parameter DescribeOrganizationConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `DescribeOrganizationConfigurationOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeOrganizationConfigurationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -165,12 +165,12 @@ public protocol DetectiveClientProtocol {
     /// - `InternalServerException` : The request was valid but failed because of a problem with the service.
     /// - `TooManyRequestsException` : The request cannot be completed because too many other requests are occurring at the same time.
     /// - `ValidationException` : The request parameters are invalid.
-    func describeOrganizationConfiguration(input: DescribeOrganizationConfigurationInput) async throws -> DescribeOrganizationConfigurationOutputResponse
+    func describeOrganizationConfiguration(input: DescribeOrganizationConfigurationInput) async throws -> DescribeOrganizationConfigurationOutput
     /// Removes the Detective administrator account in the current Region. Deletes the organization behavior graph. Can only be called by the organization management account. Removing the Detective administrator account does not affect the delegated administrator account for Detective in Organizations. To remove the delegated administrator account in Organizations, use the Organizations API. Removing the delegated administrator account also removes the Detective administrator account in all Regions, except for Regions where the Detective administrator account is the organization management account.
     ///
     /// - Parameter DisableOrganizationAdminAccountInput : [no documentation found]
     ///
-    /// - Returns: `DisableOrganizationAdminAccountOutputResponse` : [no documentation found]
+    /// - Returns: `DisableOrganizationAdminAccountOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -179,12 +179,12 @@ public protocol DetectiveClientProtocol {
     /// - `InternalServerException` : The request was valid but failed because of a problem with the service.
     /// - `TooManyRequestsException` : The request cannot be completed because too many other requests are occurring at the same time.
     /// - `ValidationException` : The request parameters are invalid.
-    func disableOrganizationAdminAccount(input: DisableOrganizationAdminAccountInput) async throws -> DisableOrganizationAdminAccountOutputResponse
+    func disableOrganizationAdminAccount(input: DisableOrganizationAdminAccountInput) async throws -> DisableOrganizationAdminAccountOutput
     /// Removes the member account from the specified behavior graph. This operation can only be called by an invited member account that has the ENABLED status. DisassociateMembership cannot be called by an organization account in the organization behavior graph. For the organization behavior graph, the Detective administrator account determines which organization accounts to enable or disable as member accounts.
     ///
     /// - Parameter DisassociateMembershipInput : [no documentation found]
     ///
-    /// - Returns: `DisassociateMembershipOutputResponse` : [no documentation found]
+    /// - Returns: `DisassociateMembershipOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -194,12 +194,12 @@ public protocol DetectiveClientProtocol {
     /// - `InternalServerException` : The request was valid but failed because of a problem with the service.
     /// - `ResourceNotFoundException` : The request refers to a nonexistent resource.
     /// - `ValidationException` : The request parameters are invalid.
-    func disassociateMembership(input: DisassociateMembershipInput) async throws -> DisassociateMembershipOutputResponse
+    func disassociateMembership(input: DisassociateMembershipInput) async throws -> DisassociateMembershipOutput
     /// Designates the Detective administrator account for the organization in the current Region. If the account does not have Detective enabled, then enables Detective for that account and creates a new behavior graph. Can only be called by the organization management account. If the organization has a delegated administrator account in Organizations, then the Detective administrator account must be either the delegated administrator account or the organization management account. If the organization does not have a delegated administrator account in Organizations, then you can choose any account in the organization. If you choose an account other than the organization management account, Detective calls Organizations to make that account the delegated administrator account for Detective. The organization management account cannot be the delegated administrator account.
     ///
     /// - Parameter EnableOrganizationAdminAccountInput : [no documentation found]
     ///
-    /// - Returns: `EnableOrganizationAdminAccountOutputResponse` : [no documentation found]
+    /// - Returns: `EnableOrganizationAdminAccountOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -208,12 +208,12 @@ public protocol DetectiveClientProtocol {
     /// - `InternalServerException` : The request was valid but failed because of a problem with the service.
     /// - `TooManyRequestsException` : The request cannot be completed because too many other requests are occurring at the same time.
     /// - `ValidationException` : The request parameters are invalid.
-    func enableOrganizationAdminAccount(input: EnableOrganizationAdminAccountInput) async throws -> EnableOrganizationAdminAccountOutputResponse
+    func enableOrganizationAdminAccount(input: EnableOrganizationAdminAccountInput) async throws -> EnableOrganizationAdminAccountOutput
     /// Returns the membership details for specified member accounts for a behavior graph.
     ///
     /// - Parameter GetMembersInput : [no documentation found]
     ///
-    /// - Returns: `GetMembersOutputResponse` : [no documentation found]
+    /// - Returns: `GetMembersOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -222,12 +222,12 @@ public protocol DetectiveClientProtocol {
     /// - `InternalServerException` : The request was valid but failed because of a problem with the service.
     /// - `ResourceNotFoundException` : The request refers to a nonexistent resource.
     /// - `ValidationException` : The request parameters are invalid.
-    func getMembers(input: GetMembersInput) async throws -> GetMembersOutputResponse
+    func getMembers(input: GetMembersInput) async throws -> GetMembersOutput
     /// Lists data source packages in the behavior graph.
     ///
     /// - Parameter ListDatasourcePackagesInput : [no documentation found]
     ///
-    /// - Returns: `ListDatasourcePackagesOutputResponse` : [no documentation found]
+    /// - Returns: `ListDatasourcePackagesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -236,12 +236,12 @@ public protocol DetectiveClientProtocol {
     /// - `InternalServerException` : The request was valid but failed because of a problem with the service.
     /// - `ResourceNotFoundException` : The request refers to a nonexistent resource.
     /// - `ValidationException` : The request parameters are invalid.
-    func listDatasourcePackages(input: ListDatasourcePackagesInput) async throws -> ListDatasourcePackagesOutputResponse
+    func listDatasourcePackages(input: ListDatasourcePackagesInput) async throws -> ListDatasourcePackagesOutput
     /// Returns the list of behavior graphs that the calling account is an administrator account of. This operation can only be called by an administrator account. Because an account can currently only be the administrator of one behavior graph within a Region, the results always contain a single behavior graph.
     ///
     /// - Parameter ListGraphsInput : [no documentation found]
     ///
-    /// - Returns: `ListGraphsOutputResponse` : [no documentation found]
+    /// - Returns: `ListGraphsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -249,12 +249,12 @@ public protocol DetectiveClientProtocol {
     /// - `AccessDeniedException` : The request issuer does not have permission to access this resource or perform this operation.
     /// - `InternalServerException` : The request was valid but failed because of a problem with the service.
     /// - `ValidationException` : The request parameters are invalid.
-    func listGraphs(input: ListGraphsInput) async throws -> ListGraphsOutputResponse
+    func listGraphs(input: ListGraphsInput) async throws -> ListGraphsOutput
     /// Retrieves the list of open and accepted behavior graph invitations for the member account. This operation can only be called by an invited member account. Open invitations are invitations that the member account has not responded to. The results do not include behavior graphs for which the member account declined the invitation. The results also do not include behavior graphs that the member account resigned from or was removed from.
     ///
     /// - Parameter ListInvitationsInput : [no documentation found]
     ///
-    /// - Returns: `ListInvitationsOutputResponse` : [no documentation found]
+    /// - Returns: `ListInvitationsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -262,12 +262,12 @@ public protocol DetectiveClientProtocol {
     /// - `AccessDeniedException` : The request issuer does not have permission to access this resource or perform this operation.
     /// - `InternalServerException` : The request was valid but failed because of a problem with the service.
     /// - `ValidationException` : The request parameters are invalid.
-    func listInvitations(input: ListInvitationsInput) async throws -> ListInvitationsOutputResponse
+    func listInvitations(input: ListInvitationsInput) async throws -> ListInvitationsOutput
     /// Retrieves the list of member accounts for a behavior graph. For invited accounts, the results do not include member accounts that were removed from the behavior graph. For the organization behavior graph, the results do not include organization accounts that the Detective administrator account has not enabled as member accounts.
     ///
     /// - Parameter ListMembersInput : [no documentation found]
     ///
-    /// - Returns: `ListMembersOutputResponse` : [no documentation found]
+    /// - Returns: `ListMembersOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -276,12 +276,12 @@ public protocol DetectiveClientProtocol {
     /// - `InternalServerException` : The request was valid but failed because of a problem with the service.
     /// - `ResourceNotFoundException` : The request refers to a nonexistent resource.
     /// - `ValidationException` : The request parameters are invalid.
-    func listMembers(input: ListMembersInput) async throws -> ListMembersOutputResponse
+    func listMembers(input: ListMembersInput) async throws -> ListMembersOutput
     /// Returns information about the Detective administrator account for an organization. Can only be called by the organization management account.
     ///
     /// - Parameter ListOrganizationAdminAccountsInput : [no documentation found]
     ///
-    /// - Returns: `ListOrganizationAdminAccountsOutputResponse` : [no documentation found]
+    /// - Returns: `ListOrganizationAdminAccountsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -290,12 +290,12 @@ public protocol DetectiveClientProtocol {
     /// - `InternalServerException` : The request was valid but failed because of a problem with the service.
     /// - `TooManyRequestsException` : The request cannot be completed because too many other requests are occurring at the same time.
     /// - `ValidationException` : The request parameters are invalid.
-    func listOrganizationAdminAccounts(input: ListOrganizationAdminAccountsInput) async throws -> ListOrganizationAdminAccountsOutputResponse
+    func listOrganizationAdminAccounts(input: ListOrganizationAdminAccountsInput) async throws -> ListOrganizationAdminAccountsOutput
     /// Returns the tag values that are assigned to a behavior graph.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -304,12 +304,12 @@ public protocol DetectiveClientProtocol {
     /// - `InternalServerException` : The request was valid but failed because of a problem with the service.
     /// - `ResourceNotFoundException` : The request refers to a nonexistent resource.
     /// - `ValidationException` : The request parameters are invalid.
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     /// Rejects an invitation to contribute the account data to a behavior graph. This operation must be called by an invited member account that has the INVITED status. RejectInvitation cannot be called by an organization account in the organization behavior graph. In the organization behavior graph, organization accounts do not receive an invitation.
     ///
     /// - Parameter RejectInvitationInput : [no documentation found]
     ///
-    /// - Returns: `RejectInvitationOutputResponse` : [no documentation found]
+    /// - Returns: `RejectInvitationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -319,7 +319,7 @@ public protocol DetectiveClientProtocol {
     /// - `InternalServerException` : The request was valid but failed because of a problem with the service.
     /// - `ResourceNotFoundException` : The request refers to a nonexistent resource.
     /// - `ValidationException` : The request parameters are invalid.
-    func rejectInvitation(input: RejectInvitationInput) async throws -> RejectInvitationOutputResponse
+    func rejectInvitation(input: RejectInvitationInput) async throws -> RejectInvitationOutput
     /// Sends a request to enable data ingest for a member account that has a status of ACCEPTED_BUT_DISABLED. For valid member accounts, the status is updated as follows.
     ///
     /// * If Detective enabled the member account, then the new status is ENABLED.
@@ -328,7 +328,7 @@ public protocol DetectiveClientProtocol {
     ///
     /// - Parameter StartMonitoringMemberInput : [no documentation found]
     ///
-    /// - Returns: `StartMonitoringMemberOutputResponse` : [no documentation found]
+    /// - Returns: `StartMonitoringMemberOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -345,12 +345,12 @@ public protocol DetectiveClientProtocol {
     ///
     /// * Detective is unable to verify the data rate for the member account. This is usually because the member account is not enrolled in Amazon GuardDuty.
     /// - `ValidationException` : The request parameters are invalid.
-    func startMonitoringMember(input: StartMonitoringMemberInput) async throws -> StartMonitoringMemberOutputResponse
+    func startMonitoringMember(input: StartMonitoringMemberInput) async throws -> StartMonitoringMemberOutput
     /// Applies tag values to a behavior graph.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -359,12 +359,12 @@ public protocol DetectiveClientProtocol {
     /// - `InternalServerException` : The request was valid but failed because of a problem with the service.
     /// - `ResourceNotFoundException` : The request refers to a nonexistent resource.
     /// - `ValidationException` : The request parameters are invalid.
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     /// Removes tags from a behavior graph.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -373,12 +373,12 @@ public protocol DetectiveClientProtocol {
     /// - `InternalServerException` : The request was valid but failed because of a problem with the service.
     /// - `ResourceNotFoundException` : The request refers to a nonexistent resource.
     /// - `ValidationException` : The request parameters are invalid.
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
     /// Starts a data source packages for the behavior graph.
     ///
     /// - Parameter UpdateDatasourcePackagesInput : [no documentation found]
     ///
-    /// - Returns: `UpdateDatasourcePackagesOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateDatasourcePackagesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -394,12 +394,12 @@ public protocol DetectiveClientProtocol {
     ///
     /// * Detective is unable to verify the data rate for the member account. This is usually because the member account is not enrolled in Amazon GuardDuty.
     /// - `ValidationException` : The request parameters are invalid.
-    func updateDatasourcePackages(input: UpdateDatasourcePackagesInput) async throws -> UpdateDatasourcePackagesOutputResponse
+    func updateDatasourcePackages(input: UpdateDatasourcePackagesInput) async throws -> UpdateDatasourcePackagesOutput
     /// Updates the configuration for the Organizations integration in the current Region. Can only be called by the Detective administrator account for the organization.
     ///
     /// - Parameter UpdateOrganizationConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `UpdateOrganizationConfigurationOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateOrganizationConfigurationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -408,7 +408,7 @@ public protocol DetectiveClientProtocol {
     /// - `InternalServerException` : The request was valid but failed because of a problem with the service.
     /// - `TooManyRequestsException` : The request cannot be completed because too many other requests are occurring at the same time.
     /// - `ValidationException` : The request parameters are invalid.
-    func updateOrganizationConfiguration(input: UpdateOrganizationConfigurationInput) async throws -> UpdateOrganizationConfigurationOutputResponse
+    func updateOrganizationConfiguration(input: UpdateOrganizationConfigurationInput) async throws -> UpdateOrganizationConfigurationOutput
 }
 
 public enum DetectiveClientTypes {}

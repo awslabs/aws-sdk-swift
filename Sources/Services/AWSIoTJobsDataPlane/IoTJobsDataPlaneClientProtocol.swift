@@ -8,7 +8,7 @@ public protocol IoTJobsDataPlaneClientProtocol {
     ///
     /// - Parameter DescribeJobExecutionInput : [no documentation found]
     ///
-    /// - Returns: `DescribeJobExecutionOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeJobExecutionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -19,12 +19,12 @@ public protocol IoTJobsDataPlaneClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `TerminalStateException` : The job is in a terminal state.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    func describeJobExecution(input: DescribeJobExecutionInput) async throws -> DescribeJobExecutionOutputResponse
+    func describeJobExecution(input: DescribeJobExecutionInput) async throws -> DescribeJobExecutionOutput
     /// Gets the list of all jobs for a thing that are not in a terminal status.
     ///
     /// - Parameter GetPendingJobExecutionsInput : [no documentation found]
     ///
-    /// - Returns: `GetPendingJobExecutionsOutputResponse` : [no documentation found]
+    /// - Returns: `GetPendingJobExecutionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -34,12 +34,12 @@ public protocol IoTJobsDataPlaneClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    func getPendingJobExecutions(input: GetPendingJobExecutionsInput) async throws -> GetPendingJobExecutionsOutputResponse
+    func getPendingJobExecutions(input: GetPendingJobExecutionsInput) async throws -> GetPendingJobExecutionsOutput
     /// Gets and starts the next pending (status IN_PROGRESS or QUEUED) job execution for a thing.
     ///
     /// - Parameter StartNextPendingJobExecutionInput : [no documentation found]
     ///
-    /// - Returns: `StartNextPendingJobExecutionOutputResponse` : [no documentation found]
+    /// - Returns: `StartNextPendingJobExecutionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -49,12 +49,12 @@ public protocol IoTJobsDataPlaneClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    func startNextPendingJobExecution(input: StartNextPendingJobExecutionInput) async throws -> StartNextPendingJobExecutionOutputResponse
+    func startNextPendingJobExecution(input: StartNextPendingJobExecutionInput) async throws -> StartNextPendingJobExecutionOutput
     /// Updates the status of a job execution.
     ///
     /// - Parameter UpdateJobExecutionInput : [no documentation found]
     ///
-    /// - Returns: `UpdateJobExecutionOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateJobExecutionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -65,7 +65,7 @@ public protocol IoTJobsDataPlaneClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
-    func updateJobExecution(input: UpdateJobExecutionInput) async throws -> UpdateJobExecutionOutputResponse
+    func updateJobExecution(input: UpdateJobExecutionInput) async throws -> UpdateJobExecutionOutput
 }
 
 public enum IoTJobsDataPlaneClientTypes {}

@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension AthenaClient {
-    /// Paginate over `[GetQueryResultsOutputResponse]` results.
+    /// Paginate over `[GetQueryResultsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[GetQueryResultsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `GetQueryResultsOutputResponse`
-    public func getQueryResultsPaginated(input: GetQueryResultsInput) -> ClientRuntime.PaginatorSequence<GetQueryResultsInput, GetQueryResultsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<GetQueryResultsInput, GetQueryResultsOutputResponse>(input: input, inputKey: \GetQueryResultsInput.nextToken, outputKey: \GetQueryResultsOutputResponse.nextToken, paginationFunction: self.getQueryResults(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `GetQueryResultsOutput`
+    public func getQueryResultsPaginated(input: GetQueryResultsInput) -> ClientRuntime.PaginatorSequence<GetQueryResultsInput, GetQueryResultsOutput> {
+        return ClientRuntime.PaginatorSequence<GetQueryResultsInput, GetQueryResultsOutput>(input: input, inputKey: \GetQueryResultsInput.nextToken, outputKey: \GetQueryResultsOutput.nextToken, paginationFunction: self.getQueryResults(input:))
     }
 }
 
@@ -25,16 +25,16 @@ extension GetQueryResultsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension AthenaClient {
-    /// Paginate over `[ListApplicationDPUSizesOutputResponse]` results.
+    /// Paginate over `[ListApplicationDPUSizesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListApplicationDPUSizesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListApplicationDPUSizesOutputResponse`
-    public func listApplicationDPUSizesPaginated(input: ListApplicationDPUSizesInput) -> ClientRuntime.PaginatorSequence<ListApplicationDPUSizesInput, ListApplicationDPUSizesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListApplicationDPUSizesInput, ListApplicationDPUSizesOutputResponse>(input: input, inputKey: \ListApplicationDPUSizesInput.nextToken, outputKey: \ListApplicationDPUSizesOutputResponse.nextToken, paginationFunction: self.listApplicationDPUSizes(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListApplicationDPUSizesOutput`
+    public func listApplicationDPUSizesPaginated(input: ListApplicationDPUSizesInput) -> ClientRuntime.PaginatorSequence<ListApplicationDPUSizesInput, ListApplicationDPUSizesOutput> {
+        return ClientRuntime.PaginatorSequence<ListApplicationDPUSizesInput, ListApplicationDPUSizesOutput>(input: input, inputKey: \ListApplicationDPUSizesInput.nextToken, outputKey: \ListApplicationDPUSizesOutput.nextToken, paginationFunction: self.listApplicationDPUSizes(input:))
     }
 }
 
@@ -46,16 +46,16 @@ extension ListApplicationDPUSizesInput: ClientRuntime.PaginateToken {
         )}
 }
 extension AthenaClient {
-    /// Paginate over `[ListCalculationExecutionsOutputResponse]` results.
+    /// Paginate over `[ListCalculationExecutionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListCalculationExecutionsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListCalculationExecutionsOutputResponse`
-    public func listCalculationExecutionsPaginated(input: ListCalculationExecutionsInput) -> ClientRuntime.PaginatorSequence<ListCalculationExecutionsInput, ListCalculationExecutionsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListCalculationExecutionsInput, ListCalculationExecutionsOutputResponse>(input: input, inputKey: \ListCalculationExecutionsInput.nextToken, outputKey: \ListCalculationExecutionsOutputResponse.nextToken, paginationFunction: self.listCalculationExecutions(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListCalculationExecutionsOutput`
+    public func listCalculationExecutionsPaginated(input: ListCalculationExecutionsInput) -> ClientRuntime.PaginatorSequence<ListCalculationExecutionsInput, ListCalculationExecutionsOutput> {
+        return ClientRuntime.PaginatorSequence<ListCalculationExecutionsInput, ListCalculationExecutionsOutput>(input: input, inputKey: \ListCalculationExecutionsInput.nextToken, outputKey: \ListCalculationExecutionsOutput.nextToken, paginationFunction: self.listCalculationExecutions(input:))
     }
 }
 
@@ -69,16 +69,16 @@ extension ListCalculationExecutionsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension AthenaClient {
-    /// Paginate over `[ListCapacityReservationsOutputResponse]` results.
+    /// Paginate over `[ListCapacityReservationsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListCapacityReservationsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListCapacityReservationsOutputResponse`
-    public func listCapacityReservationsPaginated(input: ListCapacityReservationsInput) -> ClientRuntime.PaginatorSequence<ListCapacityReservationsInput, ListCapacityReservationsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListCapacityReservationsInput, ListCapacityReservationsOutputResponse>(input: input, inputKey: \ListCapacityReservationsInput.nextToken, outputKey: \ListCapacityReservationsOutputResponse.nextToken, paginationFunction: self.listCapacityReservations(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListCapacityReservationsOutput`
+    public func listCapacityReservationsPaginated(input: ListCapacityReservationsInput) -> ClientRuntime.PaginatorSequence<ListCapacityReservationsInput, ListCapacityReservationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListCapacityReservationsInput, ListCapacityReservationsOutput>(input: input, inputKey: \ListCapacityReservationsInput.nextToken, outputKey: \ListCapacityReservationsOutput.nextToken, paginationFunction: self.listCapacityReservations(input:))
     }
 }
 
@@ -90,16 +90,16 @@ extension ListCapacityReservationsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension AthenaClient {
-    /// Paginate over `[ListDatabasesOutputResponse]` results.
+    /// Paginate over `[ListDatabasesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListDatabasesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListDatabasesOutputResponse`
-    public func listDatabasesPaginated(input: ListDatabasesInput) -> ClientRuntime.PaginatorSequence<ListDatabasesInput, ListDatabasesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListDatabasesInput, ListDatabasesOutputResponse>(input: input, inputKey: \ListDatabasesInput.nextToken, outputKey: \ListDatabasesOutputResponse.nextToken, paginationFunction: self.listDatabases(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDatabasesOutput`
+    public func listDatabasesPaginated(input: ListDatabasesInput) -> ClientRuntime.PaginatorSequence<ListDatabasesInput, ListDatabasesOutput> {
+        return ClientRuntime.PaginatorSequence<ListDatabasesInput, ListDatabasesOutput>(input: input, inputKey: \ListDatabasesInput.nextToken, outputKey: \ListDatabasesOutput.nextToken, paginationFunction: self.listDatabases(input:))
     }
 }
 
@@ -112,7 +112,7 @@ extension ListDatabasesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListDatabasesInput, Output == ListDatabasesOutputResponse {
+extension PaginatorSequence where Input == ListDatabasesInput, Output == ListDatabasesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listDatabasesPaginated`
     /// to access the nested member `[AthenaClientTypes.Database]`
     /// - Returns: `[AthenaClientTypes.Database]`
@@ -121,16 +121,16 @@ extension PaginatorSequence where Input == ListDatabasesInput, Output == ListDat
     }
 }
 extension AthenaClient {
-    /// Paginate over `[ListDataCatalogsOutputResponse]` results.
+    /// Paginate over `[ListDataCatalogsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListDataCatalogsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListDataCatalogsOutputResponse`
-    public func listDataCatalogsPaginated(input: ListDataCatalogsInput) -> ClientRuntime.PaginatorSequence<ListDataCatalogsInput, ListDataCatalogsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListDataCatalogsInput, ListDataCatalogsOutputResponse>(input: input, inputKey: \ListDataCatalogsInput.nextToken, outputKey: \ListDataCatalogsOutputResponse.nextToken, paginationFunction: self.listDataCatalogs(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDataCatalogsOutput`
+    public func listDataCatalogsPaginated(input: ListDataCatalogsInput) -> ClientRuntime.PaginatorSequence<ListDataCatalogsInput, ListDataCatalogsOutput> {
+        return ClientRuntime.PaginatorSequence<ListDataCatalogsInput, ListDataCatalogsOutput>(input: input, inputKey: \ListDataCatalogsInput.nextToken, outputKey: \ListDataCatalogsOutput.nextToken, paginationFunction: self.listDataCatalogs(input:))
     }
 }
 
@@ -142,7 +142,7 @@ extension ListDataCatalogsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListDataCatalogsInput, Output == ListDataCatalogsOutputResponse {
+extension PaginatorSequence where Input == ListDataCatalogsInput, Output == ListDataCatalogsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listDataCatalogsPaginated`
     /// to access the nested member `[AthenaClientTypes.DataCatalogSummary]`
     /// - Returns: `[AthenaClientTypes.DataCatalogSummary]`
@@ -151,16 +151,16 @@ extension PaginatorSequence where Input == ListDataCatalogsInput, Output == List
     }
 }
 extension AthenaClient {
-    /// Paginate over `[ListEngineVersionsOutputResponse]` results.
+    /// Paginate over `[ListEngineVersionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListEngineVersionsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListEngineVersionsOutputResponse`
-    public func listEngineVersionsPaginated(input: ListEngineVersionsInput) -> ClientRuntime.PaginatorSequence<ListEngineVersionsInput, ListEngineVersionsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListEngineVersionsInput, ListEngineVersionsOutputResponse>(input: input, inputKey: \ListEngineVersionsInput.nextToken, outputKey: \ListEngineVersionsOutputResponse.nextToken, paginationFunction: self.listEngineVersions(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListEngineVersionsOutput`
+    public func listEngineVersionsPaginated(input: ListEngineVersionsInput) -> ClientRuntime.PaginatorSequence<ListEngineVersionsInput, ListEngineVersionsOutput> {
+        return ClientRuntime.PaginatorSequence<ListEngineVersionsInput, ListEngineVersionsOutput>(input: input, inputKey: \ListEngineVersionsInput.nextToken, outputKey: \ListEngineVersionsOutput.nextToken, paginationFunction: self.listEngineVersions(input:))
     }
 }
 
@@ -172,16 +172,16 @@ extension ListEngineVersionsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension AthenaClient {
-    /// Paginate over `[ListExecutorsOutputResponse]` results.
+    /// Paginate over `[ListExecutorsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListExecutorsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListExecutorsOutputResponse`
-    public func listExecutorsPaginated(input: ListExecutorsInput) -> ClientRuntime.PaginatorSequence<ListExecutorsInput, ListExecutorsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListExecutorsInput, ListExecutorsOutputResponse>(input: input, inputKey: \ListExecutorsInput.nextToken, outputKey: \ListExecutorsOutputResponse.nextToken, paginationFunction: self.listExecutors(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListExecutorsOutput`
+    public func listExecutorsPaginated(input: ListExecutorsInput) -> ClientRuntime.PaginatorSequence<ListExecutorsInput, ListExecutorsOutput> {
+        return ClientRuntime.PaginatorSequence<ListExecutorsInput, ListExecutorsOutput>(input: input, inputKey: \ListExecutorsInput.nextToken, outputKey: \ListExecutorsOutput.nextToken, paginationFunction: self.listExecutors(input:))
     }
 }
 
@@ -195,16 +195,16 @@ extension ListExecutorsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension AthenaClient {
-    /// Paginate over `[ListNamedQueriesOutputResponse]` results.
+    /// Paginate over `[ListNamedQueriesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListNamedQueriesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListNamedQueriesOutputResponse`
-    public func listNamedQueriesPaginated(input: ListNamedQueriesInput) -> ClientRuntime.PaginatorSequence<ListNamedQueriesInput, ListNamedQueriesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListNamedQueriesInput, ListNamedQueriesOutputResponse>(input: input, inputKey: \ListNamedQueriesInput.nextToken, outputKey: \ListNamedQueriesOutputResponse.nextToken, paginationFunction: self.listNamedQueries(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListNamedQueriesOutput`
+    public func listNamedQueriesPaginated(input: ListNamedQueriesInput) -> ClientRuntime.PaginatorSequence<ListNamedQueriesInput, ListNamedQueriesOutput> {
+        return ClientRuntime.PaginatorSequence<ListNamedQueriesInput, ListNamedQueriesOutput>(input: input, inputKey: \ListNamedQueriesInput.nextToken, outputKey: \ListNamedQueriesOutput.nextToken, paginationFunction: self.listNamedQueries(input:))
     }
 }
 
@@ -217,16 +217,16 @@ extension ListNamedQueriesInput: ClientRuntime.PaginateToken {
         )}
 }
 extension AthenaClient {
-    /// Paginate over `[ListPreparedStatementsOutputResponse]` results.
+    /// Paginate over `[ListPreparedStatementsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListPreparedStatementsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListPreparedStatementsOutputResponse`
-    public func listPreparedStatementsPaginated(input: ListPreparedStatementsInput) -> ClientRuntime.PaginatorSequence<ListPreparedStatementsInput, ListPreparedStatementsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListPreparedStatementsInput, ListPreparedStatementsOutputResponse>(input: input, inputKey: \ListPreparedStatementsInput.nextToken, outputKey: \ListPreparedStatementsOutputResponse.nextToken, paginationFunction: self.listPreparedStatements(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListPreparedStatementsOutput`
+    public func listPreparedStatementsPaginated(input: ListPreparedStatementsInput) -> ClientRuntime.PaginatorSequence<ListPreparedStatementsInput, ListPreparedStatementsOutput> {
+        return ClientRuntime.PaginatorSequence<ListPreparedStatementsInput, ListPreparedStatementsOutput>(input: input, inputKey: \ListPreparedStatementsInput.nextToken, outputKey: \ListPreparedStatementsOutput.nextToken, paginationFunction: self.listPreparedStatements(input:))
     }
 }
 
@@ -239,16 +239,16 @@ extension ListPreparedStatementsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension AthenaClient {
-    /// Paginate over `[ListQueryExecutionsOutputResponse]` results.
+    /// Paginate over `[ListQueryExecutionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListQueryExecutionsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListQueryExecutionsOutputResponse`
-    public func listQueryExecutionsPaginated(input: ListQueryExecutionsInput) -> ClientRuntime.PaginatorSequence<ListQueryExecutionsInput, ListQueryExecutionsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListQueryExecutionsInput, ListQueryExecutionsOutputResponse>(input: input, inputKey: \ListQueryExecutionsInput.nextToken, outputKey: \ListQueryExecutionsOutputResponse.nextToken, paginationFunction: self.listQueryExecutions(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListQueryExecutionsOutput`
+    public func listQueryExecutionsPaginated(input: ListQueryExecutionsInput) -> ClientRuntime.PaginatorSequence<ListQueryExecutionsInput, ListQueryExecutionsOutput> {
+        return ClientRuntime.PaginatorSequence<ListQueryExecutionsInput, ListQueryExecutionsOutput>(input: input, inputKey: \ListQueryExecutionsInput.nextToken, outputKey: \ListQueryExecutionsOutput.nextToken, paginationFunction: self.listQueryExecutions(input:))
     }
 }
 
@@ -261,16 +261,16 @@ extension ListQueryExecutionsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension AthenaClient {
-    /// Paginate over `[ListSessionsOutputResponse]` results.
+    /// Paginate over `[ListSessionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListSessionsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListSessionsOutputResponse`
-    public func listSessionsPaginated(input: ListSessionsInput) -> ClientRuntime.PaginatorSequence<ListSessionsInput, ListSessionsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListSessionsInput, ListSessionsOutputResponse>(input: input, inputKey: \ListSessionsInput.nextToken, outputKey: \ListSessionsOutputResponse.nextToken, paginationFunction: self.listSessions(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListSessionsOutput`
+    public func listSessionsPaginated(input: ListSessionsInput) -> ClientRuntime.PaginatorSequence<ListSessionsInput, ListSessionsOutput> {
+        return ClientRuntime.PaginatorSequence<ListSessionsInput, ListSessionsOutput>(input: input, inputKey: \ListSessionsInput.nextToken, outputKey: \ListSessionsOutput.nextToken, paginationFunction: self.listSessions(input:))
     }
 }
 
@@ -284,16 +284,16 @@ extension ListSessionsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension AthenaClient {
-    /// Paginate over `[ListTableMetadataOutputResponse]` results.
+    /// Paginate over `[ListTableMetadataOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListTableMetadataInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListTableMetadataOutputResponse`
-    public func listTableMetadataPaginated(input: ListTableMetadataInput) -> ClientRuntime.PaginatorSequence<ListTableMetadataInput, ListTableMetadataOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListTableMetadataInput, ListTableMetadataOutputResponse>(input: input, inputKey: \ListTableMetadataInput.nextToken, outputKey: \ListTableMetadataOutputResponse.nextToken, paginationFunction: self.listTableMetadata(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListTableMetadataOutput`
+    public func listTableMetadataPaginated(input: ListTableMetadataInput) -> ClientRuntime.PaginatorSequence<ListTableMetadataInput, ListTableMetadataOutput> {
+        return ClientRuntime.PaginatorSequence<ListTableMetadataInput, ListTableMetadataOutput>(input: input, inputKey: \ListTableMetadataInput.nextToken, outputKey: \ListTableMetadataOutput.nextToken, paginationFunction: self.listTableMetadata(input:))
     }
 }
 
@@ -308,7 +308,7 @@ extension ListTableMetadataInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListTableMetadataInput, Output == ListTableMetadataOutputResponse {
+extension PaginatorSequence where Input == ListTableMetadataInput, Output == ListTableMetadataOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listTableMetadataPaginated`
     /// to access the nested member `[AthenaClientTypes.TableMetadata]`
     /// - Returns: `[AthenaClientTypes.TableMetadata]`
@@ -317,16 +317,16 @@ extension PaginatorSequence where Input == ListTableMetadataInput, Output == Lis
     }
 }
 extension AthenaClient {
-    /// Paginate over `[ListTagsForResourceOutputResponse]` results.
+    /// Paginate over `[ListTagsForResourceOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListTagsForResourceInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListTagsForResourceOutputResponse`
-    public func listTagsForResourcePaginated(input: ListTagsForResourceInput) -> ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutputResponse>(input: input, inputKey: \ListTagsForResourceInput.nextToken, outputKey: \ListTagsForResourceOutputResponse.nextToken, paginationFunction: self.listTagsForResource(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListTagsForResourceOutput`
+    public func listTagsForResourcePaginated(input: ListTagsForResourceInput) -> ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutput> {
+        return ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutput>(input: input, inputKey: \ListTagsForResourceInput.nextToken, outputKey: \ListTagsForResourceOutput.nextToken, paginationFunction: self.listTagsForResource(input:))
     }
 }
 
@@ -339,7 +339,7 @@ extension ListTagsForResourceInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListTagsForResourceInput, Output == ListTagsForResourceOutputResponse {
+extension PaginatorSequence where Input == ListTagsForResourceInput, Output == ListTagsForResourceOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listTagsForResourcePaginated`
     /// to access the nested member `[AthenaClientTypes.Tag]`
     /// - Returns: `[AthenaClientTypes.Tag]`
@@ -348,16 +348,16 @@ extension PaginatorSequence where Input == ListTagsForResourceInput, Output == L
     }
 }
 extension AthenaClient {
-    /// Paginate over `[ListWorkGroupsOutputResponse]` results.
+    /// Paginate over `[ListWorkGroupsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListWorkGroupsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListWorkGroupsOutputResponse`
-    public func listWorkGroupsPaginated(input: ListWorkGroupsInput) -> ClientRuntime.PaginatorSequence<ListWorkGroupsInput, ListWorkGroupsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListWorkGroupsInput, ListWorkGroupsOutputResponse>(input: input, inputKey: \ListWorkGroupsInput.nextToken, outputKey: \ListWorkGroupsOutputResponse.nextToken, paginationFunction: self.listWorkGroups(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListWorkGroupsOutput`
+    public func listWorkGroupsPaginated(input: ListWorkGroupsInput) -> ClientRuntime.PaginatorSequence<ListWorkGroupsInput, ListWorkGroupsOutput> {
+        return ClientRuntime.PaginatorSequence<ListWorkGroupsInput, ListWorkGroupsOutput>(input: input, inputKey: \ListWorkGroupsInput.nextToken, outputKey: \ListWorkGroupsOutput.nextToken, paginationFunction: self.listWorkGroups(input:))
     }
 }
 

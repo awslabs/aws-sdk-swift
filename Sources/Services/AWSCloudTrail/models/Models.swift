@@ -300,6 +300,17 @@ extension AddTagsInputBody: Swift.Decodable {
     }
 }
 
+extension AddTagsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+/// Returns the objects or data if successful. Otherwise, returns an error.
+public struct AddTagsOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum AddTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -324,17 +335,6 @@ enum AddTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension AddTagsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-/// Returns the objects or data if successful. Otherwise, returns an error.
-public struct AddTagsOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension CloudTrailClientTypes.AdvancedEventSelector: Swift.Codable {
@@ -827,31 +827,11 @@ extension CancelQueryInputBody: Swift.Decodable {
     }
 }
 
-enum CancelQueryOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EventDataStoreARNInvalid": return try await EventDataStoreARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EventDataStoreNotFound": return try await EventDataStoreNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InactiveEventDataStore": return try await InactiveEventDataStoreException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InactiveQuery": return try await InactiveQueryException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameter": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NoManagementAccountSLRExists": return try await NoManagementAccountSLRExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "QueryIdNotFound": return try await QueryIdNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CancelQueryOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CancelQueryOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CancelQueryOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CancelQueryOutputBody = try responseDecoder.decode(responseBody: data)
             self.queryId = output.queryId
             self.queryStatus = output.queryStatus
         } else {
@@ -861,7 +841,7 @@ extension CancelQueryOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CancelQueryOutputResponse: Swift.Equatable {
+public struct CancelQueryOutput: Swift.Equatable {
     /// The ID of the canceled query.
     /// This member is required.
     public var queryId: Swift.String?
@@ -879,12 +859,12 @@ public struct CancelQueryOutputResponse: Swift.Equatable {
     }
 }
 
-struct CancelQueryOutputResponseBody: Swift.Equatable {
+struct CancelQueryOutputBody: Swift.Equatable {
     let queryId: Swift.String?
     let queryStatus: CloudTrailClientTypes.QueryStatus?
 }
 
-extension CancelQueryOutputResponseBody: Swift.Decodable {
+extension CancelQueryOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case queryId = "QueryId"
         case queryStatus = "QueryStatus"
@@ -896,6 +876,26 @@ extension CancelQueryOutputResponseBody: Swift.Decodable {
         queryId = queryIdDecoded
         let queryStatusDecoded = try containerValues.decodeIfPresent(CloudTrailClientTypes.QueryStatus.self, forKey: .queryStatus)
         queryStatus = queryStatusDecoded
+    }
+}
+
+enum CancelQueryOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EventDataStoreARNInvalid": return try await EventDataStoreARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EventDataStoreNotFound": return try await EventDataStoreNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InactiveEventDataStore": return try await InactiveEventDataStoreException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InactiveQuery": return try await InactiveQueryException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameter": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoManagementAccountSLRExists": return try await NoManagementAccountSLRExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "QueryIdNotFound": return try await QueryIdNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1670,33 +1670,11 @@ extension CreateChannelInputBody: Swift.Decodable {
     }
 }
 
-enum CreateChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ChannelAlreadyExists": return try await ChannelAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ChannelMaxLimitExceeded": return try await ChannelMaxLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EventDataStoreARNInvalid": return try await EventDataStoreARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EventDataStoreNotFound": return try await EventDataStoreNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InactiveEventDataStore": return try await InactiveEventDataStoreException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidEventDataStoreCategory": return try await InvalidEventDataStoreCategoryException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameter": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidSource": return try await InvalidSourceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidTagParameter": return try await InvalidTagParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TagsLimitExceeded": return try await TagsLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreateChannelOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateChannelOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateChannelOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateChannelOutputBody = try responseDecoder.decode(responseBody: data)
             self.channelArn = output.channelArn
             self.destinations = output.destinations
             self.name = output.name
@@ -1712,7 +1690,7 @@ extension CreateChannelOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateChannelOutputResponse: Swift.Equatable {
+public struct CreateChannelOutput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the new channel.
     public var channelArn: Swift.String?
     /// The event data stores that log the events arriving through the channel.
@@ -1740,7 +1718,7 @@ public struct CreateChannelOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateChannelOutputResponseBody: Swift.Equatable {
+struct CreateChannelOutputBody: Swift.Equatable {
     let channelArn: Swift.String?
     let name: Swift.String?
     let source: Swift.String?
@@ -1748,7 +1726,7 @@ struct CreateChannelOutputResponseBody: Swift.Equatable {
     let tags: [CloudTrailClientTypes.Tag]?
 }
 
-extension CreateChannelOutputResponseBody: Swift.Decodable {
+extension CreateChannelOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case channelArn = "ChannelArn"
         case destinations = "Destinations"
@@ -1787,6 +1765,28 @@ extension CreateChannelOutputResponseBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+    }
+}
+
+enum CreateChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ChannelAlreadyExists": return try await ChannelAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ChannelMaxLimitExceeded": return try await ChannelMaxLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EventDataStoreARNInvalid": return try await EventDataStoreARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EventDataStoreNotFound": return try await EventDataStoreNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InactiveEventDataStore": return try await InactiveEventDataStoreException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidEventDataStoreCategory": return try await InvalidEventDataStoreCategoryException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameter": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidSource": return try await InvalidSourceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidTagParameter": return try await InvalidTagParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TagsLimitExceeded": return try await TagsLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1966,39 +1966,11 @@ extension CreateEventDataStoreInputBody: Swift.Decodable {
     }
 }
 
-enum CreateEventDataStoreOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "CloudTrailAccessNotEnabled": return try await CloudTrailAccessNotEnabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EventDataStoreAlreadyExists": return try await EventDataStoreAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EventDataStoreMaxLimitExceeded": return try await EventDataStoreMaxLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InsufficientDependencyServiceAccessPermission": return try await InsufficientDependencyServiceAccessPermissionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InsufficientEncryptionPolicy": return try await InsufficientEncryptionPolicyException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidEventSelectors": return try await InvalidEventSelectorsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidKmsKeyId": return try await InvalidKmsKeyIdException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameter": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidTagParameter": return try await InvalidTagParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "KmsException": return try await KmsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "KmsKeyNotFound": return try await KmsKeyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NoManagementAccountSLRExists": return try await NoManagementAccountSLRExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotOrganizationMasterAccount": return try await NotOrganizationMasterAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "OrganizationNotInAllFeaturesMode": return try await OrganizationNotInAllFeaturesModeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "OrganizationsNotInUse": return try await OrganizationsNotInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreateEventDataStoreOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateEventDataStoreOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateEventDataStoreOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateEventDataStoreOutputBody = try responseDecoder.decode(responseBody: data)
             self.advancedEventSelectors = output.advancedEventSelectors
             self.createdTimestamp = output.createdTimestamp
             self.eventDataStoreArn = output.eventDataStoreArn
@@ -2028,7 +2000,7 @@ extension CreateEventDataStoreOutputResponse: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct CreateEventDataStoreOutputResponse: Swift.Equatable {
+public struct CreateEventDataStoreOutput: Swift.Equatable {
     /// The advanced event selectors that were used to select the events for the data store.
     public var advancedEventSelectors: [CloudTrailClientTypes.AdvancedEventSelector]?
     /// The timestamp that shows when the event data store was created.
@@ -2084,7 +2056,7 @@ public struct CreateEventDataStoreOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateEventDataStoreOutputResponseBody: Swift.Equatable {
+struct CreateEventDataStoreOutputBody: Swift.Equatable {
     let eventDataStoreArn: Swift.String?
     let name: Swift.String?
     let status: CloudTrailClientTypes.EventDataStoreStatus?
@@ -2099,7 +2071,7 @@ struct CreateEventDataStoreOutputResponseBody: Swift.Equatable {
     let kmsKeyId: Swift.String?
 }
 
-extension CreateEventDataStoreOutputResponseBody: Swift.Decodable {
+extension CreateEventDataStoreOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case advancedEventSelectors = "AdvancedEventSelectors"
         case createdTimestamp = "CreatedTimestamp"
@@ -2159,6 +2131,34 @@ extension CreateEventDataStoreOutputResponseBody: Swift.Decodable {
         updatedTimestamp = updatedTimestampDecoded
         let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
         kmsKeyId = kmsKeyIdDecoded
+    }
+}
+
+enum CreateEventDataStoreOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "CloudTrailAccessNotEnabled": return try await CloudTrailAccessNotEnabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EventDataStoreAlreadyExists": return try await EventDataStoreAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EventDataStoreMaxLimitExceeded": return try await EventDataStoreMaxLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InsufficientDependencyServiceAccessPermission": return try await InsufficientDependencyServiceAccessPermissionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InsufficientEncryptionPolicy": return try await InsufficientEncryptionPolicyException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidEventSelectors": return try await InvalidEventSelectorsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidKmsKeyId": return try await InvalidKmsKeyIdException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameter": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidTagParameter": return try await InvalidTagParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KmsException": return try await KmsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KmsKeyNotFound": return try await KmsKeyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoManagementAccountSLRExists": return try await NoManagementAccountSLRExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotOrganizationMasterAccount": return try await NotOrganizationMasterAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OrganizationNotInAllFeaturesMode": return try await OrganizationNotInAllFeaturesModeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OrganizationsNotInUse": return try await OrganizationsNotInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2374,53 +2374,11 @@ extension CreateTrailInputBody: Swift.Decodable {
     }
 }
 
-enum CreateTrailOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "CloudTrailAccessNotEnabled": return try await CloudTrailAccessNotEnabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "CloudTrailInvalidClientTokenId": return try await CloudTrailInvalidClientTokenIdException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "CloudWatchLogsDeliveryUnavailable": return try await CloudWatchLogsDeliveryUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InsufficientDependencyServiceAccessPermission": return try await InsufficientDependencyServiceAccessPermissionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InsufficientEncryptionPolicy": return try await InsufficientEncryptionPolicyException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InsufficientS3BucketPolicy": return try await InsufficientS3BucketPolicyException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InsufficientSnsTopicPolicy": return try await InsufficientSnsTopicPolicyException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidCloudWatchLogsLogGroupArn": return try await InvalidCloudWatchLogsLogGroupArnException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidCloudWatchLogsRoleArn": return try await InvalidCloudWatchLogsRoleArnException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidKmsKeyId": return try await InvalidKmsKeyIdException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterCombinationError": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidS3BucketName": return try await InvalidS3BucketNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidS3Prefix": return try await InvalidS3PrefixException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidSnsTopicName": return try await InvalidSnsTopicNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidTagParameter": return try await InvalidTagParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidTrailName": return try await InvalidTrailNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "KmsException": return try await KmsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "KmsKeyDisabled": return try await KmsKeyDisabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "KmsKeyNotFound": return try await KmsKeyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MaximumNumberOfTrailsExceeded": return try await MaximumNumberOfTrailsExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NoManagementAccountSLRExists": return try await NoManagementAccountSLRExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotOrganizationMasterAccount": return try await NotOrganizationMasterAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "OrganizationNotInAllFeaturesMode": return try await OrganizationNotInAllFeaturesModeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "OrganizationsNotInUse": return try await OrganizationsNotInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "S3BucketDoesNotExist": return try await S3BucketDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TagsLimitExceeded": return try await TagsLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TrailAlreadyExists": return try await TrailAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TrailNotProvided": return try await TrailNotProvidedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreateTrailOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateTrailOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateTrailOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateTrailOutputBody = try responseDecoder.decode(responseBody: data)
             self.cloudWatchLogsLogGroupArn = output.cloudWatchLogsLogGroupArn
             self.cloudWatchLogsRoleArn = output.cloudWatchLogsRoleArn
             self.includeGlobalServiceEvents = output.includeGlobalServiceEvents
@@ -2453,7 +2411,7 @@ extension CreateTrailOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Returns the objects or data listed below if successful. Otherwise, returns an error.
-public struct CreateTrailOutputResponse: Swift.Equatable {
+public struct CreateTrailOutput: Swift.Equatable {
     /// Specifies the Amazon Resource Name (ARN) of the log group to which CloudTrail logs will be delivered.
     public var cloudWatchLogsLogGroupArn: Swift.String?
     /// Specifies the role for the CloudWatch Logs endpoint to assume to write to a user's log group.
@@ -2514,7 +2472,7 @@ public struct CreateTrailOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateTrailOutputResponseBody: Swift.Equatable {
+struct CreateTrailOutputBody: Swift.Equatable {
     let name: Swift.String?
     let s3BucketName: Swift.String?
     let s3KeyPrefix: Swift.String?
@@ -2530,7 +2488,7 @@ struct CreateTrailOutputResponseBody: Swift.Equatable {
     let isOrganizationTrail: Swift.Bool?
 }
 
-extension CreateTrailOutputResponseBody: Swift.Decodable {
+extension CreateTrailOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case cloudWatchLogsLogGroupArn = "CloudWatchLogsLogGroupArn"
         case cloudWatchLogsRoleArn = "CloudWatchLogsRoleArn"
@@ -2575,6 +2533,48 @@ extension CreateTrailOutputResponseBody: Swift.Decodable {
         kmsKeyId = kmsKeyIdDecoded
         let isOrganizationTrailDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isOrganizationTrail)
         isOrganizationTrail = isOrganizationTrailDecoded
+    }
+}
+
+enum CreateTrailOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "CloudTrailAccessNotEnabled": return try await CloudTrailAccessNotEnabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "CloudTrailInvalidClientTokenId": return try await CloudTrailInvalidClientTokenIdException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "CloudWatchLogsDeliveryUnavailable": return try await CloudWatchLogsDeliveryUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InsufficientDependencyServiceAccessPermission": return try await InsufficientDependencyServiceAccessPermissionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InsufficientEncryptionPolicy": return try await InsufficientEncryptionPolicyException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InsufficientS3BucketPolicy": return try await InsufficientS3BucketPolicyException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InsufficientSnsTopicPolicy": return try await InsufficientSnsTopicPolicyException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidCloudWatchLogsLogGroupArn": return try await InvalidCloudWatchLogsLogGroupArnException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidCloudWatchLogsRoleArn": return try await InvalidCloudWatchLogsRoleArnException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidKmsKeyId": return try await InvalidKmsKeyIdException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterCombinationError": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidS3BucketName": return try await InvalidS3BucketNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidS3Prefix": return try await InvalidS3PrefixException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidSnsTopicName": return try await InvalidSnsTopicNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidTagParameter": return try await InvalidTagParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidTrailName": return try await InvalidTrailNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KmsException": return try await KmsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KmsKeyDisabled": return try await KmsKeyDisabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KmsKeyNotFound": return try await KmsKeyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MaximumNumberOfTrailsExceeded": return try await MaximumNumberOfTrailsExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoManagementAccountSLRExists": return try await NoManagementAccountSLRExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotOrganizationMasterAccount": return try await NotOrganizationMasterAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OrganizationNotInAllFeaturesMode": return try await OrganizationNotInAllFeaturesModeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OrganizationsNotInUse": return try await OrganizationsNotInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "S3BucketDoesNotExist": return try await S3BucketDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TagsLimitExceeded": return try await TagsLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TrailAlreadyExists": return try await TrailAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TrailNotProvided": return try await TrailNotProvidedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2817,6 +2817,16 @@ extension DeleteChannelInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteChannelOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteChannelOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -2829,16 +2839,6 @@ enum DeleteChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteChannelOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteChannelOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteEventDataStoreInput: Swift.Encodable {
@@ -2889,6 +2889,16 @@ extension DeleteEventDataStoreInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteEventDataStoreOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteEventDataStoreOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteEventDataStoreOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -2909,16 +2919,6 @@ enum DeleteEventDataStoreOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteEventDataStoreOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteEventDataStoreOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteResourcePolicyInput: Swift.Encodable {
@@ -2969,6 +2969,16 @@ extension DeleteResourcePolicyInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteResourcePolicyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteResourcePolicyOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteResourcePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -2983,16 +2993,6 @@ enum DeleteResourcePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteResourcePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteResourcePolicyOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteTrailInput: Swift.Encodable {
@@ -3044,6 +3044,17 @@ extension DeleteTrailInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteTrailOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+/// Returns the objects or data listed below if successful. Otherwise, returns an error.
+public struct DeleteTrailOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteTrailOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -3063,17 +3074,6 @@ enum DeleteTrailOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteTrailOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-/// Returns the objects or data listed below if successful. Otherwise, returns an error.
-public struct DeleteTrailOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension CloudTrailClientTypes {
@@ -3178,6 +3178,17 @@ extension DeregisterOrganizationDelegatedAdminInputBody: Swift.Decodable {
     }
 }
 
+extension DeregisterOrganizationDelegatedAdminOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+/// Returns the following response if successful. Otherwise, returns an error.
+public struct DeregisterOrganizationDelegatedAdminOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeregisterOrganizationDelegatedAdminOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -3197,17 +3208,6 @@ enum DeregisterOrganizationDelegatedAdminOutputError: ClientRuntime.HttpResponse
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeregisterOrganizationDelegatedAdminOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-/// Returns the following response if successful. Otherwise, returns an error.
-public struct DeregisterOrganizationDelegatedAdminOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DescribeQueryInput: Swift.Encodable {
@@ -3282,29 +3282,11 @@ extension DescribeQueryInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeQueryOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "EventDataStoreARNInvalid": return try await EventDataStoreARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EventDataStoreNotFound": return try await EventDataStoreNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InactiveEventDataStore": return try await InactiveEventDataStoreException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameter": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NoManagementAccountSLRExists": return try await NoManagementAccountSLRExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "QueryIdNotFound": return try await QueryIdNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeQueryOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeQueryOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeQueryOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeQueryOutputBody = try responseDecoder.decode(responseBody: data)
             self.deliveryS3Uri = output.deliveryS3Uri
             self.deliveryStatus = output.deliveryStatus
             self.errorMessage = output.errorMessage
@@ -3324,7 +3306,7 @@ extension DescribeQueryOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeQueryOutputResponse: Swift.Equatable {
+public struct DescribeQueryOutput: Swift.Equatable {
     /// The URI for the S3 bucket where CloudTrail delivered query results, if applicable.
     public var deliveryS3Uri: Swift.String?
     /// The delivery status.
@@ -3360,7 +3342,7 @@ public struct DescribeQueryOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeQueryOutputResponseBody: Swift.Equatable {
+struct DescribeQueryOutputBody: Swift.Equatable {
     let queryId: Swift.String?
     let queryString: Swift.String?
     let queryStatus: CloudTrailClientTypes.QueryStatus?
@@ -3370,7 +3352,7 @@ struct DescribeQueryOutputResponseBody: Swift.Equatable {
     let deliveryStatus: CloudTrailClientTypes.DeliveryStatus?
 }
 
-extension DescribeQueryOutputResponseBody: Swift.Decodable {
+extension DescribeQueryOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case deliveryS3Uri = "DeliveryS3Uri"
         case deliveryStatus = "DeliveryStatus"
@@ -3397,6 +3379,24 @@ extension DescribeQueryOutputResponseBody: Swift.Decodable {
         deliveryS3Uri = deliveryS3UriDecoded
         let deliveryStatusDecoded = try containerValues.decodeIfPresent(CloudTrailClientTypes.DeliveryStatus.self, forKey: .deliveryStatus)
         deliveryStatus = deliveryStatusDecoded
+    }
+}
+
+enum DescribeQueryOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "EventDataStoreARNInvalid": return try await EventDataStoreARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EventDataStoreNotFound": return try await EventDataStoreNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InactiveEventDataStore": return try await InactiveEventDataStoreException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameter": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoManagementAccountSLRExists": return try await NoManagementAccountSLRExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "QueryIdNotFound": return try await QueryIdNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3479,25 +3479,11 @@ extension DescribeTrailsInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeTrailsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidTrailName": return try await InvalidTrailNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NoManagementAccountSLRExists": return try await NoManagementAccountSLRExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeTrailsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeTrailsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeTrailsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeTrailsOutputBody = try responseDecoder.decode(responseBody: data)
             self.trailList = output.trailList
         } else {
             self.trailList = nil
@@ -3506,7 +3492,7 @@ extension DescribeTrailsOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Returns the objects or data listed below if successful. Otherwise, returns an error.
-public struct DescribeTrailsOutputResponse: Swift.Equatable {
+public struct DescribeTrailsOutput: Swift.Equatable {
     /// The list of trail objects. Trail objects with string values are only returned if values for the objects exist in a trail's configuration. For example, SNSTopicName and SNSTopicARN are only returned in results if a trail is configured to send SNS notifications. Similarly, KMSKeyId only appears in results if a trail's log files are encrypted with KMS customer managed keys.
     public var trailList: [CloudTrailClientTypes.Trail]?
 
@@ -3518,11 +3504,11 @@ public struct DescribeTrailsOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeTrailsOutputResponseBody: Swift.Equatable {
+struct DescribeTrailsOutputBody: Swift.Equatable {
     let trailList: [CloudTrailClientTypes.Trail]?
 }
 
-extension DescribeTrailsOutputResponseBody: Swift.Decodable {
+extension DescribeTrailsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case trailList
     }
@@ -3540,6 +3526,20 @@ extension DescribeTrailsOutputResponseBody: Swift.Decodable {
             }
         }
         trailList = trailListDecoded0
+    }
+}
+
+enum DescribeTrailsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidTrailName": return try await InvalidTrailNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoManagementAccountSLRExists": return try await NoManagementAccountSLRExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -4440,25 +4440,11 @@ extension GetChannelInputBody: Swift.Decodable {
     }
 }
 
-enum GetChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ChannelARNInvalid": return try await ChannelARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ChannelNotFound": return try await ChannelNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetChannelOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetChannelOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetChannelOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetChannelOutputBody = try responseDecoder.decode(responseBody: data)
             self.channelArn = output.channelArn
             self.destinations = output.destinations
             self.ingestionStatus = output.ingestionStatus
@@ -4476,7 +4462,7 @@ extension GetChannelOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetChannelOutputResponse: Swift.Equatable {
+public struct GetChannelOutput: Swift.Equatable {
     /// The ARN of an channel returned by a GetChannel request.
     public var channelArn: Swift.String?
     /// The destinations for the channel. For channels created for integrations, the destinations are the event data stores that log events arriving through the channel. For service-linked channels, the destination is the Amazon Web Services service that created the service-linked channel to receive events.
@@ -4508,7 +4494,7 @@ public struct GetChannelOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetChannelOutputResponseBody: Swift.Equatable {
+struct GetChannelOutputBody: Swift.Equatable {
     let channelArn: Swift.String?
     let name: Swift.String?
     let source: Swift.String?
@@ -4517,7 +4503,7 @@ struct GetChannelOutputResponseBody: Swift.Equatable {
     let ingestionStatus: CloudTrailClientTypes.IngestionStatus?
 }
 
-extension GetChannelOutputResponseBody: Swift.Decodable {
+extension GetChannelOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case channelArn = "ChannelArn"
         case destinations = "Destinations"
@@ -4550,6 +4536,20 @@ extension GetChannelOutputResponseBody: Swift.Decodable {
         destinations = destinationsDecoded0
         let ingestionStatusDecoded = try containerValues.decodeIfPresent(CloudTrailClientTypes.IngestionStatus.self, forKey: .ingestionStatus)
         ingestionStatus = ingestionStatusDecoded
+    }
+}
+
+enum GetChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ChannelARNInvalid": return try await ChannelARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ChannelNotFound": return try await ChannelNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -4601,27 +4601,11 @@ extension GetEventDataStoreInputBody: Swift.Decodable {
     }
 }
 
-enum GetEventDataStoreOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "EventDataStoreARNInvalid": return try await EventDataStoreARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EventDataStoreNotFound": return try await EventDataStoreNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameter": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NoManagementAccountSLRExists": return try await NoManagementAccountSLRExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetEventDataStoreOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetEventDataStoreOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetEventDataStoreOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetEventDataStoreOutputBody = try responseDecoder.decode(responseBody: data)
             self.advancedEventSelectors = output.advancedEventSelectors
             self.createdTimestamp = output.createdTimestamp
             self.eventDataStoreArn = output.eventDataStoreArn
@@ -4649,7 +4633,7 @@ extension GetEventDataStoreOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetEventDataStoreOutputResponse: Swift.Equatable {
+public struct GetEventDataStoreOutput: Swift.Equatable {
     /// The advanced event selectors used to select events for the data store.
     public var advancedEventSelectors: [CloudTrailClientTypes.AdvancedEventSelector]?
     /// The timestamp of the event data store's creation.
@@ -4701,7 +4685,7 @@ public struct GetEventDataStoreOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetEventDataStoreOutputResponseBody: Swift.Equatable {
+struct GetEventDataStoreOutputBody: Swift.Equatable {
     let eventDataStoreArn: Swift.String?
     let name: Swift.String?
     let status: CloudTrailClientTypes.EventDataStoreStatus?
@@ -4715,7 +4699,7 @@ struct GetEventDataStoreOutputResponseBody: Swift.Equatable {
     let kmsKeyId: Swift.String?
 }
 
-extension GetEventDataStoreOutputResponseBody: Swift.Decodable {
+extension GetEventDataStoreOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case advancedEventSelectors = "AdvancedEventSelectors"
         case createdTimestamp = "CreatedTimestamp"
@@ -4763,6 +4747,22 @@ extension GetEventDataStoreOutputResponseBody: Swift.Decodable {
         updatedTimestamp = updatedTimestampDecoded
         let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
         kmsKeyId = kmsKeyIdDecoded
+    }
+}
+
+enum GetEventDataStoreOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "EventDataStoreARNInvalid": return try await EventDataStoreARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EventDataStoreNotFound": return try await EventDataStoreNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameter": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoManagementAccountSLRExists": return try await NoManagementAccountSLRExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -4827,27 +4827,11 @@ extension GetEventSelectorsInputBody: Swift.Decodable {
     }
 }
 
-enum GetEventSelectorsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "CloudTrailARNInvalid": return try await CloudTrailARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidTrailName": return try await InvalidTrailNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NoManagementAccountSLRExists": return try await NoManagementAccountSLRExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TrailNotFound": return try await TrailNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetEventSelectorsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetEventSelectorsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetEventSelectorsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetEventSelectorsOutputBody = try responseDecoder.decode(responseBody: data)
             self.advancedEventSelectors = output.advancedEventSelectors
             self.eventSelectors = output.eventSelectors
             self.trailARN = output.trailARN
@@ -4859,7 +4843,7 @@ extension GetEventSelectorsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetEventSelectorsOutputResponse: Swift.Equatable {
+public struct GetEventSelectorsOutput: Swift.Equatable {
     /// The advanced event selectors that are configured for the trail.
     public var advancedEventSelectors: [CloudTrailClientTypes.AdvancedEventSelector]?
     /// The event selectors that are configured for the trail.
@@ -4879,13 +4863,13 @@ public struct GetEventSelectorsOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetEventSelectorsOutputResponseBody: Swift.Equatable {
+struct GetEventSelectorsOutputBody: Swift.Equatable {
     let trailARN: Swift.String?
     let eventSelectors: [CloudTrailClientTypes.EventSelector]?
     let advancedEventSelectors: [CloudTrailClientTypes.AdvancedEventSelector]?
 }
 
-extension GetEventSelectorsOutputResponseBody: Swift.Decodable {
+extension GetEventSelectorsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case advancedEventSelectors = "AdvancedEventSelectors"
         case eventSelectors = "EventSelectors"
@@ -4918,6 +4902,22 @@ extension GetEventSelectorsOutputResponseBody: Swift.Decodable {
             }
         }
         advancedEventSelectors = advancedEventSelectorsDecoded0
+    }
+}
+
+enum GetEventSelectorsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "CloudTrailARNInvalid": return try await CloudTrailARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidTrailName": return try await InvalidTrailNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoManagementAccountSLRExists": return try await NoManagementAccountSLRExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TrailNotFound": return try await TrailNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -4969,25 +4969,11 @@ extension GetImportInputBody: Swift.Decodable {
     }
 }
 
-enum GetImportOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ImportNotFound": return try await ImportNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameter": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetImportOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetImportOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetImportOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetImportOutputBody = try responseDecoder.decode(responseBody: data)
             self.createdTimestamp = output.createdTimestamp
             self.destinations = output.destinations
             self.endEventTime = output.endEventTime
@@ -5011,7 +4997,7 @@ extension GetImportOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetImportOutputResponse: Swift.Equatable {
+public struct GetImportOutput: Swift.Equatable {
     /// The timestamp of the import's creation.
     public var createdTimestamp: ClientRuntime.Date?
     /// The ARN of the destination event data store.
@@ -5055,7 +5041,7 @@ public struct GetImportOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetImportOutputResponseBody: Swift.Equatable {
+struct GetImportOutputBody: Swift.Equatable {
     let importId: Swift.String?
     let destinations: [Swift.String]?
     let importSource: CloudTrailClientTypes.ImportSource?
@@ -5067,7 +5053,7 @@ struct GetImportOutputResponseBody: Swift.Equatable {
     let importStatistics: CloudTrailClientTypes.ImportStatistics?
 }
 
-extension GetImportOutputResponseBody: Swift.Decodable {
+extension GetImportOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case createdTimestamp = "CreatedTimestamp"
         case destinations = "Destinations"
@@ -5109,6 +5095,20 @@ extension GetImportOutputResponseBody: Swift.Decodable {
         updatedTimestamp = updatedTimestampDecoded
         let importStatisticsDecoded = try containerValues.decodeIfPresent(CloudTrailClientTypes.ImportStatistics.self, forKey: .importStatistics)
         importStatistics = importStatisticsDecoded
+    }
+}
+
+enum GetImportOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ImportNotFound": return try await ImportNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameter": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5173,29 +5173,11 @@ extension GetInsightSelectorsInputBody: Swift.Decodable {
     }
 }
 
-enum GetInsightSelectorsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "CloudTrailARNInvalid": return try await CloudTrailARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InsightNotEnabled": return try await InsightNotEnabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidTrailName": return try await InvalidTrailNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NoManagementAccountSLRExists": return try await NoManagementAccountSLRExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TrailNotFound": return try await TrailNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetInsightSelectorsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetInsightSelectorsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetInsightSelectorsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetInsightSelectorsOutputBody = try responseDecoder.decode(responseBody: data)
             self.insightSelectors = output.insightSelectors
             self.trailARN = output.trailARN
         } else {
@@ -5205,7 +5187,7 @@ extension GetInsightSelectorsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetInsightSelectorsOutputResponse: Swift.Equatable {
+public struct GetInsightSelectorsOutput: Swift.Equatable {
     /// A JSON string that contains the insight types you want to log on a trail. In this release, ApiErrorRateInsight and ApiCallRateInsight are supported as insight types.
     public var insightSelectors: [CloudTrailClientTypes.InsightSelector]?
     /// The Amazon Resource Name (ARN) of a trail for which you want to get Insights selectors.
@@ -5221,12 +5203,12 @@ public struct GetInsightSelectorsOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetInsightSelectorsOutputResponseBody: Swift.Equatable {
+struct GetInsightSelectorsOutputBody: Swift.Equatable {
     let trailARN: Swift.String?
     let insightSelectors: [CloudTrailClientTypes.InsightSelector]?
 }
 
-extension GetInsightSelectorsOutputResponseBody: Swift.Decodable {
+extension GetInsightSelectorsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case insightSelectors = "InsightSelectors"
         case trailARN = "TrailARN"
@@ -5247,6 +5229,24 @@ extension GetInsightSelectorsOutputResponseBody: Swift.Decodable {
             }
         }
         insightSelectors = insightSelectorsDecoded0
+    }
+}
+
+enum GetInsightSelectorsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "CloudTrailARNInvalid": return try await CloudTrailARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InsightNotEnabled": return try await InsightNotEnabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidTrailName": return try await InvalidTrailNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoManagementAccountSLRExists": return try await NoManagementAccountSLRExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TrailNotFound": return try await TrailNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5335,32 +5335,11 @@ extension GetQueryResultsInputBody: Swift.Decodable {
     }
 }
 
-enum GetQueryResultsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "EventDataStoreARNInvalid": return try await EventDataStoreARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EventDataStoreNotFound": return try await EventDataStoreNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InactiveEventDataStore": return try await InactiveEventDataStoreException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InsufficientEncryptionPolicy": return try await InsufficientEncryptionPolicyException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidMaxResults": return try await InvalidMaxResultsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidNextToken": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameter": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NoManagementAccountSLRExists": return try await NoManagementAccountSLRExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "QueryIdNotFound": return try await QueryIdNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetQueryResultsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetQueryResultsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetQueryResultsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetQueryResultsOutputBody = try responseDecoder.decode(responseBody: data)
             self.errorMessage = output.errorMessage
             self.nextToken = output.nextToken
             self.queryResultRows = output.queryResultRows
@@ -5376,7 +5355,7 @@ extension GetQueryResultsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetQueryResultsOutputResponse: Swift.Equatable {
+public struct GetQueryResultsOutput: Swift.Equatable {
     /// The error message returned if a query failed.
     public var errorMessage: Swift.String?
     /// A token you can use to get the next page of query results.
@@ -5404,7 +5383,7 @@ public struct GetQueryResultsOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetQueryResultsOutputResponseBody: Swift.Equatable {
+struct GetQueryResultsOutputBody: Swift.Equatable {
     let queryStatus: CloudTrailClientTypes.QueryStatus?
     let queryStatistics: CloudTrailClientTypes.QueryStatistics?
     let queryResultRows: [[[Swift.String:Swift.String]]]?
@@ -5412,7 +5391,7 @@ struct GetQueryResultsOutputResponseBody: Swift.Equatable {
     let errorMessage: Swift.String?
 }
 
-extension GetQueryResultsOutputResponseBody: Swift.Decodable {
+extension GetQueryResultsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case errorMessage = "ErrorMessage"
         case nextToken = "NextToken"
@@ -5460,6 +5439,27 @@ extension GetQueryResultsOutputResponseBody: Swift.Decodable {
         nextToken = nextTokenDecoded
         let errorMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorMessage)
         errorMessage = errorMessageDecoded
+    }
+}
+
+enum GetQueryResultsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "EventDataStoreARNInvalid": return try await EventDataStoreARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EventDataStoreNotFound": return try await EventDataStoreNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InactiveEventDataStore": return try await InactiveEventDataStoreException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InsufficientEncryptionPolicy": return try await InsufficientEncryptionPolicyException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidMaxResults": return try await InvalidMaxResultsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidNextToken": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameter": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoManagementAccountSLRExists": return try await NoManagementAccountSLRExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "QueryIdNotFound": return try await QueryIdNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5511,27 +5511,11 @@ extension GetResourcePolicyInputBody: Swift.Decodable {
     }
 }
 
-enum GetResourcePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceARNNotValid": return try await ResourceARNNotValidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFound": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourcePolicyNotFound": return try await ResourcePolicyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceTypeNotSupported": return try await ResourceTypeNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetResourcePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetResourcePolicyOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetResourcePolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetResourcePolicyOutputBody = try responseDecoder.decode(responseBody: data)
             self.resourceArn = output.resourceArn
             self.resourcePolicy = output.resourcePolicy
         } else {
@@ -5541,7 +5525,7 @@ extension GetResourcePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetResourcePolicyOutputResponse: Swift.Equatable {
+public struct GetResourcePolicyOutput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the CloudTrail channel attached to resource-based policy.
     public var resourceArn: Swift.String?
     /// A JSON-formatted string that contains the resource-based policy attached to the CloudTrail channel.
@@ -5557,12 +5541,12 @@ public struct GetResourcePolicyOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetResourcePolicyOutputResponseBody: Swift.Equatable {
+struct GetResourcePolicyOutputBody: Swift.Equatable {
     let resourceArn: Swift.String?
     let resourcePolicy: Swift.String?
 }
 
-extension GetResourcePolicyOutputResponseBody: Swift.Decodable {
+extension GetResourcePolicyOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case resourceArn = "ResourceArn"
         case resourcePolicy = "ResourcePolicy"
@@ -5574,6 +5558,22 @@ extension GetResourcePolicyOutputResponseBody: Swift.Decodable {
         resourceArn = resourceArnDecoded
         let resourcePolicyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourcePolicy)
         resourcePolicy = resourcePolicyDecoded
+    }
+}
+
+enum GetResourcePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceARNNotValid": return try await ResourceARNNotValidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFound": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourcePolicyNotFound": return try await ResourcePolicyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceTypeNotSupported": return try await ResourceTypeNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5625,6 +5625,46 @@ extension GetTrailInputBody: Swift.Decodable {
     }
 }
 
+extension GetTrailOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetTrailOutputBody = try responseDecoder.decode(responseBody: data)
+            self.trail = output.trail
+        } else {
+            self.trail = nil
+        }
+    }
+}
+
+public struct GetTrailOutput: Swift.Equatable {
+    /// The settings for a trail.
+    public var trail: CloudTrailClientTypes.Trail?
+
+    public init(
+        trail: CloudTrailClientTypes.Trail? = nil
+    )
+    {
+        self.trail = trail
+    }
+}
+
+struct GetTrailOutputBody: Swift.Equatable {
+    let trail: CloudTrailClientTypes.Trail?
+}
+
+extension GetTrailOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case trail = "Trail"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let trailDecoded = try containerValues.decodeIfPresent(CloudTrailClientTypes.Trail.self, forKey: .trail)
+        trail = trailDecoded
+    }
+}
+
 enum GetTrailOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -5637,46 +5677,6 @@ enum GetTrailOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension GetTrailOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetTrailOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.trail = output.trail
-        } else {
-            self.trail = nil
-        }
-    }
-}
-
-public struct GetTrailOutputResponse: Swift.Equatable {
-    /// The settings for a trail.
-    public var trail: CloudTrailClientTypes.Trail?
-
-    public init(
-        trail: CloudTrailClientTypes.Trail? = nil
-    )
-    {
-        self.trail = trail
-    }
-}
-
-struct GetTrailOutputResponseBody: Swift.Equatable {
-    let trail: CloudTrailClientTypes.Trail?
-}
-
-extension GetTrailOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case trail = "Trail"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let trailDecoded = try containerValues.decodeIfPresent(CloudTrailClientTypes.Trail.self, forKey: .trail)
-        trail = trailDecoded
     }
 }
 
@@ -5729,26 +5729,11 @@ extension GetTrailStatusInputBody: Swift.Decodable {
     }
 }
 
-enum GetTrailStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "CloudTrailARNInvalid": return try await CloudTrailARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidTrailName": return try await InvalidTrailNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TrailNotFound": return try await TrailNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetTrailStatusOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetTrailStatusOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetTrailStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetTrailStatusOutputBody = try responseDecoder.decode(responseBody: data)
             self.isLogging = output.isLogging
             self.latestCloudWatchLogsDeliveryError = output.latestCloudWatchLogsDeliveryError
             self.latestCloudWatchLogsDeliveryTime = output.latestCloudWatchLogsDeliveryTime
@@ -5789,7 +5774,7 @@ extension GetTrailStatusOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Returns the objects or data listed below if successful. Otherwise, returns an error.
-public struct GetTrailStatusOutputResponse: Swift.Equatable {
+public struct GetTrailStatusOutput: Swift.Equatable {
     /// Whether the CloudTrail trail is currently logging Amazon Web Services API calls.
     public var isLogging: Swift.Bool?
     /// Displays any CloudWatch Logs error that CloudTrail encountered when attempting to deliver logs to CloudWatch Logs.
@@ -5865,7 +5850,7 @@ public struct GetTrailStatusOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetTrailStatusOutputResponseBody: Swift.Equatable {
+struct GetTrailStatusOutputBody: Swift.Equatable {
     let isLogging: Swift.Bool?
     let latestDeliveryError: Swift.String?
     let latestNotificationError: Swift.String?
@@ -5885,7 +5870,7 @@ struct GetTrailStatusOutputResponseBody: Swift.Equatable {
     let timeLoggingStopped: Swift.String?
 }
 
-extension GetTrailStatusOutputResponseBody: Swift.Decodable {
+extension GetTrailStatusOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case isLogging = "IsLogging"
         case latestCloudWatchLogsDeliveryError = "LatestCloudWatchLogsDeliveryError"
@@ -5942,6 +5927,21 @@ extension GetTrailStatusOutputResponseBody: Swift.Decodable {
         timeLoggingStarted = timeLoggingStartedDecoded
         let timeLoggingStoppedDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .timeLoggingStopped)
         timeLoggingStopped = timeLoggingStoppedDecoded
+    }
+}
+
+enum GetTrailStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "CloudTrailARNInvalid": return try await CloudTrailARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidTrailName": return try await InvalidTrailNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TrailNotFound": return try await TrailNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -8586,24 +8586,11 @@ extension ListChannelsInputBody: Swift.Decodable {
     }
 }
 
-enum ListChannelsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidNextToken": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListChannelsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListChannelsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListChannelsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListChannelsOutputBody = try responseDecoder.decode(responseBody: data)
             self.channels = output.channels
             self.nextToken = output.nextToken
         } else {
@@ -8613,7 +8600,7 @@ extension ListChannelsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListChannelsOutputResponse: Swift.Equatable {
+public struct ListChannelsOutput: Swift.Equatable {
     /// The list of channels in the account.
     public var channels: [CloudTrailClientTypes.Channel]?
     /// The token to use to get the next page of results after a previous API call.
@@ -8629,12 +8616,12 @@ public struct ListChannelsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListChannelsOutputResponseBody: Swift.Equatable {
+struct ListChannelsOutputBody: Swift.Equatable {
     let channels: [CloudTrailClientTypes.Channel]?
     let nextToken: Swift.String?
 }
 
-extension ListChannelsOutputResponseBody: Swift.Decodable {
+extension ListChannelsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case channels = "Channels"
         case nextToken = "NextToken"
@@ -8655,6 +8642,19 @@ extension ListChannelsOutputResponseBody: Swift.Decodable {
         channels = channelsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListChannelsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidNextToken": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -8717,26 +8717,11 @@ extension ListEventDataStoresInputBody: Swift.Decodable {
     }
 }
 
-enum ListEventDataStoresOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidMaxResults": return try await InvalidMaxResultsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidNextToken": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NoManagementAccountSLRExists": return try await NoManagementAccountSLRExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListEventDataStoresOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListEventDataStoresOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListEventDataStoresOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListEventDataStoresOutputBody = try responseDecoder.decode(responseBody: data)
             self.eventDataStores = output.eventDataStores
             self.nextToken = output.nextToken
         } else {
@@ -8746,7 +8731,7 @@ extension ListEventDataStoresOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListEventDataStoresOutputResponse: Swift.Equatable {
+public struct ListEventDataStoresOutput: Swift.Equatable {
     /// Contains information about event data stores in the account, in the current Region.
     public var eventDataStores: [CloudTrailClientTypes.EventDataStore]?
     /// A token you can use to get the next page of results.
@@ -8762,12 +8747,12 @@ public struct ListEventDataStoresOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListEventDataStoresOutputResponseBody: Swift.Equatable {
+struct ListEventDataStoresOutputBody: Swift.Equatable {
     let eventDataStores: [CloudTrailClientTypes.EventDataStore]?
     let nextToken: Swift.String?
 }
 
-extension ListEventDataStoresOutputResponseBody: Swift.Decodable {
+extension ListEventDataStoresOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case eventDataStores = "EventDataStores"
         case nextToken = "NextToken"
@@ -8788,6 +8773,21 @@ extension ListEventDataStoresOutputResponseBody: Swift.Decodable {
         eventDataStores = eventDataStoresDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListEventDataStoresOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidMaxResults": return try await InvalidMaxResultsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidNextToken": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoManagementAccountSLRExists": return try await NoManagementAccountSLRExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -8863,24 +8863,11 @@ extension ListImportFailuresInputBody: Swift.Decodable {
     }
 }
 
-enum ListImportFailuresOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidNextToken": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListImportFailuresOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListImportFailuresOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListImportFailuresOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListImportFailuresOutputBody = try responseDecoder.decode(responseBody: data)
             self.failures = output.failures
             self.nextToken = output.nextToken
         } else {
@@ -8890,7 +8877,7 @@ extension ListImportFailuresOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListImportFailuresOutputResponse: Swift.Equatable {
+public struct ListImportFailuresOutput: Swift.Equatable {
     /// Contains information about the import failures.
     public var failures: [CloudTrailClientTypes.ImportFailureListItem]?
     /// A token you can use to get the next page of results.
@@ -8906,12 +8893,12 @@ public struct ListImportFailuresOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListImportFailuresOutputResponseBody: Swift.Equatable {
+struct ListImportFailuresOutputBody: Swift.Equatable {
     let failures: [CloudTrailClientTypes.ImportFailureListItem]?
     let nextToken: Swift.String?
 }
 
-extension ListImportFailuresOutputResponseBody: Swift.Decodable {
+extension ListImportFailuresOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case failures = "Failures"
         case nextToken = "NextToken"
@@ -8932,6 +8919,19 @@ extension ListImportFailuresOutputResponseBody: Swift.Decodable {
         failures = failuresDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListImportFailuresOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidNextToken": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -9018,26 +9018,11 @@ extension ListImportsInputBody: Swift.Decodable {
     }
 }
 
-enum ListImportsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "EventDataStoreARNInvalid": return try await EventDataStoreARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidNextToken": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameter": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListImportsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListImportsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListImportsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListImportsOutputBody = try responseDecoder.decode(responseBody: data)
             self.imports = output.imports
             self.nextToken = output.nextToken
         } else {
@@ -9047,7 +9032,7 @@ extension ListImportsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListImportsOutputResponse: Swift.Equatable {
+public struct ListImportsOutput: Swift.Equatable {
     /// The list of returned imports.
     public var imports: [CloudTrailClientTypes.ImportsListItem]?
     /// A token you can use to get the next page of import results.
@@ -9063,12 +9048,12 @@ public struct ListImportsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListImportsOutputResponseBody: Swift.Equatable {
+struct ListImportsOutputBody: Swift.Equatable {
     let imports: [CloudTrailClientTypes.ImportsListItem]?
     let nextToken: Swift.String?
 }
 
-extension ListImportsOutputResponseBody: Swift.Decodable {
+extension ListImportsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case imports = "Imports"
         case nextToken = "NextToken"
@@ -9089,6 +9074,21 @@ extension ListImportsOutputResponseBody: Swift.Decodable {
         imports = importsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListImportsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "EventDataStoreARNInvalid": return try await EventDataStoreARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidNextToken": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameter": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -9164,25 +9164,11 @@ extension ListPublicKeysInputBody: Swift.Decodable {
     }
 }
 
-enum ListPublicKeysOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidTimeRange": return try await InvalidTimeRangeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidToken": return try await InvalidTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListPublicKeysOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListPublicKeysOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListPublicKeysOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListPublicKeysOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.publicKeyList = output.publicKeyList
         } else {
@@ -9193,7 +9179,7 @@ extension ListPublicKeysOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Returns the objects or data listed below if successful. Otherwise, returns an error.
-public struct ListPublicKeysOutputResponse: Swift.Equatable {
+public struct ListPublicKeysOutput: Swift.Equatable {
     /// Reserved for future use.
     public var nextToken: Swift.String?
     /// Contains an array of PublicKey objects. The returned public keys may have validity time ranges that overlap.
@@ -9209,12 +9195,12 @@ public struct ListPublicKeysOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListPublicKeysOutputResponseBody: Swift.Equatable {
+struct ListPublicKeysOutputBody: Swift.Equatable {
     let publicKeyList: [CloudTrailClientTypes.PublicKey]?
     let nextToken: Swift.String?
 }
 
-extension ListPublicKeysOutputResponseBody: Swift.Decodable {
+extension ListPublicKeysOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case publicKeyList = "PublicKeyList"
@@ -9235,6 +9221,20 @@ extension ListPublicKeysOutputResponseBody: Swift.Decodable {
         publicKeyList = publicKeyListDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListPublicKeysOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidTimeRange": return try await InvalidTimeRangeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidToken": return try await InvalidTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -9346,32 +9346,11 @@ extension ListQueriesInputBody: Swift.Decodable {
     }
 }
 
-enum ListQueriesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "EventDataStoreARNInvalid": return try await EventDataStoreARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EventDataStoreNotFound": return try await EventDataStoreNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InactiveEventDataStore": return try await InactiveEventDataStoreException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidDateRange": return try await InvalidDateRangeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidMaxResults": return try await InvalidMaxResultsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidNextToken": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameter": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidQueryStatus": return try await InvalidQueryStatusException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NoManagementAccountSLRExists": return try await NoManagementAccountSLRExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListQueriesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListQueriesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListQueriesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListQueriesOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.queries = output.queries
         } else {
@@ -9381,7 +9360,7 @@ extension ListQueriesOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListQueriesOutputResponse: Swift.Equatable {
+public struct ListQueriesOutput: Swift.Equatable {
     /// A token you can use to get the next page of results.
     public var nextToken: Swift.String?
     /// Lists matching query results, and shows query ID, status, and creation time of each query.
@@ -9397,12 +9376,12 @@ public struct ListQueriesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListQueriesOutputResponseBody: Swift.Equatable {
+struct ListQueriesOutputBody: Swift.Equatable {
     let queries: [CloudTrailClientTypes.Query]?
     let nextToken: Swift.String?
 }
 
-extension ListQueriesOutputResponseBody: Swift.Decodable {
+extension ListQueriesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case queries = "Queries"
@@ -9423,6 +9402,27 @@ extension ListQueriesOutputResponseBody: Swift.Decodable {
         queries = queriesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListQueriesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "EventDataStoreARNInvalid": return try await EventDataStoreARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EventDataStoreNotFound": return try await EventDataStoreNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InactiveEventDataStore": return try await InactiveEventDataStoreException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidDateRange": return try await InvalidDateRangeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidMaxResults": return try await InvalidMaxResultsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidNextToken": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameter": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidQueryStatus": return try await InvalidQueryStatusException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoManagementAccountSLRExists": return try await NoManagementAccountSLRExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -9499,33 +9499,11 @@ extension ListTagsInputBody: Swift.Decodable {
     }
 }
 
-enum ListTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ChannelARNInvalid": return try await ChannelARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "CloudTrailARNInvalid": return try await CloudTrailARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EventDataStoreARNInvalid": return try await EventDataStoreARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EventDataStoreNotFound": return try await EventDataStoreNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InactiveEventDataStore": return try await InactiveEventDataStoreException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidToken": return try await InvalidTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidTrailName": return try await InvalidTrailNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NoManagementAccountSLRExists": return try await NoManagementAccountSLRExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFound": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceTypeNotSupported": return try await ResourceTypeNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListTagsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListTagsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListTagsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListTagsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.resourceTagList = output.resourceTagList
         } else {
@@ -9536,7 +9514,7 @@ extension ListTagsOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Returns the objects or data listed below if successful. Otherwise, returns an error.
-public struct ListTagsOutputResponse: Swift.Equatable {
+public struct ListTagsOutput: Swift.Equatable {
     /// Reserved for future use.
     public var nextToken: Swift.String?
     /// A list of resource tags.
@@ -9552,12 +9530,12 @@ public struct ListTagsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListTagsOutputResponseBody: Swift.Equatable {
+struct ListTagsOutputBody: Swift.Equatable {
     let resourceTagList: [CloudTrailClientTypes.ResourceTag]?
     let nextToken: Swift.String?
 }
 
-extension ListTagsOutputResponseBody: Swift.Decodable {
+extension ListTagsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case resourceTagList = "ResourceTagList"
@@ -9578,6 +9556,28 @@ extension ListTagsOutputResponseBody: Swift.Decodable {
         resourceTagList = resourceTagListDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ChannelARNInvalid": return try await ChannelARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "CloudTrailARNInvalid": return try await CloudTrailARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EventDataStoreARNInvalid": return try await EventDataStoreARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EventDataStoreNotFound": return try await EventDataStoreNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InactiveEventDataStore": return try await InactiveEventDataStoreException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidToken": return try await InvalidTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidTrailName": return try await InvalidTrailNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoManagementAccountSLRExists": return try await NoManagementAccountSLRExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFound": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceTypeNotSupported": return try await ResourceTypeNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -9628,23 +9628,11 @@ extension ListTrailsInputBody: Swift.Decodable {
     }
 }
 
-enum ListTrailsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListTrailsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListTrailsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListTrailsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListTrailsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.trails = output.trails
         } else {
@@ -9654,7 +9642,7 @@ extension ListTrailsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTrailsOutputResponse: Swift.Equatable {
+public struct ListTrailsOutput: Swift.Equatable {
     /// The token to use to get the next page of results after a previous API call. If the token does not appear, there are no more results to return. The token must be passed in with the same parameters as the previous call. For example, if the original call specified an AttributeKey of 'Username' with a value of 'root', the call with NextToken should include those same parameters.
     public var nextToken: Swift.String?
     /// Returns the name, ARN, and home Region of trails in the current account.
@@ -9670,12 +9658,12 @@ public struct ListTrailsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListTrailsOutputResponseBody: Swift.Equatable {
+struct ListTrailsOutputBody: Swift.Equatable {
     let trails: [CloudTrailClientTypes.TrailInfo]?
     let nextToken: Swift.String?
 }
 
-extension ListTrailsOutputResponseBody: Swift.Decodable {
+extension ListTrailsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case trails = "Trails"
@@ -9696,6 +9684,18 @@ extension ListTrailsOutputResponseBody: Swift.Decodable {
         trails = trailsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListTrailsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -9916,28 +9916,11 @@ extension LookupEventsInputBody: Swift.Decodable {
     }
 }
 
-enum LookupEventsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidEventCategory": return try await InvalidEventCategoryException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidLookupAttributes": return try await InvalidLookupAttributesException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidMaxResults": return try await InvalidMaxResultsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidNextToken": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidTimeRange": return try await InvalidTimeRangeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension LookupEventsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension LookupEventsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: LookupEventsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: LookupEventsOutputBody = try responseDecoder.decode(responseBody: data)
             self.events = output.events
             self.nextToken = output.nextToken
         } else {
@@ -9948,7 +9931,7 @@ extension LookupEventsOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains a response to a LookupEvents action.
-public struct LookupEventsOutputResponse: Swift.Equatable {
+public struct LookupEventsOutput: Swift.Equatable {
     /// A list of events returned based on the lookup attributes specified and the CloudTrail event. The events list is sorted by time. The most recent event is listed first.
     public var events: [CloudTrailClientTypes.Event]?
     /// The token to use to get the next page of results after a previous API call. If the token does not appear, there are no more results to return. The token must be passed in with the same parameters as the previous call. For example, if the original call specified an AttributeKey of 'Username' with a value of 'root', the call with NextToken should include those same parameters.
@@ -9964,12 +9947,12 @@ public struct LookupEventsOutputResponse: Swift.Equatable {
     }
 }
 
-struct LookupEventsOutputResponseBody: Swift.Equatable {
+struct LookupEventsOutputBody: Swift.Equatable {
     let events: [CloudTrailClientTypes.Event]?
     let nextToken: Swift.String?
 }
 
-extension LookupEventsOutputResponseBody: Swift.Decodable {
+extension LookupEventsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case events = "Events"
         case nextToken = "NextToken"
@@ -9990,6 +9973,23 @@ extension LookupEventsOutputResponseBody: Swift.Decodable {
         events = eventsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum LookupEventsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidEventCategory": return try await InvalidEventCategoryException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidLookupAttributes": return try await InvalidLookupAttributesException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidMaxResults": return try await InvalidMaxResultsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidNextToken": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidTimeRange": return try await InvalidTimeRangeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -10615,33 +10615,11 @@ extension PutEventSelectorsInputBody: Swift.Decodable {
     }
 }
 
-enum PutEventSelectorsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "CloudTrailARNInvalid": return try await CloudTrailARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InsufficientDependencyServiceAccessPermission": return try await InsufficientDependencyServiceAccessPermissionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidEventSelectors": return try await InvalidEventSelectorsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidHomeRegion": return try await InvalidHomeRegionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidTrailName": return try await InvalidTrailNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NoManagementAccountSLRExists": return try await NoManagementAccountSLRExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotOrganizationMasterAccount": return try await NotOrganizationMasterAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TrailNotFound": return try await TrailNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension PutEventSelectorsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension PutEventSelectorsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: PutEventSelectorsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: PutEventSelectorsOutputBody = try responseDecoder.decode(responseBody: data)
             self.advancedEventSelectors = output.advancedEventSelectors
             self.eventSelectors = output.eventSelectors
             self.trailARN = output.trailARN
@@ -10653,7 +10631,7 @@ extension PutEventSelectorsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutEventSelectorsOutputResponse: Swift.Equatable {
+public struct PutEventSelectorsOutput: Swift.Equatable {
     /// Specifies the advanced event selectors configured for your trail.
     public var advancedEventSelectors: [CloudTrailClientTypes.AdvancedEventSelector]?
     /// Specifies the event selectors configured for your trail.
@@ -10673,13 +10651,13 @@ public struct PutEventSelectorsOutputResponse: Swift.Equatable {
     }
 }
 
-struct PutEventSelectorsOutputResponseBody: Swift.Equatable {
+struct PutEventSelectorsOutputBody: Swift.Equatable {
     let trailARN: Swift.String?
     let eventSelectors: [CloudTrailClientTypes.EventSelector]?
     let advancedEventSelectors: [CloudTrailClientTypes.AdvancedEventSelector]?
 }
 
-extension PutEventSelectorsOutputResponseBody: Swift.Decodable {
+extension PutEventSelectorsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case advancedEventSelectors = "AdvancedEventSelectors"
         case eventSelectors = "EventSelectors"
@@ -10712,6 +10690,28 @@ extension PutEventSelectorsOutputResponseBody: Swift.Decodable {
             }
         }
         advancedEventSelectors = advancedEventSelectorsDecoded0
+    }
+}
+
+enum PutEventSelectorsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "CloudTrailARNInvalid": return try await CloudTrailARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InsufficientDependencyServiceAccessPermission": return try await InsufficientDependencyServiceAccessPermissionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidEventSelectors": return try await InvalidEventSelectorsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidHomeRegion": return try await InvalidHomeRegionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidTrailName": return try await InvalidTrailNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoManagementAccountSLRExists": return try await NoManagementAccountSLRExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotOrganizationMasterAccount": return try await NotOrganizationMasterAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TrailNotFound": return try await TrailNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -10788,6 +10788,65 @@ extension PutInsightSelectorsInputBody: Swift.Decodable {
     }
 }
 
+extension PutInsightSelectorsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: PutInsightSelectorsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.insightSelectors = output.insightSelectors
+            self.trailARN = output.trailARN
+        } else {
+            self.insightSelectors = nil
+            self.trailARN = nil
+        }
+    }
+}
+
+public struct PutInsightSelectorsOutput: Swift.Equatable {
+    /// A JSON string that contains the Insights event types that you want to log on a trail. The valid Insights types in this release are ApiErrorRateInsight and ApiCallRateInsight.
+    public var insightSelectors: [CloudTrailClientTypes.InsightSelector]?
+    /// The Amazon Resource Name (ARN) of a trail for which you want to change or add Insights selectors.
+    public var trailARN: Swift.String?
+
+    public init(
+        insightSelectors: [CloudTrailClientTypes.InsightSelector]? = nil,
+        trailARN: Swift.String? = nil
+    )
+    {
+        self.insightSelectors = insightSelectors
+        self.trailARN = trailARN
+    }
+}
+
+struct PutInsightSelectorsOutputBody: Swift.Equatable {
+    let trailARN: Swift.String?
+    let insightSelectors: [CloudTrailClientTypes.InsightSelector]?
+}
+
+extension PutInsightSelectorsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case insightSelectors = "InsightSelectors"
+        case trailARN = "TrailARN"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let trailARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .trailARN)
+        trailARN = trailARNDecoded
+        let insightSelectorsContainer = try containerValues.decodeIfPresent([CloudTrailClientTypes.InsightSelector?].self, forKey: .insightSelectors)
+        var insightSelectorsDecoded0:[CloudTrailClientTypes.InsightSelector]? = nil
+        if let insightSelectorsContainer = insightSelectorsContainer {
+            insightSelectorsDecoded0 = [CloudTrailClientTypes.InsightSelector]()
+            for structure0 in insightSelectorsContainer {
+                if let structure0 = structure0 {
+                    insightSelectorsDecoded0?.append(structure0)
+                }
+            }
+        }
+        insightSelectors = insightSelectorsDecoded0
+    }
+}
+
 enum PutInsightSelectorsOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -10809,65 +10868,6 @@ enum PutInsightSelectorsOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension PutInsightSelectorsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: PutInsightSelectorsOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.insightSelectors = output.insightSelectors
-            self.trailARN = output.trailARN
-        } else {
-            self.insightSelectors = nil
-            self.trailARN = nil
-        }
-    }
-}
-
-public struct PutInsightSelectorsOutputResponse: Swift.Equatable {
-    /// A JSON string that contains the Insights event types that you want to log on a trail. The valid Insights types in this release are ApiErrorRateInsight and ApiCallRateInsight.
-    public var insightSelectors: [CloudTrailClientTypes.InsightSelector]?
-    /// The Amazon Resource Name (ARN) of a trail for which you want to change or add Insights selectors.
-    public var trailARN: Swift.String?
-
-    public init(
-        insightSelectors: [CloudTrailClientTypes.InsightSelector]? = nil,
-        trailARN: Swift.String? = nil
-    )
-    {
-        self.insightSelectors = insightSelectors
-        self.trailARN = trailARN
-    }
-}
-
-struct PutInsightSelectorsOutputResponseBody: Swift.Equatable {
-    let trailARN: Swift.String?
-    let insightSelectors: [CloudTrailClientTypes.InsightSelector]?
-}
-
-extension PutInsightSelectorsOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case insightSelectors = "InsightSelectors"
-        case trailARN = "TrailARN"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let trailARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .trailARN)
-        trailARN = trailARNDecoded
-        let insightSelectorsContainer = try containerValues.decodeIfPresent([CloudTrailClientTypes.InsightSelector?].self, forKey: .insightSelectors)
-        var insightSelectorsDecoded0:[CloudTrailClientTypes.InsightSelector]? = nil
-        if let insightSelectorsContainer = insightSelectorsContainer {
-            insightSelectorsDecoded0 = [CloudTrailClientTypes.InsightSelector]()
-            for structure0 in insightSelectorsContainer {
-                if let structure0 = structure0 {
-                    insightSelectorsDecoded0?.append(structure0)
-                }
-            }
-        }
-        insightSelectors = insightSelectorsDecoded0
     }
 }
 
@@ -10938,27 +10938,11 @@ extension PutResourcePolicyInputBody: Swift.Decodable {
     }
 }
 
-enum PutResourcePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceARNNotValid": return try await ResourceARNNotValidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFound": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourcePolicyNotValid": return try await ResourcePolicyNotValidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceTypeNotSupported": return try await ResourceTypeNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension PutResourcePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
+extension PutResourcePolicyOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: PutResourcePolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: PutResourcePolicyOutputBody = try responseDecoder.decode(responseBody: data)
             self.resourceArn = output.resourceArn
             self.resourcePolicy = output.resourcePolicy
         } else {
@@ -10968,7 +10952,7 @@ extension PutResourcePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutResourcePolicyOutputResponse: Swift.Equatable {
+public struct PutResourcePolicyOutput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the CloudTrail channel attached to the resource-based policy.
     public var resourceArn: Swift.String?
     /// The JSON-formatted string of the Amazon Web Services resource-based policy attached to the CloudTrail channel.
@@ -10984,12 +10968,12 @@ public struct PutResourcePolicyOutputResponse: Swift.Equatable {
     }
 }
 
-struct PutResourcePolicyOutputResponseBody: Swift.Equatable {
+struct PutResourcePolicyOutputBody: Swift.Equatable {
     let resourceArn: Swift.String?
     let resourcePolicy: Swift.String?
 }
 
-extension PutResourcePolicyOutputResponseBody: Swift.Decodable {
+extension PutResourcePolicyOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case resourceArn = "ResourceArn"
         case resourcePolicy = "ResourcePolicy"
@@ -11001,6 +10985,22 @@ extension PutResourcePolicyOutputResponseBody: Swift.Decodable {
         resourceArn = resourceArnDecoded
         let resourcePolicyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourcePolicy)
         resourcePolicy = resourcePolicyDecoded
+    }
+}
+
+enum PutResourcePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceARNNotValid": return try await ResourceARNNotValidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFound": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourcePolicyNotValid": return try await ResourcePolicyNotValidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceTypeNotSupported": return try await ResourceTypeNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -11373,6 +11373,17 @@ extension RegisterOrganizationDelegatedAdminInputBody: Swift.Decodable {
     }
 }
 
+extension RegisterOrganizationDelegatedAdminOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+/// Returns the following response if successful. Otherwise, returns an error.
+public struct RegisterOrganizationDelegatedAdminOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum RegisterOrganizationDelegatedAdminOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -11394,17 +11405,6 @@ enum RegisterOrganizationDelegatedAdminOutputError: ClientRuntime.HttpResponseEr
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension RegisterOrganizationDelegatedAdminOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-/// Returns the following response if successful. Otherwise, returns an error.
-public struct RegisterOrganizationDelegatedAdminOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension RemoveTagsInput: Swift.Encodable {
@@ -11481,6 +11481,17 @@ extension RemoveTagsInputBody: Swift.Decodable {
     }
 }
 
+extension RemoveTagsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+/// Returns the objects or data listed below if successful. Otherwise, returns an error.
+public struct RemoveTagsOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum RemoveTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -11503,17 +11514,6 @@ enum RemoveTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension RemoveTagsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-/// Returns the objects or data listed below if successful. Otherwise, returns an error.
-public struct RemoveTagsOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension CloudTrailClientTypes.Resource: Swift.Codable {
@@ -11952,34 +11952,11 @@ extension RestoreEventDataStoreInputBody: Swift.Decodable {
     }
 }
 
-enum RestoreEventDataStoreOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "CloudTrailAccessNotEnabled": return try await CloudTrailAccessNotEnabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EventDataStoreARNInvalid": return try await EventDataStoreARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EventDataStoreMaxLimitExceeded": return try await EventDataStoreMaxLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EventDataStoreNotFound": return try await EventDataStoreNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InsufficientDependencyServiceAccessPermission": return try await InsufficientDependencyServiceAccessPermissionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidEventDataStoreStatus": return try await InvalidEventDataStoreStatusException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameter": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NoManagementAccountSLRExists": return try await NoManagementAccountSLRExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotOrganizationMasterAccount": return try await NotOrganizationMasterAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "OrganizationNotInAllFeaturesMode": return try await OrganizationNotInAllFeaturesModeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "OrganizationsNotInUse": return try await OrganizationsNotInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension RestoreEventDataStoreOutputResponse: ClientRuntime.HttpResponseBinding {
+extension RestoreEventDataStoreOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: RestoreEventDataStoreOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: RestoreEventDataStoreOutputBody = try responseDecoder.decode(responseBody: data)
             self.advancedEventSelectors = output.advancedEventSelectors
             self.createdTimestamp = output.createdTimestamp
             self.eventDataStoreArn = output.eventDataStoreArn
@@ -12007,7 +11984,7 @@ extension RestoreEventDataStoreOutputResponse: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct RestoreEventDataStoreOutputResponse: Swift.Equatable {
+public struct RestoreEventDataStoreOutput: Swift.Equatable {
     /// The advanced event selectors that were used to select events.
     public var advancedEventSelectors: [CloudTrailClientTypes.AdvancedEventSelector]?
     /// The timestamp of an event data store's creation.
@@ -12059,7 +12036,7 @@ public struct RestoreEventDataStoreOutputResponse: Swift.Equatable {
     }
 }
 
-struct RestoreEventDataStoreOutputResponseBody: Swift.Equatable {
+struct RestoreEventDataStoreOutputBody: Swift.Equatable {
     let eventDataStoreArn: Swift.String?
     let name: Swift.String?
     let status: CloudTrailClientTypes.EventDataStoreStatus?
@@ -12073,7 +12050,7 @@ struct RestoreEventDataStoreOutputResponseBody: Swift.Equatable {
     let kmsKeyId: Swift.String?
 }
 
-extension RestoreEventDataStoreOutputResponseBody: Swift.Decodable {
+extension RestoreEventDataStoreOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case advancedEventSelectors = "AdvancedEventSelectors"
         case createdTimestamp = "CreatedTimestamp"
@@ -12121,6 +12098,29 @@ extension RestoreEventDataStoreOutputResponseBody: Swift.Decodable {
         updatedTimestamp = updatedTimestampDecoded
         let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
         kmsKeyId = kmsKeyIdDecoded
+    }
+}
+
+enum RestoreEventDataStoreOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "CloudTrailAccessNotEnabled": return try await CloudTrailAccessNotEnabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EventDataStoreARNInvalid": return try await EventDataStoreARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EventDataStoreMaxLimitExceeded": return try await EventDataStoreMaxLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EventDataStoreNotFound": return try await EventDataStoreNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InsufficientDependencyServiceAccessPermission": return try await InsufficientDependencyServiceAccessPermissionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidEventDataStoreStatus": return try await InvalidEventDataStoreStatusException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameter": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoManagementAccountSLRExists": return try await NoManagementAccountSLRExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotOrganizationMasterAccount": return try await NotOrganizationMasterAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OrganizationNotInAllFeaturesMode": return try await OrganizationNotInAllFeaturesModeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OrganizationsNotInUse": return try await OrganizationsNotInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -12343,6 +12343,16 @@ extension StartEventDataStoreIngestionInputBody: Swift.Decodable {
     }
 }
 
+extension StartEventDataStoreIngestionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct StartEventDataStoreIngestionOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum StartEventDataStoreIngestionOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -12361,16 +12371,6 @@ enum StartEventDataStoreIngestionOutputError: ClientRuntime.HttpResponseErrorBin
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension StartEventDataStoreIngestionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct StartEventDataStoreIngestionOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension StartImportInput: Swift.Encodable {
@@ -12480,33 +12480,11 @@ extension StartImportInputBody: Swift.Decodable {
     }
 }
 
-enum StartImportOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccountHasOngoingImport": return try await AccountHasOngoingImportException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EventDataStoreARNInvalid": return try await EventDataStoreARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EventDataStoreNotFound": return try await EventDataStoreNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ImportNotFound": return try await ImportNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InactiveEventDataStore": return try await InactiveEventDataStoreException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InsufficientEncryptionPolicy": return try await InsufficientEncryptionPolicyException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidEventDataStoreCategory": return try await InvalidEventDataStoreCategoryException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidEventDataStoreStatus": return try await InvalidEventDataStoreStatusException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidImportSource": return try await InvalidImportSourceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameter": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension StartImportOutputResponse: ClientRuntime.HttpResponseBinding {
+extension StartImportOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: StartImportOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: StartImportOutputBody = try responseDecoder.decode(responseBody: data)
             self.createdTimestamp = output.createdTimestamp
             self.destinations = output.destinations
             self.endEventTime = output.endEventTime
@@ -12528,7 +12506,7 @@ extension StartImportOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartImportOutputResponse: Swift.Equatable {
+public struct StartImportOutput: Swift.Equatable {
     /// The timestamp for the import's creation.
     public var createdTimestamp: ClientRuntime.Date?
     /// The ARN of the destination event data store.
@@ -12568,7 +12546,7 @@ public struct StartImportOutputResponse: Swift.Equatable {
     }
 }
 
-struct StartImportOutputResponseBody: Swift.Equatable {
+struct StartImportOutputBody: Swift.Equatable {
     let importId: Swift.String?
     let destinations: [Swift.String]?
     let importSource: CloudTrailClientTypes.ImportSource?
@@ -12579,7 +12557,7 @@ struct StartImportOutputResponseBody: Swift.Equatable {
     let updatedTimestamp: ClientRuntime.Date?
 }
 
-extension StartImportOutputResponseBody: Swift.Decodable {
+extension StartImportOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case createdTimestamp = "CreatedTimestamp"
         case destinations = "Destinations"
@@ -12618,6 +12596,28 @@ extension StartImportOutputResponseBody: Swift.Decodable {
         createdTimestamp = createdTimestampDecoded
         let updatedTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .updatedTimestamp)
         updatedTimestamp = updatedTimestampDecoded
+    }
+}
+
+enum StartImportOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccountHasOngoingImport": return try await AccountHasOngoingImportException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EventDataStoreARNInvalid": return try await EventDataStoreARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EventDataStoreNotFound": return try await EventDataStoreNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ImportNotFound": return try await ImportNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InactiveEventDataStore": return try await InactiveEventDataStoreException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InsufficientEncryptionPolicy": return try await InsufficientEncryptionPolicyException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidEventDataStoreCategory": return try await InvalidEventDataStoreCategoryException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidEventDataStoreStatus": return try await InvalidEventDataStoreStatusException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidImportSource": return try await InvalidImportSourceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameter": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -12670,6 +12670,17 @@ extension StartLoggingInputBody: Swift.Decodable {
     }
 }
 
+extension StartLoggingOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+/// Returns the objects or data listed below if successful. Otherwise, returns an error.
+public struct StartLoggingOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum StartLoggingOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -12689,17 +12700,6 @@ enum StartLoggingOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension StartLoggingOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-/// Returns the objects or data listed below if successful. Otherwise, returns an error.
-public struct StartLoggingOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension StartQueryInput: Swift.Encodable {
@@ -12797,6 +12797,46 @@ extension StartQueryInputBody: Swift.Decodable {
     }
 }
 
+extension StartQueryOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: StartQueryOutputBody = try responseDecoder.decode(responseBody: data)
+            self.queryId = output.queryId
+        } else {
+            self.queryId = nil
+        }
+    }
+}
+
+public struct StartQueryOutput: Swift.Equatable {
+    /// The ID of the started query.
+    public var queryId: Swift.String?
+
+    public init(
+        queryId: Swift.String? = nil
+    )
+    {
+        self.queryId = queryId
+    }
+}
+
+struct StartQueryOutputBody: Swift.Equatable {
+    let queryId: Swift.String?
+}
+
+extension StartQueryOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case queryId = "QueryId"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let queryIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .queryId)
+        queryId = queryIdDecoded
+    }
+}
+
 enum StartQueryOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -12818,46 +12858,6 @@ enum StartQueryOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension StartQueryOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: StartQueryOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.queryId = output.queryId
-        } else {
-            self.queryId = nil
-        }
-    }
-}
-
-public struct StartQueryOutputResponse: Swift.Equatable {
-    /// The ID of the started query.
-    public var queryId: Swift.String?
-
-    public init(
-        queryId: Swift.String? = nil
-    )
-    {
-        self.queryId = queryId
-    }
-}
-
-struct StartQueryOutputResponseBody: Swift.Equatable {
-    let queryId: Swift.String?
-}
-
-extension StartQueryOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case queryId = "QueryId"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let queryIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .queryId)
-        queryId = queryIdDecoded
     }
 }
 
@@ -12909,6 +12909,16 @@ extension StopEventDataStoreIngestionInputBody: Swift.Decodable {
     }
 }
 
+extension StopEventDataStoreIngestionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct StopEventDataStoreIngestionOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum StopEventDataStoreIngestionOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -12927,16 +12937,6 @@ enum StopEventDataStoreIngestionOutputError: ClientRuntime.HttpResponseErrorBind
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension StopEventDataStoreIngestionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct StopEventDataStoreIngestionOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension StopImportInput: Swift.Encodable {
@@ -12987,25 +12987,11 @@ extension StopImportInputBody: Swift.Decodable {
     }
 }
 
-enum StopImportOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ImportNotFound": return try await ImportNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameter": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension StopImportOutputResponse: ClientRuntime.HttpResponseBinding {
+extension StopImportOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: StopImportOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: StopImportOutputBody = try responseDecoder.decode(responseBody: data)
             self.createdTimestamp = output.createdTimestamp
             self.destinations = output.destinations
             self.endEventTime = output.endEventTime
@@ -13029,7 +13015,7 @@ extension StopImportOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StopImportOutputResponse: Swift.Equatable {
+public struct StopImportOutput: Swift.Equatable {
     /// The timestamp of the import's creation.
     public var createdTimestamp: ClientRuntime.Date?
     /// The ARN of the destination event data store.
@@ -13073,7 +13059,7 @@ public struct StopImportOutputResponse: Swift.Equatable {
     }
 }
 
-struct StopImportOutputResponseBody: Swift.Equatable {
+struct StopImportOutputBody: Swift.Equatable {
     let importId: Swift.String?
     let importSource: CloudTrailClientTypes.ImportSource?
     let destinations: [Swift.String]?
@@ -13085,7 +13071,7 @@ struct StopImportOutputResponseBody: Swift.Equatable {
     let importStatistics: CloudTrailClientTypes.ImportStatistics?
 }
 
-extension StopImportOutputResponseBody: Swift.Decodable {
+extension StopImportOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case createdTimestamp = "CreatedTimestamp"
         case destinations = "Destinations"
@@ -13127,6 +13113,20 @@ extension StopImportOutputResponseBody: Swift.Decodable {
         endEventTime = endEventTimeDecoded
         let importStatisticsDecoded = try containerValues.decodeIfPresent(CloudTrailClientTypes.ImportStatistics.self, forKey: .importStatistics)
         importStatistics = importStatisticsDecoded
+    }
+}
+
+enum StopImportOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ImportNotFound": return try await ImportNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameter": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -13179,6 +13179,17 @@ extension StopLoggingInputBody: Swift.Decodable {
     }
 }
 
+extension StopLoggingOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+/// Returns the objects or data listed below if successful. Otherwise, returns an error.
+public struct StopLoggingOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum StopLoggingOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -13198,17 +13209,6 @@ enum StopLoggingOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension StopLoggingOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-/// Returns the objects or data listed below if successful. Otherwise, returns an error.
-public struct StopLoggingOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension CloudTrailClientTypes.Tag: Swift.Codable {
@@ -13918,31 +13918,11 @@ extension UpdateChannelInputBody: Swift.Decodable {
     }
 }
 
-enum UpdateChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ChannelAlreadyExists": return try await ChannelAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ChannelARNInvalid": return try await ChannelARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ChannelNotFound": return try await ChannelNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EventDataStoreARNInvalid": return try await EventDataStoreARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EventDataStoreNotFound": return try await EventDataStoreNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InactiveEventDataStore": return try await InactiveEventDataStoreException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidEventDataStoreCategory": return try await InvalidEventDataStoreCategoryException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameter": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension UpdateChannelOutputResponse: ClientRuntime.HttpResponseBinding {
+extension UpdateChannelOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: UpdateChannelOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: UpdateChannelOutputBody = try responseDecoder.decode(responseBody: data)
             self.channelArn = output.channelArn
             self.destinations = output.destinations
             self.name = output.name
@@ -13956,7 +13936,7 @@ extension UpdateChannelOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateChannelOutputResponse: Swift.Equatable {
+public struct UpdateChannelOutput: Swift.Equatable {
     /// The ARN of the channel that was updated.
     public var channelArn: Swift.String?
     /// The event data stores that log events arriving through the channel.
@@ -13980,14 +13960,14 @@ public struct UpdateChannelOutputResponse: Swift.Equatable {
     }
 }
 
-struct UpdateChannelOutputResponseBody: Swift.Equatable {
+struct UpdateChannelOutputBody: Swift.Equatable {
     let channelArn: Swift.String?
     let name: Swift.String?
     let source: Swift.String?
     let destinations: [CloudTrailClientTypes.Destination]?
 }
 
-extension UpdateChannelOutputResponseBody: Swift.Decodable {
+extension UpdateChannelOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case channelArn = "ChannelArn"
         case destinations = "Destinations"
@@ -14014,6 +13994,26 @@ extension UpdateChannelOutputResponseBody: Swift.Decodable {
             }
         }
         destinations = destinationsDecoded0
+    }
+}
+
+enum UpdateChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ChannelAlreadyExists": return try await ChannelAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ChannelARNInvalid": return try await ChannelARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ChannelNotFound": return try await ChannelNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EventDataStoreARNInvalid": return try await EventDataStoreARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EventDataStoreNotFound": return try await EventDataStoreNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InactiveEventDataStore": return try await InactiveEventDataStoreException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidEventDataStoreCategory": return try await InvalidEventDataStoreCategoryException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameter": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -14169,40 +14169,11 @@ extension UpdateEventDataStoreInputBody: Swift.Decodable {
     }
 }
 
-enum UpdateEventDataStoreOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "CloudTrailAccessNotEnabled": return try await CloudTrailAccessNotEnabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EventDataStoreAlreadyExists": return try await EventDataStoreAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EventDataStoreARNInvalid": return try await EventDataStoreARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EventDataStoreHasOngoingImport": return try await EventDataStoreHasOngoingImportException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EventDataStoreNotFound": return try await EventDataStoreNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InactiveEventDataStore": return try await InactiveEventDataStoreException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InsufficientDependencyServiceAccessPermission": return try await InsufficientDependencyServiceAccessPermissionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InsufficientEncryptionPolicy": return try await InsufficientEncryptionPolicyException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidEventSelectors": return try await InvalidEventSelectorsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidKmsKeyId": return try await InvalidKmsKeyIdException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameter": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "KmsException": return try await KmsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "KmsKeyNotFound": return try await KmsKeyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NoManagementAccountSLRExists": return try await NoManagementAccountSLRExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotOrganizationMasterAccount": return try await NotOrganizationMasterAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "OrganizationNotInAllFeaturesMode": return try await OrganizationNotInAllFeaturesModeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "OrganizationsNotInUse": return try await OrganizationsNotInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension UpdateEventDataStoreOutputResponse: ClientRuntime.HttpResponseBinding {
+extension UpdateEventDataStoreOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: UpdateEventDataStoreOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: UpdateEventDataStoreOutputBody = try responseDecoder.decode(responseBody: data)
             self.advancedEventSelectors = output.advancedEventSelectors
             self.createdTimestamp = output.createdTimestamp
             self.eventDataStoreArn = output.eventDataStoreArn
@@ -14230,7 +14201,7 @@ extension UpdateEventDataStoreOutputResponse: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct UpdateEventDataStoreOutputResponse: Swift.Equatable {
+public struct UpdateEventDataStoreOutput: Swift.Equatable {
     /// The advanced event selectors that are applied to the event data store.
     public var advancedEventSelectors: [CloudTrailClientTypes.AdvancedEventSelector]?
     /// The timestamp that shows when an event data store was first created.
@@ -14282,7 +14253,7 @@ public struct UpdateEventDataStoreOutputResponse: Swift.Equatable {
     }
 }
 
-struct UpdateEventDataStoreOutputResponseBody: Swift.Equatable {
+struct UpdateEventDataStoreOutputBody: Swift.Equatable {
     let eventDataStoreArn: Swift.String?
     let name: Swift.String?
     let status: CloudTrailClientTypes.EventDataStoreStatus?
@@ -14296,7 +14267,7 @@ struct UpdateEventDataStoreOutputResponseBody: Swift.Equatable {
     let kmsKeyId: Swift.String?
 }
 
-extension UpdateEventDataStoreOutputResponseBody: Swift.Decodable {
+extension UpdateEventDataStoreOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case advancedEventSelectors = "AdvancedEventSelectors"
         case createdTimestamp = "CreatedTimestamp"
@@ -14344,6 +14315,35 @@ extension UpdateEventDataStoreOutputResponseBody: Swift.Decodable {
         updatedTimestamp = updatedTimestampDecoded
         let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
         kmsKeyId = kmsKeyIdDecoded
+    }
+}
+
+enum UpdateEventDataStoreOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "CloudTrailAccessNotEnabled": return try await CloudTrailAccessNotEnabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EventDataStoreAlreadyExists": return try await EventDataStoreAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EventDataStoreARNInvalid": return try await EventDataStoreARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EventDataStoreHasOngoingImport": return try await EventDataStoreHasOngoingImportException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EventDataStoreNotFound": return try await EventDataStoreNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InactiveEventDataStore": return try await InactiveEventDataStoreException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InsufficientDependencyServiceAccessPermission": return try await InsufficientDependencyServiceAccessPermissionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InsufficientEncryptionPolicy": return try await InsufficientEncryptionPolicyException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidEventSelectors": return try await InvalidEventSelectorsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidKmsKeyId": return try await InvalidKmsKeyIdException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameter": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KmsException": return try await KmsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KmsKeyNotFound": return try await KmsKeyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoManagementAccountSLRExists": return try await NoManagementAccountSLRExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotOrganizationMasterAccount": return try await NotOrganizationMasterAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OrganizationNotInAllFeaturesMode": return try await OrganizationNotInAllFeaturesModeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OrganizationsNotInUse": return try await OrganizationsNotInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -14537,54 +14537,11 @@ extension UpdateTrailInputBody: Swift.Decodable {
     }
 }
 
-enum UpdateTrailOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "CloudTrailAccessNotEnabled": return try await CloudTrailAccessNotEnabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "CloudTrailARNInvalid": return try await CloudTrailARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "CloudTrailInvalidClientTokenId": return try await CloudTrailInvalidClientTokenIdException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "CloudWatchLogsDeliveryUnavailable": return try await CloudWatchLogsDeliveryUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InsufficientDependencyServiceAccessPermission": return try await InsufficientDependencyServiceAccessPermissionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InsufficientEncryptionPolicy": return try await InsufficientEncryptionPolicyException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InsufficientS3BucketPolicy": return try await InsufficientS3BucketPolicyException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InsufficientSnsTopicPolicy": return try await InsufficientSnsTopicPolicyException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidCloudWatchLogsLogGroupArn": return try await InvalidCloudWatchLogsLogGroupArnException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidCloudWatchLogsRoleArn": return try await InvalidCloudWatchLogsRoleArnException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidEventSelectors": return try await InvalidEventSelectorsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidHomeRegion": return try await InvalidHomeRegionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidKmsKeyId": return try await InvalidKmsKeyIdException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterCombinationError": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameter": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidS3BucketName": return try await InvalidS3BucketNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidS3Prefix": return try await InvalidS3PrefixException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidSnsTopicName": return try await InvalidSnsTopicNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidTrailName": return try await InvalidTrailNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "KmsException": return try await KmsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "KmsKeyDisabled": return try await KmsKeyDisabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "KmsKeyNotFound": return try await KmsKeyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NoManagementAccountSLRExists": return try await NoManagementAccountSLRExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotOrganizationMasterAccount": return try await NotOrganizationMasterAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "OrganizationNotInAllFeaturesMode": return try await OrganizationNotInAllFeaturesModeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "OrganizationsNotInUse": return try await OrganizationsNotInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "S3BucketDoesNotExist": return try await S3BucketDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TrailNotFound": return try await TrailNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TrailNotProvided": return try await TrailNotProvidedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension UpdateTrailOutputResponse: ClientRuntime.HttpResponseBinding {
+extension UpdateTrailOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: UpdateTrailOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: UpdateTrailOutputBody = try responseDecoder.decode(responseBody: data)
             self.cloudWatchLogsLogGroupArn = output.cloudWatchLogsLogGroupArn
             self.cloudWatchLogsRoleArn = output.cloudWatchLogsRoleArn
             self.includeGlobalServiceEvents = output.includeGlobalServiceEvents
@@ -14617,7 +14574,7 @@ extension UpdateTrailOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Returns the objects or data listed below if successful. Otherwise, returns an error.
-public struct UpdateTrailOutputResponse: Swift.Equatable {
+public struct UpdateTrailOutput: Swift.Equatable {
     /// Specifies the Amazon Resource Name (ARN) of the log group to which CloudTrail logs are delivered.
     public var cloudWatchLogsLogGroupArn: Swift.String?
     /// Specifies the role for the CloudWatch Logs endpoint to assume to write to a user's log group.
@@ -14678,7 +14635,7 @@ public struct UpdateTrailOutputResponse: Swift.Equatable {
     }
 }
 
-struct UpdateTrailOutputResponseBody: Swift.Equatable {
+struct UpdateTrailOutputBody: Swift.Equatable {
     let name: Swift.String?
     let s3BucketName: Swift.String?
     let s3KeyPrefix: Swift.String?
@@ -14694,7 +14651,7 @@ struct UpdateTrailOutputResponseBody: Swift.Equatable {
     let isOrganizationTrail: Swift.Bool?
 }
 
-extension UpdateTrailOutputResponseBody: Swift.Decodable {
+extension UpdateTrailOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case cloudWatchLogsLogGroupArn = "CloudWatchLogsLogGroupArn"
         case cloudWatchLogsRoleArn = "CloudWatchLogsRoleArn"
@@ -14739,5 +14696,48 @@ extension UpdateTrailOutputResponseBody: Swift.Decodable {
         kmsKeyId = kmsKeyIdDecoded
         let isOrganizationTrailDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isOrganizationTrail)
         isOrganizationTrail = isOrganizationTrailDecoded
+    }
+}
+
+enum UpdateTrailOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "CloudTrailAccessNotEnabled": return try await CloudTrailAccessNotEnabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "CloudTrailARNInvalid": return try await CloudTrailARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "CloudTrailInvalidClientTokenId": return try await CloudTrailInvalidClientTokenIdException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "CloudWatchLogsDeliveryUnavailable": return try await CloudWatchLogsDeliveryUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InsufficientDependencyServiceAccessPermission": return try await InsufficientDependencyServiceAccessPermissionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InsufficientEncryptionPolicy": return try await InsufficientEncryptionPolicyException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InsufficientS3BucketPolicy": return try await InsufficientS3BucketPolicyException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InsufficientSnsTopicPolicy": return try await InsufficientSnsTopicPolicyException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidCloudWatchLogsLogGroupArn": return try await InvalidCloudWatchLogsLogGroupArnException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidCloudWatchLogsRoleArn": return try await InvalidCloudWatchLogsRoleArnException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidEventSelectors": return try await InvalidEventSelectorsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidHomeRegion": return try await InvalidHomeRegionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidKmsKeyId": return try await InvalidKmsKeyIdException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterCombinationError": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameter": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidS3BucketName": return try await InvalidS3BucketNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidS3Prefix": return try await InvalidS3PrefixException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidSnsTopicName": return try await InvalidSnsTopicNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidTrailName": return try await InvalidTrailNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KmsException": return try await KmsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KmsKeyDisabled": return try await KmsKeyDisabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KmsKeyNotFound": return try await KmsKeyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoManagementAccountSLRExists": return try await NoManagementAccountSLRExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotOrganizationMasterAccount": return try await NotOrganizationMasterAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OrganizationNotInAllFeaturesMode": return try await OrganizationNotInAllFeaturesModeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OrganizationsNotInUse": return try await OrganizationsNotInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "S3BucketDoesNotExist": return try await S3BucketDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TrailNotFound": return try await TrailNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TrailNotProvided": return try await TrailNotProvidedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }

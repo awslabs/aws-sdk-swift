@@ -8,7 +8,7 @@ public protocol LakeFormationClientProtocol {
     ///
     /// - Parameter AddLFTagsToResourceInput : [no documentation found]
     ///
-    /// - Returns: `AddLFTagsToResourceOutputResponse` : [no documentation found]
+    /// - Returns: `AddLFTagsToResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -19,12 +19,12 @@ public protocol LakeFormationClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    func addLFTagsToResource(input: AddLFTagsToResourceInput) async throws -> AddLFTagsToResourceOutputResponse
+    func addLFTagsToResource(input: AddLFTagsToResourceInput) async throws -> AddLFTagsToResourceOutput
     /// Allows a caller to assume an IAM role decorated as the SAML user specified in the SAML assertion included in the request. This decoration allows Lake Formation to enforce access policies against the SAML users and groups. This API operation requires SAML federation setup in the caller’s account as it can only be called with valid SAML assertions. Lake Formation does not scope down the permission of the assumed role. All permissions attached to the role via the SAML federation setup will be included in the role session. This decorated role is expected to access data in Amazon S3 by getting temporary access from Lake Formation which is authorized via the virtual API GetDataAccess. Therefore, all SAML roles that can be assumed via AssumeDecoratedRoleWithSAML must at a minimum include lakeformation:GetDataAccess in their role policies. A typical IAM policy attached to such a role would look as follows:
     ///
     /// - Parameter AssumeDecoratedRoleWithSAMLInput : [no documentation found]
     ///
-    /// - Returns: `AssumeDecoratedRoleWithSAMLOutputResponse` : [no documentation found]
+    /// - Returns: `AssumeDecoratedRoleWithSAMLOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -34,36 +34,36 @@ public protocol LakeFormationClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    func assumeDecoratedRoleWithSAML(input: AssumeDecoratedRoleWithSAMLInput) async throws -> AssumeDecoratedRoleWithSAMLOutputResponse
+    func assumeDecoratedRoleWithSAML(input: AssumeDecoratedRoleWithSAMLInput) async throws -> AssumeDecoratedRoleWithSAMLOutput
     /// Batch operation to grant permissions to the principal.
     ///
     /// - Parameter BatchGrantPermissionsInput : [no documentation found]
     ///
-    /// - Returns: `BatchGrantPermissionsOutputResponse` : [no documentation found]
+    /// - Returns: `BatchGrantPermissionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    func batchGrantPermissions(input: BatchGrantPermissionsInput) async throws -> BatchGrantPermissionsOutputResponse
+    func batchGrantPermissions(input: BatchGrantPermissionsInput) async throws -> BatchGrantPermissionsOutput
     /// Batch operation to revoke permissions from the principal.
     ///
     /// - Parameter BatchRevokePermissionsInput : [no documentation found]
     ///
-    /// - Returns: `BatchRevokePermissionsOutputResponse` : [no documentation found]
+    /// - Returns: `BatchRevokePermissionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    func batchRevokePermissions(input: BatchRevokePermissionsInput) async throws -> BatchRevokePermissionsOutputResponse
+    func batchRevokePermissions(input: BatchRevokePermissionsInput) async throws -> BatchRevokePermissionsOutput
     /// Attempts to cancel the specified transaction. Returns an exception if the transaction was previously committed.
     ///
     /// - Parameter CancelTransactionInput : [no documentation found]
     ///
-    /// - Returns: `CancelTransactionOutputResponse` : [no documentation found]
+    /// - Returns: `CancelTransactionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -75,12 +75,12 @@ public protocol LakeFormationClientProtocol {
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `TransactionCommitInProgressException` : Contains details about an error related to a transaction commit that was in progress.
     /// - `TransactionCommittedException` : Contains details about an error where the specified transaction has already been committed and cannot be used for UpdateTableObjects.
-    func cancelTransaction(input: CancelTransactionInput) async throws -> CancelTransactionOutputResponse
+    func cancelTransaction(input: CancelTransactionInput) async throws -> CancelTransactionOutput
     /// Attempts to commit the specified transaction. Returns an exception if the transaction was previously aborted. This API action is idempotent if called multiple times for the same transaction.
     ///
     /// - Parameter CommitTransactionInput : [no documentation found]
     ///
-    /// - Returns: `CommitTransactionOutputResponse` : [no documentation found]
+    /// - Returns: `CommitTransactionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -91,12 +91,12 @@ public protocol LakeFormationClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `TransactionCanceledException` : Contains details about an error related to a transaction that was cancelled.
-    func commitTransaction(input: CommitTransactionInput) async throws -> CommitTransactionOutputResponse
+    func commitTransaction(input: CommitTransactionInput) async throws -> CommitTransactionOutput
     /// Creates a data cell filter to allow one to grant access to certain columns on certain rows.
     ///
     /// - Parameter CreateDataCellsFilterInput : [no documentation found]
     ///
-    /// - Returns: `CreateDataCellsFilterOutputResponse` : [no documentation found]
+    /// - Returns: `CreateDataCellsFilterOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -108,12 +108,12 @@ public protocol LakeFormationClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
-    func createDataCellsFilter(input: CreateDataCellsFilterInput) async throws -> CreateDataCellsFilterOutputResponse
+    func createDataCellsFilter(input: CreateDataCellsFilterInput) async throws -> CreateDataCellsFilterOutput
     /// Enforce Lake Formation permissions for the given databases, tables, and principals.
     ///
     /// - Parameter CreateLakeFormationOptInInput : [no documentation found]
     ///
-    /// - Returns: `CreateLakeFormationOptInOutputResponse` : [no documentation found]
+    /// - Returns: `CreateLakeFormationOptInOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -124,12 +124,12 @@ public protocol LakeFormationClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    func createLakeFormationOptIn(input: CreateLakeFormationOptInInput) async throws -> CreateLakeFormationOptInOutputResponse
+    func createLakeFormationOptIn(input: CreateLakeFormationOptInInput) async throws -> CreateLakeFormationOptInOutput
     /// Creates an LF-tag with the specified name and values.
     ///
     /// - Parameter CreateLFTagInput : [no documentation found]
     ///
-    /// - Returns: `CreateLFTagOutputResponse` : [no documentation found]
+    /// - Returns: `CreateLFTagOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -140,12 +140,12 @@ public protocol LakeFormationClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
-    func createLFTag(input: CreateLFTagInput) async throws -> CreateLFTagOutputResponse
+    func createLFTag(input: CreateLFTagInput) async throws -> CreateLFTagOutput
     /// Deletes a data cell filter.
     ///
     /// - Parameter DeleteDataCellsFilterInput : [no documentation found]
     ///
-    /// - Returns: `DeleteDataCellsFilterOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteDataCellsFilterOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -155,12 +155,12 @@ public protocol LakeFormationClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    func deleteDataCellsFilter(input: DeleteDataCellsFilterInput) async throws -> DeleteDataCellsFilterOutputResponse
+    func deleteDataCellsFilter(input: DeleteDataCellsFilterInput) async throws -> DeleteDataCellsFilterOutput
     /// Remove the Lake Formation permissions enforcement of the given databases, tables, and principals.
     ///
     /// - Parameter DeleteLakeFormationOptInInput : [no documentation found]
     ///
-    /// - Returns: `DeleteLakeFormationOptInOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteLakeFormationOptInOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -171,12 +171,12 @@ public protocol LakeFormationClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    func deleteLakeFormationOptIn(input: DeleteLakeFormationOptInInput) async throws -> DeleteLakeFormationOptInOutputResponse
+    func deleteLakeFormationOptIn(input: DeleteLakeFormationOptInInput) async throws -> DeleteLakeFormationOptInOutput
     /// Deletes the specified LF-tag given a key name. If the input parameter tag key was not found, then the operation will throw an exception. When you delete an LF-tag, the LFTagPolicy attached to the LF-tag becomes invalid. If the deleted LF-tag was still assigned to any resource, the tag policy attach to the deleted LF-tag will no longer be applied to the resource.
     ///
     /// - Parameter DeleteLFTagInput : [no documentation found]
     ///
-    /// - Returns: `DeleteLFTagOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteLFTagOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -186,12 +186,12 @@ public protocol LakeFormationClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    func deleteLFTag(input: DeleteLFTagInput) async throws -> DeleteLFTagOutputResponse
+    func deleteLFTag(input: DeleteLFTagInput) async throws -> DeleteLFTagOutput
     /// For a specific governed table, provides a list of Amazon S3 objects that will be written during the current transaction and that can be automatically deleted if the transaction is canceled. Without this call, no Amazon S3 objects are automatically deleted when a transaction cancels. The Glue ETL library function write_dynamic_frame.from_catalog() includes an option to automatically call DeleteObjectsOnCancel before writes. For more information, see [Rolling Back Amazon S3 Writes](https://docs.aws.amazon.com/lake-formation/latest/dg/transactions-data-operations.html#rolling-back-writes).
     ///
     /// - Parameter DeleteObjectsOnCancelInput : [no documentation found]
     ///
-    /// - Returns: `DeleteObjectsOnCancelOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteObjectsOnCancelOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -204,12 +204,12 @@ public protocol LakeFormationClientProtocol {
     /// - `ResourceNotReadyException` : Contains details about an error related to a resource which is not ready for a transaction.
     /// - `TransactionCanceledException` : Contains details about an error related to a transaction that was cancelled.
     /// - `TransactionCommittedException` : Contains details about an error where the specified transaction has already been committed and cannot be used for UpdateTableObjects.
-    func deleteObjectsOnCancel(input: DeleteObjectsOnCancelInput) async throws -> DeleteObjectsOnCancelOutputResponse
+    func deleteObjectsOnCancel(input: DeleteObjectsOnCancelInput) async throws -> DeleteObjectsOnCancelOutput
     /// Deregisters the resource as managed by the Data Catalog. When you deregister a path, Lake Formation removes the path from the inline policy attached to your service-linked role.
     ///
     /// - Parameter DeregisterResourceInput : [no documentation found]
     ///
-    /// - Returns: `DeregisterResourceOutputResponse` : [no documentation found]
+    /// - Returns: `DeregisterResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -218,12 +218,12 @@ public protocol LakeFormationClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    func deregisterResource(input: DeregisterResourceInput) async throws -> DeregisterResourceOutputResponse
+    func deregisterResource(input: DeregisterResourceInput) async throws -> DeregisterResourceOutput
     /// Retrieves the current data access role for the given resource registered in Lake Formation.
     ///
     /// - Parameter DescribeResourceInput : [no documentation found]
     ///
-    /// - Returns: `DescribeResourceOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -232,12 +232,12 @@ public protocol LakeFormationClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    func describeResource(input: DescribeResourceInput) async throws -> DescribeResourceOutputResponse
+    func describeResource(input: DescribeResourceInput) async throws -> DescribeResourceOutput
     /// Returns the details of a single transaction.
     ///
     /// - Parameter DescribeTransactionInput : [no documentation found]
     ///
-    /// - Returns: `DescribeTransactionOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeTransactionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -246,12 +246,12 @@ public protocol LakeFormationClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    func describeTransaction(input: DescribeTransactionInput) async throws -> DescribeTransactionOutputResponse
+    func describeTransaction(input: DescribeTransactionInput) async throws -> DescribeTransactionOutput
     /// Indicates to the service that the specified transaction is still active and should not be treated as idle and aborted. Write transactions that remain idle for a long period are automatically aborted unless explicitly extended.
     ///
     /// - Parameter ExtendTransactionInput : [no documentation found]
     ///
-    /// - Returns: `ExtendTransactionOutputResponse` : [no documentation found]
+    /// - Returns: `ExtendTransactionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -263,12 +263,12 @@ public protocol LakeFormationClientProtocol {
     /// - `TransactionCanceledException` : Contains details about an error related to a transaction that was cancelled.
     /// - `TransactionCommitInProgressException` : Contains details about an error related to a transaction commit that was in progress.
     /// - `TransactionCommittedException` : Contains details about an error where the specified transaction has already been committed and cannot be used for UpdateTableObjects.
-    func extendTransaction(input: ExtendTransactionInput) async throws -> ExtendTransactionOutputResponse
+    func extendTransaction(input: ExtendTransactionInput) async throws -> ExtendTransactionOutput
     /// Returns a data cells filter.
     ///
     /// - Parameter GetDataCellsFilterInput : [no documentation found]
     ///
-    /// - Returns: `GetDataCellsFilterOutputResponse` : [no documentation found]
+    /// - Returns: `GetDataCellsFilterOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -278,12 +278,12 @@ public protocol LakeFormationClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    func getDataCellsFilter(input: GetDataCellsFilterInput) async throws -> GetDataCellsFilterOutputResponse
+    func getDataCellsFilter(input: GetDataCellsFilterInput) async throws -> GetDataCellsFilterOutput
     /// Retrieves the list of the data lake administrators of a Lake Formation-managed data lake.
     ///
     /// - Parameter GetDataLakeSettingsInput : [no documentation found]
     ///
-    /// - Returns: `GetDataLakeSettingsOutputResponse` : [no documentation found]
+    /// - Returns: `GetDataLakeSettingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -291,12 +291,12 @@ public protocol LakeFormationClientProtocol {
     /// - `EntityNotFoundException` : A specified entity does not exist.
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
-    func getDataLakeSettings(input: GetDataLakeSettingsInput) async throws -> GetDataLakeSettingsOutputResponse
+    func getDataLakeSettings(input: GetDataLakeSettingsInput) async throws -> GetDataLakeSettingsOutput
     /// Returns the Lake Formation permissions for a specified table or database resource located at a path in Amazon S3. GetEffectivePermissionsForPath will not return databases and tables if the catalog is encrypted.
     ///
     /// - Parameter GetEffectivePermissionsForPathInput : [no documentation found]
     ///
-    /// - Returns: `GetEffectivePermissionsForPathOutputResponse` : [no documentation found]
+    /// - Returns: `GetEffectivePermissionsForPathOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -305,12 +305,12 @@ public protocol LakeFormationClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    func getEffectivePermissionsForPath(input: GetEffectivePermissionsForPathInput) async throws -> GetEffectivePermissionsForPathOutputResponse
+    func getEffectivePermissionsForPath(input: GetEffectivePermissionsForPathInput) async throws -> GetEffectivePermissionsForPathOutput
     /// Returns an LF-tag definition.
     ///
     /// - Parameter GetLFTagInput : [no documentation found]
     ///
-    /// - Returns: `GetLFTagOutputResponse` : [no documentation found]
+    /// - Returns: `GetLFTagOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -320,12 +320,12 @@ public protocol LakeFormationClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    func getLFTag(input: GetLFTagInput) async throws -> GetLFTagOutputResponse
+    func getLFTag(input: GetLFTagInput) async throws -> GetLFTagOutput
     /// Returns the state of a query previously submitted. Clients are expected to poll GetQueryState to monitor the current state of the planning before retrieving the work units. A query state is only visible to the principal that made the initial call to StartQueryPlanning.
     ///
     /// - Parameter GetQueryStateInput : [no documentation found]
     ///
-    /// - Returns: `GetQueryStateOutputResponse` : A structure for the output.
+    /// - Returns: `GetQueryStateOutput` : A structure for the output.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -333,12 +333,12 @@ public protocol LakeFormationClientProtocol {
     /// - `AccessDeniedException` : Access to a resource was denied.
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
-    func getQueryState(input: GetQueryStateInput) async throws -> GetQueryStateOutputResponse
+    func getQueryState(input: GetQueryStateInput) async throws -> GetQueryStateOutput
     /// Retrieves statistics on the planning and execution of a query.
     ///
     /// - Parameter GetQueryStatisticsInput : [no documentation found]
     ///
-    /// - Returns: `GetQueryStatisticsOutputResponse` : [no documentation found]
+    /// - Returns: `GetQueryStatisticsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -349,12 +349,12 @@ public protocol LakeFormationClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `StatisticsNotReadyYetException` : Contains details about an error related to statistics not being ready.
     /// - `ThrottledException` : Contains details about an error where the query request was throttled.
-    func getQueryStatistics(input: GetQueryStatisticsInput) async throws -> GetQueryStatisticsOutputResponse
+    func getQueryStatistics(input: GetQueryStatisticsInput) async throws -> GetQueryStatisticsOutput
     /// Returns the LF-tags applied to a resource.
     ///
     /// - Parameter GetResourceLFTagsInput : [no documentation found]
     ///
-    /// - Returns: `GetResourceLFTagsOutputResponse` : [no documentation found]
+    /// - Returns: `GetResourceLFTagsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -365,12 +365,12 @@ public protocol LakeFormationClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    func getResourceLFTags(input: GetResourceLFTagsInput) async throws -> GetResourceLFTagsOutputResponse
+    func getResourceLFTags(input: GetResourceLFTagsInput) async throws -> GetResourceLFTagsOutput
     /// Returns the set of Amazon S3 objects that make up the specified governed table. A transaction ID or timestamp can be specified for time-travel queries.
     ///
     /// - Parameter GetTableObjectsInput : [no documentation found]
     ///
-    /// - Returns: `GetTableObjectsOutputResponse` : [no documentation found]
+    /// - Returns: `GetTableObjectsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -382,12 +382,12 @@ public protocol LakeFormationClientProtocol {
     /// - `ResourceNotReadyException` : Contains details about an error related to a resource which is not ready for a transaction.
     /// - `TransactionCanceledException` : Contains details about an error related to a transaction that was cancelled.
     /// - `TransactionCommittedException` : Contains details about an error where the specified transaction has already been committed and cannot be used for UpdateTableObjects.
-    func getTableObjects(input: GetTableObjectsInput) async throws -> GetTableObjectsOutputResponse
+    func getTableObjects(input: GetTableObjectsInput) async throws -> GetTableObjectsOutput
     /// This API is identical to GetTemporaryTableCredentials except that this is used when the target Data Catalog resource is of type Partition. Lake Formation restricts the permission of the vended credentials with the same scope down policy which restricts access to a single Amazon S3 prefix.
     ///
     /// - Parameter GetTemporaryGluePartitionCredentialsInput : [no documentation found]
     ///
-    /// - Returns: `GetTemporaryGluePartitionCredentialsOutputResponse` : [no documentation found]
+    /// - Returns: `GetTemporaryGluePartitionCredentialsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -398,12 +398,12 @@ public protocol LakeFormationClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `PermissionTypeMismatchException` : The engine does not support filtering data based on the enforced permissions. For example, if you call the GetTemporaryGlueTableCredentials operation with SupportedPermissionType equal to ColumnPermission, but cell-level permissions exist on the table, this exception is thrown.
-    func getTemporaryGluePartitionCredentials(input: GetTemporaryGluePartitionCredentialsInput) async throws -> GetTemporaryGluePartitionCredentialsOutputResponse
+    func getTemporaryGluePartitionCredentials(input: GetTemporaryGluePartitionCredentialsInput) async throws -> GetTemporaryGluePartitionCredentialsOutput
     /// Allows a caller in a secure environment to assume a role with permission to access Amazon S3. In order to vend such credentials, Lake Formation assumes the role associated with a registered location, for example an Amazon S3 bucket, with a scope down policy which restricts the access to a single prefix.
     ///
     /// - Parameter GetTemporaryGlueTableCredentialsInput : [no documentation found]
     ///
-    /// - Returns: `GetTemporaryGlueTableCredentialsOutputResponse` : [no documentation found]
+    /// - Returns: `GetTemporaryGlueTableCredentialsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -414,12 +414,12 @@ public protocol LakeFormationClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `PermissionTypeMismatchException` : The engine does not support filtering data based on the enforced permissions. For example, if you call the GetTemporaryGlueTableCredentials operation with SupportedPermissionType equal to ColumnPermission, but cell-level permissions exist on the table, this exception is thrown.
-    func getTemporaryGlueTableCredentials(input: GetTemporaryGlueTableCredentialsInput) async throws -> GetTemporaryGlueTableCredentialsOutputResponse
+    func getTemporaryGlueTableCredentials(input: GetTemporaryGlueTableCredentialsInput) async throws -> GetTemporaryGlueTableCredentialsOutput
     /// Returns the work units resulting from the query. Work units can be executed in any order and in parallel.
     ///
     /// - Parameter GetWorkUnitResultsInput : [no documentation found]
     ///
-    /// - Returns: `GetWorkUnitResultsOutputResponse` : A structure for the output.
+    /// - Returns: `GetWorkUnitResultsOutput` : A structure for the output.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -429,12 +429,12 @@ public protocol LakeFormationClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `ThrottledException` : Contains details about an error where the query request was throttled.
-    func getWorkUnitResults(input: GetWorkUnitResultsInput) async throws -> GetWorkUnitResultsOutputResponse
+    func getWorkUnitResults(input: GetWorkUnitResultsInput) async throws -> GetWorkUnitResultsOutput
     /// Retrieves the work units generated by the StartQueryPlanning operation.
     ///
     /// - Parameter GetWorkUnitsInput : [no documentation found]
     ///
-    /// - Returns: `GetWorkUnitsOutputResponse` : A structure for the output.
+    /// - Returns: `GetWorkUnitsOutput` : A structure for the output.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -444,12 +444,12 @@ public protocol LakeFormationClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `WorkUnitsNotReadyYetException` : Contains details about an error related to work units not being ready.
-    func getWorkUnits(input: GetWorkUnitsInput) async throws -> GetWorkUnitsOutputResponse
+    func getWorkUnits(input: GetWorkUnitsInput) async throws -> GetWorkUnitsOutput
     /// Grants permissions to the principal to access metadata in the Data Catalog and data organized in underlying data storage such as Amazon S3. For information about permissions, see [Security and Access Control to Metadata and Data](https://docs.aws.amazon.com/lake-formation/latest/dg/security-data-access.html).
     ///
     /// - Parameter GrantPermissionsInput : [no documentation found]
     ///
-    /// - Returns: `GrantPermissionsOutputResponse` : [no documentation found]
+    /// - Returns: `GrantPermissionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -457,12 +457,12 @@ public protocol LakeFormationClientProtocol {
     /// - `ConcurrentModificationException` : Two processes are trying to modify a resource simultaneously.
     /// - `EntityNotFoundException` : A specified entity does not exist.
     /// - `InvalidInputException` : The input provided was not valid.
-    func grantPermissions(input: GrantPermissionsInput) async throws -> GrantPermissionsOutputResponse
+    func grantPermissions(input: GrantPermissionsInput) async throws -> GrantPermissionsOutput
     /// Lists all the data cell filters on a table.
     ///
     /// - Parameter ListDataCellsFilterInput : [no documentation found]
     ///
-    /// - Returns: `ListDataCellsFilterOutputResponse` : [no documentation found]
+    /// - Returns: `ListDataCellsFilterOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -471,12 +471,12 @@ public protocol LakeFormationClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    func listDataCellsFilter(input: ListDataCellsFilterInput) async throws -> ListDataCellsFilterOutputResponse
+    func listDataCellsFilter(input: ListDataCellsFilterInput) async throws -> ListDataCellsFilterOutput
     /// Retrieve the current list of resources and principals that are opt in to enforce Lake Formation permissions.
     ///
     /// - Parameter ListLakeFormationOptInsInput : [no documentation found]
     ///
-    /// - Returns: `ListLakeFormationOptInsOutputResponse` : [no documentation found]
+    /// - Returns: `ListLakeFormationOptInsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -485,12 +485,12 @@ public protocol LakeFormationClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    func listLakeFormationOptIns(input: ListLakeFormationOptInsInput) async throws -> ListLakeFormationOptInsOutputResponse
+    func listLakeFormationOptIns(input: ListLakeFormationOptInsInput) async throws -> ListLakeFormationOptInsOutput
     /// Lists LF-tags that the requester has permission to view.
     ///
     /// - Parameter ListLFTagsInput : [no documentation found]
     ///
-    /// - Returns: `ListLFTagsOutputResponse` : [no documentation found]
+    /// - Returns: `ListLFTagsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -500,12 +500,12 @@ public protocol LakeFormationClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    func listLFTags(input: ListLFTagsInput) async throws -> ListLFTagsOutputResponse
+    func listLFTags(input: ListLFTagsInput) async throws -> ListLFTagsOutput
     /// Returns a list of the principal permissions on the resource, filtered by the permissions of the caller. For example, if you are granted an ALTER permission, you are able to see only the principal permissions for ALTER. This operation returns only those permissions that have been explicitly granted. For information about permissions, see [Security and Access Control to Metadata and Data](https://docs.aws.amazon.com/lake-formation/latest/dg/security-data-access.html).
     ///
     /// - Parameter ListPermissionsInput : [no documentation found]
     ///
-    /// - Returns: `ListPermissionsOutputResponse` : [no documentation found]
+    /// - Returns: `ListPermissionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -513,12 +513,12 @@ public protocol LakeFormationClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    func listPermissions(input: ListPermissionsInput) async throws -> ListPermissionsOutputResponse
+    func listPermissions(input: ListPermissionsInput) async throws -> ListPermissionsOutput
     /// Lists the resources registered to be managed by the Data Catalog.
     ///
     /// - Parameter ListResourcesInput : [no documentation found]
     ///
-    /// - Returns: `ListResourcesOutputResponse` : [no documentation found]
+    /// - Returns: `ListResourcesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -526,12 +526,12 @@ public protocol LakeFormationClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    func listResources(input: ListResourcesInput) async throws -> ListResourcesOutputResponse
+    func listResources(input: ListResourcesInput) async throws -> ListResourcesOutput
     /// Returns the configuration of all storage optimizers associated with a specified table.
     ///
     /// - Parameter ListTableStorageOptimizersInput : [no documentation found]
     ///
-    /// - Returns: `ListTableStorageOptimizersOutputResponse` : [no documentation found]
+    /// - Returns: `ListTableStorageOptimizersOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -540,12 +540,12 @@ public protocol LakeFormationClientProtocol {
     /// - `EntityNotFoundException` : A specified entity does not exist.
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
-    func listTableStorageOptimizers(input: ListTableStorageOptimizersInput) async throws -> ListTableStorageOptimizersOutputResponse
+    func listTableStorageOptimizers(input: ListTableStorageOptimizersInput) async throws -> ListTableStorageOptimizersOutput
     /// Returns metadata about transactions and their status. To prevent the response from growing indefinitely, only uncommitted transactions and those available for time-travel queries are returned. This operation can help you identify uncommitted transactions or to get information about transactions.
     ///
     /// - Parameter ListTransactionsInput : [no documentation found]
     ///
-    /// - Returns: `ListTransactionsOutputResponse` : [no documentation found]
+    /// - Returns: `ListTransactionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -553,24 +553,24 @@ public protocol LakeFormationClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    func listTransactions(input: ListTransactionsInput) async throws -> ListTransactionsOutputResponse
+    func listTransactions(input: ListTransactionsInput) async throws -> ListTransactionsOutput
     /// Sets the list of data lake administrators who have admin privileges on all resources managed by Lake Formation. For more information on admin privileges, see [Granting Lake Formation Permissions](https://docs.aws.amazon.com/lake-formation/latest/dg/lake-formation-permissions.html). This API replaces the current list of data lake admins with the new list being passed. To add an admin, fetch the current list and add the new admin to that list and pass that list in this API.
     ///
     /// - Parameter PutDataLakeSettingsInput : [no documentation found]
     ///
-    /// - Returns: `PutDataLakeSettingsOutputResponse` : [no documentation found]
+    /// - Returns: `PutDataLakeSettingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
-    func putDataLakeSettings(input: PutDataLakeSettingsInput) async throws -> PutDataLakeSettingsOutputResponse
+    func putDataLakeSettings(input: PutDataLakeSettingsInput) async throws -> PutDataLakeSettingsOutput
     /// Registers the resource as managed by the Data Catalog. To add or update data, Lake Formation needs read/write access to the chosen Amazon S3 path. Choose a role that you know has permission to do this, or choose the AWSServiceRoleForLakeFormationDataAccess service-linked role. When you register the first Amazon S3 path, the service-linked role and a new inline policy are created on your behalf. Lake Formation adds the first path to the inline policy and attaches it to the service-linked role. When you register subsequent paths, Lake Formation adds the path to the existing policy. The following request registers a new location and gives Lake Formation permission to use the service-linked role to access that location. ResourceArn = arn:aws:s3:::my-bucket UseServiceLinkedRole = true If UseServiceLinkedRole is not set to true, you must provide or set the RoleArn: arn:aws:iam::12345:role/my-data-access-role
     ///
     /// - Parameter RegisterResourceInput : [no documentation found]
     ///
-    /// - Returns: `RegisterResourceOutputResponse` : [no documentation found]
+    /// - Returns: `RegisterResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -582,12 +582,12 @@ public protocol LakeFormationClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
-    func registerResource(input: RegisterResourceInput) async throws -> RegisterResourceOutputResponse
+    func registerResource(input: RegisterResourceInput) async throws -> RegisterResourceOutput
     /// Removes an LF-tag from the resource. Only database, table, or tableWithColumns resource are allowed. To tag columns, use the column inclusion list in tableWithColumns to specify column input.
     ///
     /// - Parameter RemoveLFTagsFromResourceInput : [no documentation found]
     ///
-    /// - Returns: `RemoveLFTagsFromResourceOutputResponse` : [no documentation found]
+    /// - Returns: `RemoveLFTagsFromResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -599,12 +599,12 @@ public protocol LakeFormationClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    func removeLFTagsFromResource(input: RemoveLFTagsFromResourceInput) async throws -> RemoveLFTagsFromResourceOutputResponse
+    func removeLFTagsFromResource(input: RemoveLFTagsFromResourceInput) async throws -> RemoveLFTagsFromResourceOutput
     /// Revokes permissions to the principal to access metadata in the Data Catalog and data organized in underlying data storage such as Amazon S3.
     ///
     /// - Parameter RevokePermissionsInput : [no documentation found]
     ///
-    /// - Returns: `RevokePermissionsOutputResponse` : [no documentation found]
+    /// - Returns: `RevokePermissionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -612,12 +612,12 @@ public protocol LakeFormationClientProtocol {
     /// - `ConcurrentModificationException` : Two processes are trying to modify a resource simultaneously.
     /// - `EntityNotFoundException` : A specified entity does not exist.
     /// - `InvalidInputException` : The input provided was not valid.
-    func revokePermissions(input: RevokePermissionsInput) async throws -> RevokePermissionsOutputResponse
+    func revokePermissions(input: RevokePermissionsInput) async throws -> RevokePermissionsOutput
     /// This operation allows a search on DATABASE resources by TagCondition. This operation is used by admins who want to grant user permissions on certain TagConditions. Before making a grant, the admin can use SearchDatabasesByTags to find all resources where the given TagConditions are valid to verify whether the returned resources can be shared.
     ///
     /// - Parameter SearchDatabasesByLFTagsInput : [no documentation found]
     ///
-    /// - Returns: `SearchDatabasesByLFTagsOutputResponse` : [no documentation found]
+    /// - Returns: `SearchDatabasesByLFTagsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -628,12 +628,12 @@ public protocol LakeFormationClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    func searchDatabasesByLFTags(input: SearchDatabasesByLFTagsInput) async throws -> SearchDatabasesByLFTagsOutputResponse
+    func searchDatabasesByLFTags(input: SearchDatabasesByLFTagsInput) async throws -> SearchDatabasesByLFTagsOutput
     /// This operation allows a search on TABLE resources by LFTags. This will be used by admins who want to grant user permissions on certain LF-tags. Before making a grant, the admin can use SearchTablesByLFTags to find all resources where the given LFTags are valid to verify whether the returned resources can be shared.
     ///
     /// - Parameter SearchTablesByLFTagsInput : [no documentation found]
     ///
-    /// - Returns: `SearchTablesByLFTagsOutputResponse` : [no documentation found]
+    /// - Returns: `SearchTablesByLFTagsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -644,12 +644,12 @@ public protocol LakeFormationClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    func searchTablesByLFTags(input: SearchTablesByLFTagsInput) async throws -> SearchTablesByLFTagsOutputResponse
+    func searchTablesByLFTags(input: SearchTablesByLFTagsInput) async throws -> SearchTablesByLFTagsOutput
     /// Submits a request to process a query statement. This operation generates work units that can be retrieved with the GetWorkUnits operation as soon as the query state is WORKUNITS_AVAILABLE or FINISHED.
     ///
     /// - Parameter StartQueryPlanningInput : [no documentation found]
     ///
-    /// - Returns: `StartQueryPlanningOutputResponse` : A structure for the output.
+    /// - Returns: `StartQueryPlanningOutput` : A structure for the output.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -658,24 +658,24 @@ public protocol LakeFormationClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `ThrottledException` : Contains details about an error where the query request was throttled.
-    func startQueryPlanning(input: StartQueryPlanningInput) async throws -> StartQueryPlanningOutputResponse
+    func startQueryPlanning(input: StartQueryPlanningInput) async throws -> StartQueryPlanningOutput
     /// Starts a new transaction and returns its transaction ID. Transaction IDs are opaque objects that you can use to identify a transaction.
     ///
     /// - Parameter StartTransactionInput : [no documentation found]
     ///
-    /// - Returns: `StartTransactionOutputResponse` : [no documentation found]
+    /// - Returns: `StartTransactionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `OperationTimeoutException` : The operation timed out.
-    func startTransaction(input: StartTransactionInput) async throws -> StartTransactionOutputResponse
+    func startTransaction(input: StartTransactionInput) async throws -> StartTransactionOutput
     /// Updates a data cell filter.
     ///
     /// - Parameter UpdateDataCellsFilterInput : [no documentation found]
     ///
-    /// - Returns: `UpdateDataCellsFilterOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateDataCellsFilterOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -686,12 +686,12 @@ public protocol LakeFormationClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    func updateDataCellsFilter(input: UpdateDataCellsFilterInput) async throws -> UpdateDataCellsFilterOutputResponse
+    func updateDataCellsFilter(input: UpdateDataCellsFilterInput) async throws -> UpdateDataCellsFilterOutput
     /// Updates the list of possible values for the specified LF-tag key. If the LF-tag does not exist, the operation throws an EntityNotFoundException. The values in the delete key values will be deleted from list of possible values. If any value in the delete key values is attached to a resource, then API errors out with a 400 Exception - "Update not allowed". Untag the attribute before deleting the LF-tag key's value.
     ///
     /// - Parameter UpdateLFTagInput : [no documentation found]
     ///
-    /// - Returns: `UpdateLFTagOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateLFTagOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -702,12 +702,12 @@ public protocol LakeFormationClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    func updateLFTag(input: UpdateLFTagInput) async throws -> UpdateLFTagOutputResponse
+    func updateLFTag(input: UpdateLFTagInput) async throws -> UpdateLFTagOutput
     /// Updates the data access role used for vending access to the given (registered) resource in Lake Formation.
     ///
     /// - Parameter UpdateResourceInput : [no documentation found]
     ///
-    /// - Returns: `UpdateResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -716,12 +716,12 @@ public protocol LakeFormationClientProtocol {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
-    func updateResource(input: UpdateResourceInput) async throws -> UpdateResourceOutputResponse
+    func updateResource(input: UpdateResourceInput) async throws -> UpdateResourceOutput
     /// Updates the manifest of Amazon S3 objects that make up the specified governed table.
     ///
     /// - Parameter UpdateTableObjectsInput : [no documentation found]
     ///
-    /// - Returns: `UpdateTableObjectsOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateTableObjectsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -735,12 +735,12 @@ public protocol LakeFormationClientProtocol {
     /// - `TransactionCanceledException` : Contains details about an error related to a transaction that was cancelled.
     /// - `TransactionCommitInProgressException` : Contains details about an error related to a transaction commit that was in progress.
     /// - `TransactionCommittedException` : Contains details about an error where the specified transaction has already been committed and cannot be used for UpdateTableObjects.
-    func updateTableObjects(input: UpdateTableObjectsInput) async throws -> UpdateTableObjectsOutputResponse
+    func updateTableObjects(input: UpdateTableObjectsInput) async throws -> UpdateTableObjectsOutput
     /// Updates the configuration of the storage optimizers for a table.
     ///
     /// - Parameter UpdateTableStorageOptimizerInput : [no documentation found]
     ///
-    /// - Returns: `UpdateTableStorageOptimizerOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateTableStorageOptimizerOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -749,7 +749,7 @@ public protocol LakeFormationClientProtocol {
     /// - `EntityNotFoundException` : A specified entity does not exist.
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
-    func updateTableStorageOptimizer(input: UpdateTableStorageOptimizerInput) async throws -> UpdateTableStorageOptimizerOutputResponse
+    func updateTableStorageOptimizer(input: UpdateTableStorageOptimizerInput) async throws -> UpdateTableStorageOptimizerOutput
 }
 
 public enum LakeFormationClientTypes {}

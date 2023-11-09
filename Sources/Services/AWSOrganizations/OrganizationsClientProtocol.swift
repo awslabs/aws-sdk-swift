@@ -24,7 +24,7 @@ public protocol OrganizationsClientProtocol {
     ///
     /// - Parameter AcceptHandshakeInput : [no documentation found]
     ///
-    /// - Returns: `AcceptHandshakeOutputResponse` : [no documentation found]
+    /// - Returns: `AcceptHandshakeOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -106,7 +106,7 @@ public protocol OrganizationsClientProtocol {
     /// * UNRECOGNIZED_SERVICE_PRINCIPAL: You specified a service principal that isn't recognized.
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
-    func acceptHandshake(input: AcceptHandshakeInput) async throws -> AcceptHandshakeOutputResponse
+    func acceptHandshake(input: AcceptHandshakeInput) async throws -> AcceptHandshakeOutput
     /// Attaches a policy to a root, an organizational unit (OU), or an individual account. How the policy affects accounts depends on the type of policy. Refer to the Organizations User Guide for information about each policy type:
     ///
     /// * [AISERVICES_OPT_OUT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html)
@@ -122,7 +122,7 @@ public protocol OrganizationsClientProtocol {
     ///
     /// - Parameter AttachPolicyInput : [no documentation found]
     ///
-    /// - Returns: `AttachPolicyOutputResponse` : [no documentation found]
+    /// - Returns: `AttachPolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -256,12 +256,12 @@ public protocol OrganizationsClientProtocol {
     /// - `TargetNotFoundException` : We can't find a root, OU, account, or policy with the TargetId that you specified.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
     /// - `UnsupportedAPIEndpointException` : This action isn't available in the current Amazon Web Services Region.
-    func attachPolicy(input: AttachPolicyInput) async throws -> AttachPolicyOutputResponse
+    func attachPolicy(input: AttachPolicyInput) async throws -> AttachPolicyOutput
     /// Cancels a handshake. Canceling a handshake sets the handshake state to CANCELED. This operation can be called only from the account that originated the handshake. The recipient of the handshake can't cancel it, but can use [DeclineHandshake] instead. After a handshake is canceled, the recipient can no longer respond to that handshake. After you cancel a handshake, it continues to appear in the results of relevant APIs for only 30 days. After that, it's deleted.
     ///
     /// - Parameter CancelHandshakeInput : [no documentation found]
     ///
-    /// - Returns: `CancelHandshakeOutputResponse` : [no documentation found]
+    /// - Returns: `CancelHandshakeOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -322,7 +322,7 @@ public protocol OrganizationsClientProtocol {
     /// * UNRECOGNIZED_SERVICE_PRINCIPAL: You specified a service principal that isn't recognized.
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
-    func cancelHandshake(input: CancelHandshakeInput) async throws -> CancelHandshakeOutputResponse
+    func cancelHandshake(input: CancelHandshakeInput) async throws -> CancelHandshakeOutput
     /// Closes an Amazon Web Services member account within an organization. You can close an account when [all features are enabled ](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html). You can't close the management account with this API. This is an asynchronous request that Amazon Web Services performs in the background. Because CloseAccount operates asynchronously, it can return a successful completion message even though account closure might still be in progress. You need to wait a few minutes before the account is fully closed. To check the status of the request, do one of the following:
     ///
     /// * Use the AccountId that you sent in the CloseAccount request to provide as a parameter to the [DescribeAccount] operation. While the close account request is in progress, Account status will indicate PENDING_CLOSURE. When the close account request completes, the status will change to SUSPENDED.
@@ -340,7 +340,7 @@ public protocol OrganizationsClientProtocol {
     ///
     /// - Parameter CloseAccountInput : [no documentation found]
     ///
-    /// - Returns: `CloseAccountOutputResponse` : [no documentation found]
+    /// - Returns: `CloseAccountOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -472,7 +472,7 @@ public protocol OrganizationsClientProtocol {
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
     /// - `UnsupportedAPIEndpointException` : This action isn't available in the current Amazon Web Services Region.
-    func closeAccount(input: CloseAccountInput) async throws -> CloseAccountOutputResponse
+    func closeAccount(input: CloseAccountInput) async throws -> CloseAccountOutput
     /// Creates an Amazon Web Services account that is automatically a member of the organization whose credentials made the request. This is an asynchronous request that Amazon Web Services performs in the background. Because CreateAccount operates asynchronously, it can return a successful completion message even though account initialization might still be in progress. You might need to wait a few minutes before you can successfully access the account. To check the status of the request, do one of the following:
     ///
     /// * Use the Id value of the CreateAccountStatus response element from this operation to provide as a parameter to the [DescribeCreateAccountStatus] operation.
@@ -495,7 +495,7 @@ public protocol OrganizationsClientProtocol {
     ///
     /// - Parameter CreateAccountInput : [no documentation found]
     ///
-    /// - Returns: `CreateAccountOutputResponse` : [no documentation found]
+    /// - Returns: `CreateAccountOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -625,7 +625,7 @@ public protocol OrganizationsClientProtocol {
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
     /// - `UnsupportedAPIEndpointException` : This action isn't available in the current Amazon Web Services Region.
-    func createAccount(input: CreateAccountInput) async throws -> CreateAccountOutputResponse
+    func createAccount(input: CreateAccountInput) async throws -> CreateAccountOutput
     /// This action is available if all of the following are true:
     ///
     /// * You're authorized to create accounts in the Amazon Web Services GovCloud (US) Region. For more information on the Amazon Web Services GovCloud (US) Region, see the [ Amazon Web Services GovCloud User Guide.](https://docs.aws.amazon.com/govcloud-us/latest/UserGuide/welcome.html)
@@ -666,7 +666,7 @@ public protocol OrganizationsClientProtocol {
     ///
     /// - Parameter CreateGovCloudAccountInput : [no documentation found]
     ///
-    /// - Returns: `CreateGovCloudAccountOutputResponse` : [no documentation found]
+    /// - Returns: `CreateGovCloudAccountOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -796,12 +796,12 @@ public protocol OrganizationsClientProtocol {
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
     /// - `UnsupportedAPIEndpointException` : This action isn't available in the current Amazon Web Services Region.
-    func createGovCloudAccount(input: CreateGovCloudAccountInput) async throws -> CreateGovCloudAccountOutputResponse
+    func createGovCloudAccount(input: CreateGovCloudAccountInput) async throws -> CreateGovCloudAccountOutput
     /// Creates an Amazon Web Services organization. The account whose user is calling the CreateOrganization operation automatically becomes the [management account](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#account) of the new organization. This operation must be called using credentials from the account that is to become the new organization's management account. The principal must also have the relevant IAM permissions. By default (or if you set the FeatureSet parameter to ALL), the new organization is created with all features enabled and service control policies automatically enabled in the root. If you instead choose to create the organization supporting only the consolidated billing features by setting the FeatureSet parameter to CONSOLIDATED_BILLING, no policy types are enabled by default and you can't use organization policies.
     ///
     /// - Parameter CreateOrganizationInput : [no documentation found]
     ///
-    /// - Returns: `CreateOrganizationOutputResponse` : [no documentation found]
+    /// - Returns: `CreateOrganizationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -930,12 +930,12 @@ public protocol OrganizationsClientProtocol {
     /// * UNRECOGNIZED_SERVICE_PRINCIPAL: You specified a service principal that isn't recognized.
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
-    func createOrganization(input: CreateOrganizationInput) async throws -> CreateOrganizationOutputResponse
+    func createOrganization(input: CreateOrganizationInput) async throws -> CreateOrganizationOutput
     /// Creates an organizational unit (OU) within a root or parent OU. An OU is a container for accounts that enables you to organize your accounts to apply policies according to your business requirements. The number of levels deep that you can nest OUs is dependent upon the policy types enabled for that root. For service control policies, the limit is five. For more information about OUs, see [Managing organizational units (OUs)](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_ous.html) in the Organizations User Guide. If the request includes tags, then the requester must have the organizations:TagResource permission. This operation can be called only from the organization's management account.
     ///
     /// - Parameter CreateOrganizationalUnitInput : [no documentation found]
     ///
-    /// - Returns: `CreateOrganizationalUnitOutputResponse` : [no documentation found]
+    /// - Returns: `CreateOrganizationalUnitOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1065,12 +1065,12 @@ public protocol OrganizationsClientProtocol {
     /// - `ParentNotFoundException` : We can't find a root or OU with the ParentId that you specified.
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
-    func createOrganizationalUnit(input: CreateOrganizationalUnitInput) async throws -> CreateOrganizationalUnitOutputResponse
+    func createOrganizationalUnit(input: CreateOrganizationalUnitInput) async throws -> CreateOrganizationalUnitOutput
     /// Creates a policy of a specified type that you can attach to a root, an organizational unit (OU), or an individual Amazon Web Services account. For more information about policies and their use, see [Managing Organizations policies](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies.html). If the request includes tags, then the requester must have the organizations:TagResource permission. This operation can be called only from the organization's management account or by a member account that is a delegated administrator for an Amazon Web Services service.
     ///
     /// - Parameter CreatePolicyInput : [no documentation found]
     ///
-    /// - Returns: `CreatePolicyOutputResponse` : [no documentation found]
+    /// - Returns: `CreatePolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1202,12 +1202,12 @@ public protocol OrganizationsClientProtocol {
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
     /// - `UnsupportedAPIEndpointException` : This action isn't available in the current Amazon Web Services Region.
-    func createPolicy(input: CreatePolicyInput) async throws -> CreatePolicyOutputResponse
+    func createPolicy(input: CreatePolicyInput) async throws -> CreatePolicyOutput
     /// Declines a handshake request. This sets the handshake state to DECLINED and effectively deactivates the request. This operation can be called only from the account that received the handshake. The originator of the handshake can use [CancelHandshake] instead. The originator can't reactivate a declined request, but can reinitiate the process with a new handshake request. After you decline a handshake, it continues to appear in the results of relevant APIs for only 30 days. After that, it's deleted.
     ///
     /// - Parameter DeclineHandshakeInput : [no documentation found]
     ///
-    /// - Returns: `DeclineHandshakeOutputResponse` : [no documentation found]
+    /// - Returns: `DeclineHandshakeOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1268,12 +1268,12 @@ public protocol OrganizationsClientProtocol {
     /// * UNRECOGNIZED_SERVICE_PRINCIPAL: You specified a service principal that isn't recognized.
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
-    func declineHandshake(input: DeclineHandshakeInput) async throws -> DeclineHandshakeOutputResponse
+    func declineHandshake(input: DeclineHandshakeInput) async throws -> DeclineHandshakeOutput
     /// Deletes the organization. You can delete an organization only by using credentials from the management account. The organization must be empty of member accounts.
     ///
     /// - Parameter DeleteOrganizationInput : [no documentation found]
     ///
-    /// - Returns: `DeleteOrganizationOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteOrganizationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1333,12 +1333,12 @@ public protocol OrganizationsClientProtocol {
     /// - `OrganizationNotEmptyException` : The organization isn't empty. To delete an organization, you must first remove all accounts except the management account.
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
-    func deleteOrganization(input: DeleteOrganizationInput) async throws -> DeleteOrganizationOutputResponse
+    func deleteOrganization(input: DeleteOrganizationInput) async throws -> DeleteOrganizationOutput
     /// Deletes an organizational unit (OU) from a root or another OU. You must first remove all accounts and child OUs from the OU that you want to delete. This operation can be called only from the organization's management account.
     ///
     /// - Parameter DeleteOrganizationalUnitInput : [no documentation found]
     ///
-    /// - Returns: `DeleteOrganizationalUnitOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteOrganizationalUnitOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1399,12 +1399,12 @@ public protocol OrganizationsClientProtocol {
     /// - `OrganizationalUnitNotFoundException` : We can't find an OU with the OrganizationalUnitId that you specified.
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
-    func deleteOrganizationalUnit(input: DeleteOrganizationalUnitInput) async throws -> DeleteOrganizationalUnitOutputResponse
+    func deleteOrganizationalUnit(input: DeleteOrganizationalUnitInput) async throws -> DeleteOrganizationalUnitOutput
     /// Deletes the specified policy from your organization. Before you perform this operation, you must first detach the policy from all organizational units (OUs), roots, and accounts. This operation can be called only from the organization's management account or by a member account that is a delegated administrator for an Amazon Web Services service.
     ///
     /// - Parameter DeletePolicyInput : [no documentation found]
     ///
-    /// - Returns: `DeletePolicyOutputResponse` : [no documentation found]
+    /// - Returns: `DeletePolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1466,12 +1466,12 @@ public protocol OrganizationsClientProtocol {
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
     /// - `UnsupportedAPIEndpointException` : This action isn't available in the current Amazon Web Services Region.
-    func deletePolicy(input: DeletePolicyInput) async throws -> DeletePolicyOutputResponse
+    func deletePolicy(input: DeletePolicyInput) async throws -> DeletePolicyOutput
     /// Deletes the resource policy from your organization. You can only call this operation from the organization's management account.
     ///
     /// - Parameter DeleteResourcePolicyInput : [no documentation found]
     ///
-    /// - Returns: `DeleteResourcePolicyOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteResourcePolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1552,12 +1552,12 @@ public protocol OrganizationsClientProtocol {
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
     /// - `UnsupportedAPIEndpointException` : This action isn't available in the current Amazon Web Services Region.
-    func deleteResourcePolicy(input: DeleteResourcePolicyInput) async throws -> DeleteResourcePolicyOutputResponse
+    func deleteResourcePolicy(input: DeleteResourcePolicyInput) async throws -> DeleteResourcePolicyOutput
     /// Removes the specified member Amazon Web Services account as a delegated administrator for the specified Amazon Web Services service. Deregistering a delegated administrator can have unintended impacts on the functionality of the enabled Amazon Web Services service. See the documentation for the enabled service before you deregister a delegated administrator so that you understand any potential impacts. You can run this action only for Amazon Web Services services that support this feature. For a current list of services that support it, see the column Supports Delegated Administrator in the table at [Amazon Web Services Services that you can use with Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services_list.html) in the Organizations User Guide. This operation can be called only from the organization's management account.
     ///
     /// - Parameter DeregisterDelegatedAdministratorInput : [no documentation found]
     ///
-    /// - Returns: `DeregisterDelegatedAdministratorOutputResponse` : [no documentation found]
+    /// - Returns: `DeregisterDelegatedAdministratorOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1688,12 +1688,12 @@ public protocol OrganizationsClientProtocol {
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
     /// - `UnsupportedAPIEndpointException` : This action isn't available in the current Amazon Web Services Region.
-    func deregisterDelegatedAdministrator(input: DeregisterDelegatedAdministratorInput) async throws -> DeregisterDelegatedAdministratorOutputResponse
+    func deregisterDelegatedAdministrator(input: DeregisterDelegatedAdministratorInput) async throws -> DeregisterDelegatedAdministratorOutput
     /// Retrieves Organizations-related information about the specified account. This operation can be called only from the organization's management account or by a member account that is a delegated administrator for an Amazon Web Services service.
     ///
     /// - Parameter DescribeAccountInput : [no documentation found]
     ///
-    /// - Returns: `DescribeAccountOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeAccountOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1752,12 +1752,12 @@ public protocol OrganizationsClientProtocol {
     /// * UNRECOGNIZED_SERVICE_PRINCIPAL: You specified a service principal that isn't recognized.
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
-    func describeAccount(input: DescribeAccountInput) async throws -> DescribeAccountOutputResponse
+    func describeAccount(input: DescribeAccountInput) async throws -> DescribeAccountOutput
     /// Retrieves the current status of an asynchronous request to create an account. This operation can be called only from the organization's management account or by a member account that is a delegated administrator for an Amazon Web Services service.
     ///
     /// - Parameter DescribeCreateAccountStatusInput : [no documentation found]
     ///
-    /// - Returns: `DescribeCreateAccountStatusOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeCreateAccountStatusOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1817,12 +1817,12 @@ public protocol OrganizationsClientProtocol {
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
     /// - `UnsupportedAPIEndpointException` : This action isn't available in the current Amazon Web Services Region.
-    func describeCreateAccountStatus(input: DescribeCreateAccountStatusInput) async throws -> DescribeCreateAccountStatusOutputResponse
+    func describeCreateAccountStatus(input: DescribeCreateAccountStatusInput) async throws -> DescribeCreateAccountStatusOutput
     /// Returns the contents of the effective policy for specified policy type and account. The effective policy is the aggregation of any policies of the specified type that the account inherits, plus any policy of that type that is directly attached to the account. This operation applies only to policy types other than service control policies (SCPs). For more information about policy inheritance, see [Understanding management policy inheritance](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_inheritance_mgmt.html) in the Organizations User Guide. This operation can be called from any account in the organization.
     ///
     /// - Parameter DescribeEffectivePolicyInput : [no documentation found]
     ///
-    /// - Returns: `DescribeEffectivePolicyOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeEffectivePolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1952,12 +1952,12 @@ public protocol OrganizationsClientProtocol {
     /// - `TargetNotFoundException` : We can't find a root, OU, account, or policy with the TargetId that you specified.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
     /// - `UnsupportedAPIEndpointException` : This action isn't available in the current Amazon Web Services Region.
-    func describeEffectivePolicy(input: DescribeEffectivePolicyInput) async throws -> DescribeEffectivePolicyOutputResponse
+    func describeEffectivePolicy(input: DescribeEffectivePolicyInput) async throws -> DescribeEffectivePolicyOutput
     /// Retrieves information about a previously requested handshake. The handshake ID comes from the response to the original [InviteAccountToOrganization] operation that generated the handshake. You can access handshakes that are ACCEPTED, DECLINED, or CANCELED for only 30 days after they change to that state. They're then deleted and no longer accessible. This operation can be called from any account in the organization.
     ///
     /// - Parameter DescribeHandshakeInput : [no documentation found]
     ///
-    /// - Returns: `DescribeHandshakeOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeHandshakeOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2016,12 +2016,12 @@ public protocol OrganizationsClientProtocol {
     /// * UNRECOGNIZED_SERVICE_PRINCIPAL: You specified a service principal that isn't recognized.
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
-    func describeHandshake(input: DescribeHandshakeInput) async throws -> DescribeHandshakeOutputResponse
+    func describeHandshake(input: DescribeHandshakeInput) async throws -> DescribeHandshakeOutput
     /// Retrieves information about the organization that the user's account belongs to. This operation can be called from any account in the organization. Even if a policy type is shown as available in the organization, you can disable it separately at the root level with [DisablePolicyType]. Use [ListRoots] to see the status of policy types for a specified root.
     ///
     /// - Parameter DescribeOrganizationInput : [no documentation found]
     ///
-    /// - Returns: `DescribeOrganizationOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeOrganizationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2031,12 +2031,12 @@ public protocol OrganizationsClientProtocol {
     /// - `ConcurrentModificationException` : The target of the operation is currently being modified by a different request. Try again later.
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
-    func describeOrganization(input: DescribeOrganizationInput) async throws -> DescribeOrganizationOutputResponse
+    func describeOrganization(input: DescribeOrganizationInput) async throws -> DescribeOrganizationOutput
     /// Retrieves information about an organizational unit (OU). This operation can be called only from the organization's management account or by a member account that is a delegated administrator for an Amazon Web Services service.
     ///
     /// - Parameter DescribeOrganizationalUnitInput : [no documentation found]
     ///
-    /// - Returns: `DescribeOrganizationalUnitOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeOrganizationalUnitOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2095,12 +2095,12 @@ public protocol OrganizationsClientProtocol {
     /// - `OrganizationalUnitNotFoundException` : We can't find an OU with the OrganizationalUnitId that you specified.
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
-    func describeOrganizationalUnit(input: DescribeOrganizationalUnitInput) async throws -> DescribeOrganizationalUnitOutputResponse
+    func describeOrganizationalUnit(input: DescribeOrganizationalUnitInput) async throws -> DescribeOrganizationalUnitOutput
     /// Retrieves information about a policy. This operation can be called only from the organization's management account or by a member account that is a delegated administrator for an Amazon Web Services service.
     ///
     /// - Parameter DescribePolicyInput : [no documentation found]
     ///
-    /// - Returns: `DescribePolicyOutputResponse` : [no documentation found]
+    /// - Returns: `DescribePolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2160,12 +2160,12 @@ public protocol OrganizationsClientProtocol {
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
     /// - `UnsupportedAPIEndpointException` : This action isn't available in the current Amazon Web Services Region.
-    func describePolicy(input: DescribePolicyInput) async throws -> DescribePolicyOutputResponse
+    func describePolicy(input: DescribePolicyInput) async throws -> DescribePolicyOutput
     /// Retrieves information about a resource policy. This operation can be called only from the organization's management account or by a member account that is a delegated administrator for an Amazon Web Services service.
     ///
     /// - Parameter DescribeResourcePolicyInput : [no documentation found]
     ///
-    /// - Returns: `DescribeResourcePolicyOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeResourcePolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2245,12 +2245,12 @@ public protocol OrganizationsClientProtocol {
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
     /// - `UnsupportedAPIEndpointException` : This action isn't available in the current Amazon Web Services Region.
-    func describeResourcePolicy(input: DescribeResourcePolicyInput) async throws -> DescribeResourcePolicyOutputResponse
+    func describeResourcePolicy(input: DescribeResourcePolicyInput) async throws -> DescribeResourcePolicyOutput
     /// Detaches a policy from a target root, organizational unit (OU), or account. If the policy being detached is a service control policy (SCP), the changes to permissions for Identity and Access Management (IAM) users and roles in affected accounts are immediate. Every root, OU, and account must have at least one SCP attached. If you want to replace the default FullAWSAccess policy with an SCP that limits the permissions that can be delegated, you must attach the replacement SCP before you can remove the default SCP. This is the authorization strategy of an "[allow list](https://docs.aws.amazon.com/organizations/latest/userguide/SCP_strategies.html#orgs_policies_allowlist)". If you instead attach a second SCP and leave the FullAWSAccess SCP still attached, and specify "Effect": "Deny" in the second SCP to override the "Effect": "Allow" in the FullAWSAccess policy (or any other attached SCP), you're using the authorization strategy of a "[deny list](https://docs.aws.amazon.com/organizations/latest/userguide/SCP_strategies.html#orgs_policies_denylist)". This operation can be called only from the organization's management account or by a member account that is a delegated administrator for an Amazon Web Services service.
     ///
     /// - Parameter DetachPolicyInput : [no documentation found]
     ///
-    /// - Returns: `DetachPolicyOutputResponse` : [no documentation found]
+    /// - Returns: `DetachPolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2383,7 +2383,7 @@ public protocol OrganizationsClientProtocol {
     /// - `TargetNotFoundException` : We can't find a root, OU, account, or policy with the TargetId that you specified.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
     /// - `UnsupportedAPIEndpointException` : This action isn't available in the current Amazon Web Services Region.
-    func detachPolicy(input: DetachPolicyInput) async throws -> DetachPolicyOutputResponse
+    func detachPolicy(input: DetachPolicyInput) async throws -> DetachPolicyOutput
     /// Disables the integration of an Amazon Web Services service (the service that is specified by ServicePrincipal) with Organizations. When you disable integration, the specified service no longer can create a [service-linked role](https://docs.aws.amazon.com/IAM/latest/UserGuide/using-service-linked-roles.html) in new accounts in your organization. This means the service can't perform operations on your behalf on any new accounts in your organization. The service can still perform operations in older accounts until the service completes its clean-up from Organizations. We strongly recommend that you don't use this command to disable integration between Organizations and the specified Amazon Web Services service. Instead, use the console or commands that are provided by the specified service. This lets the trusted service perform any required initialization when enabling trusted access, such as creating any required resources and any required clean up of resources when disabling trusted access. For information about how to disable trusted service access to your organization using the trusted service, see the Learn more link under the Supports Trusted Access column at [Amazon Web Services services that you can use with Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services_list.html). on this page. If you disable access by using this command, it causes the following actions to occur:
     ///
     /// * The service can no longer create a service-linked role in the accounts in your organization. This means that the service can't perform operations on your behalf on any new accounts in your organization. The service can still perform operations in older accounts until the service completes its clean-up from Organizations.
@@ -2397,7 +2397,7 @@ public protocol OrganizationsClientProtocol {
     ///
     /// - Parameter DisableAWSServiceAccessInput : [no documentation found]
     ///
-    /// - Returns: `DisableAWSServiceAccessOutputResponse` : [no documentation found]
+    /// - Returns: `DisableAWSServiceAccessOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2526,12 +2526,12 @@ public protocol OrganizationsClientProtocol {
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
     /// - `UnsupportedAPIEndpointException` : This action isn't available in the current Amazon Web Services Region.
-    func disableAWSServiceAccess(input: DisableAWSServiceAccessInput) async throws -> DisableAWSServiceAccessOutputResponse
+    func disableAWSServiceAccess(input: DisableAWSServiceAccessInput) async throws -> DisableAWSServiceAccessOutput
     /// Disables an organizational policy type in a root. A policy of a certain type can be attached to entities in a root only if that type is enabled in the root. After you perform this operation, you no longer can attach policies of the specified type to that root or to any organizational unit (OU) or account in that root. You can undo this by using the [EnablePolicyType] operation. This is an asynchronous request that Amazon Web Services performs in the background. If you disable a policy type for a root, it still appears enabled for the organization if [all features](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html) are enabled for the organization. Amazon Web Services recommends that you first use [ListRoots] to see the status of policy types for a specified root, and then use this operation. This operation can be called only from the organization's management account or by a member account that is a delegated administrator for an Amazon Web Services service. To view the status of available policy types in the organization, use [DescribeOrganization].
     ///
     /// - Parameter DisablePolicyTypeInput : [no documentation found]
     ///
-    /// - Returns: `DisablePolicyTypeOutputResponse` : [no documentation found]
+    /// - Returns: `DisablePolicyTypeOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2663,12 +2663,12 @@ public protocol OrganizationsClientProtocol {
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
     /// - `UnsupportedAPIEndpointException` : This action isn't available in the current Amazon Web Services Region.
-    func disablePolicyType(input: DisablePolicyTypeInput) async throws -> DisablePolicyTypeOutputResponse
+    func disablePolicyType(input: DisablePolicyTypeInput) async throws -> DisablePolicyTypeOutput
     /// Enables all features in an organization. This enables the use of organization policies that can restrict the services and actions that can be called in each account. Until you enable all features, you have access only to consolidated billing, and you can't use any of the advanced account administration features that Organizations supports. For more information, see [Enabling all features in your organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html) in the Organizations User Guide. This operation is required only for organizations that were created explicitly with only the consolidated billing features enabled. Calling this operation sends a handshake to every invited account in the organization. The feature set change can be finalized and the additional features enabled only after all administrators in the invited accounts approve the change by accepting the handshake. After you enable all features, you can separately enable or disable individual policy types in a root using [EnablePolicyType] and [DisablePolicyType]. To see the status of policy types in a root, use [ListRoots]. After all invited member accounts accept the handshake, you finalize the feature set change by accepting the handshake that contains "Action": "ENABLE_ALL_FEATURES". This completes the change. After you enable all features in your organization, the management account in the organization can apply policies on all member accounts. These policies can restrict what users and even administrators in those accounts can do. The management account can apply policies that prevent accounts from leaving the organization. Ensure that your account administrators are aware of this. This operation can be called only from the organization's management account.
     ///
     /// - Parameter EnableAllFeaturesInput : [no documentation found]
     ///
-    /// - Returns: `EnableAllFeaturesOutputResponse` : [no documentation found]
+    /// - Returns: `EnableAllFeaturesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2746,12 +2746,12 @@ public protocol OrganizationsClientProtocol {
     /// * UNRECOGNIZED_SERVICE_PRINCIPAL: You specified a service principal that isn't recognized.
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
-    func enableAllFeatures(input: EnableAllFeaturesInput) async throws -> EnableAllFeaturesOutputResponse
+    func enableAllFeatures(input: EnableAllFeaturesInput) async throws -> EnableAllFeaturesOutput
     /// Enables the integration of an Amazon Web Services service (the service that is specified by ServicePrincipal) with Organizations. When you enable integration, you allow the specified service to create a [service-linked role](https://docs.aws.amazon.com/IAM/latest/UserGuide/using-service-linked-roles.html) in all the accounts in your organization. This allows the service to perform operations on your behalf in your organization and its accounts. We recommend that you enable integration between Organizations and the specified Amazon Web Services service by using the console or commands that are provided by the specified service. Doing so ensures that the service is aware that it can create the resources that are required for the integration. How the service creates those resources in the organization's accounts depends on that service. For more information, see the documentation for the other Amazon Web Services service. For more information about enabling services to integrate with Organizations, see [Using Organizations with other Amazon Web Services services](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services.html) in the Organizations User Guide. You can only call this operation from the organization's management account and only if the organization has [enabled all features](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html).
     ///
     /// - Parameter EnableAWSServiceAccessInput : [no documentation found]
     ///
-    /// - Returns: `EnableAWSServiceAccessOutputResponse` : [no documentation found]
+    /// - Returns: `EnableAWSServiceAccessOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2880,12 +2880,12 @@ public protocol OrganizationsClientProtocol {
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
     /// - `UnsupportedAPIEndpointException` : This action isn't available in the current Amazon Web Services Region.
-    func enableAWSServiceAccess(input: EnableAWSServiceAccessInput) async throws -> EnableAWSServiceAccessOutputResponse
+    func enableAWSServiceAccess(input: EnableAWSServiceAccessInput) async throws -> EnableAWSServiceAccessOutput
     /// Enables a policy type in a root. After you enable a policy type in a root, you can attach policies of that type to the root, any organizational unit (OU), or account in that root. You can undo this by using the [DisablePolicyType] operation. This is an asynchronous request that Amazon Web Services performs in the background. Amazon Web Services recommends that you first use [ListRoots] to see the status of policy types for a specified root, and then use this operation. This operation can be called only from the organization's management account or by a member account that is a delegated administrator for an Amazon Web Services service. You can enable a policy type in a root only if that policy type is available in the organization. To view the status of available policy types in the organization, use [DescribeOrganization].
     ///
     /// - Parameter EnablePolicyTypeInput : [no documentation found]
     ///
-    /// - Returns: `EnablePolicyTypeOutputResponse` : [no documentation found]
+    /// - Returns: `EnablePolicyTypeOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3018,7 +3018,7 @@ public protocol OrganizationsClientProtocol {
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
     /// - `UnsupportedAPIEndpointException` : This action isn't available in the current Amazon Web Services Region.
-    func enablePolicyType(input: EnablePolicyTypeInput) async throws -> EnablePolicyTypeOutputResponse
+    func enablePolicyType(input: EnablePolicyTypeInput) async throws -> EnablePolicyTypeOutput
     /// Sends an invitation to another account to join your organization as a member account. Organizations sends email on your behalf to the email address that is associated with the other account's owner. The invitation is implemented as a [Handshake] whose details are in the response.
     ///
     /// * You can invite Amazon Web Services accounts only from the same seller as the management account. For example, if your organization's management account was created by Amazon Internet Services Pvt. Ltd (AISPL), an Amazon Web Services seller in India, you can invite only other AISPL accounts to your organization. You can't combine accounts from AISPL and Amazon Web Services or from any other Amazon Web Services seller. For more information, see [Consolidated billing in India](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/useconsolidatedbilling-India.html).
@@ -3030,7 +3030,7 @@ public protocol OrganizationsClientProtocol {
     ///
     /// - Parameter InviteAccountToOrganizationInput : [no documentation found]
     ///
-    /// - Returns: `InviteAccountToOrganizationOutputResponse` : [no documentation found]
+    /// - Returns: `InviteAccountToOrganizationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3180,7 +3180,7 @@ public protocol OrganizationsClientProtocol {
     /// * UNRECOGNIZED_SERVICE_PRINCIPAL: You specified a service principal that isn't recognized.
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
-    func inviteAccountToOrganization(input: InviteAccountToOrganizationInput) async throws -> InviteAccountToOrganizationOutputResponse
+    func inviteAccountToOrganization(input: InviteAccountToOrganizationInput) async throws -> InviteAccountToOrganizationOutput
     /// Removes a member account from its parent organization. This version of the operation is performed by the account that wants to leave. To remove a member account as a user in the management account, use [RemoveAccountFromOrganization] instead. This operation can be called only from a member account in the organization.
     ///
     /// * The management account in an organization with all features enabled can set service control policies (SCPs) that can restrict what administrators of member accounts can do. This includes preventing them from successfully calling LeaveOrganization and leaving the organization.
@@ -3208,7 +3208,7 @@ public protocol OrganizationsClientProtocol {
     ///
     /// - Parameter LeaveOrganizationInput : [no documentation found]
     ///
-    /// - Returns: `LeaveOrganizationOutputResponse` : [no documentation found]
+    /// - Returns: `LeaveOrganizationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3338,12 +3338,12 @@ public protocol OrganizationsClientProtocol {
     /// - `MasterCannotLeaveOrganizationException` : You can't remove a management account from an organization. If you want the management account to become a member account in another organization, you must first delete the current organization of the management account.
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
-    func leaveOrganization(input: LeaveOrganizationInput) async throws -> LeaveOrganizationOutputResponse
+    func leaveOrganization(input: LeaveOrganizationInput) async throws -> LeaveOrganizationOutput
     /// Lists all the accounts in the organization. To request only the accounts in a specified root or organizational unit (OU), use the [ListAccountsForParent] operation instead. Always check the NextToken response parameter for a null value when calling a List* operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display. This operation can be called only from the organization's management account or by a member account that is a delegated administrator for an Amazon Web Services service.
     ///
     /// - Parameter ListAccountsInput : [no documentation found]
     ///
-    /// - Returns: `ListAccountsOutputResponse` : [no documentation found]
+    /// - Returns: `ListAccountsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3401,12 +3401,12 @@ public protocol OrganizationsClientProtocol {
     /// * UNRECOGNIZED_SERVICE_PRINCIPAL: You specified a service principal that isn't recognized.
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
-    func listAccounts(input: ListAccountsInput) async throws -> ListAccountsOutputResponse
+    func listAccounts(input: ListAccountsInput) async throws -> ListAccountsOutput
     /// Lists the accounts in an organization that are contained by the specified target root or organizational unit (OU). If you specify the root, you get a list of all the accounts that aren't in any OU. If you specify an OU, you get a list of all the accounts in only that OU and not in any child OUs. To get a list of all accounts in the organization, use the [ListAccounts] operation. Always check the NextToken response parameter for a null value when calling a List* operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display. This operation can be called only from the organization's management account or by a member account that is a delegated administrator for an Amazon Web Services service.
     ///
     /// - Parameter ListAccountsForParentInput : [no documentation found]
     ///
-    /// - Returns: `ListAccountsForParentOutputResponse` : [no documentation found]
+    /// - Returns: `ListAccountsForParentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3465,12 +3465,12 @@ public protocol OrganizationsClientProtocol {
     /// - `ParentNotFoundException` : We can't find a root or OU with the ParentId that you specified.
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
-    func listAccountsForParent(input: ListAccountsForParentInput) async throws -> ListAccountsForParentOutputResponse
+    func listAccountsForParent(input: ListAccountsForParentInput) async throws -> ListAccountsForParentOutput
     /// Returns a list of the Amazon Web Services services that you enabled to integrate with your organization. After a service on this list creates the resources that it requires for the integration, it can perform operations on your organization and its accounts. For more information about integrating other services with Organizations, including the list of services that currently work with Organizations, see [Using Organizations with other Amazon Web Services services](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services.html) in the Organizations User Guide. This operation can be called only from the organization's management account or by a member account that is a delegated administrator for an Amazon Web Services service.
     ///
     /// - Parameter ListAWSServiceAccessForOrganizationInput : [no documentation found]
     ///
-    /// - Returns: `ListAWSServiceAccessForOrganizationOutputResponse` : [no documentation found]
+    /// - Returns: `ListAWSServiceAccessForOrganizationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3598,12 +3598,12 @@ public protocol OrganizationsClientProtocol {
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
     /// - `UnsupportedAPIEndpointException` : This action isn't available in the current Amazon Web Services Region.
-    func listAWSServiceAccessForOrganization(input: ListAWSServiceAccessForOrganizationInput) async throws -> ListAWSServiceAccessForOrganizationOutputResponse
+    func listAWSServiceAccessForOrganization(input: ListAWSServiceAccessForOrganizationInput) async throws -> ListAWSServiceAccessForOrganizationOutput
     /// Lists all of the organizational units (OUs) or accounts that are contained in the specified parent OU or root. This operation, along with [ListParents] enables you to traverse the tree structure that makes up this root. Always check the NextToken response parameter for a null value when calling a List* operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display. This operation can be called only from the organization's management account or by a member account that is a delegated administrator for an Amazon Web Services service.
     ///
     /// - Parameter ListChildrenInput : [no documentation found]
     ///
-    /// - Returns: `ListChildrenOutputResponse` : [no documentation found]
+    /// - Returns: `ListChildrenOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3662,12 +3662,12 @@ public protocol OrganizationsClientProtocol {
     /// - `ParentNotFoundException` : We can't find a root or OU with the ParentId that you specified.
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
-    func listChildren(input: ListChildrenInput) async throws -> ListChildrenOutputResponse
+    func listChildren(input: ListChildrenInput) async throws -> ListChildrenOutput
     /// Lists the account creation requests that match the specified status that is currently being tracked for the organization. Always check the NextToken response parameter for a null value when calling a List* operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display. This operation can be called only from the organization's management account or by a member account that is a delegated administrator for an Amazon Web Services service.
     ///
     /// - Parameter ListCreateAccountStatusInput : [no documentation found]
     ///
-    /// - Returns: `ListCreateAccountStatusOutputResponse` : [no documentation found]
+    /// - Returns: `ListCreateAccountStatusOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3726,12 +3726,12 @@ public protocol OrganizationsClientProtocol {
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
     /// - `UnsupportedAPIEndpointException` : This action isn't available in the current Amazon Web Services Region.
-    func listCreateAccountStatus(input: ListCreateAccountStatusInput) async throws -> ListCreateAccountStatusOutputResponse
+    func listCreateAccountStatus(input: ListCreateAccountStatusInput) async throws -> ListCreateAccountStatusOutput
     /// Lists the Amazon Web Services accounts that are designated as delegated administrators in this organization. This operation can be called only from the organization's management account or by a member account that is a delegated administrator for an Amazon Web Services service.
     ///
     /// - Parameter ListDelegatedAdministratorsInput : [no documentation found]
     ///
-    /// - Returns: `ListDelegatedAdministratorsOutputResponse` : [no documentation found]
+    /// - Returns: `ListDelegatedAdministratorsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3859,12 +3859,12 @@ public protocol OrganizationsClientProtocol {
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
     /// - `UnsupportedAPIEndpointException` : This action isn't available in the current Amazon Web Services Region.
-    func listDelegatedAdministrators(input: ListDelegatedAdministratorsInput) async throws -> ListDelegatedAdministratorsOutputResponse
+    func listDelegatedAdministrators(input: ListDelegatedAdministratorsInput) async throws -> ListDelegatedAdministratorsOutput
     /// List the Amazon Web Services services for which the specified account is a delegated administrator. This operation can be called only from the organization's management account or by a member account that is a delegated administrator for an Amazon Web Services service.
     ///
     /// - Parameter ListDelegatedServicesForAccountInput : [no documentation found]
     ///
-    /// - Returns: `ListDelegatedServicesForAccountOutputResponse` : [no documentation found]
+    /// - Returns: `ListDelegatedServicesForAccountOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3994,12 +3994,12 @@ public protocol OrganizationsClientProtocol {
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
     /// - `UnsupportedAPIEndpointException` : This action isn't available in the current Amazon Web Services Region.
-    func listDelegatedServicesForAccount(input: ListDelegatedServicesForAccountInput) async throws -> ListDelegatedServicesForAccountOutputResponse
+    func listDelegatedServicesForAccount(input: ListDelegatedServicesForAccountInput) async throws -> ListDelegatedServicesForAccountOutput
     /// Lists the current handshakes that are associated with the account of the requesting user. Handshakes that are ACCEPTED, DECLINED, CANCELED, or EXPIRED appear in the results of this API for only 30 days after changing to that state. After that, they're deleted and no longer accessible. Always check the NextToken response parameter for a null value when calling a List* operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display. This operation can be called from any account in the organization.
     ///
     /// - Parameter ListHandshakesForAccountInput : [no documentation found]
     ///
-    /// - Returns: `ListHandshakesForAccountOutputResponse` : [no documentation found]
+    /// - Returns: `ListHandshakesForAccountOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4057,12 +4057,12 @@ public protocol OrganizationsClientProtocol {
     /// * UNRECOGNIZED_SERVICE_PRINCIPAL: You specified a service principal that isn't recognized.
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
-    func listHandshakesForAccount(input: ListHandshakesForAccountInput) async throws -> ListHandshakesForAccountOutputResponse
+    func listHandshakesForAccount(input: ListHandshakesForAccountInput) async throws -> ListHandshakesForAccountOutput
     /// Lists the handshakes that are associated with the organization that the requesting user is part of. The ListHandshakesForOrganization operation returns a list of handshake structures. Each structure contains details and status about a handshake. Handshakes that are ACCEPTED, DECLINED, CANCELED, or EXPIRED appear in the results of this API for only 30 days after changing to that state. After that, they're deleted and no longer accessible. Always check the NextToken response parameter for a null value when calling a List* operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display. This operation can be called only from the organization's management account or by a member account that is a delegated administrator for an Amazon Web Services service.
     ///
     /// - Parameter ListHandshakesForOrganizationInput : [no documentation found]
     ///
-    /// - Returns: `ListHandshakesForOrganizationOutputResponse` : [no documentation found]
+    /// - Returns: `ListHandshakesForOrganizationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4121,12 +4121,12 @@ public protocol OrganizationsClientProtocol {
     /// * UNRECOGNIZED_SERVICE_PRINCIPAL: You specified a service principal that isn't recognized.
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
-    func listHandshakesForOrganization(input: ListHandshakesForOrganizationInput) async throws -> ListHandshakesForOrganizationOutputResponse
+    func listHandshakesForOrganization(input: ListHandshakesForOrganizationInput) async throws -> ListHandshakesForOrganizationOutput
     /// Lists the organizational units (OUs) in a parent organizational unit or root. Always check the NextToken response parameter for a null value when calling a List* operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display. This operation can be called only from the organization's management account or by a member account that is a delegated administrator for an Amazon Web Services service.
     ///
     /// - Parameter ListOrganizationalUnitsForParentInput : [no documentation found]
     ///
-    /// - Returns: `ListOrganizationalUnitsForParentOutputResponse` : [no documentation found]
+    /// - Returns: `ListOrganizationalUnitsForParentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4185,12 +4185,12 @@ public protocol OrganizationsClientProtocol {
     /// - `ParentNotFoundException` : We can't find a root or OU with the ParentId that you specified.
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
-    func listOrganizationalUnitsForParent(input: ListOrganizationalUnitsForParentInput) async throws -> ListOrganizationalUnitsForParentOutputResponse
+    func listOrganizationalUnitsForParent(input: ListOrganizationalUnitsForParentInput) async throws -> ListOrganizationalUnitsForParentOutput
     /// Lists the root or organizational units (OUs) that serve as the immediate parent of the specified child OU or account. This operation, along with [ListChildren] enables you to traverse the tree structure that makes up this root. Always check the NextToken response parameter for a null value when calling a List* operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display. This operation can be called only from the organization's management account or by a member account that is a delegated administrator for an Amazon Web Services service. In the current release, a child can have only a single parent.
     ///
     /// - Parameter ListParentsInput : [no documentation found]
     ///
-    /// - Returns: `ListParentsOutputResponse` : [no documentation found]
+    /// - Returns: `ListParentsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4249,12 +4249,12 @@ public protocol OrganizationsClientProtocol {
     /// * UNRECOGNIZED_SERVICE_PRINCIPAL: You specified a service principal that isn't recognized.
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
-    func listParents(input: ListParentsInput) async throws -> ListParentsOutputResponse
+    func listParents(input: ListParentsInput) async throws -> ListParentsOutput
     /// Retrieves the list of all policies in an organization of a specified type. Always check the NextToken response parameter for a null value when calling a List* operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display. This operation can be called only from the organization's management account or by a member account that is a delegated administrator for an Amazon Web Services service.
     ///
     /// - Parameter ListPoliciesInput : [no documentation found]
     ///
-    /// - Returns: `ListPoliciesOutputResponse` : [no documentation found]
+    /// - Returns: `ListPoliciesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4313,12 +4313,12 @@ public protocol OrganizationsClientProtocol {
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
     /// - `UnsupportedAPIEndpointException` : This action isn't available in the current Amazon Web Services Region.
-    func listPolicies(input: ListPoliciesInput) async throws -> ListPoliciesOutputResponse
+    func listPolicies(input: ListPoliciesInput) async throws -> ListPoliciesOutput
     /// Lists the policies that are directly attached to the specified target root, organizational unit (OU), or account. You must specify the policy type that you want included in the returned list. Always check the NextToken response parameter for a null value when calling a List* operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display. This operation can be called only from the organization's management account or by a member account that is a delegated administrator for an Amazon Web Services service.
     ///
     /// - Parameter ListPoliciesForTargetInput : [no documentation found]
     ///
-    /// - Returns: `ListPoliciesForTargetOutputResponse` : [no documentation found]
+    /// - Returns: `ListPoliciesForTargetOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4378,12 +4378,12 @@ public protocol OrganizationsClientProtocol {
     /// - `TargetNotFoundException` : We can't find a root, OU, account, or policy with the TargetId that you specified.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
     /// - `UnsupportedAPIEndpointException` : This action isn't available in the current Amazon Web Services Region.
-    func listPoliciesForTarget(input: ListPoliciesForTargetInput) async throws -> ListPoliciesForTargetOutputResponse
+    func listPoliciesForTarget(input: ListPoliciesForTargetInput) async throws -> ListPoliciesForTargetOutput
     /// Lists the roots that are defined in the current organization. Always check the NextToken response parameter for a null value when calling a List* operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display. This operation can be called only from the organization's management account or by a member account that is a delegated administrator for an Amazon Web Services service. Policy types can be enabled and disabled in roots. This is distinct from whether they're available in the organization. When you enable all features, you make policy types available for use in that organization. Individual policy types can then be enabled and disabled in a root. To see the availability of a policy type in an organization, use [DescribeOrganization].
     ///
     /// - Parameter ListRootsInput : [no documentation found]
     ///
-    /// - Returns: `ListRootsOutputResponse` : [no documentation found]
+    /// - Returns: `ListRootsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4441,7 +4441,7 @@ public protocol OrganizationsClientProtocol {
     /// * UNRECOGNIZED_SERVICE_PRINCIPAL: You specified a service principal that isn't recognized.
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
-    func listRoots(input: ListRootsInput) async throws -> ListRootsOutputResponse
+    func listRoots(input: ListRootsInput) async throws -> ListRootsOutput
     /// Lists tags that are attached to the specified resource. You can attach tags to the following resources in Organizations.
     ///
     /// * Amazon Web Services account
@@ -4457,7 +4457,7 @@ public protocol OrganizationsClientProtocol {
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4516,12 +4516,12 @@ public protocol OrganizationsClientProtocol {
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TargetNotFoundException` : We can't find a root, OU, account, or policy with the TargetId that you specified.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     /// Lists all the roots, organizational units (OUs), and accounts that the specified policy is attached to. Always check the NextToken response parameter for a null value when calling a List* operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display. This operation can be called only from the organization's management account or by a member account that is a delegated administrator for an Amazon Web Services service.
     ///
     /// - Parameter ListTargetsForPolicyInput : [no documentation found]
     ///
-    /// - Returns: `ListTargetsForPolicyOutputResponse` : [no documentation found]
+    /// - Returns: `ListTargetsForPolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4581,12 +4581,12 @@ public protocol OrganizationsClientProtocol {
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
     /// - `UnsupportedAPIEndpointException` : This action isn't available in the current Amazon Web Services Region.
-    func listTargetsForPolicy(input: ListTargetsForPolicyInput) async throws -> ListTargetsForPolicyOutputResponse
+    func listTargetsForPolicy(input: ListTargetsForPolicyInput) async throws -> ListTargetsForPolicyOutput
     /// Moves an account from its current source parent root or organizational unit (OU) to the specified destination parent root or OU. This operation can be called only from the organization's management account.
     ///
     /// - Parameter MoveAccountInput : [no documentation found]
     ///
-    /// - Returns: `MoveAccountOutputResponse` : [no documentation found]
+    /// - Returns: `MoveAccountOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4649,12 +4649,12 @@ public protocol OrganizationsClientProtocol {
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `SourceParentNotFoundException` : We can't find a source root or OU with the ParentId that you specified.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
-    func moveAccount(input: MoveAccountInput) async throws -> MoveAccountOutputResponse
+    func moveAccount(input: MoveAccountInput) async throws -> MoveAccountOutput
     /// Creates or updates a resource policy. You can only call this operation from the organization's management account.
     ///
     /// - Parameter PutResourcePolicyInput : [no documentation found]
     ///
-    /// - Returns: `PutResourcePolicyOutputResponse` : [no documentation found]
+    /// - Returns: `PutResourcePolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4783,12 +4783,12 @@ public protocol OrganizationsClientProtocol {
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
     /// - `UnsupportedAPIEndpointException` : This action isn't available in the current Amazon Web Services Region.
-    func putResourcePolicy(input: PutResourcePolicyInput) async throws -> PutResourcePolicyOutputResponse
+    func putResourcePolicy(input: PutResourcePolicyInput) async throws -> PutResourcePolicyOutput
     /// Enables the specified member account to administer the Organizations features of the specified Amazon Web Services service. It grants read-only access to Organizations service data. The account still requires IAM permissions to access and administer the Amazon Web Services service. You can run this action only for Amazon Web Services services that support this feature. For a current list of services that support it, see the column Supports Delegated Administrator in the table at [Amazon Web Services Services that you can use with Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services_list.html) in the Organizations User Guide. This operation can be called only from the organization's management account.
     ///
     /// - Parameter RegisterDelegatedAdministratorInput : [no documentation found]
     ///
-    /// - Returns: `RegisterDelegatedAdministratorOutputResponse` : [no documentation found]
+    /// - Returns: `RegisterDelegatedAdministratorOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4919,7 +4919,7 @@ public protocol OrganizationsClientProtocol {
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
     /// - `UnsupportedAPIEndpointException` : This action isn't available in the current Amazon Web Services Region.
-    func registerDelegatedAdministrator(input: RegisterDelegatedAdministratorInput) async throws -> RegisterDelegatedAdministratorOutputResponse
+    func registerDelegatedAdministrator(input: RegisterDelegatedAdministratorInput) async throws -> RegisterDelegatedAdministratorOutput
     /// Removes the specified account from the organization. The removed account becomes a standalone account that isn't a member of any organization. It's no longer subject to any policies and is responsible for its own bill payments. The organization's management account is no longer charged for any expenses accrued by the member account after it's removed from the organization. This operation can be called only from the organization's management account. Member accounts can remove themselves with [LeaveOrganization] instead.
     ///
     /// * You can remove an account from your organization only if the account is configured with the information required to operate as a standalone account. When you create an account in an organization using the Organizations console, API, or CLI commands, the information required of standalone accounts is not automatically collected. For more information, see [Considerations before removing an account from an organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_account-before-remove.html) in the Organizations User Guide.
@@ -4930,7 +4930,7 @@ public protocol OrganizationsClientProtocol {
     ///
     /// - Parameter RemoveAccountFromOrganizationInput : [no documentation found]
     ///
-    /// - Returns: `RemoveAccountFromOrganizationOutputResponse` : [no documentation found]
+    /// - Returns: `RemoveAccountFromOrganizationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5060,7 +5060,7 @@ public protocol OrganizationsClientProtocol {
     /// - `MasterCannotLeaveOrganizationException` : You can't remove a management account from an organization. If you want the management account to become a member account in another organization, you must first delete the current organization of the management account.
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
-    func removeAccountFromOrganization(input: RemoveAccountFromOrganizationInput) async throws -> RemoveAccountFromOrganizationOutputResponse
+    func removeAccountFromOrganization(input: RemoveAccountFromOrganizationInput) async throws -> RemoveAccountFromOrganizationOutput
     /// Adds one or more tags to the specified resource. Currently, you can attach tags to the following resources in Organizations.
     ///
     /// * Amazon Web Services account
@@ -5076,7 +5076,7 @@ public protocol OrganizationsClientProtocol {
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5205,7 +5205,7 @@ public protocol OrganizationsClientProtocol {
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TargetNotFoundException` : We can't find a root, OU, account, or policy with the TargetId that you specified.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     /// Removes any tags with the specified keys from the specified resource. You can attach tags to the following resources in Organizations.
     ///
     /// * Amazon Web Services account
@@ -5221,7 +5221,7 @@ public protocol OrganizationsClientProtocol {
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5350,12 +5350,12 @@ public protocol OrganizationsClientProtocol {
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TargetNotFoundException` : We can't find a root, OU, account, or policy with the TargetId that you specified.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
     /// Renames the specified organizational unit (OU). The ID and ARN don't change. The child OUs and accounts remain in place, and any attached policies of the OU remain attached. This operation can be called only from the organization's management account.
     ///
     /// - Parameter UpdateOrganizationalUnitInput : [no documentation found]
     ///
-    /// - Returns: `UpdateOrganizationalUnitOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateOrganizationalUnitOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5416,12 +5416,12 @@ public protocol OrganizationsClientProtocol {
     /// - `OrganizationalUnitNotFoundException` : We can't find an OU with the OrganizationalUnitId that you specified.
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
-    func updateOrganizationalUnit(input: UpdateOrganizationalUnitInput) async throws -> UpdateOrganizationalUnitOutputResponse
+    func updateOrganizationalUnit(input: UpdateOrganizationalUnitInput) async throws -> UpdateOrganizationalUnitOutput
     /// Updates an existing policy with a new name, description, or content. If you don't supply any parameter, that value remains unchanged. You can't change a policy's type. This operation can be called only from the organization's management account or by a member account that is a delegated administrator for an Amazon Web Services service.
     ///
     /// - Parameter UpdatePolicyInput : [no documentation found]
     ///
-    /// - Returns: `UpdatePolicyOutputResponse` : [no documentation found]
+    /// - Returns: `UpdatePolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5554,7 +5554,7 @@ public protocol OrganizationsClientProtocol {
     /// - `ServiceException` : Organizations can't complete your request because of an internal service error. Try again later.
     /// - `TooManyRequestsException` : You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
     /// - `UnsupportedAPIEndpointException` : This action isn't available in the current Amazon Web Services Region.
-    func updatePolicy(input: UpdatePolicyInput) async throws -> UpdatePolicyOutputResponse
+    func updatePolicy(input: UpdatePolicyInput) async throws -> UpdatePolicyOutput
 }
 
 public enum OrganizationsClientTypes {}

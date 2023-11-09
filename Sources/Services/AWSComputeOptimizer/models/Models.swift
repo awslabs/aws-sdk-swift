@@ -901,6 +901,16 @@ extension DeleteRecommendationPreferencesInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteRecommendationPreferencesOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteRecommendationPreferencesOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteRecommendationPreferencesOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -917,16 +927,6 @@ enum DeleteRecommendationPreferencesOutputError: ClientRuntime.HttpResponseError
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteRecommendationPreferencesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteRecommendationPreferencesOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DescribeRecommendationExportJobsInput: Swift.Encodable {
@@ -1036,29 +1036,11 @@ extension DescribeRecommendationExportJobsInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeRecommendationExportJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MissingAuthenticationToken": return try await MissingAuthenticationToken(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "OptInRequiredException": return try await OptInRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeRecommendationExportJobsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeRecommendationExportJobsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeRecommendationExportJobsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeRecommendationExportJobsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.recommendationExportJobs = output.recommendationExportJobs
         } else {
@@ -1068,7 +1050,7 @@ extension DescribeRecommendationExportJobsOutputResponse: ClientRuntime.HttpResp
     }
 }
 
-public struct DescribeRecommendationExportJobsOutputResponse: Swift.Equatable {
+public struct DescribeRecommendationExportJobsOutput: Swift.Equatable {
     /// The token to use to advance to the next page of export jobs. This value is null when there are no more pages of export jobs to return.
     public var nextToken: Swift.String?
     /// An array of objects that describe recommendation export jobs.
@@ -1084,12 +1066,12 @@ public struct DescribeRecommendationExportJobsOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeRecommendationExportJobsOutputResponseBody: Swift.Equatable {
+struct DescribeRecommendationExportJobsOutputBody: Swift.Equatable {
     let recommendationExportJobs: [ComputeOptimizerClientTypes.RecommendationExportJob]?
     let nextToken: Swift.String?
 }
 
-extension DescribeRecommendationExportJobsOutputResponseBody: Swift.Decodable {
+extension DescribeRecommendationExportJobsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken
         case recommendationExportJobs
@@ -1110,6 +1092,24 @@ extension DescribeRecommendationExportJobsOutputResponseBody: Swift.Decodable {
         recommendationExportJobs = recommendationExportJobsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum DescribeRecommendationExportJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingAuthenticationToken": return try await MissingAuthenticationToken(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OptInRequiredException": return try await OptInRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2602,29 +2602,11 @@ extension ExportAutoScalingGroupRecommendationsInputBody: Swift.Decodable {
     }
 }
 
-enum ExportAutoScalingGroupRecommendationsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MissingAuthenticationToken": return try await MissingAuthenticationToken(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "OptInRequiredException": return try await OptInRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ExportAutoScalingGroupRecommendationsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ExportAutoScalingGroupRecommendationsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ExportAutoScalingGroupRecommendationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ExportAutoScalingGroupRecommendationsOutputBody = try responseDecoder.decode(responseBody: data)
             self.jobId = output.jobId
             self.s3Destination = output.s3Destination
         } else {
@@ -2634,7 +2616,7 @@ extension ExportAutoScalingGroupRecommendationsOutputResponse: ClientRuntime.Htt
     }
 }
 
-public struct ExportAutoScalingGroupRecommendationsOutputResponse: Swift.Equatable {
+public struct ExportAutoScalingGroupRecommendationsOutput: Swift.Equatable {
     /// The identification number of the export job. Use the [DescribeRecommendationExportJobs] action, and specify the job ID to view the status of an export job.
     public var jobId: Swift.String?
     /// An object that describes the destination Amazon S3 bucket of a recommendations export file.
@@ -2650,12 +2632,12 @@ public struct ExportAutoScalingGroupRecommendationsOutputResponse: Swift.Equatab
     }
 }
 
-struct ExportAutoScalingGroupRecommendationsOutputResponseBody: Swift.Equatable {
+struct ExportAutoScalingGroupRecommendationsOutputBody: Swift.Equatable {
     let jobId: Swift.String?
     let s3Destination: ComputeOptimizerClientTypes.S3Destination?
 }
 
-extension ExportAutoScalingGroupRecommendationsOutputResponseBody: Swift.Decodable {
+extension ExportAutoScalingGroupRecommendationsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case jobId
         case s3Destination
@@ -2667,6 +2649,24 @@ extension ExportAutoScalingGroupRecommendationsOutputResponseBody: Swift.Decodab
         jobId = jobIdDecoded
         let s3DestinationDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.S3Destination.self, forKey: .s3Destination)
         s3Destination = s3DestinationDecoded
+    }
+}
+
+enum ExportAutoScalingGroupRecommendationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingAuthenticationToken": return try await MissingAuthenticationToken(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OptInRequiredException": return try await OptInRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2849,29 +2849,11 @@ extension ExportEBSVolumeRecommendationsInputBody: Swift.Decodable {
     }
 }
 
-enum ExportEBSVolumeRecommendationsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MissingAuthenticationToken": return try await MissingAuthenticationToken(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "OptInRequiredException": return try await OptInRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ExportEBSVolumeRecommendationsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ExportEBSVolumeRecommendationsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ExportEBSVolumeRecommendationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ExportEBSVolumeRecommendationsOutputBody = try responseDecoder.decode(responseBody: data)
             self.jobId = output.jobId
             self.s3Destination = output.s3Destination
         } else {
@@ -2881,7 +2863,7 @@ extension ExportEBSVolumeRecommendationsOutputResponse: ClientRuntime.HttpRespon
     }
 }
 
-public struct ExportEBSVolumeRecommendationsOutputResponse: Swift.Equatable {
+public struct ExportEBSVolumeRecommendationsOutput: Swift.Equatable {
     /// The identification number of the export job. Use the [DescribeRecommendationExportJobs] action, and specify the job ID to view the status of an export job.
     public var jobId: Swift.String?
     /// Describes the destination Amazon Simple Storage Service (Amazon S3) bucket name and object keys of a recommendations export file, and its associated metadata file.
@@ -2897,12 +2879,12 @@ public struct ExportEBSVolumeRecommendationsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ExportEBSVolumeRecommendationsOutputResponseBody: Swift.Equatable {
+struct ExportEBSVolumeRecommendationsOutputBody: Swift.Equatable {
     let jobId: Swift.String?
     let s3Destination: ComputeOptimizerClientTypes.S3Destination?
 }
 
-extension ExportEBSVolumeRecommendationsOutputResponseBody: Swift.Decodable {
+extension ExportEBSVolumeRecommendationsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case jobId
         case s3Destination
@@ -2914,6 +2896,24 @@ extension ExportEBSVolumeRecommendationsOutputResponseBody: Swift.Decodable {
         jobId = jobIdDecoded
         let s3DestinationDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.S3Destination.self, forKey: .s3Destination)
         s3Destination = s3DestinationDecoded
+    }
+}
+
+enum ExportEBSVolumeRecommendationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingAuthenticationToken": return try await MissingAuthenticationToken(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OptInRequiredException": return try await OptInRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3073,29 +3073,11 @@ extension ExportEC2InstanceRecommendationsInputBody: Swift.Decodable {
     }
 }
 
-enum ExportEC2InstanceRecommendationsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MissingAuthenticationToken": return try await MissingAuthenticationToken(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "OptInRequiredException": return try await OptInRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ExportEC2InstanceRecommendationsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ExportEC2InstanceRecommendationsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ExportEC2InstanceRecommendationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ExportEC2InstanceRecommendationsOutputBody = try responseDecoder.decode(responseBody: data)
             self.jobId = output.jobId
             self.s3Destination = output.s3Destination
         } else {
@@ -3105,7 +3087,7 @@ extension ExportEC2InstanceRecommendationsOutputResponse: ClientRuntime.HttpResp
     }
 }
 
-public struct ExportEC2InstanceRecommendationsOutputResponse: Swift.Equatable {
+public struct ExportEC2InstanceRecommendationsOutput: Swift.Equatable {
     /// The identification number of the export job. Use the [DescribeRecommendationExportJobs] action, and specify the job ID to view the status of an export job.
     public var jobId: Swift.String?
     /// An object that describes the destination Amazon S3 bucket of a recommendations export file.
@@ -3121,12 +3103,12 @@ public struct ExportEC2InstanceRecommendationsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ExportEC2InstanceRecommendationsOutputResponseBody: Swift.Equatable {
+struct ExportEC2InstanceRecommendationsOutputBody: Swift.Equatable {
     let jobId: Swift.String?
     let s3Destination: ComputeOptimizerClientTypes.S3Destination?
 }
 
-extension ExportEC2InstanceRecommendationsOutputResponseBody: Swift.Decodable {
+extension ExportEC2InstanceRecommendationsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case jobId
         case s3Destination
@@ -3138,6 +3120,24 @@ extension ExportEC2InstanceRecommendationsOutputResponseBody: Swift.Decodable {
         jobId = jobIdDecoded
         let s3DestinationDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.S3Destination.self, forKey: .s3Destination)
         s3Destination = s3DestinationDecoded
+    }
+}
+
+enum ExportEC2InstanceRecommendationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingAuthenticationToken": return try await MissingAuthenticationToken(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OptInRequiredException": return try await OptInRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3285,29 +3285,11 @@ extension ExportECSServiceRecommendationsInputBody: Swift.Decodable {
     }
 }
 
-enum ExportECSServiceRecommendationsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MissingAuthenticationToken": return try await MissingAuthenticationToken(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "OptInRequiredException": return try await OptInRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ExportECSServiceRecommendationsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ExportECSServiceRecommendationsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ExportECSServiceRecommendationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ExportECSServiceRecommendationsOutputBody = try responseDecoder.decode(responseBody: data)
             self.jobId = output.jobId
             self.s3Destination = output.s3Destination
         } else {
@@ -3317,7 +3299,7 @@ extension ExportECSServiceRecommendationsOutputResponse: ClientRuntime.HttpRespo
     }
 }
 
-public struct ExportECSServiceRecommendationsOutputResponse: Swift.Equatable {
+public struct ExportECSServiceRecommendationsOutput: Swift.Equatable {
     /// The identification number of the export job. To view the status of an export job, use the [DescribeRecommendationExportJobs] action and specify the job ID.
     public var jobId: Swift.String?
     /// Describes the destination Amazon Simple Storage Service (Amazon S3) bucket name and object keys of a recommendations export file, and its associated metadata file.
@@ -3333,12 +3315,12 @@ public struct ExportECSServiceRecommendationsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ExportECSServiceRecommendationsOutputResponseBody: Swift.Equatable {
+struct ExportECSServiceRecommendationsOutputBody: Swift.Equatable {
     let jobId: Swift.String?
     let s3Destination: ComputeOptimizerClientTypes.S3Destination?
 }
 
-extension ExportECSServiceRecommendationsOutputResponseBody: Swift.Decodable {
+extension ExportECSServiceRecommendationsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case jobId
         case s3Destination
@@ -3350,6 +3332,24 @@ extension ExportECSServiceRecommendationsOutputResponseBody: Swift.Decodable {
         jobId = jobIdDecoded
         let s3DestinationDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.S3Destination.self, forKey: .s3Destination)
         s3Destination = s3DestinationDecoded
+    }
+}
+
+enum ExportECSServiceRecommendationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingAuthenticationToken": return try await MissingAuthenticationToken(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OptInRequiredException": return try await OptInRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3497,29 +3497,11 @@ extension ExportLambdaFunctionRecommendationsInputBody: Swift.Decodable {
     }
 }
 
-enum ExportLambdaFunctionRecommendationsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MissingAuthenticationToken": return try await MissingAuthenticationToken(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "OptInRequiredException": return try await OptInRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ExportLambdaFunctionRecommendationsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ExportLambdaFunctionRecommendationsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ExportLambdaFunctionRecommendationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ExportLambdaFunctionRecommendationsOutputBody = try responseDecoder.decode(responseBody: data)
             self.jobId = output.jobId
             self.s3Destination = output.s3Destination
         } else {
@@ -3529,7 +3511,7 @@ extension ExportLambdaFunctionRecommendationsOutputResponse: ClientRuntime.HttpR
     }
 }
 
-public struct ExportLambdaFunctionRecommendationsOutputResponse: Swift.Equatable {
+public struct ExportLambdaFunctionRecommendationsOutput: Swift.Equatable {
     /// The identification number of the export job. Use the [DescribeRecommendationExportJobs] action, and specify the job ID to view the status of an export job.
     public var jobId: Swift.String?
     /// Describes the destination Amazon Simple Storage Service (Amazon S3) bucket name and object keys of a recommendations export file, and its associated metadata file.
@@ -3545,12 +3527,12 @@ public struct ExportLambdaFunctionRecommendationsOutputResponse: Swift.Equatable
     }
 }
 
-struct ExportLambdaFunctionRecommendationsOutputResponseBody: Swift.Equatable {
+struct ExportLambdaFunctionRecommendationsOutputBody: Swift.Equatable {
     let jobId: Swift.String?
     let s3Destination: ComputeOptimizerClientTypes.S3Destination?
 }
 
-extension ExportLambdaFunctionRecommendationsOutputResponseBody: Swift.Decodable {
+extension ExportLambdaFunctionRecommendationsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case jobId
         case s3Destination
@@ -3562,6 +3544,24 @@ extension ExportLambdaFunctionRecommendationsOutputResponseBody: Swift.Decodable
         jobId = jobIdDecoded
         let s3DestinationDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.S3Destination.self, forKey: .s3Destination)
         s3Destination = s3DestinationDecoded
+    }
+}
+
+enum ExportLambdaFunctionRecommendationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingAuthenticationToken": return try await MissingAuthenticationToken(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OptInRequiredException": return try await OptInRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3709,29 +3709,11 @@ extension ExportLicenseRecommendationsInputBody: Swift.Decodable {
     }
 }
 
-enum ExportLicenseRecommendationsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MissingAuthenticationToken": return try await MissingAuthenticationToken(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "OptInRequiredException": return try await OptInRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ExportLicenseRecommendationsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ExportLicenseRecommendationsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ExportLicenseRecommendationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ExportLicenseRecommendationsOutputBody = try responseDecoder.decode(responseBody: data)
             self.jobId = output.jobId
             self.s3Destination = output.s3Destination
         } else {
@@ -3741,7 +3723,7 @@ extension ExportLicenseRecommendationsOutputResponse: ClientRuntime.HttpResponse
     }
 }
 
-public struct ExportLicenseRecommendationsOutputResponse: Swift.Equatable {
+public struct ExportLicenseRecommendationsOutput: Swift.Equatable {
     /// The identification number of the export job. To view the status of an export job, use the [DescribeRecommendationExportJobs] action and specify the job ID.
     public var jobId: Swift.String?
     /// Describes the destination Amazon Simple Storage Service (Amazon S3) bucket name and object keys of a recommendations export file, and its associated metadata file.
@@ -3757,12 +3739,12 @@ public struct ExportLicenseRecommendationsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ExportLicenseRecommendationsOutputResponseBody: Swift.Equatable {
+struct ExportLicenseRecommendationsOutputBody: Swift.Equatable {
     let jobId: Swift.String?
     let s3Destination: ComputeOptimizerClientTypes.S3Destination?
 }
 
-extension ExportLicenseRecommendationsOutputResponseBody: Swift.Decodable {
+extension ExportLicenseRecommendationsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case jobId
         case s3Destination
@@ -3774,6 +3756,24 @@ extension ExportLicenseRecommendationsOutputResponseBody: Swift.Decodable {
         jobId = jobIdDecoded
         let s3DestinationDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.S3Destination.self, forKey: .s3Destination)
         s3Destination = s3DestinationDecoded
+    }
+}
+
+enum ExportLicenseRecommendationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingAuthenticationToken": return try await MissingAuthenticationToken(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OptInRequiredException": return try await OptInRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5165,29 +5165,11 @@ extension GetAutoScalingGroupRecommendationsInputBody: Swift.Decodable {
     }
 }
 
-enum GetAutoScalingGroupRecommendationsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MissingAuthenticationToken": return try await MissingAuthenticationToken(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "OptInRequiredException": return try await OptInRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetAutoScalingGroupRecommendationsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetAutoScalingGroupRecommendationsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetAutoScalingGroupRecommendationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetAutoScalingGroupRecommendationsOutputBody = try responseDecoder.decode(responseBody: data)
             self.autoScalingGroupRecommendations = output.autoScalingGroupRecommendations
             self.errors = output.errors
             self.nextToken = output.nextToken
@@ -5199,7 +5181,7 @@ extension GetAutoScalingGroupRecommendationsOutputResponse: ClientRuntime.HttpRe
     }
 }
 
-public struct GetAutoScalingGroupRecommendationsOutputResponse: Swift.Equatable {
+public struct GetAutoScalingGroupRecommendationsOutput: Swift.Equatable {
     /// An array of objects that describe Auto Scaling group recommendations.
     public var autoScalingGroupRecommendations: [ComputeOptimizerClientTypes.AutoScalingGroupRecommendation]?
     /// An array of objects that describe errors of the request. For example, an error is returned if you request recommendations for an unsupported Auto Scaling group.
@@ -5219,13 +5201,13 @@ public struct GetAutoScalingGroupRecommendationsOutputResponse: Swift.Equatable 
     }
 }
 
-struct GetAutoScalingGroupRecommendationsOutputResponseBody: Swift.Equatable {
+struct GetAutoScalingGroupRecommendationsOutputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let autoScalingGroupRecommendations: [ComputeOptimizerClientTypes.AutoScalingGroupRecommendation]?
     let errors: [ComputeOptimizerClientTypes.GetRecommendationError]?
 }
 
-extension GetAutoScalingGroupRecommendationsOutputResponseBody: Swift.Decodable {
+extension GetAutoScalingGroupRecommendationsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case autoScalingGroupRecommendations
         case errors
@@ -5258,6 +5240,24 @@ extension GetAutoScalingGroupRecommendationsOutputResponseBody: Swift.Decodable 
             }
         }
         errors = errorsDecoded0
+    }
+}
+
+enum GetAutoScalingGroupRecommendationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingAuthenticationToken": return try await MissingAuthenticationToken(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OptInRequiredException": return try await OptInRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5392,29 +5392,11 @@ extension GetEBSVolumeRecommendationsInputBody: Swift.Decodable {
     }
 }
 
-enum GetEBSVolumeRecommendationsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MissingAuthenticationToken": return try await MissingAuthenticationToken(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "OptInRequiredException": return try await OptInRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetEBSVolumeRecommendationsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetEBSVolumeRecommendationsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetEBSVolumeRecommendationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetEBSVolumeRecommendationsOutputBody = try responseDecoder.decode(responseBody: data)
             self.errors = output.errors
             self.nextToken = output.nextToken
             self.volumeRecommendations = output.volumeRecommendations
@@ -5426,7 +5408,7 @@ extension GetEBSVolumeRecommendationsOutputResponse: ClientRuntime.HttpResponseB
     }
 }
 
-public struct GetEBSVolumeRecommendationsOutputResponse: Swift.Equatable {
+public struct GetEBSVolumeRecommendationsOutput: Swift.Equatable {
     /// An array of objects that describe errors of the request. For example, an error is returned if you request recommendations for an unsupported volume.
     public var errors: [ComputeOptimizerClientTypes.GetRecommendationError]?
     /// The token to use to advance to the next page of volume recommendations. This value is null when there are no more pages of volume recommendations to return.
@@ -5446,13 +5428,13 @@ public struct GetEBSVolumeRecommendationsOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetEBSVolumeRecommendationsOutputResponseBody: Swift.Equatable {
+struct GetEBSVolumeRecommendationsOutputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let volumeRecommendations: [ComputeOptimizerClientTypes.VolumeRecommendation]?
     let errors: [ComputeOptimizerClientTypes.GetRecommendationError]?
 }
 
-extension GetEBSVolumeRecommendationsOutputResponseBody: Swift.Decodable {
+extension GetEBSVolumeRecommendationsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case errors
         case nextToken
@@ -5485,6 +5467,24 @@ extension GetEBSVolumeRecommendationsOutputResponseBody: Swift.Decodable {
             }
         }
         errors = errorsDecoded0
+    }
+}
+
+enum GetEBSVolumeRecommendationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingAuthenticationToken": return try await MissingAuthenticationToken(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OptInRequiredException": return try await OptInRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5631,29 +5631,11 @@ extension GetEC2InstanceRecommendationsInputBody: Swift.Decodable {
     }
 }
 
-enum GetEC2InstanceRecommendationsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MissingAuthenticationToken": return try await MissingAuthenticationToken(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "OptInRequiredException": return try await OptInRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetEC2InstanceRecommendationsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetEC2InstanceRecommendationsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetEC2InstanceRecommendationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetEC2InstanceRecommendationsOutputBody = try responseDecoder.decode(responseBody: data)
             self.errors = output.errors
             self.instanceRecommendations = output.instanceRecommendations
             self.nextToken = output.nextToken
@@ -5665,7 +5647,7 @@ extension GetEC2InstanceRecommendationsOutputResponse: ClientRuntime.HttpRespons
     }
 }
 
-public struct GetEC2InstanceRecommendationsOutputResponse: Swift.Equatable {
+public struct GetEC2InstanceRecommendationsOutput: Swift.Equatable {
     /// An array of objects that describe errors of the request. For example, an error is returned if you request recommendations for an instance of an unsupported instance family.
     public var errors: [ComputeOptimizerClientTypes.GetRecommendationError]?
     /// An array of objects that describe instance recommendations.
@@ -5685,13 +5667,13 @@ public struct GetEC2InstanceRecommendationsOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetEC2InstanceRecommendationsOutputResponseBody: Swift.Equatable {
+struct GetEC2InstanceRecommendationsOutputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let instanceRecommendations: [ComputeOptimizerClientTypes.InstanceRecommendation]?
     let errors: [ComputeOptimizerClientTypes.GetRecommendationError]?
 }
 
-extension GetEC2InstanceRecommendationsOutputResponseBody: Swift.Decodable {
+extension GetEC2InstanceRecommendationsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case errors
         case instanceRecommendations
@@ -5724,6 +5706,24 @@ extension GetEC2InstanceRecommendationsOutputResponseBody: Swift.Decodable {
             }
         }
         errors = errorsDecoded0
+    }
+}
+
+enum GetEC2InstanceRecommendationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingAuthenticationToken": return try await MissingAuthenticationToken(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OptInRequiredException": return try await OptInRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5839,29 +5839,11 @@ extension GetEC2RecommendationProjectedMetricsInputBody: Swift.Decodable {
     }
 }
 
-enum GetEC2RecommendationProjectedMetricsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MissingAuthenticationToken": return try await MissingAuthenticationToken(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "OptInRequiredException": return try await OptInRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetEC2RecommendationProjectedMetricsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetEC2RecommendationProjectedMetricsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetEC2RecommendationProjectedMetricsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetEC2RecommendationProjectedMetricsOutputBody = try responseDecoder.decode(responseBody: data)
             self.recommendedOptionProjectedMetrics = output.recommendedOptionProjectedMetrics
         } else {
             self.recommendedOptionProjectedMetrics = nil
@@ -5869,7 +5851,7 @@ extension GetEC2RecommendationProjectedMetricsOutputResponse: ClientRuntime.Http
     }
 }
 
-public struct GetEC2RecommendationProjectedMetricsOutputResponse: Swift.Equatable {
+public struct GetEC2RecommendationProjectedMetricsOutput: Swift.Equatable {
     /// An array of objects that describes projected metrics.
     public var recommendedOptionProjectedMetrics: [ComputeOptimizerClientTypes.RecommendedOptionProjectedMetric]?
 
@@ -5881,11 +5863,11 @@ public struct GetEC2RecommendationProjectedMetricsOutputResponse: Swift.Equatabl
     }
 }
 
-struct GetEC2RecommendationProjectedMetricsOutputResponseBody: Swift.Equatable {
+struct GetEC2RecommendationProjectedMetricsOutputBody: Swift.Equatable {
     let recommendedOptionProjectedMetrics: [ComputeOptimizerClientTypes.RecommendedOptionProjectedMetric]?
 }
 
-extension GetEC2RecommendationProjectedMetricsOutputResponseBody: Swift.Decodable {
+extension GetEC2RecommendationProjectedMetricsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case recommendedOptionProjectedMetrics
     }
@@ -5903,6 +5885,24 @@ extension GetEC2RecommendationProjectedMetricsOutputResponseBody: Swift.Decodabl
             }
         }
         recommendedOptionProjectedMetrics = recommendedOptionProjectedMetricsDecoded0
+    }
+}
+
+enum GetEC2RecommendationProjectedMetricsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingAuthenticationToken": return try await MissingAuthenticationToken(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OptInRequiredException": return try await OptInRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -6006,29 +6006,11 @@ extension GetECSServiceRecommendationProjectedMetricsInputBody: Swift.Decodable 
     }
 }
 
-enum GetECSServiceRecommendationProjectedMetricsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MissingAuthenticationToken": return try await MissingAuthenticationToken(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "OptInRequiredException": return try await OptInRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetECSServiceRecommendationProjectedMetricsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetECSServiceRecommendationProjectedMetricsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetECSServiceRecommendationProjectedMetricsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetECSServiceRecommendationProjectedMetricsOutputBody = try responseDecoder.decode(responseBody: data)
             self.recommendedOptionProjectedMetrics = output.recommendedOptionProjectedMetrics
         } else {
             self.recommendedOptionProjectedMetrics = nil
@@ -6036,7 +6018,7 @@ extension GetECSServiceRecommendationProjectedMetricsOutputResponse: ClientRunti
     }
 }
 
-public struct GetECSServiceRecommendationProjectedMetricsOutputResponse: Swift.Equatable {
+public struct GetECSServiceRecommendationProjectedMetricsOutput: Swift.Equatable {
     /// An array of objects that describes the projected metrics.
     public var recommendedOptionProjectedMetrics: [ComputeOptimizerClientTypes.ECSServiceRecommendedOptionProjectedMetric]?
 
@@ -6048,11 +6030,11 @@ public struct GetECSServiceRecommendationProjectedMetricsOutputResponse: Swift.E
     }
 }
 
-struct GetECSServiceRecommendationProjectedMetricsOutputResponseBody: Swift.Equatable {
+struct GetECSServiceRecommendationProjectedMetricsOutputBody: Swift.Equatable {
     let recommendedOptionProjectedMetrics: [ComputeOptimizerClientTypes.ECSServiceRecommendedOptionProjectedMetric]?
 }
 
-extension GetECSServiceRecommendationProjectedMetricsOutputResponseBody: Swift.Decodable {
+extension GetECSServiceRecommendationProjectedMetricsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case recommendedOptionProjectedMetrics
     }
@@ -6070,6 +6052,24 @@ extension GetECSServiceRecommendationProjectedMetricsOutputResponseBody: Swift.D
             }
         }
         recommendedOptionProjectedMetrics = recommendedOptionProjectedMetricsDecoded0
+    }
+}
+
+enum GetECSServiceRecommendationProjectedMetricsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingAuthenticationToken": return try await MissingAuthenticationToken(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OptInRequiredException": return try await OptInRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -6204,29 +6204,11 @@ extension GetECSServiceRecommendationsInputBody: Swift.Decodable {
     }
 }
 
-enum GetECSServiceRecommendationsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MissingAuthenticationToken": return try await MissingAuthenticationToken(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "OptInRequiredException": return try await OptInRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetECSServiceRecommendationsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetECSServiceRecommendationsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetECSServiceRecommendationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetECSServiceRecommendationsOutputBody = try responseDecoder.decode(responseBody: data)
             self.ecsServiceRecommendations = output.ecsServiceRecommendations
             self.errors = output.errors
             self.nextToken = output.nextToken
@@ -6238,7 +6220,7 @@ extension GetECSServiceRecommendationsOutputResponse: ClientRuntime.HttpResponse
     }
 }
 
-public struct GetECSServiceRecommendationsOutputResponse: Swift.Equatable {
+public struct GetECSServiceRecommendationsOutput: Swift.Equatable {
     /// An array of objects that describe the Amazon ECS service recommendations.
     public var ecsServiceRecommendations: [ComputeOptimizerClientTypes.ECSServiceRecommendation]?
     /// An array of objects that describe errors of the request.
@@ -6258,13 +6240,13 @@ public struct GetECSServiceRecommendationsOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetECSServiceRecommendationsOutputResponseBody: Swift.Equatable {
+struct GetECSServiceRecommendationsOutputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let ecsServiceRecommendations: [ComputeOptimizerClientTypes.ECSServiceRecommendation]?
     let errors: [ComputeOptimizerClientTypes.GetRecommendationError]?
 }
 
-extension GetECSServiceRecommendationsOutputResponseBody: Swift.Decodable {
+extension GetECSServiceRecommendationsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case ecsServiceRecommendations
         case errors
@@ -6297,6 +6279,24 @@ extension GetECSServiceRecommendationsOutputResponseBody: Swift.Decodable {
             }
         }
         errors = errorsDecoded0
+    }
+}
+
+enum GetECSServiceRecommendationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingAuthenticationToken": return try await MissingAuthenticationToken(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OptInRequiredException": return try await OptInRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -6348,29 +6348,11 @@ extension GetEffectiveRecommendationPreferencesInputBody: Swift.Decodable {
     }
 }
 
-enum GetEffectiveRecommendationPreferencesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MissingAuthenticationToken": return try await MissingAuthenticationToken(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "OptInRequiredException": return try await OptInRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetEffectiveRecommendationPreferencesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetEffectiveRecommendationPreferencesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetEffectiveRecommendationPreferencesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetEffectiveRecommendationPreferencesOutputBody = try responseDecoder.decode(responseBody: data)
             self.enhancedInfrastructureMetrics = output.enhancedInfrastructureMetrics
             self.externalMetricsPreference = output.externalMetricsPreference
         } else {
@@ -6380,7 +6362,7 @@ extension GetEffectiveRecommendationPreferencesOutputResponse: ClientRuntime.Htt
     }
 }
 
-public struct GetEffectiveRecommendationPreferencesOutputResponse: Swift.Equatable {
+public struct GetEffectiveRecommendationPreferencesOutput: Swift.Equatable {
     /// The status of the enhanced infrastructure metrics recommendation preference. Considers all applicable preferences that you might have set at the resource, account, and organization level. A status of Active confirms that the preference is applied in the latest recommendation refresh, and a status of Inactive confirms that it's not yet applied to recommendations. To validate whether the preference is applied to your last generated set of recommendations, review the effectiveRecommendationPreferences value in the response of the [GetAutoScalingGroupRecommendations] and [GetEC2InstanceRecommendations] actions. For more information, see [Enhanced infrastructure metrics](https://docs.aws.amazon.com/compute-optimizer/latest/ug/enhanced-infrastructure-metrics.html) in the Compute Optimizer User Guide.
     public var enhancedInfrastructureMetrics: ComputeOptimizerClientTypes.EnhancedInfrastructureMetrics?
     /// The provider of the external metrics recommendation preference. Considers all applicable preferences that you might have set at the account and organization level. If the preference is applied in the latest recommendation refresh, an object with a valid source value appears in the response. If the preference isn't applied to the recommendations already, then this object doesn't appear in the response. To validate whether the preference is applied to your last generated set of recommendations, review the effectiveRecommendationPreferences value in the response of the [GetEC2InstanceRecommendations] actions. For more information, see [Enhanced infrastructure metrics](https://docs.aws.amazon.com/compute-optimizer/latest/ug/external-metrics-ingestion.html) in the Compute Optimizer User Guide.
@@ -6396,12 +6378,12 @@ public struct GetEffectiveRecommendationPreferencesOutputResponse: Swift.Equatab
     }
 }
 
-struct GetEffectiveRecommendationPreferencesOutputResponseBody: Swift.Equatable {
+struct GetEffectiveRecommendationPreferencesOutputBody: Swift.Equatable {
     let enhancedInfrastructureMetrics: ComputeOptimizerClientTypes.EnhancedInfrastructureMetrics?
     let externalMetricsPreference: ComputeOptimizerClientTypes.ExternalMetricsPreference?
 }
 
-extension GetEffectiveRecommendationPreferencesOutputResponseBody: Swift.Decodable {
+extension GetEffectiveRecommendationPreferencesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case enhancedInfrastructureMetrics
         case externalMetricsPreference
@@ -6413,6 +6395,24 @@ extension GetEffectiveRecommendationPreferencesOutputResponseBody: Swift.Decodab
         enhancedInfrastructureMetrics = enhancedInfrastructureMetricsDecoded
         let externalMetricsPreferenceDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.ExternalMetricsPreference.self, forKey: .externalMetricsPreference)
         externalMetricsPreference = externalMetricsPreferenceDecoded
+    }
+}
+
+enum GetEffectiveRecommendationPreferencesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingAuthenticationToken": return try await MissingAuthenticationToken(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OptInRequiredException": return try await OptInRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -6444,27 +6444,11 @@ extension GetEnrollmentStatusInputBody: Swift.Decodable {
     }
 }
 
-enum GetEnrollmentStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MissingAuthenticationToken": return try await MissingAuthenticationToken(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetEnrollmentStatusOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetEnrollmentStatusOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetEnrollmentStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetEnrollmentStatusOutputBody = try responseDecoder.decode(responseBody: data)
             self.lastUpdatedTimestamp = output.lastUpdatedTimestamp
             self.memberAccountsEnrolled = output.memberAccountsEnrolled
             self.numberOfMemberAccountsOptedIn = output.numberOfMemberAccountsOptedIn
@@ -6480,7 +6464,7 @@ extension GetEnrollmentStatusOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetEnrollmentStatusOutputResponse: Swift.Equatable {
+public struct GetEnrollmentStatusOutput: Swift.Equatable {
     /// The Unix epoch timestamp, in seconds, of when the account enrollment status was last updated.
     public var lastUpdatedTimestamp: ClientRuntime.Date?
     /// Confirms the enrollment status of member accounts of the organization, if the account is a management account of an organization.
@@ -6508,7 +6492,7 @@ public struct GetEnrollmentStatusOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetEnrollmentStatusOutputResponseBody: Swift.Equatable {
+struct GetEnrollmentStatusOutputBody: Swift.Equatable {
     let status: ComputeOptimizerClientTypes.Status?
     let statusReason: Swift.String?
     let memberAccountsEnrolled: Swift.Bool
@@ -6516,7 +6500,7 @@ struct GetEnrollmentStatusOutputResponseBody: Swift.Equatable {
     let numberOfMemberAccountsOptedIn: Swift.Int?
 }
 
-extension GetEnrollmentStatusOutputResponseBody: Swift.Decodable {
+extension GetEnrollmentStatusOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case lastUpdatedTimestamp
         case memberAccountsEnrolled
@@ -6537,6 +6521,22 @@ extension GetEnrollmentStatusOutputResponseBody: Swift.Decodable {
         lastUpdatedTimestamp = lastUpdatedTimestampDecoded
         let numberOfMemberAccountsOptedInDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .numberOfMemberAccountsOptedIn)
         numberOfMemberAccountsOptedIn = numberOfMemberAccountsOptedInDecoded
+    }
+}
+
+enum GetEnrollmentStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingAuthenticationToken": return try await MissingAuthenticationToken(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -6623,27 +6623,11 @@ extension GetEnrollmentStatusesForOrganizationInputBody: Swift.Decodable {
     }
 }
 
-enum GetEnrollmentStatusesForOrganizationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MissingAuthenticationToken": return try await MissingAuthenticationToken(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetEnrollmentStatusesForOrganizationOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetEnrollmentStatusesForOrganizationOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetEnrollmentStatusesForOrganizationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetEnrollmentStatusesForOrganizationOutputBody = try responseDecoder.decode(responseBody: data)
             self.accountEnrollmentStatuses = output.accountEnrollmentStatuses
             self.nextToken = output.nextToken
         } else {
@@ -6653,7 +6637,7 @@ extension GetEnrollmentStatusesForOrganizationOutputResponse: ClientRuntime.Http
     }
 }
 
-public struct GetEnrollmentStatusesForOrganizationOutputResponse: Swift.Equatable {
+public struct GetEnrollmentStatusesForOrganizationOutput: Swift.Equatable {
     /// An array of objects that describe the enrollment statuses of organization member accounts.
     public var accountEnrollmentStatuses: [ComputeOptimizerClientTypes.AccountEnrollmentStatus]?
     /// The token to use to advance to the next page of account enrollment statuses. This value is null when there are no more pages of account enrollment statuses to return.
@@ -6669,12 +6653,12 @@ public struct GetEnrollmentStatusesForOrganizationOutputResponse: Swift.Equatabl
     }
 }
 
-struct GetEnrollmentStatusesForOrganizationOutputResponseBody: Swift.Equatable {
+struct GetEnrollmentStatusesForOrganizationOutputBody: Swift.Equatable {
     let accountEnrollmentStatuses: [ComputeOptimizerClientTypes.AccountEnrollmentStatus]?
     let nextToken: Swift.String?
 }
 
-extension GetEnrollmentStatusesForOrganizationOutputResponseBody: Swift.Decodable {
+extension GetEnrollmentStatusesForOrganizationOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accountEnrollmentStatuses
         case nextToken
@@ -6695,6 +6679,22 @@ extension GetEnrollmentStatusesForOrganizationOutputResponseBody: Swift.Decodabl
         accountEnrollmentStatuses = accountEnrollmentStatusesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum GetEnrollmentStatusesForOrganizationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingAuthenticationToken": return try await MissingAuthenticationToken(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -6829,29 +6829,11 @@ extension GetLambdaFunctionRecommendationsInputBody: Swift.Decodable {
     }
 }
 
-enum GetLambdaFunctionRecommendationsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MissingAuthenticationToken": return try await MissingAuthenticationToken(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "OptInRequiredException": return try await OptInRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetLambdaFunctionRecommendationsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetLambdaFunctionRecommendationsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetLambdaFunctionRecommendationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetLambdaFunctionRecommendationsOutputBody = try responseDecoder.decode(responseBody: data)
             self.lambdaFunctionRecommendations = output.lambdaFunctionRecommendations
             self.nextToken = output.nextToken
         } else {
@@ -6861,7 +6843,7 @@ extension GetLambdaFunctionRecommendationsOutputResponse: ClientRuntime.HttpResp
     }
 }
 
-public struct GetLambdaFunctionRecommendationsOutputResponse: Swift.Equatable {
+public struct GetLambdaFunctionRecommendationsOutput: Swift.Equatable {
     /// An array of objects that describe function recommendations.
     public var lambdaFunctionRecommendations: [ComputeOptimizerClientTypes.LambdaFunctionRecommendation]?
     /// The token to use to advance to the next page of function recommendations. This value is null when there are no more pages of function recommendations to return.
@@ -6877,12 +6859,12 @@ public struct GetLambdaFunctionRecommendationsOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetLambdaFunctionRecommendationsOutputResponseBody: Swift.Equatable {
+struct GetLambdaFunctionRecommendationsOutputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let lambdaFunctionRecommendations: [ComputeOptimizerClientTypes.LambdaFunctionRecommendation]?
 }
 
-extension GetLambdaFunctionRecommendationsOutputResponseBody: Swift.Decodable {
+extension GetLambdaFunctionRecommendationsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case lambdaFunctionRecommendations
         case nextToken
@@ -6903,6 +6885,24 @@ extension GetLambdaFunctionRecommendationsOutputResponseBody: Swift.Decodable {
             }
         }
         lambdaFunctionRecommendations = lambdaFunctionRecommendationsDecoded0
+    }
+}
+
+enum GetLambdaFunctionRecommendationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingAuthenticationToken": return try await MissingAuthenticationToken(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OptInRequiredException": return try await OptInRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -7037,29 +7037,11 @@ extension GetLicenseRecommendationsInputBody: Swift.Decodable {
     }
 }
 
-enum GetLicenseRecommendationsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MissingAuthenticationToken": return try await MissingAuthenticationToken(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "OptInRequiredException": return try await OptInRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetLicenseRecommendationsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetLicenseRecommendationsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetLicenseRecommendationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetLicenseRecommendationsOutputBody = try responseDecoder.decode(responseBody: data)
             self.errors = output.errors
             self.licenseRecommendations = output.licenseRecommendations
             self.nextToken = output.nextToken
@@ -7071,7 +7053,7 @@ extension GetLicenseRecommendationsOutputResponse: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct GetLicenseRecommendationsOutputResponse: Swift.Equatable {
+public struct GetLicenseRecommendationsOutput: Swift.Equatable {
     /// An array of objects that describe errors of the request.
     public var errors: [ComputeOptimizerClientTypes.GetRecommendationError]?
     /// An array of objects that describe license recommendations.
@@ -7091,13 +7073,13 @@ public struct GetLicenseRecommendationsOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetLicenseRecommendationsOutputResponseBody: Swift.Equatable {
+struct GetLicenseRecommendationsOutputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let licenseRecommendations: [ComputeOptimizerClientTypes.LicenseRecommendation]?
     let errors: [ComputeOptimizerClientTypes.GetRecommendationError]?
 }
 
-extension GetLicenseRecommendationsOutputResponseBody: Swift.Decodable {
+extension GetLicenseRecommendationsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case errors
         case licenseRecommendations
@@ -7130,6 +7112,24 @@ extension GetLicenseRecommendationsOutputResponseBody: Swift.Decodable {
             }
         }
         errors = errorsDecoded0
+    }
+}
+
+enum GetLicenseRecommendationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingAuthenticationToken": return try await MissingAuthenticationToken(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OptInRequiredException": return try await OptInRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -7272,29 +7272,11 @@ extension GetRecommendationPreferencesInputBody: Swift.Decodable {
     }
 }
 
-enum GetRecommendationPreferencesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MissingAuthenticationToken": return try await MissingAuthenticationToken(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "OptInRequiredException": return try await OptInRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetRecommendationPreferencesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetRecommendationPreferencesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetRecommendationPreferencesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetRecommendationPreferencesOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.recommendationPreferencesDetails = output.recommendationPreferencesDetails
         } else {
@@ -7304,7 +7286,7 @@ extension GetRecommendationPreferencesOutputResponse: ClientRuntime.HttpResponse
     }
 }
 
-public struct GetRecommendationPreferencesOutputResponse: Swift.Equatable {
+public struct GetRecommendationPreferencesOutput: Swift.Equatable {
     /// The token to use to advance to the next page of recommendation preferences. This value is null when there are no more pages of recommendation preferences to return.
     public var nextToken: Swift.String?
     /// An array of objects that describe recommendation preferences.
@@ -7320,12 +7302,12 @@ public struct GetRecommendationPreferencesOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetRecommendationPreferencesOutputResponseBody: Swift.Equatable {
+struct GetRecommendationPreferencesOutputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let recommendationPreferencesDetails: [ComputeOptimizerClientTypes.RecommendationPreferencesDetail]?
 }
 
-extension GetRecommendationPreferencesOutputResponseBody: Swift.Decodable {
+extension GetRecommendationPreferencesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken
         case recommendationPreferencesDetails
@@ -7346,6 +7328,24 @@ extension GetRecommendationPreferencesOutputResponseBody: Swift.Decodable {
             }
         }
         recommendationPreferencesDetails = recommendationPreferencesDetailsDecoded0
+    }
+}
+
+enum GetRecommendationPreferencesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingAuthenticationToken": return try await MissingAuthenticationToken(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OptInRequiredException": return try await OptInRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -7432,28 +7432,11 @@ extension GetRecommendationSummariesInputBody: Swift.Decodable {
     }
 }
 
-enum GetRecommendationSummariesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MissingAuthenticationToken": return try await MissingAuthenticationToken(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "OptInRequiredException": return try await OptInRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetRecommendationSummariesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetRecommendationSummariesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetRecommendationSummariesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetRecommendationSummariesOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.recommendationSummaries = output.recommendationSummaries
         } else {
@@ -7463,7 +7446,7 @@ extension GetRecommendationSummariesOutputResponse: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct GetRecommendationSummariesOutputResponse: Swift.Equatable {
+public struct GetRecommendationSummariesOutput: Swift.Equatable {
     /// The token to use to advance to the next page of recommendation summaries. This value is null when there are no more pages of recommendation summaries to return.
     public var nextToken: Swift.String?
     /// An array of objects that summarize a recommendation.
@@ -7479,12 +7462,12 @@ public struct GetRecommendationSummariesOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetRecommendationSummariesOutputResponseBody: Swift.Equatable {
+struct GetRecommendationSummariesOutputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let recommendationSummaries: [ComputeOptimizerClientTypes.RecommendationSummary]?
 }
 
-extension GetRecommendationSummariesOutputResponseBody: Swift.Decodable {
+extension GetRecommendationSummariesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken
         case recommendationSummaries
@@ -7505,6 +7488,23 @@ extension GetRecommendationSummariesOutputResponseBody: Swift.Decodable {
             }
         }
         recommendationSummaries = recommendationSummariesDecoded0
+    }
+}
+
+enum GetRecommendationSummariesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingAuthenticationToken": return try await MissingAuthenticationToken(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OptInRequiredException": return try await OptInRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -10632,6 +10632,16 @@ extension PutRecommendationPreferencesInputBody: Swift.Decodable {
     }
 }
 
+extension PutRecommendationPreferencesOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct PutRecommendationPreferencesOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum PutRecommendationPreferencesOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -10648,16 +10658,6 @@ enum PutRecommendationPreferencesOutputError: ClientRuntime.HttpResponseErrorBin
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension PutRecommendationPreferencesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct PutRecommendationPreferencesOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension ComputeOptimizerClientTypes.ReasonCodeSummary: Swift.Codable {
@@ -11992,27 +11992,11 @@ extension UpdateEnrollmentStatusInputBody: Swift.Decodable {
     }
 }
 
-enum UpdateEnrollmentStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MissingAuthenticationToken": return try await MissingAuthenticationToken(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension UpdateEnrollmentStatusOutputResponse: ClientRuntime.HttpResponseBinding {
+extension UpdateEnrollmentStatusOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: UpdateEnrollmentStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: UpdateEnrollmentStatusOutputBody = try responseDecoder.decode(responseBody: data)
             self.status = output.status
             self.statusReason = output.statusReason
         } else {
@@ -12022,7 +12006,7 @@ extension UpdateEnrollmentStatusOutputResponse: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct UpdateEnrollmentStatusOutputResponse: Swift.Equatable {
+public struct UpdateEnrollmentStatusOutput: Swift.Equatable {
     /// The enrollment status of the account.
     public var status: ComputeOptimizerClientTypes.Status?
     /// The reason for the enrollment status of the account. For example, an account might show a status of Pending because member accounts of an organization require more time to be enrolled in the service.
@@ -12038,12 +12022,12 @@ public struct UpdateEnrollmentStatusOutputResponse: Swift.Equatable {
     }
 }
 
-struct UpdateEnrollmentStatusOutputResponseBody: Swift.Equatable {
+struct UpdateEnrollmentStatusOutputBody: Swift.Equatable {
     let status: ComputeOptimizerClientTypes.Status?
     let statusReason: Swift.String?
 }
 
-extension UpdateEnrollmentStatusOutputResponseBody: Swift.Decodable {
+extension UpdateEnrollmentStatusOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case status
         case statusReason
@@ -12055,6 +12039,22 @@ extension UpdateEnrollmentStatusOutputResponseBody: Swift.Decodable {
         status = statusDecoded
         let statusReasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .statusReason)
         statusReason = statusReasonDecoded
+    }
+}
+
+enum UpdateEnrollmentStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingAuthenticationToken": return try await MissingAuthenticationToken(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 

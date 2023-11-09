@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension MemoryDBClient {
-    /// Paginate over `[DescribeACLsOutputResponse]` results.
+    /// Paginate over `[DescribeACLsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeACLsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeACLsOutputResponse`
-    public func describeACLsPaginated(input: DescribeACLsInput) -> ClientRuntime.PaginatorSequence<DescribeACLsInput, DescribeACLsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeACLsInput, DescribeACLsOutputResponse>(input: input, inputKey: \DescribeACLsInput.nextToken, outputKey: \DescribeACLsOutputResponse.nextToken, paginationFunction: self.describeACLs(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeACLsOutput`
+    public func describeACLsPaginated(input: DescribeACLsInput) -> ClientRuntime.PaginatorSequence<DescribeACLsInput, DescribeACLsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeACLsInput, DescribeACLsOutput>(input: input, inputKey: \DescribeACLsInput.nextToken, outputKey: \DescribeACLsOutput.nextToken, paginationFunction: self.describeACLs(input:))
     }
 }
 
@@ -25,7 +25,7 @@ extension DescribeACLsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeACLsInput, Output == DescribeACLsOutputResponse {
+extension PaginatorSequence where Input == DescribeACLsInput, Output == DescribeACLsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeACLsPaginated`
     /// to access the nested member `[MemoryDBClientTypes.ACL]`
     /// - Returns: `[MemoryDBClientTypes.ACL]`
@@ -34,16 +34,16 @@ extension PaginatorSequence where Input == DescribeACLsInput, Output == Describe
     }
 }
 extension MemoryDBClient {
-    /// Paginate over `[DescribeClustersOutputResponse]` results.
+    /// Paginate over `[DescribeClustersOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeClustersInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeClustersOutputResponse`
-    public func describeClustersPaginated(input: DescribeClustersInput) -> ClientRuntime.PaginatorSequence<DescribeClustersInput, DescribeClustersOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeClustersInput, DescribeClustersOutputResponse>(input: input, inputKey: \DescribeClustersInput.nextToken, outputKey: \DescribeClustersOutputResponse.nextToken, paginationFunction: self.describeClusters(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeClustersOutput`
+    public func describeClustersPaginated(input: DescribeClustersInput) -> ClientRuntime.PaginatorSequence<DescribeClustersInput, DescribeClustersOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeClustersInput, DescribeClustersOutput>(input: input, inputKey: \DescribeClustersInput.nextToken, outputKey: \DescribeClustersOutput.nextToken, paginationFunction: self.describeClusters(input:))
     }
 }
 
@@ -57,7 +57,7 @@ extension DescribeClustersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeClustersInput, Output == DescribeClustersOutputResponse {
+extension PaginatorSequence where Input == DescribeClustersInput, Output == DescribeClustersOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeClustersPaginated`
     /// to access the nested member `[MemoryDBClientTypes.Cluster]`
     /// - Returns: `[MemoryDBClientTypes.Cluster]`
@@ -66,16 +66,16 @@ extension PaginatorSequence where Input == DescribeClustersInput, Output == Desc
     }
 }
 extension MemoryDBClient {
-    /// Paginate over `[DescribeEngineVersionsOutputResponse]` results.
+    /// Paginate over `[DescribeEngineVersionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeEngineVersionsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeEngineVersionsOutputResponse`
-    public func describeEngineVersionsPaginated(input: DescribeEngineVersionsInput) -> ClientRuntime.PaginatorSequence<DescribeEngineVersionsInput, DescribeEngineVersionsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeEngineVersionsInput, DescribeEngineVersionsOutputResponse>(input: input, inputKey: \DescribeEngineVersionsInput.nextToken, outputKey: \DescribeEngineVersionsOutputResponse.nextToken, paginationFunction: self.describeEngineVersions(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeEngineVersionsOutput`
+    public func describeEngineVersionsPaginated(input: DescribeEngineVersionsInput) -> ClientRuntime.PaginatorSequence<DescribeEngineVersionsInput, DescribeEngineVersionsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeEngineVersionsInput, DescribeEngineVersionsOutput>(input: input, inputKey: \DescribeEngineVersionsInput.nextToken, outputKey: \DescribeEngineVersionsOutput.nextToken, paginationFunction: self.describeEngineVersions(input:))
     }
 }
 
@@ -90,7 +90,7 @@ extension DescribeEngineVersionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeEngineVersionsInput, Output == DescribeEngineVersionsOutputResponse {
+extension PaginatorSequence where Input == DescribeEngineVersionsInput, Output == DescribeEngineVersionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeEngineVersionsPaginated`
     /// to access the nested member `[MemoryDBClientTypes.EngineVersionInfo]`
     /// - Returns: `[MemoryDBClientTypes.EngineVersionInfo]`
@@ -99,16 +99,16 @@ extension PaginatorSequence where Input == DescribeEngineVersionsInput, Output =
     }
 }
 extension MemoryDBClient {
-    /// Paginate over `[DescribeEventsOutputResponse]` results.
+    /// Paginate over `[DescribeEventsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeEventsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeEventsOutputResponse`
-    public func describeEventsPaginated(input: DescribeEventsInput) -> ClientRuntime.PaginatorSequence<DescribeEventsInput, DescribeEventsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeEventsInput, DescribeEventsOutputResponse>(input: input, inputKey: \DescribeEventsInput.nextToken, outputKey: \DescribeEventsOutputResponse.nextToken, paginationFunction: self.describeEvents(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeEventsOutput`
+    public func describeEventsPaginated(input: DescribeEventsInput) -> ClientRuntime.PaginatorSequence<DescribeEventsInput, DescribeEventsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeEventsInput, DescribeEventsOutput>(input: input, inputKey: \DescribeEventsInput.nextToken, outputKey: \DescribeEventsOutput.nextToken, paginationFunction: self.describeEvents(input:))
     }
 }
 
@@ -125,7 +125,7 @@ extension DescribeEventsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeEventsInput, Output == DescribeEventsOutputResponse {
+extension PaginatorSequence where Input == DescribeEventsInput, Output == DescribeEventsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeEventsPaginated`
     /// to access the nested member `[MemoryDBClientTypes.Event]`
     /// - Returns: `[MemoryDBClientTypes.Event]`
@@ -134,16 +134,16 @@ extension PaginatorSequence where Input == DescribeEventsInput, Output == Descri
     }
 }
 extension MemoryDBClient {
-    /// Paginate over `[DescribeParameterGroupsOutputResponse]` results.
+    /// Paginate over `[DescribeParameterGroupsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeParameterGroupsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeParameterGroupsOutputResponse`
-    public func describeParameterGroupsPaginated(input: DescribeParameterGroupsInput) -> ClientRuntime.PaginatorSequence<DescribeParameterGroupsInput, DescribeParameterGroupsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeParameterGroupsInput, DescribeParameterGroupsOutputResponse>(input: input, inputKey: \DescribeParameterGroupsInput.nextToken, outputKey: \DescribeParameterGroupsOutputResponse.nextToken, paginationFunction: self.describeParameterGroups(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeParameterGroupsOutput`
+    public func describeParameterGroupsPaginated(input: DescribeParameterGroupsInput) -> ClientRuntime.PaginatorSequence<DescribeParameterGroupsInput, DescribeParameterGroupsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeParameterGroupsInput, DescribeParameterGroupsOutput>(input: input, inputKey: \DescribeParameterGroupsInput.nextToken, outputKey: \DescribeParameterGroupsOutput.nextToken, paginationFunction: self.describeParameterGroups(input:))
     }
 }
 
@@ -156,7 +156,7 @@ extension DescribeParameterGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeParameterGroupsInput, Output == DescribeParameterGroupsOutputResponse {
+extension PaginatorSequence where Input == DescribeParameterGroupsInput, Output == DescribeParameterGroupsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeParameterGroupsPaginated`
     /// to access the nested member `[MemoryDBClientTypes.ParameterGroup]`
     /// - Returns: `[MemoryDBClientTypes.ParameterGroup]`
@@ -165,16 +165,16 @@ extension PaginatorSequence where Input == DescribeParameterGroupsInput, Output 
     }
 }
 extension MemoryDBClient {
-    /// Paginate over `[DescribeParametersOutputResponse]` results.
+    /// Paginate over `[DescribeParametersOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeParametersInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeParametersOutputResponse`
-    public func describeParametersPaginated(input: DescribeParametersInput) -> ClientRuntime.PaginatorSequence<DescribeParametersInput, DescribeParametersOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeParametersInput, DescribeParametersOutputResponse>(input: input, inputKey: \DescribeParametersInput.nextToken, outputKey: \DescribeParametersOutputResponse.nextToken, paginationFunction: self.describeParameters(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeParametersOutput`
+    public func describeParametersPaginated(input: DescribeParametersInput) -> ClientRuntime.PaginatorSequence<DescribeParametersInput, DescribeParametersOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeParametersInput, DescribeParametersOutput>(input: input, inputKey: \DescribeParametersInput.nextToken, outputKey: \DescribeParametersOutput.nextToken, paginationFunction: self.describeParameters(input:))
     }
 }
 
@@ -187,7 +187,7 @@ extension DescribeParametersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeParametersInput, Output == DescribeParametersOutputResponse {
+extension PaginatorSequence where Input == DescribeParametersInput, Output == DescribeParametersOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeParametersPaginated`
     /// to access the nested member `[MemoryDBClientTypes.Parameter]`
     /// - Returns: `[MemoryDBClientTypes.Parameter]`
@@ -196,16 +196,16 @@ extension PaginatorSequence where Input == DescribeParametersInput, Output == De
     }
 }
 extension MemoryDBClient {
-    /// Paginate over `[DescribeReservedNodesOutputResponse]` results.
+    /// Paginate over `[DescribeReservedNodesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeReservedNodesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeReservedNodesOutputResponse`
-    public func describeReservedNodesPaginated(input: DescribeReservedNodesInput) -> ClientRuntime.PaginatorSequence<DescribeReservedNodesInput, DescribeReservedNodesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeReservedNodesInput, DescribeReservedNodesOutputResponse>(input: input, inputKey: \DescribeReservedNodesInput.nextToken, outputKey: \DescribeReservedNodesOutputResponse.nextToken, paginationFunction: self.describeReservedNodes(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeReservedNodesOutput`
+    public func describeReservedNodesPaginated(input: DescribeReservedNodesInput) -> ClientRuntime.PaginatorSequence<DescribeReservedNodesInput, DescribeReservedNodesOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeReservedNodesInput, DescribeReservedNodesOutput>(input: input, inputKey: \DescribeReservedNodesInput.nextToken, outputKey: \DescribeReservedNodesOutput.nextToken, paginationFunction: self.describeReservedNodes(input:))
     }
 }
 
@@ -222,7 +222,7 @@ extension DescribeReservedNodesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeReservedNodesInput, Output == DescribeReservedNodesOutputResponse {
+extension PaginatorSequence where Input == DescribeReservedNodesInput, Output == DescribeReservedNodesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeReservedNodesPaginated`
     /// to access the nested member `[MemoryDBClientTypes.ReservedNode]`
     /// - Returns: `[MemoryDBClientTypes.ReservedNode]`
@@ -231,16 +231,16 @@ extension PaginatorSequence where Input == DescribeReservedNodesInput, Output ==
     }
 }
 extension MemoryDBClient {
-    /// Paginate over `[DescribeReservedNodesOfferingsOutputResponse]` results.
+    /// Paginate over `[DescribeReservedNodesOfferingsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeReservedNodesOfferingsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeReservedNodesOfferingsOutputResponse`
-    public func describeReservedNodesOfferingsPaginated(input: DescribeReservedNodesOfferingsInput) -> ClientRuntime.PaginatorSequence<DescribeReservedNodesOfferingsInput, DescribeReservedNodesOfferingsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeReservedNodesOfferingsInput, DescribeReservedNodesOfferingsOutputResponse>(input: input, inputKey: \DescribeReservedNodesOfferingsInput.nextToken, outputKey: \DescribeReservedNodesOfferingsOutputResponse.nextToken, paginationFunction: self.describeReservedNodesOfferings(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeReservedNodesOfferingsOutput`
+    public func describeReservedNodesOfferingsPaginated(input: DescribeReservedNodesOfferingsInput) -> ClientRuntime.PaginatorSequence<DescribeReservedNodesOfferingsInput, DescribeReservedNodesOfferingsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeReservedNodesOfferingsInput, DescribeReservedNodesOfferingsOutput>(input: input, inputKey: \DescribeReservedNodesOfferingsInput.nextToken, outputKey: \DescribeReservedNodesOfferingsOutput.nextToken, paginationFunction: self.describeReservedNodesOfferings(input:))
     }
 }
 
@@ -256,7 +256,7 @@ extension DescribeReservedNodesOfferingsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeReservedNodesOfferingsInput, Output == DescribeReservedNodesOfferingsOutputResponse {
+extension PaginatorSequence where Input == DescribeReservedNodesOfferingsInput, Output == DescribeReservedNodesOfferingsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeReservedNodesOfferingsPaginated`
     /// to access the nested member `[MemoryDBClientTypes.ReservedNodesOffering]`
     /// - Returns: `[MemoryDBClientTypes.ReservedNodesOffering]`
@@ -265,16 +265,16 @@ extension PaginatorSequence where Input == DescribeReservedNodesOfferingsInput, 
     }
 }
 extension MemoryDBClient {
-    /// Paginate over `[DescribeServiceUpdatesOutputResponse]` results.
+    /// Paginate over `[DescribeServiceUpdatesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeServiceUpdatesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeServiceUpdatesOutputResponse`
-    public func describeServiceUpdatesPaginated(input: DescribeServiceUpdatesInput) -> ClientRuntime.PaginatorSequence<DescribeServiceUpdatesInput, DescribeServiceUpdatesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeServiceUpdatesInput, DescribeServiceUpdatesOutputResponse>(input: input, inputKey: \DescribeServiceUpdatesInput.nextToken, outputKey: \DescribeServiceUpdatesOutputResponse.nextToken, paginationFunction: self.describeServiceUpdates(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeServiceUpdatesOutput`
+    public func describeServiceUpdatesPaginated(input: DescribeServiceUpdatesInput) -> ClientRuntime.PaginatorSequence<DescribeServiceUpdatesInput, DescribeServiceUpdatesOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeServiceUpdatesInput, DescribeServiceUpdatesOutput>(input: input, inputKey: \DescribeServiceUpdatesInput.nextToken, outputKey: \DescribeServiceUpdatesOutput.nextToken, paginationFunction: self.describeServiceUpdates(input:))
     }
 }
 
@@ -289,7 +289,7 @@ extension DescribeServiceUpdatesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeServiceUpdatesInput, Output == DescribeServiceUpdatesOutputResponse {
+extension PaginatorSequence where Input == DescribeServiceUpdatesInput, Output == DescribeServiceUpdatesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeServiceUpdatesPaginated`
     /// to access the nested member `[MemoryDBClientTypes.ServiceUpdate]`
     /// - Returns: `[MemoryDBClientTypes.ServiceUpdate]`
@@ -298,16 +298,16 @@ extension PaginatorSequence where Input == DescribeServiceUpdatesInput, Output =
     }
 }
 extension MemoryDBClient {
-    /// Paginate over `[DescribeSnapshotsOutputResponse]` results.
+    /// Paginate over `[DescribeSnapshotsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeSnapshotsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeSnapshotsOutputResponse`
-    public func describeSnapshotsPaginated(input: DescribeSnapshotsInput) -> ClientRuntime.PaginatorSequence<DescribeSnapshotsInput, DescribeSnapshotsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeSnapshotsInput, DescribeSnapshotsOutputResponse>(input: input, inputKey: \DescribeSnapshotsInput.nextToken, outputKey: \DescribeSnapshotsOutputResponse.nextToken, paginationFunction: self.describeSnapshots(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeSnapshotsOutput`
+    public func describeSnapshotsPaginated(input: DescribeSnapshotsInput) -> ClientRuntime.PaginatorSequence<DescribeSnapshotsInput, DescribeSnapshotsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeSnapshotsInput, DescribeSnapshotsOutput>(input: input, inputKey: \DescribeSnapshotsInput.nextToken, outputKey: \DescribeSnapshotsOutput.nextToken, paginationFunction: self.describeSnapshots(input:))
     }
 }
 
@@ -323,7 +323,7 @@ extension DescribeSnapshotsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeSnapshotsInput, Output == DescribeSnapshotsOutputResponse {
+extension PaginatorSequence where Input == DescribeSnapshotsInput, Output == DescribeSnapshotsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeSnapshotsPaginated`
     /// to access the nested member `[MemoryDBClientTypes.Snapshot]`
     /// - Returns: `[MemoryDBClientTypes.Snapshot]`
@@ -332,16 +332,16 @@ extension PaginatorSequence where Input == DescribeSnapshotsInput, Output == Des
     }
 }
 extension MemoryDBClient {
-    /// Paginate over `[DescribeSubnetGroupsOutputResponse]` results.
+    /// Paginate over `[DescribeSubnetGroupsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeSubnetGroupsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeSubnetGroupsOutputResponse`
-    public func describeSubnetGroupsPaginated(input: DescribeSubnetGroupsInput) -> ClientRuntime.PaginatorSequence<DescribeSubnetGroupsInput, DescribeSubnetGroupsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeSubnetGroupsInput, DescribeSubnetGroupsOutputResponse>(input: input, inputKey: \DescribeSubnetGroupsInput.nextToken, outputKey: \DescribeSubnetGroupsOutputResponse.nextToken, paginationFunction: self.describeSubnetGroups(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeSubnetGroupsOutput`
+    public func describeSubnetGroupsPaginated(input: DescribeSubnetGroupsInput) -> ClientRuntime.PaginatorSequence<DescribeSubnetGroupsInput, DescribeSubnetGroupsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeSubnetGroupsInput, DescribeSubnetGroupsOutput>(input: input, inputKey: \DescribeSubnetGroupsInput.nextToken, outputKey: \DescribeSubnetGroupsOutput.nextToken, paginationFunction: self.describeSubnetGroups(input:))
     }
 }
 
@@ -354,7 +354,7 @@ extension DescribeSubnetGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeSubnetGroupsInput, Output == DescribeSubnetGroupsOutputResponse {
+extension PaginatorSequence where Input == DescribeSubnetGroupsInput, Output == DescribeSubnetGroupsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeSubnetGroupsPaginated`
     /// to access the nested member `[MemoryDBClientTypes.SubnetGroup]`
     /// - Returns: `[MemoryDBClientTypes.SubnetGroup]`
@@ -363,16 +363,16 @@ extension PaginatorSequence where Input == DescribeSubnetGroupsInput, Output == 
     }
 }
 extension MemoryDBClient {
-    /// Paginate over `[DescribeUsersOutputResponse]` results.
+    /// Paginate over `[DescribeUsersOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[DescribeUsersInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `DescribeUsersOutputResponse`
-    public func describeUsersPaginated(input: DescribeUsersInput) -> ClientRuntime.PaginatorSequence<DescribeUsersInput, DescribeUsersOutputResponse> {
-        return ClientRuntime.PaginatorSequence<DescribeUsersInput, DescribeUsersOutputResponse>(input: input, inputKey: \DescribeUsersInput.nextToken, outputKey: \DescribeUsersOutputResponse.nextToken, paginationFunction: self.describeUsers(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeUsersOutput`
+    public func describeUsersPaginated(input: DescribeUsersInput) -> ClientRuntime.PaginatorSequence<DescribeUsersInput, DescribeUsersOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeUsersInput, DescribeUsersOutput>(input: input, inputKey: \DescribeUsersInput.nextToken, outputKey: \DescribeUsersOutput.nextToken, paginationFunction: self.describeUsers(input:))
     }
 }
 
@@ -386,7 +386,7 @@ extension DescribeUsersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeUsersInput, Output == DescribeUsersOutputResponse {
+extension PaginatorSequence where Input == DescribeUsersInput, Output == DescribeUsersOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeUsersPaginated`
     /// to access the nested member `[MemoryDBClientTypes.User]`
     /// - Returns: `[MemoryDBClientTypes.User]`

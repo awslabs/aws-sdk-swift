@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension OAMClient {
-    /// Paginate over `[ListAttachedLinksOutputResponse]` results.
+    /// Paginate over `[ListAttachedLinksOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListAttachedLinksInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListAttachedLinksOutputResponse`
-    public func listAttachedLinksPaginated(input: ListAttachedLinksInput) -> ClientRuntime.PaginatorSequence<ListAttachedLinksInput, ListAttachedLinksOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListAttachedLinksInput, ListAttachedLinksOutputResponse>(input: input, inputKey: \ListAttachedLinksInput.nextToken, outputKey: \ListAttachedLinksOutputResponse.nextToken, paginationFunction: self.listAttachedLinks(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAttachedLinksOutput`
+    public func listAttachedLinksPaginated(input: ListAttachedLinksInput) -> ClientRuntime.PaginatorSequence<ListAttachedLinksInput, ListAttachedLinksOutput> {
+        return ClientRuntime.PaginatorSequence<ListAttachedLinksInput, ListAttachedLinksOutput>(input: input, inputKey: \ListAttachedLinksInput.nextToken, outputKey: \ListAttachedLinksOutput.nextToken, paginationFunction: self.listAttachedLinks(input:))
     }
 }
 
@@ -25,7 +25,7 @@ extension ListAttachedLinksInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListAttachedLinksInput, Output == ListAttachedLinksOutputResponse {
+extension PaginatorSequence where Input == ListAttachedLinksInput, Output == ListAttachedLinksOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listAttachedLinksPaginated`
     /// to access the nested member `[OAMClientTypes.ListAttachedLinksItem]`
     /// - Returns: `[OAMClientTypes.ListAttachedLinksItem]`
@@ -34,16 +34,16 @@ extension PaginatorSequence where Input == ListAttachedLinksInput, Output == Lis
     }
 }
 extension OAMClient {
-    /// Paginate over `[ListLinksOutputResponse]` results.
+    /// Paginate over `[ListLinksOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListLinksInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListLinksOutputResponse`
-    public func listLinksPaginated(input: ListLinksInput) -> ClientRuntime.PaginatorSequence<ListLinksInput, ListLinksOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListLinksInput, ListLinksOutputResponse>(input: input, inputKey: \ListLinksInput.nextToken, outputKey: \ListLinksOutputResponse.nextToken, paginationFunction: self.listLinks(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListLinksOutput`
+    public func listLinksPaginated(input: ListLinksInput) -> ClientRuntime.PaginatorSequence<ListLinksInput, ListLinksOutput> {
+        return ClientRuntime.PaginatorSequence<ListLinksInput, ListLinksOutput>(input: input, inputKey: \ListLinksInput.nextToken, outputKey: \ListLinksOutput.nextToken, paginationFunction: self.listLinks(input:))
     }
 }
 
@@ -55,7 +55,7 @@ extension ListLinksInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListLinksInput, Output == ListLinksOutputResponse {
+extension PaginatorSequence where Input == ListLinksInput, Output == ListLinksOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listLinksPaginated`
     /// to access the nested member `[OAMClientTypes.ListLinksItem]`
     /// - Returns: `[OAMClientTypes.ListLinksItem]`
@@ -64,16 +64,16 @@ extension PaginatorSequence where Input == ListLinksInput, Output == ListLinksOu
     }
 }
 extension OAMClient {
-    /// Paginate over `[ListSinksOutputResponse]` results.
+    /// Paginate over `[ListSinksOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListSinksInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListSinksOutputResponse`
-    public func listSinksPaginated(input: ListSinksInput) -> ClientRuntime.PaginatorSequence<ListSinksInput, ListSinksOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListSinksInput, ListSinksOutputResponse>(input: input, inputKey: \ListSinksInput.nextToken, outputKey: \ListSinksOutputResponse.nextToken, paginationFunction: self.listSinks(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListSinksOutput`
+    public func listSinksPaginated(input: ListSinksInput) -> ClientRuntime.PaginatorSequence<ListSinksInput, ListSinksOutput> {
+        return ClientRuntime.PaginatorSequence<ListSinksInput, ListSinksOutput>(input: input, inputKey: \ListSinksInput.nextToken, outputKey: \ListSinksOutput.nextToken, paginationFunction: self.listSinks(input:))
     }
 }
 
@@ -85,7 +85,7 @@ extension ListSinksInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListSinksInput, Output == ListSinksOutputResponse {
+extension PaginatorSequence where Input == ListSinksInput, Output == ListSinksOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listSinksPaginated`
     /// to access the nested member `[OAMClientTypes.ListSinksItem]`
     /// - Returns: `[OAMClientTypes.ListSinksItem]`

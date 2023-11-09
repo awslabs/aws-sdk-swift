@@ -8,7 +8,7 @@ public protocol PcaConnectorAdClientProtocol {
     ///
     /// - Parameter CreateConnectorInput : [no documentation found]
     ///
-    /// - Returns: `CreateConnectorOutputResponse` : [no documentation found]
+    /// - Returns: `CreateConnectorOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -20,12 +20,12 @@ public protocol PcaConnectorAdClientProtocol {
     /// - `ServiceQuotaExceededException` : Request would cause a service quota to be exceeded.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : An input validation error occurred. For example, invalid characters in a template name, or if a pagination token is invalid.
-    func createConnector(input: CreateConnectorInput) async throws -> CreateConnectorOutputResponse
+    func createConnector(input: CreateConnectorInput) async throws -> CreateConnectorOutput
     /// Creates a directory registration that authorizes communication between Amazon Web Services Private CA and an Active Directory
     ///
     /// - Parameter CreateDirectoryRegistrationInput : [no documentation found]
     ///
-    /// - Returns: `CreateDirectoryRegistrationOutputResponse` : [no documentation found]
+    /// - Returns: `CreateDirectoryRegistrationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -36,12 +36,12 @@ public protocol PcaConnectorAdClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access a nonexistent resource. The resource might not be specified correctly, or its status might not be ACTIVE.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : An input validation error occurred. For example, invalid characters in a template name, or if a pagination token is invalid.
-    func createDirectoryRegistration(input: CreateDirectoryRegistrationInput) async throws -> CreateDirectoryRegistrationOutputResponse
+    func createDirectoryRegistration(input: CreateDirectoryRegistrationInput) async throws -> CreateDirectoryRegistrationOutput
     /// Creates a service principal name (SPN) for the service account in Active Directory. Kerberos authentication uses SPNs to associate a service instance with a service sign-in account.
     ///
     /// - Parameter CreateServicePrincipalNameInput : [no documentation found]
     ///
-    /// - Returns: `CreateServicePrincipalNameOutputResponse` : [no documentation found]
+    /// - Returns: `CreateServicePrincipalNameOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -52,12 +52,12 @@ public protocol PcaConnectorAdClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access a nonexistent resource. The resource might not be specified correctly, or its status might not be ACTIVE.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : An input validation error occurred. For example, invalid characters in a template name, or if a pagination token is invalid.
-    func createServicePrincipalName(input: CreateServicePrincipalNameInput) async throws -> CreateServicePrincipalNameOutputResponse
+    func createServicePrincipalName(input: CreateServicePrincipalNameInput) async throws -> CreateServicePrincipalNameOutput
     /// Creates an Active Directory compatible certificate template. The connectors issues certificates using these templates based on the requester’s Active Directory group membership.
     ///
     /// - Parameter CreateTemplateInput : [no documentation found]
     ///
-    /// - Returns: `CreateTemplateOutputResponse` : [no documentation found]
+    /// - Returns: `CreateTemplateOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -69,12 +69,12 @@ public protocol PcaConnectorAdClientProtocol {
     /// - `ServiceQuotaExceededException` : Request would cause a service quota to be exceeded.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : An input validation error occurred. For example, invalid characters in a template name, or if a pagination token is invalid.
-    func createTemplate(input: CreateTemplateInput) async throws -> CreateTemplateOutputResponse
+    func createTemplate(input: CreateTemplateInput) async throws -> CreateTemplateOutput
     /// Create a group access control entry. Allow or deny Active Directory groups from enrolling and/or autoenrolling with the template based on the group security identifiers (SIDs).
     ///
     /// - Parameter CreateTemplateGroupAccessControlEntryInput : [no documentation found]
     ///
-    /// - Returns: `CreateTemplateGroupAccessControlEntryOutputResponse` : [no documentation found]
+    /// - Returns: `CreateTemplateGroupAccessControlEntryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -86,12 +86,12 @@ public protocol PcaConnectorAdClientProtocol {
     /// - `ServiceQuotaExceededException` : Request would cause a service quota to be exceeded.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : An input validation error occurred. For example, invalid characters in a template name, or if a pagination token is invalid.
-    func createTemplateGroupAccessControlEntry(input: CreateTemplateGroupAccessControlEntryInput) async throws -> CreateTemplateGroupAccessControlEntryOutputResponse
+    func createTemplateGroupAccessControlEntry(input: CreateTemplateGroupAccessControlEntryInput) async throws -> CreateTemplateGroupAccessControlEntryOutput
     /// Deletes a connector for Active Directory. You must provide the Amazon Resource Name (ARN) of the connector that you want to delete. You can find the ARN by calling the [https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_ListConnectors](https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_ListConnectors) action. Deleting a connector does not deregister your directory with Amazon Web Services Private CA. You can deregister your directory by calling the [https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_DeleteDirectoryRegistration](https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_DeleteDirectoryRegistration) action.
     ///
     /// - Parameter DeleteConnectorInput : [no documentation found]
     ///
-    /// - Returns: `DeleteConnectorOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteConnectorOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -102,12 +102,12 @@ public protocol PcaConnectorAdClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access a nonexistent resource. The resource might not be specified correctly, or its status might not be ACTIVE.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : An input validation error occurred. For example, invalid characters in a template name, or if a pagination token is invalid.
-    func deleteConnector(input: DeleteConnectorInput) async throws -> DeleteConnectorOutputResponse
+    func deleteConnector(input: DeleteConnectorInput) async throws -> DeleteConnectorOutput
     /// Deletes a directory registration. Deleting a directory registration deauthorizes Amazon Web Services Private CA with the directory.
     ///
     /// - Parameter DeleteDirectoryRegistrationInput : [no documentation found]
     ///
-    /// - Returns: `DeleteDirectoryRegistrationOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteDirectoryRegistrationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -117,12 +117,12 @@ public protocol PcaConnectorAdClientProtocol {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure with an internal server.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : An input validation error occurred. For example, invalid characters in a template name, or if a pagination token is invalid.
-    func deleteDirectoryRegistration(input: DeleteDirectoryRegistrationInput) async throws -> DeleteDirectoryRegistrationOutputResponse
+    func deleteDirectoryRegistration(input: DeleteDirectoryRegistrationInput) async throws -> DeleteDirectoryRegistrationOutput
     /// Deletes the service principal name (SPN) used by a connector to authenticate with your Active Directory.
     ///
     /// - Parameter DeleteServicePrincipalNameInput : [no documentation found]
     ///
-    /// - Returns: `DeleteServicePrincipalNameOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteServicePrincipalNameOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -132,12 +132,12 @@ public protocol PcaConnectorAdClientProtocol {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure with an internal server.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : An input validation error occurred. For example, invalid characters in a template name, or if a pagination token is invalid.
-    func deleteServicePrincipalName(input: DeleteServicePrincipalNameInput) async throws -> DeleteServicePrincipalNameOutputResponse
+    func deleteServicePrincipalName(input: DeleteServicePrincipalNameInput) async throws -> DeleteServicePrincipalNameOutput
     /// Deletes a template. Certificates issued using the template are still valid until they are revoked or expired.
     ///
     /// - Parameter DeleteTemplateInput : [no documentation found]
     ///
-    /// - Returns: `DeleteTemplateOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteTemplateOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -148,12 +148,12 @@ public protocol PcaConnectorAdClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access a nonexistent resource. The resource might not be specified correctly, or its status might not be ACTIVE.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : An input validation error occurred. For example, invalid characters in a template name, or if a pagination token is invalid.
-    func deleteTemplate(input: DeleteTemplateInput) async throws -> DeleteTemplateOutputResponse
+    func deleteTemplate(input: DeleteTemplateInput) async throws -> DeleteTemplateOutput
     /// Deletes a group access control entry.
     ///
     /// - Parameter DeleteTemplateGroupAccessControlEntryInput : [no documentation found]
     ///
-    /// - Returns: `DeleteTemplateGroupAccessControlEntryOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteTemplateGroupAccessControlEntryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -164,12 +164,12 @@ public protocol PcaConnectorAdClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access a nonexistent resource. The resource might not be specified correctly, or its status might not be ACTIVE.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : An input validation error occurred. For example, invalid characters in a template name, or if a pagination token is invalid.
-    func deleteTemplateGroupAccessControlEntry(input: DeleteTemplateGroupAccessControlEntryInput) async throws -> DeleteTemplateGroupAccessControlEntryOutputResponse
+    func deleteTemplateGroupAccessControlEntry(input: DeleteTemplateGroupAccessControlEntryInput) async throws -> DeleteTemplateGroupAccessControlEntryOutput
     /// Lists information about your connector. You specify the connector on input by its ARN (Amazon Resource Name).
     ///
     /// - Parameter GetConnectorInput : [no documentation found]
     ///
-    /// - Returns: `GetConnectorOutputResponse` : [no documentation found]
+    /// - Returns: `GetConnectorOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -179,12 +179,12 @@ public protocol PcaConnectorAdClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access a nonexistent resource. The resource might not be specified correctly, or its status might not be ACTIVE.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : An input validation error occurred. For example, invalid characters in a template name, or if a pagination token is invalid.
-    func getConnector(input: GetConnectorInput) async throws -> GetConnectorOutputResponse
+    func getConnector(input: GetConnectorInput) async throws -> GetConnectorOutput
     /// A structure that contains information about your directory registration.
     ///
     /// - Parameter GetDirectoryRegistrationInput : [no documentation found]
     ///
-    /// - Returns: `GetDirectoryRegistrationOutputResponse` : [no documentation found]
+    /// - Returns: `GetDirectoryRegistrationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -194,12 +194,12 @@ public protocol PcaConnectorAdClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access a nonexistent resource. The resource might not be specified correctly, or its status might not be ACTIVE.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : An input validation error occurred. For example, invalid characters in a template name, or if a pagination token is invalid.
-    func getDirectoryRegistration(input: GetDirectoryRegistrationInput) async throws -> GetDirectoryRegistrationOutputResponse
+    func getDirectoryRegistration(input: GetDirectoryRegistrationInput) async throws -> GetDirectoryRegistrationOutput
     /// Lists the service principal name that the connector uses to authenticate with Active Directory.
     ///
     /// - Parameter GetServicePrincipalNameInput : [no documentation found]
     ///
-    /// - Returns: `GetServicePrincipalNameOutputResponse` : [no documentation found]
+    /// - Returns: `GetServicePrincipalNameOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -209,12 +209,12 @@ public protocol PcaConnectorAdClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access a nonexistent resource. The resource might not be specified correctly, or its status might not be ACTIVE.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : An input validation error occurred. For example, invalid characters in a template name, or if a pagination token is invalid.
-    func getServicePrincipalName(input: GetServicePrincipalNameInput) async throws -> GetServicePrincipalNameOutputResponse
+    func getServicePrincipalName(input: GetServicePrincipalNameInput) async throws -> GetServicePrincipalNameOutput
     /// Retrieves a certificate template that the connector uses to issue certificates from a private CA.
     ///
     /// - Parameter GetTemplateInput : [no documentation found]
     ///
-    /// - Returns: `GetTemplateOutputResponse` : [no documentation found]
+    /// - Returns: `GetTemplateOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -224,12 +224,12 @@ public protocol PcaConnectorAdClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access a nonexistent resource. The resource might not be specified correctly, or its status might not be ACTIVE.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : An input validation error occurred. For example, invalid characters in a template name, or if a pagination token is invalid.
-    func getTemplate(input: GetTemplateInput) async throws -> GetTemplateOutputResponse
+    func getTemplate(input: GetTemplateInput) async throws -> GetTemplateOutput
     /// Retrieves the group access control entries for a template.
     ///
     /// - Parameter GetTemplateGroupAccessControlEntryInput : [no documentation found]
     ///
-    /// - Returns: `GetTemplateGroupAccessControlEntryOutputResponse` : [no documentation found]
+    /// - Returns: `GetTemplateGroupAccessControlEntryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -239,12 +239,12 @@ public protocol PcaConnectorAdClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access a nonexistent resource. The resource might not be specified correctly, or its status might not be ACTIVE.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : An input validation error occurred. For example, invalid characters in a template name, or if a pagination token is invalid.
-    func getTemplateGroupAccessControlEntry(input: GetTemplateGroupAccessControlEntryInput) async throws -> GetTemplateGroupAccessControlEntryOutputResponse
+    func getTemplateGroupAccessControlEntry(input: GetTemplateGroupAccessControlEntryInput) async throws -> GetTemplateGroupAccessControlEntryOutput
     /// Lists the connectors that you created by using the [https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_CreateConnector](https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_CreateConnector) action.
     ///
     /// - Parameter ListConnectorsInput : [no documentation found]
     ///
-    /// - Returns: `ListConnectorsOutputResponse` : [no documentation found]
+    /// - Returns: `ListConnectorsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -253,12 +253,12 @@ public protocol PcaConnectorAdClientProtocol {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure with an internal server.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : An input validation error occurred. For example, invalid characters in a template name, or if a pagination token is invalid.
-    func listConnectors(input: ListConnectorsInput) async throws -> ListConnectorsOutputResponse
+    func listConnectors(input: ListConnectorsInput) async throws -> ListConnectorsOutput
     /// Lists the directory registrations that you created by using the [https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_CreateDirectoryRegistration](https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_CreateDirectoryRegistration) action.
     ///
     /// - Parameter ListDirectoryRegistrationsInput : [no documentation found]
     ///
-    /// - Returns: `ListDirectoryRegistrationsOutputResponse` : [no documentation found]
+    /// - Returns: `ListDirectoryRegistrationsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -267,12 +267,12 @@ public protocol PcaConnectorAdClientProtocol {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure with an internal server.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : An input validation error occurred. For example, invalid characters in a template name, or if a pagination token is invalid.
-    func listDirectoryRegistrations(input: ListDirectoryRegistrationsInput) async throws -> ListDirectoryRegistrationsOutputResponse
+    func listDirectoryRegistrations(input: ListDirectoryRegistrationsInput) async throws -> ListDirectoryRegistrationsOutput
     /// Lists the service principal names that the connector uses to authenticate with Active Directory.
     ///
     /// - Parameter ListServicePrincipalNamesInput : [no documentation found]
     ///
-    /// - Returns: `ListServicePrincipalNamesOutputResponse` : [no documentation found]
+    /// - Returns: `ListServicePrincipalNamesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -282,12 +282,12 @@ public protocol PcaConnectorAdClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access a nonexistent resource. The resource might not be specified correctly, or its status might not be ACTIVE.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : An input validation error occurred. For example, invalid characters in a template name, or if a pagination token is invalid.
-    func listServicePrincipalNames(input: ListServicePrincipalNamesInput) async throws -> ListServicePrincipalNamesOutputResponse
+    func listServicePrincipalNames(input: ListServicePrincipalNamesInput) async throws -> ListServicePrincipalNamesOutput
     /// Lists the tags, if any, that are associated with your resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -297,12 +297,12 @@ public protocol PcaConnectorAdClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access a nonexistent resource. The resource might not be specified correctly, or its status might not be ACTIVE.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : An input validation error occurred. For example, invalid characters in a template name, or if a pagination token is invalid.
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     /// Lists group access control entries you created.
     ///
     /// - Parameter ListTemplateGroupAccessControlEntriesInput : [no documentation found]
     ///
-    /// - Returns: `ListTemplateGroupAccessControlEntriesOutputResponse` : [no documentation found]
+    /// - Returns: `ListTemplateGroupAccessControlEntriesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -312,12 +312,12 @@ public protocol PcaConnectorAdClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access a nonexistent resource. The resource might not be specified correctly, or its status might not be ACTIVE.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : An input validation error occurred. For example, invalid characters in a template name, or if a pagination token is invalid.
-    func listTemplateGroupAccessControlEntries(input: ListTemplateGroupAccessControlEntriesInput) async throws -> ListTemplateGroupAccessControlEntriesOutputResponse
+    func listTemplateGroupAccessControlEntries(input: ListTemplateGroupAccessControlEntriesInput) async throws -> ListTemplateGroupAccessControlEntriesOutput
     /// Lists the templates, if any, that are associated with a connector.
     ///
     /// - Parameter ListTemplatesInput : [no documentation found]
     ///
-    /// - Returns: `ListTemplatesOutputResponse` : [no documentation found]
+    /// - Returns: `ListTemplatesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -327,12 +327,12 @@ public protocol PcaConnectorAdClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access a nonexistent resource. The resource might not be specified correctly, or its status might not be ACTIVE.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : An input validation error occurred. For example, invalid characters in a template name, or if a pagination token is invalid.
-    func listTemplates(input: ListTemplatesInput) async throws -> ListTemplatesOutputResponse
+    func listTemplates(input: ListTemplatesInput) async throws -> ListTemplatesOutput
     /// Adds one or more tags to your resource.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -342,12 +342,12 @@ public protocol PcaConnectorAdClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access a nonexistent resource. The resource might not be specified correctly, or its status might not be ACTIVE.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : An input validation error occurred. For example, invalid characters in a template name, or if a pagination token is invalid.
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     /// Removes one or more tags from your resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -357,12 +357,12 @@ public protocol PcaConnectorAdClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access a nonexistent resource. The resource might not be specified correctly, or its status might not be ACTIVE.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : An input validation error occurred. For example, invalid characters in a template name, or if a pagination token is invalid.
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
     /// Update template configuration to define the information included in certificates.
     ///
     /// - Parameter UpdateTemplateInput : [no documentation found]
     ///
-    /// - Returns: `UpdateTemplateOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateTemplateOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -373,12 +373,12 @@ public protocol PcaConnectorAdClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access a nonexistent resource. The resource might not be specified correctly, or its status might not be ACTIVE.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : An input validation error occurred. For example, invalid characters in a template name, or if a pagination token is invalid.
-    func updateTemplate(input: UpdateTemplateInput) async throws -> UpdateTemplateOutputResponse
+    func updateTemplate(input: UpdateTemplateInput) async throws -> UpdateTemplateOutput
     /// Update a group access control entry you created using [CreateTemplateGroupAccessControlEntry](https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_CreateTemplateGroupAccessControlEntry.html).
     ///
     /// - Parameter UpdateTemplateGroupAccessControlEntryInput : [no documentation found]
     ///
-    /// - Returns: `UpdateTemplateGroupAccessControlEntryOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateTemplateGroupAccessControlEntryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -389,7 +389,7 @@ public protocol PcaConnectorAdClientProtocol {
     /// - `ResourceNotFoundException` : The operation tried to access a nonexistent resource. The resource might not be specified correctly, or its status might not be ACTIVE.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : An input validation error occurred. For example, invalid characters in a template name, or if a pagination token is invalid.
-    func updateTemplateGroupAccessControlEntry(input: UpdateTemplateGroupAccessControlEntryInput) async throws -> UpdateTemplateGroupAccessControlEntryOutputResponse
+    func updateTemplateGroupAccessControlEntry(input: UpdateTemplateGroupAccessControlEntryInput) async throws -> UpdateTemplateGroupAccessControlEntryOutput
 }
 
 public enum PcaConnectorAdClientTypes {}

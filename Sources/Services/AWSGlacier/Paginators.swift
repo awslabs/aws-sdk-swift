@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension GlacierClient {
-    /// Paginate over `[ListJobsOutputResponse]` results.
+    /// Paginate over `[ListJobsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListJobsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListJobsOutputResponse`
-    public func listJobsPaginated(input: ListJobsInput) -> ClientRuntime.PaginatorSequence<ListJobsInput, ListJobsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListJobsInput, ListJobsOutputResponse>(input: input, inputKey: \ListJobsInput.marker, outputKey: \ListJobsOutputResponse.marker, paginationFunction: self.listJobs(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListJobsOutput`
+    public func listJobsPaginated(input: ListJobsInput) -> ClientRuntime.PaginatorSequence<ListJobsInput, ListJobsOutput> {
+        return ClientRuntime.PaginatorSequence<ListJobsInput, ListJobsOutput>(input: input, inputKey: \ListJobsInput.marker, outputKey: \ListJobsOutput.marker, paginationFunction: self.listJobs(input:))
     }
 }
 
@@ -28,7 +28,7 @@ extension ListJobsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListJobsInput, Output == ListJobsOutputResponse {
+extension PaginatorSequence where Input == ListJobsInput, Output == ListJobsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listJobsPaginated`
     /// to access the nested member `[GlacierClientTypes.GlacierJobDescription]`
     /// - Returns: `[GlacierClientTypes.GlacierJobDescription]`
@@ -37,16 +37,16 @@ extension PaginatorSequence where Input == ListJobsInput, Output == ListJobsOutp
     }
 }
 extension GlacierClient {
-    /// Paginate over `[ListMultipartUploadsOutputResponse]` results.
+    /// Paginate over `[ListMultipartUploadsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListMultipartUploadsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListMultipartUploadsOutputResponse`
-    public func listMultipartUploadsPaginated(input: ListMultipartUploadsInput) -> ClientRuntime.PaginatorSequence<ListMultipartUploadsInput, ListMultipartUploadsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListMultipartUploadsInput, ListMultipartUploadsOutputResponse>(input: input, inputKey: \ListMultipartUploadsInput.marker, outputKey: \ListMultipartUploadsOutputResponse.marker, paginationFunction: self.listMultipartUploads(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListMultipartUploadsOutput`
+    public func listMultipartUploadsPaginated(input: ListMultipartUploadsInput) -> ClientRuntime.PaginatorSequence<ListMultipartUploadsInput, ListMultipartUploadsOutput> {
+        return ClientRuntime.PaginatorSequence<ListMultipartUploadsInput, ListMultipartUploadsOutput>(input: input, inputKey: \ListMultipartUploadsInput.marker, outputKey: \ListMultipartUploadsOutput.marker, paginationFunction: self.listMultipartUploads(input:))
     }
 }
 
@@ -60,7 +60,7 @@ extension ListMultipartUploadsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListMultipartUploadsInput, Output == ListMultipartUploadsOutputResponse {
+extension PaginatorSequence where Input == ListMultipartUploadsInput, Output == ListMultipartUploadsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listMultipartUploadsPaginated`
     /// to access the nested member `[GlacierClientTypes.UploadListElement]`
     /// - Returns: `[GlacierClientTypes.UploadListElement]`
@@ -69,16 +69,16 @@ extension PaginatorSequence where Input == ListMultipartUploadsInput, Output == 
     }
 }
 extension GlacierClient {
-    /// Paginate over `[ListPartsOutputResponse]` results.
+    /// Paginate over `[ListPartsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListPartsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListPartsOutputResponse`
-    public func listPartsPaginated(input: ListPartsInput) -> ClientRuntime.PaginatorSequence<ListPartsInput, ListPartsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListPartsInput, ListPartsOutputResponse>(input: input, inputKey: \ListPartsInput.marker, outputKey: \ListPartsOutputResponse.marker, paginationFunction: self.listParts(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListPartsOutput`
+    public func listPartsPaginated(input: ListPartsInput) -> ClientRuntime.PaginatorSequence<ListPartsInput, ListPartsOutput> {
+        return ClientRuntime.PaginatorSequence<ListPartsInput, ListPartsOutput>(input: input, inputKey: \ListPartsInput.marker, outputKey: \ListPartsOutput.marker, paginationFunction: self.listParts(input:))
     }
 }
 
@@ -93,7 +93,7 @@ extension ListPartsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListPartsInput, Output == ListPartsOutputResponse {
+extension PaginatorSequence where Input == ListPartsInput, Output == ListPartsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listPartsPaginated`
     /// to access the nested member `[GlacierClientTypes.PartListElement]`
     /// - Returns: `[GlacierClientTypes.PartListElement]`
@@ -102,16 +102,16 @@ extension PaginatorSequence where Input == ListPartsInput, Output == ListPartsOu
     }
 }
 extension GlacierClient {
-    /// Paginate over `[ListVaultsOutputResponse]` results.
+    /// Paginate over `[ListVaultsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListVaultsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListVaultsOutputResponse`
-    public func listVaultsPaginated(input: ListVaultsInput) -> ClientRuntime.PaginatorSequence<ListVaultsInput, ListVaultsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListVaultsInput, ListVaultsOutputResponse>(input: input, inputKey: \ListVaultsInput.marker, outputKey: \ListVaultsOutputResponse.marker, paginationFunction: self.listVaults(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListVaultsOutput`
+    public func listVaultsPaginated(input: ListVaultsInput) -> ClientRuntime.PaginatorSequence<ListVaultsInput, ListVaultsOutput> {
+        return ClientRuntime.PaginatorSequence<ListVaultsInput, ListVaultsOutput>(input: input, inputKey: \ListVaultsInput.marker, outputKey: \ListVaultsOutput.marker, paginationFunction: self.listVaults(input:))
     }
 }
 
@@ -124,7 +124,7 @@ extension ListVaultsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListVaultsInput, Output == ListVaultsOutputResponse {
+extension PaginatorSequence where Input == ListVaultsInput, Output == ListVaultsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listVaultsPaginated`
     /// to access the nested member `[GlacierClientTypes.DescribeVaultOutput]`
     /// - Returns: `[GlacierClientTypes.DescribeVaultOutput]`

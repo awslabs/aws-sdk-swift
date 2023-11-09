@@ -8,7 +8,7 @@ public protocol InternetMonitorClientProtocol {
     ///
     /// - Parameter CreateMonitorInput : [no documentation found]
     ///
-    /// - Returns: `CreateMonitorOutputResponse` : [no documentation found]
+    /// - Returns: `CreateMonitorOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -19,12 +19,12 @@ public protocol InternetMonitorClientProtocol {
     /// - `LimitExceededException` : The request exceeded a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : Invalid request.
-    func createMonitor(input: CreateMonitorInput) async throws -> CreateMonitorOutputResponse
+    func createMonitor(input: CreateMonitorInput) async throws -> CreateMonitorOutput
     /// Deletes a monitor in Amazon CloudWatch Internet Monitor.
     ///
     /// - Parameter DeleteMonitorInput : [no documentation found]
     ///
-    /// - Returns: `DeleteMonitorOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteMonitorOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -33,12 +33,12 @@ public protocol InternetMonitorClientProtocol {
     /// - `InternalServerException` : An internal error occurred.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : Invalid request.
-    func deleteMonitor(input: DeleteMonitorInput) async throws -> DeleteMonitorOutputResponse
+    func deleteMonitor(input: DeleteMonitorInput) async throws -> DeleteMonitorOutput
     /// Gets information the Amazon CloudWatch Internet Monitor has created and stored about a health event for a specified monitor. This information includes the impacted locations, and all the information related to the event, by location. The information returned includes the impact on performance, availability, and round-trip time, information about the network providers (ASNs), the event type, and so on. Information rolled up at the global traffic level is also returned, including the impact type and total traffic impact.
     ///
     /// - Parameter GetHealthEventInput : [no documentation found]
     ///
-    /// - Returns: `GetHealthEventOutputResponse` : [no documentation found]
+    /// - Returns: `GetHealthEventOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -47,12 +47,12 @@ public protocol InternetMonitorClientProtocol {
     /// - `InternalServerException` : An internal error occurred.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : Invalid request.
-    func getHealthEvent(input: GetHealthEventInput) async throws -> GetHealthEventOutputResponse
+    func getHealthEvent(input: GetHealthEventInput) async throws -> GetHealthEventOutput
     /// Gets information about a monitor in Amazon CloudWatch Internet Monitor based on a monitor name. The information returned includes the Amazon Resource Name (ARN), create time, modified time, resources included in the monitor, and status information.
     ///
     /// - Parameter GetMonitorInput : [no documentation found]
     ///
-    /// - Returns: `GetMonitorOutputResponse` : [no documentation found]
+    /// - Returns: `GetMonitorOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -61,12 +61,12 @@ public protocol InternetMonitorClientProtocol {
     /// - `InternalServerException` : An internal error occurred.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : Invalid request.
-    func getMonitor(input: GetMonitorInput) async throws -> GetMonitorOutputResponse
+    func getMonitor(input: GetMonitorInput) async throws -> GetMonitorOutput
     /// Lists all health events for a monitor in Amazon CloudWatch Internet Monitor. Returns information for health events including the event start and end time and the status. Health events that have start times during the time frame that is requested are not included in the list of health events.
     ///
     /// - Parameter ListHealthEventsInput : [no documentation found]
     ///
-    /// - Returns: `ListHealthEventsOutputResponse` : [no documentation found]
+    /// - Returns: `ListHealthEventsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -75,12 +75,12 @@ public protocol InternetMonitorClientProtocol {
     /// - `InternalServerException` : An internal error occurred.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : Invalid request.
-    func listHealthEvents(input: ListHealthEventsInput) async throws -> ListHealthEventsOutputResponse
+    func listHealthEvents(input: ListHealthEventsInput) async throws -> ListHealthEventsOutput
     /// Lists all of your monitors for Amazon CloudWatch Internet Monitor and their statuses, along with the Amazon Resource Name (ARN) and name of each monitor.
     ///
     /// - Parameter ListMonitorsInput : [no documentation found]
     ///
-    /// - Returns: `ListMonitorsOutputResponse` : [no documentation found]
+    /// - Returns: `ListMonitorsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -89,12 +89,12 @@ public protocol InternetMonitorClientProtocol {
     /// - `InternalServerException` : An internal error occurred.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : Invalid request.
-    func listMonitors(input: ListMonitorsInput) async throws -> ListMonitorsOutputResponse
+    func listMonitors(input: ListMonitorsInput) async throws -> ListMonitorsOutput
     /// Lists the tags for a resource. Tags are supported only for monitors in Amazon CloudWatch Internet Monitor.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -104,12 +104,12 @@ public protocol InternetMonitorClientProtocol {
     /// - `InternalServerErrorException` : There was an internal server error.
     /// - `NotFoundException` : The request specifies something that doesn't exist.
     /// - `TooManyRequestsException` : There were too many requests.
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     /// Adds a tag to a resource. Tags are supported only for monitors in Amazon CloudWatch Internet Monitor. You can add a maximum of 50 tags in Internet Monitor. A minimum of one tag is required for this call. It returns an error if you use the TagResource request with 0 tags.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -119,12 +119,12 @@ public protocol InternetMonitorClientProtocol {
     /// - `InternalServerErrorException` : There was an internal server error.
     /// - `NotFoundException` : The request specifies something that doesn't exist.
     /// - `TooManyRequestsException` : There were too many requests.
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     /// Removes a tag from a resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -134,12 +134,12 @@ public protocol InternetMonitorClientProtocol {
     /// - `InternalServerErrorException` : There was an internal server error.
     /// - `NotFoundException` : The request specifies something that doesn't exist.
     /// - `TooManyRequestsException` : There were too many requests.
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
     /// Updates a monitor. You can update a monitor to change the percentage of traffic to monitor or the maximum number of city-networks (locations and ASNs), to add or remove resources, or to change the status of the monitor. Note that you can't change the name of a monitor. The city-network maximum that you choose is the limit, but you only pay for the number of city-networks that are actually monitored. For more information, see [Choosing a city-network maximum value](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/IMCityNetworksMaximum.html) in the Amazon CloudWatch User Guide.
     ///
     /// - Parameter UpdateMonitorInput : [no documentation found]
     ///
-    /// - Returns: `UpdateMonitorOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateMonitorOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -150,7 +150,7 @@ public protocol InternetMonitorClientProtocol {
     /// - `ResourceNotFoundException` : The request specifies a resource that doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : Invalid request.
-    func updateMonitor(input: UpdateMonitorInput) async throws -> UpdateMonitorOutputResponse
+    func updateMonitor(input: UpdateMonitorInput) async throws -> UpdateMonitorOutput
 }
 
 public enum InternetMonitorClientTypes {}

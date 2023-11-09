@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension CustomerProfilesClient {
-    /// Paginate over `[ListEventStreamsOutputResponse]` results.
+    /// Paginate over `[ListEventStreamsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListEventStreamsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListEventStreamsOutputResponse`
-    public func listEventStreamsPaginated(input: ListEventStreamsInput) -> ClientRuntime.PaginatorSequence<ListEventStreamsInput, ListEventStreamsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListEventStreamsInput, ListEventStreamsOutputResponse>(input: input, inputKey: \ListEventStreamsInput.nextToken, outputKey: \ListEventStreamsOutputResponse.nextToken, paginationFunction: self.listEventStreams(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListEventStreamsOutput`
+    public func listEventStreamsPaginated(input: ListEventStreamsInput) -> ClientRuntime.PaginatorSequence<ListEventStreamsInput, ListEventStreamsOutput> {
+        return ClientRuntime.PaginatorSequence<ListEventStreamsInput, ListEventStreamsOutput>(input: input, inputKey: \ListEventStreamsInput.nextToken, outputKey: \ListEventStreamsOutput.nextToken, paginationFunction: self.listEventStreams(input:))
     }
 }
 
@@ -25,7 +25,7 @@ extension ListEventStreamsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListEventStreamsInput, Output == ListEventStreamsOutputResponse {
+extension PaginatorSequence where Input == ListEventStreamsInput, Output == ListEventStreamsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listEventStreamsPaginated`
     /// to access the nested member `[CustomerProfilesClientTypes.EventStreamSummary]`
     /// - Returns: `[CustomerProfilesClientTypes.EventStreamSummary]`

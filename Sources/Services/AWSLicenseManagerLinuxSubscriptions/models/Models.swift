@@ -89,24 +89,11 @@ extension GetServiceSettingsInputBody: Swift.Decodable {
     }
 }
 
-enum GetServiceSettingsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetServiceSettingsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetServiceSettingsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetServiceSettingsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetServiceSettingsOutputBody = try responseDecoder.decode(responseBody: data)
             self.homeRegions = output.homeRegions
             self.linuxSubscriptionsDiscovery = output.linuxSubscriptionsDiscovery
             self.linuxSubscriptionsDiscoverySettings = output.linuxSubscriptionsDiscoverySettings
@@ -122,7 +109,7 @@ extension GetServiceSettingsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetServiceSettingsOutputResponse: Swift.Equatable {
+public struct GetServiceSettingsOutput: Swift.Equatable {
     /// The Region in which License Manager displays the aggregated data for Linux subscriptions.
     public var homeRegions: [Swift.String]?
     /// Lists if discovery has been enabled for Linux subscriptions.
@@ -150,7 +137,7 @@ public struct GetServiceSettingsOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetServiceSettingsOutputResponseBody: Swift.Equatable {
+struct GetServiceSettingsOutputBody: Swift.Equatable {
     let linuxSubscriptionsDiscovery: LicenseManagerLinuxSubscriptionsClientTypes.LinuxSubscriptionsDiscovery?
     let linuxSubscriptionsDiscoverySettings: LicenseManagerLinuxSubscriptionsClientTypes.LinuxSubscriptionsDiscoverySettings?
     let status: LicenseManagerLinuxSubscriptionsClientTypes.Status?
@@ -158,7 +145,7 @@ struct GetServiceSettingsOutputResponseBody: Swift.Equatable {
     let homeRegions: [Swift.String]?
 }
 
-extension GetServiceSettingsOutputResponseBody: Swift.Decodable {
+extension GetServiceSettingsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case homeRegions = "HomeRegions"
         case linuxSubscriptionsDiscovery = "LinuxSubscriptionsDiscovery"
@@ -197,6 +184,19 @@ extension GetServiceSettingsOutputResponseBody: Swift.Decodable {
             }
         }
         homeRegions = homeRegionsDecoded0
+    }
+}
+
+enum GetServiceSettingsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -594,24 +594,11 @@ extension ListLinuxSubscriptionInstancesInputBody: Swift.Decodable {
     }
 }
 
-enum ListLinuxSubscriptionInstancesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListLinuxSubscriptionInstancesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListLinuxSubscriptionInstancesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListLinuxSubscriptionInstancesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListLinuxSubscriptionInstancesOutputBody = try responseDecoder.decode(responseBody: data)
             self.instances = output.instances
             self.nextToken = output.nextToken
         } else {
@@ -621,7 +608,7 @@ extension ListLinuxSubscriptionInstancesOutputResponse: ClientRuntime.HttpRespon
     }
 }
 
-public struct ListLinuxSubscriptionInstancesOutputResponse: Swift.Equatable {
+public struct ListLinuxSubscriptionInstancesOutput: Swift.Equatable {
     /// An array that contains instance objects.
     public var instances: [LicenseManagerLinuxSubscriptionsClientTypes.Instance]?
     /// Token for the next set of results.
@@ -637,12 +624,12 @@ public struct ListLinuxSubscriptionInstancesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListLinuxSubscriptionInstancesOutputResponseBody: Swift.Equatable {
+struct ListLinuxSubscriptionInstancesOutputBody: Swift.Equatable {
     let instances: [LicenseManagerLinuxSubscriptionsClientTypes.Instance]?
     let nextToken: Swift.String?
 }
 
-extension ListLinuxSubscriptionInstancesOutputResponseBody: Swift.Decodable {
+extension ListLinuxSubscriptionInstancesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case instances = "Instances"
         case nextToken = "NextToken"
@@ -663,6 +650,19 @@ extension ListLinuxSubscriptionInstancesOutputResponseBody: Swift.Decodable {
         instances = instancesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListLinuxSubscriptionInstancesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -761,24 +761,11 @@ extension ListLinuxSubscriptionsInputBody: Swift.Decodable {
     }
 }
 
-enum ListLinuxSubscriptionsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListLinuxSubscriptionsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListLinuxSubscriptionsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListLinuxSubscriptionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListLinuxSubscriptionsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.subscriptions = output.subscriptions
         } else {
@@ -788,7 +775,7 @@ extension ListLinuxSubscriptionsOutputResponse: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct ListLinuxSubscriptionsOutputResponse: Swift.Equatable {
+public struct ListLinuxSubscriptionsOutput: Swift.Equatable {
     /// Token for the next set of results.
     public var nextToken: Swift.String?
     /// An array that contains subscription objects.
@@ -804,12 +791,12 @@ public struct ListLinuxSubscriptionsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListLinuxSubscriptionsOutputResponseBody: Swift.Equatable {
+struct ListLinuxSubscriptionsOutputBody: Swift.Equatable {
     let subscriptions: [LicenseManagerLinuxSubscriptionsClientTypes.Subscription]?
     let nextToken: Swift.String?
 }
 
-extension ListLinuxSubscriptionsOutputResponseBody: Swift.Decodable {
+extension ListLinuxSubscriptionsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case subscriptions = "Subscriptions"
@@ -830,6 +817,19 @@ extension ListLinuxSubscriptionsOutputResponseBody: Swift.Decodable {
         subscriptions = subscriptionsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListLinuxSubscriptionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1130,24 +1130,11 @@ extension UpdateServiceSettingsInputBody: Swift.Decodable {
     }
 }
 
-enum UpdateServiceSettingsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension UpdateServiceSettingsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension UpdateServiceSettingsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: UpdateServiceSettingsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: UpdateServiceSettingsOutputBody = try responseDecoder.decode(responseBody: data)
             self.homeRegions = output.homeRegions
             self.linuxSubscriptionsDiscovery = output.linuxSubscriptionsDiscovery
             self.linuxSubscriptionsDiscoverySettings = output.linuxSubscriptionsDiscoverySettings
@@ -1163,7 +1150,7 @@ extension UpdateServiceSettingsOutputResponse: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct UpdateServiceSettingsOutputResponse: Swift.Equatable {
+public struct UpdateServiceSettingsOutput: Swift.Equatable {
     /// The Region in which License Manager displays the aggregated data for Linux subscriptions.
     public var homeRegions: [Swift.String]?
     /// Lists if discovery has been enabled for Linux subscriptions.
@@ -1191,7 +1178,7 @@ public struct UpdateServiceSettingsOutputResponse: Swift.Equatable {
     }
 }
 
-struct UpdateServiceSettingsOutputResponseBody: Swift.Equatable {
+struct UpdateServiceSettingsOutputBody: Swift.Equatable {
     let linuxSubscriptionsDiscovery: LicenseManagerLinuxSubscriptionsClientTypes.LinuxSubscriptionsDiscovery?
     let linuxSubscriptionsDiscoverySettings: LicenseManagerLinuxSubscriptionsClientTypes.LinuxSubscriptionsDiscoverySettings?
     let status: LicenseManagerLinuxSubscriptionsClientTypes.Status?
@@ -1199,7 +1186,7 @@ struct UpdateServiceSettingsOutputResponseBody: Swift.Equatable {
     let homeRegions: [Swift.String]?
 }
 
-extension UpdateServiceSettingsOutputResponseBody: Swift.Decodable {
+extension UpdateServiceSettingsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case homeRegions = "HomeRegions"
         case linuxSubscriptionsDiscovery = "LinuxSubscriptionsDiscovery"
@@ -1238,6 +1225,19 @@ extension UpdateServiceSettingsOutputResponseBody: Swift.Decodable {
             }
         }
         homeRegions = homeRegionsDecoded0
+    }
+}
+
+enum UpdateServiceSettingsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 

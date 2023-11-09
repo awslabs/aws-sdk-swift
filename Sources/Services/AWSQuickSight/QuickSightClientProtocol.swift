@@ -8,7 +8,7 @@ public protocol QuickSightClientProtocol {
     ///
     /// - Parameter CancelIngestionInput : [no documentation found]
     ///
-    /// - Returns: `CancelIngestionOutputResponse` : [no documentation found]
+    /// - Returns: `CancelIngestionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -19,12 +19,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceExistsException` : The resource specified already exists.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    func cancelIngestion(input: CancelIngestionInput) async throws -> CancelIngestionOutputResponse
+    func cancelIngestion(input: CancelIngestionInput) async throws -> CancelIngestionOutput
     /// Creates Amazon QuickSight customizations for the current Amazon Web Services Region. Currently, you can add a custom default theme by using the CreateAccountCustomization or UpdateAccountCustomization API operation. To further customize Amazon QuickSight by removing Amazon QuickSight sample assets and videos for all new users, see [Customizing Amazon QuickSight](https://docs.aws.amazon.com/quicksight/latest/user/customizing-quicksight.html) in the Amazon QuickSight User Guide. You can create customizations for your Amazon Web Services account or, if you specify a namespace, for a QuickSight namespace instead. Customizations that apply to a namespace always override customizations that apply to an Amazon Web Services account. To find out which customizations apply, use the DescribeAccountCustomization API operation. Before you use the CreateAccountCustomization API operation to add a theme as the namespace default, make sure that you first share the theme with the namespace. If you don't share it with the namespace, the theme isn't visible to your users even if you make it the default theme. To check if the theme is shared, view the current permissions by using the [DescribeThemePermissions](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_DescribeThemePermissions.html) API operation. To share the theme, grant permissions by using the [UpdateThemePermissions](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_UpdateThemePermissions.html) API operation.
     ///
     /// - Parameter CreateAccountCustomizationInput : [no documentation found]
     ///
-    /// - Returns: `CreateAccountCustomizationOutputResponse` : [no documentation found]
+    /// - Returns: `CreateAccountCustomizationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -37,12 +37,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ResourceUnavailableException` : This resource is currently unavailable.
     /// - `ThrottlingException` : Access is throttled.
-    func createAccountCustomization(input: CreateAccountCustomizationInput) async throws -> CreateAccountCustomizationOutputResponse
+    func createAccountCustomization(input: CreateAccountCustomizationInput) async throws -> CreateAccountCustomizationOutput
     /// Creates an Amazon QuickSight account, or subscribes to Amazon QuickSight Q. The Amazon Web Services Region for the account is derived from what is configured in the CLI or SDK. This operation isn't supported in the US East (Ohio) Region, South America (Sao Paulo) Region, or Asia Pacific (Singapore) Region. Before you use this operation, make sure that you can connect to an existing Amazon Web Services account. If you don't have an Amazon Web Services account, see [Sign up for Amazon Web Services](https://docs.aws.amazon.com/quicksight/latest/user/setting-up-aws-sign-up.html) in the Amazon QuickSight User Guide. The person who signs up for Amazon QuickSight needs to have the correct Identity and Access Management (IAM) permissions. For more information, see [IAM Policy Examples for Amazon QuickSight](https://docs.aws.amazon.com/quicksight/latest/user/iam-policy-examples.html) in the Amazon QuickSight User Guide. If your IAM policy includes both the Subscribe and CreateAccountSubscription actions, make sure that both actions are set to Allow. If either action is set to Deny, the Deny action prevails and your API call fails. You can't pass an existing IAM role to access other Amazon Web Services services using this API operation. To pass your existing IAM role to Amazon QuickSight, see [Passing IAM roles to Amazon QuickSight](https://docs.aws.amazon.com/quicksight/latest/user/security_iam_service-with-iam.html#security-create-iam-role) in the Amazon QuickSight User Guide. You can't set default resource access on the new account from the Amazon QuickSight API. Instead, add default resource access from the Amazon QuickSight console. For more information about setting default resource access to Amazon Web Services services, see [Setting default resource access to Amazon Web Services services](https://docs.aws.amazon.com/quicksight/latest/user/scoping-policies-defaults.html) in the Amazon QuickSight User Guide.
     ///
     /// - Parameter CreateAccountSubscriptionInput : [no documentation found]
     ///
-    /// - Returns: `CreateAccountSubscriptionOutputResponse` : [no documentation found]
+    /// - Returns: `CreateAccountSubscriptionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -56,12 +56,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ResourceUnavailableException` : This resource is currently unavailable.
     /// - `ThrottlingException` : Access is throttled.
-    func createAccountSubscription(input: CreateAccountSubscriptionInput) async throws -> CreateAccountSubscriptionOutputResponse
+    func createAccountSubscription(input: CreateAccountSubscriptionInput) async throws -> CreateAccountSubscriptionOutput
     /// Creates an analysis in Amazon QuickSight. Analyses can be created either from a template or from an AnalysisDefinition.
     ///
     /// - Parameter CreateAnalysisInput : [no documentation found]
     ///
-    /// - Returns: `CreateAnalysisOutputResponse` : [no documentation found]
+    /// - Returns: `CreateAnalysisOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -74,12 +74,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    func createAnalysis(input: CreateAnalysisInput) async throws -> CreateAnalysisOutputResponse
+    func createAnalysis(input: CreateAnalysisInput) async throws -> CreateAnalysisOutput
     /// Creates a dashboard from either a template or directly with a DashboardDefinition. To first create a template, see the [CreateTemplate](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_CreateTemplate.html) API operation. A dashboard is an entity in Amazon QuickSight that identifies Amazon QuickSight reports, created from analyses. You can share Amazon QuickSight dashboards. With the right permissions, you can create scheduled email reports from them. If you have the correct permissions, you can create a dashboard from a template that exists in a different Amazon Web Services account.
     ///
     /// - Parameter CreateDashboardInput : [no documentation found]
     ///
-    /// - Returns: `CreateDashboardOutputResponse` : [no documentation found]
+    /// - Returns: `CreateDashboardOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -92,12 +92,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    func createDashboard(input: CreateDashboardInput) async throws -> CreateDashboardOutputResponse
+    func createDashboard(input: CreateDashboardInput) async throws -> CreateDashboardOutput
     /// Creates a dataset. This operation doesn't support datasets that include uploaded files as a source.
     ///
     /// - Parameter CreateDataSetInput : [no documentation found]
     ///
-    /// - Returns: `CreateDataSetOutputResponse` : [no documentation found]
+    /// - Returns: `CreateDataSetOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -111,12 +111,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    func createDataSet(input: CreateDataSetInput) async throws -> CreateDataSetOutputResponse
+    func createDataSet(input: CreateDataSetInput) async throws -> CreateDataSetOutput
     /// Creates a data source.
     ///
     /// - Parameter CreateDataSourceInput : [no documentation found]
     ///
-    /// - Returns: `CreateDataSourceOutputResponse` : [no documentation found]
+    /// - Returns: `CreateDataSourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -129,12 +129,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceExistsException` : The resource specified already exists.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    func createDataSource(input: CreateDataSourceInput) async throws -> CreateDataSourceOutputResponse
+    func createDataSource(input: CreateDataSourceInput) async throws -> CreateDataSourceOutput
     /// Creates an empty shared folder.
     ///
     /// - Parameter CreateFolderInput : [no documentation found]
     ///
-    /// - Returns: `CreateFolderOutputResponse` : [no documentation found]
+    /// - Returns: `CreateFolderOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -148,12 +148,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    func createFolder(input: CreateFolderInput) async throws -> CreateFolderOutputResponse
+    func createFolder(input: CreateFolderInput) async throws -> CreateFolderOutput
     /// Adds an asset, such as a dashboard, analysis, or dataset into a folder.
     ///
     /// - Parameter CreateFolderMembershipInput : [no documentation found]
     ///
-    /// - Returns: `CreateFolderMembershipOutputResponse` : [no documentation found]
+    /// - Returns: `CreateFolderMembershipOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -166,12 +166,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    func createFolderMembership(input: CreateFolderMembershipInput) async throws -> CreateFolderMembershipOutputResponse
+    func createFolderMembership(input: CreateFolderMembershipInput) async throws -> CreateFolderMembershipOutput
     /// Use the CreateGroup operation to create a group in Amazon QuickSight. You can create up to 10,000 groups in a namespace. If you want to create more than 10,000 groups in a namespace, contact AWS Support. The permissions resource is arn:aws:quicksight:::group/default/ . The response is a group object.
     ///
     /// - Parameter CreateGroupInput : The request object for this operation.
     ///
-    /// - Returns: `CreateGroupOutputResponse` : The response object for this operation.
+    /// - Returns: `CreateGroupOutput` : The response object for this operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -185,12 +185,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ResourceUnavailableException` : This resource is currently unavailable.
     /// - `ThrottlingException` : Access is throttled.
-    func createGroup(input: CreateGroupInput) async throws -> CreateGroupOutputResponse
+    func createGroup(input: CreateGroupInput) async throws -> CreateGroupOutput
     /// Adds an Amazon QuickSight user to an Amazon QuickSight group.
     ///
     /// - Parameter CreateGroupMembershipInput : [no documentation found]
     ///
-    /// - Returns: `CreateGroupMembershipOutputResponse` : [no documentation found]
+    /// - Returns: `CreateGroupMembershipOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -202,12 +202,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ResourceUnavailableException` : This resource is currently unavailable.
     /// - `ThrottlingException` : Access is throttled.
-    func createGroupMembership(input: CreateGroupMembershipInput) async throws -> CreateGroupMembershipOutputResponse
+    func createGroupMembership(input: CreateGroupMembershipInput) async throws -> CreateGroupMembershipOutput
     /// Creates an assignment with one specified IAM policy, identified by its Amazon Resource Name (ARN). This policy assignment is attached to the specified groups or users of Amazon QuickSight. Assignment names are unique per Amazon Web Services account. To avoid overwriting rules in other namespaces, use assignment names that are unique.
     ///
     /// - Parameter CreateIAMPolicyAssignmentInput : [no documentation found]
     ///
-    /// - Returns: `CreateIAMPolicyAssignmentOutputResponse` : [no documentation found]
+    /// - Returns: `CreateIAMPolicyAssignmentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -219,12 +219,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceExistsException` : The resource specified already exists.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    func createIAMPolicyAssignment(input: CreateIAMPolicyAssignmentInput) async throws -> CreateIAMPolicyAssignmentOutputResponse
+    func createIAMPolicyAssignment(input: CreateIAMPolicyAssignmentInput) async throws -> CreateIAMPolicyAssignmentOutput
     /// Creates and starts a new SPICE ingestion for a dataset. You can manually refresh datasets in an Enterprise edition account 32 times in a 24-hour period. You can manually refresh datasets in a Standard edition account 8 times in a 24-hour period. Each 24-hour period is measured starting 24 hours before the current date and time. Any ingestions operating on tagged datasets inherit the same tags automatically for use in access control. For an example, see [How do I create an IAM policy to control access to Amazon EC2 resources using tags?](http://aws.amazon.com/premiumsupport/knowledge-center/iam-ec2-resource-tags/) in the Amazon Web Services Knowledge Center. Tags are visible on the tagged dataset, but not on the ingestion resource.
     ///
     /// - Parameter CreateIngestionInput : [no documentation found]
     ///
-    /// - Returns: `CreateIngestionOutputResponse` : [no documentation found]
+    /// - Returns: `CreateIngestionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -236,12 +236,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceExistsException` : The resource specified already exists.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    func createIngestion(input: CreateIngestionInput) async throws -> CreateIngestionOutputResponse
+    func createIngestion(input: CreateIngestionInput) async throws -> CreateIngestionOutput
     /// (Enterprise edition only) Creates a new namespace for you to use with Amazon QuickSight. A namespace allows you to isolate the Amazon QuickSight users and groups that are registered for that namespace. Users that access the namespace can share assets only with other users or groups in the same namespace. They can't see users and groups in other namespaces. You can create a namespace after your Amazon Web Services account is subscribed to Amazon QuickSight. The namespace must be unique within the Amazon Web Services account. By default, there is a limit of 100 namespaces per Amazon Web Services account. To increase your limit, create a ticket with Amazon Web Services Support.
     ///
     /// - Parameter CreateNamespaceInput : [no documentation found]
     ///
-    /// - Returns: `CreateNamespaceOutputResponse` : [no documentation found]
+    /// - Returns: `CreateNamespaceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -256,12 +256,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ResourceUnavailableException` : This resource is currently unavailable.
     /// - `ThrottlingException` : Access is throttled.
-    func createNamespace(input: CreateNamespaceInput) async throws -> CreateNamespaceOutputResponse
+    func createNamespace(input: CreateNamespaceInput) async throws -> CreateNamespaceOutput
     /// Creates a refresh schedule for a dataset. You can create up to 5 different schedules for a single dataset.
     ///
     /// - Parameter CreateRefreshScheduleInput : [no documentation found]
     ///
-    /// - Returns: `CreateRefreshScheduleOutputResponse` : [no documentation found]
+    /// - Returns: `CreateRefreshScheduleOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -274,12 +274,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceExistsException` : The resource specified already exists.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    func createRefreshSchedule(input: CreateRefreshScheduleInput) async throws -> CreateRefreshScheduleOutputResponse
+    func createRefreshSchedule(input: CreateRefreshScheduleInput) async throws -> CreateRefreshScheduleOutput
     /// Creates a template either from a TemplateDefinition or from an existing Amazon QuickSight analysis or template. You can use the resulting template to create additional dashboards, templates, or analyses. A template is an entity in Amazon QuickSight that encapsulates the metadata required to create an analysis and that you can use to create s dashboard. A template adds a layer of abstraction by using placeholders to replace the dataset associated with the analysis. You can use templates to create dashboards by replacing dataset placeholders with datasets that follow the same schema that was used to create the source analysis and template.
     ///
     /// - Parameter CreateTemplateInput : [no documentation found]
     ///
-    /// - Returns: `CreateTemplateOutputResponse` : [no documentation found]
+    /// - Returns: `CreateTemplateOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -293,12 +293,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    func createTemplate(input: CreateTemplateInput) async throws -> CreateTemplateOutputResponse
+    func createTemplate(input: CreateTemplateInput) async throws -> CreateTemplateOutput
     /// Creates a template alias for a template.
     ///
     /// - Parameter CreateTemplateAliasInput : [no documentation found]
     ///
-    /// - Returns: `CreateTemplateAliasOutputResponse` : [no documentation found]
+    /// - Returns: `CreateTemplateAliasOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -310,12 +310,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    func createTemplateAlias(input: CreateTemplateAliasInput) async throws -> CreateTemplateAliasOutputResponse
+    func createTemplateAlias(input: CreateTemplateAliasInput) async throws -> CreateTemplateAliasOutput
     /// Creates a theme. A theme is set of configuration options for color and layout. Themes apply to analyses and dashboards. For more information, see [Using Themes in Amazon QuickSight](https://docs.aws.amazon.com/quicksight/latest/user/themes-in-quicksight.html) in the Amazon QuickSight User Guide.
     ///
     /// - Parameter CreateThemeInput : [no documentation found]
     ///
-    /// - Returns: `CreateThemeOutputResponse` : [no documentation found]
+    /// - Returns: `CreateThemeOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -328,12 +328,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    func createTheme(input: CreateThemeInput) async throws -> CreateThemeOutputResponse
+    func createTheme(input: CreateThemeInput) async throws -> CreateThemeOutput
     /// Creates a theme alias for a theme.
     ///
     /// - Parameter CreateThemeAliasInput : [no documentation found]
     ///
-    /// - Returns: `CreateThemeAliasOutputResponse` : [no documentation found]
+    /// - Returns: `CreateThemeAliasOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -346,12 +346,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    func createThemeAlias(input: CreateThemeAliasInput) async throws -> CreateThemeAliasOutputResponse
+    func createThemeAlias(input: CreateThemeAliasInput) async throws -> CreateThemeAliasOutput
     /// Creates a new Q topic.
     ///
     /// - Parameter CreateTopicInput : [no documentation found]
     ///
-    /// - Returns: `CreateTopicOutputResponse` : [no documentation found]
+    /// - Returns: `CreateTopicOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -364,12 +364,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceExistsException` : The resource specified already exists.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    func createTopic(input: CreateTopicInput) async throws -> CreateTopicOutputResponse
+    func createTopic(input: CreateTopicInput) async throws -> CreateTopicOutput
     /// Creates a topic refresh schedule.
     ///
     /// - Parameter CreateTopicRefreshScheduleInput : [no documentation found]
     ///
-    /// - Returns: `CreateTopicRefreshScheduleOutputResponse` : [no documentation found]
+    /// - Returns: `CreateTopicRefreshScheduleOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -382,12 +382,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceExistsException` : The resource specified already exists.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    func createTopicRefreshSchedule(input: CreateTopicRefreshScheduleInput) async throws -> CreateTopicRefreshScheduleOutputResponse
+    func createTopicRefreshSchedule(input: CreateTopicRefreshScheduleInput) async throws -> CreateTopicRefreshScheduleOutput
     /// Creates a new VPC connection.
     ///
     /// - Parameter CreateVPCConnectionInput : [no documentation found]
     ///
-    /// - Returns: `CreateVPCConnectionOutputResponse` : [no documentation found]
+    /// - Returns: `CreateVPCConnectionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -400,12 +400,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceExistsException` : The resource specified already exists.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    func createVPCConnection(input: CreateVPCConnectionInput) async throws -> CreateVPCConnectionOutputResponse
+    func createVPCConnection(input: CreateVPCConnectionInput) async throws -> CreateVPCConnectionOutput
     /// Deletes all Amazon QuickSight customizations in this Amazon Web Services Region for the specified Amazon Web Services account and Amazon QuickSight namespace.
     ///
     /// - Parameter DeleteAccountCustomizationInput : [no documentation found]
     ///
-    /// - Returns: `DeleteAccountCustomizationOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteAccountCustomizationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -419,12 +419,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ResourceUnavailableException` : This resource is currently unavailable.
     /// - `ThrottlingException` : Access is throttled.
-    func deleteAccountCustomization(input: DeleteAccountCustomizationInput) async throws -> DeleteAccountCustomizationOutputResponse
+    func deleteAccountCustomization(input: DeleteAccountCustomizationInput) async throws -> DeleteAccountCustomizationOutput
     /// Use the DeleteAccountSubscription operation to delete an Amazon QuickSight account. This operation will result in an error message if you have configured your account termination protection settings to True. To change this setting and delete your account, call the UpdateAccountSettings API and set the value of the TerminationProtectionEnabled parameter to False, then make another call to the DeleteAccountSubscription API.
     ///
     /// - Parameter DeleteAccountSubscriptionInput : [no documentation found]
     ///
-    /// - Returns: `DeleteAccountSubscriptionOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteAccountSubscriptionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -436,12 +436,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ResourceUnavailableException` : This resource is currently unavailable.
     /// - `ThrottlingException` : Access is throttled.
-    func deleteAccountSubscription(input: DeleteAccountSubscriptionInput) async throws -> DeleteAccountSubscriptionOutputResponse
+    func deleteAccountSubscription(input: DeleteAccountSubscriptionInput) async throws -> DeleteAccountSubscriptionOutput
     /// Deletes an analysis from Amazon QuickSight. You can optionally include a recovery window during which you can restore the analysis. If you don't specify a recovery window value, the operation defaults to 30 days. Amazon QuickSight attaches a DeletionTime stamp to the response that specifies the end of the recovery window. At the end of the recovery window, Amazon QuickSight deletes the analysis permanently. At any time before recovery window ends, you can use the RestoreAnalysis API operation to remove the DeletionTime stamp and cancel the deletion of the analysis. The analysis remains visible in the API until it's deleted, so you can describe it but you can't make a template from it. An analysis that's scheduled for deletion isn't accessible in the Amazon QuickSight console. To access it in the console, restore it. Deleting an analysis doesn't delete the dashboards that you publish from it.
     ///
     /// - Parameter DeleteAnalysisInput : [no documentation found]
     ///
-    /// - Returns: `DeleteAnalysisOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteAnalysisOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -452,12 +452,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    func deleteAnalysis(input: DeleteAnalysisInput) async throws -> DeleteAnalysisOutputResponse
+    func deleteAnalysis(input: DeleteAnalysisInput) async throws -> DeleteAnalysisOutput
     /// Deletes a dashboard.
     ///
     /// - Parameter DeleteDashboardInput : [no documentation found]
     ///
-    /// - Returns: `DeleteDashboardOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteDashboardOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -468,12 +468,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    func deleteDashboard(input: DeleteDashboardInput) async throws -> DeleteDashboardOutputResponse
+    func deleteDashboard(input: DeleteDashboardInput) async throws -> DeleteDashboardOutput
     /// Deletes a dataset.
     ///
     /// - Parameter DeleteDataSetInput : [no documentation found]
     ///
-    /// - Returns: `DeleteDataSetOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteDataSetOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -483,12 +483,12 @@ public protocol QuickSightClientProtocol {
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    func deleteDataSet(input: DeleteDataSetInput) async throws -> DeleteDataSetOutputResponse
+    func deleteDataSet(input: DeleteDataSetInput) async throws -> DeleteDataSetOutput
     /// Deletes the dataset refresh properties of the dataset.
     ///
     /// - Parameter DeleteDataSetRefreshPropertiesInput : [no documentation found]
     ///
-    /// - Returns: `DeleteDataSetRefreshPropertiesOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteDataSetRefreshPropertiesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -500,12 +500,12 @@ public protocol QuickSightClientProtocol {
     /// - `LimitExceededException` : A limit is exceeded.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    func deleteDataSetRefreshProperties(input: DeleteDataSetRefreshPropertiesInput) async throws -> DeleteDataSetRefreshPropertiesOutputResponse
+    func deleteDataSetRefreshProperties(input: DeleteDataSetRefreshPropertiesInput) async throws -> DeleteDataSetRefreshPropertiesOutput
     /// Deletes the data source permanently. This operation breaks all the datasets that reference the deleted data source.
     ///
     /// - Parameter DeleteDataSourceInput : [no documentation found]
     ///
-    /// - Returns: `DeleteDataSourceOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteDataSourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -515,12 +515,12 @@ public protocol QuickSightClientProtocol {
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    func deleteDataSource(input: DeleteDataSourceInput) async throws -> DeleteDataSourceOutputResponse
+    func deleteDataSource(input: DeleteDataSourceInput) async throws -> DeleteDataSourceOutput
     /// Deletes an empty folder.
     ///
     /// - Parameter DeleteFolderInput : [no documentation found]
     ///
-    /// - Returns: `DeleteFolderOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteFolderOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -533,12 +533,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    func deleteFolder(input: DeleteFolderInput) async throws -> DeleteFolderOutputResponse
+    func deleteFolder(input: DeleteFolderInput) async throws -> DeleteFolderOutput
     /// Removes an asset, such as a dashboard, analysis, or dataset, from a folder.
     ///
     /// - Parameter DeleteFolderMembershipInput : [no documentation found]
     ///
-    /// - Returns: `DeleteFolderMembershipOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteFolderMembershipOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -549,12 +549,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    func deleteFolderMembership(input: DeleteFolderMembershipInput) async throws -> DeleteFolderMembershipOutputResponse
+    func deleteFolderMembership(input: DeleteFolderMembershipInput) async throws -> DeleteFolderMembershipOutput
     /// Removes a user group from Amazon QuickSight.
     ///
     /// - Parameter DeleteGroupInput : [no documentation found]
     ///
-    /// - Returns: `DeleteGroupOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -566,12 +566,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ResourceUnavailableException` : This resource is currently unavailable.
     /// - `ThrottlingException` : Access is throttled.
-    func deleteGroup(input: DeleteGroupInput) async throws -> DeleteGroupOutputResponse
+    func deleteGroup(input: DeleteGroupInput) async throws -> DeleteGroupOutput
     /// Removes a user from a group so that the user is no longer a member of the group.
     ///
     /// - Parameter DeleteGroupMembershipInput : [no documentation found]
     ///
-    /// - Returns: `DeleteGroupMembershipOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteGroupMembershipOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -583,12 +583,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ResourceUnavailableException` : This resource is currently unavailable.
     /// - `ThrottlingException` : Access is throttled.
-    func deleteGroupMembership(input: DeleteGroupMembershipInput) async throws -> DeleteGroupMembershipOutputResponse
+    func deleteGroupMembership(input: DeleteGroupMembershipInput) async throws -> DeleteGroupMembershipOutput
     /// Deletes an existing IAM policy assignment.
     ///
     /// - Parameter DeleteIAMPolicyAssignmentInput : [no documentation found]
     ///
-    /// - Returns: `DeleteIAMPolicyAssignmentOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteIAMPolicyAssignmentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -600,12 +600,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceExistsException` : The resource specified already exists.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    func deleteIAMPolicyAssignment(input: DeleteIAMPolicyAssignmentInput) async throws -> DeleteIAMPolicyAssignmentOutputResponse
+    func deleteIAMPolicyAssignment(input: DeleteIAMPolicyAssignmentInput) async throws -> DeleteIAMPolicyAssignmentOutput
     /// Deletes a namespace and the users and groups that are associated with the namespace. This is an asynchronous process. Assets including dashboards, analyses, datasets and data sources are not deleted. To delete these assets, you use the API operations for the relevant asset.
     ///
     /// - Parameter DeleteNamespaceInput : [no documentation found]
     ///
-    /// - Returns: `DeleteNamespaceOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteNamespaceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -617,12 +617,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ResourceUnavailableException` : This resource is currently unavailable.
     /// - `ThrottlingException` : Access is throttled.
-    func deleteNamespace(input: DeleteNamespaceInput) async throws -> DeleteNamespaceOutputResponse
+    func deleteNamespace(input: DeleteNamespaceInput) async throws -> DeleteNamespaceOutput
     /// Deletes a refresh schedule from a dataset.
     ///
     /// - Parameter DeleteRefreshScheduleInput : [no documentation found]
     ///
-    /// - Returns: `DeleteRefreshScheduleOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteRefreshScheduleOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -633,12 +633,12 @@ public protocol QuickSightClientProtocol {
     /// - `LimitExceededException` : A limit is exceeded.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    func deleteRefreshSchedule(input: DeleteRefreshScheduleInput) async throws -> DeleteRefreshScheduleOutputResponse
+    func deleteRefreshSchedule(input: DeleteRefreshScheduleInput) async throws -> DeleteRefreshScheduleOutput
     /// Deletes a template.
     ///
     /// - Parameter DeleteTemplateInput : [no documentation found]
     ///
-    /// - Returns: `DeleteTemplateOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteTemplateOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -650,12 +650,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    func deleteTemplate(input: DeleteTemplateInput) async throws -> DeleteTemplateOutputResponse
+    func deleteTemplate(input: DeleteTemplateInput) async throws -> DeleteTemplateOutput
     /// Deletes the item that the specified template alias points to. If you provide a specific alias, you delete the version of the template that the alias points to.
     ///
     /// - Parameter DeleteTemplateAliasInput : [no documentation found]
     ///
-    /// - Returns: `DeleteTemplateAliasOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteTemplateAliasOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -665,12 +665,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    func deleteTemplateAlias(input: DeleteTemplateAliasInput) async throws -> DeleteTemplateAliasOutputResponse
+    func deleteTemplateAlias(input: DeleteTemplateAliasInput) async throws -> DeleteTemplateAliasOutput
     /// Deletes a theme.
     ///
     /// - Parameter DeleteThemeInput : [no documentation found]
     ///
-    /// - Returns: `DeleteThemeOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteThemeOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -682,12 +682,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    func deleteTheme(input: DeleteThemeInput) async throws -> DeleteThemeOutputResponse
+    func deleteTheme(input: DeleteThemeInput) async throws -> DeleteThemeOutput
     /// Deletes the version of the theme that the specified theme alias points to. If you provide a specific alias, you delete the version of the theme that the alias points to.
     ///
     /// - Parameter DeleteThemeAliasInput : [no documentation found]
     ///
-    /// - Returns: `DeleteThemeAliasOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteThemeAliasOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -698,12 +698,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    func deleteThemeAlias(input: DeleteThemeAliasInput) async throws -> DeleteThemeAliasOutputResponse
+    func deleteThemeAlias(input: DeleteThemeAliasInput) async throws -> DeleteThemeAliasOutput
     /// Deletes a topic.
     ///
     /// - Parameter DeleteTopicInput : [no documentation found]
     ///
-    /// - Returns: `DeleteTopicOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteTopicOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -714,12 +714,12 @@ public protocol QuickSightClientProtocol {
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    func deleteTopic(input: DeleteTopicInput) async throws -> DeleteTopicOutputResponse
+    func deleteTopic(input: DeleteTopicInput) async throws -> DeleteTopicOutput
     /// Deletes a topic refresh schedule.
     ///
     /// - Parameter DeleteTopicRefreshScheduleInput : [no documentation found]
     ///
-    /// - Returns: `DeleteTopicRefreshScheduleOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteTopicRefreshScheduleOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -732,12 +732,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceExistsException` : The resource specified already exists.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    func deleteTopicRefreshSchedule(input: DeleteTopicRefreshScheduleInput) async throws -> DeleteTopicRefreshScheduleOutputResponse
+    func deleteTopicRefreshSchedule(input: DeleteTopicRefreshScheduleInput) async throws -> DeleteTopicRefreshScheduleOutput
     /// Deletes the Amazon QuickSight user that is associated with the identity of the IAM user or role that's making the call. The IAM user isn't deleted as a result of this call.
     ///
     /// - Parameter DeleteUserInput : [no documentation found]
     ///
-    /// - Returns: `DeleteUserOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteUserOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -749,12 +749,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ResourceUnavailableException` : This resource is currently unavailable.
     /// - `ThrottlingException` : Access is throttled.
-    func deleteUser(input: DeleteUserInput) async throws -> DeleteUserOutputResponse
+    func deleteUser(input: DeleteUserInput) async throws -> DeleteUserOutput
     /// Deletes a user identified by its principal ID.
     ///
     /// - Parameter DeleteUserByPrincipalIdInput :
     ///
-    /// - Returns: `DeleteUserByPrincipalIdOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteUserByPrincipalIdOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -766,12 +766,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ResourceUnavailableException` : This resource is currently unavailable.
     /// - `ThrottlingException` : Access is throttled.
-    func deleteUserByPrincipalId(input: DeleteUserByPrincipalIdInput) async throws -> DeleteUserByPrincipalIdOutputResponse
+    func deleteUserByPrincipalId(input: DeleteUserByPrincipalIdInput) async throws -> DeleteUserByPrincipalIdOutput
     /// Deletes a VPC connection.
     ///
     /// - Parameter DeleteVPCConnectionInput : [no documentation found]
     ///
-    /// - Returns: `DeleteVPCConnectionOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteVPCConnectionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -783,7 +783,7 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    func deleteVPCConnection(input: DeleteVPCConnectionInput) async throws -> DeleteVPCConnectionOutputResponse
+    func deleteVPCConnection(input: DeleteVPCConnectionInput) async throws -> DeleteVPCConnectionOutput
     /// Describes the customizations associated with the provided Amazon Web Services account and Amazon Amazon QuickSight namespace in an Amazon Web Services Region. The Amazon QuickSight console evaluates which customizations to apply by running this API operation with the Resolved flag included. To determine what customizations display when you run this command, it can help to visualize the relationship of the entities involved.
     ///
     /// * Amazon Web Services account - The Amazon Web Services account exists at the top of the hierarchy. It has the potential to use all of the Amazon Web Services Regions and Amazon Web Services Services. When you subscribe to Amazon QuickSight, you choose one Amazon Web Services Region to use as your home Region. That's where your free SPICE capacity is located. You can use Amazon QuickSight in any supported Amazon Web Services Region.
@@ -805,7 +805,7 @@ public protocol QuickSightClientProtocol {
     ///
     /// - Parameter DescribeAccountCustomizationInput : [no documentation found]
     ///
-    /// - Returns: `DescribeAccountCustomizationOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeAccountCustomizationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -816,12 +816,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ResourceUnavailableException` : This resource is currently unavailable.
     /// - `ThrottlingException` : Access is throttled.
-    func describeAccountCustomization(input: DescribeAccountCustomizationInput) async throws -> DescribeAccountCustomizationOutputResponse
+    func describeAccountCustomization(input: DescribeAccountCustomizationInput) async throws -> DescribeAccountCustomizationOutput
     /// Describes the settings that were used when your Amazon QuickSight subscription was first created in this Amazon Web Services account.
     ///
     /// - Parameter DescribeAccountSettingsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeAccountSettingsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeAccountSettingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -832,12 +832,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ResourceUnavailableException` : This resource is currently unavailable.
     /// - `ThrottlingException` : Access is throttled.
-    func describeAccountSettings(input: DescribeAccountSettingsInput) async throws -> DescribeAccountSettingsOutputResponse
+    func describeAccountSettings(input: DescribeAccountSettingsInput) async throws -> DescribeAccountSettingsOutput
     /// Use the DescribeAccountSubscription operation to receive a description of an Amazon QuickSight account's subscription. A successful API call returns an AccountInfo object that includes an account's name, subscription status, authentication type, edition, and notification email address.
     ///
     /// - Parameter DescribeAccountSubscriptionInput : [no documentation found]
     ///
-    /// - Returns: `DescribeAccountSubscriptionOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeAccountSubscriptionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -848,12 +848,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ResourceUnavailableException` : This resource is currently unavailable.
     /// - `ThrottlingException` : Access is throttled.
-    func describeAccountSubscription(input: DescribeAccountSubscriptionInput) async throws -> DescribeAccountSubscriptionOutputResponse
+    func describeAccountSubscription(input: DescribeAccountSubscriptionInput) async throws -> DescribeAccountSubscriptionOutput
     /// Provides a summary of the metadata for an analysis.
     ///
     /// - Parameter DescribeAnalysisInput : [no documentation found]
     ///
-    /// - Returns: `DescribeAnalysisOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeAnalysisOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -864,12 +864,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    func describeAnalysis(input: DescribeAnalysisInput) async throws -> DescribeAnalysisOutputResponse
+    func describeAnalysis(input: DescribeAnalysisInput) async throws -> DescribeAnalysisOutput
     /// Provides a detailed description of the definition of an analysis. If you do not need to know details about the content of an Analysis, for instance if you are trying to check the status of a recently created or updated Analysis, use the [DescribeAnalysis](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_DescribeAnalysis.html) instead.
     ///
     /// - Parameter DescribeAnalysisDefinitionInput : [no documentation found]
     ///
-    /// - Returns: `DescribeAnalysisDefinitionOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeAnalysisDefinitionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -882,12 +882,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    func describeAnalysisDefinition(input: DescribeAnalysisDefinitionInput) async throws -> DescribeAnalysisDefinitionOutputResponse
+    func describeAnalysisDefinition(input: DescribeAnalysisDefinitionInput) async throws -> DescribeAnalysisDefinitionOutput
     /// Provides the read and write permissions for an analysis.
     ///
     /// - Parameter DescribeAnalysisPermissionsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeAnalysisPermissionsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeAnalysisPermissionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -897,12 +897,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    func describeAnalysisPermissions(input: DescribeAnalysisPermissionsInput) async throws -> DescribeAnalysisPermissionsOutputResponse
+    func describeAnalysisPermissions(input: DescribeAnalysisPermissionsInput) async throws -> DescribeAnalysisPermissionsOutput
     /// Describes an existing export job. Poll job descriptions after a job starts to know the status of the job. When a job succeeds, a URL is provided to download the exported assets' data from. Download URLs are valid for five minutes after they are generated. You can call the DescribeAssetBundleExportJob API for a new download URL as needed. Job descriptions are available for 14 days after the job starts.
     ///
     /// - Parameter DescribeAssetBundleExportJobInput : [no documentation found]
     ///
-    /// - Returns: `DescribeAssetBundleExportJobOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeAssetBundleExportJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -910,12 +910,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    func describeAssetBundleExportJob(input: DescribeAssetBundleExportJobInput) async throws -> DescribeAssetBundleExportJobOutputResponse
+    func describeAssetBundleExportJob(input: DescribeAssetBundleExportJobInput) async throws -> DescribeAssetBundleExportJobOutput
     /// Describes an existing import job. Poll job descriptions after starting a job to know when it has succeeded or failed. Job descriptions are available for 14 days after job starts.
     ///
     /// - Parameter DescribeAssetBundleImportJobInput : [no documentation found]
     ///
-    /// - Returns: `DescribeAssetBundleImportJobOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeAssetBundleImportJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -923,12 +923,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    func describeAssetBundleImportJob(input: DescribeAssetBundleImportJobInput) async throws -> DescribeAssetBundleImportJobOutputResponse
+    func describeAssetBundleImportJob(input: DescribeAssetBundleImportJobInput) async throws -> DescribeAssetBundleImportJobOutput
     /// Provides a summary for a dashboard.
     ///
     /// - Parameter DescribeDashboardInput : [no documentation found]
     ///
-    /// - Returns: `DescribeDashboardOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeDashboardOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -939,12 +939,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    func describeDashboard(input: DescribeDashboardInput) async throws -> DescribeDashboardOutputResponse
+    func describeDashboard(input: DescribeDashboardInput) async throws -> DescribeDashboardOutput
     /// Provides a detailed description of the definition of a dashboard. If you do not need to know details about the content of a dashboard, for instance if you are trying to check the status of a recently created or updated dashboard, use the [DescribeDashboard](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_DescribeDashboard.html) instead.
     ///
     /// - Parameter DescribeDashboardDefinitionInput : [no documentation found]
     ///
-    /// - Returns: `DescribeDashboardDefinitionOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeDashboardDefinitionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -957,12 +957,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    func describeDashboardDefinition(input: DescribeDashboardDefinitionInput) async throws -> DescribeDashboardDefinitionOutputResponse
+    func describeDashboardDefinition(input: DescribeDashboardDefinitionInput) async throws -> DescribeDashboardDefinitionOutput
     /// Describes read and write permissions for a dashboard.
     ///
     /// - Parameter DescribeDashboardPermissionsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeDashboardPermissionsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeDashboardPermissionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -972,12 +972,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    func describeDashboardPermissions(input: DescribeDashboardPermissionsInput) async throws -> DescribeDashboardPermissionsOutputResponse
+    func describeDashboardPermissions(input: DescribeDashboardPermissionsInput) async throws -> DescribeDashboardPermissionsOutput
     /// Describes an existing snapshot job. Poll job descriptions after a job starts to know the status of the job. For information on available status codes, see JobStatus.
     ///
     /// - Parameter DescribeDashboardSnapshotJobInput : [no documentation found]
     ///
-    /// - Returns: `DescribeDashboardSnapshotJobOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeDashboardSnapshotJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -987,12 +987,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    func describeDashboardSnapshotJob(input: DescribeDashboardSnapshotJobInput) async throws -> DescribeDashboardSnapshotJobOutputResponse
+    func describeDashboardSnapshotJob(input: DescribeDashboardSnapshotJobInput) async throws -> DescribeDashboardSnapshotJobOutput
     /// Describes the result of an existing snapshot job that has finished running. A finished snapshot job will return a COMPLETED or FAILED status when you poll the job with a DescribeDashboardSnapshotJob API call. If the job has not finished running, this operation returns a message that says Dashboard Snapshot Job with id has not reached a terminal state..
     ///
     /// - Parameter DescribeDashboardSnapshotJobResultInput : [no documentation found]
     ///
-    /// - Returns: `DescribeDashboardSnapshotJobResultOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeDashboardSnapshotJobResultOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1004,12 +1004,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    func describeDashboardSnapshotJobResult(input: DescribeDashboardSnapshotJobResultInput) async throws -> DescribeDashboardSnapshotJobResultOutputResponse
+    func describeDashboardSnapshotJobResult(input: DescribeDashboardSnapshotJobResultInput) async throws -> DescribeDashboardSnapshotJobResultOutput
     /// Describes a dataset. This operation doesn't support datasets that include uploaded files as a source.
     ///
     /// - Parameter DescribeDataSetInput : [no documentation found]
     ///
-    /// - Returns: `DescribeDataSetOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeDataSetOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1019,12 +1019,12 @@ public protocol QuickSightClientProtocol {
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    func describeDataSet(input: DescribeDataSetInput) async throws -> DescribeDataSetOutputResponse
+    func describeDataSet(input: DescribeDataSetInput) async throws -> DescribeDataSetOutput
     /// Describes the permissions on a dataset. The permissions resource is arn:aws:quicksight:region:aws-account-id:dataset/data-set-id.
     ///
     /// - Parameter DescribeDataSetPermissionsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeDataSetPermissionsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeDataSetPermissionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1034,12 +1034,12 @@ public protocol QuickSightClientProtocol {
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    func describeDataSetPermissions(input: DescribeDataSetPermissionsInput) async throws -> DescribeDataSetPermissionsOutputResponse
+    func describeDataSetPermissions(input: DescribeDataSetPermissionsInput) async throws -> DescribeDataSetPermissionsOutput
     /// Describes the refresh properties of a dataset.
     ///
     /// - Parameter DescribeDataSetRefreshPropertiesInput : [no documentation found]
     ///
-    /// - Returns: `DescribeDataSetRefreshPropertiesOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeDataSetRefreshPropertiesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1051,12 +1051,12 @@ public protocol QuickSightClientProtocol {
     /// - `PreconditionNotMetException` : One or more preconditions aren't met.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    func describeDataSetRefreshProperties(input: DescribeDataSetRefreshPropertiesInput) async throws -> DescribeDataSetRefreshPropertiesOutputResponse
+    func describeDataSetRefreshProperties(input: DescribeDataSetRefreshPropertiesInput) async throws -> DescribeDataSetRefreshPropertiesOutput
     /// Describes a data source.
     ///
     /// - Parameter DescribeDataSourceInput : [no documentation found]
     ///
-    /// - Returns: `DescribeDataSourceOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeDataSourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1066,12 +1066,12 @@ public protocol QuickSightClientProtocol {
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    func describeDataSource(input: DescribeDataSourceInput) async throws -> DescribeDataSourceOutputResponse
+    func describeDataSource(input: DescribeDataSourceInput) async throws -> DescribeDataSourceOutput
     /// Describes the resource permissions for a data source.
     ///
     /// - Parameter DescribeDataSourcePermissionsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeDataSourcePermissionsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeDataSourcePermissionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1081,12 +1081,12 @@ public protocol QuickSightClientProtocol {
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    func describeDataSourcePermissions(input: DescribeDataSourcePermissionsInput) async throws -> DescribeDataSourcePermissionsOutputResponse
+    func describeDataSourcePermissions(input: DescribeDataSourcePermissionsInput) async throws -> DescribeDataSourcePermissionsOutput
     /// Describes a folder.
     ///
     /// - Parameter DescribeFolderInput : [no documentation found]
     ///
-    /// - Returns: `DescribeFolderOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeFolderOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1097,12 +1097,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    func describeFolder(input: DescribeFolderInput) async throws -> DescribeFolderOutputResponse
+    func describeFolder(input: DescribeFolderInput) async throws -> DescribeFolderOutput
     /// Describes permissions for a folder.
     ///
     /// - Parameter DescribeFolderPermissionsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeFolderPermissionsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeFolderPermissionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1114,12 +1114,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    func describeFolderPermissions(input: DescribeFolderPermissionsInput) async throws -> DescribeFolderPermissionsOutputResponse
+    func describeFolderPermissions(input: DescribeFolderPermissionsInput) async throws -> DescribeFolderPermissionsOutput
     /// Describes the folder resolved permissions. Permissions consists of both folder direct permissions and the inherited permissions from the ancestor folders.
     ///
     /// - Parameter DescribeFolderResolvedPermissionsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeFolderResolvedPermissionsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeFolderResolvedPermissionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1131,12 +1131,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    func describeFolderResolvedPermissions(input: DescribeFolderResolvedPermissionsInput) async throws -> DescribeFolderResolvedPermissionsOutputResponse
+    func describeFolderResolvedPermissions(input: DescribeFolderResolvedPermissionsInput) async throws -> DescribeFolderResolvedPermissionsOutput
     /// Returns an Amazon QuickSight group's description and Amazon Resource Name (ARN).
     ///
     /// - Parameter DescribeGroupInput : [no documentation found]
     ///
-    /// - Returns: `DescribeGroupOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1148,12 +1148,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ResourceUnavailableException` : This resource is currently unavailable.
     /// - `ThrottlingException` : Access is throttled.
-    func describeGroup(input: DescribeGroupInput) async throws -> DescribeGroupOutputResponse
+    func describeGroup(input: DescribeGroupInput) async throws -> DescribeGroupOutput
     /// Use the DescribeGroupMembership operation to determine if a user is a member of the specified group. If the user exists and is a member of the specified group, an associated GroupMember object is returned.
     ///
     /// - Parameter DescribeGroupMembershipInput : [no documentation found]
     ///
-    /// - Returns: `DescribeGroupMembershipOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeGroupMembershipOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1165,12 +1165,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ResourceUnavailableException` : This resource is currently unavailable.
     /// - `ThrottlingException` : Access is throttled.
-    func describeGroupMembership(input: DescribeGroupMembershipInput) async throws -> DescribeGroupMembershipOutputResponse
+    func describeGroupMembership(input: DescribeGroupMembershipInput) async throws -> DescribeGroupMembershipOutput
     /// Describes an existing IAM policy assignment, as specified by the assignment name.
     ///
     /// - Parameter DescribeIAMPolicyAssignmentInput : [no documentation found]
     ///
-    /// - Returns: `DescribeIAMPolicyAssignmentOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeIAMPolicyAssignmentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1181,12 +1181,12 @@ public protocol QuickSightClientProtocol {
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    func describeIAMPolicyAssignment(input: DescribeIAMPolicyAssignmentInput) async throws -> DescribeIAMPolicyAssignmentOutputResponse
+    func describeIAMPolicyAssignment(input: DescribeIAMPolicyAssignmentInput) async throws -> DescribeIAMPolicyAssignmentOutput
     /// Describes a SPICE ingestion.
     ///
     /// - Parameter DescribeIngestionInput : [no documentation found]
     ///
-    /// - Returns: `DescribeIngestionOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeIngestionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1197,12 +1197,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceExistsException` : The resource specified already exists.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    func describeIngestion(input: DescribeIngestionInput) async throws -> DescribeIngestionOutputResponse
+    func describeIngestion(input: DescribeIngestionInput) async throws -> DescribeIngestionOutput
     /// Provides a summary and status of IP rules.
     ///
     /// - Parameter DescribeIpRestrictionInput : [no documentation found]
     ///
-    /// - Returns: `DescribeIpRestrictionOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeIpRestrictionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1212,12 +1212,12 @@ public protocol QuickSightClientProtocol {
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    func describeIpRestriction(input: DescribeIpRestrictionInput) async throws -> DescribeIpRestrictionOutputResponse
+    func describeIpRestriction(input: DescribeIpRestrictionInput) async throws -> DescribeIpRestrictionOutput
     /// Describes the current namespace.
     ///
     /// - Parameter DescribeNamespaceInput : [no documentation found]
     ///
-    /// - Returns: `DescribeNamespaceOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeNamespaceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1228,12 +1228,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ResourceUnavailableException` : This resource is currently unavailable.
     /// - `ThrottlingException` : Access is throttled.
-    func describeNamespace(input: DescribeNamespaceInput) async throws -> DescribeNamespaceOutputResponse
+    func describeNamespace(input: DescribeNamespaceInput) async throws -> DescribeNamespaceOutput
     /// Provides a summary of a refresh schedule.
     ///
     /// - Parameter DescribeRefreshScheduleInput : [no documentation found]
     ///
-    /// - Returns: `DescribeRefreshScheduleOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeRefreshScheduleOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1244,12 +1244,12 @@ public protocol QuickSightClientProtocol {
     /// - `LimitExceededException` : A limit is exceeded.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    func describeRefreshSchedule(input: DescribeRefreshScheduleInput) async throws -> DescribeRefreshScheduleOutputResponse
+    func describeRefreshSchedule(input: DescribeRefreshScheduleInput) async throws -> DescribeRefreshScheduleOutput
     /// Describes a template's metadata.
     ///
     /// - Parameter DescribeTemplateInput : [no documentation found]
     ///
-    /// - Returns: `DescribeTemplateOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeTemplateOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1262,12 +1262,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    func describeTemplate(input: DescribeTemplateInput) async throws -> DescribeTemplateOutputResponse
+    func describeTemplate(input: DescribeTemplateInput) async throws -> DescribeTemplateOutput
     /// Describes the template alias for a template.
     ///
     /// - Parameter DescribeTemplateAliasInput : [no documentation found]
     ///
-    /// - Returns: `DescribeTemplateAliasOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeTemplateAliasOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1276,12 +1276,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    func describeTemplateAlias(input: DescribeTemplateAliasInput) async throws -> DescribeTemplateAliasOutputResponse
+    func describeTemplateAlias(input: DescribeTemplateAliasInput) async throws -> DescribeTemplateAliasOutput
     /// Provides a detailed description of the definition of a template. If you do not need to know details about the content of a template, for instance if you are trying to check the status of a recently created or updated template, use the [DescribeTemplate](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_DescribeTemplate.html) instead.
     ///
     /// - Parameter DescribeTemplateDefinitionInput : [no documentation found]
     ///
-    /// - Returns: `DescribeTemplateDefinitionOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeTemplateDefinitionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1294,12 +1294,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    func describeTemplateDefinition(input: DescribeTemplateDefinitionInput) async throws -> DescribeTemplateDefinitionOutputResponse
+    func describeTemplateDefinition(input: DescribeTemplateDefinitionInput) async throws -> DescribeTemplateDefinitionOutput
     /// Describes read and write permissions on a template.
     ///
     /// - Parameter DescribeTemplatePermissionsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeTemplatePermissionsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeTemplatePermissionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1310,12 +1310,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    func describeTemplatePermissions(input: DescribeTemplatePermissionsInput) async throws -> DescribeTemplatePermissionsOutputResponse
+    func describeTemplatePermissions(input: DescribeTemplatePermissionsInput) async throws -> DescribeTemplatePermissionsOutput
     /// Describes a theme.
     ///
     /// - Parameter DescribeThemeInput : [no documentation found]
     ///
-    /// - Returns: `DescribeThemeOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeThemeOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1327,12 +1327,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    func describeTheme(input: DescribeThemeInput) async throws -> DescribeThemeOutputResponse
+    func describeTheme(input: DescribeThemeInput) async throws -> DescribeThemeOutput
     /// Describes the alias for a theme.
     ///
     /// - Parameter DescribeThemeAliasInput : [no documentation found]
     ///
-    /// - Returns: `DescribeThemeAliasOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeThemeAliasOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1343,12 +1343,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    func describeThemeAlias(input: DescribeThemeAliasInput) async throws -> DescribeThemeAliasOutputResponse
+    func describeThemeAlias(input: DescribeThemeAliasInput) async throws -> DescribeThemeAliasOutput
     /// Describes the read and write permissions for a theme.
     ///
     /// - Parameter DescribeThemePermissionsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeThemePermissionsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeThemePermissionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1359,12 +1359,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    func describeThemePermissions(input: DescribeThemePermissionsInput) async throws -> DescribeThemePermissionsOutputResponse
+    func describeThemePermissions(input: DescribeThemePermissionsInput) async throws -> DescribeThemePermissionsOutput
     /// Describes a topic.
     ///
     /// - Parameter DescribeTopicInput : [no documentation found]
     ///
-    /// - Returns: `DescribeTopicOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeTopicOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1374,12 +1374,12 @@ public protocol QuickSightClientProtocol {
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    func describeTopic(input: DescribeTopicInput) async throws -> DescribeTopicOutputResponse
+    func describeTopic(input: DescribeTopicInput) async throws -> DescribeTopicOutput
     /// Describes the permissions of a topic.
     ///
     /// - Parameter DescribeTopicPermissionsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeTopicPermissionsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeTopicPermissionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1389,12 +1389,12 @@ public protocol QuickSightClientProtocol {
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    func describeTopicPermissions(input: DescribeTopicPermissionsInput) async throws -> DescribeTopicPermissionsOutputResponse
+    func describeTopicPermissions(input: DescribeTopicPermissionsInput) async throws -> DescribeTopicPermissionsOutput
     /// Describes the status of a topic refresh.
     ///
     /// - Parameter DescribeTopicRefreshInput : [no documentation found]
     ///
-    /// - Returns: `DescribeTopicRefreshOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeTopicRefreshOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1404,12 +1404,12 @@ public protocol QuickSightClientProtocol {
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    func describeTopicRefresh(input: DescribeTopicRefreshInput) async throws -> DescribeTopicRefreshOutputResponse
+    func describeTopicRefresh(input: DescribeTopicRefreshInput) async throws -> DescribeTopicRefreshOutput
     /// Deletes a topic refresh schedule.
     ///
     /// - Parameter DescribeTopicRefreshScheduleInput : [no documentation found]
     ///
-    /// - Returns: `DescribeTopicRefreshScheduleOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeTopicRefreshScheduleOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1422,12 +1422,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceExistsException` : The resource specified already exists.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    func describeTopicRefreshSchedule(input: DescribeTopicRefreshScheduleInput) async throws -> DescribeTopicRefreshScheduleOutputResponse
+    func describeTopicRefreshSchedule(input: DescribeTopicRefreshScheduleInput) async throws -> DescribeTopicRefreshScheduleOutput
     /// Returns information about a user, given the user name.
     ///
     /// - Parameter DescribeUserInput : [no documentation found]
     ///
-    /// - Returns: `DescribeUserOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeUserOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1439,12 +1439,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ResourceUnavailableException` : This resource is currently unavailable.
     /// - `ThrottlingException` : Access is throttled.
-    func describeUser(input: DescribeUserInput) async throws -> DescribeUserOutputResponse
+    func describeUser(input: DescribeUserInput) async throws -> DescribeUserOutput
     /// Describes a VPC connection.
     ///
     /// - Parameter DescribeVPCConnectionInput : [no documentation found]
     ///
-    /// - Returns: `DescribeVPCConnectionOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeVPCConnectionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1455,7 +1455,7 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    func describeVPCConnection(input: DescribeVPCConnectionInput) async throws -> DescribeVPCConnectionOutputResponse
+    func describeVPCConnection(input: DescribeVPCConnectionInput) async throws -> DescribeVPCConnectionOutput
     /// Generates an embed URL that you can use to embed an Amazon QuickSight dashboard or visual in your website, without having to register any reader users. Before you use this action, make sure that you have configured the dashboards and permissions. The following rules apply to the generated URL:
     ///
     /// * It contains a temporary bearer token. It is valid for 5 minutes after it is generated. Once redeemed within this period, it cannot be re-used again.
@@ -1469,7 +1469,7 @@ public protocol QuickSightClientProtocol {
     ///
     /// - Parameter GenerateEmbedUrlForAnonymousUserInput : [no documentation found]
     ///
-    /// - Returns: `GenerateEmbedUrlForAnonymousUserOutputResponse` : [no documentation found]
+    /// - Returns: `GenerateEmbedUrlForAnonymousUserOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1482,7 +1482,7 @@ public protocol QuickSightClientProtocol {
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedPricingPlanException` : This error indicates that you are calling an embedding operation in Amazon QuickSight without the required pricing plan on your Amazon Web Services account. Before you can use embedding for anonymous users, a QuickSight administrator needs to add capacity pricing to Amazon QuickSight. You can do this on the Manage Amazon QuickSight page. After capacity pricing is added, you can use the [GetDashboardEmbedUrl](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_GetDashboardEmbedUrl.html) API operation with the --identity-type ANONYMOUS option.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    func generateEmbedUrlForAnonymousUser(input: GenerateEmbedUrlForAnonymousUserInput) async throws -> GenerateEmbedUrlForAnonymousUserOutputResponse
+    func generateEmbedUrlForAnonymousUser(input: GenerateEmbedUrlForAnonymousUserInput) async throws -> GenerateEmbedUrlForAnonymousUserOutput
     /// Generates an embed URL that you can use to embed an Amazon QuickSight experience in your website. This action can be used for any type of user registered in an Amazon QuickSight account. Before you use this action, make sure that you have configured the relevant Amazon QuickSight resource and permissions. The following rules apply to the generated URL:
     ///
     /// * It contains a temporary bearer token. It is valid for 5 minutes after it is generated. Once redeemed within this period, it cannot be re-used again.
@@ -1496,7 +1496,7 @@ public protocol QuickSightClientProtocol {
     ///
     /// - Parameter GenerateEmbedUrlForRegisteredUserInput : [no documentation found]
     ///
-    /// - Returns: `GenerateEmbedUrlForRegisteredUserOutputResponse` : [no documentation found]
+    /// - Returns: `GenerateEmbedUrlForRegisteredUserOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1510,7 +1510,7 @@ public protocol QuickSightClientProtocol {
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedPricingPlanException` : This error indicates that you are calling an embedding operation in Amazon QuickSight without the required pricing plan on your Amazon Web Services account. Before you can use embedding for anonymous users, a QuickSight administrator needs to add capacity pricing to Amazon QuickSight. You can do this on the Manage Amazon QuickSight page. After capacity pricing is added, you can use the [GetDashboardEmbedUrl](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_GetDashboardEmbedUrl.html) API operation with the --identity-type ANONYMOUS option.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    func generateEmbedUrlForRegisteredUser(input: GenerateEmbedUrlForRegisteredUserInput) async throws -> GenerateEmbedUrlForRegisteredUserOutputResponse
+    func generateEmbedUrlForRegisteredUser(input: GenerateEmbedUrlForRegisteredUserInput) async throws -> GenerateEmbedUrlForRegisteredUserOutput
     /// Generates a temporary session URL and authorization code(bearer token) that you can use to embed an Amazon QuickSight read-only dashboard in your website or application. Before you use this command, make sure that you have configured the dashboards and permissions. Currently, you can use GetDashboardEmbedURL only from the server, not from the user's browser. The following rules apply to the generated URL:
     ///
     /// * They must be used together.
@@ -1528,7 +1528,7 @@ public protocol QuickSightClientProtocol {
     ///
     /// - Parameter GetDashboardEmbedUrlInput : [no documentation found]
     ///
-    /// - Returns: `GetDashboardEmbedUrlOutputResponse` : Output returned from the GetDashboardEmbedUrl operation.
+    /// - Returns: `GetDashboardEmbedUrlOutput` : Output returned from the GetDashboardEmbedUrl operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1545,7 +1545,7 @@ public protocol QuickSightClientProtocol {
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedPricingPlanException` : This error indicates that you are calling an embedding operation in Amazon QuickSight without the required pricing plan on your Amazon Web Services account. Before you can use embedding for anonymous users, a QuickSight administrator needs to add capacity pricing to Amazon QuickSight. You can do this on the Manage Amazon QuickSight page. After capacity pricing is added, you can use the [GetDashboardEmbedUrl](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_GetDashboardEmbedUrl.html) API operation with the --identity-type ANONYMOUS option.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    func getDashboardEmbedUrl(input: GetDashboardEmbedUrlInput) async throws -> GetDashboardEmbedUrlOutputResponse
+    func getDashboardEmbedUrl(input: GetDashboardEmbedUrlInput) async throws -> GetDashboardEmbedUrlOutput
     /// Generates a session URL and authorization code that you can use to embed the Amazon Amazon QuickSight console in your web server code. Use GetSessionEmbedUrl where you want to provide an authoring portal that allows users to create data sources, datasets, analyses, and dashboards. The users who access an embedded Amazon QuickSight console need belong to the author or admin security cohort. If you want to restrict permissions to some of these features, add a custom permissions profile to the user with the [UpdateUser](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_UpdateUser.html) API operation. Use [RegisterUser](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_RegisterUser.html) API operation to add a new user with a custom permission profile attached. For more information, see the following sections in the Amazon QuickSight User Guide:
     ///
     /// * [Embedding Analytics](https://docs.aws.amazon.com/quicksight/latest/user/embedded-analytics.html)
@@ -1554,7 +1554,7 @@ public protocol QuickSightClientProtocol {
     ///
     /// - Parameter GetSessionEmbedUrlInput : [no documentation found]
     ///
-    /// - Returns: `GetSessionEmbedUrlOutputResponse` : [no documentation found]
+    /// - Returns: `GetSessionEmbedUrlOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1568,12 +1568,12 @@ public protocol QuickSightClientProtocol {
     /// - `SessionLifetimeInMinutesInvalidException` : The number of minutes specified for the lifetime of a session isn't valid. The session lifetime must be 15-600 minutes.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    func getSessionEmbedUrl(input: GetSessionEmbedUrlInput) async throws -> GetSessionEmbedUrlOutputResponse
+    func getSessionEmbedUrl(input: GetSessionEmbedUrlInput) async throws -> GetSessionEmbedUrlOutput
     /// Lists Amazon QuickSight analyses that exist in the specified Amazon Web Services account.
     ///
     /// - Parameter ListAnalysesInput : [no documentation found]
     ///
-    /// - Returns: `ListAnalysesOutputResponse` : [no documentation found]
+    /// - Returns: `ListAnalysesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1582,12 +1582,12 @@ public protocol QuickSightClientProtocol {
     /// - `InvalidNextTokenException` : The NextToken value isn't valid.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    func listAnalyses(input: ListAnalysesInput) async throws -> ListAnalysesOutputResponse
+    func listAnalyses(input: ListAnalysesInput) async throws -> ListAnalysesOutput
     /// Lists all asset bundle export jobs that have been taken place in the last 14 days. Jobs created more than 14 days ago are deleted forever and are not returned. If you are using the same job ID for multiple jobs, ListAssetBundleExportJobs only returns the most recent job that uses the repeated job ID.
     ///
     /// - Parameter ListAssetBundleExportJobsInput : [no documentation found]
     ///
-    /// - Returns: `ListAssetBundleExportJobsOutputResponse` : [no documentation found]
+    /// - Returns: `ListAssetBundleExportJobsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1597,12 +1597,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    func listAssetBundleExportJobs(input: ListAssetBundleExportJobsInput) async throws -> ListAssetBundleExportJobsOutputResponse
+    func listAssetBundleExportJobs(input: ListAssetBundleExportJobsInput) async throws -> ListAssetBundleExportJobsOutput
     /// Lists all asset bundle import jobs that have taken place in the last 14 days. Jobs created more than 14 days ago are deleted forever and are not returned. If you are using the same job ID for multiple jobs, ListAssetBundleImportJobs only returns the most recent job that uses the repeated job ID.
     ///
     /// - Parameter ListAssetBundleImportJobsInput : [no documentation found]
     ///
-    /// - Returns: `ListAssetBundleImportJobsOutputResponse` : [no documentation found]
+    /// - Returns: `ListAssetBundleImportJobsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1612,12 +1612,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    func listAssetBundleImportJobs(input: ListAssetBundleImportJobsInput) async throws -> ListAssetBundleImportJobsOutputResponse
+    func listAssetBundleImportJobs(input: ListAssetBundleImportJobsInput) async throws -> ListAssetBundleImportJobsOutput
     /// Lists dashboards in an Amazon Web Services account.
     ///
     /// - Parameter ListDashboardsInput : [no documentation found]
     ///
-    /// - Returns: `ListDashboardsOutputResponse` : [no documentation found]
+    /// - Returns: `ListDashboardsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1626,12 +1626,12 @@ public protocol QuickSightClientProtocol {
     /// - `InvalidNextTokenException` : The NextToken value isn't valid.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    func listDashboards(input: ListDashboardsInput) async throws -> ListDashboardsOutputResponse
+    func listDashboards(input: ListDashboardsInput) async throws -> ListDashboardsOutput
     /// Lists all the versions of the dashboards in the Amazon QuickSight subscription.
     ///
     /// - Parameter ListDashboardVersionsInput : [no documentation found]
     ///
-    /// - Returns: `ListDashboardVersionsOutputResponse` : [no documentation found]
+    /// - Returns: `ListDashboardVersionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1642,12 +1642,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    func listDashboardVersions(input: ListDashboardVersionsInput) async throws -> ListDashboardVersionsOutputResponse
+    func listDashboardVersions(input: ListDashboardVersionsInput) async throws -> ListDashboardVersionsOutput
     /// Lists all of the datasets belonging to the current Amazon Web Services account in an Amazon Web Services Region. The permissions resource is arn:aws:quicksight:region:aws-account-id:dataset/*.
     ///
     /// - Parameter ListDataSetsInput : [no documentation found]
     ///
-    /// - Returns: `ListDataSetsOutputResponse` : [no documentation found]
+    /// - Returns: `ListDataSetsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1657,12 +1657,12 @@ public protocol QuickSightClientProtocol {
     /// - `InvalidNextTokenException` : The NextToken value isn't valid.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ThrottlingException` : Access is throttled.
-    func listDataSets(input: ListDataSetsInput) async throws -> ListDataSetsOutputResponse
+    func listDataSets(input: ListDataSetsInput) async throws -> ListDataSetsOutput
     /// Lists data sources in current Amazon Web Services Region that belong to this Amazon Web Services account.
     ///
     /// - Parameter ListDataSourcesInput : [no documentation found]
     ///
-    /// - Returns: `ListDataSourcesOutputResponse` : [no documentation found]
+    /// - Returns: `ListDataSourcesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1672,12 +1672,12 @@ public protocol QuickSightClientProtocol {
     /// - `InvalidNextTokenException` : The NextToken value isn't valid.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ThrottlingException` : Access is throttled.
-    func listDataSources(input: ListDataSourcesInput) async throws -> ListDataSourcesOutputResponse
+    func listDataSources(input: ListDataSourcesInput) async throws -> ListDataSourcesOutput
     /// List all assets (DASHBOARD, ANALYSIS, and DATASET) in a folder.
     ///
     /// - Parameter ListFolderMembersInput : [no documentation found]
     ///
-    /// - Returns: `ListFolderMembersOutputResponse` : [no documentation found]
+    /// - Returns: `ListFolderMembersOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1689,12 +1689,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    func listFolderMembers(input: ListFolderMembersInput) async throws -> ListFolderMembersOutputResponse
+    func listFolderMembers(input: ListFolderMembersInput) async throws -> ListFolderMembersOutput
     /// Lists all folders in an account.
     ///
     /// - Parameter ListFoldersInput : [no documentation found]
     ///
-    /// - Returns: `ListFoldersOutputResponse` : [no documentation found]
+    /// - Returns: `ListFoldersOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1706,12 +1706,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    func listFolders(input: ListFoldersInput) async throws -> ListFoldersOutputResponse
+    func listFolders(input: ListFoldersInput) async throws -> ListFoldersOutput
     /// Lists member users in a group.
     ///
     /// - Parameter ListGroupMembershipsInput : [no documentation found]
     ///
-    /// - Returns: `ListGroupMembershipsOutputResponse` : [no documentation found]
+    /// - Returns: `ListGroupMembershipsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1724,12 +1724,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ResourceUnavailableException` : This resource is currently unavailable.
     /// - `ThrottlingException` : Access is throttled.
-    func listGroupMemberships(input: ListGroupMembershipsInput) async throws -> ListGroupMembershipsOutputResponse
+    func listGroupMemberships(input: ListGroupMembershipsInput) async throws -> ListGroupMembershipsOutput
     /// Lists all user groups in Amazon QuickSight.
     ///
     /// - Parameter ListGroupsInput : [no documentation found]
     ///
-    /// - Returns: `ListGroupsOutputResponse` : [no documentation found]
+    /// - Returns: `ListGroupsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1742,12 +1742,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ResourceUnavailableException` : This resource is currently unavailable.
     /// - `ThrottlingException` : Access is throttled.
-    func listGroups(input: ListGroupsInput) async throws -> ListGroupsOutputResponse
+    func listGroups(input: ListGroupsInput) async throws -> ListGroupsOutput
     /// Lists the IAM policy assignments in the current Amazon QuickSight account.
     ///
     /// - Parameter ListIAMPolicyAssignmentsInput : [no documentation found]
     ///
-    /// - Returns: `ListIAMPolicyAssignmentsOutputResponse` : [no documentation found]
+    /// - Returns: `ListIAMPolicyAssignmentsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1758,12 +1758,12 @@ public protocol QuickSightClientProtocol {
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    func listIAMPolicyAssignments(input: ListIAMPolicyAssignmentsInput) async throws -> ListIAMPolicyAssignmentsOutputResponse
+    func listIAMPolicyAssignments(input: ListIAMPolicyAssignmentsInput) async throws -> ListIAMPolicyAssignmentsOutput
     /// Lists all of the IAM policy assignments, including the Amazon Resource Names (ARNs), for the IAM policies assigned to the specified user and group, or groups that the user belongs to.
     ///
     /// - Parameter ListIAMPolicyAssignmentsForUserInput : [no documentation found]
     ///
-    /// - Returns: `ListIAMPolicyAssignmentsForUserOutputResponse` : [no documentation found]
+    /// - Returns: `ListIAMPolicyAssignmentsForUserOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1775,12 +1775,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceExistsException` : The resource specified already exists.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    func listIAMPolicyAssignmentsForUser(input: ListIAMPolicyAssignmentsForUserInput) async throws -> ListIAMPolicyAssignmentsForUserOutputResponse
+    func listIAMPolicyAssignmentsForUser(input: ListIAMPolicyAssignmentsForUserInput) async throws -> ListIAMPolicyAssignmentsForUserOutput
     /// Lists the history of SPICE ingestions for a dataset.
     ///
     /// - Parameter ListIngestionsInput : [no documentation found]
     ///
-    /// - Returns: `ListIngestionsOutputResponse` : [no documentation found]
+    /// - Returns: `ListIngestionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1792,12 +1792,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceExistsException` : The resource specified already exists.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    func listIngestions(input: ListIngestionsInput) async throws -> ListIngestionsOutputResponse
+    func listIngestions(input: ListIngestionsInput) async throws -> ListIngestionsOutput
     /// Lists the namespaces for the specified Amazon Web Services account. This operation doesn't list deleted namespaces.
     ///
     /// - Parameter ListNamespacesInput : [no documentation found]
     ///
-    /// - Returns: `ListNamespacesOutputResponse` : [no documentation found]
+    /// - Returns: `ListNamespacesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1810,12 +1810,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ResourceUnavailableException` : This resource is currently unavailable.
     /// - `ThrottlingException` : Access is throttled.
-    func listNamespaces(input: ListNamespacesInput) async throws -> ListNamespacesOutputResponse
+    func listNamespaces(input: ListNamespacesInput) async throws -> ListNamespacesOutput
     /// Lists the refresh schedules of a dataset. Each dataset can have up to 5 schedules.
     ///
     /// - Parameter ListRefreshSchedulesInput : [no documentation found]
     ///
-    /// - Returns: `ListRefreshSchedulesOutputResponse` : [no documentation found]
+    /// - Returns: `ListRefreshSchedulesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1826,12 +1826,12 @@ public protocol QuickSightClientProtocol {
     /// - `LimitExceededException` : A limit is exceeded.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    func listRefreshSchedules(input: ListRefreshSchedulesInput) async throws -> ListRefreshSchedulesOutputResponse
+    func listRefreshSchedules(input: ListRefreshSchedulesInput) async throws -> ListRefreshSchedulesOutput
     /// Lists the tags assigned to a resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1841,12 +1841,12 @@ public protocol QuickSightClientProtocol {
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     /// Lists all the aliases of a template.
     ///
     /// - Parameter ListTemplateAliasesInput : [no documentation found]
     ///
-    /// - Returns: `ListTemplateAliasesOutputResponse` : [no documentation found]
+    /// - Returns: `ListTemplateAliasesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1856,12 +1856,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    func listTemplateAliases(input: ListTemplateAliasesInput) async throws -> ListTemplateAliasesOutputResponse
+    func listTemplateAliases(input: ListTemplateAliasesInput) async throws -> ListTemplateAliasesOutput
     /// Lists all the templates in the current Amazon QuickSight account.
     ///
     /// - Parameter ListTemplatesInput : [no documentation found]
     ///
-    /// - Returns: `ListTemplatesOutputResponse` : [no documentation found]
+    /// - Returns: `ListTemplatesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1872,12 +1872,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    func listTemplates(input: ListTemplatesInput) async throws -> ListTemplatesOutputResponse
+    func listTemplates(input: ListTemplatesInput) async throws -> ListTemplatesOutput
     /// Lists all the versions of the templates in the current Amazon QuickSight account.
     ///
     /// - Parameter ListTemplateVersionsInput : [no documentation found]
     ///
-    /// - Returns: `ListTemplateVersionsOutputResponse` : [no documentation found]
+    /// - Returns: `ListTemplateVersionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1888,12 +1888,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    func listTemplateVersions(input: ListTemplateVersionsInput) async throws -> ListTemplateVersionsOutputResponse
+    func listTemplateVersions(input: ListTemplateVersionsInput) async throws -> ListTemplateVersionsOutput
     /// Lists all the aliases of a theme.
     ///
     /// - Parameter ListThemeAliasesInput : [no documentation found]
     ///
-    /// - Returns: `ListThemeAliasesOutputResponse` : [no documentation found]
+    /// - Returns: `ListThemeAliasesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1905,12 +1905,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    func listThemeAliases(input: ListThemeAliasesInput) async throws -> ListThemeAliasesOutputResponse
+    func listThemeAliases(input: ListThemeAliasesInput) async throws -> ListThemeAliasesOutput
     /// Lists all the themes in the current Amazon Web Services account.
     ///
     /// - Parameter ListThemesInput : [no documentation found]
     ///
-    /// - Returns: `ListThemesOutputResponse` : [no documentation found]
+    /// - Returns: `ListThemesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1922,12 +1922,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    func listThemes(input: ListThemesInput) async throws -> ListThemesOutputResponse
+    func listThemes(input: ListThemesInput) async throws -> ListThemesOutput
     /// Lists all the versions of the themes in the current Amazon Web Services account.
     ///
     /// - Parameter ListThemeVersionsInput : [no documentation found]
     ///
-    /// - Returns: `ListThemeVersionsOutputResponse` : [no documentation found]
+    /// - Returns: `ListThemeVersionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1939,12 +1939,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    func listThemeVersions(input: ListThemeVersionsInput) async throws -> ListThemeVersionsOutputResponse
+    func listThemeVersions(input: ListThemeVersionsInput) async throws -> ListThemeVersionsOutput
     /// Lists all of the refresh schedules for a topic.
     ///
     /// - Parameter ListTopicRefreshSchedulesInput : [no documentation found]
     ///
-    /// - Returns: `ListTopicRefreshSchedulesOutputResponse` : [no documentation found]
+    /// - Returns: `ListTopicRefreshSchedulesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1957,12 +1957,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceExistsException` : The resource specified already exists.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    func listTopicRefreshSchedules(input: ListTopicRefreshSchedulesInput) async throws -> ListTopicRefreshSchedulesOutputResponse
+    func listTopicRefreshSchedules(input: ListTopicRefreshSchedulesInput) async throws -> ListTopicRefreshSchedulesOutput
     /// Lists all of the topics within an account.
     ///
     /// - Parameter ListTopicsInput : [no documentation found]
     ///
-    /// - Returns: `ListTopicsOutputResponse` : [no documentation found]
+    /// - Returns: `ListTopicsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1972,12 +1972,12 @@ public protocol QuickSightClientProtocol {
     /// - `InvalidNextTokenException` : The NextToken value isn't valid.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ThrottlingException` : Access is throttled.
-    func listTopics(input: ListTopicsInput) async throws -> ListTopicsOutputResponse
+    func listTopics(input: ListTopicsInput) async throws -> ListTopicsOutput
     /// Lists the Amazon QuickSight groups that an Amazon QuickSight user is a member of.
     ///
     /// - Parameter ListUserGroupsInput : [no documentation found]
     ///
-    /// - Returns: `ListUserGroupsOutputResponse` : [no documentation found]
+    /// - Returns: `ListUserGroupsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1989,12 +1989,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ResourceUnavailableException` : This resource is currently unavailable.
     /// - `ThrottlingException` : Access is throttled.
-    func listUserGroups(input: ListUserGroupsInput) async throws -> ListUserGroupsOutputResponse
+    func listUserGroups(input: ListUserGroupsInput) async throws -> ListUserGroupsOutput
     /// Returns a list of all of the Amazon QuickSight users belonging to this account.
     ///
     /// - Parameter ListUsersInput : [no documentation found]
     ///
-    /// - Returns: `ListUsersOutputResponse` : [no documentation found]
+    /// - Returns: `ListUsersOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2007,12 +2007,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ResourceUnavailableException` : This resource is currently unavailable.
     /// - `ThrottlingException` : Access is throttled.
-    func listUsers(input: ListUsersInput) async throws -> ListUsersOutputResponse
+    func listUsers(input: ListUsersInput) async throws -> ListUsersOutput
     /// Lists all of the VPC connections in the current set Amazon Web Services Region of an Amazon Web Services account.
     ///
     /// - Parameter ListVPCConnectionsInput : [no documentation found]
     ///
-    /// - Returns: `ListVPCConnectionsOutputResponse` : [no documentation found]
+    /// - Returns: `ListVPCConnectionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2023,12 +2023,12 @@ public protocol QuickSightClientProtocol {
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    func listVPCConnections(input: ListVPCConnectionsInput) async throws -> ListVPCConnectionsOutputResponse
+    func listVPCConnections(input: ListVPCConnectionsInput) async throws -> ListVPCConnectionsOutput
     /// Creates or updates the dataset refresh properties for the dataset.
     ///
     /// - Parameter PutDataSetRefreshPropertiesInput : [no documentation found]
     ///
-    /// - Returns: `PutDataSetRefreshPropertiesOutputResponse` : [no documentation found]
+    /// - Returns: `PutDataSetRefreshPropertiesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2041,12 +2041,12 @@ public protocol QuickSightClientProtocol {
     /// - `PreconditionNotMetException` : One or more preconditions aren't met.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    func putDataSetRefreshProperties(input: PutDataSetRefreshPropertiesInput) async throws -> PutDataSetRefreshPropertiesOutputResponse
+    func putDataSetRefreshProperties(input: PutDataSetRefreshPropertiesInput) async throws -> PutDataSetRefreshPropertiesOutput
     /// Creates an Amazon QuickSight user whose identity is associated with the Identity and Access Management (IAM) identity or role specified in the request. When you register a new user from the Amazon QuickSight API, Amazon QuickSight generates a registration URL. The user accesses this registration URL to create their account. Amazon QuickSight doesn't send a registration email to users who are registered from the Amazon QuickSight API. If you want new users to receive a registration email, then add those users in the Amazon QuickSight console. For more information on registering a new user in the Amazon QuickSight console, see [ Inviting users to access Amazon QuickSight](https://docs.aws.amazon.com/quicksight/latest/user/managing-users.html#inviting-users).
     ///
     /// - Parameter RegisterUserInput : [no documentation found]
     ///
-    /// - Returns: `RegisterUserOutputResponse` : [no documentation found]
+    /// - Returns: `RegisterUserOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2060,12 +2060,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ResourceUnavailableException` : This resource is currently unavailable.
     /// - `ThrottlingException` : Access is throttled.
-    func registerUser(input: RegisterUserInput) async throws -> RegisterUserOutputResponse
+    func registerUser(input: RegisterUserInput) async throws -> RegisterUserOutput
     /// Restores an analysis.
     ///
     /// - Parameter RestoreAnalysisInput : [no documentation found]
     ///
-    /// - Returns: `RestoreAnalysisOutputResponse` : [no documentation found]
+    /// - Returns: `RestoreAnalysisOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2076,12 +2076,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    func restoreAnalysis(input: RestoreAnalysisInput) async throws -> RestoreAnalysisOutputResponse
+    func restoreAnalysis(input: RestoreAnalysisInput) async throws -> RestoreAnalysisOutput
     /// Searches for analyses that belong to the user specified in the filter. This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes.
     ///
     /// - Parameter SearchAnalysesInput : [no documentation found]
     ///
-    /// - Returns: `SearchAnalysesOutputResponse` : [no documentation found]
+    /// - Returns: `SearchAnalysesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2092,12 +2092,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    func searchAnalyses(input: SearchAnalysesInput) async throws -> SearchAnalysesOutputResponse
+    func searchAnalyses(input: SearchAnalysesInput) async throws -> SearchAnalysesOutput
     /// Searches for dashboards that belong to a user. This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes.
     ///
     /// - Parameter SearchDashboardsInput : [no documentation found]
     ///
-    /// - Returns: `SearchDashboardsOutputResponse` : [no documentation found]
+    /// - Returns: `SearchDashboardsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2108,12 +2108,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    func searchDashboards(input: SearchDashboardsInput) async throws -> SearchDashboardsOutputResponse
+    func searchDashboards(input: SearchDashboardsInput) async throws -> SearchDashboardsOutput
     /// Use the SearchDataSets operation to search for datasets that belong to an account.
     ///
     /// - Parameter SearchDataSetsInput : [no documentation found]
     ///
-    /// - Returns: `SearchDataSetsOutputResponse` : [no documentation found]
+    /// - Returns: `SearchDataSetsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2124,12 +2124,12 @@ public protocol QuickSightClientProtocol {
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    func searchDataSets(input: SearchDataSetsInput) async throws -> SearchDataSetsOutputResponse
+    func searchDataSets(input: SearchDataSetsInput) async throws -> SearchDataSetsOutput
     /// Use the SearchDataSources operation to search for data sources that belong to an account.
     ///
     /// - Parameter SearchDataSourcesInput : [no documentation found]
     ///
-    /// - Returns: `SearchDataSourcesOutputResponse` : [no documentation found]
+    /// - Returns: `SearchDataSourcesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2140,12 +2140,12 @@ public protocol QuickSightClientProtocol {
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    func searchDataSources(input: SearchDataSourcesInput) async throws -> SearchDataSourcesOutputResponse
+    func searchDataSources(input: SearchDataSourcesInput) async throws -> SearchDataSourcesOutput
     /// Searches the subfolders in a folder.
     ///
     /// - Parameter SearchFoldersInput : [no documentation found]
     ///
-    /// - Returns: `SearchFoldersOutputResponse` : [no documentation found]
+    /// - Returns: `SearchFoldersOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2158,12 +2158,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    func searchFolders(input: SearchFoldersInput) async throws -> SearchFoldersOutputResponse
+    func searchFolders(input: SearchFoldersInput) async throws -> SearchFoldersOutput
     /// Use the SearchGroups operation to search groups in a specified Amazon QuickSight namespace using the supplied filters.
     ///
     /// - Parameter SearchGroupsInput : [no documentation found]
     ///
-    /// - Returns: `SearchGroupsOutputResponse` : [no documentation found]
+    /// - Returns: `SearchGroupsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2176,12 +2176,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ResourceUnavailableException` : This resource is currently unavailable.
     /// - `ThrottlingException` : Access is throttled.
-    func searchGroups(input: SearchGroupsInput) async throws -> SearchGroupsOutputResponse
+    func searchGroups(input: SearchGroupsInput) async throws -> SearchGroupsOutput
     /// Starts an Asset Bundle export job. An Asset Bundle export job exports specified Amazon QuickSight assets. You can also choose to export any asset dependencies in the same job. Export jobs run asynchronously and can be polled with a DescribeAssetBundleExportJob API call. When a job is successfully completed, a download URL that contains the exported assets is returned. The URL is valid for 5 minutes and can be refreshed with a DescribeAssetBundleExportJob API call. Each Amazon QuickSight account can run up to 5 export jobs concurrently. The API caller must have the necessary permissions in their IAM role to access each resource before the resources can be exported.
     ///
     /// - Parameter StartAssetBundleExportJobInput : [no documentation found]
     ///
-    /// - Returns: `StartAssetBundleExportJobOutputResponse` : [no documentation found]
+    /// - Returns: `StartAssetBundleExportJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2193,12 +2193,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    func startAssetBundleExportJob(input: StartAssetBundleExportJobInput) async throws -> StartAssetBundleExportJobOutputResponse
+    func startAssetBundleExportJob(input: StartAssetBundleExportJobInput) async throws -> StartAssetBundleExportJobOutput
     /// Starts an Asset Bundle import job. An Asset Bundle import job imports specified Amazon QuickSight assets into an Amazon QuickSight account. You can also choose to import a naming prefix and specified configuration overrides. The assets that are contained in the bundle file that you provide are used to create or update a new or existing asset in your Amazon QuickSight account. Each Amazon QuickSight account can run up to 5 import jobs concurrently. The API caller must have the necessary "create", "describe", and "update" permissions in their IAM role to access each resource type that is contained in the bundle file before the resources can be imported.
     ///
     /// - Parameter StartAssetBundleImportJobInput : [no documentation found]
     ///
-    /// - Returns: `StartAssetBundleImportJobOutputResponse` : [no documentation found]
+    /// - Returns: `StartAssetBundleImportJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2210,7 +2210,7 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    func startAssetBundleImportJob(input: StartAssetBundleImportJobInput) async throws -> StartAssetBundleImportJobOutputResponse
+    func startAssetBundleImportJob(input: StartAssetBundleImportJobInput) async throws -> StartAssetBundleImportJobOutput
     /// Starts an asynchronous job that generates a dashboard snapshot. You can request one of the following format configurations per API call.
     ///
     /// * 1 paginated PDF
@@ -2224,7 +2224,7 @@ public protocol QuickSightClientProtocol {
     ///
     /// - Parameter StartDashboardSnapshotJobInput : [no documentation found]
     ///
-    /// - Returns: `StartDashboardSnapshotJobOutputResponse` : [no documentation found]
+    /// - Returns: `StartDashboardSnapshotJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2238,7 +2238,7 @@ public protocol QuickSightClientProtocol {
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedPricingPlanException` : This error indicates that you are calling an embedding operation in Amazon QuickSight without the required pricing plan on your Amazon Web Services account. Before you can use embedding for anonymous users, a QuickSight administrator needs to add capacity pricing to Amazon QuickSight. You can do this on the Manage Amazon QuickSight page. After capacity pricing is added, you can use the [GetDashboardEmbedUrl](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_GetDashboardEmbedUrl.html) API operation with the --identity-type ANONYMOUS option.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    func startDashboardSnapshotJob(input: StartDashboardSnapshotJobInput) async throws -> StartDashboardSnapshotJobOutputResponse
+    func startDashboardSnapshotJob(input: StartDashboardSnapshotJobInput) async throws -> StartDashboardSnapshotJobOutput
     /// Assigns one or more tags (key-value pairs) to the specified Amazon QuickSight resource. Tags can help you organize and categorize your resources. You can also use them to scope user permissions, by granting a user permission to access or change only resources with certain tag values. You can use the TagResource operation with a resource that already has tags. If you specify a new tag key for the resource, this tag is appended to the list of tags associated with the resource. If you specify a tag key that is already associated with the resource, the new tag value that you specify replaces the previous value for that tag. You can associate as many as 50 tags with a resource. Amazon QuickSight supports tagging on data set, data source, dashboard, template, topic, and user. Tagging for Amazon QuickSight works in a similar way to tagging for other Amazon Web Services services, except for the following:
     ///
     /// * Tags are used to track costs for users in Amazon QuickSight. You can't tag other resources that Amazon QuickSight costs are based on, such as storage capacoty (SPICE), session usage, alert consumption, or reporting units.
@@ -2247,7 +2247,7 @@ public protocol QuickSightClientProtocol {
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2258,12 +2258,12 @@ public protocol QuickSightClientProtocol {
     /// - `LimitExceededException` : A limit is exceeded.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     /// Removes a tag or tags from a resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2273,12 +2273,12 @@ public protocol QuickSightClientProtocol {
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
     /// Updates Amazon QuickSight customizations for the current Amazon Web Services Region. Currently, the only customization that you can use is a theme. You can use customizations for your Amazon Web Services account or, if you specify a namespace, for a Amazon QuickSight namespace instead. Customizations that apply to a namespace override customizations that apply to an Amazon Web Services account. To find out which customizations apply, use the DescribeAccountCustomization API operation.
     ///
     /// - Parameter UpdateAccountCustomizationInput : [no documentation found]
     ///
-    /// - Returns: `UpdateAccountCustomizationOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateAccountCustomizationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2290,12 +2290,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ResourceUnavailableException` : This resource is currently unavailable.
     /// - `ThrottlingException` : Access is throttled.
-    func updateAccountCustomization(input: UpdateAccountCustomizationInput) async throws -> UpdateAccountCustomizationOutputResponse
+    func updateAccountCustomization(input: UpdateAccountCustomizationInput) async throws -> UpdateAccountCustomizationOutput
     /// Updates the Amazon QuickSight settings in your Amazon Web Services account.
     ///
     /// - Parameter UpdateAccountSettingsInput : [no documentation found]
     ///
-    /// - Returns: `UpdateAccountSettingsOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateAccountSettingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2306,12 +2306,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ResourceUnavailableException` : This resource is currently unavailable.
     /// - `ThrottlingException` : Access is throttled.
-    func updateAccountSettings(input: UpdateAccountSettingsInput) async throws -> UpdateAccountSettingsOutputResponse
+    func updateAccountSettings(input: UpdateAccountSettingsInput) async throws -> UpdateAccountSettingsOutput
     /// Updates an analysis in Amazon QuickSight
     ///
     /// - Parameter UpdateAnalysisInput : [no documentation found]
     ///
-    /// - Returns: `UpdateAnalysisOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateAnalysisOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2323,12 +2323,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    func updateAnalysis(input: UpdateAnalysisInput) async throws -> UpdateAnalysisOutputResponse
+    func updateAnalysis(input: UpdateAnalysisInput) async throws -> UpdateAnalysisOutput
     /// Updates the read and write permissions for an analysis.
     ///
     /// - Parameter UpdateAnalysisPermissionsInput : [no documentation found]
     ///
-    /// - Returns: `UpdateAnalysisPermissionsOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateAnalysisPermissionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2340,12 +2340,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    func updateAnalysisPermissions(input: UpdateAnalysisPermissionsInput) async throws -> UpdateAnalysisPermissionsOutputResponse
+    func updateAnalysisPermissions(input: UpdateAnalysisPermissionsInput) async throws -> UpdateAnalysisPermissionsOutput
     /// Updates a dashboard in an Amazon Web Services account. Updating a Dashboard creates a new dashboard version but does not immediately publish the new version. You can update the published version of a dashboard by using the [UpdateDashboardPublishedVersion](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_UpdateDashboardPublishedVersion.html) API operation.
     ///
     /// - Parameter UpdateDashboardInput : [no documentation found]
     ///
-    /// - Returns: `UpdateDashboardOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateDashboardOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2357,12 +2357,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    func updateDashboard(input: UpdateDashboardInput) async throws -> UpdateDashboardOutputResponse
+    func updateDashboard(input: UpdateDashboardInput) async throws -> UpdateDashboardOutput
     /// Updates read and write permissions on a dashboard.
     ///
     /// - Parameter UpdateDashboardPermissionsInput : [no documentation found]
     ///
-    /// - Returns: `UpdateDashboardPermissionsOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateDashboardPermissionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2374,12 +2374,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    func updateDashboardPermissions(input: UpdateDashboardPermissionsInput) async throws -> UpdateDashboardPermissionsOutputResponse
+    func updateDashboardPermissions(input: UpdateDashboardPermissionsInput) async throws -> UpdateDashboardPermissionsOutput
     /// Updates the published version of a dashboard.
     ///
     /// - Parameter UpdateDashboardPublishedVersionInput : [no documentation found]
     ///
-    /// - Returns: `UpdateDashboardPublishedVersionOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateDashboardPublishedVersionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2390,12 +2390,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    func updateDashboardPublishedVersion(input: UpdateDashboardPublishedVersionInput) async throws -> UpdateDashboardPublishedVersionOutputResponse
+    func updateDashboardPublishedVersion(input: UpdateDashboardPublishedVersionInput) async throws -> UpdateDashboardPublishedVersionOutput
     /// Updates a dataset. This operation doesn't support datasets that include uploaded files as a source. Partial updates are not supported by this operation.
     ///
     /// - Parameter UpdateDataSetInput : [no documentation found]
     ///
-    /// - Returns: `UpdateDataSetOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateDataSetOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2408,12 +2408,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    func updateDataSet(input: UpdateDataSetInput) async throws -> UpdateDataSetOutputResponse
+    func updateDataSet(input: UpdateDataSetInput) async throws -> UpdateDataSetOutput
     /// Updates the permissions on a dataset. The permissions resource is arn:aws:quicksight:region:aws-account-id:dataset/data-set-id.
     ///
     /// - Parameter UpdateDataSetPermissionsInput : [no documentation found]
     ///
-    /// - Returns: `UpdateDataSetPermissionsOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateDataSetPermissionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2424,12 +2424,12 @@ public protocol QuickSightClientProtocol {
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    func updateDataSetPermissions(input: UpdateDataSetPermissionsInput) async throws -> UpdateDataSetPermissionsOutputResponse
+    func updateDataSetPermissions(input: UpdateDataSetPermissionsInput) async throws -> UpdateDataSetPermissionsOutput
     /// Updates a data source.
     ///
     /// - Parameter UpdateDataSourceInput : [no documentation found]
     ///
-    /// - Returns: `UpdateDataSourceOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateDataSourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2440,12 +2440,12 @@ public protocol QuickSightClientProtocol {
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    func updateDataSource(input: UpdateDataSourceInput) async throws -> UpdateDataSourceOutputResponse
+    func updateDataSource(input: UpdateDataSourceInput) async throws -> UpdateDataSourceOutput
     /// Updates the permissions to a data source.
     ///
     /// - Parameter UpdateDataSourcePermissionsInput : [no documentation found]
     ///
-    /// - Returns: `UpdateDataSourcePermissionsOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateDataSourcePermissionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2456,12 +2456,12 @@ public protocol QuickSightClientProtocol {
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    func updateDataSourcePermissions(input: UpdateDataSourcePermissionsInput) async throws -> UpdateDataSourcePermissionsOutputResponse
+    func updateDataSourcePermissions(input: UpdateDataSourcePermissionsInput) async throws -> UpdateDataSourcePermissionsOutput
     /// Updates the name of a folder.
     ///
     /// - Parameter UpdateFolderInput : [no documentation found]
     ///
-    /// - Returns: `UpdateFolderOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateFolderOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2474,12 +2474,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    func updateFolder(input: UpdateFolderInput) async throws -> UpdateFolderOutputResponse
+    func updateFolder(input: UpdateFolderInput) async throws -> UpdateFolderOutput
     /// Updates permissions of a folder.
     ///
     /// - Parameter UpdateFolderPermissionsInput : [no documentation found]
     ///
-    /// - Returns: `UpdateFolderPermissionsOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateFolderPermissionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2491,12 +2491,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    func updateFolderPermissions(input: UpdateFolderPermissionsInput) async throws -> UpdateFolderPermissionsOutputResponse
+    func updateFolderPermissions(input: UpdateFolderPermissionsInput) async throws -> UpdateFolderPermissionsOutput
     /// Changes a group description.
     ///
     /// - Parameter UpdateGroupInput : [no documentation found]
     ///
-    /// - Returns: `UpdateGroupOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2508,12 +2508,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ResourceUnavailableException` : This resource is currently unavailable.
     /// - `ThrottlingException` : Access is throttled.
-    func updateGroup(input: UpdateGroupInput) async throws -> UpdateGroupOutputResponse
+    func updateGroup(input: UpdateGroupInput) async throws -> UpdateGroupOutput
     /// Updates an existing IAM policy assignment. This operation updates only the optional parameter or parameters that are specified in the request. This overwrites all of the users included in Identities.
     ///
     /// - Parameter UpdateIAMPolicyAssignmentInput : [no documentation found]
     ///
-    /// - Returns: `UpdateIAMPolicyAssignmentOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateIAMPolicyAssignmentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2525,12 +2525,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceExistsException` : The resource specified already exists.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    func updateIAMPolicyAssignment(input: UpdateIAMPolicyAssignmentInput) async throws -> UpdateIAMPolicyAssignmentOutputResponse
+    func updateIAMPolicyAssignment(input: UpdateIAMPolicyAssignmentInput) async throws -> UpdateIAMPolicyAssignmentOutput
     /// Updates the content and status of IP rules. To use this operation, you must provide the entire map of rules. You can use the DescribeIpRestriction operation to get the current rule map.
     ///
     /// - Parameter UpdateIpRestrictionInput : [no documentation found]
     ///
-    /// - Returns: `UpdateIpRestrictionOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateIpRestrictionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2541,12 +2541,12 @@ public protocol QuickSightClientProtocol {
     /// - `LimitExceededException` : A limit is exceeded.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    func updateIpRestriction(input: UpdateIpRestrictionInput) async throws -> UpdateIpRestrictionOutputResponse
+    func updateIpRestriction(input: UpdateIpRestrictionInput) async throws -> UpdateIpRestrictionOutput
     /// Use the UpdatePublicSharingSettings operation to turn on or turn off the public sharing settings of an Amazon QuickSight dashboard. To use this operation, turn on session capacity pricing for your Amazon QuickSight account. Before you can turn on public sharing on your account, make sure to give public sharing permissions to an administrative user in the Identity and Access Management (IAM) console. For more information on using IAM with Amazon QuickSight, see [Using Amazon QuickSight with IAM](https://docs.aws.amazon.com/quicksight/latest/user/security_iam_service-with-iam.html) in the Amazon QuickSight User Guide.
     ///
     /// - Parameter UpdatePublicSharingSettingsInput : [no documentation found]
     ///
-    /// - Returns: `UpdatePublicSharingSettingsOutputResponse` : [no documentation found]
+    /// - Returns: `UpdatePublicSharingSettingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2557,12 +2557,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedPricingPlanException` : This error indicates that you are calling an embedding operation in Amazon QuickSight without the required pricing plan on your Amazon Web Services account. Before you can use embedding for anonymous users, a QuickSight administrator needs to add capacity pricing to Amazon QuickSight. You can do this on the Manage Amazon QuickSight page. After capacity pricing is added, you can use the [GetDashboardEmbedUrl](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_GetDashboardEmbedUrl.html) API operation with the --identity-type ANONYMOUS option.
-    func updatePublicSharingSettings(input: UpdatePublicSharingSettingsInput) async throws -> UpdatePublicSharingSettingsOutputResponse
+    func updatePublicSharingSettings(input: UpdatePublicSharingSettingsInput) async throws -> UpdatePublicSharingSettingsOutput
     /// Updates a refresh schedule for a dataset.
     ///
     /// - Parameter UpdateRefreshScheduleInput : [no documentation found]
     ///
-    /// - Returns: `UpdateRefreshScheduleOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateRefreshScheduleOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2574,12 +2574,12 @@ public protocol QuickSightClientProtocol {
     /// - `PreconditionNotMetException` : One or more preconditions aren't met.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    func updateRefreshSchedule(input: UpdateRefreshScheduleInput) async throws -> UpdateRefreshScheduleOutputResponse
+    func updateRefreshSchedule(input: UpdateRefreshScheduleInput) async throws -> UpdateRefreshScheduleOutput
     /// Updates a template from an existing Amazon QuickSight analysis or another template.
     ///
     /// - Parameter UpdateTemplateInput : [no documentation found]
     ///
-    /// - Returns: `UpdateTemplateOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateTemplateOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2592,12 +2592,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    func updateTemplate(input: UpdateTemplateInput) async throws -> UpdateTemplateOutputResponse
+    func updateTemplate(input: UpdateTemplateInput) async throws -> UpdateTemplateOutput
     /// Updates the template alias of a template.
     ///
     /// - Parameter UpdateTemplateAliasInput : [no documentation found]
     ///
-    /// - Returns: `UpdateTemplateAliasOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateTemplateAliasOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2607,12 +2607,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    func updateTemplateAlias(input: UpdateTemplateAliasInput) async throws -> UpdateTemplateAliasOutputResponse
+    func updateTemplateAlias(input: UpdateTemplateAliasInput) async throws -> UpdateTemplateAliasOutput
     /// Updates the resource permissions for a template.
     ///
     /// - Parameter UpdateTemplatePermissionsInput : [no documentation found]
     ///
-    /// - Returns: `UpdateTemplatePermissionsOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateTemplatePermissionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2624,12 +2624,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    func updateTemplatePermissions(input: UpdateTemplatePermissionsInput) async throws -> UpdateTemplatePermissionsOutputResponse
+    func updateTemplatePermissions(input: UpdateTemplatePermissionsInput) async throws -> UpdateTemplatePermissionsOutput
     /// Updates a theme.
     ///
     /// - Parameter UpdateThemeInput : [no documentation found]
     ///
-    /// - Returns: `UpdateThemeOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateThemeOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2642,12 +2642,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    func updateTheme(input: UpdateThemeInput) async throws -> UpdateThemeOutputResponse
+    func updateTheme(input: UpdateThemeInput) async throws -> UpdateThemeOutput
     /// Updates an alias of a theme.
     ///
     /// - Parameter UpdateThemeAliasInput : [no documentation found]
     ///
-    /// - Returns: `UpdateThemeAliasOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateThemeAliasOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2659,7 +2659,7 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    func updateThemeAlias(input: UpdateThemeAliasInput) async throws -> UpdateThemeAliasOutputResponse
+    func updateThemeAlias(input: UpdateThemeAliasInput) async throws -> UpdateThemeAliasOutput
     /// Updates the resource permissions for a theme. Permissions apply to the action to grant or revoke permissions on, for example "quicksight:DescribeTheme". Theme permissions apply in groupings. Valid groupings include the following for the three levels of permissions, which are user, owner, or no permissions:
     ///
     /// * User
@@ -2706,7 +2706,7 @@ public protocol QuickSightClientProtocol {
     ///
     /// - Parameter UpdateThemePermissionsInput : [no documentation found]
     ///
-    /// - Returns: `UpdateThemePermissionsOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateThemePermissionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2718,12 +2718,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    func updateThemePermissions(input: UpdateThemePermissionsInput) async throws -> UpdateThemePermissionsOutputResponse
+    func updateThemePermissions(input: UpdateThemePermissionsInput) async throws -> UpdateThemePermissionsOutput
     /// Updates a topic.
     ///
     /// - Parameter UpdateTopicInput : [no documentation found]
     ///
-    /// - Returns: `UpdateTopicOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateTopicOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2736,12 +2736,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceExistsException` : The resource specified already exists.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    func updateTopic(input: UpdateTopicInput) async throws -> UpdateTopicOutputResponse
+    func updateTopic(input: UpdateTopicInput) async throws -> UpdateTopicOutput
     /// Updates the permissions of a topic.
     ///
     /// - Parameter UpdateTopicPermissionsInput : [no documentation found]
     ///
-    /// - Returns: `UpdateTopicPermissionsOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateTopicPermissionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2754,12 +2754,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    func updateTopicPermissions(input: UpdateTopicPermissionsInput) async throws -> UpdateTopicPermissionsOutputResponse
+    func updateTopicPermissions(input: UpdateTopicPermissionsInput) async throws -> UpdateTopicPermissionsOutput
     /// Updates a topic refresh schedule.
     ///
     /// - Parameter UpdateTopicRefreshScheduleInput : [no documentation found]
     ///
-    /// - Returns: `UpdateTopicRefreshScheduleOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateTopicRefreshScheduleOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2772,12 +2772,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceExistsException` : The resource specified already exists.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    func updateTopicRefreshSchedule(input: UpdateTopicRefreshScheduleInput) async throws -> UpdateTopicRefreshScheduleOutputResponse
+    func updateTopicRefreshSchedule(input: UpdateTopicRefreshScheduleInput) async throws -> UpdateTopicRefreshScheduleOutput
     /// Updates an Amazon QuickSight user.
     ///
     /// - Parameter UpdateUserInput : [no documentation found]
     ///
-    /// - Returns: `UpdateUserOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateUserOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2789,12 +2789,12 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ResourceUnavailableException` : This resource is currently unavailable.
     /// - `ThrottlingException` : Access is throttled.
-    func updateUser(input: UpdateUserInput) async throws -> UpdateUserOutputResponse
+    func updateUser(input: UpdateUserInput) async throws -> UpdateUserOutput
     /// Updates a VPC connection.
     ///
     /// - Parameter UpdateVPCConnectionInput : [no documentation found]
     ///
-    /// - Returns: `UpdateVPCConnectionOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateVPCConnectionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2807,7 +2807,7 @@ public protocol QuickSightClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
     /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-    func updateVPCConnection(input: UpdateVPCConnectionInput) async throws -> UpdateVPCConnectionOutputResponse
+    func updateVPCConnection(input: UpdateVPCConnectionInput) async throws -> UpdateVPCConnectionOutput
 }
 
 public enum QuickSightClientTypes {}

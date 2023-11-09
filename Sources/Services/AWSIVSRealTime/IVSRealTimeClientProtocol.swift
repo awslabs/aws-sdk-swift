@@ -55,7 +55,7 @@ public protocol IVSRealTimeClientProtocol {
     ///
     /// - Parameter CreateParticipantTokenInput : [no documentation found]
     ///
-    /// - Returns: `CreateParticipantTokenOutputResponse` : [no documentation found]
+    /// - Returns: `CreateParticipantTokenOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -65,12 +65,12 @@ public protocol IVSRealTimeClientProtocol {
     /// - `ResourceNotFoundException` :
     /// - `ServiceQuotaExceededException` :
     /// - `ValidationException` :
-    func createParticipantToken(input: CreateParticipantTokenInput) async throws -> CreateParticipantTokenOutputResponse
+    func createParticipantToken(input: CreateParticipantTokenInput) async throws -> CreateParticipantTokenOutput
     /// Creates a new stage (and optionally participant tokens).
     ///
     /// - Parameter CreateStageInput : [no documentation found]
     ///
-    /// - Returns: `CreateStageOutputResponse` : [no documentation found]
+    /// - Returns: `CreateStageOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -79,12 +79,12 @@ public protocol IVSRealTimeClientProtocol {
     /// - `PendingVerification` :
     /// - `ServiceQuotaExceededException` :
     /// - `ValidationException` :
-    func createStage(input: CreateStageInput) async throws -> CreateStageOutputResponse
+    func createStage(input: CreateStageInput) async throws -> CreateStageOutput
     /// Shuts down and deletes the specified stage (disconnecting all participants).
     ///
     /// - Parameter DeleteStageInput : [no documentation found]
     ///
-    /// - Returns: `DeleteStageOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteStageOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -94,12 +94,12 @@ public protocol IVSRealTimeClientProtocol {
     /// - `PendingVerification` :
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
-    func deleteStage(input: DeleteStageInput) async throws -> DeleteStageOutputResponse
+    func deleteStage(input: DeleteStageInput) async throws -> DeleteStageOutput
     /// Disconnects a specified participant and revokes the participant permanently from a specified stage.
     ///
     /// - Parameter DisconnectParticipantInput : [no documentation found]
     ///
-    /// - Returns: `DisconnectParticipantOutputResponse` : [no documentation found]
+    /// - Returns: `DisconnectParticipantOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -108,12 +108,12 @@ public protocol IVSRealTimeClientProtocol {
     /// - `PendingVerification` :
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
-    func disconnectParticipant(input: DisconnectParticipantInput) async throws -> DisconnectParticipantOutputResponse
+    func disconnectParticipant(input: DisconnectParticipantInput) async throws -> DisconnectParticipantOutput
     /// Gets information about the specified participant token.
     ///
     /// - Parameter GetParticipantInput : [no documentation found]
     ///
-    /// - Returns: `GetParticipantOutputResponse` : [no documentation found]
+    /// - Returns: `GetParticipantOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -121,12 +121,12 @@ public protocol IVSRealTimeClientProtocol {
     /// - `AccessDeniedException` :
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
-    func getParticipant(input: GetParticipantInput) async throws -> GetParticipantOutputResponse
+    func getParticipant(input: GetParticipantInput) async throws -> GetParticipantOutput
     /// Gets information for the specified stage.
     ///
     /// - Parameter GetStageInput : [no documentation found]
     ///
-    /// - Returns: `GetStageOutputResponse` : [no documentation found]
+    /// - Returns: `GetStageOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -134,12 +134,12 @@ public protocol IVSRealTimeClientProtocol {
     /// - `AccessDeniedException` :
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
-    func getStage(input: GetStageInput) async throws -> GetStageOutputResponse
+    func getStage(input: GetStageInput) async throws -> GetStageOutput
     /// Gets information for the specified stage session.
     ///
     /// - Parameter GetStageSessionInput : [no documentation found]
     ///
-    /// - Returns: `GetStageSessionOutputResponse` : [no documentation found]
+    /// - Returns: `GetStageSessionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -147,36 +147,36 @@ public protocol IVSRealTimeClientProtocol {
     /// - `AccessDeniedException` :
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
-    func getStageSession(input: GetStageSessionInput) async throws -> GetStageSessionOutputResponse
+    func getStageSession(input: GetStageSessionInput) async throws -> GetStageSessionOutput
     /// Lists events for a specified participant that occurred during a specified stage session.
     ///
     /// - Parameter ListParticipantEventsInput : [no documentation found]
     ///
-    /// - Returns: `ListParticipantEventsOutputResponse` : [no documentation found]
+    /// - Returns: `ListParticipantEventsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` :
     /// - `ValidationException` :
-    func listParticipantEvents(input: ListParticipantEventsInput) async throws -> ListParticipantEventsOutputResponse
+    func listParticipantEvents(input: ListParticipantEventsInput) async throws -> ListParticipantEventsOutput
     /// Lists all participants in a specified stage session.
     ///
     /// - Parameter ListParticipantsInput : [no documentation found]
     ///
-    /// - Returns: `ListParticipantsOutputResponse` : [no documentation found]
+    /// - Returns: `ListParticipantsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` :
     /// - `ValidationException` :
-    func listParticipants(input: ListParticipantsInput) async throws -> ListParticipantsOutputResponse
+    func listParticipants(input: ListParticipantsInput) async throws -> ListParticipantsOutput
     /// Gets summary information about all stages in your account, in the AWS region where the API request is processed.
     ///
     /// - Parameter ListStagesInput : [no documentation found]
     ///
-    /// - Returns: `ListStagesOutputResponse` : [no documentation found]
+    /// - Returns: `ListStagesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -184,24 +184,24 @@ public protocol IVSRealTimeClientProtocol {
     /// - `AccessDeniedException` :
     /// - `ConflictException` :
     /// - `ValidationException` :
-    func listStages(input: ListStagesInput) async throws -> ListStagesOutputResponse
+    func listStages(input: ListStagesInput) async throws -> ListStagesOutput
     /// Gets all sessions for a specified stage.
     ///
     /// - Parameter ListStageSessionsInput : [no documentation found]
     ///
-    /// - Returns: `ListStageSessionsOutputResponse` : [no documentation found]
+    /// - Returns: `ListStageSessionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` :
     /// - `ValidationException` :
-    func listStageSessions(input: ListStageSessionsInput) async throws -> ListStageSessionsOutputResponse
+    func listStageSessions(input: ListStageSessionsInput) async throws -> ListStageSessionsOutput
     /// Gets information about AWS tags for the specified ARN.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -209,12 +209,12 @@ public protocol IVSRealTimeClientProtocol {
     /// - `InternalServerException` :
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     /// Adds or updates tags for the AWS resource with the specified ARN.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -222,12 +222,12 @@ public protocol IVSRealTimeClientProtocol {
     /// - `InternalServerException` :
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     /// Removes tags from the resource with the specified ARN.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -235,12 +235,12 @@ public protocol IVSRealTimeClientProtocol {
     /// - `InternalServerException` :
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
     /// Updates a stage’s configuration.
     ///
     /// - Parameter UpdateStageInput : [no documentation found]
     ///
-    /// - Returns: `UpdateStageOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateStageOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -250,7 +250,7 @@ public protocol IVSRealTimeClientProtocol {
     /// - `ResourceNotFoundException` :
     /// - `ServiceQuotaExceededException` :
     /// - `ValidationException` :
-    func updateStage(input: UpdateStageInput) async throws -> UpdateStageOutputResponse
+    func updateStage(input: UpdateStageInput) async throws -> UpdateStageOutput
 }
 
 public enum IVSRealTimeClientTypes {}

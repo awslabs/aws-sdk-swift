@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension CodeDeployClient {
-    /// Paginate over `[ListApplicationRevisionsOutputResponse]` results.
+    /// Paginate over `[ListApplicationRevisionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListApplicationRevisionsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListApplicationRevisionsOutputResponse`
-    public func listApplicationRevisionsPaginated(input: ListApplicationRevisionsInput) -> ClientRuntime.PaginatorSequence<ListApplicationRevisionsInput, ListApplicationRevisionsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListApplicationRevisionsInput, ListApplicationRevisionsOutputResponse>(input: input, inputKey: \ListApplicationRevisionsInput.nextToken, outputKey: \ListApplicationRevisionsOutputResponse.nextToken, paginationFunction: self.listApplicationRevisions(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListApplicationRevisionsOutput`
+    public func listApplicationRevisionsPaginated(input: ListApplicationRevisionsInput) -> ClientRuntime.PaginatorSequence<ListApplicationRevisionsInput, ListApplicationRevisionsOutput> {
+        return ClientRuntime.PaginatorSequence<ListApplicationRevisionsInput, ListApplicationRevisionsOutput>(input: input, inputKey: \ListApplicationRevisionsInput.nextToken, outputKey: \ListApplicationRevisionsOutput.nextToken, paginationFunction: self.listApplicationRevisions(input:))
     }
 }
 
@@ -29,7 +29,7 @@ extension ListApplicationRevisionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListApplicationRevisionsInput, Output == ListApplicationRevisionsOutputResponse {
+extension PaginatorSequence where Input == ListApplicationRevisionsInput, Output == ListApplicationRevisionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listApplicationRevisionsPaginated`
     /// to access the nested member `[CodeDeployClientTypes.RevisionLocation]`
     /// - Returns: `[CodeDeployClientTypes.RevisionLocation]`
@@ -38,16 +38,16 @@ extension PaginatorSequence where Input == ListApplicationRevisionsInput, Output
     }
 }
 extension CodeDeployClient {
-    /// Paginate over `[ListApplicationsOutputResponse]` results.
+    /// Paginate over `[ListApplicationsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListApplicationsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListApplicationsOutputResponse`
-    public func listApplicationsPaginated(input: ListApplicationsInput) -> ClientRuntime.PaginatorSequence<ListApplicationsInput, ListApplicationsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListApplicationsInput, ListApplicationsOutputResponse>(input: input, inputKey: \ListApplicationsInput.nextToken, outputKey: \ListApplicationsOutputResponse.nextToken, paginationFunction: self.listApplications(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListApplicationsOutput`
+    public func listApplicationsPaginated(input: ListApplicationsInput) -> ClientRuntime.PaginatorSequence<ListApplicationsInput, ListApplicationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListApplicationsInput, ListApplicationsOutput>(input: input, inputKey: \ListApplicationsInput.nextToken, outputKey: \ListApplicationsOutput.nextToken, paginationFunction: self.listApplications(input:))
     }
 }
 
@@ -58,7 +58,7 @@ extension ListApplicationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListApplicationsInput, Output == ListApplicationsOutputResponse {
+extension PaginatorSequence where Input == ListApplicationsInput, Output == ListApplicationsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listApplicationsPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`
@@ -67,16 +67,16 @@ extension PaginatorSequence where Input == ListApplicationsInput, Output == List
     }
 }
 extension CodeDeployClient {
-    /// Paginate over `[ListDeploymentConfigsOutputResponse]` results.
+    /// Paginate over `[ListDeploymentConfigsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListDeploymentConfigsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListDeploymentConfigsOutputResponse`
-    public func listDeploymentConfigsPaginated(input: ListDeploymentConfigsInput) -> ClientRuntime.PaginatorSequence<ListDeploymentConfigsInput, ListDeploymentConfigsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListDeploymentConfigsInput, ListDeploymentConfigsOutputResponse>(input: input, inputKey: \ListDeploymentConfigsInput.nextToken, outputKey: \ListDeploymentConfigsOutputResponse.nextToken, paginationFunction: self.listDeploymentConfigs(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDeploymentConfigsOutput`
+    public func listDeploymentConfigsPaginated(input: ListDeploymentConfigsInput) -> ClientRuntime.PaginatorSequence<ListDeploymentConfigsInput, ListDeploymentConfigsOutput> {
+        return ClientRuntime.PaginatorSequence<ListDeploymentConfigsInput, ListDeploymentConfigsOutput>(input: input, inputKey: \ListDeploymentConfigsInput.nextToken, outputKey: \ListDeploymentConfigsOutput.nextToken, paginationFunction: self.listDeploymentConfigs(input:))
     }
 }
 
@@ -87,7 +87,7 @@ extension ListDeploymentConfigsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListDeploymentConfigsInput, Output == ListDeploymentConfigsOutputResponse {
+extension PaginatorSequence where Input == ListDeploymentConfigsInput, Output == ListDeploymentConfigsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listDeploymentConfigsPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`
@@ -96,16 +96,16 @@ extension PaginatorSequence where Input == ListDeploymentConfigsInput, Output ==
     }
 }
 extension CodeDeployClient {
-    /// Paginate over `[ListDeploymentGroupsOutputResponse]` results.
+    /// Paginate over `[ListDeploymentGroupsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListDeploymentGroupsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListDeploymentGroupsOutputResponse`
-    public func listDeploymentGroupsPaginated(input: ListDeploymentGroupsInput) -> ClientRuntime.PaginatorSequence<ListDeploymentGroupsInput, ListDeploymentGroupsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListDeploymentGroupsInput, ListDeploymentGroupsOutputResponse>(input: input, inputKey: \ListDeploymentGroupsInput.nextToken, outputKey: \ListDeploymentGroupsOutputResponse.nextToken, paginationFunction: self.listDeploymentGroups(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDeploymentGroupsOutput`
+    public func listDeploymentGroupsPaginated(input: ListDeploymentGroupsInput) -> ClientRuntime.PaginatorSequence<ListDeploymentGroupsInput, ListDeploymentGroupsOutput> {
+        return ClientRuntime.PaginatorSequence<ListDeploymentGroupsInput, ListDeploymentGroupsOutput>(input: input, inputKey: \ListDeploymentGroupsInput.nextToken, outputKey: \ListDeploymentGroupsOutput.nextToken, paginationFunction: self.listDeploymentGroups(input:))
     }
 }
 
@@ -117,7 +117,7 @@ extension ListDeploymentGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListDeploymentGroupsInput, Output == ListDeploymentGroupsOutputResponse {
+extension PaginatorSequence where Input == ListDeploymentGroupsInput, Output == ListDeploymentGroupsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listDeploymentGroupsPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`
@@ -126,16 +126,16 @@ extension PaginatorSequence where Input == ListDeploymentGroupsInput, Output == 
     }
 }
 extension CodeDeployClient {
-    /// Paginate over `[ListDeploymentInstancesOutputResponse]` results.
+    /// Paginate over `[ListDeploymentInstancesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListDeploymentInstancesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListDeploymentInstancesOutputResponse`
-    public func listDeploymentInstancesPaginated(input: ListDeploymentInstancesInput) -> ClientRuntime.PaginatorSequence<ListDeploymentInstancesInput, ListDeploymentInstancesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListDeploymentInstancesInput, ListDeploymentInstancesOutputResponse>(input: input, inputKey: \ListDeploymentInstancesInput.nextToken, outputKey: \ListDeploymentInstancesOutputResponse.nextToken, paginationFunction: self.listDeploymentInstances(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDeploymentInstancesOutput`
+    public func listDeploymentInstancesPaginated(input: ListDeploymentInstancesInput) -> ClientRuntime.PaginatorSequence<ListDeploymentInstancesInput, ListDeploymentInstancesOutput> {
+        return ClientRuntime.PaginatorSequence<ListDeploymentInstancesInput, ListDeploymentInstancesOutput>(input: input, inputKey: \ListDeploymentInstancesInput.nextToken, outputKey: \ListDeploymentInstancesOutput.nextToken, paginationFunction: self.listDeploymentInstances(input:))
     }
 }
 
@@ -149,7 +149,7 @@ extension ListDeploymentInstancesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListDeploymentInstancesInput, Output == ListDeploymentInstancesOutputResponse {
+extension PaginatorSequence where Input == ListDeploymentInstancesInput, Output == ListDeploymentInstancesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listDeploymentInstancesPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`
@@ -158,16 +158,16 @@ extension PaginatorSequence where Input == ListDeploymentInstancesInput, Output 
     }
 }
 extension CodeDeployClient {
-    /// Paginate over `[ListDeploymentsOutputResponse]` results.
+    /// Paginate over `[ListDeploymentsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListDeploymentsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListDeploymentsOutputResponse`
-    public func listDeploymentsPaginated(input: ListDeploymentsInput) -> ClientRuntime.PaginatorSequence<ListDeploymentsInput, ListDeploymentsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListDeploymentsInput, ListDeploymentsOutputResponse>(input: input, inputKey: \ListDeploymentsInput.nextToken, outputKey: \ListDeploymentsOutputResponse.nextToken, paginationFunction: self.listDeployments(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDeploymentsOutput`
+    public func listDeploymentsPaginated(input: ListDeploymentsInput) -> ClientRuntime.PaginatorSequence<ListDeploymentsInput, ListDeploymentsOutput> {
+        return ClientRuntime.PaginatorSequence<ListDeploymentsInput, ListDeploymentsOutput>(input: input, inputKey: \ListDeploymentsInput.nextToken, outputKey: \ListDeploymentsOutput.nextToken, paginationFunction: self.listDeployments(input:))
     }
 }
 
@@ -183,7 +183,7 @@ extension ListDeploymentsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListDeploymentsInput, Output == ListDeploymentsOutputResponse {
+extension PaginatorSequence where Input == ListDeploymentsInput, Output == ListDeploymentsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listDeploymentsPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`

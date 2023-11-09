@@ -71,7 +71,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     ///
     /// - Parameter CreateDevicePoolInput : Represents a request to the create device pool operation.
     ///
-    /// - Returns: `CreateDevicePoolOutputResponse` : Represents the result of a create device pool request.
+    /// - Returns: `CreateDevicePoolOutput` : Represents the result of a create device pool request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -80,7 +80,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func createDevicePool(input: CreateDevicePoolInput) async throws -> CreateDevicePoolOutputResponse
+    public func createDevicePool(input: CreateDevicePoolInput) async throws -> CreateDevicePoolOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -96,21 +96,21 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateDevicePoolInput, CreateDevicePoolOutputResponse, CreateDevicePoolOutputError>(id: "createDevicePool")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDevicePoolInput, CreateDevicePoolOutputResponse, CreateDevicePoolOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDevicePoolInput, CreateDevicePoolOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateDevicePoolInput, CreateDevicePoolOutput, CreateDevicePoolOutputError>(id: "createDevicePool")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDevicePoolInput, CreateDevicePoolOutput, CreateDevicePoolOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDevicePoolInput, CreateDevicePoolOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateDevicePoolOutputResponse, CreateDevicePoolOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateDevicePoolOutput, CreateDevicePoolOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateDevicePoolInput, CreateDevicePoolOutputResponse>(xAmzTarget: "DeviceFarm_20150623.CreateDevicePool"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateDevicePoolInput, CreateDevicePoolOutputResponse>(xmlName: "CreateDevicePoolRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateDevicePoolInput, CreateDevicePoolOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateDevicePoolInput, CreateDevicePoolOutput>(xAmzTarget: "DeviceFarm_20150623.CreateDevicePool"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateDevicePoolInput, CreateDevicePoolOutput>(xmlName: "CreateDevicePoolRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateDevicePoolInput, CreateDevicePoolOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateDevicePoolOutputResponse, CreateDevicePoolOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateDevicePoolOutput, CreateDevicePoolOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDevicePoolOutputResponse, CreateDevicePoolOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDevicePoolOutputResponse, CreateDevicePoolOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateDevicePoolOutputResponse, CreateDevicePoolOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDevicePoolOutput, CreateDevicePoolOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDevicePoolOutput, CreateDevicePoolOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateDevicePoolOutput, CreateDevicePoolOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -119,7 +119,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     ///
     /// - Parameter CreateInstanceProfileInput : [no documentation found]
     ///
-    /// - Returns: `CreateInstanceProfileOutputResponse` : [no documentation found]
+    /// - Returns: `CreateInstanceProfileOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -128,7 +128,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func createInstanceProfile(input: CreateInstanceProfileInput) async throws -> CreateInstanceProfileOutputResponse
+    public func createInstanceProfile(input: CreateInstanceProfileInput) async throws -> CreateInstanceProfileOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -144,21 +144,21 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateInstanceProfileInput, CreateInstanceProfileOutputResponse, CreateInstanceProfileOutputError>(id: "createInstanceProfile")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateInstanceProfileInput, CreateInstanceProfileOutputResponse, CreateInstanceProfileOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateInstanceProfileInput, CreateInstanceProfileOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateInstanceProfileInput, CreateInstanceProfileOutput, CreateInstanceProfileOutputError>(id: "createInstanceProfile")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateInstanceProfileInput, CreateInstanceProfileOutput, CreateInstanceProfileOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateInstanceProfileInput, CreateInstanceProfileOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateInstanceProfileOutputResponse, CreateInstanceProfileOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateInstanceProfileOutput, CreateInstanceProfileOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateInstanceProfileInput, CreateInstanceProfileOutputResponse>(xAmzTarget: "DeviceFarm_20150623.CreateInstanceProfile"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateInstanceProfileInput, CreateInstanceProfileOutputResponse>(xmlName: "CreateInstanceProfileRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateInstanceProfileInput, CreateInstanceProfileOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateInstanceProfileInput, CreateInstanceProfileOutput>(xAmzTarget: "DeviceFarm_20150623.CreateInstanceProfile"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateInstanceProfileInput, CreateInstanceProfileOutput>(xmlName: "CreateInstanceProfileRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateInstanceProfileInput, CreateInstanceProfileOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateInstanceProfileOutputResponse, CreateInstanceProfileOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateInstanceProfileOutput, CreateInstanceProfileOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateInstanceProfileOutputResponse, CreateInstanceProfileOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateInstanceProfileOutputResponse, CreateInstanceProfileOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateInstanceProfileOutputResponse, CreateInstanceProfileOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateInstanceProfileOutput, CreateInstanceProfileOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateInstanceProfileOutput, CreateInstanceProfileOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateInstanceProfileOutput, CreateInstanceProfileOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -167,7 +167,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     ///
     /// - Parameter CreateNetworkProfileInput : [no documentation found]
     ///
-    /// - Returns: `CreateNetworkProfileOutputResponse` : [no documentation found]
+    /// - Returns: `CreateNetworkProfileOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -176,7 +176,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func createNetworkProfile(input: CreateNetworkProfileInput) async throws -> CreateNetworkProfileOutputResponse
+    public func createNetworkProfile(input: CreateNetworkProfileInput) async throws -> CreateNetworkProfileOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -192,21 +192,21 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateNetworkProfileInput, CreateNetworkProfileOutputResponse, CreateNetworkProfileOutputError>(id: "createNetworkProfile")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateNetworkProfileInput, CreateNetworkProfileOutputResponse, CreateNetworkProfileOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateNetworkProfileInput, CreateNetworkProfileOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateNetworkProfileInput, CreateNetworkProfileOutput, CreateNetworkProfileOutputError>(id: "createNetworkProfile")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateNetworkProfileInput, CreateNetworkProfileOutput, CreateNetworkProfileOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateNetworkProfileInput, CreateNetworkProfileOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateNetworkProfileOutputResponse, CreateNetworkProfileOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateNetworkProfileOutput, CreateNetworkProfileOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateNetworkProfileInput, CreateNetworkProfileOutputResponse>(xAmzTarget: "DeviceFarm_20150623.CreateNetworkProfile"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateNetworkProfileInput, CreateNetworkProfileOutputResponse>(xmlName: "CreateNetworkProfileRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateNetworkProfileInput, CreateNetworkProfileOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateNetworkProfileInput, CreateNetworkProfileOutput>(xAmzTarget: "DeviceFarm_20150623.CreateNetworkProfile"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateNetworkProfileInput, CreateNetworkProfileOutput>(xmlName: "CreateNetworkProfileRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateNetworkProfileInput, CreateNetworkProfileOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateNetworkProfileOutputResponse, CreateNetworkProfileOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateNetworkProfileOutput, CreateNetworkProfileOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateNetworkProfileOutputResponse, CreateNetworkProfileOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateNetworkProfileOutputResponse, CreateNetworkProfileOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateNetworkProfileOutputResponse, CreateNetworkProfileOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateNetworkProfileOutput, CreateNetworkProfileOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateNetworkProfileOutput, CreateNetworkProfileOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateNetworkProfileOutput, CreateNetworkProfileOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -215,7 +215,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     ///
     /// - Parameter CreateProjectInput : Represents a request to the create project operation.
     ///
-    /// - Returns: `CreateProjectOutputResponse` : Represents the result of a create project request.
+    /// - Returns: `CreateProjectOutput` : Represents the result of a create project request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -225,7 +225,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
     /// - `TagOperationException` : The operation was not successful. Try again.
-    public func createProject(input: CreateProjectInput) async throws -> CreateProjectOutputResponse
+    public func createProject(input: CreateProjectInput) async throws -> CreateProjectOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -241,21 +241,21 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateProjectInput, CreateProjectOutputResponse, CreateProjectOutputError>(id: "createProject")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateProjectInput, CreateProjectOutputResponse, CreateProjectOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateProjectInput, CreateProjectOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateProjectInput, CreateProjectOutput, CreateProjectOutputError>(id: "createProject")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateProjectInput, CreateProjectOutput, CreateProjectOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateProjectInput, CreateProjectOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateProjectOutputResponse, CreateProjectOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateProjectOutput, CreateProjectOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateProjectInput, CreateProjectOutputResponse>(xAmzTarget: "DeviceFarm_20150623.CreateProject"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateProjectInput, CreateProjectOutputResponse>(xmlName: "CreateProjectRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateProjectInput, CreateProjectOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateProjectInput, CreateProjectOutput>(xAmzTarget: "DeviceFarm_20150623.CreateProject"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateProjectInput, CreateProjectOutput>(xmlName: "CreateProjectRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateProjectInput, CreateProjectOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateProjectOutputResponse, CreateProjectOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateProjectOutput, CreateProjectOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateProjectOutputResponse, CreateProjectOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateProjectOutputResponse, CreateProjectOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateProjectOutputResponse, CreateProjectOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateProjectOutput, CreateProjectOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateProjectOutput, CreateProjectOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateProjectOutput, CreateProjectOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -264,7 +264,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     ///
     /// - Parameter CreateRemoteAccessSessionInput : Creates and submits a request to start a remote access session.
     ///
-    /// - Returns: `CreateRemoteAccessSessionOutputResponse` : Represents the server response from a request to create a remote access session.
+    /// - Returns: `CreateRemoteAccessSessionOutput` : Represents the server response from a request to create a remote access session.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -273,7 +273,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func createRemoteAccessSession(input: CreateRemoteAccessSessionInput) async throws -> CreateRemoteAccessSessionOutputResponse
+    public func createRemoteAccessSession(input: CreateRemoteAccessSessionInput) async throws -> CreateRemoteAccessSessionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -289,21 +289,21 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateRemoteAccessSessionInput, CreateRemoteAccessSessionOutputResponse, CreateRemoteAccessSessionOutputError>(id: "createRemoteAccessSession")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateRemoteAccessSessionInput, CreateRemoteAccessSessionOutputResponse, CreateRemoteAccessSessionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateRemoteAccessSessionInput, CreateRemoteAccessSessionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateRemoteAccessSessionInput, CreateRemoteAccessSessionOutput, CreateRemoteAccessSessionOutputError>(id: "createRemoteAccessSession")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateRemoteAccessSessionInput, CreateRemoteAccessSessionOutput, CreateRemoteAccessSessionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateRemoteAccessSessionInput, CreateRemoteAccessSessionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateRemoteAccessSessionOutputResponse, CreateRemoteAccessSessionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateRemoteAccessSessionOutput, CreateRemoteAccessSessionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateRemoteAccessSessionInput, CreateRemoteAccessSessionOutputResponse>(xAmzTarget: "DeviceFarm_20150623.CreateRemoteAccessSession"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateRemoteAccessSessionInput, CreateRemoteAccessSessionOutputResponse>(xmlName: "CreateRemoteAccessSessionRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateRemoteAccessSessionInput, CreateRemoteAccessSessionOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateRemoteAccessSessionInput, CreateRemoteAccessSessionOutput>(xAmzTarget: "DeviceFarm_20150623.CreateRemoteAccessSession"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateRemoteAccessSessionInput, CreateRemoteAccessSessionOutput>(xmlName: "CreateRemoteAccessSessionRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateRemoteAccessSessionInput, CreateRemoteAccessSessionOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateRemoteAccessSessionOutputResponse, CreateRemoteAccessSessionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateRemoteAccessSessionOutput, CreateRemoteAccessSessionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateRemoteAccessSessionOutputResponse, CreateRemoteAccessSessionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateRemoteAccessSessionOutputResponse, CreateRemoteAccessSessionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateRemoteAccessSessionOutputResponse, CreateRemoteAccessSessionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateRemoteAccessSessionOutput, CreateRemoteAccessSessionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateRemoteAccessSessionOutput, CreateRemoteAccessSessionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateRemoteAccessSessionOutput, CreateRemoteAccessSessionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -312,7 +312,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     ///
     /// - Parameter CreateTestGridProjectInput : [no documentation found]
     ///
-    /// - Returns: `CreateTestGridProjectOutputResponse` : [no documentation found]
+    /// - Returns: `CreateTestGridProjectOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -320,7 +320,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `ArgumentException` : An invalid argument was specified.
     /// - `InternalServiceException` : An internal exception was raised in the service. Contact [aws-devicefarm-support@amazon.com](mailto:aws-devicefarm-support@amazon.com) if you see this error.
     /// - `LimitExceededException` : A limit was exceeded.
-    public func createTestGridProject(input: CreateTestGridProjectInput) async throws -> CreateTestGridProjectOutputResponse
+    public func createTestGridProject(input: CreateTestGridProjectInput) async throws -> CreateTestGridProjectOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -336,21 +336,21 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateTestGridProjectInput, CreateTestGridProjectOutputResponse, CreateTestGridProjectOutputError>(id: "createTestGridProject")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateTestGridProjectInput, CreateTestGridProjectOutputResponse, CreateTestGridProjectOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateTestGridProjectInput, CreateTestGridProjectOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateTestGridProjectInput, CreateTestGridProjectOutput, CreateTestGridProjectOutputError>(id: "createTestGridProject")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateTestGridProjectInput, CreateTestGridProjectOutput, CreateTestGridProjectOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateTestGridProjectInput, CreateTestGridProjectOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateTestGridProjectOutputResponse, CreateTestGridProjectOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateTestGridProjectOutput, CreateTestGridProjectOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateTestGridProjectInput, CreateTestGridProjectOutputResponse>(xAmzTarget: "DeviceFarm_20150623.CreateTestGridProject"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateTestGridProjectInput, CreateTestGridProjectOutputResponse>(xmlName: "CreateTestGridProjectRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateTestGridProjectInput, CreateTestGridProjectOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateTestGridProjectInput, CreateTestGridProjectOutput>(xAmzTarget: "DeviceFarm_20150623.CreateTestGridProject"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateTestGridProjectInput, CreateTestGridProjectOutput>(xmlName: "CreateTestGridProjectRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateTestGridProjectInput, CreateTestGridProjectOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateTestGridProjectOutputResponse, CreateTestGridProjectOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateTestGridProjectOutput, CreateTestGridProjectOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateTestGridProjectOutputResponse, CreateTestGridProjectOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateTestGridProjectOutputResponse, CreateTestGridProjectOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateTestGridProjectOutputResponse, CreateTestGridProjectOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateTestGridProjectOutput, CreateTestGridProjectOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateTestGridProjectOutput, CreateTestGridProjectOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateTestGridProjectOutput, CreateTestGridProjectOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -359,7 +359,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     ///
     /// - Parameter CreateTestGridUrlInput : [no documentation found]
     ///
-    /// - Returns: `CreateTestGridUrlOutputResponse` : [no documentation found]
+    /// - Returns: `CreateTestGridUrlOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -367,7 +367,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `ArgumentException` : An invalid argument was specified.
     /// - `InternalServiceException` : An internal exception was raised in the service. Contact [aws-devicefarm-support@amazon.com](mailto:aws-devicefarm-support@amazon.com) if you see this error.
     /// - `NotFoundException` : The specified entity was not found.
-    public func createTestGridUrl(input: CreateTestGridUrlInput) async throws -> CreateTestGridUrlOutputResponse
+    public func createTestGridUrl(input: CreateTestGridUrlInput) async throws -> CreateTestGridUrlOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -383,21 +383,21 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateTestGridUrlInput, CreateTestGridUrlOutputResponse, CreateTestGridUrlOutputError>(id: "createTestGridUrl")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateTestGridUrlInput, CreateTestGridUrlOutputResponse, CreateTestGridUrlOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateTestGridUrlInput, CreateTestGridUrlOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateTestGridUrlInput, CreateTestGridUrlOutput, CreateTestGridUrlOutputError>(id: "createTestGridUrl")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateTestGridUrlInput, CreateTestGridUrlOutput, CreateTestGridUrlOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateTestGridUrlInput, CreateTestGridUrlOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateTestGridUrlOutputResponse, CreateTestGridUrlOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateTestGridUrlOutput, CreateTestGridUrlOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateTestGridUrlInput, CreateTestGridUrlOutputResponse>(xAmzTarget: "DeviceFarm_20150623.CreateTestGridUrl"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateTestGridUrlInput, CreateTestGridUrlOutputResponse>(xmlName: "CreateTestGridUrlRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateTestGridUrlInput, CreateTestGridUrlOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateTestGridUrlInput, CreateTestGridUrlOutput>(xAmzTarget: "DeviceFarm_20150623.CreateTestGridUrl"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateTestGridUrlInput, CreateTestGridUrlOutput>(xmlName: "CreateTestGridUrlRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateTestGridUrlInput, CreateTestGridUrlOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateTestGridUrlOutputResponse, CreateTestGridUrlOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateTestGridUrlOutput, CreateTestGridUrlOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateTestGridUrlOutputResponse, CreateTestGridUrlOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateTestGridUrlOutputResponse, CreateTestGridUrlOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateTestGridUrlOutputResponse, CreateTestGridUrlOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateTestGridUrlOutput, CreateTestGridUrlOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateTestGridUrlOutput, CreateTestGridUrlOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateTestGridUrlOutput, CreateTestGridUrlOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -406,7 +406,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     ///
     /// - Parameter CreateUploadInput : Represents a request to the create upload operation.
     ///
-    /// - Returns: `CreateUploadOutputResponse` : Represents the result of a create upload request.
+    /// - Returns: `CreateUploadOutput` : Represents the result of a create upload request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -415,7 +415,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func createUpload(input: CreateUploadInput) async throws -> CreateUploadOutputResponse
+    public func createUpload(input: CreateUploadInput) async throws -> CreateUploadOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -431,21 +431,21 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateUploadInput, CreateUploadOutputResponse, CreateUploadOutputError>(id: "createUpload")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateUploadInput, CreateUploadOutputResponse, CreateUploadOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateUploadInput, CreateUploadOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateUploadInput, CreateUploadOutput, CreateUploadOutputError>(id: "createUpload")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateUploadInput, CreateUploadOutput, CreateUploadOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateUploadInput, CreateUploadOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateUploadOutputResponse, CreateUploadOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateUploadOutput, CreateUploadOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateUploadInput, CreateUploadOutputResponse>(xAmzTarget: "DeviceFarm_20150623.CreateUpload"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateUploadInput, CreateUploadOutputResponse>(xmlName: "CreateUploadRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateUploadInput, CreateUploadOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateUploadInput, CreateUploadOutput>(xAmzTarget: "DeviceFarm_20150623.CreateUpload"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateUploadInput, CreateUploadOutput>(xmlName: "CreateUploadRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateUploadInput, CreateUploadOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateUploadOutputResponse, CreateUploadOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateUploadOutput, CreateUploadOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateUploadOutputResponse, CreateUploadOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateUploadOutputResponse, CreateUploadOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateUploadOutputResponse, CreateUploadOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateUploadOutput, CreateUploadOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateUploadOutput, CreateUploadOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateUploadOutput, CreateUploadOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -454,7 +454,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     ///
     /// - Parameter CreateVPCEConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `CreateVPCEConfigurationOutputResponse` : [no documentation found]
+    /// - Returns: `CreateVPCEConfigurationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -462,7 +462,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `ArgumentException` : An invalid argument was specified.
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func createVPCEConfiguration(input: CreateVPCEConfigurationInput) async throws -> CreateVPCEConfigurationOutputResponse
+    public func createVPCEConfiguration(input: CreateVPCEConfigurationInput) async throws -> CreateVPCEConfigurationOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -478,21 +478,21 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateVPCEConfigurationInput, CreateVPCEConfigurationOutputResponse, CreateVPCEConfigurationOutputError>(id: "createVPCEConfiguration")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateVPCEConfigurationInput, CreateVPCEConfigurationOutputResponse, CreateVPCEConfigurationOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateVPCEConfigurationInput, CreateVPCEConfigurationOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateVPCEConfigurationInput, CreateVPCEConfigurationOutput, CreateVPCEConfigurationOutputError>(id: "createVPCEConfiguration")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateVPCEConfigurationInput, CreateVPCEConfigurationOutput, CreateVPCEConfigurationOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateVPCEConfigurationInput, CreateVPCEConfigurationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateVPCEConfigurationOutputResponse, CreateVPCEConfigurationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateVPCEConfigurationOutput, CreateVPCEConfigurationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateVPCEConfigurationInput, CreateVPCEConfigurationOutputResponse>(xAmzTarget: "DeviceFarm_20150623.CreateVPCEConfiguration"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateVPCEConfigurationInput, CreateVPCEConfigurationOutputResponse>(xmlName: "CreateVPCEConfigurationRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateVPCEConfigurationInput, CreateVPCEConfigurationOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateVPCEConfigurationInput, CreateVPCEConfigurationOutput>(xAmzTarget: "DeviceFarm_20150623.CreateVPCEConfiguration"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateVPCEConfigurationInput, CreateVPCEConfigurationOutput>(xmlName: "CreateVPCEConfigurationRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateVPCEConfigurationInput, CreateVPCEConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateVPCEConfigurationOutputResponse, CreateVPCEConfigurationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateVPCEConfigurationOutput, CreateVPCEConfigurationOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateVPCEConfigurationOutputResponse, CreateVPCEConfigurationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateVPCEConfigurationOutputResponse, CreateVPCEConfigurationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateVPCEConfigurationOutputResponse, CreateVPCEConfigurationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateVPCEConfigurationOutput, CreateVPCEConfigurationOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateVPCEConfigurationOutput, CreateVPCEConfigurationOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateVPCEConfigurationOutput, CreateVPCEConfigurationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -501,7 +501,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     ///
     /// - Parameter DeleteDevicePoolInput : Represents a request to the delete device pool operation.
     ///
-    /// - Returns: `DeleteDevicePoolOutputResponse` : Represents the result of a delete device pool request.
+    /// - Returns: `DeleteDevicePoolOutput` : Represents the result of a delete device pool request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -510,7 +510,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func deleteDevicePool(input: DeleteDevicePoolInput) async throws -> DeleteDevicePoolOutputResponse
+    public func deleteDevicePool(input: DeleteDevicePoolInput) async throws -> DeleteDevicePoolOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -526,21 +526,21 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteDevicePoolInput, DeleteDevicePoolOutputResponse, DeleteDevicePoolOutputError>(id: "deleteDevicePool")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDevicePoolInput, DeleteDevicePoolOutputResponse, DeleteDevicePoolOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDevicePoolInput, DeleteDevicePoolOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteDevicePoolInput, DeleteDevicePoolOutput, DeleteDevicePoolOutputError>(id: "deleteDevicePool")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDevicePoolInput, DeleteDevicePoolOutput, DeleteDevicePoolOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDevicePoolInput, DeleteDevicePoolOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteDevicePoolOutputResponse, DeleteDevicePoolOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteDevicePoolOutput, DeleteDevicePoolOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteDevicePoolInput, DeleteDevicePoolOutputResponse>(xAmzTarget: "DeviceFarm_20150623.DeleteDevicePool"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteDevicePoolInput, DeleteDevicePoolOutputResponse>(xmlName: "DeleteDevicePoolRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteDevicePoolInput, DeleteDevicePoolOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteDevicePoolInput, DeleteDevicePoolOutput>(xAmzTarget: "DeviceFarm_20150623.DeleteDevicePool"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteDevicePoolInput, DeleteDevicePoolOutput>(xmlName: "DeleteDevicePoolRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteDevicePoolInput, DeleteDevicePoolOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteDevicePoolOutputResponse, DeleteDevicePoolOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteDevicePoolOutput, DeleteDevicePoolOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDevicePoolOutputResponse, DeleteDevicePoolOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDevicePoolOutputResponse, DeleteDevicePoolOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteDevicePoolOutputResponse, DeleteDevicePoolOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDevicePoolOutput, DeleteDevicePoolOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDevicePoolOutput, DeleteDevicePoolOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteDevicePoolOutput, DeleteDevicePoolOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -549,7 +549,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     ///
     /// - Parameter DeleteInstanceProfileInput : [no documentation found]
     ///
-    /// - Returns: `DeleteInstanceProfileOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteInstanceProfileOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -558,7 +558,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func deleteInstanceProfile(input: DeleteInstanceProfileInput) async throws -> DeleteInstanceProfileOutputResponse
+    public func deleteInstanceProfile(input: DeleteInstanceProfileInput) async throws -> DeleteInstanceProfileOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -574,21 +574,21 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteInstanceProfileInput, DeleteInstanceProfileOutputResponse, DeleteInstanceProfileOutputError>(id: "deleteInstanceProfile")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteInstanceProfileInput, DeleteInstanceProfileOutputResponse, DeleteInstanceProfileOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteInstanceProfileInput, DeleteInstanceProfileOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteInstanceProfileInput, DeleteInstanceProfileOutput, DeleteInstanceProfileOutputError>(id: "deleteInstanceProfile")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteInstanceProfileInput, DeleteInstanceProfileOutput, DeleteInstanceProfileOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteInstanceProfileInput, DeleteInstanceProfileOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteInstanceProfileOutputResponse, DeleteInstanceProfileOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteInstanceProfileOutput, DeleteInstanceProfileOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteInstanceProfileInput, DeleteInstanceProfileOutputResponse>(xAmzTarget: "DeviceFarm_20150623.DeleteInstanceProfile"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteInstanceProfileInput, DeleteInstanceProfileOutputResponse>(xmlName: "DeleteInstanceProfileRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteInstanceProfileInput, DeleteInstanceProfileOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteInstanceProfileInput, DeleteInstanceProfileOutput>(xAmzTarget: "DeviceFarm_20150623.DeleteInstanceProfile"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteInstanceProfileInput, DeleteInstanceProfileOutput>(xmlName: "DeleteInstanceProfileRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteInstanceProfileInput, DeleteInstanceProfileOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteInstanceProfileOutputResponse, DeleteInstanceProfileOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteInstanceProfileOutput, DeleteInstanceProfileOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteInstanceProfileOutputResponse, DeleteInstanceProfileOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteInstanceProfileOutputResponse, DeleteInstanceProfileOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteInstanceProfileOutputResponse, DeleteInstanceProfileOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteInstanceProfileOutput, DeleteInstanceProfileOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteInstanceProfileOutput, DeleteInstanceProfileOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteInstanceProfileOutput, DeleteInstanceProfileOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -597,7 +597,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     ///
     /// - Parameter DeleteNetworkProfileInput : [no documentation found]
     ///
-    /// - Returns: `DeleteNetworkProfileOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteNetworkProfileOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -606,7 +606,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func deleteNetworkProfile(input: DeleteNetworkProfileInput) async throws -> DeleteNetworkProfileOutputResponse
+    public func deleteNetworkProfile(input: DeleteNetworkProfileInput) async throws -> DeleteNetworkProfileOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -622,21 +622,21 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteNetworkProfileInput, DeleteNetworkProfileOutputResponse, DeleteNetworkProfileOutputError>(id: "deleteNetworkProfile")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteNetworkProfileInput, DeleteNetworkProfileOutputResponse, DeleteNetworkProfileOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteNetworkProfileInput, DeleteNetworkProfileOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteNetworkProfileInput, DeleteNetworkProfileOutput, DeleteNetworkProfileOutputError>(id: "deleteNetworkProfile")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteNetworkProfileInput, DeleteNetworkProfileOutput, DeleteNetworkProfileOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteNetworkProfileInput, DeleteNetworkProfileOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteNetworkProfileOutputResponse, DeleteNetworkProfileOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteNetworkProfileOutput, DeleteNetworkProfileOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteNetworkProfileInput, DeleteNetworkProfileOutputResponse>(xAmzTarget: "DeviceFarm_20150623.DeleteNetworkProfile"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteNetworkProfileInput, DeleteNetworkProfileOutputResponse>(xmlName: "DeleteNetworkProfileRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteNetworkProfileInput, DeleteNetworkProfileOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteNetworkProfileInput, DeleteNetworkProfileOutput>(xAmzTarget: "DeviceFarm_20150623.DeleteNetworkProfile"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteNetworkProfileInput, DeleteNetworkProfileOutput>(xmlName: "DeleteNetworkProfileRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteNetworkProfileInput, DeleteNetworkProfileOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteNetworkProfileOutputResponse, DeleteNetworkProfileOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteNetworkProfileOutput, DeleteNetworkProfileOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteNetworkProfileOutputResponse, DeleteNetworkProfileOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteNetworkProfileOutputResponse, DeleteNetworkProfileOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteNetworkProfileOutputResponse, DeleteNetworkProfileOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteNetworkProfileOutput, DeleteNetworkProfileOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteNetworkProfileOutput, DeleteNetworkProfileOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteNetworkProfileOutput, DeleteNetworkProfileOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -645,7 +645,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     ///
     /// - Parameter DeleteProjectInput : Represents a request to the delete project operation.
     ///
-    /// - Returns: `DeleteProjectOutputResponse` : Represents the result of a delete project request.
+    /// - Returns: `DeleteProjectOutput` : Represents the result of a delete project request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -654,7 +654,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func deleteProject(input: DeleteProjectInput) async throws -> DeleteProjectOutputResponse
+    public func deleteProject(input: DeleteProjectInput) async throws -> DeleteProjectOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -670,21 +670,21 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteProjectInput, DeleteProjectOutputResponse, DeleteProjectOutputError>(id: "deleteProject")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteProjectInput, DeleteProjectOutputResponse, DeleteProjectOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteProjectInput, DeleteProjectOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteProjectInput, DeleteProjectOutput, DeleteProjectOutputError>(id: "deleteProject")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteProjectInput, DeleteProjectOutput, DeleteProjectOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteProjectInput, DeleteProjectOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteProjectOutputResponse, DeleteProjectOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteProjectOutput, DeleteProjectOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteProjectInput, DeleteProjectOutputResponse>(xAmzTarget: "DeviceFarm_20150623.DeleteProject"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteProjectInput, DeleteProjectOutputResponse>(xmlName: "DeleteProjectRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteProjectInput, DeleteProjectOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteProjectInput, DeleteProjectOutput>(xAmzTarget: "DeviceFarm_20150623.DeleteProject"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteProjectInput, DeleteProjectOutput>(xmlName: "DeleteProjectRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteProjectInput, DeleteProjectOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteProjectOutputResponse, DeleteProjectOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteProjectOutput, DeleteProjectOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteProjectOutputResponse, DeleteProjectOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteProjectOutputResponse, DeleteProjectOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteProjectOutputResponse, DeleteProjectOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteProjectOutput, DeleteProjectOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteProjectOutput, DeleteProjectOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteProjectOutput, DeleteProjectOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -693,7 +693,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     ///
     /// - Parameter DeleteRemoteAccessSessionInput : Represents the request to delete the specified remote access session.
     ///
-    /// - Returns: `DeleteRemoteAccessSessionOutputResponse` : The response from the server when a request is made to delete the remote access session.
+    /// - Returns: `DeleteRemoteAccessSessionOutput` : The response from the server when a request is made to delete the remote access session.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -702,7 +702,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func deleteRemoteAccessSession(input: DeleteRemoteAccessSessionInput) async throws -> DeleteRemoteAccessSessionOutputResponse
+    public func deleteRemoteAccessSession(input: DeleteRemoteAccessSessionInput) async throws -> DeleteRemoteAccessSessionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -718,21 +718,21 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteRemoteAccessSessionInput, DeleteRemoteAccessSessionOutputResponse, DeleteRemoteAccessSessionOutputError>(id: "deleteRemoteAccessSession")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteRemoteAccessSessionInput, DeleteRemoteAccessSessionOutputResponse, DeleteRemoteAccessSessionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteRemoteAccessSessionInput, DeleteRemoteAccessSessionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteRemoteAccessSessionInput, DeleteRemoteAccessSessionOutput, DeleteRemoteAccessSessionOutputError>(id: "deleteRemoteAccessSession")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteRemoteAccessSessionInput, DeleteRemoteAccessSessionOutput, DeleteRemoteAccessSessionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteRemoteAccessSessionInput, DeleteRemoteAccessSessionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteRemoteAccessSessionOutputResponse, DeleteRemoteAccessSessionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteRemoteAccessSessionOutput, DeleteRemoteAccessSessionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteRemoteAccessSessionInput, DeleteRemoteAccessSessionOutputResponse>(xAmzTarget: "DeviceFarm_20150623.DeleteRemoteAccessSession"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteRemoteAccessSessionInput, DeleteRemoteAccessSessionOutputResponse>(xmlName: "DeleteRemoteAccessSessionRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteRemoteAccessSessionInput, DeleteRemoteAccessSessionOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteRemoteAccessSessionInput, DeleteRemoteAccessSessionOutput>(xAmzTarget: "DeviceFarm_20150623.DeleteRemoteAccessSession"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteRemoteAccessSessionInput, DeleteRemoteAccessSessionOutput>(xmlName: "DeleteRemoteAccessSessionRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteRemoteAccessSessionInput, DeleteRemoteAccessSessionOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteRemoteAccessSessionOutputResponse, DeleteRemoteAccessSessionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteRemoteAccessSessionOutput, DeleteRemoteAccessSessionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteRemoteAccessSessionOutputResponse, DeleteRemoteAccessSessionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteRemoteAccessSessionOutputResponse, DeleteRemoteAccessSessionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteRemoteAccessSessionOutputResponse, DeleteRemoteAccessSessionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteRemoteAccessSessionOutput, DeleteRemoteAccessSessionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteRemoteAccessSessionOutput, DeleteRemoteAccessSessionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteRemoteAccessSessionOutput, DeleteRemoteAccessSessionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -741,7 +741,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     ///
     /// - Parameter DeleteRunInput : Represents a request to the delete run operation.
     ///
-    /// - Returns: `DeleteRunOutputResponse` : Represents the result of a delete run request.
+    /// - Returns: `DeleteRunOutput` : Represents the result of a delete run request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -750,7 +750,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func deleteRun(input: DeleteRunInput) async throws -> DeleteRunOutputResponse
+    public func deleteRun(input: DeleteRunInput) async throws -> DeleteRunOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -766,21 +766,21 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteRunInput, DeleteRunOutputResponse, DeleteRunOutputError>(id: "deleteRun")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteRunInput, DeleteRunOutputResponse, DeleteRunOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteRunInput, DeleteRunOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteRunInput, DeleteRunOutput, DeleteRunOutputError>(id: "deleteRun")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteRunInput, DeleteRunOutput, DeleteRunOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteRunInput, DeleteRunOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteRunOutputResponse, DeleteRunOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteRunOutput, DeleteRunOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteRunInput, DeleteRunOutputResponse>(xAmzTarget: "DeviceFarm_20150623.DeleteRun"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteRunInput, DeleteRunOutputResponse>(xmlName: "DeleteRunRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteRunInput, DeleteRunOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteRunInput, DeleteRunOutput>(xAmzTarget: "DeviceFarm_20150623.DeleteRun"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteRunInput, DeleteRunOutput>(xmlName: "DeleteRunRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteRunInput, DeleteRunOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteRunOutputResponse, DeleteRunOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteRunOutput, DeleteRunOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteRunOutputResponse, DeleteRunOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteRunOutputResponse, DeleteRunOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteRunOutputResponse, DeleteRunOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteRunOutput, DeleteRunOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteRunOutput, DeleteRunOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteRunOutput, DeleteRunOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -789,7 +789,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     ///
     /// - Parameter DeleteTestGridProjectInput : [no documentation found]
     ///
-    /// - Returns: `DeleteTestGridProjectOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteTestGridProjectOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -798,7 +798,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `CannotDeleteException` : The requested object could not be deleted.
     /// - `InternalServiceException` : An internal exception was raised in the service. Contact [aws-devicefarm-support@amazon.com](mailto:aws-devicefarm-support@amazon.com) if you see this error.
     /// - `NotFoundException` : The specified entity was not found.
-    public func deleteTestGridProject(input: DeleteTestGridProjectInput) async throws -> DeleteTestGridProjectOutputResponse
+    public func deleteTestGridProject(input: DeleteTestGridProjectInput) async throws -> DeleteTestGridProjectOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -814,21 +814,21 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteTestGridProjectInput, DeleteTestGridProjectOutputResponse, DeleteTestGridProjectOutputError>(id: "deleteTestGridProject")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteTestGridProjectInput, DeleteTestGridProjectOutputResponse, DeleteTestGridProjectOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteTestGridProjectInput, DeleteTestGridProjectOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteTestGridProjectInput, DeleteTestGridProjectOutput, DeleteTestGridProjectOutputError>(id: "deleteTestGridProject")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteTestGridProjectInput, DeleteTestGridProjectOutput, DeleteTestGridProjectOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteTestGridProjectInput, DeleteTestGridProjectOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteTestGridProjectOutputResponse, DeleteTestGridProjectOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteTestGridProjectOutput, DeleteTestGridProjectOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteTestGridProjectInput, DeleteTestGridProjectOutputResponse>(xAmzTarget: "DeviceFarm_20150623.DeleteTestGridProject"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteTestGridProjectInput, DeleteTestGridProjectOutputResponse>(xmlName: "DeleteTestGridProjectRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteTestGridProjectInput, DeleteTestGridProjectOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteTestGridProjectInput, DeleteTestGridProjectOutput>(xAmzTarget: "DeviceFarm_20150623.DeleteTestGridProject"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteTestGridProjectInput, DeleteTestGridProjectOutput>(xmlName: "DeleteTestGridProjectRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteTestGridProjectInput, DeleteTestGridProjectOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteTestGridProjectOutputResponse, DeleteTestGridProjectOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteTestGridProjectOutput, DeleteTestGridProjectOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteTestGridProjectOutputResponse, DeleteTestGridProjectOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteTestGridProjectOutputResponse, DeleteTestGridProjectOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteTestGridProjectOutputResponse, DeleteTestGridProjectOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteTestGridProjectOutput, DeleteTestGridProjectOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteTestGridProjectOutput, DeleteTestGridProjectOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteTestGridProjectOutput, DeleteTestGridProjectOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -837,7 +837,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     ///
     /// - Parameter DeleteUploadInput : Represents a request to the delete upload operation.
     ///
-    /// - Returns: `DeleteUploadOutputResponse` : Represents the result of a delete upload request.
+    /// - Returns: `DeleteUploadOutput` : Represents the result of a delete upload request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -846,7 +846,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func deleteUpload(input: DeleteUploadInput) async throws -> DeleteUploadOutputResponse
+    public func deleteUpload(input: DeleteUploadInput) async throws -> DeleteUploadOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -862,21 +862,21 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteUploadInput, DeleteUploadOutputResponse, DeleteUploadOutputError>(id: "deleteUpload")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteUploadInput, DeleteUploadOutputResponse, DeleteUploadOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteUploadInput, DeleteUploadOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteUploadInput, DeleteUploadOutput, DeleteUploadOutputError>(id: "deleteUpload")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteUploadInput, DeleteUploadOutput, DeleteUploadOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteUploadInput, DeleteUploadOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteUploadOutputResponse, DeleteUploadOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteUploadOutput, DeleteUploadOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteUploadInput, DeleteUploadOutputResponse>(xAmzTarget: "DeviceFarm_20150623.DeleteUpload"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteUploadInput, DeleteUploadOutputResponse>(xmlName: "DeleteUploadRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteUploadInput, DeleteUploadOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteUploadInput, DeleteUploadOutput>(xAmzTarget: "DeviceFarm_20150623.DeleteUpload"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteUploadInput, DeleteUploadOutput>(xmlName: "DeleteUploadRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteUploadInput, DeleteUploadOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteUploadOutputResponse, DeleteUploadOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteUploadOutput, DeleteUploadOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteUploadOutputResponse, DeleteUploadOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteUploadOutputResponse, DeleteUploadOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteUploadOutputResponse, DeleteUploadOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteUploadOutput, DeleteUploadOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteUploadOutput, DeleteUploadOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteUploadOutput, DeleteUploadOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -885,7 +885,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     ///
     /// - Parameter DeleteVPCEConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `DeleteVPCEConfigurationOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteVPCEConfigurationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -894,7 +894,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `InvalidOperationException` : There was an error with the update request, or you do not have sufficient permissions to update this VPC endpoint configuration.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func deleteVPCEConfiguration(input: DeleteVPCEConfigurationInput) async throws -> DeleteVPCEConfigurationOutputResponse
+    public func deleteVPCEConfiguration(input: DeleteVPCEConfigurationInput) async throws -> DeleteVPCEConfigurationOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -910,21 +910,21 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteVPCEConfigurationInput, DeleteVPCEConfigurationOutputResponse, DeleteVPCEConfigurationOutputError>(id: "deleteVPCEConfiguration")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteVPCEConfigurationInput, DeleteVPCEConfigurationOutputResponse, DeleteVPCEConfigurationOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteVPCEConfigurationInput, DeleteVPCEConfigurationOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteVPCEConfigurationInput, DeleteVPCEConfigurationOutput, DeleteVPCEConfigurationOutputError>(id: "deleteVPCEConfiguration")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteVPCEConfigurationInput, DeleteVPCEConfigurationOutput, DeleteVPCEConfigurationOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteVPCEConfigurationInput, DeleteVPCEConfigurationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteVPCEConfigurationOutputResponse, DeleteVPCEConfigurationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteVPCEConfigurationOutput, DeleteVPCEConfigurationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteVPCEConfigurationInput, DeleteVPCEConfigurationOutputResponse>(xAmzTarget: "DeviceFarm_20150623.DeleteVPCEConfiguration"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteVPCEConfigurationInput, DeleteVPCEConfigurationOutputResponse>(xmlName: "DeleteVPCEConfigurationRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteVPCEConfigurationInput, DeleteVPCEConfigurationOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteVPCEConfigurationInput, DeleteVPCEConfigurationOutput>(xAmzTarget: "DeviceFarm_20150623.DeleteVPCEConfiguration"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteVPCEConfigurationInput, DeleteVPCEConfigurationOutput>(xmlName: "DeleteVPCEConfigurationRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteVPCEConfigurationInput, DeleteVPCEConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteVPCEConfigurationOutputResponse, DeleteVPCEConfigurationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteVPCEConfigurationOutput, DeleteVPCEConfigurationOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteVPCEConfigurationOutputResponse, DeleteVPCEConfigurationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteVPCEConfigurationOutputResponse, DeleteVPCEConfigurationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteVPCEConfigurationOutputResponse, DeleteVPCEConfigurationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteVPCEConfigurationOutput, DeleteVPCEConfigurationOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteVPCEConfigurationOutput, DeleteVPCEConfigurationOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteVPCEConfigurationOutput, DeleteVPCEConfigurationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -933,7 +933,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     ///
     /// - Parameter GetAccountSettingsInput : Represents the request sent to retrieve the account settings.
     ///
-    /// - Returns: `GetAccountSettingsOutputResponse` : Represents the account settings return values from the GetAccountSettings request.
+    /// - Returns: `GetAccountSettingsOutput` : Represents the account settings return values from the GetAccountSettings request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -942,7 +942,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func getAccountSettings(input: GetAccountSettingsInput) async throws -> GetAccountSettingsOutputResponse
+    public func getAccountSettings(input: GetAccountSettingsInput) async throws -> GetAccountSettingsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -958,21 +958,21 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetAccountSettingsInput, GetAccountSettingsOutputResponse, GetAccountSettingsOutputError>(id: "getAccountSettings")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAccountSettingsInput, GetAccountSettingsOutputResponse, GetAccountSettingsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAccountSettingsInput, GetAccountSettingsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetAccountSettingsInput, GetAccountSettingsOutput, GetAccountSettingsOutputError>(id: "getAccountSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAccountSettingsInput, GetAccountSettingsOutput, GetAccountSettingsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAccountSettingsInput, GetAccountSettingsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetAccountSettingsOutputResponse, GetAccountSettingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetAccountSettingsOutput, GetAccountSettingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetAccountSettingsInput, GetAccountSettingsOutputResponse>(xAmzTarget: "DeviceFarm_20150623.GetAccountSettings"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetAccountSettingsInput, GetAccountSettingsOutputResponse>(xmlName: "GetAccountSettingsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetAccountSettingsInput, GetAccountSettingsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetAccountSettingsInput, GetAccountSettingsOutput>(xAmzTarget: "DeviceFarm_20150623.GetAccountSettings"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetAccountSettingsInput, GetAccountSettingsOutput>(xmlName: "GetAccountSettingsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetAccountSettingsInput, GetAccountSettingsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetAccountSettingsOutputResponse, GetAccountSettingsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetAccountSettingsOutput, GetAccountSettingsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAccountSettingsOutputResponse, GetAccountSettingsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAccountSettingsOutputResponse, GetAccountSettingsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetAccountSettingsOutputResponse, GetAccountSettingsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAccountSettingsOutput, GetAccountSettingsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAccountSettingsOutput, GetAccountSettingsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetAccountSettingsOutput, GetAccountSettingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -981,7 +981,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     ///
     /// - Parameter GetDeviceInput : Represents a request to the get device request.
     ///
-    /// - Returns: `GetDeviceOutputResponse` : Represents the result of a get device request.
+    /// - Returns: `GetDeviceOutput` : Represents the result of a get device request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -990,7 +990,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func getDevice(input: GetDeviceInput) async throws -> GetDeviceOutputResponse
+    public func getDevice(input: GetDeviceInput) async throws -> GetDeviceOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1006,21 +1006,21 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetDeviceInput, GetDeviceOutputResponse, GetDeviceOutputError>(id: "getDevice")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDeviceInput, GetDeviceOutputResponse, GetDeviceOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDeviceInput, GetDeviceOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetDeviceInput, GetDeviceOutput, GetDeviceOutputError>(id: "getDevice")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDeviceInput, GetDeviceOutput, GetDeviceOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDeviceInput, GetDeviceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetDeviceOutputResponse, GetDeviceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetDeviceOutput, GetDeviceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetDeviceInput, GetDeviceOutputResponse>(xAmzTarget: "DeviceFarm_20150623.GetDevice"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetDeviceInput, GetDeviceOutputResponse>(xmlName: "GetDeviceRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetDeviceInput, GetDeviceOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetDeviceInput, GetDeviceOutput>(xAmzTarget: "DeviceFarm_20150623.GetDevice"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetDeviceInput, GetDeviceOutput>(xmlName: "GetDeviceRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetDeviceInput, GetDeviceOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetDeviceOutputResponse, GetDeviceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetDeviceOutput, GetDeviceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDeviceOutputResponse, GetDeviceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDeviceOutputResponse, GetDeviceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetDeviceOutputResponse, GetDeviceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDeviceOutput, GetDeviceOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDeviceOutput, GetDeviceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetDeviceOutput, GetDeviceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1029,7 +1029,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     ///
     /// - Parameter GetDeviceInstanceInput : [no documentation found]
     ///
-    /// - Returns: `GetDeviceInstanceOutputResponse` : [no documentation found]
+    /// - Returns: `GetDeviceInstanceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1038,7 +1038,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func getDeviceInstance(input: GetDeviceInstanceInput) async throws -> GetDeviceInstanceOutputResponse
+    public func getDeviceInstance(input: GetDeviceInstanceInput) async throws -> GetDeviceInstanceOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1054,21 +1054,21 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetDeviceInstanceInput, GetDeviceInstanceOutputResponse, GetDeviceInstanceOutputError>(id: "getDeviceInstance")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDeviceInstanceInput, GetDeviceInstanceOutputResponse, GetDeviceInstanceOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDeviceInstanceInput, GetDeviceInstanceOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetDeviceInstanceInput, GetDeviceInstanceOutput, GetDeviceInstanceOutputError>(id: "getDeviceInstance")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDeviceInstanceInput, GetDeviceInstanceOutput, GetDeviceInstanceOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDeviceInstanceInput, GetDeviceInstanceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetDeviceInstanceOutputResponse, GetDeviceInstanceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetDeviceInstanceOutput, GetDeviceInstanceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetDeviceInstanceInput, GetDeviceInstanceOutputResponse>(xAmzTarget: "DeviceFarm_20150623.GetDeviceInstance"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetDeviceInstanceInput, GetDeviceInstanceOutputResponse>(xmlName: "GetDeviceInstanceRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetDeviceInstanceInput, GetDeviceInstanceOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetDeviceInstanceInput, GetDeviceInstanceOutput>(xAmzTarget: "DeviceFarm_20150623.GetDeviceInstance"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetDeviceInstanceInput, GetDeviceInstanceOutput>(xmlName: "GetDeviceInstanceRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetDeviceInstanceInput, GetDeviceInstanceOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetDeviceInstanceOutputResponse, GetDeviceInstanceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetDeviceInstanceOutput, GetDeviceInstanceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDeviceInstanceOutputResponse, GetDeviceInstanceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDeviceInstanceOutputResponse, GetDeviceInstanceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetDeviceInstanceOutputResponse, GetDeviceInstanceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDeviceInstanceOutput, GetDeviceInstanceOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDeviceInstanceOutput, GetDeviceInstanceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetDeviceInstanceOutput, GetDeviceInstanceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1077,7 +1077,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     ///
     /// - Parameter GetDevicePoolInput : Represents a request to the get device pool operation.
     ///
-    /// - Returns: `GetDevicePoolOutputResponse` : Represents the result of a get device pool request.
+    /// - Returns: `GetDevicePoolOutput` : Represents the result of a get device pool request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1086,7 +1086,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func getDevicePool(input: GetDevicePoolInput) async throws -> GetDevicePoolOutputResponse
+    public func getDevicePool(input: GetDevicePoolInput) async throws -> GetDevicePoolOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1102,21 +1102,21 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetDevicePoolInput, GetDevicePoolOutputResponse, GetDevicePoolOutputError>(id: "getDevicePool")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDevicePoolInput, GetDevicePoolOutputResponse, GetDevicePoolOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDevicePoolInput, GetDevicePoolOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetDevicePoolInput, GetDevicePoolOutput, GetDevicePoolOutputError>(id: "getDevicePool")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDevicePoolInput, GetDevicePoolOutput, GetDevicePoolOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDevicePoolInput, GetDevicePoolOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetDevicePoolOutputResponse, GetDevicePoolOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetDevicePoolOutput, GetDevicePoolOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetDevicePoolInput, GetDevicePoolOutputResponse>(xAmzTarget: "DeviceFarm_20150623.GetDevicePool"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetDevicePoolInput, GetDevicePoolOutputResponse>(xmlName: "GetDevicePoolRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetDevicePoolInput, GetDevicePoolOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetDevicePoolInput, GetDevicePoolOutput>(xAmzTarget: "DeviceFarm_20150623.GetDevicePool"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetDevicePoolInput, GetDevicePoolOutput>(xmlName: "GetDevicePoolRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetDevicePoolInput, GetDevicePoolOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetDevicePoolOutputResponse, GetDevicePoolOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetDevicePoolOutput, GetDevicePoolOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDevicePoolOutputResponse, GetDevicePoolOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDevicePoolOutputResponse, GetDevicePoolOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetDevicePoolOutputResponse, GetDevicePoolOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDevicePoolOutput, GetDevicePoolOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDevicePoolOutput, GetDevicePoolOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetDevicePoolOutput, GetDevicePoolOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1125,7 +1125,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     ///
     /// - Parameter GetDevicePoolCompatibilityInput : Represents a request to the get device pool compatibility operation.
     ///
-    /// - Returns: `GetDevicePoolCompatibilityOutputResponse` : Represents the result of describe device pool compatibility request.
+    /// - Returns: `GetDevicePoolCompatibilityOutput` : Represents the result of describe device pool compatibility request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1134,7 +1134,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func getDevicePoolCompatibility(input: GetDevicePoolCompatibilityInput) async throws -> GetDevicePoolCompatibilityOutputResponse
+    public func getDevicePoolCompatibility(input: GetDevicePoolCompatibilityInput) async throws -> GetDevicePoolCompatibilityOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1150,21 +1150,21 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetDevicePoolCompatibilityInput, GetDevicePoolCompatibilityOutputResponse, GetDevicePoolCompatibilityOutputError>(id: "getDevicePoolCompatibility")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDevicePoolCompatibilityInput, GetDevicePoolCompatibilityOutputResponse, GetDevicePoolCompatibilityOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDevicePoolCompatibilityInput, GetDevicePoolCompatibilityOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetDevicePoolCompatibilityInput, GetDevicePoolCompatibilityOutput, GetDevicePoolCompatibilityOutputError>(id: "getDevicePoolCompatibility")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDevicePoolCompatibilityInput, GetDevicePoolCompatibilityOutput, GetDevicePoolCompatibilityOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDevicePoolCompatibilityInput, GetDevicePoolCompatibilityOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetDevicePoolCompatibilityOutputResponse, GetDevicePoolCompatibilityOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetDevicePoolCompatibilityOutput, GetDevicePoolCompatibilityOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetDevicePoolCompatibilityInput, GetDevicePoolCompatibilityOutputResponse>(xAmzTarget: "DeviceFarm_20150623.GetDevicePoolCompatibility"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetDevicePoolCompatibilityInput, GetDevicePoolCompatibilityOutputResponse>(xmlName: "GetDevicePoolCompatibilityRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetDevicePoolCompatibilityInput, GetDevicePoolCompatibilityOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetDevicePoolCompatibilityInput, GetDevicePoolCompatibilityOutput>(xAmzTarget: "DeviceFarm_20150623.GetDevicePoolCompatibility"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetDevicePoolCompatibilityInput, GetDevicePoolCompatibilityOutput>(xmlName: "GetDevicePoolCompatibilityRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetDevicePoolCompatibilityInput, GetDevicePoolCompatibilityOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetDevicePoolCompatibilityOutputResponse, GetDevicePoolCompatibilityOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetDevicePoolCompatibilityOutput, GetDevicePoolCompatibilityOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDevicePoolCompatibilityOutputResponse, GetDevicePoolCompatibilityOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDevicePoolCompatibilityOutputResponse, GetDevicePoolCompatibilityOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetDevicePoolCompatibilityOutputResponse, GetDevicePoolCompatibilityOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDevicePoolCompatibilityOutput, GetDevicePoolCompatibilityOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDevicePoolCompatibilityOutput, GetDevicePoolCompatibilityOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetDevicePoolCompatibilityOutput, GetDevicePoolCompatibilityOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1173,7 +1173,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     ///
     /// - Parameter GetInstanceProfileInput : [no documentation found]
     ///
-    /// - Returns: `GetInstanceProfileOutputResponse` : [no documentation found]
+    /// - Returns: `GetInstanceProfileOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1182,7 +1182,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func getInstanceProfile(input: GetInstanceProfileInput) async throws -> GetInstanceProfileOutputResponse
+    public func getInstanceProfile(input: GetInstanceProfileInput) async throws -> GetInstanceProfileOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1198,21 +1198,21 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetInstanceProfileInput, GetInstanceProfileOutputResponse, GetInstanceProfileOutputError>(id: "getInstanceProfile")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetInstanceProfileInput, GetInstanceProfileOutputResponse, GetInstanceProfileOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetInstanceProfileInput, GetInstanceProfileOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetInstanceProfileInput, GetInstanceProfileOutput, GetInstanceProfileOutputError>(id: "getInstanceProfile")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetInstanceProfileInput, GetInstanceProfileOutput, GetInstanceProfileOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetInstanceProfileInput, GetInstanceProfileOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetInstanceProfileOutputResponse, GetInstanceProfileOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetInstanceProfileOutput, GetInstanceProfileOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetInstanceProfileInput, GetInstanceProfileOutputResponse>(xAmzTarget: "DeviceFarm_20150623.GetInstanceProfile"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetInstanceProfileInput, GetInstanceProfileOutputResponse>(xmlName: "GetInstanceProfileRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetInstanceProfileInput, GetInstanceProfileOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetInstanceProfileInput, GetInstanceProfileOutput>(xAmzTarget: "DeviceFarm_20150623.GetInstanceProfile"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetInstanceProfileInput, GetInstanceProfileOutput>(xmlName: "GetInstanceProfileRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetInstanceProfileInput, GetInstanceProfileOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetInstanceProfileOutputResponse, GetInstanceProfileOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetInstanceProfileOutput, GetInstanceProfileOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetInstanceProfileOutputResponse, GetInstanceProfileOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetInstanceProfileOutputResponse, GetInstanceProfileOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetInstanceProfileOutputResponse, GetInstanceProfileOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetInstanceProfileOutput, GetInstanceProfileOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetInstanceProfileOutput, GetInstanceProfileOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetInstanceProfileOutput, GetInstanceProfileOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1221,7 +1221,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     ///
     /// - Parameter GetJobInput : Represents a request to the get job operation.
     ///
-    /// - Returns: `GetJobOutputResponse` : Represents the result of a get job request.
+    /// - Returns: `GetJobOutput` : Represents the result of a get job request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1230,7 +1230,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func getJob(input: GetJobInput) async throws -> GetJobOutputResponse
+    public func getJob(input: GetJobInput) async throws -> GetJobOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1246,21 +1246,21 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetJobInput, GetJobOutputResponse, GetJobOutputError>(id: "getJob")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetJobInput, GetJobOutputResponse, GetJobOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetJobInput, GetJobOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetJobInput, GetJobOutput, GetJobOutputError>(id: "getJob")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetJobInput, GetJobOutput, GetJobOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetJobInput, GetJobOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetJobOutputResponse, GetJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetJobOutput, GetJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetJobInput, GetJobOutputResponse>(xAmzTarget: "DeviceFarm_20150623.GetJob"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetJobInput, GetJobOutputResponse>(xmlName: "GetJobRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetJobInput, GetJobOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetJobInput, GetJobOutput>(xAmzTarget: "DeviceFarm_20150623.GetJob"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetJobInput, GetJobOutput>(xmlName: "GetJobRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetJobInput, GetJobOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetJobOutputResponse, GetJobOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetJobOutput, GetJobOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetJobOutputResponse, GetJobOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetJobOutputResponse, GetJobOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetJobOutputResponse, GetJobOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetJobOutput, GetJobOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetJobOutput, GetJobOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetJobOutput, GetJobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1269,7 +1269,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     ///
     /// - Parameter GetNetworkProfileInput : [no documentation found]
     ///
-    /// - Returns: `GetNetworkProfileOutputResponse` : [no documentation found]
+    /// - Returns: `GetNetworkProfileOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1278,7 +1278,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func getNetworkProfile(input: GetNetworkProfileInput) async throws -> GetNetworkProfileOutputResponse
+    public func getNetworkProfile(input: GetNetworkProfileInput) async throws -> GetNetworkProfileOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1294,21 +1294,21 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetNetworkProfileInput, GetNetworkProfileOutputResponse, GetNetworkProfileOutputError>(id: "getNetworkProfile")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetNetworkProfileInput, GetNetworkProfileOutputResponse, GetNetworkProfileOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetNetworkProfileInput, GetNetworkProfileOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetNetworkProfileInput, GetNetworkProfileOutput, GetNetworkProfileOutputError>(id: "getNetworkProfile")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetNetworkProfileInput, GetNetworkProfileOutput, GetNetworkProfileOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetNetworkProfileInput, GetNetworkProfileOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetNetworkProfileOutputResponse, GetNetworkProfileOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetNetworkProfileOutput, GetNetworkProfileOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetNetworkProfileInput, GetNetworkProfileOutputResponse>(xAmzTarget: "DeviceFarm_20150623.GetNetworkProfile"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetNetworkProfileInput, GetNetworkProfileOutputResponse>(xmlName: "GetNetworkProfileRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetNetworkProfileInput, GetNetworkProfileOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetNetworkProfileInput, GetNetworkProfileOutput>(xAmzTarget: "DeviceFarm_20150623.GetNetworkProfile"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetNetworkProfileInput, GetNetworkProfileOutput>(xmlName: "GetNetworkProfileRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetNetworkProfileInput, GetNetworkProfileOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetNetworkProfileOutputResponse, GetNetworkProfileOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetNetworkProfileOutput, GetNetworkProfileOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetNetworkProfileOutputResponse, GetNetworkProfileOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetNetworkProfileOutputResponse, GetNetworkProfileOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetNetworkProfileOutputResponse, GetNetworkProfileOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetNetworkProfileOutput, GetNetworkProfileOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetNetworkProfileOutput, GetNetworkProfileOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetNetworkProfileOutput, GetNetworkProfileOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1317,7 +1317,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     ///
     /// - Parameter GetOfferingStatusInput : Represents the request to retrieve the offering status for the specified customer or account.
     ///
-    /// - Returns: `GetOfferingStatusOutputResponse` : Returns the status result for a device offering.
+    /// - Returns: `GetOfferingStatusOutput` : Returns the status result for a device offering.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1327,7 +1327,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `NotEligibleException` : Exception gets thrown when a user is not eligible to perform the specified transaction.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func getOfferingStatus(input: GetOfferingStatusInput) async throws -> GetOfferingStatusOutputResponse
+    public func getOfferingStatus(input: GetOfferingStatusInput) async throws -> GetOfferingStatusOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1343,21 +1343,21 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetOfferingStatusInput, GetOfferingStatusOutputResponse, GetOfferingStatusOutputError>(id: "getOfferingStatus")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetOfferingStatusInput, GetOfferingStatusOutputResponse, GetOfferingStatusOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetOfferingStatusInput, GetOfferingStatusOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetOfferingStatusInput, GetOfferingStatusOutput, GetOfferingStatusOutputError>(id: "getOfferingStatus")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetOfferingStatusInput, GetOfferingStatusOutput, GetOfferingStatusOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetOfferingStatusInput, GetOfferingStatusOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetOfferingStatusOutputResponse, GetOfferingStatusOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetOfferingStatusOutput, GetOfferingStatusOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetOfferingStatusInput, GetOfferingStatusOutputResponse>(xAmzTarget: "DeviceFarm_20150623.GetOfferingStatus"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetOfferingStatusInput, GetOfferingStatusOutputResponse>(xmlName: "GetOfferingStatusRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetOfferingStatusInput, GetOfferingStatusOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetOfferingStatusInput, GetOfferingStatusOutput>(xAmzTarget: "DeviceFarm_20150623.GetOfferingStatus"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetOfferingStatusInput, GetOfferingStatusOutput>(xmlName: "GetOfferingStatusRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetOfferingStatusInput, GetOfferingStatusOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetOfferingStatusOutputResponse, GetOfferingStatusOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetOfferingStatusOutput, GetOfferingStatusOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetOfferingStatusOutputResponse, GetOfferingStatusOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetOfferingStatusOutputResponse, GetOfferingStatusOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetOfferingStatusOutputResponse, GetOfferingStatusOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetOfferingStatusOutput, GetOfferingStatusOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetOfferingStatusOutput, GetOfferingStatusOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetOfferingStatusOutput, GetOfferingStatusOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1366,7 +1366,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     ///
     /// - Parameter GetProjectInput : Represents a request to the get project operation.
     ///
-    /// - Returns: `GetProjectOutputResponse` : Represents the result of a get project request.
+    /// - Returns: `GetProjectOutput` : Represents the result of a get project request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1375,7 +1375,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func getProject(input: GetProjectInput) async throws -> GetProjectOutputResponse
+    public func getProject(input: GetProjectInput) async throws -> GetProjectOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1391,21 +1391,21 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetProjectInput, GetProjectOutputResponse, GetProjectOutputError>(id: "getProject")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetProjectInput, GetProjectOutputResponse, GetProjectOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetProjectInput, GetProjectOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetProjectInput, GetProjectOutput, GetProjectOutputError>(id: "getProject")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetProjectInput, GetProjectOutput, GetProjectOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetProjectInput, GetProjectOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetProjectOutputResponse, GetProjectOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetProjectOutput, GetProjectOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetProjectInput, GetProjectOutputResponse>(xAmzTarget: "DeviceFarm_20150623.GetProject"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetProjectInput, GetProjectOutputResponse>(xmlName: "GetProjectRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetProjectInput, GetProjectOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetProjectInput, GetProjectOutput>(xAmzTarget: "DeviceFarm_20150623.GetProject"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetProjectInput, GetProjectOutput>(xmlName: "GetProjectRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetProjectInput, GetProjectOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetProjectOutputResponse, GetProjectOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetProjectOutput, GetProjectOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetProjectOutputResponse, GetProjectOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetProjectOutputResponse, GetProjectOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetProjectOutputResponse, GetProjectOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetProjectOutput, GetProjectOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetProjectOutput, GetProjectOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetProjectOutput, GetProjectOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1414,7 +1414,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     ///
     /// - Parameter GetRemoteAccessSessionInput : Represents the request to get information about the specified remote access session.
     ///
-    /// - Returns: `GetRemoteAccessSessionOutputResponse` : Represents the response from the server that lists detailed information about the remote access session.
+    /// - Returns: `GetRemoteAccessSessionOutput` : Represents the response from the server that lists detailed information about the remote access session.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1423,7 +1423,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func getRemoteAccessSession(input: GetRemoteAccessSessionInput) async throws -> GetRemoteAccessSessionOutputResponse
+    public func getRemoteAccessSession(input: GetRemoteAccessSessionInput) async throws -> GetRemoteAccessSessionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1439,21 +1439,21 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetRemoteAccessSessionInput, GetRemoteAccessSessionOutputResponse, GetRemoteAccessSessionOutputError>(id: "getRemoteAccessSession")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetRemoteAccessSessionInput, GetRemoteAccessSessionOutputResponse, GetRemoteAccessSessionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetRemoteAccessSessionInput, GetRemoteAccessSessionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetRemoteAccessSessionInput, GetRemoteAccessSessionOutput, GetRemoteAccessSessionOutputError>(id: "getRemoteAccessSession")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetRemoteAccessSessionInput, GetRemoteAccessSessionOutput, GetRemoteAccessSessionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetRemoteAccessSessionInput, GetRemoteAccessSessionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetRemoteAccessSessionOutputResponse, GetRemoteAccessSessionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetRemoteAccessSessionOutput, GetRemoteAccessSessionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetRemoteAccessSessionInput, GetRemoteAccessSessionOutputResponse>(xAmzTarget: "DeviceFarm_20150623.GetRemoteAccessSession"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetRemoteAccessSessionInput, GetRemoteAccessSessionOutputResponse>(xmlName: "GetRemoteAccessSessionRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetRemoteAccessSessionInput, GetRemoteAccessSessionOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetRemoteAccessSessionInput, GetRemoteAccessSessionOutput>(xAmzTarget: "DeviceFarm_20150623.GetRemoteAccessSession"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetRemoteAccessSessionInput, GetRemoteAccessSessionOutput>(xmlName: "GetRemoteAccessSessionRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetRemoteAccessSessionInput, GetRemoteAccessSessionOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetRemoteAccessSessionOutputResponse, GetRemoteAccessSessionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetRemoteAccessSessionOutput, GetRemoteAccessSessionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetRemoteAccessSessionOutputResponse, GetRemoteAccessSessionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetRemoteAccessSessionOutputResponse, GetRemoteAccessSessionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetRemoteAccessSessionOutputResponse, GetRemoteAccessSessionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetRemoteAccessSessionOutput, GetRemoteAccessSessionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetRemoteAccessSessionOutput, GetRemoteAccessSessionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetRemoteAccessSessionOutput, GetRemoteAccessSessionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1462,7 +1462,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     ///
     /// - Parameter GetRunInput : Represents a request to the get run operation.
     ///
-    /// - Returns: `GetRunOutputResponse` : Represents the result of a get run request.
+    /// - Returns: `GetRunOutput` : Represents the result of a get run request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1471,7 +1471,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func getRun(input: GetRunInput) async throws -> GetRunOutputResponse
+    public func getRun(input: GetRunInput) async throws -> GetRunOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1487,21 +1487,21 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetRunInput, GetRunOutputResponse, GetRunOutputError>(id: "getRun")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetRunInput, GetRunOutputResponse, GetRunOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetRunInput, GetRunOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetRunInput, GetRunOutput, GetRunOutputError>(id: "getRun")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetRunInput, GetRunOutput, GetRunOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetRunInput, GetRunOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetRunOutputResponse, GetRunOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetRunOutput, GetRunOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetRunInput, GetRunOutputResponse>(xAmzTarget: "DeviceFarm_20150623.GetRun"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetRunInput, GetRunOutputResponse>(xmlName: "GetRunRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetRunInput, GetRunOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetRunInput, GetRunOutput>(xAmzTarget: "DeviceFarm_20150623.GetRun"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetRunInput, GetRunOutput>(xmlName: "GetRunRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetRunInput, GetRunOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetRunOutputResponse, GetRunOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetRunOutput, GetRunOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetRunOutputResponse, GetRunOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetRunOutputResponse, GetRunOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetRunOutputResponse, GetRunOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetRunOutput, GetRunOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetRunOutput, GetRunOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetRunOutput, GetRunOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1510,7 +1510,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     ///
     /// - Parameter GetSuiteInput : Represents a request to the get suite operation.
     ///
-    /// - Returns: `GetSuiteOutputResponse` : Represents the result of a get suite request.
+    /// - Returns: `GetSuiteOutput` : Represents the result of a get suite request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1519,7 +1519,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func getSuite(input: GetSuiteInput) async throws -> GetSuiteOutputResponse
+    public func getSuite(input: GetSuiteInput) async throws -> GetSuiteOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1535,21 +1535,21 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetSuiteInput, GetSuiteOutputResponse, GetSuiteOutputError>(id: "getSuite")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSuiteInput, GetSuiteOutputResponse, GetSuiteOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSuiteInput, GetSuiteOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetSuiteInput, GetSuiteOutput, GetSuiteOutputError>(id: "getSuite")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSuiteInput, GetSuiteOutput, GetSuiteOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSuiteInput, GetSuiteOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetSuiteOutputResponse, GetSuiteOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetSuiteOutput, GetSuiteOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetSuiteInput, GetSuiteOutputResponse>(xAmzTarget: "DeviceFarm_20150623.GetSuite"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetSuiteInput, GetSuiteOutputResponse>(xmlName: "GetSuiteRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetSuiteInput, GetSuiteOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetSuiteInput, GetSuiteOutput>(xAmzTarget: "DeviceFarm_20150623.GetSuite"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetSuiteInput, GetSuiteOutput>(xmlName: "GetSuiteRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetSuiteInput, GetSuiteOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSuiteOutputResponse, GetSuiteOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSuiteOutput, GetSuiteOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSuiteOutputResponse, GetSuiteOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSuiteOutputResponse, GetSuiteOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSuiteOutputResponse, GetSuiteOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSuiteOutput, GetSuiteOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSuiteOutput, GetSuiteOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSuiteOutput, GetSuiteOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1558,7 +1558,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     ///
     /// - Parameter GetTestInput : Represents a request to the get test operation.
     ///
-    /// - Returns: `GetTestOutputResponse` : Represents the result of a get test request.
+    /// - Returns: `GetTestOutput` : Represents the result of a get test request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1567,7 +1567,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func getTest(input: GetTestInput) async throws -> GetTestOutputResponse
+    public func getTest(input: GetTestInput) async throws -> GetTestOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1583,21 +1583,21 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetTestInput, GetTestOutputResponse, GetTestOutputError>(id: "getTest")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetTestInput, GetTestOutputResponse, GetTestOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetTestInput, GetTestOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetTestInput, GetTestOutput, GetTestOutputError>(id: "getTest")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetTestInput, GetTestOutput, GetTestOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetTestInput, GetTestOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetTestOutputResponse, GetTestOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetTestOutput, GetTestOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetTestInput, GetTestOutputResponse>(xAmzTarget: "DeviceFarm_20150623.GetTest"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetTestInput, GetTestOutputResponse>(xmlName: "GetTestRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetTestInput, GetTestOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetTestInput, GetTestOutput>(xAmzTarget: "DeviceFarm_20150623.GetTest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetTestInput, GetTestOutput>(xmlName: "GetTestRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetTestInput, GetTestOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetTestOutputResponse, GetTestOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetTestOutput, GetTestOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetTestOutputResponse, GetTestOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetTestOutputResponse, GetTestOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetTestOutputResponse, GetTestOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetTestOutput, GetTestOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetTestOutput, GetTestOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetTestOutput, GetTestOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1606,7 +1606,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     ///
     /// - Parameter GetTestGridProjectInput : [no documentation found]
     ///
-    /// - Returns: `GetTestGridProjectOutputResponse` : [no documentation found]
+    /// - Returns: `GetTestGridProjectOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1614,7 +1614,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `ArgumentException` : An invalid argument was specified.
     /// - `InternalServiceException` : An internal exception was raised in the service. Contact [aws-devicefarm-support@amazon.com](mailto:aws-devicefarm-support@amazon.com) if you see this error.
     /// - `NotFoundException` : The specified entity was not found.
-    public func getTestGridProject(input: GetTestGridProjectInput) async throws -> GetTestGridProjectOutputResponse
+    public func getTestGridProject(input: GetTestGridProjectInput) async throws -> GetTestGridProjectOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1630,21 +1630,21 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetTestGridProjectInput, GetTestGridProjectOutputResponse, GetTestGridProjectOutputError>(id: "getTestGridProject")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetTestGridProjectInput, GetTestGridProjectOutputResponse, GetTestGridProjectOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetTestGridProjectInput, GetTestGridProjectOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetTestGridProjectInput, GetTestGridProjectOutput, GetTestGridProjectOutputError>(id: "getTestGridProject")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetTestGridProjectInput, GetTestGridProjectOutput, GetTestGridProjectOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetTestGridProjectInput, GetTestGridProjectOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetTestGridProjectOutputResponse, GetTestGridProjectOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetTestGridProjectOutput, GetTestGridProjectOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetTestGridProjectInput, GetTestGridProjectOutputResponse>(xAmzTarget: "DeviceFarm_20150623.GetTestGridProject"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetTestGridProjectInput, GetTestGridProjectOutputResponse>(xmlName: "GetTestGridProjectRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetTestGridProjectInput, GetTestGridProjectOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetTestGridProjectInput, GetTestGridProjectOutput>(xAmzTarget: "DeviceFarm_20150623.GetTestGridProject"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetTestGridProjectInput, GetTestGridProjectOutput>(xmlName: "GetTestGridProjectRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetTestGridProjectInput, GetTestGridProjectOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetTestGridProjectOutputResponse, GetTestGridProjectOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetTestGridProjectOutput, GetTestGridProjectOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetTestGridProjectOutputResponse, GetTestGridProjectOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetTestGridProjectOutputResponse, GetTestGridProjectOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetTestGridProjectOutputResponse, GetTestGridProjectOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetTestGridProjectOutput, GetTestGridProjectOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetTestGridProjectOutput, GetTestGridProjectOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetTestGridProjectOutput, GetTestGridProjectOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1657,7 +1657,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     ///
     /// - Parameter GetTestGridSessionInput : [no documentation found]
     ///
-    /// - Returns: `GetTestGridSessionOutputResponse` : [no documentation found]
+    /// - Returns: `GetTestGridSessionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1665,7 +1665,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `ArgumentException` : An invalid argument was specified.
     /// - `InternalServiceException` : An internal exception was raised in the service. Contact [aws-devicefarm-support@amazon.com](mailto:aws-devicefarm-support@amazon.com) if you see this error.
     /// - `NotFoundException` : The specified entity was not found.
-    public func getTestGridSession(input: GetTestGridSessionInput) async throws -> GetTestGridSessionOutputResponse
+    public func getTestGridSession(input: GetTestGridSessionInput) async throws -> GetTestGridSessionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1681,21 +1681,21 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetTestGridSessionInput, GetTestGridSessionOutputResponse, GetTestGridSessionOutputError>(id: "getTestGridSession")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetTestGridSessionInput, GetTestGridSessionOutputResponse, GetTestGridSessionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetTestGridSessionInput, GetTestGridSessionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetTestGridSessionInput, GetTestGridSessionOutput, GetTestGridSessionOutputError>(id: "getTestGridSession")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetTestGridSessionInput, GetTestGridSessionOutput, GetTestGridSessionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetTestGridSessionInput, GetTestGridSessionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetTestGridSessionOutputResponse, GetTestGridSessionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetTestGridSessionOutput, GetTestGridSessionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetTestGridSessionInput, GetTestGridSessionOutputResponse>(xAmzTarget: "DeviceFarm_20150623.GetTestGridSession"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetTestGridSessionInput, GetTestGridSessionOutputResponse>(xmlName: "GetTestGridSessionRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetTestGridSessionInput, GetTestGridSessionOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetTestGridSessionInput, GetTestGridSessionOutput>(xAmzTarget: "DeviceFarm_20150623.GetTestGridSession"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetTestGridSessionInput, GetTestGridSessionOutput>(xmlName: "GetTestGridSessionRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetTestGridSessionInput, GetTestGridSessionOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetTestGridSessionOutputResponse, GetTestGridSessionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetTestGridSessionOutput, GetTestGridSessionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetTestGridSessionOutputResponse, GetTestGridSessionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetTestGridSessionOutputResponse, GetTestGridSessionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetTestGridSessionOutputResponse, GetTestGridSessionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetTestGridSessionOutput, GetTestGridSessionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetTestGridSessionOutput, GetTestGridSessionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetTestGridSessionOutput, GetTestGridSessionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1704,7 +1704,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     ///
     /// - Parameter GetUploadInput : Represents a request to the get upload operation.
     ///
-    /// - Returns: `GetUploadOutputResponse` : Represents the result of a get upload request.
+    /// - Returns: `GetUploadOutput` : Represents the result of a get upload request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1713,7 +1713,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func getUpload(input: GetUploadInput) async throws -> GetUploadOutputResponse
+    public func getUpload(input: GetUploadInput) async throws -> GetUploadOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1729,21 +1729,21 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetUploadInput, GetUploadOutputResponse, GetUploadOutputError>(id: "getUpload")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetUploadInput, GetUploadOutputResponse, GetUploadOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetUploadInput, GetUploadOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetUploadInput, GetUploadOutput, GetUploadOutputError>(id: "getUpload")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetUploadInput, GetUploadOutput, GetUploadOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetUploadInput, GetUploadOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetUploadOutputResponse, GetUploadOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetUploadOutput, GetUploadOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetUploadInput, GetUploadOutputResponse>(xAmzTarget: "DeviceFarm_20150623.GetUpload"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetUploadInput, GetUploadOutputResponse>(xmlName: "GetUploadRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetUploadInput, GetUploadOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetUploadInput, GetUploadOutput>(xAmzTarget: "DeviceFarm_20150623.GetUpload"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetUploadInput, GetUploadOutput>(xmlName: "GetUploadRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetUploadInput, GetUploadOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetUploadOutputResponse, GetUploadOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetUploadOutput, GetUploadOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetUploadOutputResponse, GetUploadOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetUploadOutputResponse, GetUploadOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetUploadOutputResponse, GetUploadOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetUploadOutput, GetUploadOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetUploadOutput, GetUploadOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetUploadOutput, GetUploadOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1752,7 +1752,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     ///
     /// - Parameter GetVPCEConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `GetVPCEConfigurationOutputResponse` : [no documentation found]
+    /// - Returns: `GetVPCEConfigurationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1760,7 +1760,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `ArgumentException` : An invalid argument was specified.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func getVPCEConfiguration(input: GetVPCEConfigurationInput) async throws -> GetVPCEConfigurationOutputResponse
+    public func getVPCEConfiguration(input: GetVPCEConfigurationInput) async throws -> GetVPCEConfigurationOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1776,21 +1776,21 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetVPCEConfigurationInput, GetVPCEConfigurationOutputResponse, GetVPCEConfigurationOutputError>(id: "getVPCEConfiguration")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetVPCEConfigurationInput, GetVPCEConfigurationOutputResponse, GetVPCEConfigurationOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetVPCEConfigurationInput, GetVPCEConfigurationOutputResponse>())
+        var operation = ClientRuntime.OperationStack<GetVPCEConfigurationInput, GetVPCEConfigurationOutput, GetVPCEConfigurationOutputError>(id: "getVPCEConfiguration")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetVPCEConfigurationInput, GetVPCEConfigurationOutput, GetVPCEConfigurationOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetVPCEConfigurationInput, GetVPCEConfigurationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetVPCEConfigurationOutputResponse, GetVPCEConfigurationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetVPCEConfigurationOutput, GetVPCEConfigurationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetVPCEConfigurationInput, GetVPCEConfigurationOutputResponse>(xAmzTarget: "DeviceFarm_20150623.GetVPCEConfiguration"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetVPCEConfigurationInput, GetVPCEConfigurationOutputResponse>(xmlName: "GetVPCEConfigurationRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetVPCEConfigurationInput, GetVPCEConfigurationOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetVPCEConfigurationInput, GetVPCEConfigurationOutput>(xAmzTarget: "DeviceFarm_20150623.GetVPCEConfiguration"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetVPCEConfigurationInput, GetVPCEConfigurationOutput>(xmlName: "GetVPCEConfigurationRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetVPCEConfigurationInput, GetVPCEConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetVPCEConfigurationOutputResponse, GetVPCEConfigurationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetVPCEConfigurationOutput, GetVPCEConfigurationOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetVPCEConfigurationOutputResponse, GetVPCEConfigurationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetVPCEConfigurationOutputResponse, GetVPCEConfigurationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetVPCEConfigurationOutputResponse, GetVPCEConfigurationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetVPCEConfigurationOutput, GetVPCEConfigurationOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetVPCEConfigurationOutput, GetVPCEConfigurationOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetVPCEConfigurationOutput, GetVPCEConfigurationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1799,7 +1799,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     ///
     /// - Parameter InstallToRemoteAccessSessionInput : Represents the request to install an Android application (in .apk format) or an iOS application (in .ipa format) as part of a remote access session.
     ///
-    /// - Returns: `InstallToRemoteAccessSessionOutputResponse` : Represents the response from the server after AWS Device Farm makes a request to install to a remote access session.
+    /// - Returns: `InstallToRemoteAccessSessionOutput` : Represents the response from the server after AWS Device Farm makes a request to install to a remote access session.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1808,7 +1808,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func installToRemoteAccessSession(input: InstallToRemoteAccessSessionInput) async throws -> InstallToRemoteAccessSessionOutputResponse
+    public func installToRemoteAccessSession(input: InstallToRemoteAccessSessionInput) async throws -> InstallToRemoteAccessSessionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1824,21 +1824,21 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<InstallToRemoteAccessSessionInput, InstallToRemoteAccessSessionOutputResponse, InstallToRemoteAccessSessionOutputError>(id: "installToRemoteAccessSession")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<InstallToRemoteAccessSessionInput, InstallToRemoteAccessSessionOutputResponse, InstallToRemoteAccessSessionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<InstallToRemoteAccessSessionInput, InstallToRemoteAccessSessionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<InstallToRemoteAccessSessionInput, InstallToRemoteAccessSessionOutput, InstallToRemoteAccessSessionOutputError>(id: "installToRemoteAccessSession")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<InstallToRemoteAccessSessionInput, InstallToRemoteAccessSessionOutput, InstallToRemoteAccessSessionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<InstallToRemoteAccessSessionInput, InstallToRemoteAccessSessionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<InstallToRemoteAccessSessionOutputResponse, InstallToRemoteAccessSessionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<InstallToRemoteAccessSessionOutput, InstallToRemoteAccessSessionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<InstallToRemoteAccessSessionInput, InstallToRemoteAccessSessionOutputResponse>(xAmzTarget: "DeviceFarm_20150623.InstallToRemoteAccessSession"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<InstallToRemoteAccessSessionInput, InstallToRemoteAccessSessionOutputResponse>(xmlName: "InstallToRemoteAccessSessionRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<InstallToRemoteAccessSessionInput, InstallToRemoteAccessSessionOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<InstallToRemoteAccessSessionInput, InstallToRemoteAccessSessionOutput>(xAmzTarget: "DeviceFarm_20150623.InstallToRemoteAccessSession"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<InstallToRemoteAccessSessionInput, InstallToRemoteAccessSessionOutput>(xmlName: "InstallToRemoteAccessSessionRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<InstallToRemoteAccessSessionInput, InstallToRemoteAccessSessionOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, InstallToRemoteAccessSessionOutputResponse, InstallToRemoteAccessSessionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, InstallToRemoteAccessSessionOutput, InstallToRemoteAccessSessionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<InstallToRemoteAccessSessionOutputResponse, InstallToRemoteAccessSessionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<InstallToRemoteAccessSessionOutputResponse, InstallToRemoteAccessSessionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<InstallToRemoteAccessSessionOutputResponse, InstallToRemoteAccessSessionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<InstallToRemoteAccessSessionOutput, InstallToRemoteAccessSessionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<InstallToRemoteAccessSessionOutput, InstallToRemoteAccessSessionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<InstallToRemoteAccessSessionOutput, InstallToRemoteAccessSessionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1847,7 +1847,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     ///
     /// - Parameter ListArtifactsInput : Represents a request to the list artifacts operation.
     ///
-    /// - Returns: `ListArtifactsOutputResponse` : Represents the result of a list artifacts operation.
+    /// - Returns: `ListArtifactsOutput` : Represents the result of a list artifacts operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1856,7 +1856,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func listArtifacts(input: ListArtifactsInput) async throws -> ListArtifactsOutputResponse
+    public func listArtifacts(input: ListArtifactsInput) async throws -> ListArtifactsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1872,21 +1872,21 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListArtifactsInput, ListArtifactsOutputResponse, ListArtifactsOutputError>(id: "listArtifacts")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListArtifactsInput, ListArtifactsOutputResponse, ListArtifactsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListArtifactsInput, ListArtifactsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListArtifactsInput, ListArtifactsOutput, ListArtifactsOutputError>(id: "listArtifacts")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListArtifactsInput, ListArtifactsOutput, ListArtifactsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListArtifactsInput, ListArtifactsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListArtifactsOutputResponse, ListArtifactsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListArtifactsOutput, ListArtifactsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListArtifactsInput, ListArtifactsOutputResponse>(xAmzTarget: "DeviceFarm_20150623.ListArtifacts"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListArtifactsInput, ListArtifactsOutputResponse>(xmlName: "ListArtifactsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListArtifactsInput, ListArtifactsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListArtifactsInput, ListArtifactsOutput>(xAmzTarget: "DeviceFarm_20150623.ListArtifacts"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListArtifactsInput, ListArtifactsOutput>(xmlName: "ListArtifactsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListArtifactsInput, ListArtifactsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListArtifactsOutputResponse, ListArtifactsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListArtifactsOutput, ListArtifactsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListArtifactsOutputResponse, ListArtifactsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListArtifactsOutputResponse, ListArtifactsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListArtifactsOutputResponse, ListArtifactsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListArtifactsOutput, ListArtifactsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListArtifactsOutput, ListArtifactsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListArtifactsOutput, ListArtifactsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1895,7 +1895,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     ///
     /// - Parameter ListDeviceInstancesInput : [no documentation found]
     ///
-    /// - Returns: `ListDeviceInstancesOutputResponse` : [no documentation found]
+    /// - Returns: `ListDeviceInstancesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1904,7 +1904,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func listDeviceInstances(input: ListDeviceInstancesInput) async throws -> ListDeviceInstancesOutputResponse
+    public func listDeviceInstances(input: ListDeviceInstancesInput) async throws -> ListDeviceInstancesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1920,21 +1920,21 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListDeviceInstancesInput, ListDeviceInstancesOutputResponse, ListDeviceInstancesOutputError>(id: "listDeviceInstances")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDeviceInstancesInput, ListDeviceInstancesOutputResponse, ListDeviceInstancesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDeviceInstancesInput, ListDeviceInstancesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListDeviceInstancesInput, ListDeviceInstancesOutput, ListDeviceInstancesOutputError>(id: "listDeviceInstances")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDeviceInstancesInput, ListDeviceInstancesOutput, ListDeviceInstancesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDeviceInstancesInput, ListDeviceInstancesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListDeviceInstancesOutputResponse, ListDeviceInstancesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListDeviceInstancesOutput, ListDeviceInstancesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListDeviceInstancesInput, ListDeviceInstancesOutputResponse>(xAmzTarget: "DeviceFarm_20150623.ListDeviceInstances"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListDeviceInstancesInput, ListDeviceInstancesOutputResponse>(xmlName: "ListDeviceInstancesRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListDeviceInstancesInput, ListDeviceInstancesOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListDeviceInstancesInput, ListDeviceInstancesOutput>(xAmzTarget: "DeviceFarm_20150623.ListDeviceInstances"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListDeviceInstancesInput, ListDeviceInstancesOutput>(xmlName: "ListDeviceInstancesRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListDeviceInstancesInput, ListDeviceInstancesOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListDeviceInstancesOutputResponse, ListDeviceInstancesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListDeviceInstancesOutput, ListDeviceInstancesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDeviceInstancesOutputResponse, ListDeviceInstancesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDeviceInstancesOutputResponse, ListDeviceInstancesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDeviceInstancesOutputResponse, ListDeviceInstancesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDeviceInstancesOutput, ListDeviceInstancesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDeviceInstancesOutput, ListDeviceInstancesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDeviceInstancesOutput, ListDeviceInstancesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1943,7 +1943,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     ///
     /// - Parameter ListDevicePoolsInput : Represents the result of a list device pools request.
     ///
-    /// - Returns: `ListDevicePoolsOutputResponse` : Represents the result of a list device pools request.
+    /// - Returns: `ListDevicePoolsOutput` : Represents the result of a list device pools request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1952,7 +1952,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func listDevicePools(input: ListDevicePoolsInput) async throws -> ListDevicePoolsOutputResponse
+    public func listDevicePools(input: ListDevicePoolsInput) async throws -> ListDevicePoolsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1968,21 +1968,21 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListDevicePoolsInput, ListDevicePoolsOutputResponse, ListDevicePoolsOutputError>(id: "listDevicePools")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDevicePoolsInput, ListDevicePoolsOutputResponse, ListDevicePoolsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDevicePoolsInput, ListDevicePoolsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListDevicePoolsInput, ListDevicePoolsOutput, ListDevicePoolsOutputError>(id: "listDevicePools")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDevicePoolsInput, ListDevicePoolsOutput, ListDevicePoolsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDevicePoolsInput, ListDevicePoolsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListDevicePoolsOutputResponse, ListDevicePoolsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListDevicePoolsOutput, ListDevicePoolsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListDevicePoolsInput, ListDevicePoolsOutputResponse>(xAmzTarget: "DeviceFarm_20150623.ListDevicePools"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListDevicePoolsInput, ListDevicePoolsOutputResponse>(xmlName: "ListDevicePoolsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListDevicePoolsInput, ListDevicePoolsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListDevicePoolsInput, ListDevicePoolsOutput>(xAmzTarget: "DeviceFarm_20150623.ListDevicePools"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListDevicePoolsInput, ListDevicePoolsOutput>(xmlName: "ListDevicePoolsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListDevicePoolsInput, ListDevicePoolsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListDevicePoolsOutputResponse, ListDevicePoolsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListDevicePoolsOutput, ListDevicePoolsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDevicePoolsOutputResponse, ListDevicePoolsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDevicePoolsOutputResponse, ListDevicePoolsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDevicePoolsOutputResponse, ListDevicePoolsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDevicePoolsOutput, ListDevicePoolsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDevicePoolsOutput, ListDevicePoolsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDevicePoolsOutput, ListDevicePoolsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1991,7 +1991,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     ///
     /// - Parameter ListDevicesInput : Represents the result of a list devices request.
     ///
-    /// - Returns: `ListDevicesOutputResponse` : Represents the result of a list devices operation.
+    /// - Returns: `ListDevicesOutput` : Represents the result of a list devices operation.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2000,7 +2000,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func listDevices(input: ListDevicesInput) async throws -> ListDevicesOutputResponse
+    public func listDevices(input: ListDevicesInput) async throws -> ListDevicesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2016,21 +2016,21 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListDevicesInput, ListDevicesOutputResponse, ListDevicesOutputError>(id: "listDevices")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDevicesInput, ListDevicesOutputResponse, ListDevicesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDevicesInput, ListDevicesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListDevicesInput, ListDevicesOutput, ListDevicesOutputError>(id: "listDevices")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDevicesInput, ListDevicesOutput, ListDevicesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDevicesInput, ListDevicesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListDevicesOutputResponse, ListDevicesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListDevicesOutput, ListDevicesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListDevicesInput, ListDevicesOutputResponse>(xAmzTarget: "DeviceFarm_20150623.ListDevices"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListDevicesInput, ListDevicesOutputResponse>(xmlName: "ListDevicesRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListDevicesInput, ListDevicesOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListDevicesInput, ListDevicesOutput>(xAmzTarget: "DeviceFarm_20150623.ListDevices"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListDevicesInput, ListDevicesOutput>(xmlName: "ListDevicesRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListDevicesInput, ListDevicesOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListDevicesOutputResponse, ListDevicesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListDevicesOutput, ListDevicesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDevicesOutputResponse, ListDevicesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDevicesOutputResponse, ListDevicesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDevicesOutputResponse, ListDevicesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDevicesOutput, ListDevicesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDevicesOutput, ListDevicesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDevicesOutput, ListDevicesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2039,7 +2039,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     ///
     /// - Parameter ListInstanceProfilesInput : [no documentation found]
     ///
-    /// - Returns: `ListInstanceProfilesOutputResponse` : [no documentation found]
+    /// - Returns: `ListInstanceProfilesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2048,7 +2048,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func listInstanceProfiles(input: ListInstanceProfilesInput) async throws -> ListInstanceProfilesOutputResponse
+    public func listInstanceProfiles(input: ListInstanceProfilesInput) async throws -> ListInstanceProfilesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2064,21 +2064,21 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListInstanceProfilesInput, ListInstanceProfilesOutputResponse, ListInstanceProfilesOutputError>(id: "listInstanceProfiles")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListInstanceProfilesInput, ListInstanceProfilesOutputResponse, ListInstanceProfilesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListInstanceProfilesInput, ListInstanceProfilesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListInstanceProfilesInput, ListInstanceProfilesOutput, ListInstanceProfilesOutputError>(id: "listInstanceProfiles")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListInstanceProfilesInput, ListInstanceProfilesOutput, ListInstanceProfilesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListInstanceProfilesInput, ListInstanceProfilesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListInstanceProfilesOutputResponse, ListInstanceProfilesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListInstanceProfilesOutput, ListInstanceProfilesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListInstanceProfilesInput, ListInstanceProfilesOutputResponse>(xAmzTarget: "DeviceFarm_20150623.ListInstanceProfiles"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListInstanceProfilesInput, ListInstanceProfilesOutputResponse>(xmlName: "ListInstanceProfilesRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListInstanceProfilesInput, ListInstanceProfilesOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListInstanceProfilesInput, ListInstanceProfilesOutput>(xAmzTarget: "DeviceFarm_20150623.ListInstanceProfiles"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListInstanceProfilesInput, ListInstanceProfilesOutput>(xmlName: "ListInstanceProfilesRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListInstanceProfilesInput, ListInstanceProfilesOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListInstanceProfilesOutputResponse, ListInstanceProfilesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListInstanceProfilesOutput, ListInstanceProfilesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListInstanceProfilesOutputResponse, ListInstanceProfilesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListInstanceProfilesOutputResponse, ListInstanceProfilesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListInstanceProfilesOutputResponse, ListInstanceProfilesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListInstanceProfilesOutput, ListInstanceProfilesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListInstanceProfilesOutput, ListInstanceProfilesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListInstanceProfilesOutput, ListInstanceProfilesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2087,7 +2087,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     ///
     /// - Parameter ListJobsInput : Represents a request to the list jobs operation.
     ///
-    /// - Returns: `ListJobsOutputResponse` : Represents the result of a list jobs request.
+    /// - Returns: `ListJobsOutput` : Represents the result of a list jobs request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2096,7 +2096,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func listJobs(input: ListJobsInput) async throws -> ListJobsOutputResponse
+    public func listJobs(input: ListJobsInput) async throws -> ListJobsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2112,21 +2112,21 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListJobsInput, ListJobsOutputResponse, ListJobsOutputError>(id: "listJobs")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListJobsInput, ListJobsOutputResponse, ListJobsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListJobsInput, ListJobsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListJobsInput, ListJobsOutput, ListJobsOutputError>(id: "listJobs")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListJobsInput, ListJobsOutput, ListJobsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListJobsInput, ListJobsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListJobsOutputResponse, ListJobsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListJobsOutput, ListJobsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListJobsInput, ListJobsOutputResponse>(xAmzTarget: "DeviceFarm_20150623.ListJobs"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListJobsInput, ListJobsOutputResponse>(xmlName: "ListJobsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListJobsInput, ListJobsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListJobsInput, ListJobsOutput>(xAmzTarget: "DeviceFarm_20150623.ListJobs"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListJobsInput, ListJobsOutput>(xmlName: "ListJobsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListJobsInput, ListJobsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListJobsOutputResponse, ListJobsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListJobsOutput, ListJobsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListJobsOutputResponse, ListJobsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListJobsOutputResponse, ListJobsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListJobsOutputResponse, ListJobsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListJobsOutput, ListJobsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListJobsOutput, ListJobsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListJobsOutput, ListJobsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2135,7 +2135,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     ///
     /// - Parameter ListNetworkProfilesInput : [no documentation found]
     ///
-    /// - Returns: `ListNetworkProfilesOutputResponse` : [no documentation found]
+    /// - Returns: `ListNetworkProfilesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2144,7 +2144,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func listNetworkProfiles(input: ListNetworkProfilesInput) async throws -> ListNetworkProfilesOutputResponse
+    public func listNetworkProfiles(input: ListNetworkProfilesInput) async throws -> ListNetworkProfilesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2160,21 +2160,21 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListNetworkProfilesInput, ListNetworkProfilesOutputResponse, ListNetworkProfilesOutputError>(id: "listNetworkProfiles")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListNetworkProfilesInput, ListNetworkProfilesOutputResponse, ListNetworkProfilesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListNetworkProfilesInput, ListNetworkProfilesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListNetworkProfilesInput, ListNetworkProfilesOutput, ListNetworkProfilesOutputError>(id: "listNetworkProfiles")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListNetworkProfilesInput, ListNetworkProfilesOutput, ListNetworkProfilesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListNetworkProfilesInput, ListNetworkProfilesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListNetworkProfilesOutputResponse, ListNetworkProfilesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListNetworkProfilesOutput, ListNetworkProfilesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListNetworkProfilesInput, ListNetworkProfilesOutputResponse>(xAmzTarget: "DeviceFarm_20150623.ListNetworkProfiles"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListNetworkProfilesInput, ListNetworkProfilesOutputResponse>(xmlName: "ListNetworkProfilesRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListNetworkProfilesInput, ListNetworkProfilesOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListNetworkProfilesInput, ListNetworkProfilesOutput>(xAmzTarget: "DeviceFarm_20150623.ListNetworkProfiles"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListNetworkProfilesInput, ListNetworkProfilesOutput>(xmlName: "ListNetworkProfilesRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListNetworkProfilesInput, ListNetworkProfilesOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListNetworkProfilesOutputResponse, ListNetworkProfilesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListNetworkProfilesOutput, ListNetworkProfilesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListNetworkProfilesOutputResponse, ListNetworkProfilesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListNetworkProfilesOutputResponse, ListNetworkProfilesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListNetworkProfilesOutputResponse, ListNetworkProfilesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListNetworkProfilesOutput, ListNetworkProfilesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListNetworkProfilesOutput, ListNetworkProfilesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListNetworkProfilesOutput, ListNetworkProfilesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2183,7 +2183,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     ///
     /// - Parameter ListOfferingPromotionsInput : [no documentation found]
     ///
-    /// - Returns: `ListOfferingPromotionsOutputResponse` : [no documentation found]
+    /// - Returns: `ListOfferingPromotionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2193,7 +2193,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `NotEligibleException` : Exception gets thrown when a user is not eligible to perform the specified transaction.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func listOfferingPromotions(input: ListOfferingPromotionsInput) async throws -> ListOfferingPromotionsOutputResponse
+    public func listOfferingPromotions(input: ListOfferingPromotionsInput) async throws -> ListOfferingPromotionsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2209,21 +2209,21 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListOfferingPromotionsInput, ListOfferingPromotionsOutputResponse, ListOfferingPromotionsOutputError>(id: "listOfferingPromotions")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListOfferingPromotionsInput, ListOfferingPromotionsOutputResponse, ListOfferingPromotionsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListOfferingPromotionsInput, ListOfferingPromotionsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListOfferingPromotionsInput, ListOfferingPromotionsOutput, ListOfferingPromotionsOutputError>(id: "listOfferingPromotions")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListOfferingPromotionsInput, ListOfferingPromotionsOutput, ListOfferingPromotionsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListOfferingPromotionsInput, ListOfferingPromotionsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListOfferingPromotionsOutputResponse, ListOfferingPromotionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListOfferingPromotionsOutput, ListOfferingPromotionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListOfferingPromotionsInput, ListOfferingPromotionsOutputResponse>(xAmzTarget: "DeviceFarm_20150623.ListOfferingPromotions"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListOfferingPromotionsInput, ListOfferingPromotionsOutputResponse>(xmlName: "ListOfferingPromotionsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListOfferingPromotionsInput, ListOfferingPromotionsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListOfferingPromotionsInput, ListOfferingPromotionsOutput>(xAmzTarget: "DeviceFarm_20150623.ListOfferingPromotions"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListOfferingPromotionsInput, ListOfferingPromotionsOutput>(xmlName: "ListOfferingPromotionsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListOfferingPromotionsInput, ListOfferingPromotionsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListOfferingPromotionsOutputResponse, ListOfferingPromotionsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListOfferingPromotionsOutput, ListOfferingPromotionsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListOfferingPromotionsOutputResponse, ListOfferingPromotionsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListOfferingPromotionsOutputResponse, ListOfferingPromotionsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListOfferingPromotionsOutputResponse, ListOfferingPromotionsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListOfferingPromotionsOutput, ListOfferingPromotionsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListOfferingPromotionsOutput, ListOfferingPromotionsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListOfferingPromotionsOutput, ListOfferingPromotionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2232,7 +2232,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     ///
     /// - Parameter ListOfferingTransactionsInput : Represents the request to list the offering transaction history.
     ///
-    /// - Returns: `ListOfferingTransactionsOutputResponse` : Returns the transaction log of the specified offerings.
+    /// - Returns: `ListOfferingTransactionsOutput` : Returns the transaction log of the specified offerings.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2242,7 +2242,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `NotEligibleException` : Exception gets thrown when a user is not eligible to perform the specified transaction.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func listOfferingTransactions(input: ListOfferingTransactionsInput) async throws -> ListOfferingTransactionsOutputResponse
+    public func listOfferingTransactions(input: ListOfferingTransactionsInput) async throws -> ListOfferingTransactionsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2258,21 +2258,21 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListOfferingTransactionsInput, ListOfferingTransactionsOutputResponse, ListOfferingTransactionsOutputError>(id: "listOfferingTransactions")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListOfferingTransactionsInput, ListOfferingTransactionsOutputResponse, ListOfferingTransactionsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListOfferingTransactionsInput, ListOfferingTransactionsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListOfferingTransactionsInput, ListOfferingTransactionsOutput, ListOfferingTransactionsOutputError>(id: "listOfferingTransactions")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListOfferingTransactionsInput, ListOfferingTransactionsOutput, ListOfferingTransactionsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListOfferingTransactionsInput, ListOfferingTransactionsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListOfferingTransactionsOutputResponse, ListOfferingTransactionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListOfferingTransactionsOutput, ListOfferingTransactionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListOfferingTransactionsInput, ListOfferingTransactionsOutputResponse>(xAmzTarget: "DeviceFarm_20150623.ListOfferingTransactions"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListOfferingTransactionsInput, ListOfferingTransactionsOutputResponse>(xmlName: "ListOfferingTransactionsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListOfferingTransactionsInput, ListOfferingTransactionsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListOfferingTransactionsInput, ListOfferingTransactionsOutput>(xAmzTarget: "DeviceFarm_20150623.ListOfferingTransactions"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListOfferingTransactionsInput, ListOfferingTransactionsOutput>(xmlName: "ListOfferingTransactionsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListOfferingTransactionsInput, ListOfferingTransactionsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListOfferingTransactionsOutputResponse, ListOfferingTransactionsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListOfferingTransactionsOutput, ListOfferingTransactionsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListOfferingTransactionsOutputResponse, ListOfferingTransactionsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListOfferingTransactionsOutputResponse, ListOfferingTransactionsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListOfferingTransactionsOutputResponse, ListOfferingTransactionsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListOfferingTransactionsOutput, ListOfferingTransactionsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListOfferingTransactionsOutput, ListOfferingTransactionsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListOfferingTransactionsOutput, ListOfferingTransactionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2281,7 +2281,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     ///
     /// - Parameter ListOfferingsInput : Represents the request to list all offerings.
     ///
-    /// - Returns: `ListOfferingsOutputResponse` : Represents the return values of the list of offerings.
+    /// - Returns: `ListOfferingsOutput` : Represents the return values of the list of offerings.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2291,7 +2291,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `NotEligibleException` : Exception gets thrown when a user is not eligible to perform the specified transaction.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func listOfferings(input: ListOfferingsInput) async throws -> ListOfferingsOutputResponse
+    public func listOfferings(input: ListOfferingsInput) async throws -> ListOfferingsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2307,21 +2307,21 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListOfferingsInput, ListOfferingsOutputResponse, ListOfferingsOutputError>(id: "listOfferings")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListOfferingsInput, ListOfferingsOutputResponse, ListOfferingsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListOfferingsInput, ListOfferingsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListOfferingsInput, ListOfferingsOutput, ListOfferingsOutputError>(id: "listOfferings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListOfferingsInput, ListOfferingsOutput, ListOfferingsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListOfferingsInput, ListOfferingsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListOfferingsOutputResponse, ListOfferingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListOfferingsOutput, ListOfferingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListOfferingsInput, ListOfferingsOutputResponse>(xAmzTarget: "DeviceFarm_20150623.ListOfferings"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListOfferingsInput, ListOfferingsOutputResponse>(xmlName: "ListOfferingsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListOfferingsInput, ListOfferingsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListOfferingsInput, ListOfferingsOutput>(xAmzTarget: "DeviceFarm_20150623.ListOfferings"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListOfferingsInput, ListOfferingsOutput>(xmlName: "ListOfferingsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListOfferingsInput, ListOfferingsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListOfferingsOutputResponse, ListOfferingsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListOfferingsOutput, ListOfferingsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListOfferingsOutputResponse, ListOfferingsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListOfferingsOutputResponse, ListOfferingsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListOfferingsOutputResponse, ListOfferingsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListOfferingsOutput, ListOfferingsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListOfferingsOutput, ListOfferingsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListOfferingsOutput, ListOfferingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2330,7 +2330,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     ///
     /// - Parameter ListProjectsInput : Represents a request to the list projects operation.
     ///
-    /// - Returns: `ListProjectsOutputResponse` : Represents the result of a list projects request.
+    /// - Returns: `ListProjectsOutput` : Represents the result of a list projects request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2339,7 +2339,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func listProjects(input: ListProjectsInput) async throws -> ListProjectsOutputResponse
+    public func listProjects(input: ListProjectsInput) async throws -> ListProjectsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2355,21 +2355,21 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListProjectsInput, ListProjectsOutputResponse, ListProjectsOutputError>(id: "listProjects")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListProjectsInput, ListProjectsOutputResponse, ListProjectsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListProjectsInput, ListProjectsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListProjectsInput, ListProjectsOutput, ListProjectsOutputError>(id: "listProjects")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListProjectsInput, ListProjectsOutput, ListProjectsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListProjectsInput, ListProjectsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListProjectsOutputResponse, ListProjectsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListProjectsOutput, ListProjectsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListProjectsInput, ListProjectsOutputResponse>(xAmzTarget: "DeviceFarm_20150623.ListProjects"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListProjectsInput, ListProjectsOutputResponse>(xmlName: "ListProjectsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListProjectsInput, ListProjectsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListProjectsInput, ListProjectsOutput>(xAmzTarget: "DeviceFarm_20150623.ListProjects"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListProjectsInput, ListProjectsOutput>(xmlName: "ListProjectsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListProjectsInput, ListProjectsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListProjectsOutputResponse, ListProjectsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListProjectsOutput, ListProjectsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListProjectsOutputResponse, ListProjectsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListProjectsOutputResponse, ListProjectsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListProjectsOutputResponse, ListProjectsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListProjectsOutput, ListProjectsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListProjectsOutput, ListProjectsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListProjectsOutput, ListProjectsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2378,7 +2378,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     ///
     /// - Parameter ListRemoteAccessSessionsInput : Represents the request to return information about the remote access session.
     ///
-    /// - Returns: `ListRemoteAccessSessionsOutputResponse` : Represents the response from the server after AWS Device Farm makes a request to return information about the remote access session.
+    /// - Returns: `ListRemoteAccessSessionsOutput` : Represents the response from the server after AWS Device Farm makes a request to return information about the remote access session.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2387,7 +2387,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func listRemoteAccessSessions(input: ListRemoteAccessSessionsInput) async throws -> ListRemoteAccessSessionsOutputResponse
+    public func listRemoteAccessSessions(input: ListRemoteAccessSessionsInput) async throws -> ListRemoteAccessSessionsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2403,21 +2403,21 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListRemoteAccessSessionsInput, ListRemoteAccessSessionsOutputResponse, ListRemoteAccessSessionsOutputError>(id: "listRemoteAccessSessions")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListRemoteAccessSessionsInput, ListRemoteAccessSessionsOutputResponse, ListRemoteAccessSessionsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListRemoteAccessSessionsInput, ListRemoteAccessSessionsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListRemoteAccessSessionsInput, ListRemoteAccessSessionsOutput, ListRemoteAccessSessionsOutputError>(id: "listRemoteAccessSessions")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListRemoteAccessSessionsInput, ListRemoteAccessSessionsOutput, ListRemoteAccessSessionsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListRemoteAccessSessionsInput, ListRemoteAccessSessionsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListRemoteAccessSessionsOutputResponse, ListRemoteAccessSessionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListRemoteAccessSessionsOutput, ListRemoteAccessSessionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListRemoteAccessSessionsInput, ListRemoteAccessSessionsOutputResponse>(xAmzTarget: "DeviceFarm_20150623.ListRemoteAccessSessions"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListRemoteAccessSessionsInput, ListRemoteAccessSessionsOutputResponse>(xmlName: "ListRemoteAccessSessionsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListRemoteAccessSessionsInput, ListRemoteAccessSessionsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListRemoteAccessSessionsInput, ListRemoteAccessSessionsOutput>(xAmzTarget: "DeviceFarm_20150623.ListRemoteAccessSessions"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListRemoteAccessSessionsInput, ListRemoteAccessSessionsOutput>(xmlName: "ListRemoteAccessSessionsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListRemoteAccessSessionsInput, ListRemoteAccessSessionsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListRemoteAccessSessionsOutputResponse, ListRemoteAccessSessionsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListRemoteAccessSessionsOutput, ListRemoteAccessSessionsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListRemoteAccessSessionsOutputResponse, ListRemoteAccessSessionsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListRemoteAccessSessionsOutputResponse, ListRemoteAccessSessionsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListRemoteAccessSessionsOutputResponse, ListRemoteAccessSessionsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListRemoteAccessSessionsOutput, ListRemoteAccessSessionsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListRemoteAccessSessionsOutput, ListRemoteAccessSessionsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListRemoteAccessSessionsOutput, ListRemoteAccessSessionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2426,7 +2426,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     ///
     /// - Parameter ListRunsInput : Represents a request to the list runs operation.
     ///
-    /// - Returns: `ListRunsOutputResponse` : Represents the result of a list runs request.
+    /// - Returns: `ListRunsOutput` : Represents the result of a list runs request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2435,7 +2435,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func listRuns(input: ListRunsInput) async throws -> ListRunsOutputResponse
+    public func listRuns(input: ListRunsInput) async throws -> ListRunsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2451,21 +2451,21 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListRunsInput, ListRunsOutputResponse, ListRunsOutputError>(id: "listRuns")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListRunsInput, ListRunsOutputResponse, ListRunsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListRunsInput, ListRunsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListRunsInput, ListRunsOutput, ListRunsOutputError>(id: "listRuns")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListRunsInput, ListRunsOutput, ListRunsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListRunsInput, ListRunsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListRunsOutputResponse, ListRunsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListRunsOutput, ListRunsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListRunsInput, ListRunsOutputResponse>(xAmzTarget: "DeviceFarm_20150623.ListRuns"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListRunsInput, ListRunsOutputResponse>(xmlName: "ListRunsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListRunsInput, ListRunsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListRunsInput, ListRunsOutput>(xAmzTarget: "DeviceFarm_20150623.ListRuns"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListRunsInput, ListRunsOutput>(xmlName: "ListRunsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListRunsInput, ListRunsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListRunsOutputResponse, ListRunsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListRunsOutput, ListRunsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListRunsOutputResponse, ListRunsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListRunsOutputResponse, ListRunsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListRunsOutputResponse, ListRunsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListRunsOutput, ListRunsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListRunsOutput, ListRunsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListRunsOutput, ListRunsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2474,7 +2474,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     ///
     /// - Parameter ListSamplesInput : Represents a request to the list samples operation.
     ///
-    /// - Returns: `ListSamplesOutputResponse` : Represents the result of a list samples request.
+    /// - Returns: `ListSamplesOutput` : Represents the result of a list samples request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2483,7 +2483,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func listSamples(input: ListSamplesInput) async throws -> ListSamplesOutputResponse
+    public func listSamples(input: ListSamplesInput) async throws -> ListSamplesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2499,21 +2499,21 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListSamplesInput, ListSamplesOutputResponse, ListSamplesOutputError>(id: "listSamples")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSamplesInput, ListSamplesOutputResponse, ListSamplesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSamplesInput, ListSamplesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListSamplesInput, ListSamplesOutput, ListSamplesOutputError>(id: "listSamples")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSamplesInput, ListSamplesOutput, ListSamplesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSamplesInput, ListSamplesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSamplesOutputResponse, ListSamplesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSamplesOutput, ListSamplesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListSamplesInput, ListSamplesOutputResponse>(xAmzTarget: "DeviceFarm_20150623.ListSamples"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListSamplesInput, ListSamplesOutputResponse>(xmlName: "ListSamplesRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListSamplesInput, ListSamplesOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListSamplesInput, ListSamplesOutput>(xAmzTarget: "DeviceFarm_20150623.ListSamples"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListSamplesInput, ListSamplesOutput>(xmlName: "ListSamplesRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListSamplesInput, ListSamplesOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSamplesOutputResponse, ListSamplesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSamplesOutput, ListSamplesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSamplesOutputResponse, ListSamplesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSamplesOutputResponse, ListSamplesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSamplesOutputResponse, ListSamplesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSamplesOutput, ListSamplesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSamplesOutput, ListSamplesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSamplesOutput, ListSamplesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2522,7 +2522,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     ///
     /// - Parameter ListSuitesInput : Represents a request to the list suites operation.
     ///
-    /// - Returns: `ListSuitesOutputResponse` : Represents the result of a list suites request.
+    /// - Returns: `ListSuitesOutput` : Represents the result of a list suites request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2531,7 +2531,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func listSuites(input: ListSuitesInput) async throws -> ListSuitesOutputResponse
+    public func listSuites(input: ListSuitesInput) async throws -> ListSuitesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2547,21 +2547,21 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListSuitesInput, ListSuitesOutputResponse, ListSuitesOutputError>(id: "listSuites")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSuitesInput, ListSuitesOutputResponse, ListSuitesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSuitesInput, ListSuitesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListSuitesInput, ListSuitesOutput, ListSuitesOutputError>(id: "listSuites")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSuitesInput, ListSuitesOutput, ListSuitesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSuitesInput, ListSuitesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSuitesOutputResponse, ListSuitesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSuitesOutput, ListSuitesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListSuitesInput, ListSuitesOutputResponse>(xAmzTarget: "DeviceFarm_20150623.ListSuites"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListSuitesInput, ListSuitesOutputResponse>(xmlName: "ListSuitesRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListSuitesInput, ListSuitesOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListSuitesInput, ListSuitesOutput>(xAmzTarget: "DeviceFarm_20150623.ListSuites"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListSuitesInput, ListSuitesOutput>(xmlName: "ListSuitesRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListSuitesInput, ListSuitesOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSuitesOutputResponse, ListSuitesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSuitesOutput, ListSuitesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSuitesOutputResponse, ListSuitesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSuitesOutputResponse, ListSuitesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSuitesOutputResponse, ListSuitesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSuitesOutput, ListSuitesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSuitesOutput, ListSuitesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSuitesOutput, ListSuitesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2570,7 +2570,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2578,7 +2578,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `ArgumentException` : An invalid argument was specified.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `TagOperationException` : The operation was not successful. Try again.
-    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2594,21 +2594,21 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutput, ListTagsForResourceOutputError>(id: "listTagsForResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, ListTagsForResourceOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>(xAmzTarget: "DeviceFarm_20150623.ListTagsForResource"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>(xmlName: "ListTagsForResourceRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(xAmzTarget: "DeviceFarm_20150623.ListTagsForResource"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(xmlName: "ListTagsForResourceRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsForResourceOutput, ListTagsForResourceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2617,14 +2617,14 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     ///
     /// - Parameter ListTestGridProjectsInput : [no documentation found]
     ///
-    /// - Returns: `ListTestGridProjectsOutputResponse` : [no documentation found]
+    /// - Returns: `ListTestGridProjectsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ArgumentException` : An invalid argument was specified.
     /// - `InternalServiceException` : An internal exception was raised in the service. Contact [aws-devicefarm-support@amazon.com](mailto:aws-devicefarm-support@amazon.com) if you see this error.
-    public func listTestGridProjects(input: ListTestGridProjectsInput) async throws -> ListTestGridProjectsOutputResponse
+    public func listTestGridProjects(input: ListTestGridProjectsInput) async throws -> ListTestGridProjectsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2640,21 +2640,21 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListTestGridProjectsInput, ListTestGridProjectsOutputResponse, ListTestGridProjectsOutputError>(id: "listTestGridProjects")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTestGridProjectsInput, ListTestGridProjectsOutputResponse, ListTestGridProjectsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTestGridProjectsInput, ListTestGridProjectsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListTestGridProjectsInput, ListTestGridProjectsOutput, ListTestGridProjectsOutputError>(id: "listTestGridProjects")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTestGridProjectsInput, ListTestGridProjectsOutput, ListTestGridProjectsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTestGridProjectsInput, ListTestGridProjectsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTestGridProjectsOutputResponse, ListTestGridProjectsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTestGridProjectsOutput, ListTestGridProjectsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListTestGridProjectsInput, ListTestGridProjectsOutputResponse>(xAmzTarget: "DeviceFarm_20150623.ListTestGridProjects"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListTestGridProjectsInput, ListTestGridProjectsOutputResponse>(xmlName: "ListTestGridProjectsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListTestGridProjectsInput, ListTestGridProjectsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListTestGridProjectsInput, ListTestGridProjectsOutput>(xAmzTarget: "DeviceFarm_20150623.ListTestGridProjects"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListTestGridProjectsInput, ListTestGridProjectsOutput>(xmlName: "ListTestGridProjectsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListTestGridProjectsInput, ListTestGridProjectsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTestGridProjectsOutputResponse, ListTestGridProjectsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTestGridProjectsOutput, ListTestGridProjectsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTestGridProjectsOutputResponse, ListTestGridProjectsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTestGridProjectsOutputResponse, ListTestGridProjectsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTestGridProjectsOutputResponse, ListTestGridProjectsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTestGridProjectsOutput, ListTestGridProjectsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTestGridProjectsOutput, ListTestGridProjectsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTestGridProjectsOutput, ListTestGridProjectsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2663,7 +2663,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     ///
     /// - Parameter ListTestGridSessionActionsInput : [no documentation found]
     ///
-    /// - Returns: `ListTestGridSessionActionsOutputResponse` : [no documentation found]
+    /// - Returns: `ListTestGridSessionActionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2671,7 +2671,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `ArgumentException` : An invalid argument was specified.
     /// - `InternalServiceException` : An internal exception was raised in the service. Contact [aws-devicefarm-support@amazon.com](mailto:aws-devicefarm-support@amazon.com) if you see this error.
     /// - `NotFoundException` : The specified entity was not found.
-    public func listTestGridSessionActions(input: ListTestGridSessionActionsInput) async throws -> ListTestGridSessionActionsOutputResponse
+    public func listTestGridSessionActions(input: ListTestGridSessionActionsInput) async throws -> ListTestGridSessionActionsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2687,21 +2687,21 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListTestGridSessionActionsInput, ListTestGridSessionActionsOutputResponse, ListTestGridSessionActionsOutputError>(id: "listTestGridSessionActions")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTestGridSessionActionsInput, ListTestGridSessionActionsOutputResponse, ListTestGridSessionActionsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTestGridSessionActionsInput, ListTestGridSessionActionsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListTestGridSessionActionsInput, ListTestGridSessionActionsOutput, ListTestGridSessionActionsOutputError>(id: "listTestGridSessionActions")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTestGridSessionActionsInput, ListTestGridSessionActionsOutput, ListTestGridSessionActionsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTestGridSessionActionsInput, ListTestGridSessionActionsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTestGridSessionActionsOutputResponse, ListTestGridSessionActionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTestGridSessionActionsOutput, ListTestGridSessionActionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListTestGridSessionActionsInput, ListTestGridSessionActionsOutputResponse>(xAmzTarget: "DeviceFarm_20150623.ListTestGridSessionActions"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListTestGridSessionActionsInput, ListTestGridSessionActionsOutputResponse>(xmlName: "ListTestGridSessionActionsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListTestGridSessionActionsInput, ListTestGridSessionActionsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListTestGridSessionActionsInput, ListTestGridSessionActionsOutput>(xAmzTarget: "DeviceFarm_20150623.ListTestGridSessionActions"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListTestGridSessionActionsInput, ListTestGridSessionActionsOutput>(xmlName: "ListTestGridSessionActionsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListTestGridSessionActionsInput, ListTestGridSessionActionsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTestGridSessionActionsOutputResponse, ListTestGridSessionActionsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTestGridSessionActionsOutput, ListTestGridSessionActionsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTestGridSessionActionsOutputResponse, ListTestGridSessionActionsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTestGridSessionActionsOutputResponse, ListTestGridSessionActionsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTestGridSessionActionsOutputResponse, ListTestGridSessionActionsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTestGridSessionActionsOutput, ListTestGridSessionActionsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTestGridSessionActionsOutput, ListTestGridSessionActionsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTestGridSessionActionsOutput, ListTestGridSessionActionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2710,7 +2710,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     ///
     /// - Parameter ListTestGridSessionArtifactsInput : [no documentation found]
     ///
-    /// - Returns: `ListTestGridSessionArtifactsOutputResponse` : [no documentation found]
+    /// - Returns: `ListTestGridSessionArtifactsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2718,7 +2718,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `ArgumentException` : An invalid argument was specified.
     /// - `InternalServiceException` : An internal exception was raised in the service. Contact [aws-devicefarm-support@amazon.com](mailto:aws-devicefarm-support@amazon.com) if you see this error.
     /// - `NotFoundException` : The specified entity was not found.
-    public func listTestGridSessionArtifacts(input: ListTestGridSessionArtifactsInput) async throws -> ListTestGridSessionArtifactsOutputResponse
+    public func listTestGridSessionArtifacts(input: ListTestGridSessionArtifactsInput) async throws -> ListTestGridSessionArtifactsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2734,21 +2734,21 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListTestGridSessionArtifactsInput, ListTestGridSessionArtifactsOutputResponse, ListTestGridSessionArtifactsOutputError>(id: "listTestGridSessionArtifacts")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTestGridSessionArtifactsInput, ListTestGridSessionArtifactsOutputResponse, ListTestGridSessionArtifactsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTestGridSessionArtifactsInput, ListTestGridSessionArtifactsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListTestGridSessionArtifactsInput, ListTestGridSessionArtifactsOutput, ListTestGridSessionArtifactsOutputError>(id: "listTestGridSessionArtifacts")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTestGridSessionArtifactsInput, ListTestGridSessionArtifactsOutput, ListTestGridSessionArtifactsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTestGridSessionArtifactsInput, ListTestGridSessionArtifactsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTestGridSessionArtifactsOutputResponse, ListTestGridSessionArtifactsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTestGridSessionArtifactsOutput, ListTestGridSessionArtifactsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListTestGridSessionArtifactsInput, ListTestGridSessionArtifactsOutputResponse>(xAmzTarget: "DeviceFarm_20150623.ListTestGridSessionArtifacts"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListTestGridSessionArtifactsInput, ListTestGridSessionArtifactsOutputResponse>(xmlName: "ListTestGridSessionArtifactsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListTestGridSessionArtifactsInput, ListTestGridSessionArtifactsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListTestGridSessionArtifactsInput, ListTestGridSessionArtifactsOutput>(xAmzTarget: "DeviceFarm_20150623.ListTestGridSessionArtifacts"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListTestGridSessionArtifactsInput, ListTestGridSessionArtifactsOutput>(xmlName: "ListTestGridSessionArtifactsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListTestGridSessionArtifactsInput, ListTestGridSessionArtifactsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTestGridSessionArtifactsOutputResponse, ListTestGridSessionArtifactsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTestGridSessionArtifactsOutput, ListTestGridSessionArtifactsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTestGridSessionArtifactsOutputResponse, ListTestGridSessionArtifactsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTestGridSessionArtifactsOutputResponse, ListTestGridSessionArtifactsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTestGridSessionArtifactsOutputResponse, ListTestGridSessionArtifactsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTestGridSessionArtifactsOutput, ListTestGridSessionArtifactsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTestGridSessionArtifactsOutput, ListTestGridSessionArtifactsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTestGridSessionArtifactsOutput, ListTestGridSessionArtifactsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2757,7 +2757,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     ///
     /// - Parameter ListTestGridSessionsInput : [no documentation found]
     ///
-    /// - Returns: `ListTestGridSessionsOutputResponse` : [no documentation found]
+    /// - Returns: `ListTestGridSessionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2765,7 +2765,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `ArgumentException` : An invalid argument was specified.
     /// - `InternalServiceException` : An internal exception was raised in the service. Contact [aws-devicefarm-support@amazon.com](mailto:aws-devicefarm-support@amazon.com) if you see this error.
     /// - `NotFoundException` : The specified entity was not found.
-    public func listTestGridSessions(input: ListTestGridSessionsInput) async throws -> ListTestGridSessionsOutputResponse
+    public func listTestGridSessions(input: ListTestGridSessionsInput) async throws -> ListTestGridSessionsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2781,21 +2781,21 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListTestGridSessionsInput, ListTestGridSessionsOutputResponse, ListTestGridSessionsOutputError>(id: "listTestGridSessions")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTestGridSessionsInput, ListTestGridSessionsOutputResponse, ListTestGridSessionsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTestGridSessionsInput, ListTestGridSessionsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListTestGridSessionsInput, ListTestGridSessionsOutput, ListTestGridSessionsOutputError>(id: "listTestGridSessions")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTestGridSessionsInput, ListTestGridSessionsOutput, ListTestGridSessionsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTestGridSessionsInput, ListTestGridSessionsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTestGridSessionsOutputResponse, ListTestGridSessionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTestGridSessionsOutput, ListTestGridSessionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListTestGridSessionsInput, ListTestGridSessionsOutputResponse>(xAmzTarget: "DeviceFarm_20150623.ListTestGridSessions"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListTestGridSessionsInput, ListTestGridSessionsOutputResponse>(xmlName: "ListTestGridSessionsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListTestGridSessionsInput, ListTestGridSessionsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListTestGridSessionsInput, ListTestGridSessionsOutput>(xAmzTarget: "DeviceFarm_20150623.ListTestGridSessions"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListTestGridSessionsInput, ListTestGridSessionsOutput>(xmlName: "ListTestGridSessionsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListTestGridSessionsInput, ListTestGridSessionsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTestGridSessionsOutputResponse, ListTestGridSessionsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTestGridSessionsOutput, ListTestGridSessionsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTestGridSessionsOutputResponse, ListTestGridSessionsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTestGridSessionsOutputResponse, ListTestGridSessionsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTestGridSessionsOutputResponse, ListTestGridSessionsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTestGridSessionsOutput, ListTestGridSessionsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTestGridSessionsOutput, ListTestGridSessionsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTestGridSessionsOutput, ListTestGridSessionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2804,7 +2804,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     ///
     /// - Parameter ListTestsInput : Represents a request to the list tests operation.
     ///
-    /// - Returns: `ListTestsOutputResponse` : Represents the result of a list tests request.
+    /// - Returns: `ListTestsOutput` : Represents the result of a list tests request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2813,7 +2813,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func listTests(input: ListTestsInput) async throws -> ListTestsOutputResponse
+    public func listTests(input: ListTestsInput) async throws -> ListTestsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2829,21 +2829,21 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListTestsInput, ListTestsOutputResponse, ListTestsOutputError>(id: "listTests")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTestsInput, ListTestsOutputResponse, ListTestsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTestsInput, ListTestsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListTestsInput, ListTestsOutput, ListTestsOutputError>(id: "listTests")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTestsInput, ListTestsOutput, ListTestsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTestsInput, ListTestsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTestsOutputResponse, ListTestsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTestsOutput, ListTestsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListTestsInput, ListTestsOutputResponse>(xAmzTarget: "DeviceFarm_20150623.ListTests"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListTestsInput, ListTestsOutputResponse>(xmlName: "ListTestsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListTestsInput, ListTestsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListTestsInput, ListTestsOutput>(xAmzTarget: "DeviceFarm_20150623.ListTests"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListTestsInput, ListTestsOutput>(xmlName: "ListTestsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListTestsInput, ListTestsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTestsOutputResponse, ListTestsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTestsOutput, ListTestsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTestsOutputResponse, ListTestsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTestsOutputResponse, ListTestsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTestsOutputResponse, ListTestsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTestsOutput, ListTestsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTestsOutput, ListTestsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTestsOutput, ListTestsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2852,7 +2852,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     ///
     /// - Parameter ListUniqueProblemsInput : Represents a request to the list unique problems operation.
     ///
-    /// - Returns: `ListUniqueProblemsOutputResponse` : Represents the result of a list unique problems request.
+    /// - Returns: `ListUniqueProblemsOutput` : Represents the result of a list unique problems request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2861,7 +2861,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func listUniqueProblems(input: ListUniqueProblemsInput) async throws -> ListUniqueProblemsOutputResponse
+    public func listUniqueProblems(input: ListUniqueProblemsInput) async throws -> ListUniqueProblemsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2877,21 +2877,21 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListUniqueProblemsInput, ListUniqueProblemsOutputResponse, ListUniqueProblemsOutputError>(id: "listUniqueProblems")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListUniqueProblemsInput, ListUniqueProblemsOutputResponse, ListUniqueProblemsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListUniqueProblemsInput, ListUniqueProblemsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListUniqueProblemsInput, ListUniqueProblemsOutput, ListUniqueProblemsOutputError>(id: "listUniqueProblems")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListUniqueProblemsInput, ListUniqueProblemsOutput, ListUniqueProblemsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListUniqueProblemsInput, ListUniqueProblemsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListUniqueProblemsOutputResponse, ListUniqueProblemsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListUniqueProblemsOutput, ListUniqueProblemsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListUniqueProblemsInput, ListUniqueProblemsOutputResponse>(xAmzTarget: "DeviceFarm_20150623.ListUniqueProblems"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListUniqueProblemsInput, ListUniqueProblemsOutputResponse>(xmlName: "ListUniqueProblemsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListUniqueProblemsInput, ListUniqueProblemsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListUniqueProblemsInput, ListUniqueProblemsOutput>(xAmzTarget: "DeviceFarm_20150623.ListUniqueProblems"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListUniqueProblemsInput, ListUniqueProblemsOutput>(xmlName: "ListUniqueProblemsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListUniqueProblemsInput, ListUniqueProblemsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListUniqueProblemsOutputResponse, ListUniqueProblemsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListUniqueProblemsOutput, ListUniqueProblemsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListUniqueProblemsOutputResponse, ListUniqueProblemsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListUniqueProblemsOutputResponse, ListUniqueProblemsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListUniqueProblemsOutputResponse, ListUniqueProblemsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListUniqueProblemsOutput, ListUniqueProblemsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListUniqueProblemsOutput, ListUniqueProblemsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListUniqueProblemsOutput, ListUniqueProblemsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2900,7 +2900,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     ///
     /// - Parameter ListUploadsInput : Represents a request to the list uploads operation.
     ///
-    /// - Returns: `ListUploadsOutputResponse` : Represents the result of a list uploads request.
+    /// - Returns: `ListUploadsOutput` : Represents the result of a list uploads request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2909,7 +2909,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func listUploads(input: ListUploadsInput) async throws -> ListUploadsOutputResponse
+    public func listUploads(input: ListUploadsInput) async throws -> ListUploadsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2925,21 +2925,21 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListUploadsInput, ListUploadsOutputResponse, ListUploadsOutputError>(id: "listUploads")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListUploadsInput, ListUploadsOutputResponse, ListUploadsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListUploadsInput, ListUploadsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListUploadsInput, ListUploadsOutput, ListUploadsOutputError>(id: "listUploads")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListUploadsInput, ListUploadsOutput, ListUploadsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListUploadsInput, ListUploadsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListUploadsOutputResponse, ListUploadsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListUploadsOutput, ListUploadsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListUploadsInput, ListUploadsOutputResponse>(xAmzTarget: "DeviceFarm_20150623.ListUploads"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListUploadsInput, ListUploadsOutputResponse>(xmlName: "ListUploadsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListUploadsInput, ListUploadsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListUploadsInput, ListUploadsOutput>(xAmzTarget: "DeviceFarm_20150623.ListUploads"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListUploadsInput, ListUploadsOutput>(xmlName: "ListUploadsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListUploadsInput, ListUploadsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListUploadsOutputResponse, ListUploadsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListUploadsOutput, ListUploadsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListUploadsOutputResponse, ListUploadsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListUploadsOutputResponse, ListUploadsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListUploadsOutputResponse, ListUploadsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListUploadsOutput, ListUploadsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListUploadsOutput, ListUploadsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListUploadsOutput, ListUploadsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2948,14 +2948,14 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     ///
     /// - Parameter ListVPCEConfigurationsInput : [no documentation found]
     ///
-    /// - Returns: `ListVPCEConfigurationsOutputResponse` : [no documentation found]
+    /// - Returns: `ListVPCEConfigurationsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ArgumentException` : An invalid argument was specified.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func listVPCEConfigurations(input: ListVPCEConfigurationsInput) async throws -> ListVPCEConfigurationsOutputResponse
+    public func listVPCEConfigurations(input: ListVPCEConfigurationsInput) async throws -> ListVPCEConfigurationsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2971,21 +2971,21 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListVPCEConfigurationsInput, ListVPCEConfigurationsOutputResponse, ListVPCEConfigurationsOutputError>(id: "listVPCEConfigurations")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListVPCEConfigurationsInput, ListVPCEConfigurationsOutputResponse, ListVPCEConfigurationsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListVPCEConfigurationsInput, ListVPCEConfigurationsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListVPCEConfigurationsInput, ListVPCEConfigurationsOutput, ListVPCEConfigurationsOutputError>(id: "listVPCEConfigurations")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListVPCEConfigurationsInput, ListVPCEConfigurationsOutput, ListVPCEConfigurationsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListVPCEConfigurationsInput, ListVPCEConfigurationsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListVPCEConfigurationsOutputResponse, ListVPCEConfigurationsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListVPCEConfigurationsOutput, ListVPCEConfigurationsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListVPCEConfigurationsInput, ListVPCEConfigurationsOutputResponse>(xAmzTarget: "DeviceFarm_20150623.ListVPCEConfigurations"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListVPCEConfigurationsInput, ListVPCEConfigurationsOutputResponse>(xmlName: "ListVPCEConfigurationsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListVPCEConfigurationsInput, ListVPCEConfigurationsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListVPCEConfigurationsInput, ListVPCEConfigurationsOutput>(xAmzTarget: "DeviceFarm_20150623.ListVPCEConfigurations"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListVPCEConfigurationsInput, ListVPCEConfigurationsOutput>(xmlName: "ListVPCEConfigurationsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListVPCEConfigurationsInput, ListVPCEConfigurationsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListVPCEConfigurationsOutputResponse, ListVPCEConfigurationsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListVPCEConfigurationsOutput, ListVPCEConfigurationsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListVPCEConfigurationsOutputResponse, ListVPCEConfigurationsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListVPCEConfigurationsOutputResponse, ListVPCEConfigurationsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListVPCEConfigurationsOutputResponse, ListVPCEConfigurationsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListVPCEConfigurationsOutput, ListVPCEConfigurationsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListVPCEConfigurationsOutput, ListVPCEConfigurationsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListVPCEConfigurationsOutput, ListVPCEConfigurationsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2994,7 +2994,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     ///
     /// - Parameter PurchaseOfferingInput : Represents a request for a purchase offering.
     ///
-    /// - Returns: `PurchaseOfferingOutputResponse` : The result of the purchase offering (for example, success or failure).
+    /// - Returns: `PurchaseOfferingOutput` : The result of the purchase offering (for example, success or failure).
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3004,7 +3004,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `NotEligibleException` : Exception gets thrown when a user is not eligible to perform the specified transaction.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func purchaseOffering(input: PurchaseOfferingInput) async throws -> PurchaseOfferingOutputResponse
+    public func purchaseOffering(input: PurchaseOfferingInput) async throws -> PurchaseOfferingOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3020,21 +3020,21 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<PurchaseOfferingInput, PurchaseOfferingOutputResponse, PurchaseOfferingOutputError>(id: "purchaseOffering")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PurchaseOfferingInput, PurchaseOfferingOutputResponse, PurchaseOfferingOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PurchaseOfferingInput, PurchaseOfferingOutputResponse>())
+        var operation = ClientRuntime.OperationStack<PurchaseOfferingInput, PurchaseOfferingOutput, PurchaseOfferingOutputError>(id: "purchaseOffering")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PurchaseOfferingInput, PurchaseOfferingOutput, PurchaseOfferingOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PurchaseOfferingInput, PurchaseOfferingOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PurchaseOfferingOutputResponse, PurchaseOfferingOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PurchaseOfferingOutput, PurchaseOfferingOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PurchaseOfferingInput, PurchaseOfferingOutputResponse>(xAmzTarget: "DeviceFarm_20150623.PurchaseOffering"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PurchaseOfferingInput, PurchaseOfferingOutputResponse>(xmlName: "PurchaseOfferingRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PurchaseOfferingInput, PurchaseOfferingOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PurchaseOfferingInput, PurchaseOfferingOutput>(xAmzTarget: "DeviceFarm_20150623.PurchaseOffering"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PurchaseOfferingInput, PurchaseOfferingOutput>(xmlName: "PurchaseOfferingRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PurchaseOfferingInput, PurchaseOfferingOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PurchaseOfferingOutputResponse, PurchaseOfferingOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PurchaseOfferingOutput, PurchaseOfferingOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PurchaseOfferingOutputResponse, PurchaseOfferingOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PurchaseOfferingOutputResponse, PurchaseOfferingOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PurchaseOfferingOutputResponse, PurchaseOfferingOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PurchaseOfferingOutput, PurchaseOfferingOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PurchaseOfferingOutput, PurchaseOfferingOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PurchaseOfferingOutput, PurchaseOfferingOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3043,7 +3043,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     ///
     /// - Parameter RenewOfferingInput : A request that represents an offering renewal.
     ///
-    /// - Returns: `RenewOfferingOutputResponse` : The result of a renewal offering.
+    /// - Returns: `RenewOfferingOutput` : The result of a renewal offering.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3053,7 +3053,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `NotEligibleException` : Exception gets thrown when a user is not eligible to perform the specified transaction.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func renewOffering(input: RenewOfferingInput) async throws -> RenewOfferingOutputResponse
+    public func renewOffering(input: RenewOfferingInput) async throws -> RenewOfferingOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3069,21 +3069,21 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<RenewOfferingInput, RenewOfferingOutputResponse, RenewOfferingOutputError>(id: "renewOffering")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RenewOfferingInput, RenewOfferingOutputResponse, RenewOfferingOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RenewOfferingInput, RenewOfferingOutputResponse>())
+        var operation = ClientRuntime.OperationStack<RenewOfferingInput, RenewOfferingOutput, RenewOfferingOutputError>(id: "renewOffering")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RenewOfferingInput, RenewOfferingOutput, RenewOfferingOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RenewOfferingInput, RenewOfferingOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RenewOfferingOutputResponse, RenewOfferingOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RenewOfferingOutput, RenewOfferingOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<RenewOfferingInput, RenewOfferingOutputResponse>(xAmzTarget: "DeviceFarm_20150623.RenewOffering"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<RenewOfferingInput, RenewOfferingOutputResponse>(xmlName: "RenewOfferingRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<RenewOfferingInput, RenewOfferingOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<RenewOfferingInput, RenewOfferingOutput>(xAmzTarget: "DeviceFarm_20150623.RenewOffering"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<RenewOfferingInput, RenewOfferingOutput>(xmlName: "RenewOfferingRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<RenewOfferingInput, RenewOfferingOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RenewOfferingOutputResponse, RenewOfferingOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RenewOfferingOutput, RenewOfferingOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RenewOfferingOutputResponse, RenewOfferingOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RenewOfferingOutputResponse, RenewOfferingOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RenewOfferingOutputResponse, RenewOfferingOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RenewOfferingOutput, RenewOfferingOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RenewOfferingOutput, RenewOfferingOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RenewOfferingOutput, RenewOfferingOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3092,7 +3092,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     ///
     /// - Parameter ScheduleRunInput : Represents a request to the schedule run operation.
     ///
-    /// - Returns: `ScheduleRunOutputResponse` : Represents the result of a schedule run request.
+    /// - Returns: `ScheduleRunOutput` : Represents the result of a schedule run request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3102,7 +3102,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func scheduleRun(input: ScheduleRunInput) async throws -> ScheduleRunOutputResponse
+    public func scheduleRun(input: ScheduleRunInput) async throws -> ScheduleRunOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3118,21 +3118,21 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ScheduleRunInput, ScheduleRunOutputResponse, ScheduleRunOutputError>(id: "scheduleRun")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ScheduleRunInput, ScheduleRunOutputResponse, ScheduleRunOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ScheduleRunInput, ScheduleRunOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ScheduleRunInput, ScheduleRunOutput, ScheduleRunOutputError>(id: "scheduleRun")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ScheduleRunInput, ScheduleRunOutput, ScheduleRunOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ScheduleRunInput, ScheduleRunOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ScheduleRunOutputResponse, ScheduleRunOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ScheduleRunOutput, ScheduleRunOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ScheduleRunInput, ScheduleRunOutputResponse>(xAmzTarget: "DeviceFarm_20150623.ScheduleRun"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ScheduleRunInput, ScheduleRunOutputResponse>(xmlName: "ScheduleRunRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ScheduleRunInput, ScheduleRunOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ScheduleRunInput, ScheduleRunOutput>(xAmzTarget: "DeviceFarm_20150623.ScheduleRun"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ScheduleRunInput, ScheduleRunOutput>(xmlName: "ScheduleRunRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ScheduleRunInput, ScheduleRunOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ScheduleRunOutputResponse, ScheduleRunOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ScheduleRunOutput, ScheduleRunOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ScheduleRunOutputResponse, ScheduleRunOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ScheduleRunOutputResponse, ScheduleRunOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ScheduleRunOutputResponse, ScheduleRunOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ScheduleRunOutput, ScheduleRunOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ScheduleRunOutput, ScheduleRunOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ScheduleRunOutput, ScheduleRunOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3141,7 +3141,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     ///
     /// - Parameter StopJobInput : [no documentation found]
     ///
-    /// - Returns: `StopJobOutputResponse` : [no documentation found]
+    /// - Returns: `StopJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3150,7 +3150,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func stopJob(input: StopJobInput) async throws -> StopJobOutputResponse
+    public func stopJob(input: StopJobInput) async throws -> StopJobOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3166,21 +3166,21 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<StopJobInput, StopJobOutputResponse, StopJobOutputError>(id: "stopJob")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopJobInput, StopJobOutputResponse, StopJobOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopJobInput, StopJobOutputResponse>())
+        var operation = ClientRuntime.OperationStack<StopJobInput, StopJobOutput, StopJobOutputError>(id: "stopJob")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopJobInput, StopJobOutput, StopJobOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopJobInput, StopJobOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StopJobOutputResponse, StopJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StopJobOutput, StopJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StopJobInput, StopJobOutputResponse>(xAmzTarget: "DeviceFarm_20150623.StopJob"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StopJobInput, StopJobOutputResponse>(xmlName: "StopJobRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StopJobInput, StopJobOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StopJobInput, StopJobOutput>(xAmzTarget: "DeviceFarm_20150623.StopJob"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StopJobInput, StopJobOutput>(xmlName: "StopJobRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StopJobInput, StopJobOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StopJobOutputResponse, StopJobOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StopJobOutput, StopJobOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopJobOutputResponse, StopJobOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopJobOutputResponse, StopJobOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopJobOutputResponse, StopJobOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopJobOutput, StopJobOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopJobOutput, StopJobOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopJobOutput, StopJobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3189,7 +3189,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     ///
     /// - Parameter StopRemoteAccessSessionInput : Represents the request to stop the remote access session.
     ///
-    /// - Returns: `StopRemoteAccessSessionOutputResponse` : Represents the response from the server that describes the remote access session when AWS Device Farm stops the session.
+    /// - Returns: `StopRemoteAccessSessionOutput` : Represents the response from the server that describes the remote access session when AWS Device Farm stops the session.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3198,7 +3198,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func stopRemoteAccessSession(input: StopRemoteAccessSessionInput) async throws -> StopRemoteAccessSessionOutputResponse
+    public func stopRemoteAccessSession(input: StopRemoteAccessSessionInput) async throws -> StopRemoteAccessSessionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3214,21 +3214,21 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<StopRemoteAccessSessionInput, StopRemoteAccessSessionOutputResponse, StopRemoteAccessSessionOutputError>(id: "stopRemoteAccessSession")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopRemoteAccessSessionInput, StopRemoteAccessSessionOutputResponse, StopRemoteAccessSessionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopRemoteAccessSessionInput, StopRemoteAccessSessionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<StopRemoteAccessSessionInput, StopRemoteAccessSessionOutput, StopRemoteAccessSessionOutputError>(id: "stopRemoteAccessSession")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopRemoteAccessSessionInput, StopRemoteAccessSessionOutput, StopRemoteAccessSessionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopRemoteAccessSessionInput, StopRemoteAccessSessionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StopRemoteAccessSessionOutputResponse, StopRemoteAccessSessionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StopRemoteAccessSessionOutput, StopRemoteAccessSessionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StopRemoteAccessSessionInput, StopRemoteAccessSessionOutputResponse>(xAmzTarget: "DeviceFarm_20150623.StopRemoteAccessSession"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StopRemoteAccessSessionInput, StopRemoteAccessSessionOutputResponse>(xmlName: "StopRemoteAccessSessionRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StopRemoteAccessSessionInput, StopRemoteAccessSessionOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StopRemoteAccessSessionInput, StopRemoteAccessSessionOutput>(xAmzTarget: "DeviceFarm_20150623.StopRemoteAccessSession"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StopRemoteAccessSessionInput, StopRemoteAccessSessionOutput>(xmlName: "StopRemoteAccessSessionRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StopRemoteAccessSessionInput, StopRemoteAccessSessionOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StopRemoteAccessSessionOutputResponse, StopRemoteAccessSessionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StopRemoteAccessSessionOutput, StopRemoteAccessSessionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopRemoteAccessSessionOutputResponse, StopRemoteAccessSessionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopRemoteAccessSessionOutputResponse, StopRemoteAccessSessionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopRemoteAccessSessionOutputResponse, StopRemoteAccessSessionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopRemoteAccessSessionOutput, StopRemoteAccessSessionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopRemoteAccessSessionOutput, StopRemoteAccessSessionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopRemoteAccessSessionOutput, StopRemoteAccessSessionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3237,7 +3237,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     ///
     /// - Parameter StopRunInput : Represents the request to stop a specific run.
     ///
-    /// - Returns: `StopRunOutputResponse` : Represents the results of your stop run attempt.
+    /// - Returns: `StopRunOutput` : Represents the results of your stop run attempt.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3246,7 +3246,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func stopRun(input: StopRunInput) async throws -> StopRunOutputResponse
+    public func stopRun(input: StopRunInput) async throws -> StopRunOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3262,21 +3262,21 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<StopRunInput, StopRunOutputResponse, StopRunOutputError>(id: "stopRun")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopRunInput, StopRunOutputResponse, StopRunOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopRunInput, StopRunOutputResponse>())
+        var operation = ClientRuntime.OperationStack<StopRunInput, StopRunOutput, StopRunOutputError>(id: "stopRun")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopRunInput, StopRunOutput, StopRunOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopRunInput, StopRunOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StopRunOutputResponse, StopRunOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StopRunOutput, StopRunOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StopRunInput, StopRunOutputResponse>(xAmzTarget: "DeviceFarm_20150623.StopRun"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StopRunInput, StopRunOutputResponse>(xmlName: "StopRunRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StopRunInput, StopRunOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StopRunInput, StopRunOutput>(xAmzTarget: "DeviceFarm_20150623.StopRun"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StopRunInput, StopRunOutput>(xmlName: "StopRunRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StopRunInput, StopRunOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StopRunOutputResponse, StopRunOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StopRunOutput, StopRunOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopRunOutputResponse, StopRunOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopRunOutputResponse, StopRunOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopRunOutputResponse, StopRunOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopRunOutput, StopRunOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopRunOutput, StopRunOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopRunOutput, StopRunOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3285,7 +3285,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3295,7 +3295,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `TagOperationException` : The operation was not successful. Try again.
     /// - `TagPolicyException` : The request doesn't comply with the AWS Identity and Access Management (IAM) tag policy. Correct your request and then retry it.
     /// - `TooManyTagsException` : The list of tags on the repository is over the limit. The maximum number of tags that can be applied to a repository is 50.
-    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3311,21 +3311,21 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
+        var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutput, TagResourceOutputError>(id: "tagResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput, TagResourceOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagResourceOutputResponse, TagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagResourceOutput, TagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<TagResourceInput, TagResourceOutputResponse>(xAmzTarget: "DeviceFarm_20150623.TagResource"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<TagResourceInput, TagResourceOutputResponse>(xmlName: "TagResourceRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TagResourceInput, TagResourceOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<TagResourceInput, TagResourceOutput>(xAmzTarget: "DeviceFarm_20150623.TagResource"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<TagResourceInput, TagResourceOutput>(xmlName: "TagResourceRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagResourceOutputResponse, TagResourceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagResourceOutput, TagResourceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutput, TagResourceOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutput, TagResourceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutput, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3334,7 +3334,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3342,7 +3342,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `ArgumentException` : An invalid argument was specified.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `TagOperationException` : The operation was not successful. Try again.
-    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3358,21 +3358,21 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutput, UntagResourceOutputError>(id: "untagResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput, UntagResourceOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagResourceOutput, UntagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UntagResourceInput, UntagResourceOutputResponse>(xAmzTarget: "DeviceFarm_20150623.UntagResource"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UntagResourceInput, UntagResourceOutputResponse>(xmlName: "UntagResourceRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UntagResourceInput, UntagResourceOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UntagResourceInput, UntagResourceOutput>(xAmzTarget: "DeviceFarm_20150623.UntagResource"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UntagResourceInput, UntagResourceOutput>(xmlName: "UntagResourceRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagResourceOutputResponse, UntagResourceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagResourceOutput, UntagResourceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutput, UntagResourceOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutput, UntagResourceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutput, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3381,7 +3381,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     ///
     /// - Parameter UpdateDeviceInstanceInput : [no documentation found]
     ///
-    /// - Returns: `UpdateDeviceInstanceOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateDeviceInstanceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3390,7 +3390,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func updateDeviceInstance(input: UpdateDeviceInstanceInput) async throws -> UpdateDeviceInstanceOutputResponse
+    public func updateDeviceInstance(input: UpdateDeviceInstanceInput) async throws -> UpdateDeviceInstanceOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3406,21 +3406,21 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateDeviceInstanceInput, UpdateDeviceInstanceOutputResponse, UpdateDeviceInstanceOutputError>(id: "updateDeviceInstance")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateDeviceInstanceInput, UpdateDeviceInstanceOutputResponse, UpdateDeviceInstanceOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateDeviceInstanceInput, UpdateDeviceInstanceOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateDeviceInstanceInput, UpdateDeviceInstanceOutput, UpdateDeviceInstanceOutputError>(id: "updateDeviceInstance")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateDeviceInstanceInput, UpdateDeviceInstanceOutput, UpdateDeviceInstanceOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateDeviceInstanceInput, UpdateDeviceInstanceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateDeviceInstanceOutputResponse, UpdateDeviceInstanceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateDeviceInstanceOutput, UpdateDeviceInstanceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateDeviceInstanceInput, UpdateDeviceInstanceOutputResponse>(xAmzTarget: "DeviceFarm_20150623.UpdateDeviceInstance"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateDeviceInstanceInput, UpdateDeviceInstanceOutputResponse>(xmlName: "UpdateDeviceInstanceRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateDeviceInstanceInput, UpdateDeviceInstanceOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateDeviceInstanceInput, UpdateDeviceInstanceOutput>(xAmzTarget: "DeviceFarm_20150623.UpdateDeviceInstance"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateDeviceInstanceInput, UpdateDeviceInstanceOutput>(xmlName: "UpdateDeviceInstanceRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateDeviceInstanceInput, UpdateDeviceInstanceOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateDeviceInstanceOutputResponse, UpdateDeviceInstanceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateDeviceInstanceOutput, UpdateDeviceInstanceOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateDeviceInstanceOutputResponse, UpdateDeviceInstanceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateDeviceInstanceOutputResponse, UpdateDeviceInstanceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateDeviceInstanceOutputResponse, UpdateDeviceInstanceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateDeviceInstanceOutput, UpdateDeviceInstanceOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateDeviceInstanceOutput, UpdateDeviceInstanceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateDeviceInstanceOutput, UpdateDeviceInstanceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3429,7 +3429,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     ///
     /// - Parameter UpdateDevicePoolInput : Represents a request to the update device pool operation.
     ///
-    /// - Returns: `UpdateDevicePoolOutputResponse` : Represents the result of an update device pool request.
+    /// - Returns: `UpdateDevicePoolOutput` : Represents the result of an update device pool request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3438,7 +3438,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func updateDevicePool(input: UpdateDevicePoolInput) async throws -> UpdateDevicePoolOutputResponse
+    public func updateDevicePool(input: UpdateDevicePoolInput) async throws -> UpdateDevicePoolOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3454,21 +3454,21 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateDevicePoolInput, UpdateDevicePoolOutputResponse, UpdateDevicePoolOutputError>(id: "updateDevicePool")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateDevicePoolInput, UpdateDevicePoolOutputResponse, UpdateDevicePoolOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateDevicePoolInput, UpdateDevicePoolOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateDevicePoolInput, UpdateDevicePoolOutput, UpdateDevicePoolOutputError>(id: "updateDevicePool")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateDevicePoolInput, UpdateDevicePoolOutput, UpdateDevicePoolOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateDevicePoolInput, UpdateDevicePoolOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateDevicePoolOutputResponse, UpdateDevicePoolOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateDevicePoolOutput, UpdateDevicePoolOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateDevicePoolInput, UpdateDevicePoolOutputResponse>(xAmzTarget: "DeviceFarm_20150623.UpdateDevicePool"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateDevicePoolInput, UpdateDevicePoolOutputResponse>(xmlName: "UpdateDevicePoolRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateDevicePoolInput, UpdateDevicePoolOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateDevicePoolInput, UpdateDevicePoolOutput>(xAmzTarget: "DeviceFarm_20150623.UpdateDevicePool"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateDevicePoolInput, UpdateDevicePoolOutput>(xmlName: "UpdateDevicePoolRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateDevicePoolInput, UpdateDevicePoolOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateDevicePoolOutputResponse, UpdateDevicePoolOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateDevicePoolOutput, UpdateDevicePoolOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateDevicePoolOutputResponse, UpdateDevicePoolOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateDevicePoolOutputResponse, UpdateDevicePoolOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateDevicePoolOutputResponse, UpdateDevicePoolOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateDevicePoolOutput, UpdateDevicePoolOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateDevicePoolOutput, UpdateDevicePoolOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateDevicePoolOutput, UpdateDevicePoolOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3477,7 +3477,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     ///
     /// - Parameter UpdateInstanceProfileInput : [no documentation found]
     ///
-    /// - Returns: `UpdateInstanceProfileOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateInstanceProfileOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3486,7 +3486,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func updateInstanceProfile(input: UpdateInstanceProfileInput) async throws -> UpdateInstanceProfileOutputResponse
+    public func updateInstanceProfile(input: UpdateInstanceProfileInput) async throws -> UpdateInstanceProfileOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3502,21 +3502,21 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateInstanceProfileInput, UpdateInstanceProfileOutputResponse, UpdateInstanceProfileOutputError>(id: "updateInstanceProfile")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateInstanceProfileInput, UpdateInstanceProfileOutputResponse, UpdateInstanceProfileOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateInstanceProfileInput, UpdateInstanceProfileOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateInstanceProfileInput, UpdateInstanceProfileOutput, UpdateInstanceProfileOutputError>(id: "updateInstanceProfile")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateInstanceProfileInput, UpdateInstanceProfileOutput, UpdateInstanceProfileOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateInstanceProfileInput, UpdateInstanceProfileOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateInstanceProfileOutputResponse, UpdateInstanceProfileOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateInstanceProfileOutput, UpdateInstanceProfileOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateInstanceProfileInput, UpdateInstanceProfileOutputResponse>(xAmzTarget: "DeviceFarm_20150623.UpdateInstanceProfile"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateInstanceProfileInput, UpdateInstanceProfileOutputResponse>(xmlName: "UpdateInstanceProfileRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateInstanceProfileInput, UpdateInstanceProfileOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateInstanceProfileInput, UpdateInstanceProfileOutput>(xAmzTarget: "DeviceFarm_20150623.UpdateInstanceProfile"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateInstanceProfileInput, UpdateInstanceProfileOutput>(xmlName: "UpdateInstanceProfileRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateInstanceProfileInput, UpdateInstanceProfileOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateInstanceProfileOutputResponse, UpdateInstanceProfileOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateInstanceProfileOutput, UpdateInstanceProfileOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateInstanceProfileOutputResponse, UpdateInstanceProfileOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateInstanceProfileOutputResponse, UpdateInstanceProfileOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateInstanceProfileOutputResponse, UpdateInstanceProfileOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateInstanceProfileOutput, UpdateInstanceProfileOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateInstanceProfileOutput, UpdateInstanceProfileOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateInstanceProfileOutput, UpdateInstanceProfileOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3525,7 +3525,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     ///
     /// - Parameter UpdateNetworkProfileInput : [no documentation found]
     ///
-    /// - Returns: `UpdateNetworkProfileOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateNetworkProfileOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3534,7 +3534,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func updateNetworkProfile(input: UpdateNetworkProfileInput) async throws -> UpdateNetworkProfileOutputResponse
+    public func updateNetworkProfile(input: UpdateNetworkProfileInput) async throws -> UpdateNetworkProfileOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3550,21 +3550,21 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateNetworkProfileInput, UpdateNetworkProfileOutputResponse, UpdateNetworkProfileOutputError>(id: "updateNetworkProfile")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateNetworkProfileInput, UpdateNetworkProfileOutputResponse, UpdateNetworkProfileOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateNetworkProfileInput, UpdateNetworkProfileOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateNetworkProfileInput, UpdateNetworkProfileOutput, UpdateNetworkProfileOutputError>(id: "updateNetworkProfile")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateNetworkProfileInput, UpdateNetworkProfileOutput, UpdateNetworkProfileOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateNetworkProfileInput, UpdateNetworkProfileOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateNetworkProfileOutputResponse, UpdateNetworkProfileOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateNetworkProfileOutput, UpdateNetworkProfileOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateNetworkProfileInput, UpdateNetworkProfileOutputResponse>(xAmzTarget: "DeviceFarm_20150623.UpdateNetworkProfile"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateNetworkProfileInput, UpdateNetworkProfileOutputResponse>(xmlName: "UpdateNetworkProfileRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateNetworkProfileInput, UpdateNetworkProfileOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateNetworkProfileInput, UpdateNetworkProfileOutput>(xAmzTarget: "DeviceFarm_20150623.UpdateNetworkProfile"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateNetworkProfileInput, UpdateNetworkProfileOutput>(xmlName: "UpdateNetworkProfileRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateNetworkProfileInput, UpdateNetworkProfileOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateNetworkProfileOutputResponse, UpdateNetworkProfileOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateNetworkProfileOutput, UpdateNetworkProfileOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateNetworkProfileOutputResponse, UpdateNetworkProfileOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateNetworkProfileOutputResponse, UpdateNetworkProfileOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateNetworkProfileOutputResponse, UpdateNetworkProfileOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateNetworkProfileOutput, UpdateNetworkProfileOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateNetworkProfileOutput, UpdateNetworkProfileOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateNetworkProfileOutput, UpdateNetworkProfileOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3573,7 +3573,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     ///
     /// - Parameter UpdateProjectInput : Represents a request to the update project operation.
     ///
-    /// - Returns: `UpdateProjectOutputResponse` : Represents the result of an update project request.
+    /// - Returns: `UpdateProjectOutput` : Represents the result of an update project request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3582,7 +3582,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func updateProject(input: UpdateProjectInput) async throws -> UpdateProjectOutputResponse
+    public func updateProject(input: UpdateProjectInput) async throws -> UpdateProjectOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3598,21 +3598,21 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateProjectInput, UpdateProjectOutputResponse, UpdateProjectOutputError>(id: "updateProject")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateProjectInput, UpdateProjectOutputResponse, UpdateProjectOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateProjectInput, UpdateProjectOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateProjectInput, UpdateProjectOutput, UpdateProjectOutputError>(id: "updateProject")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateProjectInput, UpdateProjectOutput, UpdateProjectOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateProjectInput, UpdateProjectOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateProjectOutputResponse, UpdateProjectOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateProjectOutput, UpdateProjectOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateProjectInput, UpdateProjectOutputResponse>(xAmzTarget: "DeviceFarm_20150623.UpdateProject"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateProjectInput, UpdateProjectOutputResponse>(xmlName: "UpdateProjectRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateProjectInput, UpdateProjectOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateProjectInput, UpdateProjectOutput>(xAmzTarget: "DeviceFarm_20150623.UpdateProject"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateProjectInput, UpdateProjectOutput>(xmlName: "UpdateProjectRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateProjectInput, UpdateProjectOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateProjectOutputResponse, UpdateProjectOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateProjectOutput, UpdateProjectOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateProjectOutputResponse, UpdateProjectOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateProjectOutputResponse, UpdateProjectOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateProjectOutputResponse, UpdateProjectOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateProjectOutput, UpdateProjectOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateProjectOutput, UpdateProjectOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateProjectOutput, UpdateProjectOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3621,7 +3621,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     ///
     /// - Parameter UpdateTestGridProjectInput : [no documentation found]
     ///
-    /// - Returns: `UpdateTestGridProjectOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateTestGridProjectOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3630,7 +3630,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `InternalServiceException` : An internal exception was raised in the service. Contact [aws-devicefarm-support@amazon.com](mailto:aws-devicefarm-support@amazon.com) if you see this error.
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
-    public func updateTestGridProject(input: UpdateTestGridProjectInput) async throws -> UpdateTestGridProjectOutputResponse
+    public func updateTestGridProject(input: UpdateTestGridProjectInput) async throws -> UpdateTestGridProjectOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3646,21 +3646,21 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateTestGridProjectInput, UpdateTestGridProjectOutputResponse, UpdateTestGridProjectOutputError>(id: "updateTestGridProject")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateTestGridProjectInput, UpdateTestGridProjectOutputResponse, UpdateTestGridProjectOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateTestGridProjectInput, UpdateTestGridProjectOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateTestGridProjectInput, UpdateTestGridProjectOutput, UpdateTestGridProjectOutputError>(id: "updateTestGridProject")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateTestGridProjectInput, UpdateTestGridProjectOutput, UpdateTestGridProjectOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateTestGridProjectInput, UpdateTestGridProjectOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateTestGridProjectOutputResponse, UpdateTestGridProjectOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateTestGridProjectOutput, UpdateTestGridProjectOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateTestGridProjectInput, UpdateTestGridProjectOutputResponse>(xAmzTarget: "DeviceFarm_20150623.UpdateTestGridProject"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateTestGridProjectInput, UpdateTestGridProjectOutputResponse>(xmlName: "UpdateTestGridProjectRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateTestGridProjectInput, UpdateTestGridProjectOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateTestGridProjectInput, UpdateTestGridProjectOutput>(xAmzTarget: "DeviceFarm_20150623.UpdateTestGridProject"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateTestGridProjectInput, UpdateTestGridProjectOutput>(xmlName: "UpdateTestGridProjectRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateTestGridProjectInput, UpdateTestGridProjectOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateTestGridProjectOutputResponse, UpdateTestGridProjectOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateTestGridProjectOutput, UpdateTestGridProjectOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateTestGridProjectOutputResponse, UpdateTestGridProjectOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateTestGridProjectOutputResponse, UpdateTestGridProjectOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateTestGridProjectOutputResponse, UpdateTestGridProjectOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateTestGridProjectOutput, UpdateTestGridProjectOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateTestGridProjectOutput, UpdateTestGridProjectOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateTestGridProjectOutput, UpdateTestGridProjectOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3669,7 +3669,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     ///
     /// - Parameter UpdateUploadInput : [no documentation found]
     ///
-    /// - Returns: `UpdateUploadOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateUploadOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3678,7 +3678,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func updateUpload(input: UpdateUploadInput) async throws -> UpdateUploadOutputResponse
+    public func updateUpload(input: UpdateUploadInput) async throws -> UpdateUploadOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3694,21 +3694,21 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateUploadInput, UpdateUploadOutputResponse, UpdateUploadOutputError>(id: "updateUpload")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateUploadInput, UpdateUploadOutputResponse, UpdateUploadOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateUploadInput, UpdateUploadOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateUploadInput, UpdateUploadOutput, UpdateUploadOutputError>(id: "updateUpload")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateUploadInput, UpdateUploadOutput, UpdateUploadOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateUploadInput, UpdateUploadOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateUploadOutputResponse, UpdateUploadOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateUploadOutput, UpdateUploadOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateUploadInput, UpdateUploadOutputResponse>(xAmzTarget: "DeviceFarm_20150623.UpdateUpload"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateUploadInput, UpdateUploadOutputResponse>(xmlName: "UpdateUploadRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateUploadInput, UpdateUploadOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateUploadInput, UpdateUploadOutput>(xAmzTarget: "DeviceFarm_20150623.UpdateUpload"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateUploadInput, UpdateUploadOutput>(xmlName: "UpdateUploadRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateUploadInput, UpdateUploadOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateUploadOutputResponse, UpdateUploadOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateUploadOutput, UpdateUploadOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateUploadOutputResponse, UpdateUploadOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateUploadOutputResponse, UpdateUploadOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateUploadOutputResponse, UpdateUploadOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateUploadOutput, UpdateUploadOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateUploadOutput, UpdateUploadOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateUploadOutput, UpdateUploadOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3717,7 +3717,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     ///
     /// - Parameter UpdateVPCEConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `UpdateVPCEConfigurationOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateVPCEConfigurationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3726,7 +3726,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
     /// - `InvalidOperationException` : There was an error with the update request, or you do not have sufficient permissions to update this VPC endpoint configuration.
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
-    public func updateVPCEConfiguration(input: UpdateVPCEConfigurationInput) async throws -> UpdateVPCEConfigurationOutputResponse
+    public func updateVPCEConfiguration(input: UpdateVPCEConfigurationInput) async throws -> UpdateVPCEConfigurationOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3742,21 +3742,21 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateVPCEConfigurationInput, UpdateVPCEConfigurationOutputResponse, UpdateVPCEConfigurationOutputError>(id: "updateVPCEConfiguration")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateVPCEConfigurationInput, UpdateVPCEConfigurationOutputResponse, UpdateVPCEConfigurationOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateVPCEConfigurationInput, UpdateVPCEConfigurationOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateVPCEConfigurationInput, UpdateVPCEConfigurationOutput, UpdateVPCEConfigurationOutputError>(id: "updateVPCEConfiguration")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateVPCEConfigurationInput, UpdateVPCEConfigurationOutput, UpdateVPCEConfigurationOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateVPCEConfigurationInput, UpdateVPCEConfigurationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateVPCEConfigurationOutputResponse, UpdateVPCEConfigurationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateVPCEConfigurationOutput, UpdateVPCEConfigurationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateVPCEConfigurationInput, UpdateVPCEConfigurationOutputResponse>(xAmzTarget: "DeviceFarm_20150623.UpdateVPCEConfiguration"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateVPCEConfigurationInput, UpdateVPCEConfigurationOutputResponse>(xmlName: "UpdateVPCEConfigurationRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateVPCEConfigurationInput, UpdateVPCEConfigurationOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateVPCEConfigurationInput, UpdateVPCEConfigurationOutput>(xAmzTarget: "DeviceFarm_20150623.UpdateVPCEConfiguration"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateVPCEConfigurationInput, UpdateVPCEConfigurationOutput>(xmlName: "UpdateVPCEConfigurationRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateVPCEConfigurationInput, UpdateVPCEConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateVPCEConfigurationOutputResponse, UpdateVPCEConfigurationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateVPCEConfigurationOutput, UpdateVPCEConfigurationOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateVPCEConfigurationOutputResponse, UpdateVPCEConfigurationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateVPCEConfigurationOutputResponse, UpdateVPCEConfigurationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateVPCEConfigurationOutputResponse, UpdateVPCEConfigurationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateVPCEConfigurationOutput, UpdateVPCEConfigurationOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateVPCEConfigurationOutput, UpdateVPCEConfigurationOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateVPCEConfigurationOutput, UpdateVPCEConfigurationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

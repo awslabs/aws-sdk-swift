@@ -156,24 +156,11 @@ extension AssociateNodeInputBody: Swift.Decodable {
     }
 }
 
-enum AssociateNodeOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidStateException": return try await InvalidStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension AssociateNodeOutputResponse: ClientRuntime.HttpResponseBinding {
+extension AssociateNodeOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: AssociateNodeOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: AssociateNodeOutputBody = try responseDecoder.decode(responseBody: data)
             self.nodeAssociationStatusToken = output.nodeAssociationStatusToken
         } else {
             self.nodeAssociationStatusToken = nil
@@ -181,7 +168,7 @@ extension AssociateNodeOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AssociateNodeOutputResponse: Swift.Equatable {
+public struct AssociateNodeOutput: Swift.Equatable {
     /// Contains a token which can be passed to the DescribeNodeAssociationStatus API call to get the status of the association request.
     public var nodeAssociationStatusToken: Swift.String?
 
@@ -193,11 +180,11 @@ public struct AssociateNodeOutputResponse: Swift.Equatable {
     }
 }
 
-struct AssociateNodeOutputResponseBody: Swift.Equatable {
+struct AssociateNodeOutputBody: Swift.Equatable {
     let nodeAssociationStatusToken: Swift.String?
 }
 
-extension AssociateNodeOutputResponseBody: Swift.Decodable {
+extension AssociateNodeOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nodeAssociationStatusToken = "NodeAssociationStatusToken"
     }
@@ -206,6 +193,19 @@ extension AssociateNodeOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nodeAssociationStatusTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nodeAssociationStatusToken)
         nodeAssociationStatusToken = nodeAssociationStatusTokenDecoded
+    }
+}
+
+enum AssociateNodeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidStateException": return try await InvalidStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -664,25 +664,11 @@ extension CreateBackupInputBody: Swift.Decodable {
     }
 }
 
-enum CreateBackupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidStateException": return try await InvalidStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreateBackupOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateBackupOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateBackupOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateBackupOutputBody = try responseDecoder.decode(responseBody: data)
             self.backup = output.backup
         } else {
             self.backup = nil
@@ -690,7 +676,7 @@ extension CreateBackupOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateBackupOutputResponse: Swift.Equatable {
+public struct CreateBackupOutput: Swift.Equatable {
     /// Backup created by request.
     public var backup: OpsWorksCMClientTypes.Backup?
 
@@ -702,11 +688,11 @@ public struct CreateBackupOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateBackupOutputResponseBody: Swift.Equatable {
+struct CreateBackupOutputBody: Swift.Equatable {
     let backup: OpsWorksCMClientTypes.Backup?
 }
 
-extension CreateBackupOutputResponseBody: Swift.Decodable {
+extension CreateBackupOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case backup = "Backup"
     }
@@ -715,6 +701,20 @@ extension CreateBackupOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let backupDecoded = try containerValues.decodeIfPresent(OpsWorksCMClientTypes.Backup.self, forKey: .backup)
         backup = backupDecoded
+    }
+}
+
+enum CreateBackupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidStateException": return try await InvalidStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1103,25 +1103,11 @@ extension CreateServerInputBody: Swift.Decodable {
     }
 }
 
-enum CreateServerOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceAlreadyExistsException": return try await ResourceAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreateServerOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateServerOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateServerOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateServerOutputBody = try responseDecoder.decode(responseBody: data)
             self.server = output.server
         } else {
             self.server = nil
@@ -1129,7 +1115,7 @@ extension CreateServerOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateServerOutputResponse: Swift.Equatable {
+public struct CreateServerOutput: Swift.Equatable {
     /// The server that is created by the request.
     public var server: OpsWorksCMClientTypes.Server?
 
@@ -1141,11 +1127,11 @@ public struct CreateServerOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateServerOutputResponseBody: Swift.Equatable {
+struct CreateServerOutputBody: Swift.Equatable {
     let server: OpsWorksCMClientTypes.Server?
 }
 
-extension CreateServerOutputResponseBody: Swift.Decodable {
+extension CreateServerOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case server = "Server"
     }
@@ -1154,6 +1140,20 @@ extension CreateServerOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let serverDecoded = try containerValues.decodeIfPresent(OpsWorksCMClientTypes.Server.self, forKey: .server)
         server = serverDecoded
+    }
+}
+
+enum CreateServerOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceAlreadyExistsException": return try await ResourceAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1205,6 +1205,16 @@ extension DeleteBackupInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteBackupOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteBackupOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteBackupOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -1216,16 +1226,6 @@ enum DeleteBackupOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteBackupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteBackupOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteServerInput: Swift.Encodable {
@@ -1276,6 +1276,16 @@ extension DeleteServerInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteServerOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteServerOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteServerOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -1287,16 +1297,6 @@ enum DeleteServerOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteServerOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteServerOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DescribeAccountAttributesInput: Swift.Encodable {
@@ -1327,21 +1327,11 @@ extension DescribeAccountAttributesInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeAccountAttributesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeAccountAttributesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeAccountAttributesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeAccountAttributesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeAccountAttributesOutputBody = try responseDecoder.decode(responseBody: data)
             self.attributes = output.attributes
         } else {
             self.attributes = nil
@@ -1349,7 +1339,7 @@ extension DescribeAccountAttributesOutputResponse: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct DescribeAccountAttributesOutputResponse: Swift.Equatable {
+public struct DescribeAccountAttributesOutput: Swift.Equatable {
     /// The attributes that are currently set for the account.
     public var attributes: [OpsWorksCMClientTypes.AccountAttribute]?
 
@@ -1361,11 +1351,11 @@ public struct DescribeAccountAttributesOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeAccountAttributesOutputResponseBody: Swift.Equatable {
+struct DescribeAccountAttributesOutputBody: Swift.Equatable {
     let attributes: [OpsWorksCMClientTypes.AccountAttribute]?
 }
 
-extension DescribeAccountAttributesOutputResponseBody: Swift.Decodable {
+extension DescribeAccountAttributesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case attributes = "Attributes"
     }
@@ -1383,6 +1373,16 @@ extension DescribeAccountAttributesOutputResponseBody: Swift.Decodable {
             }
         }
         attributes = attributesDecoded0
+    }
+}
+
+enum DescribeAccountAttributesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1469,24 +1469,11 @@ extension DescribeBackupsInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeBackupsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeBackupsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeBackupsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeBackupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeBackupsOutputBody = try responseDecoder.decode(responseBody: data)
             self.backups = output.backups
             self.nextToken = output.nextToken
         } else {
@@ -1496,7 +1483,7 @@ extension DescribeBackupsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeBackupsOutputResponse: Swift.Equatable {
+public struct DescribeBackupsOutput: Swift.Equatable {
     /// Contains the response to a DescribeBackups request.
     public var backups: [OpsWorksCMClientTypes.Backup]?
     /// This is not currently implemented for DescribeBackups requests.
@@ -1512,12 +1499,12 @@ public struct DescribeBackupsOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeBackupsOutputResponseBody: Swift.Equatable {
+struct DescribeBackupsOutputBody: Swift.Equatable {
     let backups: [OpsWorksCMClientTypes.Backup]?
     let nextToken: Swift.String?
 }
 
-extension DescribeBackupsOutputResponseBody: Swift.Decodable {
+extension DescribeBackupsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case backups = "Backups"
         case nextToken = "NextToken"
@@ -1538,6 +1525,19 @@ extension DescribeBackupsOutputResponseBody: Swift.Decodable {
         backups = backupsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum DescribeBackupsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1613,24 +1613,11 @@ extension DescribeEventsInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeEventsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeEventsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeEventsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeEventsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeEventsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.serverEvents = output.serverEvents
         } else {
@@ -1640,7 +1627,7 @@ extension DescribeEventsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeEventsOutputResponse: Swift.Equatable {
+public struct DescribeEventsOutput: Swift.Equatable {
     /// NextToken is a string that is returned in some command responses. It indicates that not all entries have been returned, and that you must run at least one more request to get remaining items. To get remaining results, call DescribeEvents again, and assign the token from the previous results as the value of the nextToken parameter. If there are no more results, the response object's nextToken parameter value is null. Setting a nextToken value that was not returned in your previous results causes an InvalidNextTokenException to occur.
     public var nextToken: Swift.String?
     /// Contains the response to a DescribeEvents request.
@@ -1656,12 +1643,12 @@ public struct DescribeEventsOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeEventsOutputResponseBody: Swift.Equatable {
+struct DescribeEventsOutputBody: Swift.Equatable {
     let serverEvents: [OpsWorksCMClientTypes.ServerEvent]?
     let nextToken: Swift.String?
 }
 
-extension DescribeEventsOutputResponseBody: Swift.Decodable {
+extension DescribeEventsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case serverEvents = "ServerEvents"
@@ -1682,6 +1669,19 @@ extension DescribeEventsOutputResponseBody: Swift.Decodable {
         serverEvents = serverEventsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum DescribeEventsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1746,23 +1746,11 @@ extension DescribeNodeAssociationStatusInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeNodeAssociationStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeNodeAssociationStatusOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeNodeAssociationStatusOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeNodeAssociationStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeNodeAssociationStatusOutputBody = try responseDecoder.decode(responseBody: data)
             self.engineAttributes = output.engineAttributes
             self.nodeAssociationStatus = output.nodeAssociationStatus
         } else {
@@ -1772,7 +1760,7 @@ extension DescribeNodeAssociationStatusOutputResponse: ClientRuntime.HttpRespons
     }
 }
 
-public struct DescribeNodeAssociationStatusOutputResponse: Swift.Equatable {
+public struct DescribeNodeAssociationStatusOutput: Swift.Equatable {
     /// Attributes specific to the node association. In Puppet, the attibute PUPPET_NODE_CERT contains the signed certificate (the result of the CSR).
     public var engineAttributes: [OpsWorksCMClientTypes.EngineAttribute]?
     /// The status of the association or disassociation request. Possible values:
@@ -1794,12 +1782,12 @@ public struct DescribeNodeAssociationStatusOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeNodeAssociationStatusOutputResponseBody: Swift.Equatable {
+struct DescribeNodeAssociationStatusOutputBody: Swift.Equatable {
     let nodeAssociationStatus: OpsWorksCMClientTypes.NodeAssociationStatus?
     let engineAttributes: [OpsWorksCMClientTypes.EngineAttribute]?
 }
 
-extension DescribeNodeAssociationStatusOutputResponseBody: Swift.Decodable {
+extension DescribeNodeAssociationStatusOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case engineAttributes = "EngineAttributes"
         case nodeAssociationStatus = "NodeAssociationStatus"
@@ -1820,6 +1808,18 @@ extension DescribeNodeAssociationStatusOutputResponseBody: Swift.Decodable {
             }
         }
         engineAttributes = engineAttributesDecoded0
+    }
+}
+
+enum DescribeNodeAssociationStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1894,24 +1894,11 @@ extension DescribeServersInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeServersOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeServersOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeServersOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeServersOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeServersOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.servers = output.servers
         } else {
@@ -1921,7 +1908,7 @@ extension DescribeServersOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeServersOutputResponse: Swift.Equatable {
+public struct DescribeServersOutput: Swift.Equatable {
     /// This is not currently implemented for DescribeServers requests.
     public var nextToken: Swift.String?
     /// Contains the response to a DescribeServers request. For Chef Automate servers: If DescribeServersResponse$Servers$EngineAttributes includes CHEF_MAJOR_UPGRADE_AVAILABLE, you can upgrade the Chef Automate server to Chef Automate 2. To be eligible for upgrade, a server running Chef Automate 1 must have had at least one successful maintenance run after November 1, 2019. For Puppet servers: DescribeServersResponse$Servers$EngineAttributes contains the following two responses:
@@ -1941,12 +1928,12 @@ public struct DescribeServersOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeServersOutputResponseBody: Swift.Equatable {
+struct DescribeServersOutputBody: Swift.Equatable {
     let servers: [OpsWorksCMClientTypes.Server]?
     let nextToken: Swift.String?
 }
 
-extension DescribeServersOutputResponseBody: Swift.Decodable {
+extension DescribeServersOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case servers = "Servers"
@@ -1967,6 +1954,19 @@ extension DescribeServersOutputResponseBody: Swift.Decodable {
         servers = serversDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum DescribeServersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2057,24 +2057,11 @@ extension DisassociateNodeInputBody: Swift.Decodable {
     }
 }
 
-enum DisassociateNodeOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidStateException": return try await InvalidStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DisassociateNodeOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DisassociateNodeOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DisassociateNodeOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DisassociateNodeOutputBody = try responseDecoder.decode(responseBody: data)
             self.nodeAssociationStatusToken = output.nodeAssociationStatusToken
         } else {
             self.nodeAssociationStatusToken = nil
@@ -2082,7 +2069,7 @@ extension DisassociateNodeOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DisassociateNodeOutputResponse: Swift.Equatable {
+public struct DisassociateNodeOutput: Swift.Equatable {
     /// Contains a token which can be passed to the DescribeNodeAssociationStatus API call to get the status of the disassociation request.
     public var nodeAssociationStatusToken: Swift.String?
 
@@ -2094,11 +2081,11 @@ public struct DisassociateNodeOutputResponse: Swift.Equatable {
     }
 }
 
-struct DisassociateNodeOutputResponseBody: Swift.Equatable {
+struct DisassociateNodeOutputBody: Swift.Equatable {
     let nodeAssociationStatusToken: Swift.String?
 }
 
-extension DisassociateNodeOutputResponseBody: Swift.Decodable {
+extension DisassociateNodeOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nodeAssociationStatusToken = "NodeAssociationStatusToken"
     }
@@ -2107,6 +2094,19 @@ extension DisassociateNodeOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nodeAssociationStatusTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nodeAssociationStatusToken)
         nodeAssociationStatusToken = nodeAssociationStatusTokenDecoded
+    }
+}
+
+enum DisassociateNodeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidStateException": return try await InvalidStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2253,24 +2253,11 @@ extension ExportServerEngineAttributeInputBody: Swift.Decodable {
     }
 }
 
-enum ExportServerEngineAttributeOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidStateException": return try await InvalidStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ExportServerEngineAttributeOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ExportServerEngineAttributeOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ExportServerEngineAttributeOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ExportServerEngineAttributeOutputBody = try responseDecoder.decode(responseBody: data)
             self.engineAttribute = output.engineAttribute
             self.serverName = output.serverName
         } else {
@@ -2280,7 +2267,7 @@ extension ExportServerEngineAttributeOutputResponse: ClientRuntime.HttpResponseB
     }
 }
 
-public struct ExportServerEngineAttributeOutputResponse: Swift.Equatable {
+public struct ExportServerEngineAttributeOutput: Swift.Equatable {
     /// The requested engine attribute pair with attribute name and value.
     public var engineAttribute: OpsWorksCMClientTypes.EngineAttribute?
     /// The server name used in the request.
@@ -2296,12 +2283,12 @@ public struct ExportServerEngineAttributeOutputResponse: Swift.Equatable {
     }
 }
 
-struct ExportServerEngineAttributeOutputResponseBody: Swift.Equatable {
+struct ExportServerEngineAttributeOutputBody: Swift.Equatable {
     let engineAttribute: OpsWorksCMClientTypes.EngineAttribute?
     let serverName: Swift.String?
 }
 
-extension ExportServerEngineAttributeOutputResponseBody: Swift.Decodable {
+extension ExportServerEngineAttributeOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case engineAttribute = "EngineAttribute"
         case serverName = "ServerName"
@@ -2313,6 +2300,19 @@ extension ExportServerEngineAttributeOutputResponseBody: Swift.Decodable {
         engineAttribute = engineAttributeDecoded
         let serverNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serverName)
         serverName = serverNameDecoded
+    }
+}
+
+enum ExportServerEngineAttributeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidStateException": return try await InvalidStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2556,23 +2556,11 @@ extension ListTagsForResourceInputBody: Swift.Decodable {
     }
 }
 
-enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListTagsForResourceOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.tags = output.tags
         } else {
@@ -2582,7 +2570,7 @@ extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutputResponse: Swift.Equatable {
+public struct ListTagsForResourceOutput: Swift.Equatable {
     /// A token that you can use as the value of NextToken in subsequent calls to the API to show more results.
     public var nextToken: Swift.String?
     /// Tags that have been applied to the resource.
@@ -2598,12 +2586,12 @@ public struct ListTagsForResourceOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputResponseBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody: Swift.Equatable {
     let tags: [OpsWorksCMClientTypes.Tag]?
     let nextToken: Swift.String?
 }
 
-extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
+extension ListTagsForResourceOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case tags = "Tags"
@@ -2624,6 +2612,18 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
         tags = tagsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2898,24 +2898,11 @@ extension RestoreServerInputBody: Swift.Decodable {
     }
 }
 
-enum RestoreServerOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidStateException": return try await InvalidStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension RestoreServerOutputResponse: ClientRuntime.HttpResponseBinding {
+extension RestoreServerOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: RestoreServerOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: RestoreServerOutputBody = try responseDecoder.decode(responseBody: data)
             self.server = output.server
         } else {
             self.server = nil
@@ -2923,7 +2910,7 @@ extension RestoreServerOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RestoreServerOutputResponse: Swift.Equatable {
+public struct RestoreServerOutput: Swift.Equatable {
     /// Describes a configuration management server.
     public var server: OpsWorksCMClientTypes.Server?
 
@@ -2935,11 +2922,11 @@ public struct RestoreServerOutputResponse: Swift.Equatable {
     }
 }
 
-struct RestoreServerOutputResponseBody: Swift.Equatable {
+struct RestoreServerOutputBody: Swift.Equatable {
     let server: OpsWorksCMClientTypes.Server?
 }
 
-extension RestoreServerOutputResponseBody: Swift.Decodable {
+extension RestoreServerOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case server = "Server"
     }
@@ -2948,6 +2935,19 @@ extension RestoreServerOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let serverDecoded = try containerValues.decodeIfPresent(OpsWorksCMClientTypes.Server.self, forKey: .server)
         server = serverDecoded
+    }
+}
+
+enum RestoreServerOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidStateException": return try await InvalidStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3467,24 +3467,11 @@ extension StartMaintenanceInputBody: Swift.Decodable {
     }
 }
 
-enum StartMaintenanceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidStateException": return try await InvalidStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension StartMaintenanceOutputResponse: ClientRuntime.HttpResponseBinding {
+extension StartMaintenanceOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: StartMaintenanceOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: StartMaintenanceOutputBody = try responseDecoder.decode(responseBody: data)
             self.server = output.server
         } else {
             self.server = nil
@@ -3492,7 +3479,7 @@ extension StartMaintenanceOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartMaintenanceOutputResponse: Swift.Equatable {
+public struct StartMaintenanceOutput: Swift.Equatable {
     /// Contains the response to a StartMaintenance request.
     public var server: OpsWorksCMClientTypes.Server?
 
@@ -3504,11 +3491,11 @@ public struct StartMaintenanceOutputResponse: Swift.Equatable {
     }
 }
 
-struct StartMaintenanceOutputResponseBody: Swift.Equatable {
+struct StartMaintenanceOutputBody: Swift.Equatable {
     let server: OpsWorksCMClientTypes.Server?
 }
 
-extension StartMaintenanceOutputResponseBody: Swift.Decodable {
+extension StartMaintenanceOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case server = "Server"
     }
@@ -3517,6 +3504,19 @@ extension StartMaintenanceOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let serverDecoded = try containerValues.decodeIfPresent(OpsWorksCMClientTypes.Server.self, forKey: .server)
         server = serverDecoded
+    }
+}
+
+enum StartMaintenanceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidStateException": return try await InvalidStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3650,6 +3650,16 @@ extension TagResourceInputBody: Swift.Decodable {
     }
 }
 
+extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct TagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -3661,16 +3671,6 @@ enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct TagResourceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension UntagResourceInput: Swift.Encodable {
@@ -3746,6 +3746,16 @@ extension UntagResourceInputBody: Swift.Decodable {
     }
 }
 
+extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UntagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -3757,16 +3767,6 @@ enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UntagResourceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension UpdateServerEngineAttributesInput: Swift.Encodable {
@@ -3842,24 +3842,11 @@ extension UpdateServerEngineAttributesInputBody: Swift.Decodable {
     }
 }
 
-enum UpdateServerEngineAttributesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidStateException": return try await InvalidStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension UpdateServerEngineAttributesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension UpdateServerEngineAttributesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: UpdateServerEngineAttributesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: UpdateServerEngineAttributesOutputBody = try responseDecoder.decode(responseBody: data)
             self.server = output.server
         } else {
             self.server = nil
@@ -3867,7 +3854,7 @@ extension UpdateServerEngineAttributesOutputResponse: ClientRuntime.HttpResponse
     }
 }
 
-public struct UpdateServerEngineAttributesOutputResponse: Swift.Equatable {
+public struct UpdateServerEngineAttributesOutput: Swift.Equatable {
     /// Contains the response to an UpdateServerEngineAttributes request.
     public var server: OpsWorksCMClientTypes.Server?
 
@@ -3879,11 +3866,11 @@ public struct UpdateServerEngineAttributesOutputResponse: Swift.Equatable {
     }
 }
 
-struct UpdateServerEngineAttributesOutputResponseBody: Swift.Equatable {
+struct UpdateServerEngineAttributesOutputBody: Swift.Equatable {
     let server: OpsWorksCMClientTypes.Server?
 }
 
-extension UpdateServerEngineAttributesOutputResponseBody: Swift.Decodable {
+extension UpdateServerEngineAttributesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case server = "Server"
     }
@@ -3892,6 +3879,19 @@ extension UpdateServerEngineAttributesOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let serverDecoded = try containerValues.decodeIfPresent(OpsWorksCMClientTypes.Server.self, forKey: .server)
         server = serverDecoded
+    }
+}
+
+enum UpdateServerEngineAttributesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidStateException": return try await InvalidStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3991,24 +3991,11 @@ extension UpdateServerInputBody: Swift.Decodable {
     }
 }
 
-enum UpdateServerOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidStateException": return try await InvalidStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension UpdateServerOutputResponse: ClientRuntime.HttpResponseBinding {
+extension UpdateServerOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: UpdateServerOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: UpdateServerOutputBody = try responseDecoder.decode(responseBody: data)
             self.server = output.server
         } else {
             self.server = nil
@@ -4016,7 +4003,7 @@ extension UpdateServerOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateServerOutputResponse: Swift.Equatable {
+public struct UpdateServerOutput: Swift.Equatable {
     /// Contains the response to a UpdateServer request.
     public var server: OpsWorksCMClientTypes.Server?
 
@@ -4028,11 +4015,11 @@ public struct UpdateServerOutputResponse: Swift.Equatable {
     }
 }
 
-struct UpdateServerOutputResponseBody: Swift.Equatable {
+struct UpdateServerOutputBody: Swift.Equatable {
     let server: OpsWorksCMClientTypes.Server?
 }
 
-extension UpdateServerOutputResponseBody: Swift.Decodable {
+extension UpdateServerOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case server = "Server"
     }
@@ -4041,6 +4028,19 @@ extension UpdateServerOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let serverDecoded = try containerValues.decodeIfPresent(OpsWorksCMClientTypes.Server.self, forKey: .server)
         server = serverDecoded
+    }
+}
+
+enum UpdateServerOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidStateException": return try await InvalidStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 

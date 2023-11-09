@@ -14,19 +14,19 @@ public protocol EMRcontainersClientProtocol {
     ///
     /// - Parameter CancelJobRunInput : [no documentation found]
     ///
-    /// - Returns: `CancelJobRunOutputResponse` : [no documentation found]
+    /// - Returns: `CancelJobRunOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : This is an internal server exception.
     /// - `ValidationException` : There are invalid parameters in the client request.
-    func cancelJobRun(input: CancelJobRunInput) async throws -> CancelJobRunOutputResponse
+    func cancelJobRun(input: CancelJobRunInput) async throws -> CancelJobRunOutput
     /// Creates a job template. Job template stores values of StartJobRun API request in a template and can be used to start a job run. Job template allows two use cases: avoid repeating recurring StartJobRun API request values, enforcing certain values in StartJobRun API request.
     ///
     /// - Parameter CreateJobTemplateInput : [no documentation found]
     ///
-    /// - Returns: `CreateJobTemplateOutputResponse` : [no documentation found]
+    /// - Returns: `CreateJobTemplateOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -34,12 +34,12 @@ public protocol EMRcontainersClientProtocol {
     /// - `InternalServerException` : This is an internal server exception.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ValidationException` : There are invalid parameters in the client request.
-    func createJobTemplate(input: CreateJobTemplateInput) async throws -> CreateJobTemplateOutputResponse
+    func createJobTemplate(input: CreateJobTemplateInput) async throws -> CreateJobTemplateOutput
     /// Creates a managed endpoint. A managed endpoint is a gateway that connects Amazon EMR Studio to Amazon EMR on EKS so that Amazon EMR Studio can communicate with your virtual cluster.
     ///
     /// - Parameter CreateManagedEndpointInput : [no documentation found]
     ///
-    /// - Returns: `CreateManagedEndpointOutputResponse` : [no documentation found]
+    /// - Returns: `CreateManagedEndpointOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -47,12 +47,12 @@ public protocol EMRcontainersClientProtocol {
     /// - `InternalServerException` : This is an internal server exception.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ValidationException` : There are invalid parameters in the client request.
-    func createManagedEndpoint(input: CreateManagedEndpointInput) async throws -> CreateManagedEndpointOutputResponse
+    func createManagedEndpoint(input: CreateManagedEndpointInput) async throws -> CreateManagedEndpointOutput
     /// Creates a virtual cluster. Virtual cluster is a managed entity on Amazon EMR on EKS. You can create, describe, list and delete virtual clusters. They do not consume any additional resource in your system. A single virtual cluster maps to a single Kubernetes namespace. Given this relationship, you can model virtual clusters the same way you model Kubernetes namespaces to meet your requirements.
     ///
     /// - Parameter CreateVirtualClusterInput : [no documentation found]
     ///
-    /// - Returns: `CreateVirtualClusterOutputResponse` : [no documentation found]
+    /// - Returns: `CreateVirtualClusterOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -60,48 +60,48 @@ public protocol EMRcontainersClientProtocol {
     /// - `InternalServerException` : This is an internal server exception.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ValidationException` : There are invalid parameters in the client request.
-    func createVirtualCluster(input: CreateVirtualClusterInput) async throws -> CreateVirtualClusterOutputResponse
+    func createVirtualCluster(input: CreateVirtualClusterInput) async throws -> CreateVirtualClusterOutput
     /// Deletes a job template. Job template stores values of StartJobRun API request in a template and can be used to start a job run. Job template allows two use cases: avoid repeating recurring StartJobRun API request values, enforcing certain values in StartJobRun API request.
     ///
     /// - Parameter DeleteJobTemplateInput : [no documentation found]
     ///
-    /// - Returns: `DeleteJobTemplateOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteJobTemplateOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : This is an internal server exception.
     /// - `ValidationException` : There are invalid parameters in the client request.
-    func deleteJobTemplate(input: DeleteJobTemplateInput) async throws -> DeleteJobTemplateOutputResponse
+    func deleteJobTemplate(input: DeleteJobTemplateInput) async throws -> DeleteJobTemplateOutput
     /// Deletes a managed endpoint. A managed endpoint is a gateway that connects Amazon EMR Studio to Amazon EMR on EKS so that Amazon EMR Studio can communicate with your virtual cluster.
     ///
     /// - Parameter DeleteManagedEndpointInput : [no documentation found]
     ///
-    /// - Returns: `DeleteManagedEndpointOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteManagedEndpointOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : This is an internal server exception.
     /// - `ValidationException` : There are invalid parameters in the client request.
-    func deleteManagedEndpoint(input: DeleteManagedEndpointInput) async throws -> DeleteManagedEndpointOutputResponse
+    func deleteManagedEndpoint(input: DeleteManagedEndpointInput) async throws -> DeleteManagedEndpointOutput
     /// Deletes a virtual cluster. Virtual cluster is a managed entity on Amazon EMR on EKS. You can create, describe, list and delete virtual clusters. They do not consume any additional resource in your system. A single virtual cluster maps to a single Kubernetes namespace. Given this relationship, you can model virtual clusters the same way you model Kubernetes namespaces to meet your requirements.
     ///
     /// - Parameter DeleteVirtualClusterInput : [no documentation found]
     ///
-    /// - Returns: `DeleteVirtualClusterOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteVirtualClusterOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : This is an internal server exception.
     /// - `ValidationException` : There are invalid parameters in the client request.
-    func deleteVirtualCluster(input: DeleteVirtualClusterInput) async throws -> DeleteVirtualClusterOutputResponse
+    func deleteVirtualCluster(input: DeleteVirtualClusterInput) async throws -> DeleteVirtualClusterOutput
     /// Displays detailed information about a job run. A job run is a unit of work, such as a Spark jar, PySpark script, or SparkSQL query, that you submit to Amazon EMR on EKS.
     ///
     /// - Parameter DescribeJobRunInput : [no documentation found]
     ///
-    /// - Returns: `DescribeJobRunOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeJobRunOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -109,12 +109,12 @@ public protocol EMRcontainersClientProtocol {
     /// - `InternalServerException` : This is an internal server exception.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ValidationException` : There are invalid parameters in the client request.
-    func describeJobRun(input: DescribeJobRunInput) async throws -> DescribeJobRunOutputResponse
+    func describeJobRun(input: DescribeJobRunInput) async throws -> DescribeJobRunOutput
     /// Displays detailed information about a specified job template. Job template stores values of StartJobRun API request in a template and can be used to start a job run. Job template allows two use cases: avoid repeating recurring StartJobRun API request values, enforcing certain values in StartJobRun API request.
     ///
     /// - Parameter DescribeJobTemplateInput : [no documentation found]
     ///
-    /// - Returns: `DescribeJobTemplateOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeJobTemplateOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -122,12 +122,12 @@ public protocol EMRcontainersClientProtocol {
     /// - `InternalServerException` : This is an internal server exception.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ValidationException` : There are invalid parameters in the client request.
-    func describeJobTemplate(input: DescribeJobTemplateInput) async throws -> DescribeJobTemplateOutputResponse
+    func describeJobTemplate(input: DescribeJobTemplateInput) async throws -> DescribeJobTemplateOutput
     /// Displays detailed information about a managed endpoint. A managed endpoint is a gateway that connects Amazon EMR Studio to Amazon EMR on EKS so that Amazon EMR Studio can communicate with your virtual cluster.
     ///
     /// - Parameter DescribeManagedEndpointInput : [no documentation found]
     ///
-    /// - Returns: `DescribeManagedEndpointOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeManagedEndpointOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -135,12 +135,12 @@ public protocol EMRcontainersClientProtocol {
     /// - `InternalServerException` : This is an internal server exception.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ValidationException` : There are invalid parameters in the client request.
-    func describeManagedEndpoint(input: DescribeManagedEndpointInput) async throws -> DescribeManagedEndpointOutputResponse
+    func describeManagedEndpoint(input: DescribeManagedEndpointInput) async throws -> DescribeManagedEndpointOutput
     /// Displays detailed information about a specified virtual cluster. Virtual cluster is a managed entity on Amazon EMR on EKS. You can create, describe, list and delete virtual clusters. They do not consume any additional resource in your system. A single virtual cluster maps to a single Kubernetes namespace. Given this relationship, you can model virtual clusters the same way you model Kubernetes namespaces to meet your requirements.
     ///
     /// - Parameter DescribeVirtualClusterInput : [no documentation found]
     ///
-    /// - Returns: `DescribeVirtualClusterOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeVirtualClusterOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -148,12 +148,12 @@ public protocol EMRcontainersClientProtocol {
     /// - `InternalServerException` : This is an internal server exception.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ValidationException` : There are invalid parameters in the client request.
-    func describeVirtualCluster(input: DescribeVirtualClusterInput) async throws -> DescribeVirtualClusterOutputResponse
+    func describeVirtualCluster(input: DescribeVirtualClusterInput) async throws -> DescribeVirtualClusterOutput
     /// Generate a session token to connect to a managed endpoint.
     ///
     /// - Parameter GetManagedEndpointSessionCredentialsInput : [no documentation found]
     ///
-    /// - Returns: `GetManagedEndpointSessionCredentialsOutputResponse` : [no documentation found]
+    /// - Returns: `GetManagedEndpointSessionCredentialsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -162,48 +162,48 @@ public protocol EMRcontainersClientProtocol {
     /// - `RequestThrottledException` : The request throttled.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ValidationException` : There are invalid parameters in the client request.
-    func getManagedEndpointSessionCredentials(input: GetManagedEndpointSessionCredentialsInput) async throws -> GetManagedEndpointSessionCredentialsOutputResponse
+    func getManagedEndpointSessionCredentials(input: GetManagedEndpointSessionCredentialsInput) async throws -> GetManagedEndpointSessionCredentialsOutput
     /// Lists job runs based on a set of parameters. A job run is a unit of work, such as a Spark jar, PySpark script, or SparkSQL query, that you submit to Amazon EMR on EKS.
     ///
     /// - Parameter ListJobRunsInput : [no documentation found]
     ///
-    /// - Returns: `ListJobRunsOutputResponse` : [no documentation found]
+    /// - Returns: `ListJobRunsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : This is an internal server exception.
     /// - `ValidationException` : There are invalid parameters in the client request.
-    func listJobRuns(input: ListJobRunsInput) async throws -> ListJobRunsOutputResponse
+    func listJobRuns(input: ListJobRunsInput) async throws -> ListJobRunsOutput
     /// Lists job templates based on a set of parameters. Job template stores values of StartJobRun API request in a template and can be used to start a job run. Job template allows two use cases: avoid repeating recurring StartJobRun API request values, enforcing certain values in StartJobRun API request.
     ///
     /// - Parameter ListJobTemplatesInput : [no documentation found]
     ///
-    /// - Returns: `ListJobTemplatesOutputResponse` : [no documentation found]
+    /// - Returns: `ListJobTemplatesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : This is an internal server exception.
     /// - `ValidationException` : There are invalid parameters in the client request.
-    func listJobTemplates(input: ListJobTemplatesInput) async throws -> ListJobTemplatesOutputResponse
+    func listJobTemplates(input: ListJobTemplatesInput) async throws -> ListJobTemplatesOutput
     /// Lists managed endpoints based on a set of parameters. A managed endpoint is a gateway that connects Amazon EMR Studio to Amazon EMR on EKS so that Amazon EMR Studio can communicate with your virtual cluster.
     ///
     /// - Parameter ListManagedEndpointsInput : [no documentation found]
     ///
-    /// - Returns: `ListManagedEndpointsOutputResponse` : [no documentation found]
+    /// - Returns: `ListManagedEndpointsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : This is an internal server exception.
     /// - `ValidationException` : There are invalid parameters in the client request.
-    func listManagedEndpoints(input: ListManagedEndpointsInput) async throws -> ListManagedEndpointsOutputResponse
+    func listManagedEndpoints(input: ListManagedEndpointsInput) async throws -> ListManagedEndpointsOutput
     /// Lists the tags assigned to the resources.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -211,24 +211,24 @@ public protocol EMRcontainersClientProtocol {
     /// - `InternalServerException` : This is an internal server exception.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ValidationException` : There are invalid parameters in the client request.
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     /// Lists information about the specified virtual cluster. Virtual cluster is a managed entity on Amazon EMR on EKS. You can create, describe, list and delete virtual clusters. They do not consume any additional resource in your system. A single virtual cluster maps to a single Kubernetes namespace. Given this relationship, you can model virtual clusters the same way you model Kubernetes namespaces to meet your requirements.
     ///
     /// - Parameter ListVirtualClustersInput : [no documentation found]
     ///
-    /// - Returns: `ListVirtualClustersOutputResponse` : [no documentation found]
+    /// - Returns: `ListVirtualClustersOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : This is an internal server exception.
     /// - `ValidationException` : There are invalid parameters in the client request.
-    func listVirtualClusters(input: ListVirtualClustersInput) async throws -> ListVirtualClustersOutputResponse
+    func listVirtualClusters(input: ListVirtualClustersInput) async throws -> ListVirtualClustersOutput
     /// Starts a job run. A job run is a unit of work, such as a Spark jar, PySpark script, or SparkSQL query, that you submit to Amazon EMR on EKS.
     ///
     /// - Parameter StartJobRunInput : [no documentation found]
     ///
-    /// - Returns: `StartJobRunOutputResponse` : [no documentation found]
+    /// - Returns: `StartJobRunOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -236,12 +236,12 @@ public protocol EMRcontainersClientProtocol {
     /// - `InternalServerException` : This is an internal server exception.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ValidationException` : There are invalid parameters in the client request.
-    func startJobRun(input: StartJobRunInput) async throws -> StartJobRunOutputResponse
+    func startJobRun(input: StartJobRunInput) async throws -> StartJobRunOutput
     /// Assigns tags to resources. A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value, both of which you define. Tags enable you to categorize your Amazon Web Services resources by attributes such as purpose, owner, or environment. When you have many resources of the same type, you can quickly identify a specific resource based on the tags you've assigned to it. For example, you can define a set of tags for your Amazon EMR on EKS clusters to help you track each cluster's owner and stack level. We recommend that you devise a consistent set of tag keys for each resource type. You can then search and filter the resources based on the tags that you add.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -249,12 +249,12 @@ public protocol EMRcontainersClientProtocol {
     /// - `InternalServerException` : This is an internal server exception.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ValidationException` : There are invalid parameters in the client request.
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     /// Removes tags from resources.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -262,7 +262,7 @@ public protocol EMRcontainersClientProtocol {
     /// - `InternalServerException` : This is an internal server exception.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ValidationException` : There are invalid parameters in the client request.
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
 }
 
 public enum EMRcontainersClientTypes {}

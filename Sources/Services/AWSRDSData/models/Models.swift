@@ -404,27 +404,11 @@ extension BatchExecuteStatementInputBody: Swift.Decodable {
     }
 }
 
-enum BatchExecuteStatementOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableError": return try await ServiceUnavailableError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "StatementTimeoutException": return try await StatementTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension BatchExecuteStatementOutputResponse: ClientRuntime.HttpResponseBinding {
+extension BatchExecuteStatementOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: BatchExecuteStatementOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: BatchExecuteStatementOutputBody = try responseDecoder.decode(responseBody: data)
             self.updateResults = output.updateResults
         } else {
             self.updateResults = nil
@@ -433,7 +417,7 @@ extension BatchExecuteStatementOutputResponse: ClientRuntime.HttpResponseBinding
 }
 
 /// The response elements represent the output of a SQL statement over an array of data.
-public struct BatchExecuteStatementOutputResponse: Swift.Equatable {
+public struct BatchExecuteStatementOutput: Swift.Equatable {
     /// The execution results of each batch entry.
     public var updateResults: [RDSDataClientTypes.UpdateResult]?
 
@@ -445,11 +429,11 @@ public struct BatchExecuteStatementOutputResponse: Swift.Equatable {
     }
 }
 
-struct BatchExecuteStatementOutputResponseBody: Swift.Equatable {
+struct BatchExecuteStatementOutputBody: Swift.Equatable {
     let updateResults: [RDSDataClientTypes.UpdateResult]?
 }
 
-extension BatchExecuteStatementOutputResponseBody: Swift.Decodable {
+extension BatchExecuteStatementOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case updateResults
     }
@@ -467,6 +451,22 @@ extension BatchExecuteStatementOutputResponseBody: Swift.Decodable {
             }
         }
         updateResults = updateResultsDecoded0
+    }
+}
+
+enum BatchExecuteStatementOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableError": return try await ServiceUnavailableError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "StatementTimeoutException": return try await StatementTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -556,6 +556,47 @@ extension BeginTransactionInputBody: Swift.Decodable {
     }
 }
 
+extension BeginTransactionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: BeginTransactionOutputBody = try responseDecoder.decode(responseBody: data)
+            self.transactionId = output.transactionId
+        } else {
+            self.transactionId = nil
+        }
+    }
+}
+
+/// The response elements represent the output of a request to start a SQL transaction.
+public struct BeginTransactionOutput: Swift.Equatable {
+    /// The transaction ID of the transaction started by the call.
+    public var transactionId: Swift.String?
+
+    public init(
+        transactionId: Swift.String? = nil
+    )
+    {
+        self.transactionId = transactionId
+    }
+}
+
+struct BeginTransactionOutputBody: Swift.Equatable {
+    let transactionId: Swift.String?
+}
+
+extension BeginTransactionOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case transactionId
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let transactionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .transactionId)
+        transactionId = transactionIdDecoded
+    }
+}
+
 enum BeginTransactionOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -569,47 +610,6 @@ enum BeginTransactionOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "StatementTimeoutException": return try await StatementTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension BeginTransactionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: BeginTransactionOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.transactionId = output.transactionId
-        } else {
-            self.transactionId = nil
-        }
-    }
-}
-
-/// The response elements represent the output of a request to start a SQL transaction.
-public struct BeginTransactionOutputResponse: Swift.Equatable {
-    /// The transaction ID of the transaction started by the call.
-    public var transactionId: Swift.String?
-
-    public init(
-        transactionId: Swift.String? = nil
-    )
-    {
-        self.transactionId = transactionId
-    }
-}
-
-struct BeginTransactionOutputResponseBody: Swift.Equatable {
-    let transactionId: Swift.String?
-}
-
-extension BeginTransactionOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case transactionId
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let transactionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .transactionId)
-        transactionId = transactionIdDecoded
     }
 }
 
@@ -853,6 +853,47 @@ extension CommitTransactionInputBody: Swift.Decodable {
     }
 }
 
+extension CommitTransactionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CommitTransactionOutputBody = try responseDecoder.decode(responseBody: data)
+            self.transactionStatus = output.transactionStatus
+        } else {
+            self.transactionStatus = nil
+        }
+    }
+}
+
+/// The response elements represent the output of a commit transaction request.
+public struct CommitTransactionOutput: Swift.Equatable {
+    /// The status of the commit operation.
+    public var transactionStatus: Swift.String?
+
+    public init(
+        transactionStatus: Swift.String? = nil
+    )
+    {
+        self.transactionStatus = transactionStatus
+    }
+}
+
+struct CommitTransactionOutputBody: Swift.Equatable {
+    let transactionStatus: Swift.String?
+}
+
+extension CommitTransactionOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case transactionStatus
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let transactionStatusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .transactionStatus)
+        transactionStatus = transactionStatusDecoded
+    }
+}
+
 enum CommitTransactionOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -867,47 +908,6 @@ enum CommitTransactionOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "StatementTimeoutException": return try await StatementTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension CommitTransactionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CommitTransactionOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.transactionStatus = output.transactionStatus
-        } else {
-            self.transactionStatus = nil
-        }
-    }
-}
-
-/// The response elements represent the output of a commit transaction request.
-public struct CommitTransactionOutputResponse: Swift.Equatable {
-    /// The status of the commit operation.
-    public var transactionStatus: Swift.String?
-
-    public init(
-        transactionStatus: Swift.String? = nil
-    )
-    {
-        self.transactionStatus = transactionStatus
-    }
-}
-
-struct CommitTransactionOutputResponseBody: Swift.Equatable {
-    let transactionStatus: Swift.String?
-}
-
-extension CommitTransactionOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case transactionStatus
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let transactionStatusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .transactionStatus)
-        transactionStatus = transactionStatusDecoded
     }
 }
 
@@ -1042,26 +1042,11 @@ extension ExecuteSqlInputBody: Swift.Decodable {
     }
 }
 
-enum ExecuteSqlOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableError": return try await ServiceUnavailableError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ExecuteSqlOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ExecuteSqlOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ExecuteSqlOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ExecuteSqlOutputBody = try responseDecoder.decode(responseBody: data)
             self.sqlStatementResults = output.sqlStatementResults
         } else {
             self.sqlStatementResults = nil
@@ -1070,7 +1055,7 @@ extension ExecuteSqlOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// The response elements represent the output of a request to run one or more SQL statements.
-public struct ExecuteSqlOutputResponse: Swift.Equatable {
+public struct ExecuteSqlOutput: Swift.Equatable {
     /// The results of the SQL statement or statements.
     public var sqlStatementResults: [RDSDataClientTypes.SqlStatementResult]?
 
@@ -1082,11 +1067,11 @@ public struct ExecuteSqlOutputResponse: Swift.Equatable {
     }
 }
 
-struct ExecuteSqlOutputResponseBody: Swift.Equatable {
+struct ExecuteSqlOutputBody: Swift.Equatable {
     let sqlStatementResults: [RDSDataClientTypes.SqlStatementResult]?
 }
 
-extension ExecuteSqlOutputResponseBody: Swift.Decodable {
+extension ExecuteSqlOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case sqlStatementResults
     }
@@ -1104,6 +1089,21 @@ extension ExecuteSqlOutputResponseBody: Swift.Decodable {
             }
         }
         sqlStatementResults = sqlStatementResultsDecoded0
+    }
+}
+
+enum ExecuteSqlOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableError": return try await ServiceUnavailableError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1290,27 +1290,11 @@ extension ExecuteStatementInputBody: Swift.Decodable {
     }
 }
 
-enum ExecuteStatementOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableError": return try await ServiceUnavailableError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "StatementTimeoutException": return try await StatementTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ExecuteStatementOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ExecuteStatementOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ExecuteStatementOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ExecuteStatementOutputBody = try responseDecoder.decode(responseBody: data)
             self.columnMetadata = output.columnMetadata
             self.formattedRecords = output.formattedRecords
             self.generatedFields = output.generatedFields
@@ -1327,7 +1311,7 @@ extension ExecuteStatementOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// The response elements represent the output of a request to run a SQL statement against a database.
-public struct ExecuteStatementOutputResponse: Swift.Equatable {
+public struct ExecuteStatementOutput: Swift.Equatable {
     /// Metadata for the columns included in the results. This field is blank if the formatRecordsAs parameter is set to JSON.
     public var columnMetadata: [RDSDataClientTypes.ColumnMetadata]?
     /// A string value that represents the result set of a SELECT statement in JSON format. This value is only present when the formatRecordsAs parameter is set to JSON. The size limit for this field is currently 10 MB. If the JSON-formatted string representing the result set requires more than 10 MB, the call returns an error.
@@ -1355,7 +1339,7 @@ public struct ExecuteStatementOutputResponse: Swift.Equatable {
     }
 }
 
-struct ExecuteStatementOutputResponseBody: Swift.Equatable {
+struct ExecuteStatementOutputBody: Swift.Equatable {
     let records: [[RDSDataClientTypes.Field]]?
     let columnMetadata: [RDSDataClientTypes.ColumnMetadata]?
     let numberOfRecordsUpdated: Swift.Int
@@ -1363,7 +1347,7 @@ struct ExecuteStatementOutputResponseBody: Swift.Equatable {
     let formattedRecords: Swift.String?
 }
 
-extension ExecuteStatementOutputResponseBody: Swift.Decodable {
+extension ExecuteStatementOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case columnMetadata
         case formattedRecords
@@ -1420,6 +1404,22 @@ extension ExecuteStatementOutputResponseBody: Swift.Decodable {
         generatedFields = generatedFieldsDecoded0
         let formattedRecordsDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .formattedRecords)
         formattedRecords = formattedRecordsDecoded
+    }
+}
+
+enum ExecuteStatementOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableError": return try await ServiceUnavailableError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "StatementTimeoutException": return try await StatementTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1998,6 +1998,47 @@ extension RollbackTransactionInputBody: Swift.Decodable {
     }
 }
 
+extension RollbackTransactionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: RollbackTransactionOutputBody = try responseDecoder.decode(responseBody: data)
+            self.transactionStatus = output.transactionStatus
+        } else {
+            self.transactionStatus = nil
+        }
+    }
+}
+
+/// The response elements represent the output of a request to perform a rollback of a transaction.
+public struct RollbackTransactionOutput: Swift.Equatable {
+    /// The status of the rollback operation.
+    public var transactionStatus: Swift.String?
+
+    public init(
+        transactionStatus: Swift.String? = nil
+    )
+    {
+        self.transactionStatus = transactionStatus
+    }
+}
+
+struct RollbackTransactionOutputBody: Swift.Equatable {
+    let transactionStatus: Swift.String?
+}
+
+extension RollbackTransactionOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case transactionStatus
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let transactionStatusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .transactionStatus)
+        transactionStatus = transactionStatusDecoded
+    }
+}
+
 enum RollbackTransactionOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -2012,47 +2053,6 @@ enum RollbackTransactionOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "StatementTimeoutException": return try await StatementTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension RollbackTransactionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: RollbackTransactionOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.transactionStatus = output.transactionStatus
-        } else {
-            self.transactionStatus = nil
-        }
-    }
-}
-
-/// The response elements represent the output of a request to perform a rollback of a transaction.
-public struct RollbackTransactionOutputResponse: Swift.Equatable {
-    /// The status of the rollback operation.
-    public var transactionStatus: Swift.String?
-
-    public init(
-        transactionStatus: Swift.String? = nil
-    )
-    {
-        self.transactionStatus = transactionStatus
-    }
-}
-
-struct RollbackTransactionOutputResponseBody: Swift.Equatable {
-    let transactionStatus: Swift.String?
-}
-
-extension RollbackTransactionOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case transactionStatus
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let transactionStatusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .transactionStatus)
-        transactionStatus = transactionStatusDecoded
     }
 }
 

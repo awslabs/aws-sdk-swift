@@ -8,7 +8,7 @@ public protocol IoTRoboRunnerClientProtocol {
     ///
     /// - Parameter CreateDestinationInput : [no documentation found]
     ///
-    /// - Returns: `CreateDestinationOutputResponse` : [no documentation found]
+    /// - Returns: `CreateDestinationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -20,12 +20,12 @@ public protocol IoTRoboRunnerClientProtocol {
     /// - `ServiceQuotaExceededException` : Exception thrown if the user's AWS account has reached a service limit and the operation cannot proceed.
     /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
     /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
-    func createDestination(input: CreateDestinationInput) async throws -> CreateDestinationOutputResponse
+    func createDestination(input: CreateDestinationInput) async throws -> CreateDestinationOutput
     /// Grants permission to create a site
     ///
     /// - Parameter CreateSiteInput : [no documentation found]
     ///
-    /// - Returns: `CreateSiteOutputResponse` : [no documentation found]
+    /// - Returns: `CreateSiteOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -36,12 +36,12 @@ public protocol IoTRoboRunnerClientProtocol {
     /// - `ServiceQuotaExceededException` : Exception thrown if the user's AWS account has reached a service limit and the operation cannot proceed.
     /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
     /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
-    func createSite(input: CreateSiteInput) async throws -> CreateSiteOutputResponse
+    func createSite(input: CreateSiteInput) async throws -> CreateSiteOutput
     /// Grants permission to create a worker
     ///
     /// - Parameter CreateWorkerInput : [no documentation found]
     ///
-    /// - Returns: `CreateWorkerOutputResponse` : [no documentation found]
+    /// - Returns: `CreateWorkerOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -53,12 +53,12 @@ public protocol IoTRoboRunnerClientProtocol {
     /// - `ServiceQuotaExceededException` : Exception thrown if the user's AWS account has reached a service limit and the operation cannot proceed.
     /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
     /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
-    func createWorker(input: CreateWorkerInput) async throws -> CreateWorkerOutputResponse
+    func createWorker(input: CreateWorkerInput) async throws -> CreateWorkerOutput
     /// Grants permission to create a worker fleet
     ///
     /// - Parameter CreateWorkerFleetInput : [no documentation found]
     ///
-    /// - Returns: `CreateWorkerFleetOutputResponse` : [no documentation found]
+    /// - Returns: `CreateWorkerFleetOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -70,12 +70,12 @@ public protocol IoTRoboRunnerClientProtocol {
     /// - `ServiceQuotaExceededException` : Exception thrown if the user's AWS account has reached a service limit and the operation cannot proceed.
     /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
     /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
-    func createWorkerFleet(input: CreateWorkerFleetInput) async throws -> CreateWorkerFleetOutputResponse
+    func createWorkerFleet(input: CreateWorkerFleetInput) async throws -> CreateWorkerFleetOutput
     /// Grants permission to delete a destination
     ///
     /// - Parameter DeleteDestinationInput : [no documentation found]
     ///
-    /// - Returns: `DeleteDestinationOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteDestinationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -86,12 +86,12 @@ public protocol IoTRoboRunnerClientProtocol {
     /// - `ResourceNotFoundException` : Exception thrown if a resource referenced in the request doesn't exist.
     /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
     /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
-    func deleteDestination(input: DeleteDestinationInput) async throws -> DeleteDestinationOutputResponse
+    func deleteDestination(input: DeleteDestinationInput) async throws -> DeleteDestinationOutput
     /// Grants permission to delete a site
     ///
     /// - Parameter DeleteSiteInput : [no documentation found]
     ///
-    /// - Returns: `DeleteSiteOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteSiteOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -102,12 +102,12 @@ public protocol IoTRoboRunnerClientProtocol {
     /// - `ResourceNotFoundException` : Exception thrown if a resource referenced in the request doesn't exist.
     /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
     /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
-    func deleteSite(input: DeleteSiteInput) async throws -> DeleteSiteOutputResponse
+    func deleteSite(input: DeleteSiteInput) async throws -> DeleteSiteOutput
     /// Grants permission to delete a worker
     ///
     /// - Parameter DeleteWorkerInput : [no documentation found]
     ///
-    /// - Returns: `DeleteWorkerOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteWorkerOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -118,12 +118,12 @@ public protocol IoTRoboRunnerClientProtocol {
     /// - `ResourceNotFoundException` : Exception thrown if a resource referenced in the request doesn't exist.
     /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
     /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
-    func deleteWorker(input: DeleteWorkerInput) async throws -> DeleteWorkerOutputResponse
+    func deleteWorker(input: DeleteWorkerInput) async throws -> DeleteWorkerOutput
     /// Grants permission to delete a worker fleet
     ///
     /// - Parameter DeleteWorkerFleetInput : [no documentation found]
     ///
-    /// - Returns: `DeleteWorkerFleetOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteWorkerFleetOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -134,12 +134,12 @@ public protocol IoTRoboRunnerClientProtocol {
     /// - `ResourceNotFoundException` : Exception thrown if a resource referenced in the request doesn't exist.
     /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
     /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
-    func deleteWorkerFleet(input: DeleteWorkerFleetInput) async throws -> DeleteWorkerFleetOutputResponse
+    func deleteWorkerFleet(input: DeleteWorkerFleetInput) async throws -> DeleteWorkerFleetOutput
     /// Grants permission to get a destination
     ///
     /// - Parameter GetDestinationInput : [no documentation found]
     ///
-    /// - Returns: `GetDestinationOutputResponse` : [no documentation found]
+    /// - Returns: `GetDestinationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -149,12 +149,12 @@ public protocol IoTRoboRunnerClientProtocol {
     /// - `ResourceNotFoundException` : Exception thrown if a resource referenced in the request doesn't exist.
     /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
     /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
-    func getDestination(input: GetDestinationInput) async throws -> GetDestinationOutputResponse
+    func getDestination(input: GetDestinationInput) async throws -> GetDestinationOutput
     /// Grants permission to get a site
     ///
     /// - Parameter GetSiteInput : [no documentation found]
     ///
-    /// - Returns: `GetSiteOutputResponse` : [no documentation found]
+    /// - Returns: `GetSiteOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -164,12 +164,12 @@ public protocol IoTRoboRunnerClientProtocol {
     /// - `ResourceNotFoundException` : Exception thrown if a resource referenced in the request doesn't exist.
     /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
     /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
-    func getSite(input: GetSiteInput) async throws -> GetSiteOutputResponse
+    func getSite(input: GetSiteInput) async throws -> GetSiteOutput
     /// Grants permission to get a worker
     ///
     /// - Parameter GetWorkerInput : [no documentation found]
     ///
-    /// - Returns: `GetWorkerOutputResponse` : [no documentation found]
+    /// - Returns: `GetWorkerOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -179,12 +179,12 @@ public protocol IoTRoboRunnerClientProtocol {
     /// - `ResourceNotFoundException` : Exception thrown if a resource referenced in the request doesn't exist.
     /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
     /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
-    func getWorker(input: GetWorkerInput) async throws -> GetWorkerOutputResponse
+    func getWorker(input: GetWorkerInput) async throws -> GetWorkerOutput
     /// Grants permission to get a worker fleet
     ///
     /// - Parameter GetWorkerFleetInput : [no documentation found]
     ///
-    /// - Returns: `GetWorkerFleetOutputResponse` : [no documentation found]
+    /// - Returns: `GetWorkerFleetOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -194,12 +194,12 @@ public protocol IoTRoboRunnerClientProtocol {
     /// - `ResourceNotFoundException` : Exception thrown if a resource referenced in the request doesn't exist.
     /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
     /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
-    func getWorkerFleet(input: GetWorkerFleetInput) async throws -> GetWorkerFleetOutputResponse
+    func getWorkerFleet(input: GetWorkerFleetInput) async throws -> GetWorkerFleetOutput
     /// Grants permission to list destinations
     ///
     /// - Parameter ListDestinationsInput : [no documentation found]
     ///
-    /// - Returns: `ListDestinationsOutputResponse` : [no documentation found]
+    /// - Returns: `ListDestinationsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -209,12 +209,12 @@ public protocol IoTRoboRunnerClientProtocol {
     /// - `ResourceNotFoundException` : Exception thrown if a resource referenced in the request doesn't exist.
     /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
     /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
-    func listDestinations(input: ListDestinationsInput) async throws -> ListDestinationsOutputResponse
+    func listDestinations(input: ListDestinationsInput) async throws -> ListDestinationsOutput
     /// Grants permission to list sites
     ///
     /// - Parameter ListSitesInput : [no documentation found]
     ///
-    /// - Returns: `ListSitesOutputResponse` : [no documentation found]
+    /// - Returns: `ListSitesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -223,12 +223,12 @@ public protocol IoTRoboRunnerClientProtocol {
     /// - `InternalServerException` : Exception thrown if something goes wrong within the service.
     /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
     /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
-    func listSites(input: ListSitesInput) async throws -> ListSitesOutputResponse
+    func listSites(input: ListSitesInput) async throws -> ListSitesOutput
     /// Grants permission to list worker fleets
     ///
     /// - Parameter ListWorkerFleetsInput : [no documentation found]
     ///
-    /// - Returns: `ListWorkerFleetsOutputResponse` : [no documentation found]
+    /// - Returns: `ListWorkerFleetsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -238,12 +238,12 @@ public protocol IoTRoboRunnerClientProtocol {
     /// - `ResourceNotFoundException` : Exception thrown if a resource referenced in the request doesn't exist.
     /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
     /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
-    func listWorkerFleets(input: ListWorkerFleetsInput) async throws -> ListWorkerFleetsOutputResponse
+    func listWorkerFleets(input: ListWorkerFleetsInput) async throws -> ListWorkerFleetsOutput
     /// Grants permission to list workers
     ///
     /// - Parameter ListWorkersInput : [no documentation found]
     ///
-    /// - Returns: `ListWorkersOutputResponse` : [no documentation found]
+    /// - Returns: `ListWorkersOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -253,12 +253,12 @@ public protocol IoTRoboRunnerClientProtocol {
     /// - `ResourceNotFoundException` : Exception thrown if a resource referenced in the request doesn't exist.
     /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
     /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
-    func listWorkers(input: ListWorkersInput) async throws -> ListWorkersOutputResponse
+    func listWorkers(input: ListWorkersInput) async throws -> ListWorkersOutput
     /// Grants permission to update a destination
     ///
     /// - Parameter UpdateDestinationInput : [no documentation found]
     ///
-    /// - Returns: `UpdateDestinationOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateDestinationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -268,12 +268,12 @@ public protocol IoTRoboRunnerClientProtocol {
     /// - `ResourceNotFoundException` : Exception thrown if a resource referenced in the request doesn't exist.
     /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
     /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
-    func updateDestination(input: UpdateDestinationInput) async throws -> UpdateDestinationOutputResponse
+    func updateDestination(input: UpdateDestinationInput) async throws -> UpdateDestinationOutput
     /// Grants permission to update a site
     ///
     /// - Parameter UpdateSiteInput : [no documentation found]
     ///
-    /// - Returns: `UpdateSiteOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateSiteOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -283,12 +283,12 @@ public protocol IoTRoboRunnerClientProtocol {
     /// - `ResourceNotFoundException` : Exception thrown if a resource referenced in the request doesn't exist.
     /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
     /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
-    func updateSite(input: UpdateSiteInput) async throws -> UpdateSiteOutputResponse
+    func updateSite(input: UpdateSiteInput) async throws -> UpdateSiteOutput
     /// Grants permission to update a worker
     ///
     /// - Parameter UpdateWorkerInput : [no documentation found]
     ///
-    /// - Returns: `UpdateWorkerOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateWorkerOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -298,12 +298,12 @@ public protocol IoTRoboRunnerClientProtocol {
     /// - `ResourceNotFoundException` : Exception thrown if a resource referenced in the request doesn't exist.
     /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
     /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
-    func updateWorker(input: UpdateWorkerInput) async throws -> UpdateWorkerOutputResponse
+    func updateWorker(input: UpdateWorkerInput) async throws -> UpdateWorkerOutput
     /// Grants permission to update a worker fleet
     ///
     /// - Parameter UpdateWorkerFleetInput : [no documentation found]
     ///
-    /// - Returns: `UpdateWorkerFleetOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateWorkerFleetOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -313,7 +313,7 @@ public protocol IoTRoboRunnerClientProtocol {
     /// - `ResourceNotFoundException` : Exception thrown if a resource referenced in the request doesn't exist.
     /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
     /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
-    func updateWorkerFleet(input: UpdateWorkerFleetInput) async throws -> UpdateWorkerFleetOutputResponse
+    func updateWorkerFleet(input: UpdateWorkerFleetInput) async throws -> UpdateWorkerFleetOutput
 }
 
 public enum IoTRoboRunnerClientTypes {}

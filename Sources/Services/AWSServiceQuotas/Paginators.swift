@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension ServiceQuotasClient {
-    /// Paginate over `[ListAWSDefaultServiceQuotasOutputResponse]` results.
+    /// Paginate over `[ListAWSDefaultServiceQuotasOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListAWSDefaultServiceQuotasInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListAWSDefaultServiceQuotasOutputResponse`
-    public func listAWSDefaultServiceQuotasPaginated(input: ListAWSDefaultServiceQuotasInput) -> ClientRuntime.PaginatorSequence<ListAWSDefaultServiceQuotasInput, ListAWSDefaultServiceQuotasOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListAWSDefaultServiceQuotasInput, ListAWSDefaultServiceQuotasOutputResponse>(input: input, inputKey: \ListAWSDefaultServiceQuotasInput.nextToken, outputKey: \ListAWSDefaultServiceQuotasOutputResponse.nextToken, paginationFunction: self.listAWSDefaultServiceQuotas(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAWSDefaultServiceQuotasOutput`
+    public func listAWSDefaultServiceQuotasPaginated(input: ListAWSDefaultServiceQuotasInput) -> ClientRuntime.PaginatorSequence<ListAWSDefaultServiceQuotasInput, ListAWSDefaultServiceQuotasOutput> {
+        return ClientRuntime.PaginatorSequence<ListAWSDefaultServiceQuotasInput, ListAWSDefaultServiceQuotasOutput>(input: input, inputKey: \ListAWSDefaultServiceQuotasInput.nextToken, outputKey: \ListAWSDefaultServiceQuotasOutput.nextToken, paginationFunction: self.listAWSDefaultServiceQuotas(input:))
     }
 }
 
@@ -25,7 +25,7 @@ extension ListAWSDefaultServiceQuotasInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListAWSDefaultServiceQuotasInput, Output == ListAWSDefaultServiceQuotasOutputResponse {
+extension PaginatorSequence where Input == ListAWSDefaultServiceQuotasInput, Output == ListAWSDefaultServiceQuotasOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listAWSDefaultServiceQuotasPaginated`
     /// to access the nested member `[ServiceQuotasClientTypes.ServiceQuota]`
     /// - Returns: `[ServiceQuotasClientTypes.ServiceQuota]`
@@ -34,16 +34,16 @@ extension PaginatorSequence where Input == ListAWSDefaultServiceQuotasInput, Out
     }
 }
 extension ServiceQuotasClient {
-    /// Paginate over `[ListRequestedServiceQuotaChangeHistoryOutputResponse]` results.
+    /// Paginate over `[ListRequestedServiceQuotaChangeHistoryOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListRequestedServiceQuotaChangeHistoryInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListRequestedServiceQuotaChangeHistoryOutputResponse`
-    public func listRequestedServiceQuotaChangeHistoryPaginated(input: ListRequestedServiceQuotaChangeHistoryInput) -> ClientRuntime.PaginatorSequence<ListRequestedServiceQuotaChangeHistoryInput, ListRequestedServiceQuotaChangeHistoryOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListRequestedServiceQuotaChangeHistoryInput, ListRequestedServiceQuotaChangeHistoryOutputResponse>(input: input, inputKey: \ListRequestedServiceQuotaChangeHistoryInput.nextToken, outputKey: \ListRequestedServiceQuotaChangeHistoryOutputResponse.nextToken, paginationFunction: self.listRequestedServiceQuotaChangeHistory(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListRequestedServiceQuotaChangeHistoryOutput`
+    public func listRequestedServiceQuotaChangeHistoryPaginated(input: ListRequestedServiceQuotaChangeHistoryInput) -> ClientRuntime.PaginatorSequence<ListRequestedServiceQuotaChangeHistoryInput, ListRequestedServiceQuotaChangeHistoryOutput> {
+        return ClientRuntime.PaginatorSequence<ListRequestedServiceQuotaChangeHistoryInput, ListRequestedServiceQuotaChangeHistoryOutput>(input: input, inputKey: \ListRequestedServiceQuotaChangeHistoryInput.nextToken, outputKey: \ListRequestedServiceQuotaChangeHistoryOutput.nextToken, paginationFunction: self.listRequestedServiceQuotaChangeHistory(input:))
     }
 }
 
@@ -58,7 +58,7 @@ extension ListRequestedServiceQuotaChangeHistoryInput: ClientRuntime.PaginateTok
         )}
 }
 
-extension PaginatorSequence where Input == ListRequestedServiceQuotaChangeHistoryInput, Output == ListRequestedServiceQuotaChangeHistoryOutputResponse {
+extension PaginatorSequence where Input == ListRequestedServiceQuotaChangeHistoryInput, Output == ListRequestedServiceQuotaChangeHistoryOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listRequestedServiceQuotaChangeHistoryPaginated`
     /// to access the nested member `[ServiceQuotasClientTypes.RequestedServiceQuotaChange]`
     /// - Returns: `[ServiceQuotasClientTypes.RequestedServiceQuotaChange]`
@@ -67,16 +67,16 @@ extension PaginatorSequence where Input == ListRequestedServiceQuotaChangeHistor
     }
 }
 extension ServiceQuotasClient {
-    /// Paginate over `[ListRequestedServiceQuotaChangeHistoryByQuotaOutputResponse]` results.
+    /// Paginate over `[ListRequestedServiceQuotaChangeHistoryByQuotaOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListRequestedServiceQuotaChangeHistoryByQuotaInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListRequestedServiceQuotaChangeHistoryByQuotaOutputResponse`
-    public func listRequestedServiceQuotaChangeHistoryByQuotaPaginated(input: ListRequestedServiceQuotaChangeHistoryByQuotaInput) -> ClientRuntime.PaginatorSequence<ListRequestedServiceQuotaChangeHistoryByQuotaInput, ListRequestedServiceQuotaChangeHistoryByQuotaOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListRequestedServiceQuotaChangeHistoryByQuotaInput, ListRequestedServiceQuotaChangeHistoryByQuotaOutputResponse>(input: input, inputKey: \ListRequestedServiceQuotaChangeHistoryByQuotaInput.nextToken, outputKey: \ListRequestedServiceQuotaChangeHistoryByQuotaOutputResponse.nextToken, paginationFunction: self.listRequestedServiceQuotaChangeHistoryByQuota(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListRequestedServiceQuotaChangeHistoryByQuotaOutput`
+    public func listRequestedServiceQuotaChangeHistoryByQuotaPaginated(input: ListRequestedServiceQuotaChangeHistoryByQuotaInput) -> ClientRuntime.PaginatorSequence<ListRequestedServiceQuotaChangeHistoryByQuotaInput, ListRequestedServiceQuotaChangeHistoryByQuotaOutput> {
+        return ClientRuntime.PaginatorSequence<ListRequestedServiceQuotaChangeHistoryByQuotaInput, ListRequestedServiceQuotaChangeHistoryByQuotaOutput>(input: input, inputKey: \ListRequestedServiceQuotaChangeHistoryByQuotaInput.nextToken, outputKey: \ListRequestedServiceQuotaChangeHistoryByQuotaOutput.nextToken, paginationFunction: self.listRequestedServiceQuotaChangeHistoryByQuota(input:))
     }
 }
 
@@ -92,7 +92,7 @@ extension ListRequestedServiceQuotaChangeHistoryByQuotaInput: ClientRuntime.Pagi
         )}
 }
 
-extension PaginatorSequence where Input == ListRequestedServiceQuotaChangeHistoryByQuotaInput, Output == ListRequestedServiceQuotaChangeHistoryByQuotaOutputResponse {
+extension PaginatorSequence where Input == ListRequestedServiceQuotaChangeHistoryByQuotaInput, Output == ListRequestedServiceQuotaChangeHistoryByQuotaOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listRequestedServiceQuotaChangeHistoryByQuotaPaginated`
     /// to access the nested member `[ServiceQuotasClientTypes.RequestedServiceQuotaChange]`
     /// - Returns: `[ServiceQuotasClientTypes.RequestedServiceQuotaChange]`
@@ -101,16 +101,16 @@ extension PaginatorSequence where Input == ListRequestedServiceQuotaChangeHistor
     }
 }
 extension ServiceQuotasClient {
-    /// Paginate over `[ListServiceQuotaIncreaseRequestsInTemplateOutputResponse]` results.
+    /// Paginate over `[ListServiceQuotaIncreaseRequestsInTemplateOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListServiceQuotaIncreaseRequestsInTemplateInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListServiceQuotaIncreaseRequestsInTemplateOutputResponse`
-    public func listServiceQuotaIncreaseRequestsInTemplatePaginated(input: ListServiceQuotaIncreaseRequestsInTemplateInput) -> ClientRuntime.PaginatorSequence<ListServiceQuotaIncreaseRequestsInTemplateInput, ListServiceQuotaIncreaseRequestsInTemplateOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListServiceQuotaIncreaseRequestsInTemplateInput, ListServiceQuotaIncreaseRequestsInTemplateOutputResponse>(input: input, inputKey: \ListServiceQuotaIncreaseRequestsInTemplateInput.nextToken, outputKey: \ListServiceQuotaIncreaseRequestsInTemplateOutputResponse.nextToken, paginationFunction: self.listServiceQuotaIncreaseRequestsInTemplate(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListServiceQuotaIncreaseRequestsInTemplateOutput`
+    public func listServiceQuotaIncreaseRequestsInTemplatePaginated(input: ListServiceQuotaIncreaseRequestsInTemplateInput) -> ClientRuntime.PaginatorSequence<ListServiceQuotaIncreaseRequestsInTemplateInput, ListServiceQuotaIncreaseRequestsInTemplateOutput> {
+        return ClientRuntime.PaginatorSequence<ListServiceQuotaIncreaseRequestsInTemplateInput, ListServiceQuotaIncreaseRequestsInTemplateOutput>(input: input, inputKey: \ListServiceQuotaIncreaseRequestsInTemplateInput.nextToken, outputKey: \ListServiceQuotaIncreaseRequestsInTemplateOutput.nextToken, paginationFunction: self.listServiceQuotaIncreaseRequestsInTemplate(input:))
     }
 }
 
@@ -124,7 +124,7 @@ extension ListServiceQuotaIncreaseRequestsInTemplateInput: ClientRuntime.Paginat
         )}
 }
 
-extension PaginatorSequence where Input == ListServiceQuotaIncreaseRequestsInTemplateInput, Output == ListServiceQuotaIncreaseRequestsInTemplateOutputResponse {
+extension PaginatorSequence where Input == ListServiceQuotaIncreaseRequestsInTemplateInput, Output == ListServiceQuotaIncreaseRequestsInTemplateOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listServiceQuotaIncreaseRequestsInTemplatePaginated`
     /// to access the nested member `[ServiceQuotasClientTypes.ServiceQuotaIncreaseRequestInTemplate]`
     /// - Returns: `[ServiceQuotasClientTypes.ServiceQuotaIncreaseRequestInTemplate]`
@@ -133,16 +133,16 @@ extension PaginatorSequence where Input == ListServiceQuotaIncreaseRequestsInTem
     }
 }
 extension ServiceQuotasClient {
-    /// Paginate over `[ListServiceQuotasOutputResponse]` results.
+    /// Paginate over `[ListServiceQuotasOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListServiceQuotasInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListServiceQuotasOutputResponse`
-    public func listServiceQuotasPaginated(input: ListServiceQuotasInput) -> ClientRuntime.PaginatorSequence<ListServiceQuotasInput, ListServiceQuotasOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListServiceQuotasInput, ListServiceQuotasOutputResponse>(input: input, inputKey: \ListServiceQuotasInput.nextToken, outputKey: \ListServiceQuotasOutputResponse.nextToken, paginationFunction: self.listServiceQuotas(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListServiceQuotasOutput`
+    public func listServiceQuotasPaginated(input: ListServiceQuotasInput) -> ClientRuntime.PaginatorSequence<ListServiceQuotasInput, ListServiceQuotasOutput> {
+        return ClientRuntime.PaginatorSequence<ListServiceQuotasInput, ListServiceQuotasOutput>(input: input, inputKey: \ListServiceQuotasInput.nextToken, outputKey: \ListServiceQuotasOutput.nextToken, paginationFunction: self.listServiceQuotas(input:))
     }
 }
 
@@ -157,7 +157,7 @@ extension ListServiceQuotasInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListServiceQuotasInput, Output == ListServiceQuotasOutputResponse {
+extension PaginatorSequence where Input == ListServiceQuotasInput, Output == ListServiceQuotasOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listServiceQuotasPaginated`
     /// to access the nested member `[ServiceQuotasClientTypes.ServiceQuota]`
     /// - Returns: `[ServiceQuotasClientTypes.ServiceQuota]`
@@ -166,16 +166,16 @@ extension PaginatorSequence where Input == ListServiceQuotasInput, Output == Lis
     }
 }
 extension ServiceQuotasClient {
-    /// Paginate over `[ListServicesOutputResponse]` results.
+    /// Paginate over `[ListServicesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListServicesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListServicesOutputResponse`
-    public func listServicesPaginated(input: ListServicesInput) -> ClientRuntime.PaginatorSequence<ListServicesInput, ListServicesOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListServicesInput, ListServicesOutputResponse>(input: input, inputKey: \ListServicesInput.nextToken, outputKey: \ListServicesOutputResponse.nextToken, paginationFunction: self.listServices(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListServicesOutput`
+    public func listServicesPaginated(input: ListServicesInput) -> ClientRuntime.PaginatorSequence<ListServicesInput, ListServicesOutput> {
+        return ClientRuntime.PaginatorSequence<ListServicesInput, ListServicesOutput>(input: input, inputKey: \ListServicesInput.nextToken, outputKey: \ListServicesOutput.nextToken, paginationFunction: self.listServices(input:))
     }
 }
 
@@ -187,7 +187,7 @@ extension ListServicesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListServicesInput, Output == ListServicesOutputResponse {
+extension PaginatorSequence where Input == ListServicesInput, Output == ListServicesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listServicesPaginated`
     /// to access the nested member `[ServiceQuotasClientTypes.ServiceInfo]`
     /// - Returns: `[ServiceQuotasClientTypes.ServiceInfo]`

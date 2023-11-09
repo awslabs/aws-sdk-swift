@@ -4,9 +4,9 @@ import ClientRuntime
 
 extension Macie2ClientProtocol {
 
-    static func findingRevealedWaiterConfig() throws -> WaiterConfiguration<GetSensitiveDataOccurrencesInput, GetSensitiveDataOccurrencesOutputResponse> {
-        let acceptors: [WaiterConfiguration<GetSensitiveDataOccurrencesInput, GetSensitiveDataOccurrencesOutputResponse>.Acceptor] = [
-            .init(state: .success, matcher: { (input: GetSensitiveDataOccurrencesInput, result: Result<GetSensitiveDataOccurrencesOutputResponse, Error>) -> Bool in
+    static func findingRevealedWaiterConfig() throws -> WaiterConfiguration<GetSensitiveDataOccurrencesInput, GetSensitiveDataOccurrencesOutput> {
+        let acceptors: [WaiterConfiguration<GetSensitiveDataOccurrencesInput, GetSensitiveDataOccurrencesOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: GetSensitiveDataOccurrencesInput, result: Result<GetSensitiveDataOccurrencesOutput, Error>) -> Bool in
                 // JMESPath expression: "status"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "SUCCESS"
@@ -14,7 +14,7 @@ extension Macie2ClientProtocol {
                 let status = output.status
                 return JMESUtils.compare(status, ==, "SUCCESS")
             }),
-            .init(state: .success, matcher: { (input: GetSensitiveDataOccurrencesInput, result: Result<GetSensitiveDataOccurrencesOutputResponse, Error>) -> Bool in
+            .init(state: .success, matcher: { (input: GetSensitiveDataOccurrencesInput, result: Result<GetSensitiveDataOccurrencesOutput, Error>) -> Bool in
                 // JMESPath expression: "status"
                 // JMESPath comparator: "stringEquals"
                 // JMESPath expected value: "ERROR"
@@ -23,7 +23,7 @@ extension Macie2ClientProtocol {
                 return JMESUtils.compare(status, ==, "ERROR")
             }),
         ]
-        return try WaiterConfiguration<GetSensitiveDataOccurrencesInput, GetSensitiveDataOccurrencesOutputResponse>(acceptors: acceptors, minDelay: 2.0, maxDelay: 120.0)
+        return try WaiterConfiguration<GetSensitiveDataOccurrencesInput, GetSensitiveDataOccurrencesOutput>(acceptors: acceptors, minDelay: 2.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the FindingRevealed event on the getSensitiveDataOccurrences operation.
@@ -37,7 +37,7 @@ extension Macie2ClientProtocol {
     /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
     /// or there is an error not handled by any `Acceptor.`
     /// `WaiterTimeoutError` if the waiter times out.
-    public func waitUntilFindingRevealed(options: WaiterOptions, input: GetSensitiveDataOccurrencesInput) async throws -> WaiterOutcome<GetSensitiveDataOccurrencesOutputResponse> {
+    public func waitUntilFindingRevealed(options: WaiterOptions, input: GetSensitiveDataOccurrencesInput) async throws -> WaiterOutcome<GetSensitiveDataOccurrencesOutput> {
         let waiter = Waiter(config: try Self.findingRevealedWaiterConfig(), operation: self.getSensitiveDataOccurrences(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }

@@ -279,20 +279,7 @@ extension InvokeEndpointAsyncInputBody: Swift.Decodable {
     }
 }
 
-enum InvokeEndpointAsyncOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalFailure": return try await InternalFailure(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailable": return try await ServiceUnavailable(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationError": return try await ValidationError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension InvokeEndpointAsyncOutputResponse: ClientRuntime.HttpResponseBinding {
+extension InvokeEndpointAsyncOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let failureLocationHeaderValue = httpResponse.headers.value(for: "X-Amzn-SageMaker-FailureLocation") {
             self.failureLocation = failureLocationHeaderValue
@@ -306,7 +293,7 @@ extension InvokeEndpointAsyncOutputResponse: ClientRuntime.HttpResponseBinding {
         }
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: InvokeEndpointAsyncOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: InvokeEndpointAsyncOutputBody = try responseDecoder.decode(responseBody: data)
             self.inferenceId = output.inferenceId
         } else {
             self.inferenceId = nil
@@ -314,7 +301,7 @@ extension InvokeEndpointAsyncOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct InvokeEndpointAsyncOutputResponse: Swift.Equatable {
+public struct InvokeEndpointAsyncOutput: Swift.Equatable {
     /// The Amazon S3 URI where the inference failure response payload is stored.
     public var failureLocation: Swift.String?
     /// Identifier for an inference request. This will be the same as the InferenceId specified in the input. Amazon SageMaker will generate an identifier for you if you do not specify one.
@@ -334,11 +321,11 @@ public struct InvokeEndpointAsyncOutputResponse: Swift.Equatable {
     }
 }
 
-struct InvokeEndpointAsyncOutputResponseBody: Swift.Equatable {
+struct InvokeEndpointAsyncOutputBody: Swift.Equatable {
     let inferenceId: Swift.String?
 }
 
-extension InvokeEndpointAsyncOutputResponseBody: Swift.Decodable {
+extension InvokeEndpointAsyncOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case inferenceId = "InferenceId"
     }
@@ -350,6 +337,19 @@ extension InvokeEndpointAsyncOutputResponseBody: Swift.Decodable {
     }
 }
 
+enum InvokeEndpointAsyncOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalFailure": return try await InternalFailure(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailable": return try await ServiceUnavailable(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationError": return try await ValidationError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 public struct InvokeEndpointInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "InvokeEndpointInputBodyMiddleware"
 
@@ -357,7 +357,7 @@ public struct InvokeEndpointInputBodyMiddleware: ClientRuntime.Middleware {
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<InvokeEndpointInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<InvokeEndpointOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<InvokeEndpointOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -372,7 +372,7 @@ public struct InvokeEndpointInputBodyMiddleware: ClientRuntime.Middleware {
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<InvokeEndpointInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<InvokeEndpointOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<InvokeEndpointOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -500,28 +500,12 @@ extension InvokeEndpointInputBody: Swift.Decodable {
     }
 }
 
-enum InvokeEndpointOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalDependencyException": return try await InternalDependencyException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalFailure": return try await InternalFailure(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ModelError": return try await ModelError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ModelNotReadyException": return try await ModelNotReadyException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailable": return try await ServiceUnavailable(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationError": return try await ValidationError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension InvokeEndpointOutputResponse: Swift.CustomDebugStringConvertible {
+extension InvokeEndpointOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "InvokeEndpointOutputResponse(contentType: \(Swift.String(describing: contentType)), invokedProductionVariant: \(Swift.String(describing: invokedProductionVariant)), body: \"CONTENT_REDACTED\", customAttributes: \"CONTENT_REDACTED\")"}
+        "InvokeEndpointOutput(contentType: \(Swift.String(describing: contentType)), invokedProductionVariant: \(Swift.String(describing: invokedProductionVariant)), body: \"CONTENT_REDACTED\", customAttributes: \"CONTENT_REDACTED\")"}
 }
 
-extension InvokeEndpointOutputResponse: ClientRuntime.HttpResponseBinding {
+extension InvokeEndpointOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let contentTypeHeaderValue = httpResponse.headers.value(for: "Content-Type") {
             self.contentType = contentTypeHeaderValue
@@ -549,7 +533,7 @@ extension InvokeEndpointOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct InvokeEndpointOutputResponse: Swift.Equatable {
+public struct InvokeEndpointOutput: Swift.Equatable {
     /// Includes the inference provided by the model. For information about the format of the response body, see [Common Data Formats-Inference](https://docs.aws.amazon.com/sagemaker/latest/dg/cdf-inference.html). If the explainer is activated, the body includes the explanations provided by the model. For more information, see the Response section under [Invoke the Endpoint](https://docs.aws.amazon.com/sagemaker/latest/dg/clarify-online-explainability-invoke-endpoint.html#clarify-online-explainability-response) in the Developer Guide.
     /// This member is required.
     public var body: ClientRuntime.Data?
@@ -574,11 +558,11 @@ public struct InvokeEndpointOutputResponse: Swift.Equatable {
     }
 }
 
-struct InvokeEndpointOutputResponseBody: Swift.Equatable {
+struct InvokeEndpointOutputBody: Swift.Equatable {
     let body: ClientRuntime.Data?
 }
 
-extension InvokeEndpointOutputResponseBody: Swift.Decodable {
+extension InvokeEndpointOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case body = "Body"
     }
@@ -590,6 +574,22 @@ extension InvokeEndpointOutputResponseBody: Swift.Decodable {
     }
 }
 
+enum InvokeEndpointOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalDependencyException": return try await InternalDependencyException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalFailure": return try await InternalFailure(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ModelError": return try await ModelError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ModelNotReadyException": return try await ModelNotReadyException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailable": return try await ServiceUnavailable(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationError": return try await ValidationError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 public struct InvokeEndpointWithResponseStreamInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "InvokeEndpointWithResponseStreamInputBodyMiddleware"
 
@@ -597,7 +597,7 @@ public struct InvokeEndpointWithResponseStreamInputBodyMiddleware: ClientRuntime
 
     public func handle<H>(context: Context,
                   input: ClientRuntime.SerializeStepInput<InvokeEndpointWithResponseStreamInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<InvokeEndpointWithResponseStreamOutputResponse>
+                  next: H) async throws -> ClientRuntime.OperationOutput<InvokeEndpointWithResponseStreamOutput>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
@@ -612,7 +612,7 @@ public struct InvokeEndpointWithResponseStreamInputBodyMiddleware: ClientRuntime
     }
 
     public typealias MInput = ClientRuntime.SerializeStepInput<InvokeEndpointWithResponseStreamInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<InvokeEndpointWithResponseStreamOutputResponse>
+    public typealias MOutput = ClientRuntime.OperationOutput<InvokeEndpointWithResponseStreamOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
 
@@ -726,28 +726,12 @@ extension InvokeEndpointWithResponseStreamInputBody: Swift.Decodable {
     }
 }
 
-enum InvokeEndpointWithResponseStreamOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalFailure": return try await InternalFailure(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalStreamFailure": return try await InternalStreamFailure(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ModelError": return try await ModelError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ModelStreamError": return try await ModelStreamError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailable": return try await ServiceUnavailable(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationError": return try await ValidationError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension InvokeEndpointWithResponseStreamOutputResponse: Swift.CustomDebugStringConvertible {
+extension InvokeEndpointWithResponseStreamOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "InvokeEndpointWithResponseStreamOutputResponse(body: \(Swift.String(describing: body)), contentType: \(Swift.String(describing: contentType)), invokedProductionVariant: \(Swift.String(describing: invokedProductionVariant)), customAttributes: \"CONTENT_REDACTED\")"}
+        "InvokeEndpointWithResponseStreamOutput(body: \(Swift.String(describing: body)), contentType: \(Swift.String(describing: contentType)), invokedProductionVariant: \(Swift.String(describing: invokedProductionVariant)), customAttributes: \"CONTENT_REDACTED\")"}
 }
 
-extension InvokeEndpointWithResponseStreamOutputResponse: ClientRuntime.HttpResponseBinding {
+extension InvokeEndpointWithResponseStreamOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let contentTypeHeaderValue = httpResponse.headers.value(for: "X-Amzn-SageMaker-Content-Type") {
             self.contentType = contentTypeHeaderValue
@@ -774,7 +758,7 @@ extension InvokeEndpointWithResponseStreamOutputResponse: ClientRuntime.HttpResp
     }
 }
 
-public struct InvokeEndpointWithResponseStreamOutputResponse: Swift.Equatable {
+public struct InvokeEndpointWithResponseStreamOutput: Swift.Equatable {
     /// A stream of payload parts. Each part contains a portion of the response for a streaming inference request.
     /// This member is required.
     public var body: AsyncThrowingStream<SageMakerRuntimeClientTypes.ResponseStream, Swift.Error>?
@@ -796,6 +780,22 @@ public struct InvokeEndpointWithResponseStreamOutputResponse: Swift.Equatable {
         self.contentType = contentType
         self.customAttributes = customAttributes
         self.invokedProductionVariant = invokedProductionVariant
+    }
+}
+
+enum InvokeEndpointWithResponseStreamOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalFailure": return try await InternalFailure(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalStreamFailure": return try await InternalStreamFailure(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ModelError": return try await ModelError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ModelStreamError": return try await ModelStreamError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailable": return try await ServiceUnavailable(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationError": return try await ValidationError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 

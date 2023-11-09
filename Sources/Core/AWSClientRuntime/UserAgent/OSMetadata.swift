@@ -40,6 +40,7 @@ private extension PlatformOperatingSystem {
         case .macOS: return "macos"
         case .watchOS: return "watchos"
         case .tvOS: return "tvos"
+        case .visionOS: return "visionos"
         case .unknown: return "other"
         }
     }

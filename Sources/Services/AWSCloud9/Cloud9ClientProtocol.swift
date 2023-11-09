@@ -34,7 +34,7 @@ public protocol Cloud9ClientProtocol {
     ///
     /// - Parameter CreateEnvironmentEC2Input : [no documentation found]
     ///
-    /// - Returns: `CreateEnvironmentEC2OutputResponse` : [no documentation found]
+    /// - Returns: `CreateEnvironmentEC2Output` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -46,12 +46,12 @@ public protocol Cloud9ClientProtocol {
     /// - `LimitExceededException` : A service limit was exceeded.
     /// - `NotFoundException` : The target resource cannot be found.
     /// - `TooManyRequestsException` : Too many service requests were made over the given time period.
-    func createEnvironmentEC2(input: CreateEnvironmentEC2Input) async throws -> CreateEnvironmentEC2OutputResponse
+    func createEnvironmentEC2(input: CreateEnvironmentEC2Input) async throws -> CreateEnvironmentEC2Output
     /// Adds an environment member to an Cloud9 development environment.
     ///
     /// - Parameter CreateEnvironmentMembershipInput : [no documentation found]
     ///
-    /// - Returns: `CreateEnvironmentMembershipOutputResponse` : [no documentation found]
+    /// - Returns: `CreateEnvironmentMembershipOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -63,12 +63,12 @@ public protocol Cloud9ClientProtocol {
     /// - `LimitExceededException` : A service limit was exceeded.
     /// - `NotFoundException` : The target resource cannot be found.
     /// - `TooManyRequestsException` : Too many service requests were made over the given time period.
-    func createEnvironmentMembership(input: CreateEnvironmentMembershipInput) async throws -> CreateEnvironmentMembershipOutputResponse
+    func createEnvironmentMembership(input: CreateEnvironmentMembershipInput) async throws -> CreateEnvironmentMembershipOutput
     /// Deletes an Cloud9 development environment. If an Amazon EC2 instance is connected to the environment, also terminates the instance.
     ///
     /// - Parameter DeleteEnvironmentInput : [no documentation found]
     ///
-    /// - Returns: `DeleteEnvironmentOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteEnvironmentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -80,12 +80,12 @@ public protocol Cloud9ClientProtocol {
     /// - `LimitExceededException` : A service limit was exceeded.
     /// - `NotFoundException` : The target resource cannot be found.
     /// - `TooManyRequestsException` : Too many service requests were made over the given time period.
-    func deleteEnvironment(input: DeleteEnvironmentInput) async throws -> DeleteEnvironmentOutputResponse
+    func deleteEnvironment(input: DeleteEnvironmentInput) async throws -> DeleteEnvironmentOutput
     /// Deletes an environment member from a development environment.
     ///
     /// - Parameter DeleteEnvironmentMembershipInput : [no documentation found]
     ///
-    /// - Returns: `DeleteEnvironmentMembershipOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteEnvironmentMembershipOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -97,12 +97,12 @@ public protocol Cloud9ClientProtocol {
     /// - `LimitExceededException` : A service limit was exceeded.
     /// - `NotFoundException` : The target resource cannot be found.
     /// - `TooManyRequestsException` : Too many service requests were made over the given time period.
-    func deleteEnvironmentMembership(input: DeleteEnvironmentMembershipInput) async throws -> DeleteEnvironmentMembershipOutputResponse
+    func deleteEnvironmentMembership(input: DeleteEnvironmentMembershipInput) async throws -> DeleteEnvironmentMembershipOutput
     /// Gets information about environment members for an Cloud9 development environment.
     ///
     /// - Parameter DescribeEnvironmentMembershipsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeEnvironmentMembershipsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeEnvironmentMembershipsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -114,12 +114,12 @@ public protocol Cloud9ClientProtocol {
     /// - `LimitExceededException` : A service limit was exceeded.
     /// - `NotFoundException` : The target resource cannot be found.
     /// - `TooManyRequestsException` : Too many service requests were made over the given time period.
-    func describeEnvironmentMemberships(input: DescribeEnvironmentMembershipsInput) async throws -> DescribeEnvironmentMembershipsOutputResponse
+    func describeEnvironmentMemberships(input: DescribeEnvironmentMembershipsInput) async throws -> DescribeEnvironmentMembershipsOutput
     /// Gets information about Cloud9 development environments.
     ///
     /// - Parameter DescribeEnvironmentsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeEnvironmentsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeEnvironmentsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -131,12 +131,12 @@ public protocol Cloud9ClientProtocol {
     /// - `LimitExceededException` : A service limit was exceeded.
     /// - `NotFoundException` : The target resource cannot be found.
     /// - `TooManyRequestsException` : Too many service requests were made over the given time period.
-    func describeEnvironments(input: DescribeEnvironmentsInput) async throws -> DescribeEnvironmentsOutputResponse
+    func describeEnvironments(input: DescribeEnvironmentsInput) async throws -> DescribeEnvironmentsOutput
     /// Gets status information for an Cloud9 development environment.
     ///
     /// - Parameter DescribeEnvironmentStatusInput : [no documentation found]
     ///
-    /// - Returns: `DescribeEnvironmentStatusOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeEnvironmentStatusOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -148,12 +148,12 @@ public protocol Cloud9ClientProtocol {
     /// - `LimitExceededException` : A service limit was exceeded.
     /// - `NotFoundException` : The target resource cannot be found.
     /// - `TooManyRequestsException` : Too many service requests were made over the given time period.
-    func describeEnvironmentStatus(input: DescribeEnvironmentStatusInput) async throws -> DescribeEnvironmentStatusOutputResponse
+    func describeEnvironmentStatus(input: DescribeEnvironmentStatusInput) async throws -> DescribeEnvironmentStatusOutput
     /// Gets a list of Cloud9 development environment identifiers.
     ///
     /// - Parameter ListEnvironmentsInput : [no documentation found]
     ///
-    /// - Returns: `ListEnvironmentsOutputResponse` : [no documentation found]
+    /// - Returns: `ListEnvironmentsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -165,12 +165,12 @@ public protocol Cloud9ClientProtocol {
     /// - `LimitExceededException` : A service limit was exceeded.
     /// - `NotFoundException` : The target resource cannot be found.
     /// - `TooManyRequestsException` : Too many service requests were made over the given time period.
-    func listEnvironments(input: ListEnvironmentsInput) async throws -> ListEnvironmentsOutputResponse
+    func listEnvironments(input: ListEnvironmentsInput) async throws -> ListEnvironmentsOutput
     /// Gets a list of the tags associated with an Cloud9 development environment.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -178,12 +178,12 @@ public protocol Cloud9ClientProtocol {
     /// - `BadRequestException` : The target request is invalid.
     /// - `InternalServerErrorException` : An internal server error occurred.
     /// - `NotFoundException` : The target resource cannot be found.
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     /// Adds tags to an Cloud9 development environment. Tags that you add to an Cloud9 environment by using this method will NOT be automatically propagated to underlying resources.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -192,12 +192,12 @@ public protocol Cloud9ClientProtocol {
     /// - `ConcurrentAccessException` : A concurrent access issue occurred.
     /// - `InternalServerErrorException` : An internal server error occurred.
     /// - `NotFoundException` : The target resource cannot be found.
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     /// Removes tags from an Cloud9 development environment.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -206,12 +206,12 @@ public protocol Cloud9ClientProtocol {
     /// - `ConcurrentAccessException` : A concurrent access issue occurred.
     /// - `InternalServerErrorException` : An internal server error occurred.
     /// - `NotFoundException` : The target resource cannot be found.
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
     /// Changes the settings of an existing Cloud9 development environment.
     ///
     /// - Parameter UpdateEnvironmentInput : [no documentation found]
     ///
-    /// - Returns: `UpdateEnvironmentOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateEnvironmentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -223,12 +223,12 @@ public protocol Cloud9ClientProtocol {
     /// - `LimitExceededException` : A service limit was exceeded.
     /// - `NotFoundException` : The target resource cannot be found.
     /// - `TooManyRequestsException` : Too many service requests were made over the given time period.
-    func updateEnvironment(input: UpdateEnvironmentInput) async throws -> UpdateEnvironmentOutputResponse
+    func updateEnvironment(input: UpdateEnvironmentInput) async throws -> UpdateEnvironmentOutput
     /// Changes the settings of an existing environment member for an Cloud9 development environment.
     ///
     /// - Parameter UpdateEnvironmentMembershipInput : [no documentation found]
     ///
-    /// - Returns: `UpdateEnvironmentMembershipOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateEnvironmentMembershipOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -240,7 +240,7 @@ public protocol Cloud9ClientProtocol {
     /// - `LimitExceededException` : A service limit was exceeded.
     /// - `NotFoundException` : The target resource cannot be found.
     /// - `TooManyRequestsException` : Too many service requests were made over the given time period.
-    func updateEnvironmentMembership(input: UpdateEnvironmentMembershipInput) async throws -> UpdateEnvironmentMembershipOutputResponse
+    func updateEnvironmentMembership(input: UpdateEnvironmentMembershipInput) async throws -> UpdateEnvironmentMembershipOutput
 }
 
 public enum Cloud9ClientTypes {}

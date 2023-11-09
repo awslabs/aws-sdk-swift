@@ -8,29 +8,29 @@ public protocol DatabaseMigrationClientProtocol {
     ///
     /// - Parameter AddTagsToResourceInput : Associates a set of tags with an DMS resource.
     ///
-    /// - Returns: `AddTagsToResourceOutputResponse` :
+    /// - Returns: `AddTagsToResourceOutput` :
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    func addTagsToResource(input: AddTagsToResourceInput) async throws -> AddTagsToResourceOutputResponse
+    func addTagsToResource(input: AddTagsToResourceInput) async throws -> AddTagsToResourceOutput
     /// Applies a pending maintenance action to a resource (for example, to a replication instance).
     ///
     /// - Parameter ApplyPendingMaintenanceActionInput :
     ///
-    /// - Returns: `ApplyPendingMaintenanceActionOutputResponse` :
+    /// - Returns: `ApplyPendingMaintenanceActionOutput` :
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    func applyPendingMaintenanceAction(input: ApplyPendingMaintenanceActionInput) async throws -> ApplyPendingMaintenanceActionOutputResponse
+    func applyPendingMaintenanceAction(input: ApplyPendingMaintenanceActionInput) async throws -> ApplyPendingMaintenanceActionOutput
     /// Starts the analysis of up to 20 source databases to recommend target engines for each source database. This is a batch version of [StartRecommendations](https://docs.aws.amazon.com/dms/latest/APIReference/API_StartRecommendations.html). The result of analysis of each source database is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200.
     ///
     /// - Parameter BatchStartRecommendationsInput : [no documentation found]
     ///
-    /// - Returns: `BatchStartRecommendationsOutputResponse` : [no documentation found]
+    /// - Returns: `BatchStartRecommendationsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -38,12 +38,12 @@ public protocol DatabaseMigrationClientProtocol {
     /// - `AccessDeniedFault` : DMS was denied access to the endpoint. Check that the role is correctly configured.
     /// - `InvalidResourceStateFault` : The resource is in a state that prevents it from being used for database migration.
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    func batchStartRecommendations(input: BatchStartRecommendationsInput) async throws -> BatchStartRecommendationsOutputResponse
+    func batchStartRecommendations(input: BatchStartRecommendationsInput) async throws -> BatchStartRecommendationsOutput
     /// Cancels a single premigration assessment run. This operation prevents any individual assessments from running if they haven't started running. It also attempts to cancel any individual assessments that are currently running.
     ///
     /// - Parameter CancelReplicationTaskAssessmentRunInput :
     ///
-    /// - Returns: `CancelReplicationTaskAssessmentRunOutputResponse` :
+    /// - Returns: `CancelReplicationTaskAssessmentRunOutput` :
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -51,12 +51,12 @@ public protocol DatabaseMigrationClientProtocol {
     /// - `AccessDeniedFault` : DMS was denied access to the endpoint. Check that the role is correctly configured.
     /// - `InvalidResourceStateFault` : The resource is in a state that prevents it from being used for database migration.
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    func cancelReplicationTaskAssessmentRun(input: CancelReplicationTaskAssessmentRunInput) async throws -> CancelReplicationTaskAssessmentRunOutputResponse
+    func cancelReplicationTaskAssessmentRun(input: CancelReplicationTaskAssessmentRunInput) async throws -> CancelReplicationTaskAssessmentRunOutput
     /// Creates a data provider using the provided settings. A data provider stores a data store type and location information about your database.
     ///
     /// - Parameter CreateDataProviderInput : [no documentation found]
     ///
-    /// - Returns: `CreateDataProviderOutputResponse` : [no documentation found]
+    /// - Returns: `CreateDataProviderOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -64,12 +64,12 @@ public protocol DatabaseMigrationClientProtocol {
     /// - `AccessDeniedFault` : DMS was denied access to the endpoint. Check that the role is correctly configured.
     /// - `ResourceAlreadyExistsFault` : The resource you are attempting to create already exists.
     /// - `ResourceQuotaExceededFault` : The quota for this resource quota has been exceeded.
-    func createDataProvider(input: CreateDataProviderInput) async throws -> CreateDataProviderOutputResponse
+    func createDataProvider(input: CreateDataProviderInput) async throws -> CreateDataProviderOutput
     /// Creates an endpoint using the provided settings. For a MySQL source or target endpoint, don't explicitly specify the database using the DatabaseName request parameter on the CreateEndpoint API call. Specifying DatabaseName when you create a MySQL endpoint replicates all the task tables to this single database. For MySQL endpoints, you specify the database only when you specify the schema in the table-mapping rules of the DMS task.
     ///
     /// - Parameter CreateEndpointInput :
     ///
-    /// - Returns: `CreateEndpointOutputResponse` :
+    /// - Returns: `CreateEndpointOutput` :
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -81,12 +81,12 @@ public protocol DatabaseMigrationClientProtocol {
     /// - `ResourceNotFoundFault` : The resource could not be found.
     /// - `ResourceQuotaExceededFault` : The quota for this resource quota has been exceeded.
     /// - `S3AccessDeniedFault` : Insufficient privileges are preventing access to an Amazon S3 object.
-    func createEndpoint(input: CreateEndpointInput) async throws -> CreateEndpointOutputResponse
+    func createEndpoint(input: CreateEndpointInput) async throws -> CreateEndpointOutput
     /// Creates an DMS event notification subscription. You can specify the type of source (SourceType) you want to be notified of, provide a list of DMS source IDs (SourceIds) that triggers the events, and provide a list of event categories (EventCategories) for events you want to be notified of. If you specify both the SourceType and SourceIds, such as SourceType = replication-instance and SourceIdentifier = my-replinstance, you will be notified of all the replication instance events for the specified source. If you specify a SourceType but don't specify a SourceIdentifier, you receive notice of the events for that source type for all your DMS sources. If you don't specify either SourceType nor SourceIdentifier, you will be notified of events generated from all DMS sources belonging to your customer account. For more information about DMS events, see [Working with Events and Notifications](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Events.html) in the Database Migration Service User Guide.
     ///
     /// - Parameter CreateEventSubscriptionInput :
     ///
-    /// - Returns: `CreateEventSubscriptionOutputResponse` :
+    /// - Returns: `CreateEventSubscriptionOutput` :
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -101,12 +101,12 @@ public protocol DatabaseMigrationClientProtocol {
     /// - `ResourceQuotaExceededFault` : The quota for this resource quota has been exceeded.
     /// - `SNSInvalidTopicFault` : The SNS topic is invalid.
     /// - `SNSNoAuthorizationFault` : You are not authorized for the SNS subscription.
-    func createEventSubscription(input: CreateEventSubscriptionInput) async throws -> CreateEventSubscriptionOutputResponse
+    func createEventSubscription(input: CreateEventSubscriptionInput) async throws -> CreateEventSubscriptionOutput
     /// Creates a Fleet Advisor collector using the specified parameters.
     ///
     /// - Parameter CreateFleetAdvisorCollectorInput : [no documentation found]
     ///
-    /// - Returns: `CreateFleetAdvisorCollectorOutputResponse` : [no documentation found]
+    /// - Returns: `CreateFleetAdvisorCollectorOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -116,12 +116,12 @@ public protocol DatabaseMigrationClientProtocol {
     /// - `ResourceQuotaExceededFault` : The quota for this resource quota has been exceeded.
     /// - `S3AccessDeniedFault` : Insufficient privileges are preventing access to an Amazon S3 object.
     /// - `S3ResourceNotFoundFault` : A specified Amazon S3 bucket, bucket folder, or other object can't be found.
-    func createFleetAdvisorCollector(input: CreateFleetAdvisorCollectorInput) async throws -> CreateFleetAdvisorCollectorOutputResponse
+    func createFleetAdvisorCollector(input: CreateFleetAdvisorCollectorInput) async throws -> CreateFleetAdvisorCollectorOutput
     /// Creates the instance profile using the specified parameters.
     ///
     /// - Parameter CreateInstanceProfileInput : [no documentation found]
     ///
-    /// - Returns: `CreateInstanceProfileOutputResponse` : [no documentation found]
+    /// - Returns: `CreateInstanceProfileOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -134,12 +134,12 @@ public protocol DatabaseMigrationClientProtocol {
     /// - `ResourceQuotaExceededFault` : The quota for this resource quota has been exceeded.
     /// - `S3AccessDeniedFault` : Insufficient privileges are preventing access to an Amazon S3 object.
     /// - `S3ResourceNotFoundFault` : A specified Amazon S3 bucket, bucket folder, or other object can't be found.
-    func createInstanceProfile(input: CreateInstanceProfileInput) async throws -> CreateInstanceProfileOutputResponse
+    func createInstanceProfile(input: CreateInstanceProfileInput) async throws -> CreateInstanceProfileOutput
     /// Creates the migration project using the specified parameters. You can run this action only after you create an instance profile and data providers using [CreateInstanceProfile](https://docs.aws.amazon.com/dms/latest/APIReference/API_CreateInstanceProfile.html) and [CreateDataProvider](https://docs.aws.amazon.com/dms/latest/APIReference/API_CreateDataProvider.html).
     ///
     /// - Parameter CreateMigrationProjectInput : [no documentation found]
     ///
-    /// - Returns: `CreateMigrationProjectOutputResponse` : [no documentation found]
+    /// - Returns: `CreateMigrationProjectOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -150,12 +150,12 @@ public protocol DatabaseMigrationClientProtocol {
     /// - `ResourceQuotaExceededFault` : The quota for this resource quota has been exceeded.
     /// - `S3AccessDeniedFault` : Insufficient privileges are preventing access to an Amazon S3 object.
     /// - `S3ResourceNotFoundFault` : A specified Amazon S3 bucket, bucket folder, or other object can't be found.
-    func createMigrationProject(input: CreateMigrationProjectInput) async throws -> CreateMigrationProjectOutputResponse
+    func createMigrationProject(input: CreateMigrationProjectInput) async throws -> CreateMigrationProjectOutput
     /// Creates a configuration that you can later provide to configure and start an DMS Serverless replication. You can also provide options to validate the configuration inputs before you start the replication.
     ///
     /// - Parameter CreateReplicationConfigInput :
     ///
-    /// - Returns: `CreateReplicationConfigOutputResponse` :
+    /// - Returns: `CreateReplicationConfigOutput` :
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -168,12 +168,12 @@ public protocol DatabaseMigrationClientProtocol {
     /// - `ResourceAlreadyExistsFault` : The resource you are attempting to create already exists.
     /// - `ResourceNotFoundFault` : The resource could not be found.
     /// - `ResourceQuotaExceededFault` : The quota for this resource quota has been exceeded.
-    func createReplicationConfig(input: CreateReplicationConfigInput) async throws -> CreateReplicationConfigOutputResponse
+    func createReplicationConfig(input: CreateReplicationConfigInput) async throws -> CreateReplicationConfigOutput
     /// Creates the replication instance using the specified parameters. DMS requires that your account have certain roles with appropriate permissions before you can create a replication instance. For information on the required roles, see [Creating the IAM Roles to Use With the CLI and DMS API](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Security.html#CHAP_Security.APIRole). For information on the required permissions, see [IAM Permissions Needed to Use DMS](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Security.html#CHAP_Security.IAMPermissions). If you don't specify a version when creating a replication instance, DMS will create the instance using the default engine version. For information about the default engine version, see [Release Notes](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_ReleaseNotes.html).
     ///
     /// - Parameter CreateReplicationInstanceInput :
     ///
-    /// - Returns: `CreateReplicationInstanceOutputResponse` :
+    /// - Returns: `CreateReplicationInstanceOutput` :
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -188,12 +188,12 @@ public protocol DatabaseMigrationClientProtocol {
     /// - `ResourceNotFoundFault` : The resource could not be found.
     /// - `ResourceQuotaExceededFault` : The quota for this resource quota has been exceeded.
     /// - `StorageQuotaExceededFault` : The storage quota has been exceeded.
-    func createReplicationInstance(input: CreateReplicationInstanceInput) async throws -> CreateReplicationInstanceOutputResponse
+    func createReplicationInstance(input: CreateReplicationInstanceInput) async throws -> CreateReplicationInstanceOutput
     /// Creates a replication subnet group given a list of the subnet IDs in a VPC. The VPC needs to have at least one subnet in at least two availability zones in the Amazon Web Services Region, otherwise the service will throw a ReplicationSubnetGroupDoesNotCoverEnoughAZs exception. If a replication subnet group exists in your Amazon Web Services account, the CreateReplicationSubnetGroup action returns the following error message: The Replication Subnet Group already exists. In this case, delete the existing replication subnet group. To do so, use the [DeleteReplicationSubnetGroup](https://docs.aws.amazon.com/en_us/dms/latest/APIReference/API_DeleteReplicationSubnetGroup.html) action. Optionally, choose Subnet groups in the DMS console, then choose your subnet group. Next, choose Delete from Actions.
     ///
     /// - Parameter CreateReplicationSubnetGroupInput :
     ///
-    /// - Returns: `CreateReplicationSubnetGroupOutputResponse` :
+    /// - Returns: `CreateReplicationSubnetGroupOutput` :
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -204,12 +204,12 @@ public protocol DatabaseMigrationClientProtocol {
     /// - `ResourceAlreadyExistsFault` : The resource you are attempting to create already exists.
     /// - `ResourceNotFoundFault` : The resource could not be found.
     /// - `ResourceQuotaExceededFault` : The quota for this resource quota has been exceeded.
-    func createReplicationSubnetGroup(input: CreateReplicationSubnetGroupInput) async throws -> CreateReplicationSubnetGroupOutputResponse
+    func createReplicationSubnetGroup(input: CreateReplicationSubnetGroupInput) async throws -> CreateReplicationSubnetGroupOutput
     /// Creates a replication task using the specified parameters.
     ///
     /// - Parameter CreateReplicationTaskInput :
     ///
-    /// - Returns: `CreateReplicationTaskOutputResponse` :
+    /// - Returns: `CreateReplicationTaskOutput` :
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -220,24 +220,24 @@ public protocol DatabaseMigrationClientProtocol {
     /// - `ResourceAlreadyExistsFault` : The resource you are attempting to create already exists.
     /// - `ResourceNotFoundFault` : The resource could not be found.
     /// - `ResourceQuotaExceededFault` : The quota for this resource quota has been exceeded.
-    func createReplicationTask(input: CreateReplicationTaskInput) async throws -> CreateReplicationTaskOutputResponse
+    func createReplicationTask(input: CreateReplicationTaskInput) async throws -> CreateReplicationTaskOutput
     /// Deletes the specified certificate.
     ///
     /// - Parameter DeleteCertificateInput : [no documentation found]
     ///
-    /// - Returns: `DeleteCertificateOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteCertificateOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidResourceStateFault` : The resource is in a state that prevents it from being used for database migration.
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    func deleteCertificate(input: DeleteCertificateInput) async throws -> DeleteCertificateOutputResponse
+    func deleteCertificate(input: DeleteCertificateInput) async throws -> DeleteCertificateOutput
     /// Deletes the connection between a replication instance and an endpoint.
     ///
     /// - Parameter DeleteConnectionInput :
     ///
-    /// - Returns: `DeleteConnectionOutputResponse` :
+    /// - Returns: `DeleteConnectionOutput` :
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -245,12 +245,12 @@ public protocol DatabaseMigrationClientProtocol {
     /// - `AccessDeniedFault` : DMS was denied access to the endpoint. Check that the role is correctly configured.
     /// - `InvalidResourceStateFault` : The resource is in a state that prevents it from being used for database migration.
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    func deleteConnection(input: DeleteConnectionInput) async throws -> DeleteConnectionOutputResponse
+    func deleteConnection(input: DeleteConnectionInput) async throws -> DeleteConnectionOutput
     /// Deletes the specified data provider. All migration projects associated with the data provider must be deleted or modified before you can delete the data provider.
     ///
     /// - Parameter DeleteDataProviderInput : [no documentation found]
     ///
-    /// - Returns: `DeleteDataProviderOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteDataProviderOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -258,60 +258,60 @@ public protocol DatabaseMigrationClientProtocol {
     /// - `AccessDeniedFault` : DMS was denied access to the endpoint. Check that the role is correctly configured.
     /// - `InvalidResourceStateFault` : The resource is in a state that prevents it from being used for database migration.
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    func deleteDataProvider(input: DeleteDataProviderInput) async throws -> DeleteDataProviderOutputResponse
+    func deleteDataProvider(input: DeleteDataProviderInput) async throws -> DeleteDataProviderOutput
     /// Deletes the specified endpoint. All tasks associated with the endpoint must be deleted before you can delete the endpoint.
     ///
     /// - Parameter DeleteEndpointInput :
     ///
-    /// - Returns: `DeleteEndpointOutputResponse` :
+    /// - Returns: `DeleteEndpointOutput` :
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidResourceStateFault` : The resource is in a state that prevents it from being used for database migration.
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    func deleteEndpoint(input: DeleteEndpointInput) async throws -> DeleteEndpointOutputResponse
+    func deleteEndpoint(input: DeleteEndpointInput) async throws -> DeleteEndpointOutput
     /// Deletes an DMS event subscription.
     ///
     /// - Parameter DeleteEventSubscriptionInput :
     ///
-    /// - Returns: `DeleteEventSubscriptionOutputResponse` :
+    /// - Returns: `DeleteEventSubscriptionOutput` :
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidResourceStateFault` : The resource is in a state that prevents it from being used for database migration.
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    func deleteEventSubscription(input: DeleteEventSubscriptionInput) async throws -> DeleteEventSubscriptionOutputResponse
+    func deleteEventSubscription(input: DeleteEventSubscriptionInput) async throws -> DeleteEventSubscriptionOutput
     /// Deletes the specified Fleet Advisor collector.
     ///
     /// - Parameter DeleteFleetAdvisorCollectorInput : [no documentation found]
     ///
-    /// - Returns: `DeleteFleetAdvisorCollectorOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteFleetAdvisorCollectorOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `CollectorNotFoundFault` : The specified collector doesn't exist.
     /// - `InvalidResourceStateFault` : The resource is in a state that prevents it from being used for database migration.
-    func deleteFleetAdvisorCollector(input: DeleteFleetAdvisorCollectorInput) async throws -> DeleteFleetAdvisorCollectorOutputResponse
+    func deleteFleetAdvisorCollector(input: DeleteFleetAdvisorCollectorInput) async throws -> DeleteFleetAdvisorCollectorOutput
     /// Deletes the specified Fleet Advisor collector databases.
     ///
     /// - Parameter DeleteFleetAdvisorDatabasesInput : [no documentation found]
     ///
-    /// - Returns: `DeleteFleetAdvisorDatabasesOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteFleetAdvisorDatabasesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidOperationFault` : The action or operation requested isn't valid.
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    func deleteFleetAdvisorDatabases(input: DeleteFleetAdvisorDatabasesInput) async throws -> DeleteFleetAdvisorDatabasesOutputResponse
+    func deleteFleetAdvisorDatabases(input: DeleteFleetAdvisorDatabasesInput) async throws -> DeleteFleetAdvisorDatabasesOutput
     /// Deletes the specified instance profile. All migration projects associated with the instance profile must be deleted or modified before you can delete the instance profile.
     ///
     /// - Parameter DeleteInstanceProfileInput : [no documentation found]
     ///
-    /// - Returns: `DeleteInstanceProfileOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteInstanceProfileOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -319,12 +319,12 @@ public protocol DatabaseMigrationClientProtocol {
     /// - `AccessDeniedFault` : DMS was denied access to the endpoint. Check that the role is correctly configured.
     /// - `InvalidResourceStateFault` : The resource is in a state that prevents it from being used for database migration.
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    func deleteInstanceProfile(input: DeleteInstanceProfileInput) async throws -> DeleteInstanceProfileOutputResponse
+    func deleteInstanceProfile(input: DeleteInstanceProfileInput) async throws -> DeleteInstanceProfileOutput
     /// Deletes the specified migration project. The migration project must be closed before you can delete it.
     ///
     /// - Parameter DeleteMigrationProjectInput : [no documentation found]
     ///
-    /// - Returns: `DeleteMigrationProjectOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteMigrationProjectOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -332,12 +332,12 @@ public protocol DatabaseMigrationClientProtocol {
     /// - `AccessDeniedFault` : DMS was denied access to the endpoint. Check that the role is correctly configured.
     /// - `InvalidResourceStateFault` : The resource is in a state that prevents it from being used for database migration.
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    func deleteMigrationProject(input: DeleteMigrationProjectInput) async throws -> DeleteMigrationProjectOutputResponse
+    func deleteMigrationProject(input: DeleteMigrationProjectInput) async throws -> DeleteMigrationProjectOutput
     /// Deletes an DMS Serverless replication configuration. This effectively deprovisions any and all replications that use this configuration. You can't delete the configuration for an DMS Serverless replication that is ongoing. You can delete the configuration when the replication is in a non-RUNNING and non-STARTING state.
     ///
     /// - Parameter DeleteReplicationConfigInput :
     ///
-    /// - Returns: `DeleteReplicationConfigOutputResponse` :
+    /// - Returns: `DeleteReplicationConfigOutput` :
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -345,48 +345,48 @@ public protocol DatabaseMigrationClientProtocol {
     /// - `AccessDeniedFault` : DMS was denied access to the endpoint. Check that the role is correctly configured.
     /// - `InvalidResourceStateFault` : The resource is in a state that prevents it from being used for database migration.
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    func deleteReplicationConfig(input: DeleteReplicationConfigInput) async throws -> DeleteReplicationConfigOutputResponse
+    func deleteReplicationConfig(input: DeleteReplicationConfigInput) async throws -> DeleteReplicationConfigOutput
     /// Deletes the specified replication instance. You must delete any migration tasks that are associated with the replication instance before you can delete it.
     ///
     /// - Parameter DeleteReplicationInstanceInput :
     ///
-    /// - Returns: `DeleteReplicationInstanceOutputResponse` :
+    /// - Returns: `DeleteReplicationInstanceOutput` :
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidResourceStateFault` : The resource is in a state that prevents it from being used for database migration.
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    func deleteReplicationInstance(input: DeleteReplicationInstanceInput) async throws -> DeleteReplicationInstanceOutputResponse
+    func deleteReplicationInstance(input: DeleteReplicationInstanceInput) async throws -> DeleteReplicationInstanceOutput
     /// Deletes a subnet group.
     ///
     /// - Parameter DeleteReplicationSubnetGroupInput :
     ///
-    /// - Returns: `DeleteReplicationSubnetGroupOutputResponse` :
+    /// - Returns: `DeleteReplicationSubnetGroupOutput` :
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidResourceStateFault` : The resource is in a state that prevents it from being used for database migration.
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    func deleteReplicationSubnetGroup(input: DeleteReplicationSubnetGroupInput) async throws -> DeleteReplicationSubnetGroupOutputResponse
+    func deleteReplicationSubnetGroup(input: DeleteReplicationSubnetGroupInput) async throws -> DeleteReplicationSubnetGroupOutput
     /// Deletes the specified replication task.
     ///
     /// - Parameter DeleteReplicationTaskInput :
     ///
-    /// - Returns: `DeleteReplicationTaskOutputResponse` :
+    /// - Returns: `DeleteReplicationTaskOutput` :
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidResourceStateFault` : The resource is in a state that prevents it from being used for database migration.
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    func deleteReplicationTask(input: DeleteReplicationTaskInput) async throws -> DeleteReplicationTaskOutputResponse
+    func deleteReplicationTask(input: DeleteReplicationTaskInput) async throws -> DeleteReplicationTaskOutput
     /// Deletes the record of a single premigration assessment run. This operation removes all metadata that DMS maintains about this assessment run. However, the operation leaves untouched all information about this assessment run that is stored in your Amazon S3 bucket.
     ///
     /// - Parameter DeleteReplicationTaskAssessmentRunInput :
     ///
-    /// - Returns: `DeleteReplicationTaskAssessmentRunOutputResponse` :
+    /// - Returns: `DeleteReplicationTaskAssessmentRunOutput` :
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -394,18 +394,18 @@ public protocol DatabaseMigrationClientProtocol {
     /// - `AccessDeniedFault` : DMS was denied access to the endpoint. Check that the role is correctly configured.
     /// - `InvalidResourceStateFault` : The resource is in a state that prevents it from being used for database migration.
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    func deleteReplicationTaskAssessmentRun(input: DeleteReplicationTaskAssessmentRunInput) async throws -> DeleteReplicationTaskAssessmentRunOutputResponse
+    func deleteReplicationTaskAssessmentRun(input: DeleteReplicationTaskAssessmentRunInput) async throws -> DeleteReplicationTaskAssessmentRunOutput
     /// Lists all of the DMS attributes for a customer account. These attributes include DMS quotas for the account and a unique account identifier in a particular DMS region. DMS quotas include a list of resource quotas supported by the account, such as the number of replication instances allowed. The description for each resource quota, includes the quota name, current usage toward that quota, and the quota's maximum value. DMS uses the unique account identifier to name each artifact used by DMS in the given region. This command does not take any parameters.
     ///
     /// - Parameter DescribeAccountAttributesInput :
     ///
-    /// - Returns: `DescribeAccountAttributesOutputResponse` :
-    func describeAccountAttributes(input: DescribeAccountAttributesInput) async throws -> DescribeAccountAttributesOutputResponse
+    /// - Returns: `DescribeAccountAttributesOutput` :
+    func describeAccountAttributes(input: DescribeAccountAttributesInput) async throws -> DescribeAccountAttributesOutput
     /// Provides a list of individual assessments that you can specify for a new premigration assessment run, given one or more parameters. If you specify an existing migration task, this operation provides the default individual assessments you can specify for that task. Otherwise, the specified parameters model elements of a possible migration task on which to base a premigration assessment run. To use these migration task modeling parameters, you must specify an existing replication instance, a source database engine, a target database engine, and a migration type. This combination of parameters potentially limits the default individual assessments available for an assessment run created for a corresponding migration task. If you specify no parameters, this operation provides a list of all possible individual assessments that you can specify for an assessment run. If you specify any one of the task modeling parameters, you must specify all of them or the operation cannot provide a list of individual assessments. The only parameter that you can specify alone is for an existing migration task. The specified task definition then determines the default list of individual assessments that you can specify in an assessment run for the task.
     ///
     /// - Parameter DescribeApplicableIndividualAssessmentsInput :
     ///
-    /// - Returns: `DescribeApplicableIndividualAssessmentsOutputResponse` :
+    /// - Returns: `DescribeApplicableIndividualAssessmentsOutput` :
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -413,449 +413,449 @@ public protocol DatabaseMigrationClientProtocol {
     /// - `AccessDeniedFault` : DMS was denied access to the endpoint. Check that the role is correctly configured.
     /// - `InvalidResourceStateFault` : The resource is in a state that prevents it from being used for database migration.
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    func describeApplicableIndividualAssessments(input: DescribeApplicableIndividualAssessmentsInput) async throws -> DescribeApplicableIndividualAssessmentsOutputResponse
+    func describeApplicableIndividualAssessments(input: DescribeApplicableIndividualAssessmentsInput) async throws -> DescribeApplicableIndividualAssessmentsOutput
     /// Provides a description of the certificate.
     ///
     /// - Parameter DescribeCertificatesInput : [no documentation found]
     ///
-    /// - Returns: `DescribeCertificatesOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeCertificatesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    func describeCertificates(input: DescribeCertificatesInput) async throws -> DescribeCertificatesOutputResponse
+    func describeCertificates(input: DescribeCertificatesInput) async throws -> DescribeCertificatesOutput
     /// Describes the status of the connections that have been made between the replication instance and an endpoint. Connections are created when you test an endpoint.
     ///
     /// - Parameter DescribeConnectionsInput :
     ///
-    /// - Returns: `DescribeConnectionsOutputResponse` :
+    /// - Returns: `DescribeConnectionsOutput` :
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    func describeConnections(input: DescribeConnectionsInput) async throws -> DescribeConnectionsOutputResponse
+    func describeConnections(input: DescribeConnectionsInput) async throws -> DescribeConnectionsOutput
     /// Returns configuration parameters for a schema conversion project.
     ///
     /// - Parameter DescribeConversionConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `DescribeConversionConfigurationOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeConversionConfigurationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    func describeConversionConfiguration(input: DescribeConversionConfigurationInput) async throws -> DescribeConversionConfigurationOutputResponse
+    func describeConversionConfiguration(input: DescribeConversionConfigurationInput) async throws -> DescribeConversionConfigurationOutput
     /// Returns a paginated list of data providers for your account in the current region.
     ///
     /// - Parameter DescribeDataProvidersInput : [no documentation found]
     ///
-    /// - Returns: `DescribeDataProvidersOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeDataProvidersOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedFault` : DMS was denied access to the endpoint. Check that the role is correctly configured.
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    func describeDataProviders(input: DescribeDataProvidersInput) async throws -> DescribeDataProvidersOutputResponse
+    func describeDataProviders(input: DescribeDataProvidersInput) async throws -> DescribeDataProvidersOutput
     /// Returns information about the endpoints for your account in the current region.
     ///
     /// - Parameter DescribeEndpointsInput :
     ///
-    /// - Returns: `DescribeEndpointsOutputResponse` :
+    /// - Returns: `DescribeEndpointsOutput` :
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    func describeEndpoints(input: DescribeEndpointsInput) async throws -> DescribeEndpointsOutputResponse
+    func describeEndpoints(input: DescribeEndpointsInput) async throws -> DescribeEndpointsOutput
     /// Returns information about the possible endpoint settings available when you create an endpoint for a specific database engine.
     ///
     /// - Parameter DescribeEndpointSettingsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeEndpointSettingsOutputResponse` : [no documentation found]
-    func describeEndpointSettings(input: DescribeEndpointSettingsInput) async throws -> DescribeEndpointSettingsOutputResponse
+    /// - Returns: `DescribeEndpointSettingsOutput` : [no documentation found]
+    func describeEndpointSettings(input: DescribeEndpointSettingsInput) async throws -> DescribeEndpointSettingsOutput
     /// Returns information about the type of endpoints available.
     ///
     /// - Parameter DescribeEndpointTypesInput :
     ///
-    /// - Returns: `DescribeEndpointTypesOutputResponse` :
-    func describeEndpointTypes(input: DescribeEndpointTypesInput) async throws -> DescribeEndpointTypesOutputResponse
+    /// - Returns: `DescribeEndpointTypesOutput` :
+    func describeEndpointTypes(input: DescribeEndpointTypesInput) async throws -> DescribeEndpointTypesOutput
     /// Returns information about the replication instance versions used in the project.
     ///
     /// - Parameter DescribeEngineVersionsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeEngineVersionsOutputResponse` : [no documentation found]
-    func describeEngineVersions(input: DescribeEngineVersionsInput) async throws -> DescribeEngineVersionsOutputResponse
+    /// - Returns: `DescribeEngineVersionsOutput` : [no documentation found]
+    func describeEngineVersions(input: DescribeEngineVersionsInput) async throws -> DescribeEngineVersionsOutput
     /// Lists categories for all event source types, or, if specified, for a specified source type. You can see a list of the event categories and source types in [Working with Events and Notifications](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Events.html) in the Database Migration Service User Guide.
     ///
     /// - Parameter DescribeEventCategoriesInput :
     ///
-    /// - Returns: `DescribeEventCategoriesOutputResponse` :
-    func describeEventCategories(input: DescribeEventCategoriesInput) async throws -> DescribeEventCategoriesOutputResponse
+    /// - Returns: `DescribeEventCategoriesOutput` :
+    func describeEventCategories(input: DescribeEventCategoriesInput) async throws -> DescribeEventCategoriesOutput
     /// Lists events for a given source identifier and source type. You can also specify a start and end time. For more information on DMS events, see [Working with Events and Notifications](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Events.html) in the Database Migration Service User Guide.
     ///
     /// - Parameter DescribeEventsInput :
     ///
-    /// - Returns: `DescribeEventsOutputResponse` :
-    func describeEvents(input: DescribeEventsInput) async throws -> DescribeEventsOutputResponse
+    /// - Returns: `DescribeEventsOutput` :
+    func describeEvents(input: DescribeEventsInput) async throws -> DescribeEventsOutput
     /// Lists all the event subscriptions for a customer account. The description of a subscription includes SubscriptionName, SNSTopicARN, CustomerID, SourceType, SourceID, CreationTime, and Status. If you specify SubscriptionName, this action lists the description for that subscription.
     ///
     /// - Parameter DescribeEventSubscriptionsInput :
     ///
-    /// - Returns: `DescribeEventSubscriptionsOutputResponse` :
+    /// - Returns: `DescribeEventSubscriptionsOutput` :
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    func describeEventSubscriptions(input: DescribeEventSubscriptionsInput) async throws -> DescribeEventSubscriptionsOutputResponse
+    func describeEventSubscriptions(input: DescribeEventSubscriptionsInput) async throws -> DescribeEventSubscriptionsOutput
     /// Returns a paginated list of extension pack associations for the specified migration project. An extension pack is an add-on module that emulates functions present in a source database that are required when converting objects to the target database.
     ///
     /// - Parameter DescribeExtensionPackAssociationsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeExtensionPackAssociationsOutputResponse` : [no documentation found]
-    func describeExtensionPackAssociations(input: DescribeExtensionPackAssociationsInput) async throws -> DescribeExtensionPackAssociationsOutputResponse
+    /// - Returns: `DescribeExtensionPackAssociationsOutput` : [no documentation found]
+    func describeExtensionPackAssociations(input: DescribeExtensionPackAssociationsInput) async throws -> DescribeExtensionPackAssociationsOutput
     /// Returns a list of the Fleet Advisor collectors in your account.
     ///
     /// - Parameter DescribeFleetAdvisorCollectorsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeFleetAdvisorCollectorsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeFleetAdvisorCollectorsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidResourceStateFault` : The resource is in a state that prevents it from being used for database migration.
-    func describeFleetAdvisorCollectors(input: DescribeFleetAdvisorCollectorsInput) async throws -> DescribeFleetAdvisorCollectorsOutputResponse
+    func describeFleetAdvisorCollectors(input: DescribeFleetAdvisorCollectorsInput) async throws -> DescribeFleetAdvisorCollectorsOutput
     /// Returns a list of Fleet Advisor databases in your account.
     ///
     /// - Parameter DescribeFleetAdvisorDatabasesInput : [no documentation found]
     ///
-    /// - Returns: `DescribeFleetAdvisorDatabasesOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeFleetAdvisorDatabasesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidResourceStateFault` : The resource is in a state that prevents it from being used for database migration.
-    func describeFleetAdvisorDatabases(input: DescribeFleetAdvisorDatabasesInput) async throws -> DescribeFleetAdvisorDatabasesOutputResponse
+    func describeFleetAdvisorDatabases(input: DescribeFleetAdvisorDatabasesInput) async throws -> DescribeFleetAdvisorDatabasesOutput
     /// Provides descriptions of large-scale assessment (LSA) analyses produced by your Fleet Advisor collectors.
     ///
     /// - Parameter DescribeFleetAdvisorLsaAnalysisInput : [no documentation found]
     ///
-    /// - Returns: `DescribeFleetAdvisorLsaAnalysisOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeFleetAdvisorLsaAnalysisOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidResourceStateFault` : The resource is in a state that prevents it from being used for database migration.
-    func describeFleetAdvisorLsaAnalysis(input: DescribeFleetAdvisorLsaAnalysisInput) async throws -> DescribeFleetAdvisorLsaAnalysisOutputResponse
+    func describeFleetAdvisorLsaAnalysis(input: DescribeFleetAdvisorLsaAnalysisInput) async throws -> DescribeFleetAdvisorLsaAnalysisOutput
     /// Provides descriptions of the schemas discovered by your Fleet Advisor collectors.
     ///
     /// - Parameter DescribeFleetAdvisorSchemaObjectSummaryInput : [no documentation found]
     ///
-    /// - Returns: `DescribeFleetAdvisorSchemaObjectSummaryOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeFleetAdvisorSchemaObjectSummaryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidResourceStateFault` : The resource is in a state that prevents it from being used for database migration.
-    func describeFleetAdvisorSchemaObjectSummary(input: DescribeFleetAdvisorSchemaObjectSummaryInput) async throws -> DescribeFleetAdvisorSchemaObjectSummaryOutputResponse
+    func describeFleetAdvisorSchemaObjectSummary(input: DescribeFleetAdvisorSchemaObjectSummaryInput) async throws -> DescribeFleetAdvisorSchemaObjectSummaryOutput
     /// Returns a list of schemas detected by Fleet Advisor Collectors in your account.
     ///
     /// - Parameter DescribeFleetAdvisorSchemasInput : [no documentation found]
     ///
-    /// - Returns: `DescribeFleetAdvisorSchemasOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeFleetAdvisorSchemasOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidResourceStateFault` : The resource is in a state that prevents it from being used for database migration.
-    func describeFleetAdvisorSchemas(input: DescribeFleetAdvisorSchemasInput) async throws -> DescribeFleetAdvisorSchemasOutputResponse
+    func describeFleetAdvisorSchemas(input: DescribeFleetAdvisorSchemasInput) async throws -> DescribeFleetAdvisorSchemasOutput
     /// Returns a paginated list of instance profiles for your account in the current region.
     ///
     /// - Parameter DescribeInstanceProfilesInput : [no documentation found]
     ///
-    /// - Returns: `DescribeInstanceProfilesOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeInstanceProfilesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedFault` : DMS was denied access to the endpoint. Check that the role is correctly configured.
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    func describeInstanceProfiles(input: DescribeInstanceProfilesInput) async throws -> DescribeInstanceProfilesOutputResponse
+    func describeInstanceProfiles(input: DescribeInstanceProfilesInput) async throws -> DescribeInstanceProfilesOutput
     /// Returns a paginated list of metadata model assessments for your account in the current region.
     ///
     /// - Parameter DescribeMetadataModelAssessmentsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeMetadataModelAssessmentsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeMetadataModelAssessmentsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    func describeMetadataModelAssessments(input: DescribeMetadataModelAssessmentsInput) async throws -> DescribeMetadataModelAssessmentsOutputResponse
+    func describeMetadataModelAssessments(input: DescribeMetadataModelAssessmentsInput) async throws -> DescribeMetadataModelAssessmentsOutput
     /// Returns a paginated list of metadata model conversions for a migration project.
     ///
     /// - Parameter DescribeMetadataModelConversionsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeMetadataModelConversionsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeMetadataModelConversionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    func describeMetadataModelConversions(input: DescribeMetadataModelConversionsInput) async throws -> DescribeMetadataModelConversionsOutputResponse
+    func describeMetadataModelConversions(input: DescribeMetadataModelConversionsInput) async throws -> DescribeMetadataModelConversionsOutput
     /// Returns a paginated list of metadata model exports.
     ///
     /// - Parameter DescribeMetadataModelExportsAsScriptInput : [no documentation found]
     ///
-    /// - Returns: `DescribeMetadataModelExportsAsScriptOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeMetadataModelExportsAsScriptOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    func describeMetadataModelExportsAsScript(input: DescribeMetadataModelExportsAsScriptInput) async throws -> DescribeMetadataModelExportsAsScriptOutputResponse
+    func describeMetadataModelExportsAsScript(input: DescribeMetadataModelExportsAsScriptInput) async throws -> DescribeMetadataModelExportsAsScriptOutput
     /// Returns a paginated list of metadata model exports.
     ///
     /// - Parameter DescribeMetadataModelExportsToTargetInput : [no documentation found]
     ///
-    /// - Returns: `DescribeMetadataModelExportsToTargetOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeMetadataModelExportsToTargetOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    func describeMetadataModelExportsToTarget(input: DescribeMetadataModelExportsToTargetInput) async throws -> DescribeMetadataModelExportsToTargetOutputResponse
+    func describeMetadataModelExportsToTarget(input: DescribeMetadataModelExportsToTargetInput) async throws -> DescribeMetadataModelExportsToTargetOutput
     /// Returns a paginated list of metadata model imports.
     ///
     /// - Parameter DescribeMetadataModelImportsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeMetadataModelImportsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeMetadataModelImportsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    func describeMetadataModelImports(input: DescribeMetadataModelImportsInput) async throws -> DescribeMetadataModelImportsOutputResponse
+    func describeMetadataModelImports(input: DescribeMetadataModelImportsInput) async throws -> DescribeMetadataModelImportsOutput
     /// Returns a paginated list of migration projects for your account in the current region.
     ///
     /// - Parameter DescribeMigrationProjectsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeMigrationProjectsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeMigrationProjectsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedFault` : DMS was denied access to the endpoint. Check that the role is correctly configured.
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    func describeMigrationProjects(input: DescribeMigrationProjectsInput) async throws -> DescribeMigrationProjectsOutputResponse
+    func describeMigrationProjects(input: DescribeMigrationProjectsInput) async throws -> DescribeMigrationProjectsOutput
     /// Returns information about the replication instance types that can be created in the specified region.
     ///
     /// - Parameter DescribeOrderableReplicationInstancesInput :
     ///
-    /// - Returns: `DescribeOrderableReplicationInstancesOutputResponse` :
-    func describeOrderableReplicationInstances(input: DescribeOrderableReplicationInstancesInput) async throws -> DescribeOrderableReplicationInstancesOutputResponse
+    /// - Returns: `DescribeOrderableReplicationInstancesOutput` :
+    func describeOrderableReplicationInstances(input: DescribeOrderableReplicationInstancesInput) async throws -> DescribeOrderableReplicationInstancesOutput
     /// For internal use only
     ///
     /// - Parameter DescribePendingMaintenanceActionsInput :
     ///
-    /// - Returns: `DescribePendingMaintenanceActionsOutputResponse` :
+    /// - Returns: `DescribePendingMaintenanceActionsOutput` :
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    func describePendingMaintenanceActions(input: DescribePendingMaintenanceActionsInput) async throws -> DescribePendingMaintenanceActionsOutputResponse
+    func describePendingMaintenanceActions(input: DescribePendingMaintenanceActionsInput) async throws -> DescribePendingMaintenanceActionsOutput
     /// Returns a paginated list of limitations for recommendations of target Amazon Web Services engines.
     ///
     /// - Parameter DescribeRecommendationLimitationsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeRecommendationLimitationsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeRecommendationLimitationsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedFault` : DMS was denied access to the endpoint. Check that the role is correctly configured.
     /// - `InvalidResourceStateFault` : The resource is in a state that prevents it from being used for database migration.
-    func describeRecommendationLimitations(input: DescribeRecommendationLimitationsInput) async throws -> DescribeRecommendationLimitationsOutputResponse
+    func describeRecommendationLimitations(input: DescribeRecommendationLimitationsInput) async throws -> DescribeRecommendationLimitationsOutput
     /// Returns a paginated list of target engine recommendations for your source databases.
     ///
     /// - Parameter DescribeRecommendationsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeRecommendationsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeRecommendationsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedFault` : DMS was denied access to the endpoint. Check that the role is correctly configured.
     /// - `InvalidResourceStateFault` : The resource is in a state that prevents it from being used for database migration.
-    func describeRecommendations(input: DescribeRecommendationsInput) async throws -> DescribeRecommendationsOutputResponse
+    func describeRecommendations(input: DescribeRecommendationsInput) async throws -> DescribeRecommendationsOutput
     /// Returns the status of the RefreshSchemas operation.
     ///
     /// - Parameter DescribeRefreshSchemasStatusInput :
     ///
-    /// - Returns: `DescribeRefreshSchemasStatusOutputResponse` :
+    /// - Returns: `DescribeRefreshSchemasStatusOutput` :
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidResourceStateFault` : The resource is in a state that prevents it from being used for database migration.
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    func describeRefreshSchemasStatus(input: DescribeRefreshSchemasStatusInput) async throws -> DescribeRefreshSchemasStatusOutputResponse
+    func describeRefreshSchemasStatus(input: DescribeRefreshSchemasStatusInput) async throws -> DescribeRefreshSchemasStatusOutput
     /// Returns one or more existing DMS Serverless replication configurations as a list of structures.
     ///
     /// - Parameter DescribeReplicationConfigsInput :
     ///
-    /// - Returns: `DescribeReplicationConfigsOutputResponse` :
+    /// - Returns: `DescribeReplicationConfigsOutput` :
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    func describeReplicationConfigs(input: DescribeReplicationConfigsInput) async throws -> DescribeReplicationConfigsOutputResponse
+    func describeReplicationConfigs(input: DescribeReplicationConfigsInput) async throws -> DescribeReplicationConfigsOutput
     /// Returns information about replication instances for your account in the current region.
     ///
     /// - Parameter DescribeReplicationInstancesInput :
     ///
-    /// - Returns: `DescribeReplicationInstancesOutputResponse` :
+    /// - Returns: `DescribeReplicationInstancesOutput` :
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    func describeReplicationInstances(input: DescribeReplicationInstancesInput) async throws -> DescribeReplicationInstancesOutputResponse
+    func describeReplicationInstances(input: DescribeReplicationInstancesInput) async throws -> DescribeReplicationInstancesOutput
     /// Returns information about the task logs for the specified task.
     ///
     /// - Parameter DescribeReplicationInstanceTaskLogsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeReplicationInstanceTaskLogsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeReplicationInstanceTaskLogsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidResourceStateFault` : The resource is in a state that prevents it from being used for database migration.
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    func describeReplicationInstanceTaskLogs(input: DescribeReplicationInstanceTaskLogsInput) async throws -> DescribeReplicationInstanceTaskLogsOutputResponse
+    func describeReplicationInstanceTaskLogs(input: DescribeReplicationInstanceTaskLogsInput) async throws -> DescribeReplicationInstanceTaskLogsOutput
     /// Provides details on replication progress by returning status information for one or more provisioned DMS Serverless replications.
     ///
     /// - Parameter DescribeReplicationsInput :
     ///
-    /// - Returns: `DescribeReplicationsOutputResponse` :
+    /// - Returns: `DescribeReplicationsOutput` :
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    func describeReplications(input: DescribeReplicationsInput) async throws -> DescribeReplicationsOutputResponse
+    func describeReplications(input: DescribeReplicationsInput) async throws -> DescribeReplicationsOutput
     /// Returns information about the replication subnet groups.
     ///
     /// - Parameter DescribeReplicationSubnetGroupsInput :
     ///
-    /// - Returns: `DescribeReplicationSubnetGroupsOutputResponse` :
+    /// - Returns: `DescribeReplicationSubnetGroupsOutput` :
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    func describeReplicationSubnetGroups(input: DescribeReplicationSubnetGroupsInput) async throws -> DescribeReplicationSubnetGroupsOutputResponse
+    func describeReplicationSubnetGroups(input: DescribeReplicationSubnetGroupsInput) async throws -> DescribeReplicationSubnetGroupsOutput
     /// Returns table and schema statistics for one or more provisioned replications that use a given DMS Serverless replication configuration.
     ///
     /// - Parameter DescribeReplicationTableStatisticsInput :
     ///
-    /// - Returns: `DescribeReplicationTableStatisticsOutputResponse` :
+    /// - Returns: `DescribeReplicationTableStatisticsOutput` :
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidResourceStateFault` : The resource is in a state that prevents it from being used for database migration.
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    func describeReplicationTableStatistics(input: DescribeReplicationTableStatisticsInput) async throws -> DescribeReplicationTableStatisticsOutputResponse
+    func describeReplicationTableStatistics(input: DescribeReplicationTableStatisticsInput) async throws -> DescribeReplicationTableStatisticsOutput
     /// Returns the task assessment results from the Amazon S3 bucket that DMS creates in your Amazon Web Services account. This action always returns the latest results. For more information about DMS task assessments, see [Creating a task assessment report](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Tasks.AssessmentReport.html) in the Database Migration Service User Guide.
     ///
     /// - Parameter DescribeReplicationTaskAssessmentResultsInput :
     ///
-    /// - Returns: `DescribeReplicationTaskAssessmentResultsOutputResponse` :
+    /// - Returns: `DescribeReplicationTaskAssessmentResultsOutput` :
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    func describeReplicationTaskAssessmentResults(input: DescribeReplicationTaskAssessmentResultsInput) async throws -> DescribeReplicationTaskAssessmentResultsOutputResponse
+    func describeReplicationTaskAssessmentResults(input: DescribeReplicationTaskAssessmentResultsInput) async throws -> DescribeReplicationTaskAssessmentResultsOutput
     /// Returns a paginated list of premigration assessment runs based on filter settings. These filter settings can specify a combination of premigration assessment runs, migration tasks, replication instances, and assessment run status values. This operation doesn't return information about individual assessments. For this information, see the DescribeReplicationTaskIndividualAssessments operation.
     ///
     /// - Parameter DescribeReplicationTaskAssessmentRunsInput :
     ///
-    /// - Returns: `DescribeReplicationTaskAssessmentRunsOutputResponse` :
+    /// - Returns: `DescribeReplicationTaskAssessmentRunsOutput` :
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    func describeReplicationTaskAssessmentRuns(input: DescribeReplicationTaskAssessmentRunsInput) async throws -> DescribeReplicationTaskAssessmentRunsOutputResponse
+    func describeReplicationTaskAssessmentRuns(input: DescribeReplicationTaskAssessmentRunsInput) async throws -> DescribeReplicationTaskAssessmentRunsOutput
     /// Returns a paginated list of individual assessments based on filter settings. These filter settings can specify a combination of premigration assessment runs, migration tasks, and assessment status values.
     ///
     /// - Parameter DescribeReplicationTaskIndividualAssessmentsInput :
     ///
-    /// - Returns: `DescribeReplicationTaskIndividualAssessmentsOutputResponse` :
+    /// - Returns: `DescribeReplicationTaskIndividualAssessmentsOutput` :
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    func describeReplicationTaskIndividualAssessments(input: DescribeReplicationTaskIndividualAssessmentsInput) async throws -> DescribeReplicationTaskIndividualAssessmentsOutputResponse
+    func describeReplicationTaskIndividualAssessments(input: DescribeReplicationTaskIndividualAssessmentsInput) async throws -> DescribeReplicationTaskIndividualAssessmentsOutput
     /// Returns information about replication tasks for your account in the current region.
     ///
     /// - Parameter DescribeReplicationTasksInput :
     ///
-    /// - Returns: `DescribeReplicationTasksOutputResponse` :
+    /// - Returns: `DescribeReplicationTasksOutput` :
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    func describeReplicationTasks(input: DescribeReplicationTasksInput) async throws -> DescribeReplicationTasksOutputResponse
+    func describeReplicationTasks(input: DescribeReplicationTasksInput) async throws -> DescribeReplicationTasksOutput
     /// Returns information about the schema for the specified endpoint.
     ///
     /// - Parameter DescribeSchemasInput :
     ///
-    /// - Returns: `DescribeSchemasOutputResponse` :
+    /// - Returns: `DescribeSchemasOutput` :
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidResourceStateFault` : The resource is in a state that prevents it from being used for database migration.
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    func describeSchemas(input: DescribeSchemasInput) async throws -> DescribeSchemasOutputResponse
+    func describeSchemas(input: DescribeSchemasInput) async throws -> DescribeSchemasOutput
     /// Returns table statistics on the database migration task, including table name, rows inserted, rows updated, and rows deleted. Note that the "last updated" column the DMS console only indicates the time that DMS last updated the table statistics record for a table. It does not indicate the time of the last update to the table.
     ///
     /// - Parameter DescribeTableStatisticsInput :
     ///
-    /// - Returns: `DescribeTableStatisticsOutputResponse` :
+    /// - Returns: `DescribeTableStatisticsOutput` :
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidResourceStateFault` : The resource is in a state that prevents it from being used for database migration.
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    func describeTableStatistics(input: DescribeTableStatisticsInput) async throws -> DescribeTableStatisticsOutputResponse
+    func describeTableStatistics(input: DescribeTableStatisticsInput) async throws -> DescribeTableStatisticsOutput
     /// Saves a copy of a database migration assessment report to your Amazon S3 bucket. DMS can save your assessment report as a comma-separated value (CSV) or a PDF file.
     ///
     /// - Parameter ExportMetadataModelAssessmentInput : [no documentation found]
     ///
-    /// - Returns: `ExportMetadataModelAssessmentOutputResponse` : [no documentation found]
+    /// - Returns: `ExportMetadataModelAssessmentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    func exportMetadataModelAssessment(input: ExportMetadataModelAssessmentInput) async throws -> ExportMetadataModelAssessmentOutputResponse
+    func exportMetadataModelAssessment(input: ExportMetadataModelAssessmentInput) async throws -> ExportMetadataModelAssessmentOutput
     /// Uploads the specified certificate.
     ///
     /// - Parameter ImportCertificateInput : [no documentation found]
     ///
-    /// - Returns: `ImportCertificateOutputResponse` : [no documentation found]
+    /// - Returns: `ImportCertificateOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -863,35 +863,35 @@ public protocol DatabaseMigrationClientProtocol {
     /// - `InvalidCertificateFault` : The certificate was not valid.
     /// - `ResourceAlreadyExistsFault` : The resource you are attempting to create already exists.
     /// - `ResourceQuotaExceededFault` : The quota for this resource quota has been exceeded.
-    func importCertificate(input: ImportCertificateInput) async throws -> ImportCertificateOutputResponse
+    func importCertificate(input: ImportCertificateInput) async throws -> ImportCertificateOutput
     /// Lists all metadata tags attached to an DMS resource, including replication instance, endpoint, subnet group, and migration task. For more information, see [Tag](https://docs.aws.amazon.com/dms/latest/APIReference/API_Tag.html) data type description.
     ///
     /// - Parameter ListTagsForResourceInput :
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` :
+    /// - Returns: `ListTagsForResourceOutput` :
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     /// Modifies the specified schema conversion configuration using the provided parameters.
     ///
     /// - Parameter ModifyConversionConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `ModifyConversionConfigurationOutputResponse` : [no documentation found]
+    /// - Returns: `ModifyConversionConfigurationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidResourceStateFault` : The resource is in a state that prevents it from being used for database migration.
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    func modifyConversionConfiguration(input: ModifyConversionConfigurationInput) async throws -> ModifyConversionConfigurationOutputResponse
+    func modifyConversionConfiguration(input: ModifyConversionConfigurationInput) async throws -> ModifyConversionConfigurationOutput
     /// Modifies the specified data provider using the provided settings. You must remove the data provider from all migration projects before you can modify it.
     ///
     /// - Parameter ModifyDataProviderInput : [no documentation found]
     ///
-    /// - Returns: `ModifyDataProviderOutputResponse` : [no documentation found]
+    /// - Returns: `ModifyDataProviderOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -899,12 +899,12 @@ public protocol DatabaseMigrationClientProtocol {
     /// - `AccessDeniedFault` : DMS was denied access to the endpoint. Check that the role is correctly configured.
     /// - `InvalidResourceStateFault` : The resource is in a state that prevents it from being used for database migration.
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    func modifyDataProvider(input: ModifyDataProviderInput) async throws -> ModifyDataProviderOutputResponse
+    func modifyDataProvider(input: ModifyDataProviderInput) async throws -> ModifyDataProviderOutput
     /// Modifies the specified endpoint. For a MySQL source or target endpoint, don't explicitly specify the database using the DatabaseName request parameter on the ModifyEndpoint API call. Specifying DatabaseName when you modify a MySQL endpoint replicates all the task tables to this single database. For MySQL endpoints, you specify the database only when you specify the schema in the table-mapping rules of the DMS task.
     ///
     /// - Parameter ModifyEndpointInput :
     ///
-    /// - Returns: `ModifyEndpointOutputResponse` :
+    /// - Returns: `ModifyEndpointOutput` :
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -914,12 +914,12 @@ public protocol DatabaseMigrationClientProtocol {
     /// - `KMSKeyNotAccessibleFault` : DMS cannot access the KMS key.
     /// - `ResourceAlreadyExistsFault` : The resource you are attempting to create already exists.
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    func modifyEndpoint(input: ModifyEndpointInput) async throws -> ModifyEndpointOutputResponse
+    func modifyEndpoint(input: ModifyEndpointInput) async throws -> ModifyEndpointOutput
     /// Modifies an existing DMS event notification subscription.
     ///
     /// - Parameter ModifyEventSubscriptionInput :
     ///
-    /// - Returns: `ModifyEventSubscriptionOutputResponse` :
+    /// - Returns: `ModifyEventSubscriptionOutput` :
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -933,12 +933,12 @@ public protocol DatabaseMigrationClientProtocol {
     /// - `ResourceQuotaExceededFault` : The quota for this resource quota has been exceeded.
     /// - `SNSInvalidTopicFault` : The SNS topic is invalid.
     /// - `SNSNoAuthorizationFault` : You are not authorized for the SNS subscription.
-    func modifyEventSubscription(input: ModifyEventSubscriptionInput) async throws -> ModifyEventSubscriptionOutputResponse
+    func modifyEventSubscription(input: ModifyEventSubscriptionInput) async throws -> ModifyEventSubscriptionOutput
     /// Modifies the specified instance profile using the provided parameters. All migration projects associated with the instance profile must be deleted or modified before you can modify the instance profile.
     ///
     /// - Parameter ModifyInstanceProfileInput : [no documentation found]
     ///
-    /// - Returns: `ModifyInstanceProfileOutputResponse` : [no documentation found]
+    /// - Returns: `ModifyInstanceProfileOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -949,12 +949,12 @@ public protocol DatabaseMigrationClientProtocol {
     /// - `ResourceNotFoundFault` : The resource could not be found.
     /// - `S3AccessDeniedFault` : Insufficient privileges are preventing access to an Amazon S3 object.
     /// - `S3ResourceNotFoundFault` : A specified Amazon S3 bucket, bucket folder, or other object can't be found.
-    func modifyInstanceProfile(input: ModifyInstanceProfileInput) async throws -> ModifyInstanceProfileOutputResponse
+    func modifyInstanceProfile(input: ModifyInstanceProfileInput) async throws -> ModifyInstanceProfileOutput
     /// Modifies the specified migration project using the provided parameters. The migration project must be closed before you can modify it.
     ///
     /// - Parameter ModifyMigrationProjectInput : [no documentation found]
     ///
-    /// - Returns: `ModifyMigrationProjectOutputResponse` : [no documentation found]
+    /// - Returns: `ModifyMigrationProjectOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -964,12 +964,12 @@ public protocol DatabaseMigrationClientProtocol {
     /// - `ResourceNotFoundFault` : The resource could not be found.
     /// - `S3AccessDeniedFault` : Insufficient privileges are preventing access to an Amazon S3 object.
     /// - `S3ResourceNotFoundFault` : A specified Amazon S3 bucket, bucket folder, or other object can't be found.
-    func modifyMigrationProject(input: ModifyMigrationProjectInput) async throws -> ModifyMigrationProjectOutputResponse
+    func modifyMigrationProject(input: ModifyMigrationProjectInput) async throws -> ModifyMigrationProjectOutput
     /// Modifies an existing DMS Serverless replication configuration that you can use to start a replication. This command includes input validation and logic to check the state of any replication that uses this configuration. You can only modify a replication configuration before any replication that uses it has started. As soon as you have initially started a replication with a given configuiration, you can't modify that configuration, even if you stop it. Other run statuses that allow you to run this command include FAILED and CREATED. A provisioning state that allows you to run this command is FAILED_PROVISION.
     ///
     /// - Parameter ModifyReplicationConfigInput :
     ///
-    /// - Returns: `ModifyReplicationConfigOutputResponse` : [no documentation found]
+    /// - Returns: `ModifyReplicationConfigOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -980,12 +980,12 @@ public protocol DatabaseMigrationClientProtocol {
     /// - `KMSKeyNotAccessibleFault` : DMS cannot access the KMS key.
     /// - `ReplicationSubnetGroupDoesNotCoverEnoughAZs` : The replication subnet group does not cover enough Availability Zones (AZs). Edit the replication subnet group and add more AZs.
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    func modifyReplicationConfig(input: ModifyReplicationConfigInput) async throws -> ModifyReplicationConfigOutputResponse
+    func modifyReplicationConfig(input: ModifyReplicationConfigInput) async throws -> ModifyReplicationConfigOutput
     /// Modifies the replication instance to apply new settings. You can change one or more parameters by specifying these parameters and the new values in the request. Some settings are applied during the maintenance window.
     ///
     /// - Parameter ModifyReplicationInstanceInput :
     ///
-    /// - Returns: `ModifyReplicationInstanceOutputResponse` :
+    /// - Returns: `ModifyReplicationInstanceOutput` :
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -997,12 +997,12 @@ public protocol DatabaseMigrationClientProtocol {
     /// - `ResourceNotFoundFault` : The resource could not be found.
     /// - `StorageQuotaExceededFault` : The storage quota has been exceeded.
     /// - `UpgradeDependencyFailureFault` : An upgrade dependency is preventing the database migration.
-    func modifyReplicationInstance(input: ModifyReplicationInstanceInput) async throws -> ModifyReplicationInstanceOutputResponse
+    func modifyReplicationInstance(input: ModifyReplicationInstanceInput) async throws -> ModifyReplicationInstanceOutput
     /// Modifies the settings for the specified replication subnet group.
     ///
     /// - Parameter ModifyReplicationSubnetGroupInput :
     ///
-    /// - Returns: `ModifyReplicationSubnetGroupOutputResponse` :
+    /// - Returns: `ModifyReplicationSubnetGroupOutput` :
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1013,12 +1013,12 @@ public protocol DatabaseMigrationClientProtocol {
     /// - `ResourceNotFoundFault` : The resource could not be found.
     /// - `ResourceQuotaExceededFault` : The quota for this resource quota has been exceeded.
     /// - `SubnetAlreadyInUse` : The specified subnet is already in use.
-    func modifyReplicationSubnetGroup(input: ModifyReplicationSubnetGroupInput) async throws -> ModifyReplicationSubnetGroupOutputResponse
+    func modifyReplicationSubnetGroup(input: ModifyReplicationSubnetGroupInput) async throws -> ModifyReplicationSubnetGroupOutput
     /// Modifies the specified replication task. You can't modify the task endpoints. The task must be stopped before you can modify it. For more information about DMS tasks, see [Working with Migration Tasks](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Tasks.html) in the Database Migration Service User Guide.
     ///
     /// - Parameter ModifyReplicationTaskInput :
     ///
-    /// - Returns: `ModifyReplicationTaskOutputResponse` :
+    /// - Returns: `ModifyReplicationTaskOutput` :
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1027,12 +1027,12 @@ public protocol DatabaseMigrationClientProtocol {
     /// - `KMSKeyNotAccessibleFault` : DMS cannot access the KMS key.
     /// - `ResourceAlreadyExistsFault` : The resource you are attempting to create already exists.
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    func modifyReplicationTask(input: ModifyReplicationTaskInput) async throws -> ModifyReplicationTaskOutputResponse
+    func modifyReplicationTask(input: ModifyReplicationTaskInput) async throws -> ModifyReplicationTaskOutput
     /// Moves a replication task from its current replication instance to a different target replication instance using the specified parameters. The target replication instance must be created with the same or later DMS version as the current replication instance.
     ///
     /// - Parameter MoveReplicationTaskInput :
     ///
-    /// - Returns: `MoveReplicationTaskOutputResponse` :
+    /// - Returns: `MoveReplicationTaskOutput` :
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1042,24 +1042,24 @@ public protocol DatabaseMigrationClientProtocol {
     /// - `KMSKeyNotAccessibleFault` : DMS cannot access the KMS key.
     /// - `ResourceNotFoundFault` : The resource could not be found.
     /// - `ResourceQuotaExceededFault` : The quota for this resource quota has been exceeded.
-    func moveReplicationTask(input: MoveReplicationTaskInput) async throws -> MoveReplicationTaskOutputResponse
+    func moveReplicationTask(input: MoveReplicationTaskInput) async throws -> MoveReplicationTaskOutput
     /// Reboots a replication instance. Rebooting results in a momentary outage, until the replication instance becomes available again.
     ///
     /// - Parameter RebootReplicationInstanceInput : [no documentation found]
     ///
-    /// - Returns: `RebootReplicationInstanceOutputResponse` : [no documentation found]
+    /// - Returns: `RebootReplicationInstanceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidResourceStateFault` : The resource is in a state that prevents it from being used for database migration.
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    func rebootReplicationInstance(input: RebootReplicationInstanceInput) async throws -> RebootReplicationInstanceOutputResponse
+    func rebootReplicationInstance(input: RebootReplicationInstanceInput) async throws -> RebootReplicationInstanceOutput
     /// Populates the schema for the specified endpoint. This is an asynchronous operation and can take several minutes. You can check the status of this operation by calling the DescribeRefreshSchemasStatus operation.
     ///
     /// - Parameter RefreshSchemasInput :
     ///
-    /// - Returns: `RefreshSchemasOutputResponse` :
+    /// - Returns: `RefreshSchemasOutput` :
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1068,59 +1068,59 @@ public protocol DatabaseMigrationClientProtocol {
     /// - `KMSKeyNotAccessibleFault` : DMS cannot access the KMS key.
     /// - `ResourceNotFoundFault` : The resource could not be found.
     /// - `ResourceQuotaExceededFault` : The quota for this resource quota has been exceeded.
-    func refreshSchemas(input: RefreshSchemasInput) async throws -> RefreshSchemasOutputResponse
+    func refreshSchemas(input: RefreshSchemasInput) async throws -> RefreshSchemasOutput
     /// Reloads the target database table with the source data for a given DMS Serverless replication configuration. You can only use this operation with a task in the RUNNING state, otherwise the service will throw an InvalidResourceStateFault exception.
     ///
     /// - Parameter ReloadReplicationTablesInput :
     ///
-    /// - Returns: `ReloadReplicationTablesOutputResponse` :
+    /// - Returns: `ReloadReplicationTablesOutput` :
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidResourceStateFault` : The resource is in a state that prevents it from being used for database migration.
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    func reloadReplicationTables(input: ReloadReplicationTablesInput) async throws -> ReloadReplicationTablesOutputResponse
+    func reloadReplicationTables(input: ReloadReplicationTablesInput) async throws -> ReloadReplicationTablesOutput
     /// Reloads the target database table with the source data. You can only use this operation with a task in the RUNNING state, otherwise the service will throw an InvalidResourceStateFault exception.
     ///
     /// - Parameter ReloadTablesInput : [no documentation found]
     ///
-    /// - Returns: `ReloadTablesOutputResponse` : [no documentation found]
+    /// - Returns: `ReloadTablesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidResourceStateFault` : The resource is in a state that prevents it from being used for database migration.
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    func reloadTables(input: ReloadTablesInput) async throws -> ReloadTablesOutputResponse
+    func reloadTables(input: ReloadTablesInput) async throws -> ReloadTablesOutput
     /// Removes metadata tags from an DMS resource, including replication instance, endpoint, subnet group, and migration task. For more information, see [Tag](https://docs.aws.amazon.com/dms/latest/APIReference/API_Tag.html) data type description.
     ///
     /// - Parameter RemoveTagsFromResourceInput : Removes one or more tags from an DMS resource.
     ///
-    /// - Returns: `RemoveTagsFromResourceOutputResponse` :
+    /// - Returns: `RemoveTagsFromResourceOutput` :
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    func removeTagsFromResource(input: RemoveTagsFromResourceInput) async throws -> RemoveTagsFromResourceOutputResponse
+    func removeTagsFromResource(input: RemoveTagsFromResourceInput) async throws -> RemoveTagsFromResourceOutput
     /// Runs large-scale assessment (LSA) analysis on every Fleet Advisor collector in your account.
     ///
     /// - Parameter RunFleetAdvisorLsaAnalysisInput : [no documentation found]
     ///
-    /// - Returns: `RunFleetAdvisorLsaAnalysisOutputResponse` : [no documentation found]
+    /// - Returns: `RunFleetAdvisorLsaAnalysisOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidResourceStateFault` : The resource is in a state that prevents it from being used for database migration.
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    func runFleetAdvisorLsaAnalysis(input: RunFleetAdvisorLsaAnalysisInput) async throws -> RunFleetAdvisorLsaAnalysisOutputResponse
+    func runFleetAdvisorLsaAnalysis(input: RunFleetAdvisorLsaAnalysisInput) async throws -> RunFleetAdvisorLsaAnalysisOutput
     /// Applies the extension pack to your target database. An extension pack is an add-on module that emulates functions present in a source database that are required when converting objects to the target database.
     ///
     /// - Parameter StartExtensionPackAssociationInput : [no documentation found]
     ///
-    /// - Returns: `StartExtensionPackAssociationOutputResponse` : [no documentation found]
+    /// - Returns: `StartExtensionPackAssociationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1133,12 +1133,12 @@ public protocol DatabaseMigrationClientProtocol {
     /// - `ResourceQuotaExceededFault` : The quota for this resource quota has been exceeded.
     /// - `S3AccessDeniedFault` : Insufficient privileges are preventing access to an Amazon S3 object.
     /// - `S3ResourceNotFoundFault` : A specified Amazon S3 bucket, bucket folder, or other object can't be found.
-    func startExtensionPackAssociation(input: StartExtensionPackAssociationInput) async throws -> StartExtensionPackAssociationOutputResponse
+    func startExtensionPackAssociation(input: StartExtensionPackAssociationInput) async throws -> StartExtensionPackAssociationOutput
     /// Creates a database migration assessment report by assessing the migration complexity for your source database. A database migration assessment report summarizes all of the schema conversion tasks. It also details the action items for database objects that can't be converted to the database engine of your target database instance.
     ///
     /// - Parameter StartMetadataModelAssessmentInput : [no documentation found]
     ///
-    /// - Returns: `StartMetadataModelAssessmentOutputResponse` : [no documentation found]
+    /// - Returns: `StartMetadataModelAssessmentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1151,12 +1151,12 @@ public protocol DatabaseMigrationClientProtocol {
     /// - `ResourceQuotaExceededFault` : The quota for this resource quota has been exceeded.
     /// - `S3AccessDeniedFault` : Insufficient privileges are preventing access to an Amazon S3 object.
     /// - `S3ResourceNotFoundFault` : A specified Amazon S3 bucket, bucket folder, or other object can't be found.
-    func startMetadataModelAssessment(input: StartMetadataModelAssessmentInput) async throws -> StartMetadataModelAssessmentOutputResponse
+    func startMetadataModelAssessment(input: StartMetadataModelAssessmentInput) async throws -> StartMetadataModelAssessmentOutput
     /// Converts your source database objects to a format compatible with the target database.
     ///
     /// - Parameter StartMetadataModelConversionInput : [no documentation found]
     ///
-    /// - Returns: `StartMetadataModelConversionOutputResponse` : [no documentation found]
+    /// - Returns: `StartMetadataModelConversionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1169,12 +1169,12 @@ public protocol DatabaseMigrationClientProtocol {
     /// - `ResourceQuotaExceededFault` : The quota for this resource quota has been exceeded.
     /// - `S3AccessDeniedFault` : Insufficient privileges are preventing access to an Amazon S3 object.
     /// - `S3ResourceNotFoundFault` : A specified Amazon S3 bucket, bucket folder, or other object can't be found.
-    func startMetadataModelConversion(input: StartMetadataModelConversionInput) async throws -> StartMetadataModelConversionOutputResponse
+    func startMetadataModelConversion(input: StartMetadataModelConversionInput) async throws -> StartMetadataModelConversionOutput
     /// Saves your converted code to a file as a SQL script, and stores this file on your Amazon S3 bucket.
     ///
     /// - Parameter StartMetadataModelExportAsScriptInput : [no documentation found]
     ///
-    /// - Returns: `StartMetadataModelExportAsScriptOutputResponse` : [no documentation found]
+    /// - Returns: `StartMetadataModelExportAsScriptOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1187,12 +1187,12 @@ public protocol DatabaseMigrationClientProtocol {
     /// - `ResourceQuotaExceededFault` : The quota for this resource quota has been exceeded.
     /// - `S3AccessDeniedFault` : Insufficient privileges are preventing access to an Amazon S3 object.
     /// - `S3ResourceNotFoundFault` : A specified Amazon S3 bucket, bucket folder, or other object can't be found.
-    func startMetadataModelExportAsScript(input: StartMetadataModelExportAsScriptInput) async throws -> StartMetadataModelExportAsScriptOutputResponse
+    func startMetadataModelExportAsScript(input: StartMetadataModelExportAsScriptInput) async throws -> StartMetadataModelExportAsScriptOutput
     /// Applies converted database objects to your target database.
     ///
     /// - Parameter StartMetadataModelExportToTargetInput : [no documentation found]
     ///
-    /// - Returns: `StartMetadataModelExportToTargetOutputResponse` : [no documentation found]
+    /// - Returns: `StartMetadataModelExportToTargetOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1205,12 +1205,12 @@ public protocol DatabaseMigrationClientProtocol {
     /// - `ResourceQuotaExceededFault` : The quota for this resource quota has been exceeded.
     /// - `S3AccessDeniedFault` : Insufficient privileges are preventing access to an Amazon S3 object.
     /// - `S3ResourceNotFoundFault` : A specified Amazon S3 bucket, bucket folder, or other object can't be found.
-    func startMetadataModelExportToTarget(input: StartMetadataModelExportToTargetInput) async throws -> StartMetadataModelExportToTargetOutputResponse
+    func startMetadataModelExportToTarget(input: StartMetadataModelExportToTargetInput) async throws -> StartMetadataModelExportToTargetOutput
     /// Loads the metadata for all the dependent database objects of the parent object. This operation uses your project's Amazon S3 bucket as a metadata cache to improve performance.
     ///
     /// - Parameter StartMetadataModelImportInput : [no documentation found]
     ///
-    /// - Returns: `StartMetadataModelImportOutputResponse` : [no documentation found]
+    /// - Returns: `StartMetadataModelImportOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1223,12 +1223,12 @@ public protocol DatabaseMigrationClientProtocol {
     /// - `ResourceQuotaExceededFault` : The quota for this resource quota has been exceeded.
     /// - `S3AccessDeniedFault` : Insufficient privileges are preventing access to an Amazon S3 object.
     /// - `S3ResourceNotFoundFault` : A specified Amazon S3 bucket, bucket folder, or other object can't be found.
-    func startMetadataModelImport(input: StartMetadataModelImportInput) async throws -> StartMetadataModelImportOutputResponse
+    func startMetadataModelImport(input: StartMetadataModelImportInput) async throws -> StartMetadataModelImportOutput
     /// Starts the analysis of your source database to provide recommendations of target engines. You can create recommendations for multiple source databases using [BatchStartRecommendations](https://docs.aws.amazon.com/dms/latest/APIReference/API_BatchStartRecommendations.html).
     ///
     /// - Parameter StartRecommendationsInput : [no documentation found]
     ///
-    /// - Returns: `StartRecommendationsOutputResponse` : [no documentation found]
+    /// - Returns: `StartRecommendationsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1236,12 +1236,12 @@ public protocol DatabaseMigrationClientProtocol {
     /// - `AccessDeniedFault` : DMS was denied access to the endpoint. Check that the role is correctly configured.
     /// - `InvalidResourceStateFault` : The resource is in a state that prevents it from being used for database migration.
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    func startRecommendations(input: StartRecommendationsInput) async throws -> StartRecommendationsOutputResponse
+    func startRecommendations(input: StartRecommendationsInput) async throws -> StartRecommendationsOutput
     /// For a given DMS Serverless replication configuration, DMS connects to the source endpoint and collects the metadata to analyze the replication workload. Using this metadata, DMS then computes and provisions the required capacity and starts replicating to the target endpoint using the server resources that DMS has provisioned for the DMS Serverless replication.
     ///
     /// - Parameter StartReplicationInput :
     ///
-    /// - Returns: `StartReplicationOutputResponse` :
+    /// - Returns: `StartReplicationOutput` :
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1249,12 +1249,12 @@ public protocol DatabaseMigrationClientProtocol {
     /// - `AccessDeniedFault` : DMS was denied access to the endpoint. Check that the role is correctly configured.
     /// - `InvalidResourceStateFault` : The resource is in a state that prevents it from being used for database migration.
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    func startReplication(input: StartReplicationInput) async throws -> StartReplicationOutputResponse
+    func startReplication(input: StartReplicationInput) async throws -> StartReplicationOutput
     /// Starts the replication task. For more information about DMS tasks, see [Working with Migration Tasks ](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Tasks.html) in the Database Migration Service User Guide.
     ///
     /// - Parameter StartReplicationTaskInput :
     ///
-    /// - Returns: `StartReplicationTaskOutputResponse` :
+    /// - Returns: `StartReplicationTaskOutput` :
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1262,7 +1262,7 @@ public protocol DatabaseMigrationClientProtocol {
     /// - `AccessDeniedFault` : DMS was denied access to the endpoint. Check that the role is correctly configured.
     /// - `InvalidResourceStateFault` : The resource is in a state that prevents it from being used for database migration.
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    func startReplicationTask(input: StartReplicationTaskInput) async throws -> StartReplicationTaskOutputResponse
+    func startReplicationTask(input: StartReplicationTaskInput) async throws -> StartReplicationTaskOutput
     /// Starts the replication task assessment for unsupported data types in the source database. You can only use this operation for a task if the following conditions are true:
     ///
     /// * The task must be in the stopped state.
@@ -1274,19 +1274,19 @@ public protocol DatabaseMigrationClientProtocol {
     ///
     /// - Parameter StartReplicationTaskAssessmentInput :
     ///
-    /// - Returns: `StartReplicationTaskAssessmentOutputResponse` :
+    /// - Returns: `StartReplicationTaskAssessmentOutput` :
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidResourceStateFault` : The resource is in a state that prevents it from being used for database migration.
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    func startReplicationTaskAssessment(input: StartReplicationTaskAssessmentInput) async throws -> StartReplicationTaskAssessmentOutputResponse
+    func startReplicationTaskAssessment(input: StartReplicationTaskAssessmentInput) async throws -> StartReplicationTaskAssessmentOutput
     /// Starts a new premigration assessment run for one or more individual assessments of a migration task. The assessments that you can specify depend on the source and target database engine and the migration type defined for the given task. To run this operation, your migration task must already be created. After you run this operation, you can review the status of each individual assessment. You can also run the migration task manually after the assessment run and its individual assessments complete.
     ///
     /// - Parameter StartReplicationTaskAssessmentRunInput :
     ///
-    /// - Returns: `StartReplicationTaskAssessmentRunOutputResponse` :
+    /// - Returns: `StartReplicationTaskAssessmentRunOutput` :
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1303,12 +1303,12 @@ public protocol DatabaseMigrationClientProtocol {
     /// - `ResourceNotFoundFault` : The resource could not be found.
     /// - `S3AccessDeniedFault` : Insufficient privileges are preventing access to an Amazon S3 object.
     /// - `S3ResourceNotFoundFault` : A specified Amazon S3 bucket, bucket folder, or other object can't be found.
-    func startReplicationTaskAssessmentRun(input: StartReplicationTaskAssessmentRunInput) async throws -> StartReplicationTaskAssessmentRunOutputResponse
+    func startReplicationTaskAssessmentRun(input: StartReplicationTaskAssessmentRunInput) async throws -> StartReplicationTaskAssessmentRunOutput
     /// For a given DMS Serverless replication configuration, DMS stops any and all ongoing DMS Serverless replications. This command doesn't deprovision the stopped replications.
     ///
     /// - Parameter StopReplicationInput :
     ///
-    /// - Returns: `StopReplicationOutputResponse` : [no documentation found]
+    /// - Returns: `StopReplicationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1316,24 +1316,24 @@ public protocol DatabaseMigrationClientProtocol {
     /// - `AccessDeniedFault` : DMS was denied access to the endpoint. Check that the role is correctly configured.
     /// - `InvalidResourceStateFault` : The resource is in a state that prevents it from being used for database migration.
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    func stopReplication(input: StopReplicationInput) async throws -> StopReplicationOutputResponse
+    func stopReplication(input: StopReplicationInput) async throws -> StopReplicationOutput
     /// Stops the replication task.
     ///
     /// - Parameter StopReplicationTaskInput :
     ///
-    /// - Returns: `StopReplicationTaskOutputResponse` :
+    /// - Returns: `StopReplicationTaskOutput` :
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidResourceStateFault` : The resource is in a state that prevents it from being used for database migration.
     /// - `ResourceNotFoundFault` : The resource could not be found.
-    func stopReplicationTask(input: StopReplicationTaskInput) async throws -> StopReplicationTaskOutputResponse
+    func stopReplicationTask(input: StopReplicationTaskInput) async throws -> StopReplicationTaskOutput
     /// Tests the connection between the replication instance and the endpoint.
     ///
     /// - Parameter TestConnectionInput :
     ///
-    /// - Returns: `TestConnectionOutputResponse` :
+    /// - Returns: `TestConnectionOutput` :
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1343,19 +1343,19 @@ public protocol DatabaseMigrationClientProtocol {
     /// - `KMSKeyNotAccessibleFault` : DMS cannot access the KMS key.
     /// - `ResourceNotFoundFault` : The resource could not be found.
     /// - `ResourceQuotaExceededFault` : The quota for this resource quota has been exceeded.
-    func testConnection(input: TestConnectionInput) async throws -> TestConnectionOutputResponse
+    func testConnection(input: TestConnectionInput) async throws -> TestConnectionOutput
     /// Migrates 10 active and enabled Amazon SNS subscriptions at a time and converts them to corresponding Amazon EventBridge rules. By default, this operation migrates subscriptions only when all your replication instance versions are 3.4.5 or higher. If any replication instances are from versions earlier than 3.4.5, the operation raises an error and tells you to upgrade these instances to version 3.4.5 or higher. To enable migration regardless of version, set the Force option to true. However, if you don't upgrade instances earlier than version 3.4.5, some types of events might not be available when you use Amazon EventBridge. To call this operation, make sure that you have certain permissions added to your user account. For more information, see [Migrating event subscriptions to Amazon EventBridge](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Events.html#CHAP_Events-migrate-to-eventbridge) in the Amazon Web Services Database Migration Service User Guide.
     ///
     /// - Parameter UpdateSubscriptionsToEventBridgeInput :
     ///
-    /// - Returns: `UpdateSubscriptionsToEventBridgeOutputResponse` :
+    /// - Returns: `UpdateSubscriptionsToEventBridgeOutput` :
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedFault` : DMS was denied access to the endpoint. Check that the role is correctly configured.
     /// - `InvalidResourceStateFault` : The resource is in a state that prevents it from being used for database migration.
-    func updateSubscriptionsToEventBridge(input: UpdateSubscriptionsToEventBridgeInput) async throws -> UpdateSubscriptionsToEventBridgeOutputResponse
+    func updateSubscriptionsToEventBridge(input: UpdateSubscriptionsToEventBridgeInput) async throws -> UpdateSubscriptionsToEventBridgeOutput
 }
 
 public enum DatabaseMigrationClientTypes {}

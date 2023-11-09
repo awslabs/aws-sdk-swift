@@ -67,7 +67,7 @@ extension CloudSearchClient: CloudSearchClientProtocol {
     ///
     /// - Parameter BuildSuggestersInput : Container for the parameters to the [BuildSuggester] operation. Specifies the name of the domain you want to update.
     ///
-    /// - Returns: `BuildSuggestersOutputResponse` : The result of a BuildSuggester request. Contains a list of the fields used for suggestions.
+    /// - Returns: `BuildSuggestersOutput` : The result of a BuildSuggester request. Contains a list of the fields used for suggestions.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -76,7 +76,7 @@ extension CloudSearchClient: CloudSearchClientProtocol {
     /// - `InternalException` : An internal error occurred while processing the request. If this problem persists, report an issue from the [Service Health Dashboard](http://status.aws.amazon.com/).
     /// - `ResourceNotFoundException` : The request was rejected because it attempted to reference a resource that does not exist.
     /// - `ValidationException` : The request was rejected because it has invalid parameters.
-    public func buildSuggesters(input: BuildSuggestersInput) async throws -> BuildSuggestersOutputResponse
+    public func buildSuggesters(input: BuildSuggestersInput) async throws -> BuildSuggestersOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -92,20 +92,20 @@ extension CloudSearchClient: CloudSearchClientProtocol {
                       .withSigningName(value: "cloudsearch")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<BuildSuggestersInput, BuildSuggestersOutputResponse, BuildSuggestersOutputError>(id: "buildSuggesters")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BuildSuggestersInput, BuildSuggestersOutputResponse, BuildSuggestersOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BuildSuggestersInput, BuildSuggestersOutputResponse>())
+        var operation = ClientRuntime.OperationStack<BuildSuggestersInput, BuildSuggestersOutput, BuildSuggestersOutputError>(id: "buildSuggesters")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BuildSuggestersInput, BuildSuggestersOutput, BuildSuggestersOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BuildSuggestersInput, BuildSuggestersOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BuildSuggestersOutputResponse, BuildSuggestersOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BuildSuggestersOutput, BuildSuggestersOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<BuildSuggestersInput, BuildSuggestersOutputResponse>(xmlName: "BuildSuggestersRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<BuildSuggestersInput, BuildSuggestersOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<BuildSuggestersInput, BuildSuggestersOutput>(xmlName: "BuildSuggestersRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<BuildSuggestersInput, BuildSuggestersOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, BuildSuggestersOutputResponse, BuildSuggestersOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, BuildSuggestersOutput, BuildSuggestersOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BuildSuggestersOutputResponse, BuildSuggestersOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BuildSuggestersOutputResponse, BuildSuggestersOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BuildSuggestersOutputResponse, BuildSuggestersOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BuildSuggestersOutput, BuildSuggestersOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BuildSuggestersOutput, BuildSuggestersOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BuildSuggestersOutput, BuildSuggestersOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -114,7 +114,7 @@ extension CloudSearchClient: CloudSearchClientProtocol {
     ///
     /// - Parameter CreateDomainInput : Container for the parameters to the [CreateDomain] operation. Specifies a name for the new search domain.
     ///
-    /// - Returns: `CreateDomainOutputResponse` : The result of a CreateDomainRequest. Contains the status of a newly created domain.
+    /// - Returns: `CreateDomainOutput` : The result of a CreateDomainRequest. Contains the status of a newly created domain.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -124,7 +124,7 @@ extension CloudSearchClient: CloudSearchClientProtocol {
     /// - `LimitExceededException` : The request was rejected because a resource limit has already been met.
     /// - `ResourceAlreadyExistsException` : The request was rejected because it attempted to create a resource that already exists.
     /// - `ValidationException` : The request was rejected because it has invalid parameters.
-    public func createDomain(input: CreateDomainInput) async throws -> CreateDomainOutputResponse
+    public func createDomain(input: CreateDomainInput) async throws -> CreateDomainOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -140,20 +140,20 @@ extension CloudSearchClient: CloudSearchClientProtocol {
                       .withSigningName(value: "cloudsearch")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateDomainInput, CreateDomainOutputResponse, CreateDomainOutputError>(id: "createDomain")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDomainInput, CreateDomainOutputResponse, CreateDomainOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDomainInput, CreateDomainOutputResponse>())
+        var operation = ClientRuntime.OperationStack<CreateDomainInput, CreateDomainOutput, CreateDomainOutputError>(id: "createDomain")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDomainInput, CreateDomainOutput, CreateDomainOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDomainInput, CreateDomainOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateDomainOutputResponse, CreateDomainOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateDomainOutput, CreateDomainOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateDomainInput, CreateDomainOutputResponse>(xmlName: "CreateDomainRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateDomainInput, CreateDomainOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateDomainInput, CreateDomainOutput>(xmlName: "CreateDomainRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateDomainInput, CreateDomainOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateDomainOutputResponse, CreateDomainOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateDomainOutput, CreateDomainOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDomainOutputResponse, CreateDomainOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDomainOutputResponse, CreateDomainOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateDomainOutputResponse, CreateDomainOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDomainOutput, CreateDomainOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDomainOutput, CreateDomainOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateDomainOutput, CreateDomainOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -162,7 +162,7 @@ extension CloudSearchClient: CloudSearchClientProtocol {
     ///
     /// - Parameter DefineAnalysisSchemeInput : Container for the parameters to the [DefineAnalysisScheme] operation. Specifies the name of the domain you want to update and the analysis scheme configuration.
     ///
-    /// - Returns: `DefineAnalysisSchemeOutputResponse` : The result of a [DefineAnalysisScheme] request. Contains the status of the newly-configured analysis scheme.
+    /// - Returns: `DefineAnalysisSchemeOutput` : The result of a [DefineAnalysisScheme] request. Contains the status of the newly-configured analysis scheme.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -173,7 +173,7 @@ extension CloudSearchClient: CloudSearchClientProtocol {
     /// - `LimitExceededException` : The request was rejected because a resource limit has already been met.
     /// - `ResourceNotFoundException` : The request was rejected because it attempted to reference a resource that does not exist.
     /// - `ValidationException` : The request was rejected because it has invalid parameters.
-    public func defineAnalysisScheme(input: DefineAnalysisSchemeInput) async throws -> DefineAnalysisSchemeOutputResponse
+    public func defineAnalysisScheme(input: DefineAnalysisSchemeInput) async throws -> DefineAnalysisSchemeOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -189,20 +189,20 @@ extension CloudSearchClient: CloudSearchClientProtocol {
                       .withSigningName(value: "cloudsearch")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DefineAnalysisSchemeInput, DefineAnalysisSchemeOutputResponse, DefineAnalysisSchemeOutputError>(id: "defineAnalysisScheme")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DefineAnalysisSchemeInput, DefineAnalysisSchemeOutputResponse, DefineAnalysisSchemeOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DefineAnalysisSchemeInput, DefineAnalysisSchemeOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DefineAnalysisSchemeInput, DefineAnalysisSchemeOutput, DefineAnalysisSchemeOutputError>(id: "defineAnalysisScheme")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DefineAnalysisSchemeInput, DefineAnalysisSchemeOutput, DefineAnalysisSchemeOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DefineAnalysisSchemeInput, DefineAnalysisSchemeOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DefineAnalysisSchemeOutputResponse, DefineAnalysisSchemeOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DefineAnalysisSchemeOutput, DefineAnalysisSchemeOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DefineAnalysisSchemeInput, DefineAnalysisSchemeOutputResponse>(xmlName: "DefineAnalysisSchemeRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DefineAnalysisSchemeInput, DefineAnalysisSchemeOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DefineAnalysisSchemeInput, DefineAnalysisSchemeOutput>(xmlName: "DefineAnalysisSchemeRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DefineAnalysisSchemeInput, DefineAnalysisSchemeOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DefineAnalysisSchemeOutputResponse, DefineAnalysisSchemeOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DefineAnalysisSchemeOutput, DefineAnalysisSchemeOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DefineAnalysisSchemeOutputResponse, DefineAnalysisSchemeOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DefineAnalysisSchemeOutputResponse, DefineAnalysisSchemeOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DefineAnalysisSchemeOutputResponse, DefineAnalysisSchemeOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DefineAnalysisSchemeOutput, DefineAnalysisSchemeOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DefineAnalysisSchemeOutput, DefineAnalysisSchemeOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DefineAnalysisSchemeOutput, DefineAnalysisSchemeOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -211,7 +211,7 @@ extension CloudSearchClient: CloudSearchClientProtocol {
     ///
     /// - Parameter DefineExpressionInput : Container for the parameters to the [DefineExpression] operation. Specifies the name of the domain you want to update and the expression you want to configure.
     ///
-    /// - Returns: `DefineExpressionOutputResponse` : The result of a DefineExpression request. Contains the status of the newly-configured expression.
+    /// - Returns: `DefineExpressionOutput` : The result of a DefineExpression request. Contains the status of the newly-configured expression.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -222,7 +222,7 @@ extension CloudSearchClient: CloudSearchClientProtocol {
     /// - `LimitExceededException` : The request was rejected because a resource limit has already been met.
     /// - `ResourceNotFoundException` : The request was rejected because it attempted to reference a resource that does not exist.
     /// - `ValidationException` : The request was rejected because it has invalid parameters.
-    public func defineExpression(input: DefineExpressionInput) async throws -> DefineExpressionOutputResponse
+    public func defineExpression(input: DefineExpressionInput) async throws -> DefineExpressionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -238,20 +238,20 @@ extension CloudSearchClient: CloudSearchClientProtocol {
                       .withSigningName(value: "cloudsearch")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DefineExpressionInput, DefineExpressionOutputResponse, DefineExpressionOutputError>(id: "defineExpression")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DefineExpressionInput, DefineExpressionOutputResponse, DefineExpressionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DefineExpressionInput, DefineExpressionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DefineExpressionInput, DefineExpressionOutput, DefineExpressionOutputError>(id: "defineExpression")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DefineExpressionInput, DefineExpressionOutput, DefineExpressionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DefineExpressionInput, DefineExpressionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DefineExpressionOutputResponse, DefineExpressionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DefineExpressionOutput, DefineExpressionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DefineExpressionInput, DefineExpressionOutputResponse>(xmlName: "DefineExpressionRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DefineExpressionInput, DefineExpressionOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DefineExpressionInput, DefineExpressionOutput>(xmlName: "DefineExpressionRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DefineExpressionInput, DefineExpressionOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DefineExpressionOutputResponse, DefineExpressionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DefineExpressionOutput, DefineExpressionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DefineExpressionOutputResponse, DefineExpressionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DefineExpressionOutputResponse, DefineExpressionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DefineExpressionOutputResponse, DefineExpressionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DefineExpressionOutput, DefineExpressionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DefineExpressionOutput, DefineExpressionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DefineExpressionOutput, DefineExpressionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -260,7 +260,7 @@ extension CloudSearchClient: CloudSearchClientProtocol {
     ///
     /// - Parameter DefineIndexFieldInput : Container for the parameters to the [DefineIndexField] operation. Specifies the name of the domain you want to update and the index field configuration.
     ///
-    /// - Returns: `DefineIndexFieldOutputResponse` : The result of a [DefineIndexField] request. Contains the status of the newly-configured index field.
+    /// - Returns: `DefineIndexFieldOutput` : The result of a [DefineIndexField] request. Contains the status of the newly-configured index field.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -271,7 +271,7 @@ extension CloudSearchClient: CloudSearchClientProtocol {
     /// - `LimitExceededException` : The request was rejected because a resource limit has already been met.
     /// - `ResourceNotFoundException` : The request was rejected because it attempted to reference a resource that does not exist.
     /// - `ValidationException` : The request was rejected because it has invalid parameters.
-    public func defineIndexField(input: DefineIndexFieldInput) async throws -> DefineIndexFieldOutputResponse
+    public func defineIndexField(input: DefineIndexFieldInput) async throws -> DefineIndexFieldOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -287,20 +287,20 @@ extension CloudSearchClient: CloudSearchClientProtocol {
                       .withSigningName(value: "cloudsearch")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DefineIndexFieldInput, DefineIndexFieldOutputResponse, DefineIndexFieldOutputError>(id: "defineIndexField")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DefineIndexFieldInput, DefineIndexFieldOutputResponse, DefineIndexFieldOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DefineIndexFieldInput, DefineIndexFieldOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DefineIndexFieldInput, DefineIndexFieldOutput, DefineIndexFieldOutputError>(id: "defineIndexField")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DefineIndexFieldInput, DefineIndexFieldOutput, DefineIndexFieldOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DefineIndexFieldInput, DefineIndexFieldOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DefineIndexFieldOutputResponse, DefineIndexFieldOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DefineIndexFieldOutput, DefineIndexFieldOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DefineIndexFieldInput, DefineIndexFieldOutputResponse>(xmlName: "DefineIndexFieldRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DefineIndexFieldInput, DefineIndexFieldOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DefineIndexFieldInput, DefineIndexFieldOutput>(xmlName: "DefineIndexFieldRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DefineIndexFieldInput, DefineIndexFieldOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DefineIndexFieldOutputResponse, DefineIndexFieldOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DefineIndexFieldOutput, DefineIndexFieldOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DefineIndexFieldOutputResponse, DefineIndexFieldOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DefineIndexFieldOutputResponse, DefineIndexFieldOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DefineIndexFieldOutputResponse, DefineIndexFieldOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DefineIndexFieldOutput, DefineIndexFieldOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DefineIndexFieldOutput, DefineIndexFieldOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DefineIndexFieldOutput, DefineIndexFieldOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -309,7 +309,7 @@ extension CloudSearchClient: CloudSearchClientProtocol {
     ///
     /// - Parameter DefineSuggesterInput : Container for the parameters to the [DefineSuggester] operation. Specifies the name of the domain you want to update and the suggester configuration.
     ///
-    /// - Returns: `DefineSuggesterOutputResponse` : The result of a DefineSuggester request. Contains the status of the newly-configured suggester.
+    /// - Returns: `DefineSuggesterOutput` : The result of a DefineSuggester request. Contains the status of the newly-configured suggester.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -320,7 +320,7 @@ extension CloudSearchClient: CloudSearchClientProtocol {
     /// - `LimitExceededException` : The request was rejected because a resource limit has already been met.
     /// - `ResourceNotFoundException` : The request was rejected because it attempted to reference a resource that does not exist.
     /// - `ValidationException` : The request was rejected because it has invalid parameters.
-    public func defineSuggester(input: DefineSuggesterInput) async throws -> DefineSuggesterOutputResponse
+    public func defineSuggester(input: DefineSuggesterInput) async throws -> DefineSuggesterOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -336,20 +336,20 @@ extension CloudSearchClient: CloudSearchClientProtocol {
                       .withSigningName(value: "cloudsearch")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DefineSuggesterInput, DefineSuggesterOutputResponse, DefineSuggesterOutputError>(id: "defineSuggester")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DefineSuggesterInput, DefineSuggesterOutputResponse, DefineSuggesterOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DefineSuggesterInput, DefineSuggesterOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DefineSuggesterInput, DefineSuggesterOutput, DefineSuggesterOutputError>(id: "defineSuggester")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DefineSuggesterInput, DefineSuggesterOutput, DefineSuggesterOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DefineSuggesterInput, DefineSuggesterOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DefineSuggesterOutputResponse, DefineSuggesterOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DefineSuggesterOutput, DefineSuggesterOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DefineSuggesterInput, DefineSuggesterOutputResponse>(xmlName: "DefineSuggesterRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DefineSuggesterInput, DefineSuggesterOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DefineSuggesterInput, DefineSuggesterOutput>(xmlName: "DefineSuggesterRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DefineSuggesterInput, DefineSuggesterOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DefineSuggesterOutputResponse, DefineSuggesterOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DefineSuggesterOutput, DefineSuggesterOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DefineSuggesterOutputResponse, DefineSuggesterOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DefineSuggesterOutputResponse, DefineSuggesterOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DefineSuggesterOutputResponse, DefineSuggesterOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DefineSuggesterOutput, DefineSuggesterOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DefineSuggesterOutput, DefineSuggesterOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DefineSuggesterOutput, DefineSuggesterOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -358,7 +358,7 @@ extension CloudSearchClient: CloudSearchClientProtocol {
     ///
     /// - Parameter DeleteAnalysisSchemeInput : Container for the parameters to the [DeleteAnalysisScheme] operation. Specifies the name of the domain you want to update and the analysis scheme you want to delete.
     ///
-    /// - Returns: `DeleteAnalysisSchemeOutputResponse` : The result of a DeleteAnalysisScheme request. Contains the status of the deleted analysis scheme.
+    /// - Returns: `DeleteAnalysisSchemeOutput` : The result of a DeleteAnalysisScheme request. Contains the status of the deleted analysis scheme.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -368,7 +368,7 @@ extension CloudSearchClient: CloudSearchClientProtocol {
     /// - `InvalidTypeException` : The request was rejected because it specified an invalid type definition.
     /// - `ResourceNotFoundException` : The request was rejected because it attempted to reference a resource that does not exist.
     /// - `ValidationException` : The request was rejected because it has invalid parameters.
-    public func deleteAnalysisScheme(input: DeleteAnalysisSchemeInput) async throws -> DeleteAnalysisSchemeOutputResponse
+    public func deleteAnalysisScheme(input: DeleteAnalysisSchemeInput) async throws -> DeleteAnalysisSchemeOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -384,20 +384,20 @@ extension CloudSearchClient: CloudSearchClientProtocol {
                       .withSigningName(value: "cloudsearch")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteAnalysisSchemeInput, DeleteAnalysisSchemeOutputResponse, DeleteAnalysisSchemeOutputError>(id: "deleteAnalysisScheme")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAnalysisSchemeInput, DeleteAnalysisSchemeOutputResponse, DeleteAnalysisSchemeOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteAnalysisSchemeInput, DeleteAnalysisSchemeOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteAnalysisSchemeInput, DeleteAnalysisSchemeOutput, DeleteAnalysisSchemeOutputError>(id: "deleteAnalysisScheme")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAnalysisSchemeInput, DeleteAnalysisSchemeOutput, DeleteAnalysisSchemeOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteAnalysisSchemeInput, DeleteAnalysisSchemeOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteAnalysisSchemeOutputResponse, DeleteAnalysisSchemeOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteAnalysisSchemeOutput, DeleteAnalysisSchemeOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteAnalysisSchemeInput, DeleteAnalysisSchemeOutputResponse>(xmlName: "DeleteAnalysisSchemeRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteAnalysisSchemeInput, DeleteAnalysisSchemeOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteAnalysisSchemeInput, DeleteAnalysisSchemeOutput>(xmlName: "DeleteAnalysisSchemeRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteAnalysisSchemeInput, DeleteAnalysisSchemeOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteAnalysisSchemeOutputResponse, DeleteAnalysisSchemeOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteAnalysisSchemeOutput, DeleteAnalysisSchemeOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAnalysisSchemeOutputResponse, DeleteAnalysisSchemeOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAnalysisSchemeOutputResponse, DeleteAnalysisSchemeOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteAnalysisSchemeOutputResponse, DeleteAnalysisSchemeOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAnalysisSchemeOutput, DeleteAnalysisSchemeOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAnalysisSchemeOutput, DeleteAnalysisSchemeOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteAnalysisSchemeOutput, DeleteAnalysisSchemeOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -406,14 +406,14 @@ extension CloudSearchClient: CloudSearchClientProtocol {
     ///
     /// - Parameter DeleteDomainInput : Container for the parameters to the [DeleteDomain] operation. Specifies the name of the domain you want to delete.
     ///
-    /// - Returns: `DeleteDomainOutputResponse` : The result of a DeleteDomain request. Contains the status of a newly deleted domain, or no status if the domain has already been completely deleted.
+    /// - Returns: `DeleteDomainOutput` : The result of a DeleteDomain request. Contains the status of a newly deleted domain, or no status if the domain has already been completely deleted.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BaseException` : An error occurred while processing the request.
     /// - `InternalException` : An internal error occurred while processing the request. If this problem persists, report an issue from the [Service Health Dashboard](http://status.aws.amazon.com/).
-    public func deleteDomain(input: DeleteDomainInput) async throws -> DeleteDomainOutputResponse
+    public func deleteDomain(input: DeleteDomainInput) async throws -> DeleteDomainOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -429,20 +429,20 @@ extension CloudSearchClient: CloudSearchClientProtocol {
                       .withSigningName(value: "cloudsearch")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteDomainInput, DeleteDomainOutputResponse, DeleteDomainOutputError>(id: "deleteDomain")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDomainInput, DeleteDomainOutputResponse, DeleteDomainOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDomainInput, DeleteDomainOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteDomainInput, DeleteDomainOutput, DeleteDomainOutputError>(id: "deleteDomain")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDomainInput, DeleteDomainOutput, DeleteDomainOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDomainInput, DeleteDomainOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteDomainOutputResponse, DeleteDomainOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteDomainOutput, DeleteDomainOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteDomainInput, DeleteDomainOutputResponse>(xmlName: "DeleteDomainRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteDomainInput, DeleteDomainOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteDomainInput, DeleteDomainOutput>(xmlName: "DeleteDomainRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteDomainInput, DeleteDomainOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteDomainOutputResponse, DeleteDomainOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteDomainOutput, DeleteDomainOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDomainOutputResponse, DeleteDomainOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDomainOutputResponse, DeleteDomainOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteDomainOutputResponse, DeleteDomainOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDomainOutput, DeleteDomainOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDomainOutput, DeleteDomainOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteDomainOutput, DeleteDomainOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -451,7 +451,7 @@ extension CloudSearchClient: CloudSearchClientProtocol {
     ///
     /// - Parameter DeleteExpressionInput : Container for the parameters to the [DeleteExpression] operation. Specifies the name of the domain you want to update and the name of the expression you want to delete.
     ///
-    /// - Returns: `DeleteExpressionOutputResponse` : The result of a [DeleteExpression] request. Specifies the expression being deleted.
+    /// - Returns: `DeleteExpressionOutput` : The result of a [DeleteExpression] request. Specifies the expression being deleted.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -461,7 +461,7 @@ extension CloudSearchClient: CloudSearchClientProtocol {
     /// - `InvalidTypeException` : The request was rejected because it specified an invalid type definition.
     /// - `ResourceNotFoundException` : The request was rejected because it attempted to reference a resource that does not exist.
     /// - `ValidationException` : The request was rejected because it has invalid parameters.
-    public func deleteExpression(input: DeleteExpressionInput) async throws -> DeleteExpressionOutputResponse
+    public func deleteExpression(input: DeleteExpressionInput) async throws -> DeleteExpressionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -477,20 +477,20 @@ extension CloudSearchClient: CloudSearchClientProtocol {
                       .withSigningName(value: "cloudsearch")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteExpressionInput, DeleteExpressionOutputResponse, DeleteExpressionOutputError>(id: "deleteExpression")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteExpressionInput, DeleteExpressionOutputResponse, DeleteExpressionOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteExpressionInput, DeleteExpressionOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteExpressionInput, DeleteExpressionOutput, DeleteExpressionOutputError>(id: "deleteExpression")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteExpressionInput, DeleteExpressionOutput, DeleteExpressionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteExpressionInput, DeleteExpressionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteExpressionOutputResponse, DeleteExpressionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteExpressionOutput, DeleteExpressionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteExpressionInput, DeleteExpressionOutputResponse>(xmlName: "DeleteExpressionRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteExpressionInput, DeleteExpressionOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteExpressionInput, DeleteExpressionOutput>(xmlName: "DeleteExpressionRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteExpressionInput, DeleteExpressionOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteExpressionOutputResponse, DeleteExpressionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteExpressionOutput, DeleteExpressionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteExpressionOutputResponse, DeleteExpressionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteExpressionOutputResponse, DeleteExpressionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteExpressionOutputResponse, DeleteExpressionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteExpressionOutput, DeleteExpressionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteExpressionOutput, DeleteExpressionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteExpressionOutput, DeleteExpressionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -499,7 +499,7 @@ extension CloudSearchClient: CloudSearchClientProtocol {
     ///
     /// - Parameter DeleteIndexFieldInput : Container for the parameters to the [DeleteIndexField] operation. Specifies the name of the domain you want to update and the name of the index field you want to delete.
     ///
-    /// - Returns: `DeleteIndexFieldOutputResponse` : The result of a [DeleteIndexField] request.
+    /// - Returns: `DeleteIndexFieldOutput` : The result of a [DeleteIndexField] request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -509,7 +509,7 @@ extension CloudSearchClient: CloudSearchClientProtocol {
     /// - `InvalidTypeException` : The request was rejected because it specified an invalid type definition.
     /// - `ResourceNotFoundException` : The request was rejected because it attempted to reference a resource that does not exist.
     /// - `ValidationException` : The request was rejected because it has invalid parameters.
-    public func deleteIndexField(input: DeleteIndexFieldInput) async throws -> DeleteIndexFieldOutputResponse
+    public func deleteIndexField(input: DeleteIndexFieldInput) async throws -> DeleteIndexFieldOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -525,20 +525,20 @@ extension CloudSearchClient: CloudSearchClientProtocol {
                       .withSigningName(value: "cloudsearch")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteIndexFieldInput, DeleteIndexFieldOutputResponse, DeleteIndexFieldOutputError>(id: "deleteIndexField")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteIndexFieldInput, DeleteIndexFieldOutputResponse, DeleteIndexFieldOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteIndexFieldInput, DeleteIndexFieldOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteIndexFieldInput, DeleteIndexFieldOutput, DeleteIndexFieldOutputError>(id: "deleteIndexField")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteIndexFieldInput, DeleteIndexFieldOutput, DeleteIndexFieldOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteIndexFieldInput, DeleteIndexFieldOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteIndexFieldOutputResponse, DeleteIndexFieldOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteIndexFieldOutput, DeleteIndexFieldOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteIndexFieldInput, DeleteIndexFieldOutputResponse>(xmlName: "DeleteIndexFieldRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteIndexFieldInput, DeleteIndexFieldOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteIndexFieldInput, DeleteIndexFieldOutput>(xmlName: "DeleteIndexFieldRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteIndexFieldInput, DeleteIndexFieldOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteIndexFieldOutputResponse, DeleteIndexFieldOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteIndexFieldOutput, DeleteIndexFieldOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteIndexFieldOutputResponse, DeleteIndexFieldOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteIndexFieldOutputResponse, DeleteIndexFieldOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteIndexFieldOutputResponse, DeleteIndexFieldOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteIndexFieldOutput, DeleteIndexFieldOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteIndexFieldOutput, DeleteIndexFieldOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteIndexFieldOutput, DeleteIndexFieldOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -547,7 +547,7 @@ extension CloudSearchClient: CloudSearchClientProtocol {
     ///
     /// - Parameter DeleteSuggesterInput : Container for the parameters to the [DeleteSuggester] operation. Specifies the name of the domain you want to update and name of the suggester you want to delete.
     ///
-    /// - Returns: `DeleteSuggesterOutputResponse` : The result of a DeleteSuggester request. Contains the status of the deleted suggester.
+    /// - Returns: `DeleteSuggesterOutput` : The result of a DeleteSuggester request. Contains the status of the deleted suggester.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -557,7 +557,7 @@ extension CloudSearchClient: CloudSearchClientProtocol {
     /// - `InvalidTypeException` : The request was rejected because it specified an invalid type definition.
     /// - `ResourceNotFoundException` : The request was rejected because it attempted to reference a resource that does not exist.
     /// - `ValidationException` : The request was rejected because it has invalid parameters.
-    public func deleteSuggester(input: DeleteSuggesterInput) async throws -> DeleteSuggesterOutputResponse
+    public func deleteSuggester(input: DeleteSuggesterInput) async throws -> DeleteSuggesterOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -573,20 +573,20 @@ extension CloudSearchClient: CloudSearchClientProtocol {
                       .withSigningName(value: "cloudsearch")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteSuggesterInput, DeleteSuggesterOutputResponse, DeleteSuggesterOutputError>(id: "deleteSuggester")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteSuggesterInput, DeleteSuggesterOutputResponse, DeleteSuggesterOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteSuggesterInput, DeleteSuggesterOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DeleteSuggesterInput, DeleteSuggesterOutput, DeleteSuggesterOutputError>(id: "deleteSuggester")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteSuggesterInput, DeleteSuggesterOutput, DeleteSuggesterOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteSuggesterInput, DeleteSuggesterOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteSuggesterOutputResponse, DeleteSuggesterOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteSuggesterOutput, DeleteSuggesterOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteSuggesterInput, DeleteSuggesterOutputResponse>(xmlName: "DeleteSuggesterRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteSuggesterInput, DeleteSuggesterOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteSuggesterInput, DeleteSuggesterOutput>(xmlName: "DeleteSuggesterRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteSuggesterInput, DeleteSuggesterOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteSuggesterOutputResponse, DeleteSuggesterOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteSuggesterOutput, DeleteSuggesterOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteSuggesterOutputResponse, DeleteSuggesterOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSuggesterOutputResponse, DeleteSuggesterOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteSuggesterOutputResponse, DeleteSuggesterOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteSuggesterOutput, DeleteSuggesterOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSuggesterOutput, DeleteSuggesterOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteSuggesterOutput, DeleteSuggesterOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -595,7 +595,7 @@ extension CloudSearchClient: CloudSearchClientProtocol {
     ///
     /// - Parameter DescribeAnalysisSchemesInput : Container for the parameters to the [DescribeAnalysisSchemes] operation. Specifies the name of the domain you want to describe. To limit the response to particular analysis schemes, specify the names of the analysis schemes you want to describe. To show the active configuration and exclude any pending changes, set the Deployed option to true.
     ///
-    /// - Returns: `DescribeAnalysisSchemesOutputResponse` : The result of a DescribeAnalysisSchemes request. Contains the analysis schemes configured for the domain specified in the request.
+    /// - Returns: `DescribeAnalysisSchemesOutput` : The result of a DescribeAnalysisSchemes request. Contains the analysis schemes configured for the domain specified in the request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -603,7 +603,7 @@ extension CloudSearchClient: CloudSearchClientProtocol {
     /// - `BaseException` : An error occurred while processing the request.
     /// - `InternalException` : An internal error occurred while processing the request. If this problem persists, report an issue from the [Service Health Dashboard](http://status.aws.amazon.com/).
     /// - `ResourceNotFoundException` : The request was rejected because it attempted to reference a resource that does not exist.
-    public func describeAnalysisSchemes(input: DescribeAnalysisSchemesInput) async throws -> DescribeAnalysisSchemesOutputResponse
+    public func describeAnalysisSchemes(input: DescribeAnalysisSchemesInput) async throws -> DescribeAnalysisSchemesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -619,20 +619,20 @@ extension CloudSearchClient: CloudSearchClientProtocol {
                       .withSigningName(value: "cloudsearch")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeAnalysisSchemesInput, DescribeAnalysisSchemesOutputResponse, DescribeAnalysisSchemesOutputError>(id: "describeAnalysisSchemes")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAnalysisSchemesInput, DescribeAnalysisSchemesOutputResponse, DescribeAnalysisSchemesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAnalysisSchemesInput, DescribeAnalysisSchemesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeAnalysisSchemesInput, DescribeAnalysisSchemesOutput, DescribeAnalysisSchemesOutputError>(id: "describeAnalysisSchemes")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAnalysisSchemesInput, DescribeAnalysisSchemesOutput, DescribeAnalysisSchemesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAnalysisSchemesInput, DescribeAnalysisSchemesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeAnalysisSchemesOutputResponse, DescribeAnalysisSchemesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeAnalysisSchemesOutput, DescribeAnalysisSchemesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeAnalysisSchemesInput, DescribeAnalysisSchemesOutputResponse>(xmlName: "DescribeAnalysisSchemesRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeAnalysisSchemesInput, DescribeAnalysisSchemesOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeAnalysisSchemesInput, DescribeAnalysisSchemesOutput>(xmlName: "DescribeAnalysisSchemesRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeAnalysisSchemesInput, DescribeAnalysisSchemesOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeAnalysisSchemesOutputResponse, DescribeAnalysisSchemesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeAnalysisSchemesOutput, DescribeAnalysisSchemesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAnalysisSchemesOutputResponse, DescribeAnalysisSchemesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAnalysisSchemesOutputResponse, DescribeAnalysisSchemesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAnalysisSchemesOutputResponse, DescribeAnalysisSchemesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAnalysisSchemesOutput, DescribeAnalysisSchemesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAnalysisSchemesOutput, DescribeAnalysisSchemesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAnalysisSchemesOutput, DescribeAnalysisSchemesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -641,7 +641,7 @@ extension CloudSearchClient: CloudSearchClientProtocol {
     ///
     /// - Parameter DescribeAvailabilityOptionsInput : Container for the parameters to the [DescribeAvailabilityOptions] operation. Specifies the name of the domain you want to describe. To show the active configuration and exclude any pending changes, set the Deployed option to true.
     ///
-    /// - Returns: `DescribeAvailabilityOptionsOutputResponse` : The result of a DescribeAvailabilityOptions request. Indicates whether or not the Multi-AZ option is enabled for the domain specified in the request.
+    /// - Returns: `DescribeAvailabilityOptionsOutput` : The result of a DescribeAvailabilityOptions request. Indicates whether or not the Multi-AZ option is enabled for the domain specified in the request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -652,7 +652,7 @@ extension CloudSearchClient: CloudSearchClientProtocol {
     /// - `InvalidTypeException` : The request was rejected because it specified an invalid type definition.
     /// - `LimitExceededException` : The request was rejected because a resource limit has already been met.
     /// - `ResourceNotFoundException` : The request was rejected because it attempted to reference a resource that does not exist.
-    public func describeAvailabilityOptions(input: DescribeAvailabilityOptionsInput) async throws -> DescribeAvailabilityOptionsOutputResponse
+    public func describeAvailabilityOptions(input: DescribeAvailabilityOptionsInput) async throws -> DescribeAvailabilityOptionsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -668,20 +668,20 @@ extension CloudSearchClient: CloudSearchClientProtocol {
                       .withSigningName(value: "cloudsearch")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeAvailabilityOptionsInput, DescribeAvailabilityOptionsOutputResponse, DescribeAvailabilityOptionsOutputError>(id: "describeAvailabilityOptions")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAvailabilityOptionsInput, DescribeAvailabilityOptionsOutputResponse, DescribeAvailabilityOptionsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAvailabilityOptionsInput, DescribeAvailabilityOptionsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeAvailabilityOptionsInput, DescribeAvailabilityOptionsOutput, DescribeAvailabilityOptionsOutputError>(id: "describeAvailabilityOptions")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAvailabilityOptionsInput, DescribeAvailabilityOptionsOutput, DescribeAvailabilityOptionsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAvailabilityOptionsInput, DescribeAvailabilityOptionsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeAvailabilityOptionsOutputResponse, DescribeAvailabilityOptionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeAvailabilityOptionsOutput, DescribeAvailabilityOptionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeAvailabilityOptionsInput, DescribeAvailabilityOptionsOutputResponse>(xmlName: "DescribeAvailabilityOptionsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeAvailabilityOptionsInput, DescribeAvailabilityOptionsOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeAvailabilityOptionsInput, DescribeAvailabilityOptionsOutput>(xmlName: "DescribeAvailabilityOptionsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeAvailabilityOptionsInput, DescribeAvailabilityOptionsOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeAvailabilityOptionsOutputResponse, DescribeAvailabilityOptionsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeAvailabilityOptionsOutput, DescribeAvailabilityOptionsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAvailabilityOptionsOutputResponse, DescribeAvailabilityOptionsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAvailabilityOptionsOutputResponse, DescribeAvailabilityOptionsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAvailabilityOptionsOutputResponse, DescribeAvailabilityOptionsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAvailabilityOptionsOutput, DescribeAvailabilityOptionsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAvailabilityOptionsOutput, DescribeAvailabilityOptionsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAvailabilityOptionsOutput, DescribeAvailabilityOptionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -690,7 +690,7 @@ extension CloudSearchClient: CloudSearchClientProtocol {
     ///
     /// - Parameter DescribeDomainEndpointOptionsInput : Container for the parameters to the [DescribeDomainEndpointOptions] operation. Specify the name of the domain you want to describe. To show the active configuration and exclude any pending changes, set the Deployed option to true.
     ///
-    /// - Returns: `DescribeDomainEndpointOptionsOutputResponse` : The result of a DescribeDomainEndpointOptions request. Contains the status and configuration of a search domain's endpoint options.
+    /// - Returns: `DescribeDomainEndpointOptionsOutput` : The result of a DescribeDomainEndpointOptions request. Contains the status and configuration of a search domain's endpoint options.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -700,7 +700,7 @@ extension CloudSearchClient: CloudSearchClientProtocol {
     /// - `InternalException` : An internal error occurred while processing the request. If this problem persists, report an issue from the [Service Health Dashboard](http://status.aws.amazon.com/).
     /// - `LimitExceededException` : The request was rejected because a resource limit has already been met.
     /// - `ResourceNotFoundException` : The request was rejected because it attempted to reference a resource that does not exist.
-    public func describeDomainEndpointOptions(input: DescribeDomainEndpointOptionsInput) async throws -> DescribeDomainEndpointOptionsOutputResponse
+    public func describeDomainEndpointOptions(input: DescribeDomainEndpointOptionsInput) async throws -> DescribeDomainEndpointOptionsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -716,20 +716,20 @@ extension CloudSearchClient: CloudSearchClientProtocol {
                       .withSigningName(value: "cloudsearch")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeDomainEndpointOptionsInput, DescribeDomainEndpointOptionsOutputResponse, DescribeDomainEndpointOptionsOutputError>(id: "describeDomainEndpointOptions")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDomainEndpointOptionsInput, DescribeDomainEndpointOptionsOutputResponse, DescribeDomainEndpointOptionsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDomainEndpointOptionsInput, DescribeDomainEndpointOptionsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeDomainEndpointOptionsInput, DescribeDomainEndpointOptionsOutput, DescribeDomainEndpointOptionsOutputError>(id: "describeDomainEndpointOptions")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDomainEndpointOptionsInput, DescribeDomainEndpointOptionsOutput, DescribeDomainEndpointOptionsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDomainEndpointOptionsInput, DescribeDomainEndpointOptionsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeDomainEndpointOptionsOutputResponse, DescribeDomainEndpointOptionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeDomainEndpointOptionsOutput, DescribeDomainEndpointOptionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeDomainEndpointOptionsInput, DescribeDomainEndpointOptionsOutputResponse>(xmlName: "DescribeDomainEndpointOptionsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeDomainEndpointOptionsInput, DescribeDomainEndpointOptionsOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeDomainEndpointOptionsInput, DescribeDomainEndpointOptionsOutput>(xmlName: "DescribeDomainEndpointOptionsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeDomainEndpointOptionsInput, DescribeDomainEndpointOptionsOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeDomainEndpointOptionsOutputResponse, DescribeDomainEndpointOptionsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeDomainEndpointOptionsOutput, DescribeDomainEndpointOptionsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDomainEndpointOptionsOutputResponse, DescribeDomainEndpointOptionsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDomainEndpointOptionsOutputResponse, DescribeDomainEndpointOptionsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeDomainEndpointOptionsOutputResponse, DescribeDomainEndpointOptionsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDomainEndpointOptionsOutput, DescribeDomainEndpointOptionsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDomainEndpointOptionsOutput, DescribeDomainEndpointOptionsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeDomainEndpointOptionsOutput, DescribeDomainEndpointOptionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -738,14 +738,14 @@ extension CloudSearchClient: CloudSearchClientProtocol {
     ///
     /// - Parameter DescribeDomainsInput : Container for the parameters to the [DescribeDomains] operation. By default shows the status of all domains. To restrict the response to particular domains, specify the names of the domains you want to describe.
     ///
-    /// - Returns: `DescribeDomainsOutputResponse` : The result of a DescribeDomains request. Contains the status of the domains specified in the request or all domains owned by the account.
+    /// - Returns: `DescribeDomainsOutput` : The result of a DescribeDomains request. Contains the status of the domains specified in the request or all domains owned by the account.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BaseException` : An error occurred while processing the request.
     /// - `InternalException` : An internal error occurred while processing the request. If this problem persists, report an issue from the [Service Health Dashboard](http://status.aws.amazon.com/).
-    public func describeDomains(input: DescribeDomainsInput) async throws -> DescribeDomainsOutputResponse
+    public func describeDomains(input: DescribeDomainsInput) async throws -> DescribeDomainsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -761,20 +761,20 @@ extension CloudSearchClient: CloudSearchClientProtocol {
                       .withSigningName(value: "cloudsearch")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeDomainsInput, DescribeDomainsOutputResponse, DescribeDomainsOutputError>(id: "describeDomains")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDomainsInput, DescribeDomainsOutputResponse, DescribeDomainsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDomainsInput, DescribeDomainsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeDomainsInput, DescribeDomainsOutput, DescribeDomainsOutputError>(id: "describeDomains")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDomainsInput, DescribeDomainsOutput, DescribeDomainsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDomainsInput, DescribeDomainsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeDomainsOutputResponse, DescribeDomainsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeDomainsOutput, DescribeDomainsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeDomainsInput, DescribeDomainsOutputResponse>(xmlName: "DescribeDomainsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeDomainsInput, DescribeDomainsOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeDomainsInput, DescribeDomainsOutput>(xmlName: "DescribeDomainsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeDomainsInput, DescribeDomainsOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeDomainsOutputResponse, DescribeDomainsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeDomainsOutput, DescribeDomainsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDomainsOutputResponse, DescribeDomainsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDomainsOutputResponse, DescribeDomainsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeDomainsOutputResponse, DescribeDomainsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDomainsOutput, DescribeDomainsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDomainsOutput, DescribeDomainsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeDomainsOutput, DescribeDomainsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -783,7 +783,7 @@ extension CloudSearchClient: CloudSearchClientProtocol {
     ///
     /// - Parameter DescribeExpressionsInput : Container for the parameters to the [DescribeDomains] operation. Specifies the name of the domain you want to describe. To restrict the response to particular expressions, specify the names of the expressions you want to describe. To show the active configuration and exclude any pending changes, set the Deployed option to true.
     ///
-    /// - Returns: `DescribeExpressionsOutputResponse` : The result of a DescribeExpressions request. Contains the expressions configured for the domain specified in the request.
+    /// - Returns: `DescribeExpressionsOutput` : The result of a DescribeExpressions request. Contains the expressions configured for the domain specified in the request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -791,7 +791,7 @@ extension CloudSearchClient: CloudSearchClientProtocol {
     /// - `BaseException` : An error occurred while processing the request.
     /// - `InternalException` : An internal error occurred while processing the request. If this problem persists, report an issue from the [Service Health Dashboard](http://status.aws.amazon.com/).
     /// - `ResourceNotFoundException` : The request was rejected because it attempted to reference a resource that does not exist.
-    public func describeExpressions(input: DescribeExpressionsInput) async throws -> DescribeExpressionsOutputResponse
+    public func describeExpressions(input: DescribeExpressionsInput) async throws -> DescribeExpressionsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -807,20 +807,20 @@ extension CloudSearchClient: CloudSearchClientProtocol {
                       .withSigningName(value: "cloudsearch")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeExpressionsInput, DescribeExpressionsOutputResponse, DescribeExpressionsOutputError>(id: "describeExpressions")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeExpressionsInput, DescribeExpressionsOutputResponse, DescribeExpressionsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeExpressionsInput, DescribeExpressionsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeExpressionsInput, DescribeExpressionsOutput, DescribeExpressionsOutputError>(id: "describeExpressions")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeExpressionsInput, DescribeExpressionsOutput, DescribeExpressionsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeExpressionsInput, DescribeExpressionsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeExpressionsOutputResponse, DescribeExpressionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeExpressionsOutput, DescribeExpressionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeExpressionsInput, DescribeExpressionsOutputResponse>(xmlName: "DescribeExpressionsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeExpressionsInput, DescribeExpressionsOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeExpressionsInput, DescribeExpressionsOutput>(xmlName: "DescribeExpressionsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeExpressionsInput, DescribeExpressionsOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeExpressionsOutputResponse, DescribeExpressionsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeExpressionsOutput, DescribeExpressionsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeExpressionsOutputResponse, DescribeExpressionsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeExpressionsOutputResponse, DescribeExpressionsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeExpressionsOutputResponse, DescribeExpressionsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeExpressionsOutput, DescribeExpressionsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeExpressionsOutput, DescribeExpressionsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeExpressionsOutput, DescribeExpressionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -829,7 +829,7 @@ extension CloudSearchClient: CloudSearchClientProtocol {
     ///
     /// - Parameter DescribeIndexFieldsInput : Container for the parameters to the [DescribeIndexFields] operation. Specifies the name of the domain you want to describe. To restrict the response to particular index fields, specify the names of the index fields you want to describe. To show the active configuration and exclude any pending changes, set the Deployed option to true.
     ///
-    /// - Returns: `DescribeIndexFieldsOutputResponse` : The result of a DescribeIndexFields request. Contains the index fields configured for the domain specified in the request.
+    /// - Returns: `DescribeIndexFieldsOutput` : The result of a DescribeIndexFields request. Contains the index fields configured for the domain specified in the request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -837,7 +837,7 @@ extension CloudSearchClient: CloudSearchClientProtocol {
     /// - `BaseException` : An error occurred while processing the request.
     /// - `InternalException` : An internal error occurred while processing the request. If this problem persists, report an issue from the [Service Health Dashboard](http://status.aws.amazon.com/).
     /// - `ResourceNotFoundException` : The request was rejected because it attempted to reference a resource that does not exist.
-    public func describeIndexFields(input: DescribeIndexFieldsInput) async throws -> DescribeIndexFieldsOutputResponse
+    public func describeIndexFields(input: DescribeIndexFieldsInput) async throws -> DescribeIndexFieldsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -853,20 +853,20 @@ extension CloudSearchClient: CloudSearchClientProtocol {
                       .withSigningName(value: "cloudsearch")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeIndexFieldsInput, DescribeIndexFieldsOutputResponse, DescribeIndexFieldsOutputError>(id: "describeIndexFields")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeIndexFieldsInput, DescribeIndexFieldsOutputResponse, DescribeIndexFieldsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeIndexFieldsInput, DescribeIndexFieldsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeIndexFieldsInput, DescribeIndexFieldsOutput, DescribeIndexFieldsOutputError>(id: "describeIndexFields")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeIndexFieldsInput, DescribeIndexFieldsOutput, DescribeIndexFieldsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeIndexFieldsInput, DescribeIndexFieldsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeIndexFieldsOutputResponse, DescribeIndexFieldsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeIndexFieldsOutput, DescribeIndexFieldsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeIndexFieldsInput, DescribeIndexFieldsOutputResponse>(xmlName: "DescribeIndexFieldsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeIndexFieldsInput, DescribeIndexFieldsOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeIndexFieldsInput, DescribeIndexFieldsOutput>(xmlName: "DescribeIndexFieldsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeIndexFieldsInput, DescribeIndexFieldsOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeIndexFieldsOutputResponse, DescribeIndexFieldsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeIndexFieldsOutput, DescribeIndexFieldsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeIndexFieldsOutputResponse, DescribeIndexFieldsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeIndexFieldsOutputResponse, DescribeIndexFieldsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeIndexFieldsOutputResponse, DescribeIndexFieldsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeIndexFieldsOutput, DescribeIndexFieldsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeIndexFieldsOutput, DescribeIndexFieldsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeIndexFieldsOutput, DescribeIndexFieldsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -875,7 +875,7 @@ extension CloudSearchClient: CloudSearchClientProtocol {
     ///
     /// - Parameter DescribeScalingParametersInput : Container for the parameters to the [DescribeScalingParameters] operation. Specifies the name of the domain you want to describe.
     ///
-    /// - Returns: `DescribeScalingParametersOutputResponse` : The result of a DescribeScalingParameters request. Contains the scaling parameters configured for the domain specified in the request.
+    /// - Returns: `DescribeScalingParametersOutput` : The result of a DescribeScalingParameters request. Contains the scaling parameters configured for the domain specified in the request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -883,7 +883,7 @@ extension CloudSearchClient: CloudSearchClientProtocol {
     /// - `BaseException` : An error occurred while processing the request.
     /// - `InternalException` : An internal error occurred while processing the request. If this problem persists, report an issue from the [Service Health Dashboard](http://status.aws.amazon.com/).
     /// - `ResourceNotFoundException` : The request was rejected because it attempted to reference a resource that does not exist.
-    public func describeScalingParameters(input: DescribeScalingParametersInput) async throws -> DescribeScalingParametersOutputResponse
+    public func describeScalingParameters(input: DescribeScalingParametersInput) async throws -> DescribeScalingParametersOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -899,20 +899,20 @@ extension CloudSearchClient: CloudSearchClientProtocol {
                       .withSigningName(value: "cloudsearch")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeScalingParametersInput, DescribeScalingParametersOutputResponse, DescribeScalingParametersOutputError>(id: "describeScalingParameters")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeScalingParametersInput, DescribeScalingParametersOutputResponse, DescribeScalingParametersOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeScalingParametersInput, DescribeScalingParametersOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeScalingParametersInput, DescribeScalingParametersOutput, DescribeScalingParametersOutputError>(id: "describeScalingParameters")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeScalingParametersInput, DescribeScalingParametersOutput, DescribeScalingParametersOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeScalingParametersInput, DescribeScalingParametersOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeScalingParametersOutputResponse, DescribeScalingParametersOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeScalingParametersOutput, DescribeScalingParametersOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeScalingParametersInput, DescribeScalingParametersOutputResponse>(xmlName: "DescribeScalingParametersRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeScalingParametersInput, DescribeScalingParametersOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeScalingParametersInput, DescribeScalingParametersOutput>(xmlName: "DescribeScalingParametersRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeScalingParametersInput, DescribeScalingParametersOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeScalingParametersOutputResponse, DescribeScalingParametersOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeScalingParametersOutput, DescribeScalingParametersOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeScalingParametersOutputResponse, DescribeScalingParametersOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeScalingParametersOutputResponse, DescribeScalingParametersOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeScalingParametersOutputResponse, DescribeScalingParametersOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeScalingParametersOutput, DescribeScalingParametersOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeScalingParametersOutput, DescribeScalingParametersOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeScalingParametersOutput, DescribeScalingParametersOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -921,7 +921,7 @@ extension CloudSearchClient: CloudSearchClientProtocol {
     ///
     /// - Parameter DescribeServiceAccessPoliciesInput : Container for the parameters to the [DescribeServiceAccessPolicies] operation. Specifies the name of the domain you want to describe. To show the active configuration and exclude any pending changes, set the Deployed option to true.
     ///
-    /// - Returns: `DescribeServiceAccessPoliciesOutputResponse` : The result of a DescribeServiceAccessPolicies request.
+    /// - Returns: `DescribeServiceAccessPoliciesOutput` : The result of a DescribeServiceAccessPolicies request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -929,7 +929,7 @@ extension CloudSearchClient: CloudSearchClientProtocol {
     /// - `BaseException` : An error occurred while processing the request.
     /// - `InternalException` : An internal error occurred while processing the request. If this problem persists, report an issue from the [Service Health Dashboard](http://status.aws.amazon.com/).
     /// - `ResourceNotFoundException` : The request was rejected because it attempted to reference a resource that does not exist.
-    public func describeServiceAccessPolicies(input: DescribeServiceAccessPoliciesInput) async throws -> DescribeServiceAccessPoliciesOutputResponse
+    public func describeServiceAccessPolicies(input: DescribeServiceAccessPoliciesInput) async throws -> DescribeServiceAccessPoliciesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -945,20 +945,20 @@ extension CloudSearchClient: CloudSearchClientProtocol {
                       .withSigningName(value: "cloudsearch")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeServiceAccessPoliciesInput, DescribeServiceAccessPoliciesOutputResponse, DescribeServiceAccessPoliciesOutputError>(id: "describeServiceAccessPolicies")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeServiceAccessPoliciesInput, DescribeServiceAccessPoliciesOutputResponse, DescribeServiceAccessPoliciesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeServiceAccessPoliciesInput, DescribeServiceAccessPoliciesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeServiceAccessPoliciesInput, DescribeServiceAccessPoliciesOutput, DescribeServiceAccessPoliciesOutputError>(id: "describeServiceAccessPolicies")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeServiceAccessPoliciesInput, DescribeServiceAccessPoliciesOutput, DescribeServiceAccessPoliciesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeServiceAccessPoliciesInput, DescribeServiceAccessPoliciesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeServiceAccessPoliciesOutputResponse, DescribeServiceAccessPoliciesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeServiceAccessPoliciesOutput, DescribeServiceAccessPoliciesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeServiceAccessPoliciesInput, DescribeServiceAccessPoliciesOutputResponse>(xmlName: "DescribeServiceAccessPoliciesRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeServiceAccessPoliciesInput, DescribeServiceAccessPoliciesOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeServiceAccessPoliciesInput, DescribeServiceAccessPoliciesOutput>(xmlName: "DescribeServiceAccessPoliciesRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeServiceAccessPoliciesInput, DescribeServiceAccessPoliciesOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeServiceAccessPoliciesOutputResponse, DescribeServiceAccessPoliciesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeServiceAccessPoliciesOutput, DescribeServiceAccessPoliciesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeServiceAccessPoliciesOutputResponse, DescribeServiceAccessPoliciesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeServiceAccessPoliciesOutputResponse, DescribeServiceAccessPoliciesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeServiceAccessPoliciesOutputResponse, DescribeServiceAccessPoliciesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeServiceAccessPoliciesOutput, DescribeServiceAccessPoliciesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeServiceAccessPoliciesOutput, DescribeServiceAccessPoliciesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeServiceAccessPoliciesOutput, DescribeServiceAccessPoliciesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -967,7 +967,7 @@ extension CloudSearchClient: CloudSearchClientProtocol {
     ///
     /// - Parameter DescribeSuggestersInput : Container for the parameters to the [DescribeSuggester] operation. Specifies the name of the domain you want to describe. To restrict the response to particular suggesters, specify the names of the suggesters you want to describe. To show the active configuration and exclude any pending changes, set the Deployed option to true.
     ///
-    /// - Returns: `DescribeSuggestersOutputResponse` : The result of a DescribeSuggesters request.
+    /// - Returns: `DescribeSuggestersOutput` : The result of a DescribeSuggesters request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -975,7 +975,7 @@ extension CloudSearchClient: CloudSearchClientProtocol {
     /// - `BaseException` : An error occurred while processing the request.
     /// - `InternalException` : An internal error occurred while processing the request. If this problem persists, report an issue from the [Service Health Dashboard](http://status.aws.amazon.com/).
     /// - `ResourceNotFoundException` : The request was rejected because it attempted to reference a resource that does not exist.
-    public func describeSuggesters(input: DescribeSuggestersInput) async throws -> DescribeSuggestersOutputResponse
+    public func describeSuggesters(input: DescribeSuggestersInput) async throws -> DescribeSuggestersOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -991,20 +991,20 @@ extension CloudSearchClient: CloudSearchClientProtocol {
                       .withSigningName(value: "cloudsearch")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeSuggestersInput, DescribeSuggestersOutputResponse, DescribeSuggestersOutputError>(id: "describeSuggesters")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeSuggestersInput, DescribeSuggestersOutputResponse, DescribeSuggestersOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeSuggestersInput, DescribeSuggestersOutputResponse>())
+        var operation = ClientRuntime.OperationStack<DescribeSuggestersInput, DescribeSuggestersOutput, DescribeSuggestersOutputError>(id: "describeSuggesters")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeSuggestersInput, DescribeSuggestersOutput, DescribeSuggestersOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeSuggestersInput, DescribeSuggestersOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeSuggestersOutputResponse, DescribeSuggestersOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeSuggestersOutput, DescribeSuggestersOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeSuggestersInput, DescribeSuggestersOutputResponse>(xmlName: "DescribeSuggestersRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeSuggestersInput, DescribeSuggestersOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeSuggestersInput, DescribeSuggestersOutput>(xmlName: "DescribeSuggestersRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeSuggestersInput, DescribeSuggestersOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeSuggestersOutputResponse, DescribeSuggestersOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeSuggestersOutput, DescribeSuggestersOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeSuggestersOutputResponse, DescribeSuggestersOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeSuggestersOutputResponse, DescribeSuggestersOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeSuggestersOutputResponse, DescribeSuggestersOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeSuggestersOutput, DescribeSuggestersOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeSuggestersOutput, DescribeSuggestersOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeSuggestersOutput, DescribeSuggestersOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1013,7 +1013,7 @@ extension CloudSearchClient: CloudSearchClientProtocol {
     ///
     /// - Parameter IndexDocumentsInput : Container for the parameters to the [IndexDocuments] operation. Specifies the name of the domain you want to re-index.
     ///
-    /// - Returns: `IndexDocumentsOutputResponse` : The result of an IndexDocuments request. Contains the status of the indexing operation, including the fields being indexed.
+    /// - Returns: `IndexDocumentsOutput` : The result of an IndexDocuments request. Contains the status of the indexing operation, including the fields being indexed.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1022,7 +1022,7 @@ extension CloudSearchClient: CloudSearchClientProtocol {
     /// - `InternalException` : An internal error occurred while processing the request. If this problem persists, report an issue from the [Service Health Dashboard](http://status.aws.amazon.com/).
     /// - `ResourceNotFoundException` : The request was rejected because it attempted to reference a resource that does not exist.
     /// - `ValidationException` : The request was rejected because it has invalid parameters.
-    public func indexDocuments(input: IndexDocumentsInput) async throws -> IndexDocumentsOutputResponse
+    public func indexDocuments(input: IndexDocumentsInput) async throws -> IndexDocumentsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1038,20 +1038,20 @@ extension CloudSearchClient: CloudSearchClientProtocol {
                       .withSigningName(value: "cloudsearch")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<IndexDocumentsInput, IndexDocumentsOutputResponse, IndexDocumentsOutputError>(id: "indexDocuments")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<IndexDocumentsInput, IndexDocumentsOutputResponse, IndexDocumentsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<IndexDocumentsInput, IndexDocumentsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<IndexDocumentsInput, IndexDocumentsOutput, IndexDocumentsOutputError>(id: "indexDocuments")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<IndexDocumentsInput, IndexDocumentsOutput, IndexDocumentsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<IndexDocumentsInput, IndexDocumentsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<IndexDocumentsOutputResponse, IndexDocumentsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<IndexDocumentsOutput, IndexDocumentsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<IndexDocumentsInput, IndexDocumentsOutputResponse>(xmlName: "IndexDocumentsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<IndexDocumentsInput, IndexDocumentsOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<IndexDocumentsInput, IndexDocumentsOutput>(xmlName: "IndexDocumentsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<IndexDocumentsInput, IndexDocumentsOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, IndexDocumentsOutputResponse, IndexDocumentsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, IndexDocumentsOutput, IndexDocumentsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<IndexDocumentsOutputResponse, IndexDocumentsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<IndexDocumentsOutputResponse, IndexDocumentsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<IndexDocumentsOutputResponse, IndexDocumentsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<IndexDocumentsOutput, IndexDocumentsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<IndexDocumentsOutput, IndexDocumentsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<IndexDocumentsOutput, IndexDocumentsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1060,13 +1060,13 @@ extension CloudSearchClient: CloudSearchClientProtocol {
     ///
     /// - Parameter ListDomainNamesInput : [no documentation found]
     ///
-    /// - Returns: `ListDomainNamesOutputResponse` : The result of a ListDomainNames request. Contains a list of the domains owned by an account.
+    /// - Returns: `ListDomainNamesOutput` : The result of a ListDomainNames request. Contains a list of the domains owned by an account.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BaseException` : An error occurred while processing the request.
-    public func listDomainNames(input: ListDomainNamesInput) async throws -> ListDomainNamesOutputResponse
+    public func listDomainNames(input: ListDomainNamesInput) async throws -> ListDomainNamesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1082,20 +1082,20 @@ extension CloudSearchClient: CloudSearchClientProtocol {
                       .withSigningName(value: "cloudsearch")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListDomainNamesInput, ListDomainNamesOutputResponse, ListDomainNamesOutputError>(id: "listDomainNames")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDomainNamesInput, ListDomainNamesOutputResponse, ListDomainNamesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDomainNamesInput, ListDomainNamesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<ListDomainNamesInput, ListDomainNamesOutput, ListDomainNamesOutputError>(id: "listDomainNames")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDomainNamesInput, ListDomainNamesOutput, ListDomainNamesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDomainNamesInput, ListDomainNamesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListDomainNamesOutputResponse, ListDomainNamesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListDomainNamesOutput, ListDomainNamesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListDomainNamesInput, ListDomainNamesOutputResponse>())
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListDomainNamesInput, ListDomainNamesOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListDomainNamesInput, ListDomainNamesOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListDomainNamesInput, ListDomainNamesOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListDomainNamesOutputResponse, ListDomainNamesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListDomainNamesOutput, ListDomainNamesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDomainNamesOutputResponse, ListDomainNamesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDomainNamesOutputResponse, ListDomainNamesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDomainNamesOutputResponse, ListDomainNamesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDomainNamesOutput, ListDomainNamesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDomainNamesOutput, ListDomainNamesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDomainNamesOutput, ListDomainNamesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1104,7 +1104,7 @@ extension CloudSearchClient: CloudSearchClientProtocol {
     ///
     /// - Parameter UpdateAvailabilityOptionsInput : Container for the parameters to the [UpdateAvailabilityOptions] operation. Specifies the name of the domain you want to update and the Multi-AZ availability option.
     ///
-    /// - Returns: `UpdateAvailabilityOptionsOutputResponse` : The result of a UpdateAvailabilityOptions request. Contains the status of the domain's availability options.
+    /// - Returns: `UpdateAvailabilityOptionsOutput` : The result of a UpdateAvailabilityOptions request. Contains the status of the domain's availability options.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1116,7 +1116,7 @@ extension CloudSearchClient: CloudSearchClientProtocol {
     /// - `LimitExceededException` : The request was rejected because a resource limit has already been met.
     /// - `ResourceNotFoundException` : The request was rejected because it attempted to reference a resource that does not exist.
     /// - `ValidationException` : The request was rejected because it has invalid parameters.
-    public func updateAvailabilityOptions(input: UpdateAvailabilityOptionsInput) async throws -> UpdateAvailabilityOptionsOutputResponse
+    public func updateAvailabilityOptions(input: UpdateAvailabilityOptionsInput) async throws -> UpdateAvailabilityOptionsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1132,20 +1132,20 @@ extension CloudSearchClient: CloudSearchClientProtocol {
                       .withSigningName(value: "cloudsearch")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateAvailabilityOptionsInput, UpdateAvailabilityOptionsOutputResponse, UpdateAvailabilityOptionsOutputError>(id: "updateAvailabilityOptions")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateAvailabilityOptionsInput, UpdateAvailabilityOptionsOutputResponse, UpdateAvailabilityOptionsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateAvailabilityOptionsInput, UpdateAvailabilityOptionsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateAvailabilityOptionsInput, UpdateAvailabilityOptionsOutput, UpdateAvailabilityOptionsOutputError>(id: "updateAvailabilityOptions")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateAvailabilityOptionsInput, UpdateAvailabilityOptionsOutput, UpdateAvailabilityOptionsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateAvailabilityOptionsInput, UpdateAvailabilityOptionsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateAvailabilityOptionsOutputResponse, UpdateAvailabilityOptionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateAvailabilityOptionsOutput, UpdateAvailabilityOptionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateAvailabilityOptionsInput, UpdateAvailabilityOptionsOutputResponse>(xmlName: "UpdateAvailabilityOptionsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateAvailabilityOptionsInput, UpdateAvailabilityOptionsOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateAvailabilityOptionsInput, UpdateAvailabilityOptionsOutput>(xmlName: "UpdateAvailabilityOptionsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateAvailabilityOptionsInput, UpdateAvailabilityOptionsOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateAvailabilityOptionsOutputResponse, UpdateAvailabilityOptionsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateAvailabilityOptionsOutput, UpdateAvailabilityOptionsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateAvailabilityOptionsOutputResponse, UpdateAvailabilityOptionsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateAvailabilityOptionsOutputResponse, UpdateAvailabilityOptionsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateAvailabilityOptionsOutputResponse, UpdateAvailabilityOptionsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateAvailabilityOptionsOutput, UpdateAvailabilityOptionsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateAvailabilityOptionsOutput, UpdateAvailabilityOptionsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateAvailabilityOptionsOutput, UpdateAvailabilityOptionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1154,7 +1154,7 @@ extension CloudSearchClient: CloudSearchClientProtocol {
     ///
     /// - Parameter UpdateDomainEndpointOptionsInput : Container for the parameters to the [UpdateDomainEndpointOptions] operation. Specifies the name of the domain you want to update and the domain endpoint options.
     ///
-    /// - Returns: `UpdateDomainEndpointOptionsOutputResponse` : The result of a UpdateDomainEndpointOptions request. Contains the configuration and status of the domain's endpoint options.
+    /// - Returns: `UpdateDomainEndpointOptionsOutput` : The result of a UpdateDomainEndpointOptions request. Contains the configuration and status of the domain's endpoint options.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1166,7 +1166,7 @@ extension CloudSearchClient: CloudSearchClientProtocol {
     /// - `LimitExceededException` : The request was rejected because a resource limit has already been met.
     /// - `ResourceNotFoundException` : The request was rejected because it attempted to reference a resource that does not exist.
     /// - `ValidationException` : The request was rejected because it has invalid parameters.
-    public func updateDomainEndpointOptions(input: UpdateDomainEndpointOptionsInput) async throws -> UpdateDomainEndpointOptionsOutputResponse
+    public func updateDomainEndpointOptions(input: UpdateDomainEndpointOptionsInput) async throws -> UpdateDomainEndpointOptionsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1182,20 +1182,20 @@ extension CloudSearchClient: CloudSearchClientProtocol {
                       .withSigningName(value: "cloudsearch")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateDomainEndpointOptionsInput, UpdateDomainEndpointOptionsOutputResponse, UpdateDomainEndpointOptionsOutputError>(id: "updateDomainEndpointOptions")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateDomainEndpointOptionsInput, UpdateDomainEndpointOptionsOutputResponse, UpdateDomainEndpointOptionsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateDomainEndpointOptionsInput, UpdateDomainEndpointOptionsOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateDomainEndpointOptionsInput, UpdateDomainEndpointOptionsOutput, UpdateDomainEndpointOptionsOutputError>(id: "updateDomainEndpointOptions")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateDomainEndpointOptionsInput, UpdateDomainEndpointOptionsOutput, UpdateDomainEndpointOptionsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateDomainEndpointOptionsInput, UpdateDomainEndpointOptionsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateDomainEndpointOptionsOutputResponse, UpdateDomainEndpointOptionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateDomainEndpointOptionsOutput, UpdateDomainEndpointOptionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateDomainEndpointOptionsInput, UpdateDomainEndpointOptionsOutputResponse>(xmlName: "UpdateDomainEndpointOptionsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateDomainEndpointOptionsInput, UpdateDomainEndpointOptionsOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateDomainEndpointOptionsInput, UpdateDomainEndpointOptionsOutput>(xmlName: "UpdateDomainEndpointOptionsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateDomainEndpointOptionsInput, UpdateDomainEndpointOptionsOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateDomainEndpointOptionsOutputResponse, UpdateDomainEndpointOptionsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateDomainEndpointOptionsOutput, UpdateDomainEndpointOptionsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateDomainEndpointOptionsOutputResponse, UpdateDomainEndpointOptionsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateDomainEndpointOptionsOutputResponse, UpdateDomainEndpointOptionsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateDomainEndpointOptionsOutputResponse, UpdateDomainEndpointOptionsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateDomainEndpointOptionsOutput, UpdateDomainEndpointOptionsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateDomainEndpointOptionsOutput, UpdateDomainEndpointOptionsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateDomainEndpointOptionsOutput, UpdateDomainEndpointOptionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1204,7 +1204,7 @@ extension CloudSearchClient: CloudSearchClientProtocol {
     ///
     /// - Parameter UpdateScalingParametersInput : Container for the parameters to the [UpdateScalingParameters] operation. Specifies the name of the domain you want to update and the scaling parameters you want to configure.
     ///
-    /// - Returns: `UpdateScalingParametersOutputResponse` : The result of a UpdateScalingParameters request. Contains the status of the newly-configured scaling parameters.
+    /// - Returns: `UpdateScalingParametersOutput` : The result of a UpdateScalingParameters request. Contains the status of the newly-configured scaling parameters.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1215,7 +1215,7 @@ extension CloudSearchClient: CloudSearchClientProtocol {
     /// - `LimitExceededException` : The request was rejected because a resource limit has already been met.
     /// - `ResourceNotFoundException` : The request was rejected because it attempted to reference a resource that does not exist.
     /// - `ValidationException` : The request was rejected because it has invalid parameters.
-    public func updateScalingParameters(input: UpdateScalingParametersInput) async throws -> UpdateScalingParametersOutputResponse
+    public func updateScalingParameters(input: UpdateScalingParametersInput) async throws -> UpdateScalingParametersOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1231,20 +1231,20 @@ extension CloudSearchClient: CloudSearchClientProtocol {
                       .withSigningName(value: "cloudsearch")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateScalingParametersInput, UpdateScalingParametersOutputResponse, UpdateScalingParametersOutputError>(id: "updateScalingParameters")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateScalingParametersInput, UpdateScalingParametersOutputResponse, UpdateScalingParametersOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateScalingParametersInput, UpdateScalingParametersOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateScalingParametersInput, UpdateScalingParametersOutput, UpdateScalingParametersOutputError>(id: "updateScalingParameters")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateScalingParametersInput, UpdateScalingParametersOutput, UpdateScalingParametersOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateScalingParametersInput, UpdateScalingParametersOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateScalingParametersOutputResponse, UpdateScalingParametersOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateScalingParametersOutput, UpdateScalingParametersOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateScalingParametersInput, UpdateScalingParametersOutputResponse>(xmlName: "UpdateScalingParametersRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateScalingParametersInput, UpdateScalingParametersOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateScalingParametersInput, UpdateScalingParametersOutput>(xmlName: "UpdateScalingParametersRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateScalingParametersInput, UpdateScalingParametersOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateScalingParametersOutputResponse, UpdateScalingParametersOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateScalingParametersOutput, UpdateScalingParametersOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateScalingParametersOutputResponse, UpdateScalingParametersOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateScalingParametersOutputResponse, UpdateScalingParametersOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateScalingParametersOutputResponse, UpdateScalingParametersOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateScalingParametersOutput, UpdateScalingParametersOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateScalingParametersOutput, UpdateScalingParametersOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateScalingParametersOutput, UpdateScalingParametersOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1253,7 +1253,7 @@ extension CloudSearchClient: CloudSearchClientProtocol {
     ///
     /// - Parameter UpdateServiceAccessPoliciesInput : Container for the parameters to the [UpdateServiceAccessPolicies] operation. Specifies the name of the domain you want to update and the access rules you want to configure.
     ///
-    /// - Returns: `UpdateServiceAccessPoliciesOutputResponse` : The result of an UpdateServiceAccessPolicies request. Contains the new access policies.
+    /// - Returns: `UpdateServiceAccessPoliciesOutput` : The result of an UpdateServiceAccessPolicies request. Contains the new access policies.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1264,7 +1264,7 @@ extension CloudSearchClient: CloudSearchClientProtocol {
     /// - `LimitExceededException` : The request was rejected because a resource limit has already been met.
     /// - `ResourceNotFoundException` : The request was rejected because it attempted to reference a resource that does not exist.
     /// - `ValidationException` : The request was rejected because it has invalid parameters.
-    public func updateServiceAccessPolicies(input: UpdateServiceAccessPoliciesInput) async throws -> UpdateServiceAccessPoliciesOutputResponse
+    public func updateServiceAccessPolicies(input: UpdateServiceAccessPoliciesInput) async throws -> UpdateServiceAccessPoliciesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1280,20 +1280,20 @@ extension CloudSearchClient: CloudSearchClientProtocol {
                       .withSigningName(value: "cloudsearch")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateServiceAccessPoliciesInput, UpdateServiceAccessPoliciesOutputResponse, UpdateServiceAccessPoliciesOutputError>(id: "updateServiceAccessPolicies")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateServiceAccessPoliciesInput, UpdateServiceAccessPoliciesOutputResponse, UpdateServiceAccessPoliciesOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateServiceAccessPoliciesInput, UpdateServiceAccessPoliciesOutputResponse>())
+        var operation = ClientRuntime.OperationStack<UpdateServiceAccessPoliciesInput, UpdateServiceAccessPoliciesOutput, UpdateServiceAccessPoliciesOutputError>(id: "updateServiceAccessPolicies")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateServiceAccessPoliciesInput, UpdateServiceAccessPoliciesOutput, UpdateServiceAccessPoliciesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateServiceAccessPoliciesInput, UpdateServiceAccessPoliciesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateServiceAccessPoliciesOutputResponse, UpdateServiceAccessPoliciesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateServiceAccessPoliciesOutput, UpdateServiceAccessPoliciesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateServiceAccessPoliciesInput, UpdateServiceAccessPoliciesOutputResponse>(xmlName: "UpdateServiceAccessPoliciesRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateServiceAccessPoliciesInput, UpdateServiceAccessPoliciesOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateServiceAccessPoliciesInput, UpdateServiceAccessPoliciesOutput>(xmlName: "UpdateServiceAccessPoliciesRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateServiceAccessPoliciesInput, UpdateServiceAccessPoliciesOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateServiceAccessPoliciesOutputResponse, UpdateServiceAccessPoliciesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateServiceAccessPoliciesOutput, UpdateServiceAccessPoliciesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateServiceAccessPoliciesOutputResponse, UpdateServiceAccessPoliciesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateServiceAccessPoliciesOutputResponse, UpdateServiceAccessPoliciesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateServiceAccessPoliciesOutputResponse, UpdateServiceAccessPoliciesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateServiceAccessPoliciesOutput, UpdateServiceAccessPoliciesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateServiceAccessPoliciesOutput, UpdateServiceAccessPoliciesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateServiceAccessPoliciesOutput, UpdateServiceAccessPoliciesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

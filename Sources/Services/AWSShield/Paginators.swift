@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension ShieldClient {
-    /// Paginate over `[ListAttacksOutputResponse]` results.
+    /// Paginate over `[ListAttacksOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListAttacksInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListAttacksOutputResponse`
-    public func listAttacksPaginated(input: ListAttacksInput) -> ClientRuntime.PaginatorSequence<ListAttacksInput, ListAttacksOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListAttacksInput, ListAttacksOutputResponse>(input: input, inputKey: \ListAttacksInput.nextToken, outputKey: \ListAttacksOutputResponse.nextToken, paginationFunction: self.listAttacks(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAttacksOutput`
+    public func listAttacksPaginated(input: ListAttacksInput) -> ClientRuntime.PaginatorSequence<ListAttacksInput, ListAttacksOutput> {
+        return ClientRuntime.PaginatorSequence<ListAttacksInput, ListAttacksOutput>(input: input, inputKey: \ListAttacksInput.nextToken, outputKey: \ListAttacksOutput.nextToken, paginationFunction: self.listAttacks(input:))
     }
 }
 
@@ -27,7 +27,7 @@ extension ListAttacksInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListAttacksInput, Output == ListAttacksOutputResponse {
+extension PaginatorSequence where Input == ListAttacksInput, Output == ListAttacksOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listAttacksPaginated`
     /// to access the nested member `[ShieldClientTypes.AttackSummary]`
     /// - Returns: `[ShieldClientTypes.AttackSummary]`
@@ -36,16 +36,16 @@ extension PaginatorSequence where Input == ListAttacksInput, Output == ListAttac
     }
 }
 extension ShieldClient {
-    /// Paginate over `[ListProtectionGroupsOutputResponse]` results.
+    /// Paginate over `[ListProtectionGroupsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListProtectionGroupsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListProtectionGroupsOutputResponse`
-    public func listProtectionGroupsPaginated(input: ListProtectionGroupsInput) -> ClientRuntime.PaginatorSequence<ListProtectionGroupsInput, ListProtectionGroupsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListProtectionGroupsInput, ListProtectionGroupsOutputResponse>(input: input, inputKey: \ListProtectionGroupsInput.nextToken, outputKey: \ListProtectionGroupsOutputResponse.nextToken, paginationFunction: self.listProtectionGroups(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListProtectionGroupsOutput`
+    public func listProtectionGroupsPaginated(input: ListProtectionGroupsInput) -> ClientRuntime.PaginatorSequence<ListProtectionGroupsInput, ListProtectionGroupsOutput> {
+        return ClientRuntime.PaginatorSequence<ListProtectionGroupsInput, ListProtectionGroupsOutput>(input: input, inputKey: \ListProtectionGroupsInput.nextToken, outputKey: \ListProtectionGroupsOutput.nextToken, paginationFunction: self.listProtectionGroups(input:))
     }
 }
 
@@ -58,16 +58,16 @@ extension ListProtectionGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension ShieldClient {
-    /// Paginate over `[ListProtectionsOutputResponse]` results.
+    /// Paginate over `[ListProtectionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListProtectionsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListProtectionsOutputResponse`
-    public func listProtectionsPaginated(input: ListProtectionsInput) -> ClientRuntime.PaginatorSequence<ListProtectionsInput, ListProtectionsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListProtectionsInput, ListProtectionsOutputResponse>(input: input, inputKey: \ListProtectionsInput.nextToken, outputKey: \ListProtectionsOutputResponse.nextToken, paginationFunction: self.listProtections(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListProtectionsOutput`
+    public func listProtectionsPaginated(input: ListProtectionsInput) -> ClientRuntime.PaginatorSequence<ListProtectionsInput, ListProtectionsOutput> {
+        return ClientRuntime.PaginatorSequence<ListProtectionsInput, ListProtectionsOutput>(input: input, inputKey: \ListProtectionsInput.nextToken, outputKey: \ListProtectionsOutput.nextToken, paginationFunction: self.listProtections(input:))
     }
 }
 
@@ -80,7 +80,7 @@ extension ListProtectionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListProtectionsInput, Output == ListProtectionsOutputResponse {
+extension PaginatorSequence where Input == ListProtectionsInput, Output == ListProtectionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listProtectionsPaginated`
     /// to access the nested member `[ShieldClientTypes.Protection]`
     /// - Returns: `[ShieldClientTypes.Protection]`
@@ -89,16 +89,16 @@ extension PaginatorSequence where Input == ListProtectionsInput, Output == ListP
     }
 }
 extension ShieldClient {
-    /// Paginate over `[ListResourcesInProtectionGroupOutputResponse]` results.
+    /// Paginate over `[ListResourcesInProtectionGroupOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListResourcesInProtectionGroupInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListResourcesInProtectionGroupOutputResponse`
-    public func listResourcesInProtectionGroupPaginated(input: ListResourcesInProtectionGroupInput) -> ClientRuntime.PaginatorSequence<ListResourcesInProtectionGroupInput, ListResourcesInProtectionGroupOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListResourcesInProtectionGroupInput, ListResourcesInProtectionGroupOutputResponse>(input: input, inputKey: \ListResourcesInProtectionGroupInput.nextToken, outputKey: \ListResourcesInProtectionGroupOutputResponse.nextToken, paginationFunction: self.listResourcesInProtectionGroup(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListResourcesInProtectionGroupOutput`
+    public func listResourcesInProtectionGroupPaginated(input: ListResourcesInProtectionGroupInput) -> ClientRuntime.PaginatorSequence<ListResourcesInProtectionGroupInput, ListResourcesInProtectionGroupOutput> {
+        return ClientRuntime.PaginatorSequence<ListResourcesInProtectionGroupInput, ListResourcesInProtectionGroupOutput>(input: input, inputKey: \ListResourcesInProtectionGroupInput.nextToken, outputKey: \ListResourcesInProtectionGroupOutput.nextToken, paginationFunction: self.listResourcesInProtectionGroup(input:))
     }
 }
 

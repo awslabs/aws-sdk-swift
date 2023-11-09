@@ -115,6 +115,16 @@ extension AssociateMemberAccountInputBody: Swift.Decodable {
     }
 }
 
+extension AssociateMemberAccountOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct AssociateMemberAccountOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum AssociateMemberAccountOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -126,16 +136,6 @@ enum AssociateMemberAccountOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension AssociateMemberAccountOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct AssociateMemberAccountOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension AssociateS3ResourcesInput: Swift.Encodable {
@@ -210,25 +210,11 @@ extension AssociateS3ResourcesInputBody: Swift.Decodable {
     }
 }
 
-enum AssociateS3ResourcesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension AssociateS3ResourcesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension AssociateS3ResourcesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: AssociateS3ResourcesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: AssociateS3ResourcesOutputBody = try responseDecoder.decode(responseBody: data)
             self.failedS3Resources = output.failedS3Resources
         } else {
             self.failedS3Resources = nil
@@ -236,7 +222,7 @@ extension AssociateS3ResourcesOutputResponse: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct AssociateS3ResourcesOutputResponse: Swift.Equatable {
+public struct AssociateS3ResourcesOutput: Swift.Equatable {
     /// (Discontinued) S3 resources that couldn't be associated with Amazon Macie Classic. An error code and an error message are provided for each failed item.
     public var failedS3Resources: [MacieClientTypes.FailedS3Resource]?
 
@@ -248,11 +234,11 @@ public struct AssociateS3ResourcesOutputResponse: Swift.Equatable {
     }
 }
 
-struct AssociateS3ResourcesOutputResponseBody: Swift.Equatable {
+struct AssociateS3ResourcesOutputBody: Swift.Equatable {
     let failedS3Resources: [MacieClientTypes.FailedS3Resource]?
 }
 
-extension AssociateS3ResourcesOutputResponseBody: Swift.Decodable {
+extension AssociateS3ResourcesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case failedS3Resources
     }
@@ -270,6 +256,20 @@ extension AssociateS3ResourcesOutputResponseBody: Swift.Decodable {
             }
         }
         failedS3Resources = failedS3ResourcesDecoded0
+    }
+}
+
+enum AssociateS3ResourcesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -413,6 +413,16 @@ extension DisassociateMemberAccountInputBody: Swift.Decodable {
     }
 }
 
+extension DisassociateMemberAccountOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DisassociateMemberAccountOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DisassociateMemberAccountOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -423,16 +433,6 @@ enum DisassociateMemberAccountOutputError: ClientRuntime.HttpResponseErrorBindin
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DisassociateMemberAccountOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DisassociateMemberAccountOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DisassociateS3ResourcesInput: Swift.Encodable {
@@ -507,24 +507,11 @@ extension DisassociateS3ResourcesInputBody: Swift.Decodable {
     }
 }
 
-enum DisassociateS3ResourcesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DisassociateS3ResourcesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DisassociateS3ResourcesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DisassociateS3ResourcesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DisassociateS3ResourcesOutputBody = try responseDecoder.decode(responseBody: data)
             self.failedS3Resources = output.failedS3Resources
         } else {
             self.failedS3Resources = nil
@@ -532,7 +519,7 @@ extension DisassociateS3ResourcesOutputResponse: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct DisassociateS3ResourcesOutputResponse: Swift.Equatable {
+public struct DisassociateS3ResourcesOutput: Swift.Equatable {
     /// (Discontinued) S3 resources that couldn't be removed from being monitored and classified by Amazon Macie Classic. An error code and an error message are provided for each failed item.
     public var failedS3Resources: [MacieClientTypes.FailedS3Resource]?
 
@@ -544,11 +531,11 @@ public struct DisassociateS3ResourcesOutputResponse: Swift.Equatable {
     }
 }
 
-struct DisassociateS3ResourcesOutputResponseBody: Swift.Equatable {
+struct DisassociateS3ResourcesOutputBody: Swift.Equatable {
     let failedS3Resources: [MacieClientTypes.FailedS3Resource]?
 }
 
-extension DisassociateS3ResourcesOutputResponseBody: Swift.Decodable {
+extension DisassociateS3ResourcesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case failedS3Resources
     }
@@ -566,6 +553,19 @@ extension DisassociateS3ResourcesOutputResponseBody: Swift.Decodable {
             }
         }
         failedS3Resources = failedS3ResourcesDecoded0
+    }
+}
+
+enum DisassociateS3ResourcesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -898,23 +898,11 @@ extension ListMemberAccountsInputBody: Swift.Decodable {
     }
 }
 
-enum ListMemberAccountsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListMemberAccountsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListMemberAccountsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListMemberAccountsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListMemberAccountsOutputBody = try responseDecoder.decode(responseBody: data)
             self.memberAccounts = output.memberAccounts
             self.nextToken = output.nextToken
         } else {
@@ -924,7 +912,7 @@ extension ListMemberAccountsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListMemberAccountsOutputResponse: Swift.Equatable {
+public struct ListMemberAccountsOutput: Swift.Equatable {
     /// (Discontinued) A list of the Amazon Macie Classic member accounts returned by the action. The current Macie Classic administrator account is also included in this list.
     public var memberAccounts: [MacieClientTypes.MemberAccount]?
     /// (Discontinued) When a response is generated, if there is more data to be listed, this parameter is present in the response and contains the value to use for the nextToken parameter in a subsequent pagination request. If there is no more data to be listed, this parameter is set to null.
@@ -940,12 +928,12 @@ public struct ListMemberAccountsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListMemberAccountsOutputResponseBody: Swift.Equatable {
+struct ListMemberAccountsOutputBody: Swift.Equatable {
     let memberAccounts: [MacieClientTypes.MemberAccount]?
     let nextToken: Swift.String?
 }
 
-extension ListMemberAccountsOutputResponseBody: Swift.Decodable {
+extension ListMemberAccountsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case memberAccounts
         case nextToken
@@ -966,6 +954,18 @@ extension ListMemberAccountsOutputResponseBody: Swift.Decodable {
         memberAccounts = memberAccountsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListMemberAccountsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1040,24 +1040,11 @@ extension ListS3ResourcesInputBody: Swift.Decodable {
     }
 }
 
-enum ListS3ResourcesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListS3ResourcesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListS3ResourcesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListS3ResourcesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListS3ResourcesOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.s3Resources = output.s3Resources
         } else {
@@ -1067,7 +1054,7 @@ extension ListS3ResourcesOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListS3ResourcesOutputResponse: Swift.Equatable {
+public struct ListS3ResourcesOutput: Swift.Equatable {
     /// (Discontinued) When a response is generated, if there is more data to be listed, this parameter is present in the response and contains the value to use for the nextToken parameter in a subsequent pagination request. If there is no more data to be listed, this parameter is set to null.
     public var nextToken: Swift.String?
     /// (Discontinued) A list of the associated S3 resources returned by the action.
@@ -1083,12 +1070,12 @@ public struct ListS3ResourcesOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListS3ResourcesOutputResponseBody: Swift.Equatable {
+struct ListS3ResourcesOutputBody: Swift.Equatable {
     let s3Resources: [MacieClientTypes.S3ResourceClassification]?
     let nextToken: Swift.String?
 }
 
-extension ListS3ResourcesOutputResponseBody: Swift.Decodable {
+extension ListS3ResourcesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken
         case s3Resources
@@ -1109,6 +1096,19 @@ extension ListS3ResourcesOutputResponseBody: Swift.Decodable {
         s3Resources = s3ResourcesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListS3ResourcesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1440,24 +1440,11 @@ extension UpdateS3ResourcesInputBody: Swift.Decodable {
     }
 }
 
-enum UpdateS3ResourcesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension UpdateS3ResourcesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension UpdateS3ResourcesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: UpdateS3ResourcesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: UpdateS3ResourcesOutputBody = try responseDecoder.decode(responseBody: data)
             self.failedS3Resources = output.failedS3Resources
         } else {
             self.failedS3Resources = nil
@@ -1465,7 +1452,7 @@ extension UpdateS3ResourcesOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateS3ResourcesOutputResponse: Swift.Equatable {
+public struct UpdateS3ResourcesOutput: Swift.Equatable {
     /// (Discontinued) The S3 resources whose classification types can't be updated. An error code and an error message are provided for each failed item.
     public var failedS3Resources: [MacieClientTypes.FailedS3Resource]?
 
@@ -1477,11 +1464,11 @@ public struct UpdateS3ResourcesOutputResponse: Swift.Equatable {
     }
 }
 
-struct UpdateS3ResourcesOutputResponseBody: Swift.Equatable {
+struct UpdateS3ResourcesOutputBody: Swift.Equatable {
     let failedS3Resources: [MacieClientTypes.FailedS3Resource]?
 }
 
-extension UpdateS3ResourcesOutputResponseBody: Swift.Decodable {
+extension UpdateS3ResourcesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case failedS3Resources
     }
@@ -1499,5 +1486,18 @@ extension UpdateS3ResourcesOutputResponseBody: Swift.Decodable {
             }
         }
         failedS3Resources = failedS3ResourcesDecoded0
+    }
+}
+
+enum UpdateS3ResourcesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }

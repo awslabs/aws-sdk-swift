@@ -8,7 +8,7 @@ public protocol ServiceDiscoveryClientProtocol {
     ///
     /// - Parameter CreateHttpNamespaceInput : [no documentation found]
     ///
-    /// - Returns: `CreateHttpNamespaceOutputResponse` : [no documentation found]
+    /// - Returns: `CreateHttpNamespaceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -18,12 +18,12 @@ public protocol ServiceDiscoveryClientProtocol {
     /// - `NamespaceAlreadyExists` : The namespace that you're trying to create already exists.
     /// - `ResourceLimitExceeded` : The resource can't be created because you've reached the quota on the number of resources.
     /// - `TooManyTagsException` : The list of tags on the resource is over the quota. The maximum number of tags that can be applied to a resource is 50.
-    func createHttpNamespace(input: CreateHttpNamespaceInput) async throws -> CreateHttpNamespaceOutputResponse
+    func createHttpNamespace(input: CreateHttpNamespaceInput) async throws -> CreateHttpNamespaceOutput
     /// Creates a private namespace based on DNS, which is visible only inside a specified Amazon VPC. The namespace defines your service naming scheme. For example, if you name your namespace example.com and name your service backend, the resulting DNS name for the service is backend.example.com. Service instances that are registered using a private DNS namespace can be discovered using either a DiscoverInstances request or using DNS. For the current quota on the number of namespaces that you can create using the same Amazon Web Services account, see [Cloud Map quotas](https://docs.aws.amazon.com/cloud-map/latest/dg/cloud-map-limits.html) in the Cloud Map Developer Guide.
     ///
     /// - Parameter CreatePrivateDnsNamespaceInput : [no documentation found]
     ///
-    /// - Returns: `CreatePrivateDnsNamespaceOutputResponse` : [no documentation found]
+    /// - Returns: `CreatePrivateDnsNamespaceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -33,12 +33,12 @@ public protocol ServiceDiscoveryClientProtocol {
     /// - `NamespaceAlreadyExists` : The namespace that you're trying to create already exists.
     /// - `ResourceLimitExceeded` : The resource can't be created because you've reached the quota on the number of resources.
     /// - `TooManyTagsException` : The list of tags on the resource is over the quota. The maximum number of tags that can be applied to a resource is 50.
-    func createPrivateDnsNamespace(input: CreatePrivateDnsNamespaceInput) async throws -> CreatePrivateDnsNamespaceOutputResponse
+    func createPrivateDnsNamespace(input: CreatePrivateDnsNamespaceInput) async throws -> CreatePrivateDnsNamespaceOutput
     /// Creates a public namespace based on DNS, which is visible on the internet. The namespace defines your service naming scheme. For example, if you name your namespace example.com and name your service backend, the resulting DNS name for the service is backend.example.com. You can discover instances that were registered with a public DNS namespace by using either a DiscoverInstances request or using DNS. For the current quota on the number of namespaces that you can create using the same Amazon Web Services account, see [Cloud Map quotas](https://docs.aws.amazon.com/cloud-map/latest/dg/cloud-map-limits.html) in the Cloud Map Developer Guide. The CreatePublicDnsNamespace API operation is not supported in the Amazon Web Services GovCloud (US) Regions.
     ///
     /// - Parameter CreatePublicDnsNamespaceInput : [no documentation found]
     ///
-    /// - Returns: `CreatePublicDnsNamespaceOutputResponse` : [no documentation found]
+    /// - Returns: `CreatePublicDnsNamespaceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -48,7 +48,7 @@ public protocol ServiceDiscoveryClientProtocol {
     /// - `NamespaceAlreadyExists` : The namespace that you're trying to create already exists.
     /// - `ResourceLimitExceeded` : The resource can't be created because you've reached the quota on the number of resources.
     /// - `TooManyTagsException` : The list of tags on the resource is over the quota. The maximum number of tags that can be applied to a resource is 50.
-    func createPublicDnsNamespace(input: CreatePublicDnsNamespaceInput) async throws -> CreatePublicDnsNamespaceOutputResponse
+    func createPublicDnsNamespace(input: CreatePublicDnsNamespaceInput) async throws -> CreatePublicDnsNamespaceOutput
     /// Creates a service. This action defines the configuration for the following entities:
     ///
     /// * For public and private DNS namespaces, one of the following combinations of DNS records in Amazon Route 53:
@@ -73,7 +73,7 @@ public protocol ServiceDiscoveryClientProtocol {
     ///
     /// - Parameter CreateServiceInput : [no documentation found]
     ///
-    /// - Returns: `CreateServiceOutputResponse` : [no documentation found]
+    /// - Returns: `CreateServiceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -83,12 +83,12 @@ public protocol ServiceDiscoveryClientProtocol {
     /// - `ResourceLimitExceeded` : The resource can't be created because you've reached the quota on the number of resources.
     /// - `ServiceAlreadyExists` : The service can't be created because a service with the same name already exists.
     /// - `TooManyTagsException` : The list of tags on the resource is over the quota. The maximum number of tags that can be applied to a resource is 50.
-    func createService(input: CreateServiceInput) async throws -> CreateServiceOutputResponse
+    func createService(input: CreateServiceInput) async throws -> CreateServiceOutput
     /// Deletes a namespace from the current account. If the namespace still contains one or more services, the request fails.
     ///
     /// - Parameter DeleteNamespaceInput : [no documentation found]
     ///
-    /// - Returns: `DeleteNamespaceOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteNamespaceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -97,12 +97,12 @@ public protocol ServiceDiscoveryClientProtocol {
     /// - `InvalidInput` : One or more specified values aren't valid. For example, a required value might be missing, a numeric value might be outside the allowed range, or a string value might exceed length constraints.
     /// - `NamespaceNotFound` : No namespace exists with the specified ID.
     /// - `ResourceInUse` : The specified resource can't be deleted because it contains other resources. For example, you can't delete a service that contains any instances.
-    func deleteNamespace(input: DeleteNamespaceInput) async throws -> DeleteNamespaceOutputResponse
+    func deleteNamespace(input: DeleteNamespaceInput) async throws -> DeleteNamespaceOutput
     /// Deletes a specified service. If the service still contains one or more registered instances, the request fails.
     ///
     /// - Parameter DeleteServiceInput : [no documentation found]
     ///
-    /// - Returns: `DeleteServiceOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteServiceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -110,12 +110,12 @@ public protocol ServiceDiscoveryClientProtocol {
     /// - `InvalidInput` : One or more specified values aren't valid. For example, a required value might be missing, a numeric value might be outside the allowed range, or a string value might exceed length constraints.
     /// - `ResourceInUse` : The specified resource can't be deleted because it contains other resources. For example, you can't delete a service that contains any instances.
     /// - `ServiceNotFound` : No service exists with the specified ID.
-    func deleteService(input: DeleteServiceInput) async throws -> DeleteServiceOutputResponse
+    func deleteService(input: DeleteServiceInput) async throws -> DeleteServiceOutput
     /// Deletes the Amazon Route 53 DNS records and health check, if any, that Cloud Map created for the specified instance.
     ///
     /// - Parameter DeregisterInstanceInput : [no documentation found]
     ///
-    /// - Returns: `DeregisterInstanceOutputResponse` : [no documentation found]
+    /// - Returns: `DeregisterInstanceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -125,12 +125,12 @@ public protocol ServiceDiscoveryClientProtocol {
     /// - `InvalidInput` : One or more specified values aren't valid. For example, a required value might be missing, a numeric value might be outside the allowed range, or a string value might exceed length constraints.
     /// - `ResourceInUse` : The specified resource can't be deleted because it contains other resources. For example, you can't delete a service that contains any instances.
     /// - `ServiceNotFound` : No service exists with the specified ID.
-    func deregisterInstance(input: DeregisterInstanceInput) async throws -> DeregisterInstanceOutputResponse
+    func deregisterInstance(input: DeregisterInstanceInput) async throws -> DeregisterInstanceOutput
     /// Discovers registered instances for a specified namespace and service. You can use DiscoverInstances to discover instances for any type of namespace. DiscoverInstances returns a randomized list of instances allowing customers to distribute traffic evenly across instances. For public and private DNS namespaces, you can also use DNS queries to discover instances.
     ///
     /// - Parameter DiscoverInstancesInput : [no documentation found]
     ///
-    /// - Returns: `DiscoverInstancesOutputResponse` : [no documentation found]
+    /// - Returns: `DiscoverInstancesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -139,12 +139,12 @@ public protocol ServiceDiscoveryClientProtocol {
     /// - `NamespaceNotFound` : No namespace exists with the specified ID.
     /// - `RequestLimitExceeded` : The operation can't be completed because you've reached the quota for the number of requests. For more information, see [Cloud Map API request throttling quota](https://docs.aws.amazon.com/cloud-map/latest/dg/throttling.html) in the Cloud Map Developer Guide.
     /// - `ServiceNotFound` : No service exists with the specified ID.
-    func discoverInstances(input: DiscoverInstancesInput) async throws -> DiscoverInstancesOutputResponse
+    func discoverInstances(input: DiscoverInstancesInput) async throws -> DiscoverInstancesOutput
     /// Discovers the increasing revision associated with an instance.
     ///
     /// - Parameter DiscoverInstancesRevisionInput : [no documentation found]
     ///
-    /// - Returns: `DiscoverInstancesRevisionOutputResponse` : [no documentation found]
+    /// - Returns: `DiscoverInstancesRevisionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -153,12 +153,12 @@ public protocol ServiceDiscoveryClientProtocol {
     /// - `NamespaceNotFound` : No namespace exists with the specified ID.
     /// - `RequestLimitExceeded` : The operation can't be completed because you've reached the quota for the number of requests. For more information, see [Cloud Map API request throttling quota](https://docs.aws.amazon.com/cloud-map/latest/dg/throttling.html) in the Cloud Map Developer Guide.
     /// - `ServiceNotFound` : No service exists with the specified ID.
-    func discoverInstancesRevision(input: DiscoverInstancesRevisionInput) async throws -> DiscoverInstancesRevisionOutputResponse
+    func discoverInstancesRevision(input: DiscoverInstancesRevisionInput) async throws -> DiscoverInstancesRevisionOutput
     /// Gets information about a specified instance.
     ///
     /// - Parameter GetInstanceInput : [no documentation found]
     ///
-    /// - Returns: `GetInstanceOutputResponse` : [no documentation found]
+    /// - Returns: `GetInstanceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -166,12 +166,12 @@ public protocol ServiceDiscoveryClientProtocol {
     /// - `InstanceNotFound` : No instance exists with the specified ID, or the instance was recently registered, and information about the instance hasn't propagated yet.
     /// - `InvalidInput` : One or more specified values aren't valid. For example, a required value might be missing, a numeric value might be outside the allowed range, or a string value might exceed length constraints.
     /// - `ServiceNotFound` : No service exists with the specified ID.
-    func getInstance(input: GetInstanceInput) async throws -> GetInstanceOutputResponse
+    func getInstance(input: GetInstanceInput) async throws -> GetInstanceOutput
     /// Gets the current health status (Healthy, Unhealthy, or Unknown) of one or more instances that are associated with a specified service. There's a brief delay between when you register an instance and when the health status for the instance is available.
     ///
     /// - Parameter GetInstancesHealthStatusInput : [no documentation found]
     ///
-    /// - Returns: `GetInstancesHealthStatusOutputResponse` : [no documentation found]
+    /// - Returns: `GetInstancesHealthStatusOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -179,100 +179,100 @@ public protocol ServiceDiscoveryClientProtocol {
     /// - `InstanceNotFound` : No instance exists with the specified ID, or the instance was recently registered, and information about the instance hasn't propagated yet.
     /// - `InvalidInput` : One or more specified values aren't valid. For example, a required value might be missing, a numeric value might be outside the allowed range, or a string value might exceed length constraints.
     /// - `ServiceNotFound` : No service exists with the specified ID.
-    func getInstancesHealthStatus(input: GetInstancesHealthStatusInput) async throws -> GetInstancesHealthStatusOutputResponse
+    func getInstancesHealthStatus(input: GetInstancesHealthStatusInput) async throws -> GetInstancesHealthStatusOutput
     /// Gets information about a namespace.
     ///
     /// - Parameter GetNamespaceInput : [no documentation found]
     ///
-    /// - Returns: `GetNamespaceOutputResponse` : [no documentation found]
+    /// - Returns: `GetNamespaceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInput` : One or more specified values aren't valid. For example, a required value might be missing, a numeric value might be outside the allowed range, or a string value might exceed length constraints.
     /// - `NamespaceNotFound` : No namespace exists with the specified ID.
-    func getNamespace(input: GetNamespaceInput) async throws -> GetNamespaceOutputResponse
+    func getNamespace(input: GetNamespaceInput) async throws -> GetNamespaceOutput
     /// Gets information about any operation that returns an operation ID in the response, such as a CreateHttpNamespace request. To get a list of operations that match specified criteria, see [ListOperations](https://docs.aws.amazon.com/cloud-map/latest/api/API_ListOperations.html).
     ///
     /// - Parameter GetOperationInput : [no documentation found]
     ///
-    /// - Returns: `GetOperationOutputResponse` : [no documentation found]
+    /// - Returns: `GetOperationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInput` : One or more specified values aren't valid. For example, a required value might be missing, a numeric value might be outside the allowed range, or a string value might exceed length constraints.
     /// - `OperationNotFound` : No operation exists with the specified ID.
-    func getOperation(input: GetOperationInput) async throws -> GetOperationOutputResponse
+    func getOperation(input: GetOperationInput) async throws -> GetOperationOutput
     /// Gets the settings for a specified service.
     ///
     /// - Parameter GetServiceInput : [no documentation found]
     ///
-    /// - Returns: `GetServiceOutputResponse` : [no documentation found]
+    /// - Returns: `GetServiceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInput` : One or more specified values aren't valid. For example, a required value might be missing, a numeric value might be outside the allowed range, or a string value might exceed length constraints.
     /// - `ServiceNotFound` : No service exists with the specified ID.
-    func getService(input: GetServiceInput) async throws -> GetServiceOutputResponse
+    func getService(input: GetServiceInput) async throws -> GetServiceOutput
     /// Lists summary information about the instances that you registered by using a specified service.
     ///
     /// - Parameter ListInstancesInput : [no documentation found]
     ///
-    /// - Returns: `ListInstancesOutputResponse` : [no documentation found]
+    /// - Returns: `ListInstancesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInput` : One or more specified values aren't valid. For example, a required value might be missing, a numeric value might be outside the allowed range, or a string value might exceed length constraints.
     /// - `ServiceNotFound` : No service exists with the specified ID.
-    func listInstances(input: ListInstancesInput) async throws -> ListInstancesOutputResponse
+    func listInstances(input: ListInstancesInput) async throws -> ListInstancesOutput
     /// Lists summary information about the namespaces that were created by the current Amazon Web Services account.
     ///
     /// - Parameter ListNamespacesInput : [no documentation found]
     ///
-    /// - Returns: `ListNamespacesOutputResponse` : [no documentation found]
+    /// - Returns: `ListNamespacesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInput` : One or more specified values aren't valid. For example, a required value might be missing, a numeric value might be outside the allowed range, or a string value might exceed length constraints.
-    func listNamespaces(input: ListNamespacesInput) async throws -> ListNamespacesOutputResponse
+    func listNamespaces(input: ListNamespacesInput) async throws -> ListNamespacesOutput
     /// Lists operations that match the criteria that you specify.
     ///
     /// - Parameter ListOperationsInput : [no documentation found]
     ///
-    /// - Returns: `ListOperationsOutputResponse` : [no documentation found]
+    /// - Returns: `ListOperationsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInput` : One or more specified values aren't valid. For example, a required value might be missing, a numeric value might be outside the allowed range, or a string value might exceed length constraints.
-    func listOperations(input: ListOperationsInput) async throws -> ListOperationsOutputResponse
+    func listOperations(input: ListOperationsInput) async throws -> ListOperationsOutput
     /// Lists summary information for all the services that are associated with one or more specified namespaces.
     ///
     /// - Parameter ListServicesInput : [no documentation found]
     ///
-    /// - Returns: `ListServicesOutputResponse` : [no documentation found]
+    /// - Returns: `ListServicesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInput` : One or more specified values aren't valid. For example, a required value might be missing, a numeric value might be outside the allowed range, or a string value might exceed length constraints.
-    func listServices(input: ListServicesInput) async throws -> ListServicesOutputResponse
+    func listServices(input: ListServicesInput) async throws -> ListServicesOutput
     /// Lists tags for the specified resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInput` : One or more specified values aren't valid. For example, a required value might be missing, a numeric value might be outside the allowed range, or a string value might exceed length constraints.
     /// - `ResourceNotFoundException` : The operation can't be completed because the resource was not found.
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     /// Creates or updates one or more records and, optionally, creates a health check based on the settings in a specified service. When you submit a RegisterInstance request, the following occurs:
     ///
     /// * For each DNS record that you define in the service that's specified by ServiceId, a record is created or updated in the hosted zone that's associated with the corresponding namespace.
@@ -295,7 +295,7 @@ public protocol ServiceDiscoveryClientProtocol {
     ///
     /// - Parameter RegisterInstanceInput : [no documentation found]
     ///
-    /// - Returns: `RegisterInstanceOutputResponse` : [no documentation found]
+    /// - Returns: `RegisterInstanceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -305,12 +305,12 @@ public protocol ServiceDiscoveryClientProtocol {
     /// - `ResourceInUse` : The specified resource can't be deleted because it contains other resources. For example, you can't delete a service that contains any instances.
     /// - `ResourceLimitExceeded` : The resource can't be created because you've reached the quota on the number of resources.
     /// - `ServiceNotFound` : No service exists with the specified ID.
-    func registerInstance(input: RegisterInstanceInput) async throws -> RegisterInstanceOutputResponse
+    func registerInstance(input: RegisterInstanceInput) async throws -> RegisterInstanceOutput
     /// Adds one or more tags to the specified resource.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -318,24 +318,24 @@ public protocol ServiceDiscoveryClientProtocol {
     /// - `InvalidInput` : One or more specified values aren't valid. For example, a required value might be missing, a numeric value might be outside the allowed range, or a string value might exceed length constraints.
     /// - `ResourceNotFoundException` : The operation can't be completed because the resource was not found.
     /// - `TooManyTagsException` : The list of tags on the resource is over the quota. The maximum number of tags that can be applied to a resource is 50.
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     /// Removes one or more tags from the specified resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInput` : One or more specified values aren't valid. For example, a required value might be missing, a numeric value might be outside the allowed range, or a string value might exceed length constraints.
     /// - `ResourceNotFoundException` : The operation can't be completed because the resource was not found.
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
     /// Updates an HTTP namespace.
     ///
     /// - Parameter UpdateHttpNamespaceInput : [no documentation found]
     ///
-    /// - Returns: `UpdateHttpNamespaceOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateHttpNamespaceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -344,12 +344,12 @@ public protocol ServiceDiscoveryClientProtocol {
     /// - `InvalidInput` : One or more specified values aren't valid. For example, a required value might be missing, a numeric value might be outside the allowed range, or a string value might exceed length constraints.
     /// - `NamespaceNotFound` : No namespace exists with the specified ID.
     /// - `ResourceInUse` : The specified resource can't be deleted because it contains other resources. For example, you can't delete a service that contains any instances.
-    func updateHttpNamespace(input: UpdateHttpNamespaceInput) async throws -> UpdateHttpNamespaceOutputResponse
+    func updateHttpNamespace(input: UpdateHttpNamespaceInput) async throws -> UpdateHttpNamespaceOutput
     /// Submits a request to change the health status of a custom health check to healthy or unhealthy. You can use UpdateInstanceCustomHealthStatus to change the status only for custom health checks, which you define using HealthCheckCustomConfig when you create a service. You can't use it to change the status for Route 53 health checks, which you define using HealthCheckConfig. For more information, see [HealthCheckCustomConfig](https://docs.aws.amazon.com/cloud-map/latest/api/API_HealthCheckCustomConfig.html).
     ///
     /// - Parameter UpdateInstanceCustomHealthStatusInput : [no documentation found]
     ///
-    /// - Returns: `UpdateInstanceCustomHealthStatusOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateInstanceCustomHealthStatusOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -358,12 +358,12 @@ public protocol ServiceDiscoveryClientProtocol {
     /// - `InstanceNotFound` : No instance exists with the specified ID, or the instance was recently registered, and information about the instance hasn't propagated yet.
     /// - `InvalidInput` : One or more specified values aren't valid. For example, a required value might be missing, a numeric value might be outside the allowed range, or a string value might exceed length constraints.
     /// - `ServiceNotFound` : No service exists with the specified ID.
-    func updateInstanceCustomHealthStatus(input: UpdateInstanceCustomHealthStatusInput) async throws -> UpdateInstanceCustomHealthStatusOutputResponse
+    func updateInstanceCustomHealthStatus(input: UpdateInstanceCustomHealthStatusInput) async throws -> UpdateInstanceCustomHealthStatusOutput
     /// Updates a private DNS namespace.
     ///
     /// - Parameter UpdatePrivateDnsNamespaceInput : [no documentation found]
     ///
-    /// - Returns: `UpdatePrivateDnsNamespaceOutputResponse` : [no documentation found]
+    /// - Returns: `UpdatePrivateDnsNamespaceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -372,12 +372,12 @@ public protocol ServiceDiscoveryClientProtocol {
     /// - `InvalidInput` : One or more specified values aren't valid. For example, a required value might be missing, a numeric value might be outside the allowed range, or a string value might exceed length constraints.
     /// - `NamespaceNotFound` : No namespace exists with the specified ID.
     /// - `ResourceInUse` : The specified resource can't be deleted because it contains other resources. For example, you can't delete a service that contains any instances.
-    func updatePrivateDnsNamespace(input: UpdatePrivateDnsNamespaceInput) async throws -> UpdatePrivateDnsNamespaceOutputResponse
+    func updatePrivateDnsNamespace(input: UpdatePrivateDnsNamespaceInput) async throws -> UpdatePrivateDnsNamespaceOutput
     /// Updates a public DNS namespace.
     ///
     /// - Parameter UpdatePublicDnsNamespaceInput : [no documentation found]
     ///
-    /// - Returns: `UpdatePublicDnsNamespaceOutputResponse` : [no documentation found]
+    /// - Returns: `UpdatePublicDnsNamespaceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -386,7 +386,7 @@ public protocol ServiceDiscoveryClientProtocol {
     /// - `InvalidInput` : One or more specified values aren't valid. For example, a required value might be missing, a numeric value might be outside the allowed range, or a string value might exceed length constraints.
     /// - `NamespaceNotFound` : No namespace exists with the specified ID.
     /// - `ResourceInUse` : The specified resource can't be deleted because it contains other resources. For example, you can't delete a service that contains any instances.
-    func updatePublicDnsNamespace(input: UpdatePublicDnsNamespaceInput) async throws -> UpdatePublicDnsNamespaceOutputResponse
+    func updatePublicDnsNamespace(input: UpdatePublicDnsNamespaceInput) async throws -> UpdatePublicDnsNamespaceOutput
     /// Submits a request to perform the following operations:
     ///
     /// * Update the TTL setting for existing DnsRecords configurations
@@ -405,7 +405,7 @@ public protocol ServiceDiscoveryClientProtocol {
     ///
     /// - Parameter UpdateServiceInput : [no documentation found]
     ///
-    /// - Returns: `UpdateServiceOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateServiceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -413,7 +413,7 @@ public protocol ServiceDiscoveryClientProtocol {
     /// - `DuplicateRequest` : The operation is already in progress.
     /// - `InvalidInput` : One or more specified values aren't valid. For example, a required value might be missing, a numeric value might be outside the allowed range, or a string value might exceed length constraints.
     /// - `ServiceNotFound` : No service exists with the specified ID.
-    func updateService(input: UpdateServiceInput) async throws -> UpdateServiceOutputResponse
+    func updateService(input: UpdateServiceInput) async throws -> UpdateServiceOutput
 }
 
 public enum ServiceDiscoveryClientTypes {}

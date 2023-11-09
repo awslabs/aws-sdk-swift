@@ -76,30 +76,11 @@ extension BatchMeterUsageInputBody: Swift.Decodable {
     }
 }
 
-enum BatchMeterUsageOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "DisabledApiException": return try await DisabledApiException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidCustomerIdentifierException": return try await InvalidCustomerIdentifierException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidProductCodeException": return try await InvalidProductCodeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidTagException": return try await InvalidTagException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidUsageAllocationsException": return try await InvalidUsageAllocationsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidUsageDimensionException": return try await InvalidUsageDimensionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TimestampOutOfBoundsException": return try await TimestampOutOfBoundsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension BatchMeterUsageOutputResponse: ClientRuntime.HttpResponseBinding {
+extension BatchMeterUsageOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: BatchMeterUsageOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: BatchMeterUsageOutputBody = try responseDecoder.decode(responseBody: data)
             self.results = output.results
             self.unprocessedRecords = output.unprocessedRecords
         } else {
@@ -110,7 +91,7 @@ extension BatchMeterUsageOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the UsageRecords processed by BatchMeterUsage and any records that have failed due to transient error.
-public struct BatchMeterUsageOutputResponse: Swift.Equatable {
+public struct BatchMeterUsageOutput: Swift.Equatable {
     /// Contains all UsageRecords processed by BatchMeterUsage. These records were either honored by AWS Marketplace Metering Service or were invalid. Invalid records should be fixed before being resubmitted.
     public var results: [MarketplaceMeteringClientTypes.UsageRecordResult]?
     /// Contains all UsageRecords that were not processed by BatchMeterUsage. This is a list of UsageRecords. You can retry the failed request by making another BatchMeterUsage call with this list as input in the BatchMeterUsageRequest.
@@ -126,12 +107,12 @@ public struct BatchMeterUsageOutputResponse: Swift.Equatable {
     }
 }
 
-struct BatchMeterUsageOutputResponseBody: Swift.Equatable {
+struct BatchMeterUsageOutputBody: Swift.Equatable {
     let results: [MarketplaceMeteringClientTypes.UsageRecordResult]?
     let unprocessedRecords: [MarketplaceMeteringClientTypes.UsageRecord]?
 }
 
-extension BatchMeterUsageOutputResponseBody: Swift.Decodable {
+extension BatchMeterUsageOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case results = "Results"
         case unprocessedRecords = "UnprocessedRecords"
@@ -161,6 +142,25 @@ extension BatchMeterUsageOutputResponseBody: Swift.Decodable {
             }
         }
         unprocessedRecords = unprocessedRecordsDecoded0
+    }
+}
+
+enum BatchMeterUsageOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DisabledApiException": return try await DisabledApiException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidCustomerIdentifierException": return try await InvalidCustomerIdentifierException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidProductCodeException": return try await InvalidProductCodeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidTagException": return try await InvalidTagException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidUsageAllocationsException": return try await InvalidUsageAllocationsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidUsageDimensionException": return try await InvalidUsageDimensionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TimestampOutOfBoundsException": return try await TimestampOutOfBoundsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1056,6 +1056,46 @@ extension MeterUsageInputBody: Swift.Decodable {
     }
 }
 
+extension MeterUsageOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: MeterUsageOutputBody = try responseDecoder.decode(responseBody: data)
+            self.meteringRecordId = output.meteringRecordId
+        } else {
+            self.meteringRecordId = nil
+        }
+    }
+}
+
+public struct MeterUsageOutput: Swift.Equatable {
+    /// Metering record id.
+    public var meteringRecordId: Swift.String?
+
+    public init(
+        meteringRecordId: Swift.String? = nil
+    )
+    {
+        self.meteringRecordId = meteringRecordId
+    }
+}
+
+struct MeterUsageOutputBody: Swift.Equatable {
+    let meteringRecordId: Swift.String?
+}
+
+extension MeterUsageOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case meteringRecordId = "MeteringRecordId"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let meteringRecordIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .meteringRecordId)
+        meteringRecordId = meteringRecordIdDecoded
+    }
+}
+
 enum MeterUsageOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -1073,46 +1113,6 @@ enum MeterUsageOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TimestampOutOfBoundsException": return try await TimestampOutOfBoundsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension MeterUsageOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: MeterUsageOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.meteringRecordId = output.meteringRecordId
-        } else {
-            self.meteringRecordId = nil
-        }
-    }
-}
-
-public struct MeterUsageOutputResponse: Swift.Equatable {
-    /// Metering record id.
-    public var meteringRecordId: Swift.String?
-
-    public init(
-        meteringRecordId: Swift.String? = nil
-    )
-    {
-        self.meteringRecordId = meteringRecordId
-    }
-}
-
-struct MeterUsageOutputResponseBody: Swift.Equatable {
-    let meteringRecordId: Swift.String?
-}
-
-extension MeterUsageOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case meteringRecordId = "MeteringRecordId"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let meteringRecordIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .meteringRecordId)
-        meteringRecordId = meteringRecordIdDecoded
     }
 }
 
@@ -1244,29 +1244,11 @@ extension RegisterUsageInputBody: Swift.Decodable {
     }
 }
 
-enum RegisterUsageOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "CustomerNotEntitledException": return try await CustomerNotEntitledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "DisabledApiException": return try await DisabledApiException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidProductCodeException": return try await InvalidProductCodeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidPublicKeyVersionException": return try await InvalidPublicKeyVersionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRegionException": return try await InvalidRegionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "PlatformNotSupportedException": return try await PlatformNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension RegisterUsageOutputResponse: ClientRuntime.HttpResponseBinding {
+extension RegisterUsageOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: RegisterUsageOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: RegisterUsageOutputBody = try responseDecoder.decode(responseBody: data)
             self.publicKeyRotationTimestamp = output.publicKeyRotationTimestamp
             self.signature = output.signature
         } else {
@@ -1276,7 +1258,7 @@ extension RegisterUsageOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RegisterUsageOutputResponse: Swift.Equatable {
+public struct RegisterUsageOutput: Swift.Equatable {
     /// (Optional) Only included when public key version has expired
     public var publicKeyRotationTimestamp: ClientRuntime.Date?
     /// JWT Token
@@ -1292,12 +1274,12 @@ public struct RegisterUsageOutputResponse: Swift.Equatable {
     }
 }
 
-struct RegisterUsageOutputResponseBody: Swift.Equatable {
+struct RegisterUsageOutputBody: Swift.Equatable {
     let publicKeyRotationTimestamp: ClientRuntime.Date?
     let signature: Swift.String?
 }
 
-extension RegisterUsageOutputResponseBody: Swift.Decodable {
+extension RegisterUsageOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case publicKeyRotationTimestamp = "PublicKeyRotationTimestamp"
         case signature = "Signature"
@@ -1309,6 +1291,24 @@ extension RegisterUsageOutputResponseBody: Swift.Decodable {
         publicKeyRotationTimestamp = publicKeyRotationTimestampDecoded
         let signatureDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .signature)
         signature = signatureDecoded
+    }
+}
+
+enum RegisterUsageOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "CustomerNotEntitledException": return try await CustomerNotEntitledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DisabledApiException": return try await DisabledApiException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidProductCodeException": return try await InvalidProductCodeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidPublicKeyVersionException": return try await InvalidPublicKeyVersionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRegionException": return try await InvalidRegionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PlatformNotSupportedException": return try await PlatformNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1361,26 +1361,11 @@ extension ResolveCustomerInputBody: Swift.Decodable {
     }
 }
 
-enum ResolveCustomerOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "DisabledApiException": return try await DisabledApiException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ExpiredTokenException": return try await ExpiredTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidTokenException": return try await InvalidTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ResolveCustomerOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ResolveCustomerOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ResolveCustomerOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ResolveCustomerOutputBody = try responseDecoder.decode(responseBody: data)
             self.customerAWSAccountId = output.customerAWSAccountId
             self.customerIdentifier = output.customerIdentifier
             self.productCode = output.productCode
@@ -1393,7 +1378,7 @@ extension ResolveCustomerOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 /// The result of the ResolveCustomer operation. Contains the CustomerIdentifier along with the CustomerAWSAccountId and ProductCode.
-public struct ResolveCustomerOutputResponse: Swift.Equatable {
+public struct ResolveCustomerOutput: Swift.Equatable {
     /// The CustomerAWSAccountId provides the AWS account ID associated with the CustomerIdentifier for the individual customer.
     public var customerAWSAccountId: Swift.String?
     /// The CustomerIdentifier is used to identify an individual customer in your application. Calls to BatchMeterUsage require CustomerIdentifiers for each UsageRecord.
@@ -1413,13 +1398,13 @@ public struct ResolveCustomerOutputResponse: Swift.Equatable {
     }
 }
 
-struct ResolveCustomerOutputResponseBody: Swift.Equatable {
+struct ResolveCustomerOutputBody: Swift.Equatable {
     let customerIdentifier: Swift.String?
     let productCode: Swift.String?
     let customerAWSAccountId: Swift.String?
 }
 
-extension ResolveCustomerOutputResponseBody: Swift.Decodable {
+extension ResolveCustomerOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case customerAWSAccountId = "CustomerAWSAccountId"
         case customerIdentifier = "CustomerIdentifier"
@@ -1434,6 +1419,21 @@ extension ResolveCustomerOutputResponseBody: Swift.Decodable {
         productCode = productCodeDecoded
         let customerAWSAccountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .customerAWSAccountId)
         customerAWSAccountId = customerAWSAccountIdDecoded
+    }
+}
+
+enum ResolveCustomerOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DisabledApiException": return try await DisabledApiException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ExpiredTokenException": return try await ExpiredTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidTokenException": return try await InvalidTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 

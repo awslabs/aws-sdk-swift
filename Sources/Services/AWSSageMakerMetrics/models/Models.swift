@@ -13,7 +13,7 @@ extension SageMakerMetricsClientTypes.BatchPutMetricsError: Swift.Codable {
         if let code = self.code {
             try encodeContainer.encode(code.rawValue, forKey: .code)
         }
-        if metricIndex != 0 {
+        if let metricIndex = self.metricIndex {
             try encodeContainer.encode(metricIndex, forKey: .metricIndex)
         }
     }
@@ -22,7 +22,7 @@ extension SageMakerMetricsClientTypes.BatchPutMetricsError: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let codeDecoded = try containerValues.decodeIfPresent(SageMakerMetricsClientTypes.PutMetricsErrorCode.self, forKey: .code)
         code = codeDecoded
-        let metricIndexDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .metricIndex) ?? 0
+        let metricIndexDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .metricIndex)
         metricIndex = metricIndexDecoded
     }
 }
@@ -41,11 +41,11 @@ extension SageMakerMetricsClientTypes {
         /// * CONFLICT_ERROR: Multiple requests attempted to modify the same data simultaneously.
         public var code: SageMakerMetricsClientTypes.PutMetricsErrorCode?
         /// An index that corresponds to the metric in the request.
-        public var metricIndex: Swift.Int
+        public var metricIndex: Swift.Int?
 
         public init(
             code: SageMakerMetricsClientTypes.PutMetricsErrorCode? = nil,
-            metricIndex: Swift.Int = 0
+            metricIndex: Swift.Int? = nil
         )
         {
             self.code = code
@@ -128,21 +128,11 @@ extension BatchPutMetricsInputBody: Swift.Decodable {
     }
 }
 
-enum BatchPutMetricsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension BatchPutMetricsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension BatchPutMetricsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: BatchPutMetricsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: BatchPutMetricsOutputBody = try responseDecoder.decode(responseBody: data)
             self.errors = output.errors
         } else {
             self.errors = nil
@@ -150,7 +140,7 @@ extension BatchPutMetricsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchPutMetricsOutputResponse: Swift.Equatable {
+public struct BatchPutMetricsOutput: Swift.Equatable {
     /// Lists any errors that occur when inserting metric data.
     public var errors: [SageMakerMetricsClientTypes.BatchPutMetricsError]?
 
@@ -162,11 +152,11 @@ public struct BatchPutMetricsOutputResponse: Swift.Equatable {
     }
 }
 
-struct BatchPutMetricsOutputResponseBody: Swift.Equatable {
+struct BatchPutMetricsOutputBody: Swift.Equatable {
     let errors: [SageMakerMetricsClientTypes.BatchPutMetricsError]?
 }
 
-extension BatchPutMetricsOutputResponseBody: Swift.Decodable {
+extension BatchPutMetricsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case errors = "Errors"
     }
@@ -184,6 +174,16 @@ extension BatchPutMetricsOutputResponseBody: Swift.Decodable {
             }
         }
         errors = errorsDecoded0
+    }
+}
+
+enum BatchPutMetricsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -244,7 +244,7 @@ extension SageMakerMetricsClientTypes.RawMetricData: Swift.Codable {
         if let timestamp = self.timestamp {
             try encodeContainer.encodeTimestamp(timestamp, format: .epochSeconds, forKey: .timestamp)
         }
-        if value != 0.0 {
+        if let value = self.value {
             try encodeContainer.encode(value, forKey: .value)
         }
     }
@@ -257,7 +257,7 @@ extension SageMakerMetricsClientTypes.RawMetricData: Swift.Codable {
         timestamp = timestampDecoded
         let stepDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .step)
         step = stepDecoded
-        let valueDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .value) ?? 0.0
+        let valueDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .value)
         value = valueDecoded
     }
 }
@@ -275,13 +275,13 @@ extension SageMakerMetricsClientTypes {
         public var timestamp: ClientRuntime.Date?
         /// The metric value.
         /// This member is required.
-        public var value: Swift.Double
+        public var value: Swift.Double?
 
         public init(
             metricName: Swift.String? = nil,
             step: Swift.Int? = nil,
             timestamp: ClientRuntime.Date? = nil,
-            value: Swift.Double = 0.0
+            value: Swift.Double? = nil
         )
         {
             self.metricName = metricName

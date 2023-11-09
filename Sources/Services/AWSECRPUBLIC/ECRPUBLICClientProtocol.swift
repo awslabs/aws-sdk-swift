@@ -8,7 +8,7 @@ public protocol ECRPUBLICClientProtocol {
     ///
     /// - Parameter BatchCheckLayerAvailabilityInput : [no documentation found]
     ///
-    /// - Returns: `BatchCheckLayerAvailabilityOutputResponse` : [no documentation found]
+    /// - Returns: `BatchCheckLayerAvailabilityOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -18,12 +18,12 @@ public protocol ECRPUBLICClientProtocol {
     /// - `RepositoryNotFoundException` : The specified repository can't be found. Check the spelling of the specified repository and ensure that you're performing operations on the correct registry.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `UnsupportedCommandException` : The action isn't supported in this Region.
-    func batchCheckLayerAvailability(input: BatchCheckLayerAvailabilityInput) async throws -> BatchCheckLayerAvailabilityOutputResponse
+    func batchCheckLayerAvailability(input: BatchCheckLayerAvailabilityInput) async throws -> BatchCheckLayerAvailabilityOutput
     /// Deletes a list of specified images that are within a repository in a public registry. Images are specified with either an imageTag or imageDigest. You can remove a tag from an image by specifying the image's tag in your request. When you remove the last tag from an image, the image is deleted from your repository. You can completely delete an image (and all of its tags) by specifying the digest of the image in your request.
     ///
     /// - Parameter BatchDeleteImageInput : [no documentation found]
     ///
-    /// - Returns: `BatchDeleteImageOutputResponse` : [no documentation found]
+    /// - Returns: `BatchDeleteImageOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -32,12 +32,12 @@ public protocol ECRPUBLICClientProtocol {
     /// - `RepositoryNotFoundException` : The specified repository can't be found. Check the spelling of the specified repository and ensure that you're performing operations on the correct registry.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `UnsupportedCommandException` : The action isn't supported in this Region.
-    func batchDeleteImage(input: BatchDeleteImageInput) async throws -> BatchDeleteImageOutputResponse
+    func batchDeleteImage(input: BatchDeleteImageInput) async throws -> BatchDeleteImageOutput
     /// Informs Amazon ECR that the image layer upload is complete for a specified public registry, repository name, and upload ID. You can optionally provide a sha256 digest of the image layer for data validation purposes. When an image is pushed, the CompleteLayerUpload API is called once for each new image layer to verify that the upload is complete. This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images.
     ///
     /// - Parameter CompleteLayerUploadInput : [no documentation found]
     ///
-    /// - Returns: `CompleteLayerUploadOutputResponse` : [no documentation found]
+    /// - Returns: `CompleteLayerUploadOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -52,12 +52,12 @@ public protocol ECRPUBLICClientProtocol {
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `UnsupportedCommandException` : The action isn't supported in this Region.
     /// - `UploadNotFoundException` : The upload can't be found, or the specified upload ID isn't valid for this repository.
-    func completeLayerUpload(input: CompleteLayerUploadInput) async throws -> CompleteLayerUploadOutputResponse
+    func completeLayerUpload(input: CompleteLayerUploadInput) async throws -> CompleteLayerUploadOutput
     /// Creates a repository in a public registry. For more information, see [Amazon ECR repositories](https://docs.aws.amazon.com/AmazonECR/latest/userguide/Repositories.html) in the Amazon Elastic Container Registry User Guide.
     ///
     /// - Parameter CreateRepositoryInput : [no documentation found]
     ///
-    /// - Returns: `CreateRepositoryOutputResponse` : [no documentation found]
+    /// - Returns: `CreateRepositoryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -69,12 +69,12 @@ public protocol ECRPUBLICClientProtocol {
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `TooManyTagsException` : The list of tags on the repository is over the limit. The maximum number of tags that can be applied to a repository is 50.
     /// - `UnsupportedCommandException` : The action isn't supported in this Region.
-    func createRepository(input: CreateRepositoryInput) async throws -> CreateRepositoryOutputResponse
+    func createRepository(input: CreateRepositoryInput) async throws -> CreateRepositoryOutput
     /// Deletes a repository in a public registry. If the repository contains images, you must either manually delete all images in the repository or use the force option. This option deletes all images on your behalf before deleting the repository.
     ///
     /// - Parameter DeleteRepositoryInput : [no documentation found]
     ///
-    /// - Returns: `DeleteRepositoryOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteRepositoryOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -84,12 +84,12 @@ public protocol ECRPUBLICClientProtocol {
     /// - `RepositoryNotFoundException` : The specified repository can't be found. Check the spelling of the specified repository and ensure that you're performing operations on the correct registry.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `UnsupportedCommandException` : The action isn't supported in this Region.
-    func deleteRepository(input: DeleteRepositoryInput) async throws -> DeleteRepositoryOutputResponse
+    func deleteRepository(input: DeleteRepositoryInput) async throws -> DeleteRepositoryOutput
     /// Deletes the repository policy that's associated with the specified repository.
     ///
     /// - Parameter DeleteRepositoryPolicyInput : [no documentation found]
     ///
-    /// - Returns: `DeleteRepositoryPolicyOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteRepositoryPolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -99,12 +99,12 @@ public protocol ECRPUBLICClientProtocol {
     /// - `RepositoryPolicyNotFoundException` : The specified repository and registry combination doesn't have an associated repository policy.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `UnsupportedCommandException` : The action isn't supported in this Region.
-    func deleteRepositoryPolicy(input: DeleteRepositoryPolicyInput) async throws -> DeleteRepositoryPolicyOutputResponse
+    func deleteRepositoryPolicy(input: DeleteRepositoryPolicyInput) async throws -> DeleteRepositoryPolicyOutput
     /// Returns metadata that's related to the images in a repository in a public registry. Beginning with Docker version 1.9, the Docker client compresses image layers before pushing them to a V2 Docker registry. The output of the docker images command shows the uncompressed image size. Therefore, it might return a larger image size than the image sizes that are returned by [DescribeImages].
     ///
     /// - Parameter DescribeImagesInput : [no documentation found]
     ///
-    /// - Returns: `DescribeImagesOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeImagesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -114,12 +114,12 @@ public protocol ECRPUBLICClientProtocol {
     /// - `RepositoryNotFoundException` : The specified repository can't be found. Check the spelling of the specified repository and ensure that you're performing operations on the correct registry.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `UnsupportedCommandException` : The action isn't supported in this Region.
-    func describeImages(input: DescribeImagesInput) async throws -> DescribeImagesOutputResponse
+    func describeImages(input: DescribeImagesInput) async throws -> DescribeImagesOutput
     /// Returns the image tag details for a repository in a public registry.
     ///
     /// - Parameter DescribeImageTagsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeImageTagsOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeImageTagsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -128,12 +128,12 @@ public protocol ECRPUBLICClientProtocol {
     /// - `RepositoryNotFoundException` : The specified repository can't be found. Check the spelling of the specified repository and ensure that you're performing operations on the correct registry.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `UnsupportedCommandException` : The action isn't supported in this Region.
-    func describeImageTags(input: DescribeImageTagsInput) async throws -> DescribeImageTagsOutputResponse
+    func describeImageTags(input: DescribeImageTagsInput) async throws -> DescribeImageTagsOutput
     /// Returns details for a public registry.
     ///
     /// - Parameter DescribeRegistriesInput : [no documentation found]
     ///
-    /// - Returns: `DescribeRegistriesOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeRegistriesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -141,12 +141,12 @@ public protocol ECRPUBLICClientProtocol {
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `UnsupportedCommandException` : The action isn't supported in this Region.
-    func describeRegistries(input: DescribeRegistriesInput) async throws -> DescribeRegistriesOutputResponse
+    func describeRegistries(input: DescribeRegistriesInput) async throws -> DescribeRegistriesOutput
     /// Describes repositories that are in a public registry.
     ///
     /// - Parameter DescribeRepositoriesInput : [no documentation found]
     ///
-    /// - Returns: `DescribeRepositoriesOutputResponse` : [no documentation found]
+    /// - Returns: `DescribeRepositoriesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -155,12 +155,12 @@ public protocol ECRPUBLICClientProtocol {
     /// - `RepositoryNotFoundException` : The specified repository can't be found. Check the spelling of the specified repository and ensure that you're performing operations on the correct registry.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `UnsupportedCommandException` : The action isn't supported in this Region.
-    func describeRepositories(input: DescribeRepositoriesInput) async throws -> DescribeRepositoriesOutputResponse
+    func describeRepositories(input: DescribeRepositoriesInput) async throws -> DescribeRepositoriesOutput
     /// Retrieves an authorization token. An authorization token represents your IAM authentication credentials. You can use it to access any Amazon ECR registry that your IAM principal has access to. The authorization token is valid for 12 hours. This API requires the ecr-public:GetAuthorizationToken and sts:GetServiceBearerToken permissions.
     ///
     /// - Parameter GetAuthorizationTokenInput : [no documentation found]
     ///
-    /// - Returns: `GetAuthorizationTokenOutputResponse` : [no documentation found]
+    /// - Returns: `GetAuthorizationTokenOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -168,24 +168,24 @@ public protocol ECRPUBLICClientProtocol {
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `UnsupportedCommandException` : The action isn't supported in this Region.
-    func getAuthorizationToken(input: GetAuthorizationTokenInput) async throws -> GetAuthorizationTokenOutputResponse
+    func getAuthorizationToken(input: GetAuthorizationTokenInput) async throws -> GetAuthorizationTokenOutput
     /// Retrieves catalog metadata for a public registry.
     ///
     /// - Parameter GetRegistryCatalogDataInput : [no documentation found]
     ///
-    /// - Returns: `GetRegistryCatalogDataOutputResponse` : [no documentation found]
+    /// - Returns: `GetRegistryCatalogDataOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `UnsupportedCommandException` : The action isn't supported in this Region.
-    func getRegistryCatalogData(input: GetRegistryCatalogDataInput) async throws -> GetRegistryCatalogDataOutputResponse
+    func getRegistryCatalogData(input: GetRegistryCatalogDataInput) async throws -> GetRegistryCatalogDataOutput
     /// Retrieve catalog metadata for a repository in a public registry. This metadata is displayed publicly in the Amazon ECR Public Gallery.
     ///
     /// - Parameter GetRepositoryCatalogDataInput : [no documentation found]
     ///
-    /// - Returns: `GetRepositoryCatalogDataOutputResponse` : [no documentation found]
+    /// - Returns: `GetRepositoryCatalogDataOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -195,12 +195,12 @@ public protocol ECRPUBLICClientProtocol {
     /// - `RepositoryNotFoundException` : The specified repository can't be found. Check the spelling of the specified repository and ensure that you're performing operations on the correct registry.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `UnsupportedCommandException` : The action isn't supported in this Region.
-    func getRepositoryCatalogData(input: GetRepositoryCatalogDataInput) async throws -> GetRepositoryCatalogDataOutputResponse
+    func getRepositoryCatalogData(input: GetRepositoryCatalogDataInput) async throws -> GetRepositoryCatalogDataOutput
     /// Retrieves the repository policy for the specified repository.
     ///
     /// - Parameter GetRepositoryPolicyInput : [no documentation found]
     ///
-    /// - Returns: `GetRepositoryPolicyOutputResponse` : [no documentation found]
+    /// - Returns: `GetRepositoryPolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -210,12 +210,12 @@ public protocol ECRPUBLICClientProtocol {
     /// - `RepositoryPolicyNotFoundException` : The specified repository and registry combination doesn't have an associated repository policy.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `UnsupportedCommandException` : The action isn't supported in this Region.
-    func getRepositoryPolicy(input: GetRepositoryPolicyInput) async throws -> GetRepositoryPolicyOutputResponse
+    func getRepositoryPolicy(input: GetRepositoryPolicyInput) async throws -> GetRepositoryPolicyOutput
     /// Notifies Amazon ECR that you intend to upload an image layer. When an image is pushed, the InitiateLayerUpload API is called once for each image layer that hasn't already been uploaded. Whether an image layer uploads is determined by the BatchCheckLayerAvailability API action. This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images.
     ///
     /// - Parameter InitiateLayerUploadInput : [no documentation found]
     ///
-    /// - Returns: `InitiateLayerUploadOutputResponse` : [no documentation found]
+    /// - Returns: `InitiateLayerUploadOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -225,12 +225,12 @@ public protocol ECRPUBLICClientProtocol {
     /// - `RepositoryNotFoundException` : The specified repository can't be found. Check the spelling of the specified repository and ensure that you're performing operations on the correct registry.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `UnsupportedCommandException` : The action isn't supported in this Region.
-    func initiateLayerUpload(input: InitiateLayerUploadInput) async throws -> InitiateLayerUploadOutputResponse
+    func initiateLayerUpload(input: InitiateLayerUploadInput) async throws -> InitiateLayerUploadOutput
     /// List the tags for an Amazon ECR Public resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -239,12 +239,12 @@ public protocol ECRPUBLICClientProtocol {
     /// - `RepositoryNotFoundException` : The specified repository can't be found. Check the spelling of the specified repository and ensure that you're performing operations on the correct registry.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `UnsupportedCommandException` : The action isn't supported in this Region.
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     /// Creates or updates the image manifest and tags that are associated with an image. When an image is pushed and all new image layers have been uploaded, the PutImage API is called once to create or update the image manifest and the tags that are associated with the image. This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images.
     ///
     /// - Parameter PutImageInput : [no documentation found]
     ///
-    /// - Returns: `PutImageOutputResponse` : [no documentation found]
+    /// - Returns: `PutImageOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -260,12 +260,12 @@ public protocol ECRPUBLICClientProtocol {
     /// - `RepositoryNotFoundException` : The specified repository can't be found. Check the spelling of the specified repository and ensure that you're performing operations on the correct registry.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `UnsupportedCommandException` : The action isn't supported in this Region.
-    func putImage(input: PutImageInput) async throws -> PutImageOutputResponse
+    func putImage(input: PutImageInput) async throws -> PutImageOutput
     /// Create or update the catalog data for a public registry.
     ///
     /// - Parameter PutRegistryCatalogDataInput : [no documentation found]
     ///
-    /// - Returns: `PutRegistryCatalogDataOutputResponse` : [no documentation found]
+    /// - Returns: `PutRegistryCatalogDataOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -273,12 +273,12 @@ public protocol ECRPUBLICClientProtocol {
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `UnsupportedCommandException` : The action isn't supported in this Region.
-    func putRegistryCatalogData(input: PutRegistryCatalogDataInput) async throws -> PutRegistryCatalogDataOutputResponse
+    func putRegistryCatalogData(input: PutRegistryCatalogDataInput) async throws -> PutRegistryCatalogDataOutput
     /// Creates or updates the catalog data for a repository in a public registry.
     ///
     /// - Parameter PutRepositoryCatalogDataInput : [no documentation found]
     ///
-    /// - Returns: `PutRepositoryCatalogDataOutputResponse` : [no documentation found]
+    /// - Returns: `PutRepositoryCatalogDataOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -287,12 +287,12 @@ public protocol ECRPUBLICClientProtocol {
     /// - `RepositoryNotFoundException` : The specified repository can't be found. Check the spelling of the specified repository and ensure that you're performing operations on the correct registry.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `UnsupportedCommandException` : The action isn't supported in this Region.
-    func putRepositoryCatalogData(input: PutRepositoryCatalogDataInput) async throws -> PutRepositoryCatalogDataOutputResponse
+    func putRepositoryCatalogData(input: PutRepositoryCatalogDataInput) async throws -> PutRepositoryCatalogDataOutput
     /// Applies a repository policy to the specified public repository to control access permissions. For more information, see [Amazon ECR Repository Policies](https://docs.aws.amazon.com/AmazonECR/latest/userguide/repository-policies.html) in the Amazon Elastic Container Registry User Guide.
     ///
     /// - Parameter SetRepositoryPolicyInput : [no documentation found]
     ///
-    /// - Returns: `SetRepositoryPolicyOutputResponse` : [no documentation found]
+    /// - Returns: `SetRepositoryPolicyOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -301,12 +301,12 @@ public protocol ECRPUBLICClientProtocol {
     /// - `RepositoryNotFoundException` : The specified repository can't be found. Check the spelling of the specified repository and ensure that you're performing operations on the correct registry.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `UnsupportedCommandException` : The action isn't supported in this Region.
-    func setRepositoryPolicy(input: SetRepositoryPolicyInput) async throws -> SetRepositoryPolicyOutputResponse
+    func setRepositoryPolicy(input: SetRepositoryPolicyInput) async throws -> SetRepositoryPolicyOutput
     /// Associates the specified tags to a resource with the specified resourceArn. If existing tags on a resource aren't specified in the request parameters, they aren't changed. When a resource is deleted, the tags associated with that resource are also deleted.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -317,12 +317,12 @@ public protocol ECRPUBLICClientProtocol {
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `TooManyTagsException` : The list of tags on the repository is over the limit. The maximum number of tags that can be applied to a repository is 50.
     /// - `UnsupportedCommandException` : The action isn't supported in this Region.
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     /// Deletes specified tags from a resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -333,12 +333,12 @@ public protocol ECRPUBLICClientProtocol {
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `TooManyTagsException` : The list of tags on the repository is over the limit. The maximum number of tags that can be applied to a repository is 50.
     /// - `UnsupportedCommandException` : The action isn't supported in this Region.
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
     /// Uploads an image layer part to Amazon ECR. When an image is pushed, each new image layer is uploaded in parts. The maximum size of each image layer part can be 20971520 bytes (about 20MB). The UploadLayerPart API is called once for each new image layer part. This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images.
     ///
     /// - Parameter UploadLayerPartInput : [no documentation found]
     ///
-    /// - Returns: `UploadLayerPartOutputResponse` : [no documentation found]
+    /// - Returns: `UploadLayerPartOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -351,7 +351,7 @@ public protocol ECRPUBLICClientProtocol {
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `UnsupportedCommandException` : The action isn't supported in this Region.
     /// - `UploadNotFoundException` : The upload can't be found, or the specified upload ID isn't valid for this repository.
-    func uploadLayerPart(input: UploadLayerPartInput) async throws -> UploadLayerPartOutputResponse
+    func uploadLayerPart(input: UploadLayerPartInput) async throws -> UploadLayerPartOutput
 }
 
 public enum ECRPUBLICClientTypes {}

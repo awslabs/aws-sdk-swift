@@ -8,7 +8,7 @@ public protocol ApiGatewayV2ClientProtocol {
     ///
     /// - Parameter CreateApiInput : Creates a new Api resource to represent an API.
     ///
-    /// - Returns: `CreateApiOutputResponse` : [no documentation found]
+    /// - Returns: `CreateApiOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -17,12 +17,12 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request. See the accompanying error message for details.
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    func createApi(input: CreateApiInput) async throws -> CreateApiOutputResponse
+    func createApi(input: CreateApiInput) async throws -> CreateApiOutput
     /// Creates an API mapping.
     ///
     /// - Parameter CreateApiMappingInput : Creates a new ApiMapping resource to represent an API mapping.
     ///
-    /// - Returns: `CreateApiMappingOutputResponse` : [no documentation found]
+    /// - Returns: `CreateApiMappingOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -31,12 +31,12 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request. See the accompanying error message for details.
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    func createApiMapping(input: CreateApiMappingInput) async throws -> CreateApiMappingOutputResponse
+    func createApiMapping(input: CreateApiMappingInput) async throws -> CreateApiMappingOutput
     /// Creates an Authorizer for an API.
     ///
     /// - Parameter CreateAuthorizerInput : Creates a new Authorizer resource to represent an authorizer.
     ///
-    /// - Returns: `CreateAuthorizerOutputResponse` : [no documentation found]
+    /// - Returns: `CreateAuthorizerOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -45,12 +45,12 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request. See the accompanying error message for details.
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    func createAuthorizer(input: CreateAuthorizerInput) async throws -> CreateAuthorizerOutputResponse
+    func createAuthorizer(input: CreateAuthorizerInput) async throws -> CreateAuthorizerOutput
     /// Creates a Deployment for an API.
     ///
     /// - Parameter CreateDeploymentInput : Creates a new Deployment resource to represent a deployment.
     ///
-    /// - Returns: `CreateDeploymentOutputResponse` : [no documentation found]
+    /// - Returns: `CreateDeploymentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -59,12 +59,12 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request. See the accompanying error message for details.
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    func createDeployment(input: CreateDeploymentInput) async throws -> CreateDeploymentOutputResponse
+    func createDeployment(input: CreateDeploymentInput) async throws -> CreateDeploymentOutput
     /// Creates a domain name.
     ///
     /// - Parameter CreateDomainNameInput : Creates a new DomainName resource to represent a domain name.
     ///
-    /// - Returns: `CreateDomainNameOutputResponse` : [no documentation found]
+    /// - Returns: `CreateDomainNameOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -74,12 +74,12 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request. See the accompanying error message for details.
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    func createDomainName(input: CreateDomainNameInput) async throws -> CreateDomainNameOutputResponse
+    func createDomainName(input: CreateDomainNameInput) async throws -> CreateDomainNameOutput
     /// Creates an Integration.
     ///
     /// - Parameter CreateIntegrationInput : Creates a new Integration resource to represent an integration.
     ///
-    /// - Returns: `CreateIntegrationOutputResponse` : [no documentation found]
+    /// - Returns: `CreateIntegrationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -88,12 +88,12 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request. See the accompanying error message for details.
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    func createIntegration(input: CreateIntegrationInput) async throws -> CreateIntegrationOutputResponse
+    func createIntegration(input: CreateIntegrationInput) async throws -> CreateIntegrationOutput
     /// Creates an IntegrationResponses.
     ///
     /// - Parameter CreateIntegrationResponseInput : Creates a new IntegrationResponse resource to represent an integration response.
     ///
-    /// - Returns: `CreateIntegrationResponseOutputResponse` : [no documentation found]
+    /// - Returns: `CreateIntegrationResponseOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -102,12 +102,12 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request. See the accompanying error message for details.
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    func createIntegrationResponse(input: CreateIntegrationResponseInput) async throws -> CreateIntegrationResponseOutputResponse
+    func createIntegrationResponse(input: CreateIntegrationResponseInput) async throws -> CreateIntegrationResponseOutput
     /// Creates a Model for an API.
     ///
     /// - Parameter CreateModelInput : Creates a new Model.
     ///
-    /// - Returns: `CreateModelOutputResponse` : [no documentation found]
+    /// - Returns: `CreateModelOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -116,12 +116,12 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request. See the accompanying error message for details.
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    func createModel(input: CreateModelInput) async throws -> CreateModelOutputResponse
+    func createModel(input: CreateModelInput) async throws -> CreateModelOutput
     /// Creates a Route for an API.
     ///
     /// - Parameter CreateRouteInput : Creates a new Route resource to represent a route.
     ///
-    /// - Returns: `CreateRouteOutputResponse` : [no documentation found]
+    /// - Returns: `CreateRouteOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -130,12 +130,12 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request. See the accompanying error message for details.
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    func createRoute(input: CreateRouteInput) async throws -> CreateRouteOutputResponse
+    func createRoute(input: CreateRouteInput) async throws -> CreateRouteOutput
     /// Creates a RouteResponse for a Route.
     ///
     /// - Parameter CreateRouteResponseInput : Creates a new RouteResponse resource to represent a route response.
     ///
-    /// - Returns: `CreateRouteResponseOutputResponse` : [no documentation found]
+    /// - Returns: `CreateRouteResponseOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -144,12 +144,12 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request. See the accompanying error message for details.
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    func createRouteResponse(input: CreateRouteResponseInput) async throws -> CreateRouteResponseOutputResponse
+    func createRouteResponse(input: CreateRouteResponseInput) async throws -> CreateRouteResponseOutput
     /// Creates a Stage for an API.
     ///
     /// - Parameter CreateStageInput : Creates a new Stage resource to represent a stage.
     ///
-    /// - Returns: `CreateStageOutputResponse` : [no documentation found]
+    /// - Returns: `CreateStageOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -158,48 +158,48 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request. See the accompanying error message for details.
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    func createStage(input: CreateStageInput) async throws -> CreateStageOutputResponse
+    func createStage(input: CreateStageInput) async throws -> CreateStageOutput
     /// Creates a VPC link.
     ///
     /// - Parameter CreateVpcLinkInput : Creates a VPC link
     ///
-    /// - Returns: `CreateVpcLinkOutputResponse` : [no documentation found]
+    /// - Returns: `CreateVpcLinkOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : The request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    func createVpcLink(input: CreateVpcLinkInput) async throws -> CreateVpcLinkOutputResponse
+    func createVpcLink(input: CreateVpcLinkInput) async throws -> CreateVpcLinkOutput
     /// Deletes the AccessLogSettings for a Stage. To disable access logging for a Stage, delete its AccessLogSettings.
     ///
     /// - Parameter DeleteAccessLogSettingsInput : [no documentation found]
     ///
-    /// - Returns: `DeleteAccessLogSettingsOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteAccessLogSettingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    func deleteAccessLogSettings(input: DeleteAccessLogSettingsInput) async throws -> DeleteAccessLogSettingsOutputResponse
+    func deleteAccessLogSettings(input: DeleteAccessLogSettingsInput) async throws -> DeleteAccessLogSettingsOutput
     /// Deletes an Api resource.
     ///
     /// - Parameter DeleteApiInput : [no documentation found]
     ///
-    /// - Returns: `DeleteApiOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteApiOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    func deleteApi(input: DeleteApiInput) async throws -> DeleteApiOutputResponse
+    func deleteApi(input: DeleteApiInput) async throws -> DeleteApiOutput
     /// Deletes an API mapping.
     ///
     /// - Parameter DeleteApiMappingInput : [no documentation found]
     ///
-    /// - Returns: `DeleteApiMappingOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteApiMappingOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -207,167 +207,167 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `BadRequestException` : The request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    func deleteApiMapping(input: DeleteApiMappingInput) async throws -> DeleteApiMappingOutputResponse
+    func deleteApiMapping(input: DeleteApiMappingInput) async throws -> DeleteApiMappingOutput
     /// Deletes an Authorizer.
     ///
     /// - Parameter DeleteAuthorizerInput : [no documentation found]
     ///
-    /// - Returns: `DeleteAuthorizerOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteAuthorizerOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    func deleteAuthorizer(input: DeleteAuthorizerInput) async throws -> DeleteAuthorizerOutputResponse
+    func deleteAuthorizer(input: DeleteAuthorizerInput) async throws -> DeleteAuthorizerOutput
     /// Deletes a CORS configuration.
     ///
     /// - Parameter DeleteCorsConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `DeleteCorsConfigurationOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteCorsConfigurationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    func deleteCorsConfiguration(input: DeleteCorsConfigurationInput) async throws -> DeleteCorsConfigurationOutputResponse
+    func deleteCorsConfiguration(input: DeleteCorsConfigurationInput) async throws -> DeleteCorsConfigurationOutput
     /// Deletes a Deployment.
     ///
     /// - Parameter DeleteDeploymentInput : [no documentation found]
     ///
-    /// - Returns: `DeleteDeploymentOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteDeploymentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    func deleteDeployment(input: DeleteDeploymentInput) async throws -> DeleteDeploymentOutputResponse
+    func deleteDeployment(input: DeleteDeploymentInput) async throws -> DeleteDeploymentOutput
     /// Deletes a domain name.
     ///
     /// - Parameter DeleteDomainNameInput : [no documentation found]
     ///
-    /// - Returns: `DeleteDomainNameOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteDomainNameOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    func deleteDomainName(input: DeleteDomainNameInput) async throws -> DeleteDomainNameOutputResponse
+    func deleteDomainName(input: DeleteDomainNameInput) async throws -> DeleteDomainNameOutput
     /// Deletes an Integration.
     ///
     /// - Parameter DeleteIntegrationInput : [no documentation found]
     ///
-    /// - Returns: `DeleteIntegrationOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteIntegrationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    func deleteIntegration(input: DeleteIntegrationInput) async throws -> DeleteIntegrationOutputResponse
+    func deleteIntegration(input: DeleteIntegrationInput) async throws -> DeleteIntegrationOutput
     /// Deletes an IntegrationResponses.
     ///
     /// - Parameter DeleteIntegrationResponseInput : [no documentation found]
     ///
-    /// - Returns: `DeleteIntegrationResponseOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteIntegrationResponseOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    func deleteIntegrationResponse(input: DeleteIntegrationResponseInput) async throws -> DeleteIntegrationResponseOutputResponse
+    func deleteIntegrationResponse(input: DeleteIntegrationResponseInput) async throws -> DeleteIntegrationResponseOutput
     /// Deletes a Model.
     ///
     /// - Parameter DeleteModelInput : [no documentation found]
     ///
-    /// - Returns: `DeleteModelOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteModelOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    func deleteModel(input: DeleteModelInput) async throws -> DeleteModelOutputResponse
+    func deleteModel(input: DeleteModelInput) async throws -> DeleteModelOutput
     /// Deletes a Route.
     ///
     /// - Parameter DeleteRouteInput : [no documentation found]
     ///
-    /// - Returns: `DeleteRouteOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteRouteOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    func deleteRoute(input: DeleteRouteInput) async throws -> DeleteRouteOutputResponse
+    func deleteRoute(input: DeleteRouteInput) async throws -> DeleteRouteOutput
     /// Deletes a route request parameter. Supported only for WebSocket APIs.
     ///
     /// - Parameter DeleteRouteRequestParameterInput : [no documentation found]
     ///
-    /// - Returns: `DeleteRouteRequestParameterOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteRouteRequestParameterOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    func deleteRouteRequestParameter(input: DeleteRouteRequestParameterInput) async throws -> DeleteRouteRequestParameterOutputResponse
+    func deleteRouteRequestParameter(input: DeleteRouteRequestParameterInput) async throws -> DeleteRouteRequestParameterOutput
     /// Deletes a RouteResponse.
     ///
     /// - Parameter DeleteRouteResponseInput : [no documentation found]
     ///
-    /// - Returns: `DeleteRouteResponseOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteRouteResponseOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    func deleteRouteResponse(input: DeleteRouteResponseInput) async throws -> DeleteRouteResponseOutputResponse
+    func deleteRouteResponse(input: DeleteRouteResponseInput) async throws -> DeleteRouteResponseOutput
     /// Deletes the RouteSettings for a stage.
     ///
     /// - Parameter DeleteRouteSettingsInput : [no documentation found]
     ///
-    /// - Returns: `DeleteRouteSettingsOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteRouteSettingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    func deleteRouteSettings(input: DeleteRouteSettingsInput) async throws -> DeleteRouteSettingsOutputResponse
+    func deleteRouteSettings(input: DeleteRouteSettingsInput) async throws -> DeleteRouteSettingsOutput
     /// Deletes a Stage.
     ///
     /// - Parameter DeleteStageInput : [no documentation found]
     ///
-    /// - Returns: `DeleteStageOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteStageOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    func deleteStage(input: DeleteStageInput) async throws -> DeleteStageOutputResponse
+    func deleteStage(input: DeleteStageInput) async throws -> DeleteStageOutput
     /// Deletes a VPC link.
     ///
     /// - Parameter DeleteVpcLinkInput : [no documentation found]
     ///
-    /// - Returns: `DeleteVpcLinkOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteVpcLinkOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    func deleteVpcLink(input: DeleteVpcLinkInput) async throws -> DeleteVpcLinkOutputResponse
+    func deleteVpcLink(input: DeleteVpcLinkInput) async throws -> DeleteVpcLinkOutput
     ///
     /// - Parameter ExportApiInput : [no documentation found]
     ///
-    /// - Returns: `ExportApiOutputResponse` : [no documentation found]
+    /// - Returns: `ExportApiOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -375,24 +375,24 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `BadRequestException` : The request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    func exportApi(input: ExportApiInput) async throws -> ExportApiOutputResponse
+    func exportApi(input: ExportApiInput) async throws -> ExportApiOutput
     /// Gets an Api resource.
     ///
     /// - Parameter GetApiInput : [no documentation found]
     ///
-    /// - Returns: `GetApiOutputResponse` : [no documentation found]
+    /// - Returns: `GetApiOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    func getApi(input: GetApiInput) async throws -> GetApiOutputResponse
+    func getApi(input: GetApiInput) async throws -> GetApiOutput
     /// Gets an API mapping.
     ///
     /// - Parameter GetApiMappingInput : [no documentation found]
     ///
-    /// - Returns: `GetApiMappingOutputResponse` : [no documentation found]
+    /// - Returns: `GetApiMappingOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -400,12 +400,12 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `BadRequestException` : The request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    func getApiMapping(input: GetApiMappingInput) async throws -> GetApiMappingOutputResponse
+    func getApiMapping(input: GetApiMappingInput) async throws -> GetApiMappingOutput
     /// Gets API mappings.
     ///
     /// - Parameter GetApiMappingsInput : [no documentation found]
     ///
-    /// - Returns: `GetApiMappingsOutputResponse` : [no documentation found]
+    /// - Returns: `GetApiMappingsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -413,12 +413,12 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `BadRequestException` : The request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    func getApiMappings(input: GetApiMappingsInput) async throws -> GetApiMappingsOutputResponse
+    func getApiMappings(input: GetApiMappingsInput) async throws -> GetApiMappingsOutput
     /// Gets a collection of Api resources.
     ///
     /// - Parameter GetApisInput : [no documentation found]
     ///
-    /// - Returns: `GetApisOutputResponse` : [no documentation found]
+    /// - Returns: `GetApisOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -426,24 +426,24 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `BadRequestException` : The request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    func getApis(input: GetApisInput) async throws -> GetApisOutputResponse
+    func getApis(input: GetApisInput) async throws -> GetApisOutput
     /// Gets an Authorizer.
     ///
     /// - Parameter GetAuthorizerInput : [no documentation found]
     ///
-    /// - Returns: `GetAuthorizerOutputResponse` : [no documentation found]
+    /// - Returns: `GetAuthorizerOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    func getAuthorizer(input: GetAuthorizerInput) async throws -> GetAuthorizerOutputResponse
+    func getAuthorizer(input: GetAuthorizerInput) async throws -> GetAuthorizerOutput
     /// Gets the Authorizers for an API.
     ///
     /// - Parameter GetAuthorizersInput : [no documentation found]
     ///
-    /// - Returns: `GetAuthorizersOutputResponse` : [no documentation found]
+    /// - Returns: `GetAuthorizersOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -451,24 +451,24 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `BadRequestException` : The request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    func getAuthorizers(input: GetAuthorizersInput) async throws -> GetAuthorizersOutputResponse
+    func getAuthorizers(input: GetAuthorizersInput) async throws -> GetAuthorizersOutput
     /// Gets a Deployment.
     ///
     /// - Parameter GetDeploymentInput : [no documentation found]
     ///
-    /// - Returns: `GetDeploymentOutputResponse` : [no documentation found]
+    /// - Returns: `GetDeploymentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    func getDeployment(input: GetDeploymentInput) async throws -> GetDeploymentOutputResponse
+    func getDeployment(input: GetDeploymentInput) async throws -> GetDeploymentOutput
     /// Gets the Deployments for an API.
     ///
     /// - Parameter GetDeploymentsInput : [no documentation found]
     ///
-    /// - Returns: `GetDeploymentsOutputResponse` : [no documentation found]
+    /// - Returns: `GetDeploymentsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -476,24 +476,24 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `BadRequestException` : The request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    func getDeployments(input: GetDeploymentsInput) async throws -> GetDeploymentsOutputResponse
+    func getDeployments(input: GetDeploymentsInput) async throws -> GetDeploymentsOutput
     /// Gets a domain name.
     ///
     /// - Parameter GetDomainNameInput : [no documentation found]
     ///
-    /// - Returns: `GetDomainNameOutputResponse` : [no documentation found]
+    /// - Returns: `GetDomainNameOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    func getDomainName(input: GetDomainNameInput) async throws -> GetDomainNameOutputResponse
+    func getDomainName(input: GetDomainNameInput) async throws -> GetDomainNameOutput
     /// Gets the domain names for an AWS account.
     ///
     /// - Parameter GetDomainNamesInput : [no documentation found]
     ///
-    /// - Returns: `GetDomainNamesOutputResponse` : [no documentation found]
+    /// - Returns: `GetDomainNamesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -501,36 +501,36 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `BadRequestException` : The request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    func getDomainNames(input: GetDomainNamesInput) async throws -> GetDomainNamesOutputResponse
+    func getDomainNames(input: GetDomainNamesInput) async throws -> GetDomainNamesOutput
     /// Gets an Integration.
     ///
     /// - Parameter GetIntegrationInput : [no documentation found]
     ///
-    /// - Returns: `GetIntegrationOutputResponse` : [no documentation found]
+    /// - Returns: `GetIntegrationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    func getIntegration(input: GetIntegrationInput) async throws -> GetIntegrationOutputResponse
+    func getIntegration(input: GetIntegrationInput) async throws -> GetIntegrationOutput
     /// Gets an IntegrationResponses.
     ///
     /// - Parameter GetIntegrationResponseInput : [no documentation found]
     ///
-    /// - Returns: `GetIntegrationResponseOutputResponse` : [no documentation found]
+    /// - Returns: `GetIntegrationResponseOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    func getIntegrationResponse(input: GetIntegrationResponseInput) async throws -> GetIntegrationResponseOutputResponse
+    func getIntegrationResponse(input: GetIntegrationResponseInput) async throws -> GetIntegrationResponseOutput
     /// Gets the IntegrationResponses for an Integration.
     ///
     /// - Parameter GetIntegrationResponsesInput : [no documentation found]
     ///
-    /// - Returns: `GetIntegrationResponsesOutputResponse` : [no documentation found]
+    /// - Returns: `GetIntegrationResponsesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -538,12 +538,12 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `BadRequestException` : The request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    func getIntegrationResponses(input: GetIntegrationResponsesInput) async throws -> GetIntegrationResponsesOutputResponse
+    func getIntegrationResponses(input: GetIntegrationResponsesInput) async throws -> GetIntegrationResponsesOutput
     /// Gets the Integrations for an API.
     ///
     /// - Parameter GetIntegrationsInput : [no documentation found]
     ///
-    /// - Returns: `GetIntegrationsOutputResponse` : [no documentation found]
+    /// - Returns: `GetIntegrationsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -551,24 +551,24 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `BadRequestException` : The request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    func getIntegrations(input: GetIntegrationsInput) async throws -> GetIntegrationsOutputResponse
+    func getIntegrations(input: GetIntegrationsInput) async throws -> GetIntegrationsOutput
     /// Gets a Model.
     ///
     /// - Parameter GetModelInput : [no documentation found]
     ///
-    /// - Returns: `GetModelOutputResponse` : [no documentation found]
+    /// - Returns: `GetModelOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    func getModel(input: GetModelInput) async throws -> GetModelOutputResponse
+    func getModel(input: GetModelInput) async throws -> GetModelOutput
     /// Gets the Models for an API.
     ///
     /// - Parameter GetModelsInput : [no documentation found]
     ///
-    /// - Returns: `GetModelsOutputResponse` : [no documentation found]
+    /// - Returns: `GetModelsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -576,48 +576,48 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `BadRequestException` : The request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    func getModels(input: GetModelsInput) async throws -> GetModelsOutputResponse
+    func getModels(input: GetModelsInput) async throws -> GetModelsOutput
     /// Gets a model template.
     ///
     /// - Parameter GetModelTemplateInput : [no documentation found]
     ///
-    /// - Returns: `GetModelTemplateOutputResponse` : [no documentation found]
+    /// - Returns: `GetModelTemplateOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    func getModelTemplate(input: GetModelTemplateInput) async throws -> GetModelTemplateOutputResponse
+    func getModelTemplate(input: GetModelTemplateInput) async throws -> GetModelTemplateOutput
     /// Gets a Route.
     ///
     /// - Parameter GetRouteInput : [no documentation found]
     ///
-    /// - Returns: `GetRouteOutputResponse` : [no documentation found]
+    /// - Returns: `GetRouteOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    func getRoute(input: GetRouteInput) async throws -> GetRouteOutputResponse
+    func getRoute(input: GetRouteInput) async throws -> GetRouteOutput
     /// Gets a RouteResponse.
     ///
     /// - Parameter GetRouteResponseInput : [no documentation found]
     ///
-    /// - Returns: `GetRouteResponseOutputResponse` : [no documentation found]
+    /// - Returns: `GetRouteResponseOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    func getRouteResponse(input: GetRouteResponseInput) async throws -> GetRouteResponseOutputResponse
+    func getRouteResponse(input: GetRouteResponseInput) async throws -> GetRouteResponseOutput
     /// Gets the RouteResponses for a Route.
     ///
     /// - Parameter GetRouteResponsesInput : [no documentation found]
     ///
-    /// - Returns: `GetRouteResponsesOutputResponse` : [no documentation found]
+    /// - Returns: `GetRouteResponsesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -625,12 +625,12 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `BadRequestException` : The request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    func getRouteResponses(input: GetRouteResponsesInput) async throws -> GetRouteResponsesOutputResponse
+    func getRouteResponses(input: GetRouteResponsesInput) async throws -> GetRouteResponsesOutput
     /// Gets the Routes for an API.
     ///
     /// - Parameter GetRoutesInput : [no documentation found]
     ///
-    /// - Returns: `GetRoutesOutputResponse` : [no documentation found]
+    /// - Returns: `GetRoutesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -638,24 +638,24 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `BadRequestException` : The request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    func getRoutes(input: GetRoutesInput) async throws -> GetRoutesOutputResponse
+    func getRoutes(input: GetRoutesInput) async throws -> GetRoutesOutput
     /// Gets a Stage.
     ///
     /// - Parameter GetStageInput : [no documentation found]
     ///
-    /// - Returns: `GetStageOutputResponse` : [no documentation found]
+    /// - Returns: `GetStageOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    func getStage(input: GetStageInput) async throws -> GetStageOutputResponse
+    func getStage(input: GetStageInput) async throws -> GetStageOutput
     /// Gets the Stages for an API.
     ///
     /// - Parameter GetStagesInput : [no documentation found]
     ///
-    /// - Returns: `GetStagesOutputResponse` : [no documentation found]
+    /// - Returns: `GetStagesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -663,12 +663,12 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `BadRequestException` : The request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    func getStages(input: GetStagesInput) async throws -> GetStagesOutputResponse
+    func getStages(input: GetStagesInput) async throws -> GetStagesOutput
     /// Gets a collection of Tag resources.
     ///
     /// - Parameter GetTagsInput : [no documentation found]
     ///
-    /// - Returns: `GetTagsOutputResponse` : [no documentation found]
+    /// - Returns: `GetTagsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -677,36 +677,36 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request. See the accompanying error message for details.
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    func getTags(input: GetTagsInput) async throws -> GetTagsOutputResponse
+    func getTags(input: GetTagsInput) async throws -> GetTagsOutput
     /// Gets a VPC link.
     ///
     /// - Parameter GetVpcLinkInput : [no documentation found]
     ///
-    /// - Returns: `GetVpcLinkOutputResponse` : [no documentation found]
+    /// - Returns: `GetVpcLinkOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    func getVpcLink(input: GetVpcLinkInput) async throws -> GetVpcLinkOutputResponse
+    func getVpcLink(input: GetVpcLinkInput) async throws -> GetVpcLinkOutput
     /// Gets a collection of VPC links.
     ///
     /// - Parameter GetVpcLinksInput : [no documentation found]
     ///
-    /// - Returns: `GetVpcLinksOutputResponse` : [no documentation found]
+    /// - Returns: `GetVpcLinksOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : The request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    func getVpcLinks(input: GetVpcLinksInput) async throws -> GetVpcLinksOutputResponse
+    func getVpcLinks(input: GetVpcLinksInput) async throws -> GetVpcLinksOutput
     /// Imports an API.
     ///
     /// - Parameter ImportApiInput :
     ///
-    /// - Returns: `ImportApiOutputResponse` : [no documentation found]
+    /// - Returns: `ImportApiOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -715,12 +715,12 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request. See the accompanying error message for details.
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    func importApi(input: ImportApiInput) async throws -> ImportApiOutputResponse
+    func importApi(input: ImportApiInput) async throws -> ImportApiOutput
     /// Puts an Api resource.
     ///
     /// - Parameter ReimportApiInput :
     ///
-    /// - Returns: `ReimportApiOutputResponse` : [no documentation found]
+    /// - Returns: `ReimportApiOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -729,24 +729,24 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request. See the accompanying error message for details.
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    func reimportApi(input: ReimportApiInput) async throws -> ReimportApiOutputResponse
+    func reimportApi(input: ReimportApiInput) async throws -> ReimportApiOutput
     /// Resets all authorizer cache entries on a stage. Supported only for HTTP APIs.
     ///
     /// - Parameter ResetAuthorizersCacheInput : [no documentation found]
     ///
-    /// - Returns: `ResetAuthorizersCacheOutputResponse` : [no documentation found]
+    /// - Returns: `ResetAuthorizersCacheOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    func resetAuthorizersCache(input: ResetAuthorizersCacheInput) async throws -> ResetAuthorizersCacheOutputResponse
+    func resetAuthorizersCache(input: ResetAuthorizersCacheInput) async throws -> ResetAuthorizersCacheOutput
     /// Creates a new Tag resource to represent a tag.
     ///
     /// - Parameter TagResourceInput : Creates a new Tag resource to represent a tag.
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -755,12 +755,12 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request. See the accompanying error message for details.
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     /// Deletes a Tag.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -769,12 +769,12 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request. See the accompanying error message for details.
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
     /// Updates an Api resource.
     ///
     /// - Parameter UpdateApiInput : Updates an Api.
     ///
-    /// - Returns: `UpdateApiOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateApiOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -783,12 +783,12 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request. See the accompanying error message for details.
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    func updateApi(input: UpdateApiInput) async throws -> UpdateApiOutputResponse
+    func updateApi(input: UpdateApiInput) async throws -> UpdateApiOutput
     /// The API mapping.
     ///
     /// - Parameter UpdateApiMappingInput : Updates an ApiMapping.
     ///
-    /// - Returns: `UpdateApiMappingOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateApiMappingOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -797,12 +797,12 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request. See the accompanying error message for details.
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    func updateApiMapping(input: UpdateApiMappingInput) async throws -> UpdateApiMappingOutputResponse
+    func updateApiMapping(input: UpdateApiMappingInput) async throws -> UpdateApiMappingOutput
     /// Updates an Authorizer.
     ///
     /// - Parameter UpdateAuthorizerInput : Updates an Authorizer.
     ///
-    /// - Returns: `UpdateAuthorizerOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateAuthorizerOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -811,12 +811,12 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request. See the accompanying error message for details.
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    func updateAuthorizer(input: UpdateAuthorizerInput) async throws -> UpdateAuthorizerOutputResponse
+    func updateAuthorizer(input: UpdateAuthorizerInput) async throws -> UpdateAuthorizerOutput
     /// Updates a Deployment.
     ///
     /// - Parameter UpdateDeploymentInput : Updates a Deployment.
     ///
-    /// - Returns: `UpdateDeploymentOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateDeploymentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -825,12 +825,12 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request. See the accompanying error message for details.
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    func updateDeployment(input: UpdateDeploymentInput) async throws -> UpdateDeploymentOutputResponse
+    func updateDeployment(input: UpdateDeploymentInput) async throws -> UpdateDeploymentOutput
     /// Updates a domain name.
     ///
     /// - Parameter UpdateDomainNameInput : Updates a DomainName.
     ///
-    /// - Returns: `UpdateDomainNameOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateDomainNameOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -839,12 +839,12 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request. See the accompanying error message for details.
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    func updateDomainName(input: UpdateDomainNameInput) async throws -> UpdateDomainNameOutputResponse
+    func updateDomainName(input: UpdateDomainNameInput) async throws -> UpdateDomainNameOutput
     /// Updates an Integration.
     ///
     /// - Parameter UpdateIntegrationInput : Updates an Integration.
     ///
-    /// - Returns: `UpdateIntegrationOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateIntegrationOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -853,12 +853,12 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request. See the accompanying error message for details.
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    func updateIntegration(input: UpdateIntegrationInput) async throws -> UpdateIntegrationOutputResponse
+    func updateIntegration(input: UpdateIntegrationInput) async throws -> UpdateIntegrationOutput
     /// Updates an IntegrationResponses.
     ///
     /// - Parameter UpdateIntegrationResponseInput : Updates an IntegrationResponses.
     ///
-    /// - Returns: `UpdateIntegrationResponseOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateIntegrationResponseOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -867,12 +867,12 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request. See the accompanying error message for details.
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    func updateIntegrationResponse(input: UpdateIntegrationResponseInput) async throws -> UpdateIntegrationResponseOutputResponse
+    func updateIntegrationResponse(input: UpdateIntegrationResponseInput) async throws -> UpdateIntegrationResponseOutput
     /// Updates a Model.
     ///
     /// - Parameter UpdateModelInput : Updates a Model.
     ///
-    /// - Returns: `UpdateModelOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateModelOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -881,12 +881,12 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request. See the accompanying error message for details.
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    func updateModel(input: UpdateModelInput) async throws -> UpdateModelOutputResponse
+    func updateModel(input: UpdateModelInput) async throws -> UpdateModelOutput
     /// Updates a Route.
     ///
     /// - Parameter UpdateRouteInput : Updates a Route.
     ///
-    /// - Returns: `UpdateRouteOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateRouteOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -895,12 +895,12 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request. See the accompanying error message for details.
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    func updateRoute(input: UpdateRouteInput) async throws -> UpdateRouteOutputResponse
+    func updateRoute(input: UpdateRouteInput) async throws -> UpdateRouteOutput
     /// Updates a RouteResponse.
     ///
     /// - Parameter UpdateRouteResponseInput : Updates a RouteResponse.
     ///
-    /// - Returns: `UpdateRouteResponseOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateRouteResponseOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -909,12 +909,12 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request. See the accompanying error message for details.
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    func updateRouteResponse(input: UpdateRouteResponseInput) async throws -> UpdateRouteResponseOutputResponse
+    func updateRouteResponse(input: UpdateRouteResponseInput) async throws -> UpdateRouteResponseOutput
     /// Updates a Stage.
     ///
     /// - Parameter UpdateStageInput : Updates a Stage.
     ///
-    /// - Returns: `UpdateStageOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateStageOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -923,12 +923,12 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request. See the accompanying error message for details.
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    func updateStage(input: UpdateStageInput) async throws -> UpdateStageOutputResponse
+    func updateStage(input: UpdateStageInput) async throws -> UpdateStageOutput
     /// Updates a VPC link.
     ///
     /// - Parameter UpdateVpcLinkInput : Updates a VPC link.
     ///
-    /// - Returns: `UpdateVpcLinkOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateVpcLinkOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -936,7 +936,7 @@ public protocol ApiGatewayV2ClientProtocol {
     /// - `BadRequestException` : The request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
     /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
     /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
-    func updateVpcLink(input: UpdateVpcLinkInput) async throws -> UpdateVpcLinkOutputResponse
+    func updateVpcLink(input: UpdateVpcLinkInput) async throws -> UpdateVpcLinkOutput
 }
 
 public enum ApiGatewayV2ClientTypes {}

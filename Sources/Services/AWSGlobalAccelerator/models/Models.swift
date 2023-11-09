@@ -531,28 +531,11 @@ extension AddCustomRoutingEndpointsInputBody: Swift.Decodable {
     }
 }
 
-enum AddCustomRoutingEndpointsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EndpointAlreadyExistsException": return try await EndpointAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EndpointGroupNotFoundException": return try await EndpointGroupNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension AddCustomRoutingEndpointsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension AddCustomRoutingEndpointsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: AddCustomRoutingEndpointsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: AddCustomRoutingEndpointsOutputBody = try responseDecoder.decode(responseBody: data)
             self.endpointDescriptions = output.endpointDescriptions
             self.endpointGroupArn = output.endpointGroupArn
         } else {
@@ -562,7 +545,7 @@ extension AddCustomRoutingEndpointsOutputResponse: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct AddCustomRoutingEndpointsOutputResponse: Swift.Equatable {
+public struct AddCustomRoutingEndpointsOutput: Swift.Equatable {
     /// The endpoint objects added to the custom routing accelerator.
     public var endpointDescriptions: [GlobalAcceleratorClientTypes.CustomRoutingEndpointDescription]?
     /// The Amazon Resource Name (ARN) of the endpoint group for the custom routing endpoint.
@@ -578,12 +561,12 @@ public struct AddCustomRoutingEndpointsOutputResponse: Swift.Equatable {
     }
 }
 
-struct AddCustomRoutingEndpointsOutputResponseBody: Swift.Equatable {
+struct AddCustomRoutingEndpointsOutputBody: Swift.Equatable {
     let endpointDescriptions: [GlobalAcceleratorClientTypes.CustomRoutingEndpointDescription]?
     let endpointGroupArn: Swift.String?
 }
 
-extension AddCustomRoutingEndpointsOutputResponseBody: Swift.Decodable {
+extension AddCustomRoutingEndpointsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case endpointDescriptions = "EndpointDescriptions"
         case endpointGroupArn = "EndpointGroupArn"
@@ -604,6 +587,23 @@ extension AddCustomRoutingEndpointsOutputResponseBody: Swift.Decodable {
         endpointDescriptions = endpointDescriptionsDecoded0
         let endpointGroupArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .endpointGroupArn)
         endpointGroupArn = endpointGroupArnDecoded
+    }
+}
+
+enum AddCustomRoutingEndpointsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EndpointAlreadyExistsException": return try await EndpointAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EndpointGroupNotFoundException": return try await EndpointGroupNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -680,27 +680,11 @@ extension AddEndpointsInputBody: Swift.Decodable {
     }
 }
 
-enum AddEndpointsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EndpointGroupNotFoundException": return try await EndpointGroupNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TransactionInProgressException": return try await TransactionInProgressException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension AddEndpointsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension AddEndpointsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: AddEndpointsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: AddEndpointsOutputBody = try responseDecoder.decode(responseBody: data)
             self.endpointDescriptions = output.endpointDescriptions
             self.endpointGroupArn = output.endpointGroupArn
         } else {
@@ -710,7 +694,7 @@ extension AddEndpointsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AddEndpointsOutputResponse: Swift.Equatable {
+public struct AddEndpointsOutput: Swift.Equatable {
     /// The list of endpoint objects.
     public var endpointDescriptions: [GlobalAcceleratorClientTypes.EndpointDescription]?
     /// The Amazon Resource Name (ARN) of the endpoint group.
@@ -726,12 +710,12 @@ public struct AddEndpointsOutputResponse: Swift.Equatable {
     }
 }
 
-struct AddEndpointsOutputResponseBody: Swift.Equatable {
+struct AddEndpointsOutputBody: Swift.Equatable {
     let endpointDescriptions: [GlobalAcceleratorClientTypes.EndpointDescription]?
     let endpointGroupArn: Swift.String?
 }
 
-extension AddEndpointsOutputResponseBody: Swift.Decodable {
+extension AddEndpointsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case endpointDescriptions = "EndpointDescriptions"
         case endpointGroupArn = "EndpointGroupArn"
@@ -752,6 +736,22 @@ extension AddEndpointsOutputResponseBody: Swift.Decodable {
         endpointDescriptions = endpointDescriptionsDecoded0
         let endpointGroupArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .endpointGroupArn)
         endpointGroupArn = endpointGroupArnDecoded
+    }
+}
+
+enum AddEndpointsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EndpointGroupNotFoundException": return try await EndpointGroupNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TransactionInProgressException": return try await TransactionInProgressException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -803,6 +803,46 @@ extension AdvertiseByoipCidrInputBody: Swift.Decodable {
     }
 }
 
+extension AdvertiseByoipCidrOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: AdvertiseByoipCidrOutputBody = try responseDecoder.decode(responseBody: data)
+            self.byoipCidr = output.byoipCidr
+        } else {
+            self.byoipCidr = nil
+        }
+    }
+}
+
+public struct AdvertiseByoipCidrOutput: Swift.Equatable {
+    /// Information about the address range.
+    public var byoipCidr: GlobalAcceleratorClientTypes.ByoipCidr?
+
+    public init(
+        byoipCidr: GlobalAcceleratorClientTypes.ByoipCidr? = nil
+    )
+    {
+        self.byoipCidr = byoipCidr
+    }
+}
+
+struct AdvertiseByoipCidrOutputBody: Swift.Equatable {
+    let byoipCidr: GlobalAcceleratorClientTypes.ByoipCidr?
+}
+
+extension AdvertiseByoipCidrOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case byoipCidr = "ByoipCidr"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let byoipCidrDecoded = try containerValues.decodeIfPresent(GlobalAcceleratorClientTypes.ByoipCidr.self, forKey: .byoipCidr)
+        byoipCidr = byoipCidrDecoded
+    }
+}
+
 enum AdvertiseByoipCidrOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -815,46 +855,6 @@ enum AdvertiseByoipCidrOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension AdvertiseByoipCidrOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: AdvertiseByoipCidrOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.byoipCidr = output.byoipCidr
-        } else {
-            self.byoipCidr = nil
-        }
-    }
-}
-
-public struct AdvertiseByoipCidrOutputResponse: Swift.Equatable {
-    /// Information about the address range.
-    public var byoipCidr: GlobalAcceleratorClientTypes.ByoipCidr?
-
-    public init(
-        byoipCidr: GlobalAcceleratorClientTypes.ByoipCidr? = nil
-    )
-    {
-        self.byoipCidr = byoipCidr
-    }
-}
-
-struct AdvertiseByoipCidrOutputResponseBody: Swift.Equatable {
-    let byoipCidr: GlobalAcceleratorClientTypes.ByoipCidr?
-}
-
-extension AdvertiseByoipCidrOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case byoipCidr = "ByoipCidr"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let byoipCidrDecoded = try containerValues.decodeIfPresent(GlobalAcceleratorClientTypes.ByoipCidr.self, forKey: .byoipCidr)
-        byoipCidr = byoipCidrDecoded
     }
 }
 
@@ -979,6 +979,16 @@ extension AllowCustomRoutingTrafficInputBody: Swift.Decodable {
     }
 }
 
+extension AllowCustomRoutingTrafficOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct AllowCustomRoutingTrafficOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum AllowCustomRoutingTrafficOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -990,16 +1000,6 @@ enum AllowCustomRoutingTrafficOutputError: ClientRuntime.HttpResponseErrorBindin
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension AllowCustomRoutingTrafficOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct AllowCustomRoutingTrafficOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension AssociatedEndpointGroupFoundException {
@@ -1101,6 +1101,170 @@ struct AssociatedListenerFoundExceptionBody: Swift.Equatable {
 }
 
 extension AssociatedListenerFoundExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message = "Message"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension GlobalAcceleratorClientTypes.Attachment: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case attachmentArn = "AttachmentArn"
+        case createdTime = "CreatedTime"
+        case lastModifiedTime = "LastModifiedTime"
+        case name = "Name"
+        case principals = "Principals"
+        case resources = "Resources"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let attachmentArn = self.attachmentArn {
+            try encodeContainer.encode(attachmentArn, forKey: .attachmentArn)
+        }
+        if let createdTime = self.createdTime {
+            try encodeContainer.encodeTimestamp(createdTime, format: .epochSeconds, forKey: .createdTime)
+        }
+        if let lastModifiedTime = self.lastModifiedTime {
+            try encodeContainer.encodeTimestamp(lastModifiedTime, format: .epochSeconds, forKey: .lastModifiedTime)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let principals = principals {
+            var principalsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .principals)
+            for principal0 in principals {
+                try principalsContainer.encode(principal0)
+            }
+        }
+        if let resources = resources {
+            var resourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resources)
+            for resource0 in resources {
+                try resourcesContainer.encode(resource0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let attachmentArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .attachmentArn)
+        attachmentArn = attachmentArnDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let principalsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .principals)
+        var principalsDecoded0:[Swift.String]? = nil
+        if let principalsContainer = principalsContainer {
+            principalsDecoded0 = [Swift.String]()
+            for string0 in principalsContainer {
+                if let string0 = string0 {
+                    principalsDecoded0?.append(string0)
+                }
+            }
+        }
+        principals = principalsDecoded0
+        let resourcesContainer = try containerValues.decodeIfPresent([GlobalAcceleratorClientTypes.Resource?].self, forKey: .resources)
+        var resourcesDecoded0:[GlobalAcceleratorClientTypes.Resource]? = nil
+        if let resourcesContainer = resourcesContainer {
+            resourcesDecoded0 = [GlobalAcceleratorClientTypes.Resource]()
+            for structure0 in resourcesContainer {
+                if let structure0 = structure0 {
+                    resourcesDecoded0?.append(structure0)
+                }
+            }
+        }
+        resources = resourcesDecoded0
+        let lastModifiedTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedTime)
+        lastModifiedTime = lastModifiedTimeDecoded
+        let createdTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdTime)
+        createdTime = createdTimeDecoded
+    }
+}
+
+extension GlobalAcceleratorClientTypes {
+    /// A cross-account attachment in Global Accelerator. A cross-account attachment specifies the principals who have permission to add to accelerators in their own account the resources in your account that you also list in the attachment.
+    public struct Attachment: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of the cross-account attachment.
+        public var attachmentArn: Swift.String?
+        /// The date and time that the cross-account attachment was created.
+        public var createdTime: ClientRuntime.Date?
+        /// The date and time that the cross-account attachment was last modified.
+        public var lastModifiedTime: ClientRuntime.Date?
+        /// The name of the cross-account attachment.
+        public var name: Swift.String?
+        /// The principals included in the cross-account attachment.
+        public var principals: [Swift.String]?
+        /// The resources included in the cross-account attachment.
+        public var resources: [GlobalAcceleratorClientTypes.Resource]?
+
+        public init(
+            attachmentArn: Swift.String? = nil,
+            createdTime: ClientRuntime.Date? = nil,
+            lastModifiedTime: ClientRuntime.Date? = nil,
+            name: Swift.String? = nil,
+            principals: [Swift.String]? = nil,
+            resources: [GlobalAcceleratorClientTypes.Resource]? = nil
+        )
+        {
+            self.attachmentArn = attachmentArn
+            self.createdTime = createdTime
+            self.lastModifiedTime = lastModifiedTime
+            self.name = name
+            self.principals = principals
+            self.resources = resources
+        }
+    }
+
+}
+
+extension AttachmentNotFoundException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: AttachmentNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// No cross-account attachment was found.
+public struct AttachmentNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "AttachmentNotFoundException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct AttachmentNotFoundExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension AttachmentNotFoundExceptionBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case message = "Message"
     }
@@ -1627,6 +1791,46 @@ extension CreateAcceleratorInputBody: Swift.Decodable {
     }
 }
 
+extension CreateAcceleratorOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateAcceleratorOutputBody = try responseDecoder.decode(responseBody: data)
+            self.accelerator = output.accelerator
+        } else {
+            self.accelerator = nil
+        }
+    }
+}
+
+public struct CreateAcceleratorOutput: Swift.Equatable {
+    /// The accelerator that is created by specifying a listener and the supported IP address types.
+    public var accelerator: GlobalAcceleratorClientTypes.Accelerator?
+
+    public init(
+        accelerator: GlobalAcceleratorClientTypes.Accelerator? = nil
+    )
+    {
+        self.accelerator = accelerator
+    }
+}
+
+struct CreateAcceleratorOutputBody: Swift.Equatable {
+    let accelerator: GlobalAcceleratorClientTypes.Accelerator?
+}
+
+extension CreateAcceleratorOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accelerator = "Accelerator"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let acceleratorDecoded = try containerValues.decodeIfPresent(GlobalAcceleratorClientTypes.Accelerator.self, forKey: .accelerator)
+        accelerator = acceleratorDecoded
+    }
+}
+
 enum CreateAcceleratorOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -1640,43 +1844,191 @@ enum CreateAcceleratorOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension CreateAcceleratorOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateAcceleratorOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.accelerator = output.accelerator
-        } else {
-            self.accelerator = nil
+extension CreateCrossAccountAttachmentInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case idempotencyToken = "IdempotencyToken"
+        case name = "Name"
+        case principals = "Principals"
+        case resources = "Resources"
+        case tags = "Tags"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let idempotencyToken = self.idempotencyToken {
+            try encodeContainer.encode(idempotencyToken, forKey: .idempotencyToken)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let principals = principals {
+            var principalsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .principals)
+            for principal0 in principals {
+                try principalsContainer.encode(principal0)
+            }
+        }
+        if let resources = resources {
+            var resourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resources)
+            for resource0 in resources {
+                try resourcesContainer.encode(resource0)
+            }
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
+            }
         }
     }
 }
 
-public struct CreateAcceleratorOutputResponse: Swift.Equatable {
-    /// The accelerator that is created by specifying a listener and the supported IP address types.
-    public var accelerator: GlobalAcceleratorClientTypes.Accelerator?
-
-    public init(
-        accelerator: GlobalAcceleratorClientTypes.Accelerator? = nil
-    )
-    {
-        self.accelerator = accelerator
+extension CreateCrossAccountAttachmentInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
     }
 }
 
-struct CreateAcceleratorOutputResponseBody: Swift.Equatable {
-    let accelerator: GlobalAcceleratorClientTypes.Accelerator?
+public struct CreateCrossAccountAttachmentInput: Swift.Equatable {
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency—that is, the uniqueness—of the request.
+    /// This member is required.
+    public var idempotencyToken: Swift.String?
+    /// The name of the cross-account attachment.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The principals to list in the cross-account attachment. A principal can be an Amazon Web Services account number or the Amazon Resource Name (ARN) for an accelerator.
+    public var principals: [Swift.String]?
+    /// The Amazon Resource Names (ARNs) for the resources to list in the cross-account attachment. A resource can be any supported Amazon Web Services resource type for Global Accelerator.
+    public var resources: [GlobalAcceleratorClientTypes.Resource]?
+    /// Create tags for cross-account attachment. For more information, see [Tagging in Global Accelerator](https://docs.aws.amazon.com/global-accelerator/latest/dg/tagging-in-global-accelerator.html) in the Global Accelerator Developer Guide.
+    public var tags: [GlobalAcceleratorClientTypes.Tag]?
+
+    public init(
+        idempotencyToken: Swift.String? = nil,
+        name: Swift.String? = nil,
+        principals: [Swift.String]? = nil,
+        resources: [GlobalAcceleratorClientTypes.Resource]? = nil,
+        tags: [GlobalAcceleratorClientTypes.Tag]? = nil
+    )
+    {
+        self.idempotencyToken = idempotencyToken
+        self.name = name
+        self.principals = principals
+        self.resources = resources
+        self.tags = tags
+    }
 }
 
-extension CreateAcceleratorOutputResponseBody: Swift.Decodable {
+struct CreateCrossAccountAttachmentInputBody: Swift.Equatable {
+    let name: Swift.String?
+    let principals: [Swift.String]?
+    let resources: [GlobalAcceleratorClientTypes.Resource]?
+    let idempotencyToken: Swift.String?
+    let tags: [GlobalAcceleratorClientTypes.Tag]?
+}
+
+extension CreateCrossAccountAttachmentInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case accelerator = "Accelerator"
+        case idempotencyToken = "IdempotencyToken"
+        case name = "Name"
+        case principals = "Principals"
+        case resources = "Resources"
+        case tags = "Tags"
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let acceleratorDecoded = try containerValues.decodeIfPresent(GlobalAcceleratorClientTypes.Accelerator.self, forKey: .accelerator)
-        accelerator = acceleratorDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let principalsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .principals)
+        var principalsDecoded0:[Swift.String]? = nil
+        if let principalsContainer = principalsContainer {
+            principalsDecoded0 = [Swift.String]()
+            for string0 in principalsContainer {
+                if let string0 = string0 {
+                    principalsDecoded0?.append(string0)
+                }
+            }
+        }
+        principals = principalsDecoded0
+        let resourcesContainer = try containerValues.decodeIfPresent([GlobalAcceleratorClientTypes.Resource?].self, forKey: .resources)
+        var resourcesDecoded0:[GlobalAcceleratorClientTypes.Resource]? = nil
+        if let resourcesContainer = resourcesContainer {
+            resourcesDecoded0 = [GlobalAcceleratorClientTypes.Resource]()
+            for structure0 in resourcesContainer {
+                if let structure0 = structure0 {
+                    resourcesDecoded0?.append(structure0)
+                }
+            }
+        }
+        resources = resourcesDecoded0
+        let idempotencyTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .idempotencyToken)
+        idempotencyToken = idempotencyTokenDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([GlobalAcceleratorClientTypes.Tag?].self, forKey: .tags)
+        var tagsDecoded0:[GlobalAcceleratorClientTypes.Tag]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [GlobalAcceleratorClientTypes.Tag]()
+            for structure0 in tagsContainer {
+                if let structure0 = structure0 {
+                    tagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension CreateCrossAccountAttachmentOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateCrossAccountAttachmentOutputBody = try responseDecoder.decode(responseBody: data)
+            self.crossAccountAttachment = output.crossAccountAttachment
+        } else {
+            self.crossAccountAttachment = nil
+        }
+    }
+}
+
+public struct CreateCrossAccountAttachmentOutput: Swift.Equatable {
+    /// Information about the cross-account attachment.
+    public var crossAccountAttachment: GlobalAcceleratorClientTypes.Attachment?
+
+    public init(
+        crossAccountAttachment: GlobalAcceleratorClientTypes.Attachment? = nil
+    )
+    {
+        self.crossAccountAttachment = crossAccountAttachment
+    }
+}
+
+struct CreateCrossAccountAttachmentOutputBody: Swift.Equatable {
+    let crossAccountAttachment: GlobalAcceleratorClientTypes.Attachment?
+}
+
+extension CreateCrossAccountAttachmentOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case crossAccountAttachment = "CrossAccountAttachment"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let crossAccountAttachmentDecoded = try containerValues.decodeIfPresent(GlobalAcceleratorClientTypes.Attachment.self, forKey: .crossAccountAttachment)
+        crossAccountAttachment = crossAccountAttachmentDecoded
+    }
+}
+
+enum CreateCrossAccountAttachmentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TransactionInProgressException": return try await TransactionInProgressException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1813,25 +2165,11 @@ extension CreateCustomRoutingAcceleratorInputBody: Swift.Decodable {
     }
 }
 
-enum CreateCustomRoutingAcceleratorOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension CreateCustomRoutingAcceleratorOutputResponse: ClientRuntime.HttpResponseBinding {
+extension CreateCustomRoutingAcceleratorOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: CreateCustomRoutingAcceleratorOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: CreateCustomRoutingAcceleratorOutputBody = try responseDecoder.decode(responseBody: data)
             self.accelerator = output.accelerator
         } else {
             self.accelerator = nil
@@ -1839,7 +2177,7 @@ extension CreateCustomRoutingAcceleratorOutputResponse: ClientRuntime.HttpRespon
     }
 }
 
-public struct CreateCustomRoutingAcceleratorOutputResponse: Swift.Equatable {
+public struct CreateCustomRoutingAcceleratorOutput: Swift.Equatable {
     /// The accelerator that is created.
     public var accelerator: GlobalAcceleratorClientTypes.CustomRoutingAccelerator?
 
@@ -1851,11 +2189,11 @@ public struct CreateCustomRoutingAcceleratorOutputResponse: Swift.Equatable {
     }
 }
 
-struct CreateCustomRoutingAcceleratorOutputResponseBody: Swift.Equatable {
+struct CreateCustomRoutingAcceleratorOutputBody: Swift.Equatable {
     let accelerator: GlobalAcceleratorClientTypes.CustomRoutingAccelerator?
 }
 
-extension CreateCustomRoutingAcceleratorOutputResponseBody: Swift.Decodable {
+extension CreateCustomRoutingAcceleratorOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accelerator = "Accelerator"
     }
@@ -1864,6 +2202,20 @@ extension CreateCustomRoutingAcceleratorOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let acceleratorDecoded = try containerValues.decodeIfPresent(GlobalAcceleratorClientTypes.CustomRoutingAccelerator.self, forKey: .accelerator)
         accelerator = acceleratorDecoded
+    }
+}
+
+enum CreateCustomRoutingAcceleratorOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1966,6 +2318,46 @@ extension CreateCustomRoutingEndpointGroupInputBody: Swift.Decodable {
     }
 }
 
+extension CreateCustomRoutingEndpointGroupOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateCustomRoutingEndpointGroupOutputBody = try responseDecoder.decode(responseBody: data)
+            self.endpointGroup = output.endpointGroup
+        } else {
+            self.endpointGroup = nil
+        }
+    }
+}
+
+public struct CreateCustomRoutingEndpointGroupOutput: Swift.Equatable {
+    /// The information about the endpoint group created for a custom routing accelerator.
+    public var endpointGroup: GlobalAcceleratorClientTypes.CustomRoutingEndpointGroup?
+
+    public init(
+        endpointGroup: GlobalAcceleratorClientTypes.CustomRoutingEndpointGroup? = nil
+    )
+    {
+        self.endpointGroup = endpointGroup
+    }
+}
+
+struct CreateCustomRoutingEndpointGroupOutputBody: Swift.Equatable {
+    let endpointGroup: GlobalAcceleratorClientTypes.CustomRoutingEndpointGroup?
+}
+
+extension CreateCustomRoutingEndpointGroupOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case endpointGroup = "EndpointGroup"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let endpointGroupDecoded = try containerValues.decodeIfPresent(GlobalAcceleratorClientTypes.CustomRoutingEndpointGroup.self, forKey: .endpointGroup)
+        endpointGroup = endpointGroupDecoded
+    }
+}
+
 enum CreateCustomRoutingEndpointGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -1981,46 +2373,6 @@ enum CreateCustomRoutingEndpointGroupOutputError: ClientRuntime.HttpResponseErro
             case "ListenerNotFoundException": return try await ListenerNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension CreateCustomRoutingEndpointGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateCustomRoutingEndpointGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.endpointGroup = output.endpointGroup
-        } else {
-            self.endpointGroup = nil
-        }
-    }
-}
-
-public struct CreateCustomRoutingEndpointGroupOutputResponse: Swift.Equatable {
-    /// The information about the endpoint group created for a custom routing accelerator.
-    public var endpointGroup: GlobalAcceleratorClientTypes.CustomRoutingEndpointGroup?
-
-    public init(
-        endpointGroup: GlobalAcceleratorClientTypes.CustomRoutingEndpointGroup? = nil
-    )
-    {
-        self.endpointGroup = endpointGroup
-    }
-}
-
-struct CreateCustomRoutingEndpointGroupOutputResponseBody: Swift.Equatable {
-    let endpointGroup: GlobalAcceleratorClientTypes.CustomRoutingEndpointGroup?
-}
-
-extension CreateCustomRoutingEndpointGroupOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case endpointGroup = "EndpointGroup"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let endpointGroupDecoded = try containerValues.decodeIfPresent(GlobalAcceleratorClientTypes.CustomRoutingEndpointGroup.self, forKey: .endpointGroup)
-        endpointGroup = endpointGroupDecoded
     }
 }
 
@@ -2110,6 +2462,46 @@ extension CreateCustomRoutingListenerInputBody: Swift.Decodable {
     }
 }
 
+extension CreateCustomRoutingListenerOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateCustomRoutingListenerOutputBody = try responseDecoder.decode(responseBody: data)
+            self.listener = output.listener
+        } else {
+            self.listener = nil
+        }
+    }
+}
+
+public struct CreateCustomRoutingListenerOutput: Swift.Equatable {
+    /// The listener that you've created for a custom routing accelerator.
+    public var listener: GlobalAcceleratorClientTypes.CustomRoutingListener?
+
+    public init(
+        listener: GlobalAcceleratorClientTypes.CustomRoutingListener? = nil
+    )
+    {
+        self.listener = listener
+    }
+}
+
+struct CreateCustomRoutingListenerOutputBody: Swift.Equatable {
+    let listener: GlobalAcceleratorClientTypes.CustomRoutingListener?
+}
+
+extension CreateCustomRoutingListenerOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case listener = "Listener"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let listenerDecoded = try containerValues.decodeIfPresent(GlobalAcceleratorClientTypes.CustomRoutingListener.self, forKey: .listener)
+        listener = listenerDecoded
+    }
+}
+
 enum CreateCustomRoutingListenerOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -2122,46 +2514,6 @@ enum CreateCustomRoutingListenerOutputError: ClientRuntime.HttpResponseErrorBind
             case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension CreateCustomRoutingListenerOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateCustomRoutingListenerOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.listener = output.listener
-        } else {
-            self.listener = nil
-        }
-    }
-}
-
-public struct CreateCustomRoutingListenerOutputResponse: Swift.Equatable {
-    /// The listener that you've created for a custom routing accelerator.
-    public var listener: GlobalAcceleratorClientTypes.CustomRoutingListener?
-
-    public init(
-        listener: GlobalAcceleratorClientTypes.CustomRoutingListener? = nil
-    )
-    {
-        self.listener = listener
-    }
-}
-
-struct CreateCustomRoutingListenerOutputResponseBody: Swift.Equatable {
-    let listener: GlobalAcceleratorClientTypes.CustomRoutingListener?
-}
-
-extension CreateCustomRoutingListenerOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case listener = "Listener"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let listenerDecoded = try containerValues.decodeIfPresent(GlobalAcceleratorClientTypes.CustomRoutingListener.self, forKey: .listener)
-        listener = listenerDecoded
     }
 }
 
@@ -2359,6 +2711,46 @@ extension CreateEndpointGroupInputBody: Swift.Decodable {
     }
 }
 
+extension CreateEndpointGroupOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateEndpointGroupOutputBody = try responseDecoder.decode(responseBody: data)
+            self.endpointGroup = output.endpointGroup
+        } else {
+            self.endpointGroup = nil
+        }
+    }
+}
+
+public struct CreateEndpointGroupOutput: Swift.Equatable {
+    /// The information about the endpoint group that was created.
+    public var endpointGroup: GlobalAcceleratorClientTypes.EndpointGroup?
+
+    public init(
+        endpointGroup: GlobalAcceleratorClientTypes.EndpointGroup? = nil
+    )
+    {
+        self.endpointGroup = endpointGroup
+    }
+}
+
+struct CreateEndpointGroupOutputBody: Swift.Equatable {
+    let endpointGroup: GlobalAcceleratorClientTypes.EndpointGroup?
+}
+
+extension CreateEndpointGroupOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case endpointGroup = "EndpointGroup"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let endpointGroupDecoded = try containerValues.decodeIfPresent(GlobalAcceleratorClientTypes.EndpointGroup.self, forKey: .endpointGroup)
+        endpointGroup = endpointGroupDecoded
+    }
+}
+
 enum CreateEndpointGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -2373,46 +2765,6 @@ enum CreateEndpointGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ListenerNotFoundException": return try await ListenerNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension CreateEndpointGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateEndpointGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.endpointGroup = output.endpointGroup
-        } else {
-            self.endpointGroup = nil
-        }
-    }
-}
-
-public struct CreateEndpointGroupOutputResponse: Swift.Equatable {
-    /// The information about the endpoint group that was created.
-    public var endpointGroup: GlobalAcceleratorClientTypes.EndpointGroup?
-
-    public init(
-        endpointGroup: GlobalAcceleratorClientTypes.EndpointGroup? = nil
-    )
-    {
-        self.endpointGroup = endpointGroup
-    }
-}
-
-struct CreateEndpointGroupOutputResponseBody: Swift.Equatable {
-    let endpointGroup: GlobalAcceleratorClientTypes.EndpointGroup?
-}
-
-extension CreateEndpointGroupOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case endpointGroup = "EndpointGroup"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let endpointGroupDecoded = try containerValues.decodeIfPresent(GlobalAcceleratorClientTypes.EndpointGroup.self, forKey: .endpointGroup)
-        endpointGroup = endpointGroupDecoded
     }
 }
 
@@ -2527,6 +2879,46 @@ extension CreateListenerInputBody: Swift.Decodable {
     }
 }
 
+extension CreateListenerOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateListenerOutputBody = try responseDecoder.decode(responseBody: data)
+            self.listener = output.listener
+        } else {
+            self.listener = nil
+        }
+    }
+}
+
+public struct CreateListenerOutput: Swift.Equatable {
+    /// The listener that you've created.
+    public var listener: GlobalAcceleratorClientTypes.Listener?
+
+    public init(
+        listener: GlobalAcceleratorClientTypes.Listener? = nil
+    )
+    {
+        self.listener = listener
+    }
+}
+
+struct CreateListenerOutputBody: Swift.Equatable {
+    let listener: GlobalAcceleratorClientTypes.Listener?
+}
+
+extension CreateListenerOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case listener = "Listener"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let listenerDecoded = try containerValues.decodeIfPresent(GlobalAcceleratorClientTypes.Listener.self, forKey: .listener)
+        listener = listenerDecoded
+    }
+}
+
 enum CreateListenerOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -2542,44 +2934,49 @@ enum CreateListenerOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension CreateListenerOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateListenerOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.listener = output.listener
-        } else {
-            self.listener = nil
-        }
-    }
-}
-
-public struct CreateListenerOutputResponse: Swift.Equatable {
-    /// The listener that you've created.
-    public var listener: GlobalAcceleratorClientTypes.Listener?
-
-    public init(
-        listener: GlobalAcceleratorClientTypes.Listener? = nil
-    )
-    {
-        self.listener = listener
-    }
-}
-
-struct CreateListenerOutputResponseBody: Swift.Equatable {
-    let listener: GlobalAcceleratorClientTypes.Listener?
-}
-
-extension CreateListenerOutputResponseBody: Swift.Decodable {
+extension GlobalAcceleratorClientTypes.CrossAccountResource: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case listener = "Listener"
+        case attachmentArn = "AttachmentArn"
+        case endpointId = "EndpointId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let attachmentArn = self.attachmentArn {
+            try encodeContainer.encode(attachmentArn, forKey: .attachmentArn)
+        }
+        if let endpointId = self.endpointId {
+            try encodeContainer.encode(endpointId, forKey: .endpointId)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let listenerDecoded = try containerValues.decodeIfPresent(GlobalAcceleratorClientTypes.Listener.self, forKey: .listener)
-        listener = listenerDecoded
+        let endpointIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .endpointId)
+        endpointId = endpointIdDecoded
+        let attachmentArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .attachmentArn)
+        attachmentArn = attachmentArnDecoded
     }
+}
+
+extension GlobalAcceleratorClientTypes {
+    /// An endpoint (Amazon Web Services resource) that is listed in a cross-account attachment and can be added to an accelerator by specified principals, that are also listed in the attachment.
+    public struct CrossAccountResource: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of the cross-account attachment that specifies the endpoints (resources) that can be added to accelerators and principals that have permission to add the endpoints to accelerators.
+        public var attachmentArn: Swift.String?
+        /// The endpoint ID for the endpoint that is listed in a cross-account attachment and can be added to an accelerator by specified principals.
+        public var endpointId: Swift.String?
+
+        public init(
+            attachmentArn: Swift.String? = nil,
+            endpointId: Swift.String? = nil
+        )
+        {
+            self.attachmentArn = attachmentArn
+            self.endpointId = endpointId
+        }
+    }
+
 }
 
 extension GlobalAcceleratorClientTypes.CustomRoutingAccelerator: Swift.Codable {
@@ -2967,11 +3364,15 @@ extension GlobalAcceleratorClientTypes {
 
 extension GlobalAcceleratorClientTypes.CustomRoutingEndpointConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case attachmentArn = "AttachmentArn"
         case endpointId = "EndpointId"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let attachmentArn = self.attachmentArn {
+            try encodeContainer.encode(attachmentArn, forKey: .attachmentArn)
+        }
         if let endpointId = self.endpointId {
             try encodeContainer.encode(endpointId, forKey: .endpointId)
         }
@@ -2981,19 +3382,25 @@ extension GlobalAcceleratorClientTypes.CustomRoutingEndpointConfiguration: Swift
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let endpointIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .endpointId)
         endpointId = endpointIdDecoded
+        let attachmentArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .attachmentArn)
+        attachmentArn = attachmentArnDecoded
     }
 }
 
 extension GlobalAcceleratorClientTypes {
     /// The list of endpoint objects. For custom routing, this is a list of virtual private cloud (VPC) subnet IDs.
     public struct CustomRoutingEndpointConfiguration: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of the cross-account attachment that specifies the endpoints (resources) that can be added to accelerators and principals that have permission to add the endpoints to accelerators.
+        public var attachmentArn: Swift.String?
         /// An ID for the endpoint. For custom routing accelerators, this is the virtual private cloud (VPC) subnet ID.
         public var endpointId: Swift.String?
 
         public init(
+            attachmentArn: Swift.String? = nil,
             endpointId: Swift.String? = nil
         )
         {
+            self.attachmentArn = attachmentArn
             self.endpointId = endpointId
         }
     }
@@ -3261,6 +3668,16 @@ extension DeleteAcceleratorInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteAcceleratorOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteAcceleratorOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteAcceleratorOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -3276,14 +3693,77 @@ enum DeleteAcceleratorOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteAcceleratorOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DeleteCrossAccountAttachmentInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case attachmentArn = "AttachmentArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let attachmentArn = self.attachmentArn {
+            try encodeContainer.encode(attachmentArn, forKey: .attachmentArn)
+        }
+    }
+}
+
+extension DeleteCrossAccountAttachmentInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DeleteCrossAccountAttachmentInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) for the cross-account attachment to delete.
+    /// This member is required.
+    public var attachmentArn: Swift.String?
+
+    public init(
+        attachmentArn: Swift.String? = nil
+    )
+    {
+        self.attachmentArn = attachmentArn
+    }
+}
+
+struct DeleteCrossAccountAttachmentInputBody: Swift.Equatable {
+    let attachmentArn: Swift.String?
+}
+
+extension DeleteCrossAccountAttachmentInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case attachmentArn = "AttachmentArn"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let attachmentArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .attachmentArn)
+        attachmentArn = attachmentArnDecoded
+    }
+}
+
+extension DeleteCrossAccountAttachmentOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
-public struct DeleteAcceleratorOutputResponse: Swift.Equatable {
+public struct DeleteCrossAccountAttachmentOutput: Swift.Equatable {
 
     public init() { }
+}
+
+enum DeleteCrossAccountAttachmentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AttachmentNotFoundException": return try await AttachmentNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TransactionInProgressException": return try await TransactionInProgressException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
 }
 
 extension DeleteCustomRoutingAcceleratorInput: Swift.Encodable {
@@ -3334,6 +3814,16 @@ extension DeleteCustomRoutingAcceleratorInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteCustomRoutingAcceleratorOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteCustomRoutingAcceleratorOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteCustomRoutingAcceleratorOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -3347,16 +3837,6 @@ enum DeleteCustomRoutingAcceleratorOutputError: ClientRuntime.HttpResponseErrorB
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteCustomRoutingAcceleratorOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteCustomRoutingAcceleratorOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteCustomRoutingEndpointGroupInput: Swift.Encodable {
@@ -3407,6 +3887,16 @@ extension DeleteCustomRoutingEndpointGroupInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteCustomRoutingEndpointGroupOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteCustomRoutingEndpointGroupOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteCustomRoutingEndpointGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -3418,16 +3908,6 @@ enum DeleteCustomRoutingEndpointGroupOutputError: ClientRuntime.HttpResponseErro
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteCustomRoutingEndpointGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteCustomRoutingEndpointGroupOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteCustomRoutingListenerInput: Swift.Encodable {
@@ -3478,6 +3958,16 @@ extension DeleteCustomRoutingListenerInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteCustomRoutingListenerOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteCustomRoutingListenerOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteCustomRoutingListenerOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -3490,16 +3980,6 @@ enum DeleteCustomRoutingListenerOutputError: ClientRuntime.HttpResponseErrorBind
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteCustomRoutingListenerOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteCustomRoutingListenerOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteEndpointGroupInput: Swift.Encodable {
@@ -3550,6 +4030,16 @@ extension DeleteEndpointGroupInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteEndpointGroupOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteEndpointGroupOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteEndpointGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -3561,16 +4051,6 @@ enum DeleteEndpointGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteEndpointGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteEndpointGroupOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteListenerInput: Swift.Encodable {
@@ -3621,6 +4101,16 @@ extension DeleteListenerInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteListenerOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteListenerOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DeleteListenerOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -3633,16 +4123,6 @@ enum DeleteListenerOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DeleteListenerOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteListenerOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DenyCustomRoutingTrafficInput: Swift.Encodable {
@@ -3766,6 +4246,16 @@ extension DenyCustomRoutingTrafficInputBody: Swift.Decodable {
     }
 }
 
+extension DenyCustomRoutingTrafficOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DenyCustomRoutingTrafficOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum DenyCustomRoutingTrafficOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -3777,16 +4267,6 @@ enum DenyCustomRoutingTrafficOutputError: ClientRuntime.HttpResponseErrorBinding
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension DenyCustomRoutingTrafficOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DenyCustomRoutingTrafficOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeprovisionByoipCidrInput: Swift.Encodable {
@@ -3837,6 +4317,46 @@ extension DeprovisionByoipCidrInputBody: Swift.Decodable {
     }
 }
 
+extension DeprovisionByoipCidrOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DeprovisionByoipCidrOutputBody = try responseDecoder.decode(responseBody: data)
+            self.byoipCidr = output.byoipCidr
+        } else {
+            self.byoipCidr = nil
+        }
+    }
+}
+
+public struct DeprovisionByoipCidrOutput: Swift.Equatable {
+    /// Information about the address range.
+    public var byoipCidr: GlobalAcceleratorClientTypes.ByoipCidr?
+
+    public init(
+        byoipCidr: GlobalAcceleratorClientTypes.ByoipCidr? = nil
+    )
+    {
+        self.byoipCidr = byoipCidr
+    }
+}
+
+struct DeprovisionByoipCidrOutputBody: Swift.Equatable {
+    let byoipCidr: GlobalAcceleratorClientTypes.ByoipCidr?
+}
+
+extension DeprovisionByoipCidrOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case byoipCidr = "ByoipCidr"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let byoipCidrDecoded = try containerValues.decodeIfPresent(GlobalAcceleratorClientTypes.ByoipCidr.self, forKey: .byoipCidr)
+        byoipCidr = byoipCidrDecoded
+    }
+}
+
 enum DeprovisionByoipCidrOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -3849,46 +4369,6 @@ enum DeprovisionByoipCidrOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension DeprovisionByoipCidrOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: DeprovisionByoipCidrOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.byoipCidr = output.byoipCidr
-        } else {
-            self.byoipCidr = nil
-        }
-    }
-}
-
-public struct DeprovisionByoipCidrOutputResponse: Swift.Equatable {
-    /// Information about the address range.
-    public var byoipCidr: GlobalAcceleratorClientTypes.ByoipCidr?
-
-    public init(
-        byoipCidr: GlobalAcceleratorClientTypes.ByoipCidr? = nil
-    )
-    {
-        self.byoipCidr = byoipCidr
-    }
-}
-
-struct DeprovisionByoipCidrOutputResponseBody: Swift.Equatable {
-    let byoipCidr: GlobalAcceleratorClientTypes.ByoipCidr?
-}
-
-extension DeprovisionByoipCidrOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case byoipCidr = "ByoipCidr"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let byoipCidrDecoded = try containerValues.decodeIfPresent(GlobalAcceleratorClientTypes.ByoipCidr.self, forKey: .byoipCidr)
-        byoipCidr = byoipCidrDecoded
     }
 }
 
@@ -3940,24 +4420,11 @@ extension DescribeAcceleratorAttributesInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeAcceleratorAttributesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AcceleratorNotFoundException": return try await AcceleratorNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeAcceleratorAttributesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeAcceleratorAttributesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeAcceleratorAttributesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeAcceleratorAttributesOutputBody = try responseDecoder.decode(responseBody: data)
             self.acceleratorAttributes = output.acceleratorAttributes
         } else {
             self.acceleratorAttributes = nil
@@ -3965,7 +4432,7 @@ extension DescribeAcceleratorAttributesOutputResponse: ClientRuntime.HttpRespons
     }
 }
 
-public struct DescribeAcceleratorAttributesOutputResponse: Swift.Equatable {
+public struct DescribeAcceleratorAttributesOutput: Swift.Equatable {
     /// The attributes of the accelerator.
     public var acceleratorAttributes: GlobalAcceleratorClientTypes.AcceleratorAttributes?
 
@@ -3977,11 +4444,11 @@ public struct DescribeAcceleratorAttributesOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeAcceleratorAttributesOutputResponseBody: Swift.Equatable {
+struct DescribeAcceleratorAttributesOutputBody: Swift.Equatable {
     let acceleratorAttributes: GlobalAcceleratorClientTypes.AcceleratorAttributes?
 }
 
-extension DescribeAcceleratorAttributesOutputResponseBody: Swift.Decodable {
+extension DescribeAcceleratorAttributesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case acceleratorAttributes = "AcceleratorAttributes"
     }
@@ -3990,6 +4457,19 @@ extension DescribeAcceleratorAttributesOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let acceleratorAttributesDecoded = try containerValues.decodeIfPresent(GlobalAcceleratorClientTypes.AcceleratorAttributes.self, forKey: .acceleratorAttributes)
         acceleratorAttributes = acceleratorAttributesDecoded
+    }
+}
+
+enum DescribeAcceleratorAttributesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AcceleratorNotFoundException": return try await AcceleratorNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -4041,6 +4521,46 @@ extension DescribeAcceleratorInputBody: Swift.Decodable {
     }
 }
 
+extension DescribeAcceleratorOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeAcceleratorOutputBody = try responseDecoder.decode(responseBody: data)
+            self.accelerator = output.accelerator
+        } else {
+            self.accelerator = nil
+        }
+    }
+}
+
+public struct DescribeAcceleratorOutput: Swift.Equatable {
+    /// The description of the accelerator.
+    public var accelerator: GlobalAcceleratorClientTypes.Accelerator?
+
+    public init(
+        accelerator: GlobalAcceleratorClientTypes.Accelerator? = nil
+    )
+    {
+        self.accelerator = accelerator
+    }
+}
+
+struct DescribeAcceleratorOutputBody: Swift.Equatable {
+    let accelerator: GlobalAcceleratorClientTypes.Accelerator?
+}
+
+extension DescribeAcceleratorOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accelerator = "Accelerator"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let acceleratorDecoded = try containerValues.decodeIfPresent(GlobalAcceleratorClientTypes.Accelerator.self, forKey: .accelerator)
+        accelerator = acceleratorDecoded
+    }
+}
+
 enum DescribeAcceleratorOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -4054,43 +4574,105 @@ enum DescribeAcceleratorOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeAcceleratorOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: DescribeAcceleratorOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.accelerator = output.accelerator
-        } else {
-            self.accelerator = nil
+extension DescribeCrossAccountAttachmentInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case attachmentArn = "AttachmentArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let attachmentArn = self.attachmentArn {
+            try encodeContainer.encode(attachmentArn, forKey: .attachmentArn)
         }
     }
 }
 
-public struct DescribeAcceleratorOutputResponse: Swift.Equatable {
-    /// The description of the accelerator.
-    public var accelerator: GlobalAcceleratorClientTypes.Accelerator?
-
-    public init(
-        accelerator: GlobalAcceleratorClientTypes.Accelerator? = nil
-    )
-    {
-        self.accelerator = accelerator
+extension DescribeCrossAccountAttachmentInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
     }
 }
 
-struct DescribeAcceleratorOutputResponseBody: Swift.Equatable {
-    let accelerator: GlobalAcceleratorClientTypes.Accelerator?
+public struct DescribeCrossAccountAttachmentInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) for the cross-account attachment to describe.
+    /// This member is required.
+    public var attachmentArn: Swift.String?
+
+    public init(
+        attachmentArn: Swift.String? = nil
+    )
+    {
+        self.attachmentArn = attachmentArn
+    }
 }
 
-extension DescribeAcceleratorOutputResponseBody: Swift.Decodable {
+struct DescribeCrossAccountAttachmentInputBody: Swift.Equatable {
+    let attachmentArn: Swift.String?
+}
+
+extension DescribeCrossAccountAttachmentInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case accelerator = "Accelerator"
+        case attachmentArn = "AttachmentArn"
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let acceleratorDecoded = try containerValues.decodeIfPresent(GlobalAcceleratorClientTypes.Accelerator.self, forKey: .accelerator)
-        accelerator = acceleratorDecoded
+        let attachmentArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .attachmentArn)
+        attachmentArn = attachmentArnDecoded
+    }
+}
+
+extension DescribeCrossAccountAttachmentOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeCrossAccountAttachmentOutputBody = try responseDecoder.decode(responseBody: data)
+            self.crossAccountAttachment = output.crossAccountAttachment
+        } else {
+            self.crossAccountAttachment = nil
+        }
+    }
+}
+
+public struct DescribeCrossAccountAttachmentOutput: Swift.Equatable {
+    /// Information about the cross-account attachment.
+    public var crossAccountAttachment: GlobalAcceleratorClientTypes.Attachment?
+
+    public init(
+        crossAccountAttachment: GlobalAcceleratorClientTypes.Attachment? = nil
+    )
+    {
+        self.crossAccountAttachment = crossAccountAttachment
+    }
+}
+
+struct DescribeCrossAccountAttachmentOutputBody: Swift.Equatable {
+    let crossAccountAttachment: GlobalAcceleratorClientTypes.Attachment?
+}
+
+extension DescribeCrossAccountAttachmentOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case crossAccountAttachment = "CrossAccountAttachment"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let crossAccountAttachmentDecoded = try containerValues.decodeIfPresent(GlobalAcceleratorClientTypes.Attachment.self, forKey: .crossAccountAttachment)
+        crossAccountAttachment = crossAccountAttachmentDecoded
+    }
+}
+
+enum DescribeCrossAccountAttachmentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AttachmentNotFoundException": return try await AttachmentNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -4142,24 +4724,11 @@ extension DescribeCustomRoutingAcceleratorAttributesInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeCustomRoutingAcceleratorAttributesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AcceleratorNotFoundException": return try await AcceleratorNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeCustomRoutingAcceleratorAttributesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeCustomRoutingAcceleratorAttributesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeCustomRoutingAcceleratorAttributesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeCustomRoutingAcceleratorAttributesOutputBody = try responseDecoder.decode(responseBody: data)
             self.acceleratorAttributes = output.acceleratorAttributes
         } else {
             self.acceleratorAttributes = nil
@@ -4167,7 +4736,7 @@ extension DescribeCustomRoutingAcceleratorAttributesOutputResponse: ClientRuntim
     }
 }
 
-public struct DescribeCustomRoutingAcceleratorAttributesOutputResponse: Swift.Equatable {
+public struct DescribeCustomRoutingAcceleratorAttributesOutput: Swift.Equatable {
     /// The attributes of the custom routing accelerator.
     public var acceleratorAttributes: GlobalAcceleratorClientTypes.CustomRoutingAcceleratorAttributes?
 
@@ -4179,11 +4748,11 @@ public struct DescribeCustomRoutingAcceleratorAttributesOutputResponse: Swift.Eq
     }
 }
 
-struct DescribeCustomRoutingAcceleratorAttributesOutputResponseBody: Swift.Equatable {
+struct DescribeCustomRoutingAcceleratorAttributesOutputBody: Swift.Equatable {
     let acceleratorAttributes: GlobalAcceleratorClientTypes.CustomRoutingAcceleratorAttributes?
 }
 
-extension DescribeCustomRoutingAcceleratorAttributesOutputResponseBody: Swift.Decodable {
+extension DescribeCustomRoutingAcceleratorAttributesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case acceleratorAttributes = "AcceleratorAttributes"
     }
@@ -4192,6 +4761,19 @@ extension DescribeCustomRoutingAcceleratorAttributesOutputResponseBody: Swift.De
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let acceleratorAttributesDecoded = try containerValues.decodeIfPresent(GlobalAcceleratorClientTypes.CustomRoutingAcceleratorAttributes.self, forKey: .acceleratorAttributes)
         acceleratorAttributes = acceleratorAttributesDecoded
+    }
+}
+
+enum DescribeCustomRoutingAcceleratorAttributesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AcceleratorNotFoundException": return try await AcceleratorNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -4243,24 +4825,11 @@ extension DescribeCustomRoutingAcceleratorInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeCustomRoutingAcceleratorOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AcceleratorNotFoundException": return try await AcceleratorNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeCustomRoutingAcceleratorOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeCustomRoutingAcceleratorOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeCustomRoutingAcceleratorOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeCustomRoutingAcceleratorOutputBody = try responseDecoder.decode(responseBody: data)
             self.accelerator = output.accelerator
         } else {
             self.accelerator = nil
@@ -4268,7 +4837,7 @@ extension DescribeCustomRoutingAcceleratorOutputResponse: ClientRuntime.HttpResp
     }
 }
 
-public struct DescribeCustomRoutingAcceleratorOutputResponse: Swift.Equatable {
+public struct DescribeCustomRoutingAcceleratorOutput: Swift.Equatable {
     /// The description of the custom routing accelerator.
     public var accelerator: GlobalAcceleratorClientTypes.CustomRoutingAccelerator?
 
@@ -4280,11 +4849,11 @@ public struct DescribeCustomRoutingAcceleratorOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeCustomRoutingAcceleratorOutputResponseBody: Swift.Equatable {
+struct DescribeCustomRoutingAcceleratorOutputBody: Swift.Equatable {
     let accelerator: GlobalAcceleratorClientTypes.CustomRoutingAccelerator?
 }
 
-extension DescribeCustomRoutingAcceleratorOutputResponseBody: Swift.Decodable {
+extension DescribeCustomRoutingAcceleratorOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accelerator = "Accelerator"
     }
@@ -4293,6 +4862,19 @@ extension DescribeCustomRoutingAcceleratorOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let acceleratorDecoded = try containerValues.decodeIfPresent(GlobalAcceleratorClientTypes.CustomRoutingAccelerator.self, forKey: .accelerator)
         accelerator = acceleratorDecoded
+    }
+}
+
+enum DescribeCustomRoutingAcceleratorOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AcceleratorNotFoundException": return try await AcceleratorNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -4344,24 +4926,11 @@ extension DescribeCustomRoutingEndpointGroupInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeCustomRoutingEndpointGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "EndpointGroupNotFoundException": return try await EndpointGroupNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeCustomRoutingEndpointGroupOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeCustomRoutingEndpointGroupOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeCustomRoutingEndpointGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeCustomRoutingEndpointGroupOutputBody = try responseDecoder.decode(responseBody: data)
             self.endpointGroup = output.endpointGroup
         } else {
             self.endpointGroup = nil
@@ -4369,7 +4938,7 @@ extension DescribeCustomRoutingEndpointGroupOutputResponse: ClientRuntime.HttpRe
     }
 }
 
-public struct DescribeCustomRoutingEndpointGroupOutputResponse: Swift.Equatable {
+public struct DescribeCustomRoutingEndpointGroupOutput: Swift.Equatable {
     /// The description of an endpoint group for a custom routing accelerator.
     public var endpointGroup: GlobalAcceleratorClientTypes.CustomRoutingEndpointGroup?
 
@@ -4381,11 +4950,11 @@ public struct DescribeCustomRoutingEndpointGroupOutputResponse: Swift.Equatable 
     }
 }
 
-struct DescribeCustomRoutingEndpointGroupOutputResponseBody: Swift.Equatable {
+struct DescribeCustomRoutingEndpointGroupOutputBody: Swift.Equatable {
     let endpointGroup: GlobalAcceleratorClientTypes.CustomRoutingEndpointGroup?
 }
 
-extension DescribeCustomRoutingEndpointGroupOutputResponseBody: Swift.Decodable {
+extension DescribeCustomRoutingEndpointGroupOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case endpointGroup = "EndpointGroup"
     }
@@ -4394,6 +4963,19 @@ extension DescribeCustomRoutingEndpointGroupOutputResponseBody: Swift.Decodable 
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let endpointGroupDecoded = try containerValues.decodeIfPresent(GlobalAcceleratorClientTypes.CustomRoutingEndpointGroup.self, forKey: .endpointGroup)
         endpointGroup = endpointGroupDecoded
+    }
+}
+
+enum DescribeCustomRoutingEndpointGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "EndpointGroupNotFoundException": return try await EndpointGroupNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -4445,24 +5027,11 @@ extension DescribeCustomRoutingListenerInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeCustomRoutingListenerOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ListenerNotFoundException": return try await ListenerNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeCustomRoutingListenerOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeCustomRoutingListenerOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeCustomRoutingListenerOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeCustomRoutingListenerOutputBody = try responseDecoder.decode(responseBody: data)
             self.listener = output.listener
         } else {
             self.listener = nil
@@ -4470,7 +5039,7 @@ extension DescribeCustomRoutingListenerOutputResponse: ClientRuntime.HttpRespons
     }
 }
 
-public struct DescribeCustomRoutingListenerOutputResponse: Swift.Equatable {
+public struct DescribeCustomRoutingListenerOutput: Swift.Equatable {
     /// The description of a listener for a custom routing accelerator.
     public var listener: GlobalAcceleratorClientTypes.CustomRoutingListener?
 
@@ -4482,11 +5051,11 @@ public struct DescribeCustomRoutingListenerOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeCustomRoutingListenerOutputResponseBody: Swift.Equatable {
+struct DescribeCustomRoutingListenerOutputBody: Swift.Equatable {
     let listener: GlobalAcceleratorClientTypes.CustomRoutingListener?
 }
 
-extension DescribeCustomRoutingListenerOutputResponseBody: Swift.Decodable {
+extension DescribeCustomRoutingListenerOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case listener = "Listener"
     }
@@ -4495,6 +5064,19 @@ extension DescribeCustomRoutingListenerOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let listenerDecoded = try containerValues.decodeIfPresent(GlobalAcceleratorClientTypes.CustomRoutingListener.self, forKey: .listener)
         listener = listenerDecoded
+    }
+}
+
+enum DescribeCustomRoutingListenerOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ListenerNotFoundException": return try await ListenerNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -4546,24 +5128,11 @@ extension DescribeEndpointGroupInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeEndpointGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "EndpointGroupNotFoundException": return try await EndpointGroupNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeEndpointGroupOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeEndpointGroupOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeEndpointGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeEndpointGroupOutputBody = try responseDecoder.decode(responseBody: data)
             self.endpointGroup = output.endpointGroup
         } else {
             self.endpointGroup = nil
@@ -4571,7 +5140,7 @@ extension DescribeEndpointGroupOutputResponse: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct DescribeEndpointGroupOutputResponse: Swift.Equatable {
+public struct DescribeEndpointGroupOutput: Swift.Equatable {
     /// The description of an endpoint group.
     public var endpointGroup: GlobalAcceleratorClientTypes.EndpointGroup?
 
@@ -4583,11 +5152,11 @@ public struct DescribeEndpointGroupOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeEndpointGroupOutputResponseBody: Swift.Equatable {
+struct DescribeEndpointGroupOutputBody: Swift.Equatable {
     let endpointGroup: GlobalAcceleratorClientTypes.EndpointGroup?
 }
 
-extension DescribeEndpointGroupOutputResponseBody: Swift.Decodable {
+extension DescribeEndpointGroupOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case endpointGroup = "EndpointGroup"
     }
@@ -4596,6 +5165,19 @@ extension DescribeEndpointGroupOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let endpointGroupDecoded = try containerValues.decodeIfPresent(GlobalAcceleratorClientTypes.EndpointGroup.self, forKey: .endpointGroup)
         endpointGroup = endpointGroupDecoded
+    }
+}
+
+enum DescribeEndpointGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "EndpointGroupNotFoundException": return try await EndpointGroupNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -4647,24 +5229,11 @@ extension DescribeListenerInputBody: Swift.Decodable {
     }
 }
 
-enum DescribeListenerOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ListenerNotFoundException": return try await ListenerNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DescribeListenerOutputResponse: ClientRuntime.HttpResponseBinding {
+extension DescribeListenerOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: DescribeListenerOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: DescribeListenerOutputBody = try responseDecoder.decode(responseBody: data)
             self.listener = output.listener
         } else {
             self.listener = nil
@@ -4672,7 +5241,7 @@ extension DescribeListenerOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeListenerOutputResponse: Swift.Equatable {
+public struct DescribeListenerOutput: Swift.Equatable {
     /// The description of a listener.
     public var listener: GlobalAcceleratorClientTypes.Listener?
 
@@ -4684,11 +5253,11 @@ public struct DescribeListenerOutputResponse: Swift.Equatable {
     }
 }
 
-struct DescribeListenerOutputResponseBody: Swift.Equatable {
+struct DescribeListenerOutputBody: Swift.Equatable {
     let listener: GlobalAcceleratorClientTypes.Listener?
 }
 
-extension DescribeListenerOutputResponseBody: Swift.Decodable {
+extension DescribeListenerOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case listener = "Listener"
     }
@@ -4697,6 +5266,19 @@ extension DescribeListenerOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let listenerDecoded = try containerValues.decodeIfPresent(GlobalAcceleratorClientTypes.Listener.self, forKey: .listener)
         listener = listenerDecoded
+    }
+}
+
+enum DescribeListenerOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ListenerNotFoundException": return try await ListenerNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -4874,6 +5456,7 @@ extension EndpointAlreadyExistsExceptionBody: Swift.Decodable {
 
 extension GlobalAcceleratorClientTypes.EndpointConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case attachmentArn = "AttachmentArn"
         case clientIPPreservationEnabled = "ClientIPPreservationEnabled"
         case endpointId = "EndpointId"
         case weight = "Weight"
@@ -4881,6 +5464,9 @@ extension GlobalAcceleratorClientTypes.EndpointConfiguration: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let attachmentArn = self.attachmentArn {
+            try encodeContainer.encode(attachmentArn, forKey: .attachmentArn)
+        }
         if let clientIPPreservationEnabled = self.clientIPPreservationEnabled {
             try encodeContainer.encode(clientIPPreservationEnabled, forKey: .clientIPPreservationEnabled)
         }
@@ -4900,13 +5486,17 @@ extension GlobalAcceleratorClientTypes.EndpointConfiguration: Swift.Codable {
         weight = weightDecoded
         let clientIPPreservationEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .clientIPPreservationEnabled)
         clientIPPreservationEnabled = clientIPPreservationEnabledDecoded
+        let attachmentArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .attachmentArn)
+        attachmentArn = attachmentArnDecoded
     }
 }
 
 extension GlobalAcceleratorClientTypes {
     /// A complex type for endpoints. A resource must be valid and active when you add it as an endpoint.
     public struct EndpointConfiguration: Swift.Equatable {
-        /// Indicates whether client IP address preservation is enabled for an endpoint. The value is true or false. The default value is true for new accelerators. If the value is set to true, the client's IP address is preserved in the X-Forwarded-For request header as traffic travels to applications on the endpoint fronted by the accelerator. Client IP address preservation is supported, in specific Amazon Web Services Regions, for endpoints that are Application Load Balancers, Amazon EC2 instances, and Network Load Balancers with Security Groups. IMPORTANT: You cannot use client IP address preservation with Network Load Balancers with TLS listeners. For more information, see [ Preserve client IP addresses in Global Accelerator](https://docs.aws.amazon.com/global-accelerator/latest/dg/preserve-client-ip-address.html) in the Global Accelerator Developer Guide.
+        /// The Amazon Resource Name (ARN) of the cross-account attachment that specifies the endpoints (resources) that can be added to accelerators and principals that have permission to add the endpoints to accelerators.
+        public var attachmentArn: Swift.String?
+        /// Indicates whether client IP address preservation is enabled for an endpoint. The value is true or false. The default value is true for Application Load Balancer endpoints. If the value is set to true, the client's IP address is preserved in the X-Forwarded-For request header as traffic travels to applications on the endpoint fronted by the accelerator. Client IP address preservation is supported, in specific Amazon Web Services Regions, for endpoints that are Application Load Balancers, Amazon EC2 instances, and Network Load Balancers with security groups. IMPORTANT: You cannot use client IP address preservation with Network Load Balancers with TLS listeners. For more information, see [ Preserve client IP addresses in Global Accelerator](https://docs.aws.amazon.com/global-accelerator/latest/dg/preserve-client-ip-address.html) in the Global Accelerator Developer Guide.
         public var clientIPPreservationEnabled: Swift.Bool?
         /// An ID for the endpoint. If the endpoint is a Network Load Balancer or Application Load Balancer, this is the Amazon Resource Name (ARN) of the resource. If the endpoint is an Elastic IP address, this is the Elastic IP address allocation ID. For Amazon EC2 instances, this is the EC2 instance ID. A resource must be valid and active when you add it as an endpoint. An Application Load Balancer can be either internal or internet-facing.
         public var endpointId: Swift.String?
@@ -4914,11 +5504,13 @@ extension GlobalAcceleratorClientTypes {
         public var weight: Swift.Int?
 
         public init(
+            attachmentArn: Swift.String? = nil,
             clientIPPreservationEnabled: Swift.Bool? = nil,
             endpointId: Swift.String? = nil,
             weight: Swift.Int? = nil
         )
         {
+            self.attachmentArn = attachmentArn
             self.clientIPPreservationEnabled = clientIPPreservationEnabled
             self.endpointId = endpointId
             self.weight = weight
@@ -4973,7 +5565,7 @@ extension GlobalAcceleratorClientTypes.EndpointDescription: Swift.Codable {
 extension GlobalAcceleratorClientTypes {
     /// A complex type for an endpoint. Each endpoint group can include one or more endpoints, such as load balancers.
     public struct EndpointDescription: Swift.Equatable {
-        /// Indicates whether client IP address preservation is enabled for an endpoint. The value is true or false. The default value is true for new accelerators. If the value is set to true, the client's IP address is preserved in the X-Forwarded-For request header as traffic travels to applications on the endpoint fronted by the accelerator. Client IP address preservation is supported, in specific Amazon Web Services Regions, for endpoints that are Application Load Balancers, Amazon EC2 instances, and Network Load Balancers with Security Groups. IMPORTANT: You cannot use client IP address preservation with Network Load Balancers with TLS listeners. For more information, see [ Preserve client IP addresses in Global Accelerator](https://docs.aws.amazon.com/global-accelerator/latest/dg/preserve-client-ip-address.html) in the Global Accelerator Developer Guide.
+        /// Indicates whether client IP address preservation is enabled for an endpoint. The value is true or false. The default value is true for Application Load Balancers endpoints. If the value is set to true, the client's IP address is preserved in the X-Forwarded-For request header as traffic travels to applications on the endpoint fronted by the accelerator. Client IP address preservation is supported, in specific Amazon Web Services Regions, for endpoints that are Application Load Balancers, Amazon EC2 instances, and Network Load Balancers with security groups. IMPORTANT: You cannot use client IP address preservation with Network Load Balancers with TLS listeners. For more information, see [ Preserve client IP addresses in Global Accelerator](https://docs.aws.amazon.com/global-accelerator/latest/dg/preserve-client-ip-address.html) in the Global Accelerator Developer Guide.
         public var clientIPPreservationEnabled: Swift.Bool?
         /// An ID for the endpoint. If the endpoint is a Network Load Balancer or Application Load Balancer, this is the Amazon Resource Name (ARN) of the resource. If the endpoint is an Elastic IP address, this is the Elastic IP address allocation ID. For Amazon EC2 instances, this is the EC2 instance ID. An Application Load Balancer can be either internal or internet-facing.
         public var endpointId: Swift.String?
@@ -5953,24 +6545,11 @@ extension ListAcceleratorsInputBody: Swift.Decodable {
     }
 }
 
-enum ListAcceleratorsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListAcceleratorsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListAcceleratorsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListAcceleratorsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListAcceleratorsOutputBody = try responseDecoder.decode(responseBody: data)
             self.accelerators = output.accelerators
             self.nextToken = output.nextToken
         } else {
@@ -5980,7 +6559,7 @@ extension ListAcceleratorsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAcceleratorsOutputResponse: Swift.Equatable {
+public struct ListAcceleratorsOutput: Swift.Equatable {
     /// The list of accelerators for a customer account.
     public var accelerators: [GlobalAcceleratorClientTypes.Accelerator]?
     /// The token for the next set of results. You receive this token from a previous call.
@@ -5996,12 +6575,12 @@ public struct ListAcceleratorsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListAcceleratorsOutputResponseBody: Swift.Equatable {
+struct ListAcceleratorsOutputBody: Swift.Equatable {
     let accelerators: [GlobalAcceleratorClientTypes.Accelerator]?
     let nextToken: Swift.String?
 }
 
-extension ListAcceleratorsOutputResponseBody: Swift.Decodable {
+extension ListAcceleratorsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accelerators = "Accelerators"
         case nextToken = "NextToken"
@@ -6022,6 +6601,19 @@ extension ListAcceleratorsOutputResponseBody: Swift.Decodable {
         accelerators = acceleratorsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListAcceleratorsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -6084,25 +6676,11 @@ extension ListByoipCidrsInputBody: Swift.Decodable {
     }
 }
 
-enum ListByoipCidrsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListByoipCidrsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListByoipCidrsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListByoipCidrsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListByoipCidrsOutputBody = try responseDecoder.decode(responseBody: data)
             self.byoipCidrs = output.byoipCidrs
             self.nextToken = output.nextToken
         } else {
@@ -6112,7 +6690,7 @@ extension ListByoipCidrsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListByoipCidrsOutputResponse: Swift.Equatable {
+public struct ListByoipCidrsOutput: Swift.Equatable {
     /// Information about your address ranges.
     public var byoipCidrs: [GlobalAcceleratorClientTypes.ByoipCidr]?
     /// The token for the next page of results.
@@ -6128,12 +6706,12 @@ public struct ListByoipCidrsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListByoipCidrsOutputResponseBody: Swift.Equatable {
+struct ListByoipCidrsOutputBody: Swift.Equatable {
     let byoipCidrs: [GlobalAcceleratorClientTypes.ByoipCidr]?
     let nextToken: Swift.String?
 }
 
-extension ListByoipCidrsOutputResponseBody: Swift.Decodable {
+extension ListByoipCidrsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case byoipCidrs = "ByoipCidrs"
         case nextToken = "NextToken"
@@ -6154,6 +6732,399 @@ extension ListByoipCidrsOutputResponseBody: Swift.Decodable {
         byoipCidrs = byoipCidrsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListByoipCidrsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListCrossAccountAttachmentsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+    }
+}
+
+extension ListCrossAccountAttachmentsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListCrossAccountAttachmentsInput: Swift.Equatable {
+    /// The number of cross-account attachment objects that you want to return with this call. The default value is 10.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results. You receive this token from a previous call.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListCrossAccountAttachmentsInputBody: Swift.Equatable {
+    let maxResults: Swift.Int?
+    let nextToken: Swift.String?
+}
+
+extension ListCrossAccountAttachmentsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListCrossAccountAttachmentsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListCrossAccountAttachmentsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.crossAccountAttachments = output.crossAccountAttachments
+            self.nextToken = output.nextToken
+        } else {
+            self.crossAccountAttachments = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListCrossAccountAttachmentsOutput: Swift.Equatable {
+    /// Information about the cross-account attachments.
+    public var crossAccountAttachments: [GlobalAcceleratorClientTypes.Attachment]?
+    /// The token for the next set of results. You receive this token from a previous call.
+    public var nextToken: Swift.String?
+
+    public init(
+        crossAccountAttachments: [GlobalAcceleratorClientTypes.Attachment]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.crossAccountAttachments = crossAccountAttachments
+        self.nextToken = nextToken
+    }
+}
+
+struct ListCrossAccountAttachmentsOutputBody: Swift.Equatable {
+    let crossAccountAttachments: [GlobalAcceleratorClientTypes.Attachment]?
+    let nextToken: Swift.String?
+}
+
+extension ListCrossAccountAttachmentsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case crossAccountAttachments = "CrossAccountAttachments"
+        case nextToken = "NextToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let crossAccountAttachmentsContainer = try containerValues.decodeIfPresent([GlobalAcceleratorClientTypes.Attachment?].self, forKey: .crossAccountAttachments)
+        var crossAccountAttachmentsDecoded0:[GlobalAcceleratorClientTypes.Attachment]? = nil
+        if let crossAccountAttachmentsContainer = crossAccountAttachmentsContainer {
+            crossAccountAttachmentsDecoded0 = [GlobalAcceleratorClientTypes.Attachment]()
+            for structure0 in crossAccountAttachmentsContainer {
+                if let structure0 = structure0 {
+                    crossAccountAttachmentsDecoded0?.append(structure0)
+                }
+            }
+        }
+        crossAccountAttachments = crossAccountAttachmentsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListCrossAccountAttachmentsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListCrossAccountResourceAccountsInput: Swift.Encodable {
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode([String:String]())
+    }
+}
+
+extension ListCrossAccountResourceAccountsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListCrossAccountResourceAccountsInput: Swift.Equatable {
+
+    public init() { }
+}
+
+struct ListCrossAccountResourceAccountsInputBody: Swift.Equatable {
+}
+
+extension ListCrossAccountResourceAccountsInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListCrossAccountResourceAccountsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListCrossAccountResourceAccountsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.resourceOwnerAwsAccountIds = output.resourceOwnerAwsAccountIds
+        } else {
+            self.resourceOwnerAwsAccountIds = nil
+        }
+    }
+}
+
+public struct ListCrossAccountResourceAccountsOutput: Swift.Equatable {
+    /// The account IDs of principals (resource owners) in a cross-account attachment who can add endpoints (resources) listed in the same attachment.
+    public var resourceOwnerAwsAccountIds: [Swift.String]?
+
+    public init(
+        resourceOwnerAwsAccountIds: [Swift.String]? = nil
+    )
+    {
+        self.resourceOwnerAwsAccountIds = resourceOwnerAwsAccountIds
+    }
+}
+
+struct ListCrossAccountResourceAccountsOutputBody: Swift.Equatable {
+    let resourceOwnerAwsAccountIds: [Swift.String]?
+}
+
+extension ListCrossAccountResourceAccountsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case resourceOwnerAwsAccountIds = "ResourceOwnerAwsAccountIds"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourceOwnerAwsAccountIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .resourceOwnerAwsAccountIds)
+        var resourceOwnerAwsAccountIdsDecoded0:[Swift.String]? = nil
+        if let resourceOwnerAwsAccountIdsContainer = resourceOwnerAwsAccountIdsContainer {
+            resourceOwnerAwsAccountIdsDecoded0 = [Swift.String]()
+            for string0 in resourceOwnerAwsAccountIdsContainer {
+                if let string0 = string0 {
+                    resourceOwnerAwsAccountIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        resourceOwnerAwsAccountIds = resourceOwnerAwsAccountIdsDecoded0
+    }
+}
+
+enum ListCrossAccountResourceAccountsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListCrossAccountResourcesInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case acceleratorArn = "AcceleratorArn"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case resourceOwnerAwsAccountId = "ResourceOwnerAwsAccountId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let acceleratorArn = self.acceleratorArn {
+            try encodeContainer.encode(acceleratorArn, forKey: .acceleratorArn)
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let resourceOwnerAwsAccountId = self.resourceOwnerAwsAccountId {
+            try encodeContainer.encode(resourceOwnerAwsAccountId, forKey: .resourceOwnerAwsAccountId)
+        }
+    }
+}
+
+extension ListCrossAccountResourcesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListCrossAccountResourcesInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of an accelerator in a cross-account attachment.
+    public var acceleratorArn: Swift.String?
+    /// The number of cross-account endpoints objects that you want to return with this call. The default value is 10.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results. You receive this token from a previous call.
+    public var nextToken: Swift.String?
+    /// The account ID of a resource owner in a cross-account attachment.
+    /// This member is required.
+    public var resourceOwnerAwsAccountId: Swift.String?
+
+    public init(
+        acceleratorArn: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        resourceOwnerAwsAccountId: Swift.String? = nil
+    )
+    {
+        self.acceleratorArn = acceleratorArn
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.resourceOwnerAwsAccountId = resourceOwnerAwsAccountId
+    }
+}
+
+struct ListCrossAccountResourcesInputBody: Swift.Equatable {
+    let acceleratorArn: Swift.String?
+    let resourceOwnerAwsAccountId: Swift.String?
+    let maxResults: Swift.Int?
+    let nextToken: Swift.String?
+}
+
+extension ListCrossAccountResourcesInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case acceleratorArn = "AcceleratorArn"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case resourceOwnerAwsAccountId = "ResourceOwnerAwsAccountId"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let acceleratorArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .acceleratorArn)
+        acceleratorArn = acceleratorArnDecoded
+        let resourceOwnerAwsAccountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceOwnerAwsAccountId)
+        resourceOwnerAwsAccountId = resourceOwnerAwsAccountIdDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListCrossAccountResourcesOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListCrossAccountResourcesOutputBody = try responseDecoder.decode(responseBody: data)
+            self.crossAccountResources = output.crossAccountResources
+            self.nextToken = output.nextToken
+        } else {
+            self.crossAccountResources = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListCrossAccountResourcesOutput: Swift.Equatable {
+    /// The endpoints attached to an accelerator in a cross-account attachment.
+    public var crossAccountResources: [GlobalAcceleratorClientTypes.CrossAccountResource]?
+    /// The token for the next set of results. You receive this token from a previous call.
+    public var nextToken: Swift.String?
+
+    public init(
+        crossAccountResources: [GlobalAcceleratorClientTypes.CrossAccountResource]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.crossAccountResources = crossAccountResources
+        self.nextToken = nextToken
+    }
+}
+
+struct ListCrossAccountResourcesOutputBody: Swift.Equatable {
+    let crossAccountResources: [GlobalAcceleratorClientTypes.CrossAccountResource]?
+    let nextToken: Swift.String?
+}
+
+extension ListCrossAccountResourcesOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case crossAccountResources = "CrossAccountResources"
+        case nextToken = "NextToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let crossAccountResourcesContainer = try containerValues.decodeIfPresent([GlobalAcceleratorClientTypes.CrossAccountResource?].self, forKey: .crossAccountResources)
+        var crossAccountResourcesDecoded0:[GlobalAcceleratorClientTypes.CrossAccountResource]? = nil
+        if let crossAccountResourcesContainer = crossAccountResourcesContainer {
+            crossAccountResourcesDecoded0 = [GlobalAcceleratorClientTypes.CrossAccountResource]()
+            for structure0 in crossAccountResourcesContainer {
+                if let structure0 = structure0 {
+                    crossAccountResourcesDecoded0?.append(structure0)
+                }
+            }
+        }
+        crossAccountResources = crossAccountResourcesDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListCrossAccountResourcesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AcceleratorNotFoundException": return try await AcceleratorNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -6216,24 +7187,11 @@ extension ListCustomRoutingAcceleratorsInputBody: Swift.Decodable {
     }
 }
 
-enum ListCustomRoutingAcceleratorsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListCustomRoutingAcceleratorsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListCustomRoutingAcceleratorsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListCustomRoutingAcceleratorsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListCustomRoutingAcceleratorsOutputBody = try responseDecoder.decode(responseBody: data)
             self.accelerators = output.accelerators
             self.nextToken = output.nextToken
         } else {
@@ -6243,7 +7201,7 @@ extension ListCustomRoutingAcceleratorsOutputResponse: ClientRuntime.HttpRespons
     }
 }
 
-public struct ListCustomRoutingAcceleratorsOutputResponse: Swift.Equatable {
+public struct ListCustomRoutingAcceleratorsOutput: Swift.Equatable {
     /// The list of custom routing accelerators for a customer account.
     public var accelerators: [GlobalAcceleratorClientTypes.CustomRoutingAccelerator]?
     /// The token for the next set of results. You receive this token from a previous call.
@@ -6259,12 +7217,12 @@ public struct ListCustomRoutingAcceleratorsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListCustomRoutingAcceleratorsOutputResponseBody: Swift.Equatable {
+struct ListCustomRoutingAcceleratorsOutputBody: Swift.Equatable {
     let accelerators: [GlobalAcceleratorClientTypes.CustomRoutingAccelerator]?
     let nextToken: Swift.String?
 }
 
-extension ListCustomRoutingAcceleratorsOutputResponseBody: Swift.Decodable {
+extension ListCustomRoutingAcceleratorsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accelerators = "Accelerators"
         case nextToken = "NextToken"
@@ -6285,6 +7243,19 @@ extension ListCustomRoutingAcceleratorsOutputResponseBody: Swift.Decodable {
         accelerators = acceleratorsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListCustomRoutingAcceleratorsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -6360,25 +7331,11 @@ extension ListCustomRoutingEndpointGroupsInputBody: Swift.Decodable {
     }
 }
 
-enum ListCustomRoutingEndpointGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ListenerNotFoundException": return try await ListenerNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListCustomRoutingEndpointGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListCustomRoutingEndpointGroupsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListCustomRoutingEndpointGroupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListCustomRoutingEndpointGroupsOutputBody = try responseDecoder.decode(responseBody: data)
             self.endpointGroups = output.endpointGroups
             self.nextToken = output.nextToken
         } else {
@@ -6388,7 +7345,7 @@ extension ListCustomRoutingEndpointGroupsOutputResponse: ClientRuntime.HttpRespo
     }
 }
 
-public struct ListCustomRoutingEndpointGroupsOutputResponse: Swift.Equatable {
+public struct ListCustomRoutingEndpointGroupsOutput: Swift.Equatable {
     /// The list of the endpoint groups associated with a listener for a custom routing accelerator.
     public var endpointGroups: [GlobalAcceleratorClientTypes.CustomRoutingEndpointGroup]?
     /// The token for the next set of results. You receive this token from a previous call.
@@ -6404,12 +7361,12 @@ public struct ListCustomRoutingEndpointGroupsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListCustomRoutingEndpointGroupsOutputResponseBody: Swift.Equatable {
+struct ListCustomRoutingEndpointGroupsOutputBody: Swift.Equatable {
     let endpointGroups: [GlobalAcceleratorClientTypes.CustomRoutingEndpointGroup]?
     let nextToken: Swift.String?
 }
 
-extension ListCustomRoutingEndpointGroupsOutputResponseBody: Swift.Decodable {
+extension ListCustomRoutingEndpointGroupsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case endpointGroups = "EndpointGroups"
         case nextToken = "NextToken"
@@ -6430,6 +7387,20 @@ extension ListCustomRoutingEndpointGroupsOutputResponseBody: Swift.Decodable {
         endpointGroups = endpointGroupsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListCustomRoutingEndpointGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ListenerNotFoundException": return try await ListenerNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -6505,25 +7476,11 @@ extension ListCustomRoutingListenersInputBody: Swift.Decodable {
     }
 }
 
-enum ListCustomRoutingListenersOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AcceleratorNotFoundException": return try await AcceleratorNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListCustomRoutingListenersOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListCustomRoutingListenersOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListCustomRoutingListenersOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListCustomRoutingListenersOutputBody = try responseDecoder.decode(responseBody: data)
             self.listeners = output.listeners
             self.nextToken = output.nextToken
         } else {
@@ -6533,7 +7490,7 @@ extension ListCustomRoutingListenersOutputResponse: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct ListCustomRoutingListenersOutputResponse: Swift.Equatable {
+public struct ListCustomRoutingListenersOutput: Swift.Equatable {
     /// The list of listeners for a custom routing accelerator.
     public var listeners: [GlobalAcceleratorClientTypes.CustomRoutingListener]?
     /// The token for the next set of results. You receive this token from a previous call.
@@ -6549,12 +7506,12 @@ public struct ListCustomRoutingListenersOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListCustomRoutingListenersOutputResponseBody: Swift.Equatable {
+struct ListCustomRoutingListenersOutputBody: Swift.Equatable {
     let listeners: [GlobalAcceleratorClientTypes.CustomRoutingListener]?
     let nextToken: Swift.String?
 }
 
-extension ListCustomRoutingListenersOutputResponseBody: Swift.Decodable {
+extension ListCustomRoutingListenersOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case listeners = "Listeners"
         case nextToken = "NextToken"
@@ -6575,6 +7532,20 @@ extension ListCustomRoutingListenersOutputResponseBody: Swift.Decodable {
         listeners = listenersDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListCustomRoutingListenersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AcceleratorNotFoundException": return try await AcceleratorNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -6663,25 +7634,11 @@ extension ListCustomRoutingPortMappingsByDestinationInputBody: Swift.Decodable {
     }
 }
 
-enum ListCustomRoutingPortMappingsByDestinationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "EndpointNotFoundException": return try await EndpointNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListCustomRoutingPortMappingsByDestinationOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListCustomRoutingPortMappingsByDestinationOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListCustomRoutingPortMappingsByDestinationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListCustomRoutingPortMappingsByDestinationOutputBody = try responseDecoder.decode(responseBody: data)
             self.destinationPortMappings = output.destinationPortMappings
             self.nextToken = output.nextToken
         } else {
@@ -6691,7 +7648,7 @@ extension ListCustomRoutingPortMappingsByDestinationOutputResponse: ClientRuntim
     }
 }
 
-public struct ListCustomRoutingPortMappingsByDestinationOutputResponse: Swift.Equatable {
+public struct ListCustomRoutingPortMappingsByDestinationOutput: Swift.Equatable {
     /// The port mappings for the endpoint IP address that you specified in the request.
     public var destinationPortMappings: [GlobalAcceleratorClientTypes.DestinationPortMapping]?
     /// The token for the next set of results. You receive this token from a previous call.
@@ -6707,12 +7664,12 @@ public struct ListCustomRoutingPortMappingsByDestinationOutputResponse: Swift.Eq
     }
 }
 
-struct ListCustomRoutingPortMappingsByDestinationOutputResponseBody: Swift.Equatable {
+struct ListCustomRoutingPortMappingsByDestinationOutputBody: Swift.Equatable {
     let destinationPortMappings: [GlobalAcceleratorClientTypes.DestinationPortMapping]?
     let nextToken: Swift.String?
 }
 
-extension ListCustomRoutingPortMappingsByDestinationOutputResponseBody: Swift.Decodable {
+extension ListCustomRoutingPortMappingsByDestinationOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case destinationPortMappings = "DestinationPortMappings"
         case nextToken = "NextToken"
@@ -6733,6 +7690,20 @@ extension ListCustomRoutingPortMappingsByDestinationOutputResponseBody: Swift.De
         destinationPortMappings = destinationPortMappingsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListCustomRoutingPortMappingsByDestinationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "EndpointNotFoundException": return try await EndpointNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -6820,26 +7791,11 @@ extension ListCustomRoutingPortMappingsInputBody: Swift.Decodable {
     }
 }
 
-enum ListCustomRoutingPortMappingsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AcceleratorNotFoundException": return try await AcceleratorNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "EndpointGroupNotFoundException": return try await EndpointGroupNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListCustomRoutingPortMappingsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListCustomRoutingPortMappingsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListCustomRoutingPortMappingsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListCustomRoutingPortMappingsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.portMappings = output.portMappings
         } else {
@@ -6849,7 +7805,7 @@ extension ListCustomRoutingPortMappingsOutputResponse: ClientRuntime.HttpRespons
     }
 }
 
-public struct ListCustomRoutingPortMappingsOutputResponse: Swift.Equatable {
+public struct ListCustomRoutingPortMappingsOutput: Swift.Equatable {
     /// The token for the next set of results. You receive this token from a previous call.
     public var nextToken: Swift.String?
     /// The port mappings for a custom routing accelerator.
@@ -6865,12 +7821,12 @@ public struct ListCustomRoutingPortMappingsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListCustomRoutingPortMappingsOutputResponseBody: Swift.Equatable {
+struct ListCustomRoutingPortMappingsOutputBody: Swift.Equatable {
     let portMappings: [GlobalAcceleratorClientTypes.PortMapping]?
     let nextToken: Swift.String?
 }
 
-extension ListCustomRoutingPortMappingsOutputResponseBody: Swift.Decodable {
+extension ListCustomRoutingPortMappingsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
         case portMappings = "PortMappings"
@@ -6891,6 +7847,21 @@ extension ListCustomRoutingPortMappingsOutputResponseBody: Swift.Decodable {
         portMappings = portMappingsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListCustomRoutingPortMappingsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AcceleratorNotFoundException": return try await AcceleratorNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EndpointGroupNotFoundException": return try await EndpointGroupNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -6966,25 +7937,11 @@ extension ListEndpointGroupsInputBody: Swift.Decodable {
     }
 }
 
-enum ListEndpointGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ListenerNotFoundException": return try await ListenerNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListEndpointGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListEndpointGroupsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListEndpointGroupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListEndpointGroupsOutputBody = try responseDecoder.decode(responseBody: data)
             self.endpointGroups = output.endpointGroups
             self.nextToken = output.nextToken
         } else {
@@ -6994,7 +7951,7 @@ extension ListEndpointGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListEndpointGroupsOutputResponse: Swift.Equatable {
+public struct ListEndpointGroupsOutput: Swift.Equatable {
     /// The list of the endpoint groups associated with a listener.
     public var endpointGroups: [GlobalAcceleratorClientTypes.EndpointGroup]?
     /// The token for the next set of results. You receive this token from a previous call.
@@ -7010,12 +7967,12 @@ public struct ListEndpointGroupsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListEndpointGroupsOutputResponseBody: Swift.Equatable {
+struct ListEndpointGroupsOutputBody: Swift.Equatable {
     let endpointGroups: [GlobalAcceleratorClientTypes.EndpointGroup]?
     let nextToken: Swift.String?
 }
 
-extension ListEndpointGroupsOutputResponseBody: Swift.Decodable {
+extension ListEndpointGroupsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case endpointGroups = "EndpointGroups"
         case nextToken = "NextToken"
@@ -7036,6 +7993,20 @@ extension ListEndpointGroupsOutputResponseBody: Swift.Decodable {
         endpointGroups = endpointGroupsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListEndpointGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ListenerNotFoundException": return try await ListenerNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -7111,25 +8082,11 @@ extension ListListenersInputBody: Swift.Decodable {
     }
 }
 
-enum ListListenersOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AcceleratorNotFoundException": return try await AcceleratorNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListListenersOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListListenersOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListListenersOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListListenersOutputBody = try responseDecoder.decode(responseBody: data)
             self.listeners = output.listeners
             self.nextToken = output.nextToken
         } else {
@@ -7139,7 +8096,7 @@ extension ListListenersOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListListenersOutputResponse: Swift.Equatable {
+public struct ListListenersOutput: Swift.Equatable {
     /// The list of listeners for an accelerator.
     public var listeners: [GlobalAcceleratorClientTypes.Listener]?
     /// The token for the next set of results. You receive this token from a previous call.
@@ -7155,12 +8112,12 @@ public struct ListListenersOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListListenersOutputResponseBody: Swift.Equatable {
+struct ListListenersOutputBody: Swift.Equatable {
     let listeners: [GlobalAcceleratorClientTypes.Listener]?
     let nextToken: Swift.String?
 }
 
-extension ListListenersOutputResponseBody: Swift.Decodable {
+extension ListListenersOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case listeners = "Listeners"
         case nextToken = "NextToken"
@@ -7181,6 +8138,20 @@ extension ListListenersOutputResponseBody: Swift.Decodable {
         listeners = listenersDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListListenersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AcceleratorNotFoundException": return try await AcceleratorNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -7232,24 +8203,11 @@ extension ListTagsForResourceInputBody: Swift.Decodable {
     }
 }
 
-enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AcceleratorNotFoundException": return try await AcceleratorNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListTagsForResourceOutputBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
         } else {
             self.tags = nil
@@ -7257,7 +8215,7 @@ extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutputResponse: Swift.Equatable {
+public struct ListTagsForResourceOutput: Swift.Equatable {
     /// Root level tag for the Tags parameters.
     public var tags: [GlobalAcceleratorClientTypes.Tag]?
 
@@ -7269,11 +8227,11 @@ public struct ListTagsForResourceOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputResponseBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody: Swift.Equatable {
     let tags: [GlobalAcceleratorClientTypes.Tag]?
 }
 
-extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
+extension ListTagsForResourceOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case tags = "Tags"
     }
@@ -7291,6 +8249,19 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+    }
+}
+
+enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AcceleratorNotFoundException": return try await AcceleratorNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -7706,6 +8677,46 @@ extension ProvisionByoipCidrInputBody: Swift.Decodable {
     }
 }
 
+extension ProvisionByoipCidrOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ProvisionByoipCidrOutputBody = try responseDecoder.decode(responseBody: data)
+            self.byoipCidr = output.byoipCidr
+        } else {
+            self.byoipCidr = nil
+        }
+    }
+}
+
+public struct ProvisionByoipCidrOutput: Swift.Equatable {
+    /// Information about the address range.
+    public var byoipCidr: GlobalAcceleratorClientTypes.ByoipCidr?
+
+    public init(
+        byoipCidr: GlobalAcceleratorClientTypes.ByoipCidr? = nil
+    )
+    {
+        self.byoipCidr = byoipCidr
+    }
+}
+
+struct ProvisionByoipCidrOutputBody: Swift.Equatable {
+    let byoipCidr: GlobalAcceleratorClientTypes.ByoipCidr?
+}
+
+extension ProvisionByoipCidrOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case byoipCidr = "ByoipCidr"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let byoipCidrDecoded = try containerValues.decodeIfPresent(GlobalAcceleratorClientTypes.ByoipCidr.self, forKey: .byoipCidr)
+        byoipCidr = byoipCidrDecoded
+    }
+}
+
 enum ProvisionByoipCidrOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -7718,46 +8729,6 @@ enum ProvisionByoipCidrOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension ProvisionByoipCidrOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: ProvisionByoipCidrOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.byoipCidr = output.byoipCidr
-        } else {
-            self.byoipCidr = nil
-        }
-    }
-}
-
-public struct ProvisionByoipCidrOutputResponse: Swift.Equatable {
-    /// Information about the address range.
-    public var byoipCidr: GlobalAcceleratorClientTypes.ByoipCidr?
-
-    public init(
-        byoipCidr: GlobalAcceleratorClientTypes.ByoipCidr? = nil
-    )
-    {
-        self.byoipCidr = byoipCidr
-    }
-}
-
-struct ProvisionByoipCidrOutputResponseBody: Swift.Equatable {
-    let byoipCidr: GlobalAcceleratorClientTypes.ByoipCidr?
-}
-
-extension ProvisionByoipCidrOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case byoipCidr = "ByoipCidr"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let byoipCidrDecoded = try containerValues.decodeIfPresent(GlobalAcceleratorClientTypes.ByoipCidr.self, forKey: .byoipCidr)
-        byoipCidr = byoipCidrDecoded
     }
 }
 
@@ -7834,6 +8805,16 @@ extension RemoveCustomRoutingEndpointsInputBody: Swift.Decodable {
     }
 }
 
+extension RemoveCustomRoutingEndpointsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct RemoveCustomRoutingEndpointsOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum RemoveCustomRoutingEndpointsOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -7848,16 +8829,6 @@ enum RemoveCustomRoutingEndpointsOutputError: ClientRuntime.HttpResponseErrorBin
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension RemoveCustomRoutingEndpointsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct RemoveCustomRoutingEndpointsOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension RemoveEndpointsInput: Swift.Encodable {
@@ -7933,6 +8904,16 @@ extension RemoveEndpointsInputBody: Swift.Decodable {
     }
 }
 
+extension RemoveEndpointsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct RemoveEndpointsOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum RemoveEndpointsOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -7948,14 +8929,50 @@ enum RemoveEndpointsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension RemoveEndpointsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+extension GlobalAcceleratorClientTypes.Resource: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case endpointId = "EndpointId"
+        case region = "Region"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let endpointId = self.endpointId {
+            try encodeContainer.encode(endpointId, forKey: .endpointId)
+        }
+        if let region = self.region {
+            try encodeContainer.encode(region, forKey: .region)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let endpointIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .endpointId)
+        endpointId = endpointIdDecoded
+        let regionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .region)
+        region = regionDecoded
     }
 }
 
-public struct RemoveEndpointsOutputResponse: Swift.Equatable {
+extension GlobalAcceleratorClientTypes {
+    /// An Amazon Web Services resource that is supported by Global Accelerator and can be added as an endpoint for an accelerator.
+    public struct Resource: Swift.Equatable {
+        /// The endpoint ID for the endpoint (Amazon Web Services resource).
+        /// This member is required.
+        public var endpointId: Swift.String?
+        /// The Amazon Web Services Region where a resource is located.
+        public var region: Swift.String?
 
-    public init() { }
+        public init(
+            endpointId: Swift.String? = nil,
+            region: Swift.String? = nil
+        )
+        {
+            self.endpointId = endpointId
+            self.region = region
+        }
+    }
+
 }
 
 extension GlobalAcceleratorClientTypes.SocketAddress: Swift.Codable {
@@ -8123,6 +9140,16 @@ extension TagResourceInputBody: Swift.Decodable {
     }
 }
 
+extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct TagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -8134,16 +9161,6 @@ enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct TagResourceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension TransactionInProgressException {
@@ -8274,6 +9291,16 @@ extension UntagResourceInputBody: Swift.Decodable {
     }
 }
 
+extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UntagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -8285,16 +9312,6 @@ enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UntagResourceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension UpdateAcceleratorAttributesInput: Swift.Encodable {
@@ -8381,25 +9398,11 @@ extension UpdateAcceleratorAttributesInputBody: Swift.Decodable {
     }
 }
 
-enum UpdateAcceleratorAttributesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AcceleratorNotFoundException": return try await AcceleratorNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension UpdateAcceleratorAttributesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension UpdateAcceleratorAttributesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: UpdateAcceleratorAttributesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: UpdateAcceleratorAttributesOutputBody = try responseDecoder.decode(responseBody: data)
             self.acceleratorAttributes = output.acceleratorAttributes
         } else {
             self.acceleratorAttributes = nil
@@ -8407,7 +9410,7 @@ extension UpdateAcceleratorAttributesOutputResponse: ClientRuntime.HttpResponseB
     }
 }
 
-public struct UpdateAcceleratorAttributesOutputResponse: Swift.Equatable {
+public struct UpdateAcceleratorAttributesOutput: Swift.Equatable {
     /// Updated attributes for the accelerator.
     public var acceleratorAttributes: GlobalAcceleratorClientTypes.AcceleratorAttributes?
 
@@ -8419,11 +9422,11 @@ public struct UpdateAcceleratorAttributesOutputResponse: Swift.Equatable {
     }
 }
 
-struct UpdateAcceleratorAttributesOutputResponseBody: Swift.Equatable {
+struct UpdateAcceleratorAttributesOutputBody: Swift.Equatable {
     let acceleratorAttributes: GlobalAcceleratorClientTypes.AcceleratorAttributes?
 }
 
-extension UpdateAcceleratorAttributesOutputResponseBody: Swift.Decodable {
+extension UpdateAcceleratorAttributesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case acceleratorAttributes = "AcceleratorAttributes"
     }
@@ -8432,6 +9435,20 @@ extension UpdateAcceleratorAttributesOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let acceleratorAttributesDecoded = try containerValues.decodeIfPresent(GlobalAcceleratorClientTypes.AcceleratorAttributes.self, forKey: .acceleratorAttributes)
         acceleratorAttributes = acceleratorAttributesDecoded
+    }
+}
+
+enum UpdateAcceleratorAttributesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AcceleratorNotFoundException": return try await AcceleratorNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -8519,6 +9536,46 @@ extension UpdateAcceleratorInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateAcceleratorOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateAcceleratorOutputBody = try responseDecoder.decode(responseBody: data)
+            self.accelerator = output.accelerator
+        } else {
+            self.accelerator = nil
+        }
+    }
+}
+
+public struct UpdateAcceleratorOutput: Swift.Equatable {
+    /// Information about the updated accelerator.
+    public var accelerator: GlobalAcceleratorClientTypes.Accelerator?
+
+    public init(
+        accelerator: GlobalAcceleratorClientTypes.Accelerator? = nil
+    )
+    {
+        self.accelerator = accelerator
+    }
+}
+
+struct UpdateAcceleratorOutputBody: Swift.Equatable {
+    let accelerator: GlobalAcceleratorClientTypes.Accelerator?
+}
+
+extension UpdateAcceleratorOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accelerator = "Accelerator"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let acceleratorDecoded = try containerValues.decodeIfPresent(GlobalAcceleratorClientTypes.Accelerator.self, forKey: .accelerator)
+        accelerator = acceleratorDecoded
+    }
+}
+
 enum UpdateAcceleratorOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -8533,43 +9590,215 @@ enum UpdateAcceleratorOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension UpdateAcceleratorOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: UpdateAcceleratorOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.accelerator = output.accelerator
-        } else {
-            self.accelerator = nil
+extension UpdateCrossAccountAttachmentInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case addPrincipals = "AddPrincipals"
+        case addResources = "AddResources"
+        case attachmentArn = "AttachmentArn"
+        case name = "Name"
+        case removePrincipals = "RemovePrincipals"
+        case removeResources = "RemoveResources"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let addPrincipals = addPrincipals {
+            var addPrincipalsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .addPrincipals)
+            for principal0 in addPrincipals {
+                try addPrincipalsContainer.encode(principal0)
+            }
+        }
+        if let addResources = addResources {
+            var addResourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .addResources)
+            for resource0 in addResources {
+                try addResourcesContainer.encode(resource0)
+            }
+        }
+        if let attachmentArn = self.attachmentArn {
+            try encodeContainer.encode(attachmentArn, forKey: .attachmentArn)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let removePrincipals = removePrincipals {
+            var removePrincipalsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .removePrincipals)
+            for principal0 in removePrincipals {
+                try removePrincipalsContainer.encode(principal0)
+            }
+        }
+        if let removeResources = removeResources {
+            var removeResourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .removeResources)
+            for resource0 in removeResources {
+                try removeResourcesContainer.encode(resource0)
+            }
         }
     }
 }
 
-public struct UpdateAcceleratorOutputResponse: Swift.Equatable {
-    /// Information about the updated accelerator.
-    public var accelerator: GlobalAcceleratorClientTypes.Accelerator?
-
-    public init(
-        accelerator: GlobalAcceleratorClientTypes.Accelerator? = nil
-    )
-    {
-        self.accelerator = accelerator
+extension UpdateCrossAccountAttachmentInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
     }
 }
 
-struct UpdateAcceleratorOutputResponseBody: Swift.Equatable {
-    let accelerator: GlobalAcceleratorClientTypes.Accelerator?
+public struct UpdateCrossAccountAttachmentInput: Swift.Equatable {
+    /// The principals to add to the cross-account attachment. A principal is an account or the Amazon Resource Name (ARN) of an accelerator that the attachment gives permission to add the resources from another account, listed in the attachment. To add more than one principal, separate the account numbers or accelerator ARNs, or both, with commas.
+    public var addPrincipals: [Swift.String]?
+    /// The resources to add to the cross-account attachment. A resource listed in a cross-account attachment can be added to an accelerator by the principals that are listed in the attachment. To add more than one resource, separate the resource ARNs with commas.
+    public var addResources: [GlobalAcceleratorClientTypes.Resource]?
+    /// The Amazon Resource Name (ARN) of the cross-account attachment to update.
+    /// This member is required.
+    public var attachmentArn: Swift.String?
+    /// The name of the cross-account attachment.
+    public var name: Swift.String?
+    /// The principals to remove from the cross-account attachment. A principal is an account or the Amazon Resource Name (ARN) of an accelerator that is given permission to add the resources from another account, listed in the cross-account attachment. To remove more than one principal, separate the account numbers or accelerator ARNs, or both, with commas.
+    public var removePrincipals: [Swift.String]?
+    /// The resources to remove from the cross-account attachment. A resource listed in a cross-account attachment can be added to an accelerator fy principals that are listed in the cross-account attachment. To remove more than one resource, separate the resource ARNs with commas.
+    public var removeResources: [GlobalAcceleratorClientTypes.Resource]?
+
+    public init(
+        addPrincipals: [Swift.String]? = nil,
+        addResources: [GlobalAcceleratorClientTypes.Resource]? = nil,
+        attachmentArn: Swift.String? = nil,
+        name: Swift.String? = nil,
+        removePrincipals: [Swift.String]? = nil,
+        removeResources: [GlobalAcceleratorClientTypes.Resource]? = nil
+    )
+    {
+        self.addPrincipals = addPrincipals
+        self.addResources = addResources
+        self.attachmentArn = attachmentArn
+        self.name = name
+        self.removePrincipals = removePrincipals
+        self.removeResources = removeResources
+    }
 }
 
-extension UpdateAcceleratorOutputResponseBody: Swift.Decodable {
+struct UpdateCrossAccountAttachmentInputBody: Swift.Equatable {
+    let attachmentArn: Swift.String?
+    let name: Swift.String?
+    let addPrincipals: [Swift.String]?
+    let removePrincipals: [Swift.String]?
+    let addResources: [GlobalAcceleratorClientTypes.Resource]?
+    let removeResources: [GlobalAcceleratorClientTypes.Resource]?
+}
+
+extension UpdateCrossAccountAttachmentInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case accelerator = "Accelerator"
+        case addPrincipals = "AddPrincipals"
+        case addResources = "AddResources"
+        case attachmentArn = "AttachmentArn"
+        case name = "Name"
+        case removePrincipals = "RemovePrincipals"
+        case removeResources = "RemoveResources"
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let acceleratorDecoded = try containerValues.decodeIfPresent(GlobalAcceleratorClientTypes.Accelerator.self, forKey: .accelerator)
-        accelerator = acceleratorDecoded
+        let attachmentArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .attachmentArn)
+        attachmentArn = attachmentArnDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let addPrincipalsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .addPrincipals)
+        var addPrincipalsDecoded0:[Swift.String]? = nil
+        if let addPrincipalsContainer = addPrincipalsContainer {
+            addPrincipalsDecoded0 = [Swift.String]()
+            for string0 in addPrincipalsContainer {
+                if let string0 = string0 {
+                    addPrincipalsDecoded0?.append(string0)
+                }
+            }
+        }
+        addPrincipals = addPrincipalsDecoded0
+        let removePrincipalsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .removePrincipals)
+        var removePrincipalsDecoded0:[Swift.String]? = nil
+        if let removePrincipalsContainer = removePrincipalsContainer {
+            removePrincipalsDecoded0 = [Swift.String]()
+            for string0 in removePrincipalsContainer {
+                if let string0 = string0 {
+                    removePrincipalsDecoded0?.append(string0)
+                }
+            }
+        }
+        removePrincipals = removePrincipalsDecoded0
+        let addResourcesContainer = try containerValues.decodeIfPresent([GlobalAcceleratorClientTypes.Resource?].self, forKey: .addResources)
+        var addResourcesDecoded0:[GlobalAcceleratorClientTypes.Resource]? = nil
+        if let addResourcesContainer = addResourcesContainer {
+            addResourcesDecoded0 = [GlobalAcceleratorClientTypes.Resource]()
+            for structure0 in addResourcesContainer {
+                if let structure0 = structure0 {
+                    addResourcesDecoded0?.append(structure0)
+                }
+            }
+        }
+        addResources = addResourcesDecoded0
+        let removeResourcesContainer = try containerValues.decodeIfPresent([GlobalAcceleratorClientTypes.Resource?].self, forKey: .removeResources)
+        var removeResourcesDecoded0:[GlobalAcceleratorClientTypes.Resource]? = nil
+        if let removeResourcesContainer = removeResourcesContainer {
+            removeResourcesDecoded0 = [GlobalAcceleratorClientTypes.Resource]()
+            for structure0 in removeResourcesContainer {
+                if let structure0 = structure0 {
+                    removeResourcesDecoded0?.append(structure0)
+                }
+            }
+        }
+        removeResources = removeResourcesDecoded0
+    }
+}
+
+extension UpdateCrossAccountAttachmentOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateCrossAccountAttachmentOutputBody = try responseDecoder.decode(responseBody: data)
+            self.crossAccountAttachment = output.crossAccountAttachment
+        } else {
+            self.crossAccountAttachment = nil
+        }
+    }
+}
+
+public struct UpdateCrossAccountAttachmentOutput: Swift.Equatable {
+    /// Information about the updated cross-account attachment.
+    public var crossAccountAttachment: GlobalAcceleratorClientTypes.Attachment?
+
+    public init(
+        crossAccountAttachment: GlobalAcceleratorClientTypes.Attachment? = nil
+    )
+    {
+        self.crossAccountAttachment = crossAccountAttachment
+    }
+}
+
+struct UpdateCrossAccountAttachmentOutputBody: Swift.Equatable {
+    let crossAccountAttachment: GlobalAcceleratorClientTypes.Attachment?
+}
+
+extension UpdateCrossAccountAttachmentOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case crossAccountAttachment = "CrossAccountAttachment"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let crossAccountAttachmentDecoded = try containerValues.decodeIfPresent(GlobalAcceleratorClientTypes.Attachment.self, forKey: .crossAccountAttachment)
+        crossAccountAttachment = crossAccountAttachmentDecoded
+    }
+}
+
+enum UpdateCrossAccountAttachmentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AttachmentNotFoundException": return try await AttachmentNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TransactionInProgressException": return try await TransactionInProgressException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -8657,25 +9886,11 @@ extension UpdateCustomRoutingAcceleratorAttributesInputBody: Swift.Decodable {
     }
 }
 
-enum UpdateCustomRoutingAcceleratorAttributesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AcceleratorNotFoundException": return try await AcceleratorNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension UpdateCustomRoutingAcceleratorAttributesOutputResponse: ClientRuntime.HttpResponseBinding {
+extension UpdateCustomRoutingAcceleratorAttributesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: UpdateCustomRoutingAcceleratorAttributesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: UpdateCustomRoutingAcceleratorAttributesOutputBody = try responseDecoder.decode(responseBody: data)
             self.acceleratorAttributes = output.acceleratorAttributes
         } else {
             self.acceleratorAttributes = nil
@@ -8683,7 +9898,7 @@ extension UpdateCustomRoutingAcceleratorAttributesOutputResponse: ClientRuntime.
     }
 }
 
-public struct UpdateCustomRoutingAcceleratorAttributesOutputResponse: Swift.Equatable {
+public struct UpdateCustomRoutingAcceleratorAttributesOutput: Swift.Equatable {
     /// Updated custom routing accelerator.
     public var acceleratorAttributes: GlobalAcceleratorClientTypes.CustomRoutingAcceleratorAttributes?
 
@@ -8695,11 +9910,11 @@ public struct UpdateCustomRoutingAcceleratorAttributesOutputResponse: Swift.Equa
     }
 }
 
-struct UpdateCustomRoutingAcceleratorAttributesOutputResponseBody: Swift.Equatable {
+struct UpdateCustomRoutingAcceleratorAttributesOutputBody: Swift.Equatable {
     let acceleratorAttributes: GlobalAcceleratorClientTypes.CustomRoutingAcceleratorAttributes?
 }
 
-extension UpdateCustomRoutingAcceleratorAttributesOutputResponseBody: Swift.Decodable {
+extension UpdateCustomRoutingAcceleratorAttributesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case acceleratorAttributes = "AcceleratorAttributes"
     }
@@ -8708,6 +9923,20 @@ extension UpdateCustomRoutingAcceleratorAttributesOutputResponseBody: Swift.Deco
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let acceleratorAttributesDecoded = try containerValues.decodeIfPresent(GlobalAcceleratorClientTypes.CustomRoutingAcceleratorAttributes.self, forKey: .acceleratorAttributes)
         acceleratorAttributes = acceleratorAttributesDecoded
+    }
+}
+
+enum UpdateCustomRoutingAcceleratorAttributesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AcceleratorNotFoundException": return try await AcceleratorNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -8795,24 +10024,11 @@ extension UpdateCustomRoutingAcceleratorInputBody: Swift.Decodable {
     }
 }
 
-enum UpdateCustomRoutingAcceleratorOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AcceleratorNotFoundException": return try await AcceleratorNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension UpdateCustomRoutingAcceleratorOutputResponse: ClientRuntime.HttpResponseBinding {
+extension UpdateCustomRoutingAcceleratorOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: UpdateCustomRoutingAcceleratorOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: UpdateCustomRoutingAcceleratorOutputBody = try responseDecoder.decode(responseBody: data)
             self.accelerator = output.accelerator
         } else {
             self.accelerator = nil
@@ -8820,7 +10036,7 @@ extension UpdateCustomRoutingAcceleratorOutputResponse: ClientRuntime.HttpRespon
     }
 }
 
-public struct UpdateCustomRoutingAcceleratorOutputResponse: Swift.Equatable {
+public struct UpdateCustomRoutingAcceleratorOutput: Swift.Equatable {
     /// Information about the updated custom routing accelerator.
     public var accelerator: GlobalAcceleratorClientTypes.CustomRoutingAccelerator?
 
@@ -8832,11 +10048,11 @@ public struct UpdateCustomRoutingAcceleratorOutputResponse: Swift.Equatable {
     }
 }
 
-struct UpdateCustomRoutingAcceleratorOutputResponseBody: Swift.Equatable {
+struct UpdateCustomRoutingAcceleratorOutputBody: Swift.Equatable {
     let accelerator: GlobalAcceleratorClientTypes.CustomRoutingAccelerator?
 }
 
-extension UpdateCustomRoutingAcceleratorOutputResponseBody: Swift.Decodable {
+extension UpdateCustomRoutingAcceleratorOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accelerator = "Accelerator"
     }
@@ -8845,6 +10061,19 @@ extension UpdateCustomRoutingAcceleratorOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let acceleratorDecoded = try containerValues.decodeIfPresent(GlobalAcceleratorClientTypes.CustomRoutingAccelerator.self, forKey: .accelerator)
         accelerator = acceleratorDecoded
+    }
+}
+
+enum UpdateCustomRoutingAcceleratorOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AcceleratorNotFoundException": return try await AcceleratorNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -8921,6 +10150,46 @@ extension UpdateCustomRoutingListenerInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateCustomRoutingListenerOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateCustomRoutingListenerOutputBody = try responseDecoder.decode(responseBody: data)
+            self.listener = output.listener
+        } else {
+            self.listener = nil
+        }
+    }
+}
+
+public struct UpdateCustomRoutingListenerOutput: Swift.Equatable {
+    /// Information for the updated listener for a custom routing accelerator.
+    public var listener: GlobalAcceleratorClientTypes.CustomRoutingListener?
+
+    public init(
+        listener: GlobalAcceleratorClientTypes.CustomRoutingListener? = nil
+    )
+    {
+        self.listener = listener
+    }
+}
+
+struct UpdateCustomRoutingListenerOutputBody: Swift.Equatable {
+    let listener: GlobalAcceleratorClientTypes.CustomRoutingListener?
+}
+
+extension UpdateCustomRoutingListenerOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case listener = "Listener"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let listenerDecoded = try containerValues.decodeIfPresent(GlobalAcceleratorClientTypes.CustomRoutingListener.self, forKey: .listener)
+        listener = listenerDecoded
+    }
+}
+
 enum UpdateCustomRoutingListenerOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -8933,46 +10202,6 @@ enum UpdateCustomRoutingListenerOutputError: ClientRuntime.HttpResponseErrorBind
             case "ListenerNotFoundException": return try await ListenerNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension UpdateCustomRoutingListenerOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: UpdateCustomRoutingListenerOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.listener = output.listener
-        } else {
-            self.listener = nil
-        }
-    }
-}
-
-public struct UpdateCustomRoutingListenerOutputResponse: Swift.Equatable {
-    /// Information for the updated listener for a custom routing accelerator.
-    public var listener: GlobalAcceleratorClientTypes.CustomRoutingListener?
-
-    public init(
-        listener: GlobalAcceleratorClientTypes.CustomRoutingListener? = nil
-    )
-    {
-        self.listener = listener
-    }
-}
-
-struct UpdateCustomRoutingListenerOutputResponseBody: Swift.Equatable {
-    let listener: GlobalAcceleratorClientTypes.CustomRoutingListener?
-}
-
-extension UpdateCustomRoutingListenerOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case listener = "Listener"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let listenerDecoded = try containerValues.decodeIfPresent(GlobalAcceleratorClientTypes.CustomRoutingListener.self, forKey: .listener)
-        listener = listenerDecoded
     }
 }
 
@@ -9144,6 +10373,46 @@ extension UpdateEndpointGroupInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateEndpointGroupOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateEndpointGroupOutputBody = try responseDecoder.decode(responseBody: data)
+            self.endpointGroup = output.endpointGroup
+        } else {
+            self.endpointGroup = nil
+        }
+    }
+}
+
+public struct UpdateEndpointGroupOutput: Swift.Equatable {
+    /// The information about the endpoint group that was updated.
+    public var endpointGroup: GlobalAcceleratorClientTypes.EndpointGroup?
+
+    public init(
+        endpointGroup: GlobalAcceleratorClientTypes.EndpointGroup? = nil
+    )
+    {
+        self.endpointGroup = endpointGroup
+    }
+}
+
+struct UpdateEndpointGroupOutputBody: Swift.Equatable {
+    let endpointGroup: GlobalAcceleratorClientTypes.EndpointGroup?
+}
+
+extension UpdateEndpointGroupOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case endpointGroup = "EndpointGroup"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let endpointGroupDecoded = try containerValues.decodeIfPresent(GlobalAcceleratorClientTypes.EndpointGroup.self, forKey: .endpointGroup)
+        endpointGroup = endpointGroupDecoded
+    }
+}
+
 enum UpdateEndpointGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -9156,46 +10425,6 @@ enum UpdateEndpointGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension UpdateEndpointGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: UpdateEndpointGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.endpointGroup = output.endpointGroup
-        } else {
-            self.endpointGroup = nil
-        }
-    }
-}
-
-public struct UpdateEndpointGroupOutputResponse: Swift.Equatable {
-    /// The information about the endpoint group that was updated.
-    public var endpointGroup: GlobalAcceleratorClientTypes.EndpointGroup?
-
-    public init(
-        endpointGroup: GlobalAcceleratorClientTypes.EndpointGroup? = nil
-    )
-    {
-        self.endpointGroup = endpointGroup
-    }
-}
-
-struct UpdateEndpointGroupOutputResponseBody: Swift.Equatable {
-    let endpointGroup: GlobalAcceleratorClientTypes.EndpointGroup?
-}
-
-extension UpdateEndpointGroupOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case endpointGroup = "EndpointGroup"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let endpointGroupDecoded = try containerValues.decodeIfPresent(GlobalAcceleratorClientTypes.EndpointGroup.self, forKey: .endpointGroup)
-        endpointGroup = endpointGroupDecoded
     }
 }
 
@@ -9295,6 +10524,46 @@ extension UpdateListenerInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateListenerOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateListenerOutputBody = try responseDecoder.decode(responseBody: data)
+            self.listener = output.listener
+        } else {
+            self.listener = nil
+        }
+    }
+}
+
+public struct UpdateListenerOutput: Swift.Equatable {
+    /// Information for the updated listener.
+    public var listener: GlobalAcceleratorClientTypes.Listener?
+
+    public init(
+        listener: GlobalAcceleratorClientTypes.Listener? = nil
+    )
+    {
+        self.listener = listener
+    }
+}
+
+struct UpdateListenerOutputBody: Swift.Equatable {
+    let listener: GlobalAcceleratorClientTypes.Listener?
+}
+
+extension UpdateListenerOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case listener = "Listener"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let listenerDecoded = try containerValues.decodeIfPresent(GlobalAcceleratorClientTypes.Listener.self, forKey: .listener)
+        listener = listenerDecoded
+    }
+}
+
 enum UpdateListenerOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -9307,46 +10576,6 @@ enum UpdateListenerOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ListenerNotFoundException": return try await ListenerNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension UpdateListenerOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: UpdateListenerOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.listener = output.listener
-        } else {
-            self.listener = nil
-        }
-    }
-}
-
-public struct UpdateListenerOutputResponse: Swift.Equatable {
-    /// Information for the updated listener.
-    public var listener: GlobalAcceleratorClientTypes.Listener?
-
-    public init(
-        listener: GlobalAcceleratorClientTypes.Listener? = nil
-    )
-    {
-        self.listener = listener
-    }
-}
-
-struct UpdateListenerOutputResponseBody: Swift.Equatable {
-    let listener: GlobalAcceleratorClientTypes.Listener?
-}
-
-extension UpdateListenerOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case listener = "Listener"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let listenerDecoded = try containerValues.decodeIfPresent(GlobalAcceleratorClientTypes.Listener.self, forKey: .listener)
-        listener = listenerDecoded
     }
 }
 
@@ -9398,6 +10627,46 @@ extension WithdrawByoipCidrInputBody: Swift.Decodable {
     }
 }
 
+extension WithdrawByoipCidrOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: WithdrawByoipCidrOutputBody = try responseDecoder.decode(responseBody: data)
+            self.byoipCidr = output.byoipCidr
+        } else {
+            self.byoipCidr = nil
+        }
+    }
+}
+
+public struct WithdrawByoipCidrOutput: Swift.Equatable {
+    /// Information about the address pool.
+    public var byoipCidr: GlobalAcceleratorClientTypes.ByoipCidr?
+
+    public init(
+        byoipCidr: GlobalAcceleratorClientTypes.ByoipCidr? = nil
+    )
+    {
+        self.byoipCidr = byoipCidr
+    }
+}
+
+struct WithdrawByoipCidrOutputBody: Swift.Equatable {
+    let byoipCidr: GlobalAcceleratorClientTypes.ByoipCidr?
+}
+
+extension WithdrawByoipCidrOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case byoipCidr = "ByoipCidr"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let byoipCidrDecoded = try containerValues.decodeIfPresent(GlobalAcceleratorClientTypes.ByoipCidr.self, forKey: .byoipCidr)
+        byoipCidr = byoipCidrDecoded
+    }
+}
+
 enum WithdrawByoipCidrOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -9410,45 +10679,5 @@ enum WithdrawByoipCidrOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension WithdrawByoipCidrOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: WithdrawByoipCidrOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.byoipCidr = output.byoipCidr
-        } else {
-            self.byoipCidr = nil
-        }
-    }
-}
-
-public struct WithdrawByoipCidrOutputResponse: Swift.Equatable {
-    /// Information about the address pool.
-    public var byoipCidr: GlobalAcceleratorClientTypes.ByoipCidr?
-
-    public init(
-        byoipCidr: GlobalAcceleratorClientTypes.ByoipCidr? = nil
-    )
-    {
-        self.byoipCidr = byoipCidr
-    }
-}
-
-struct WithdrawByoipCidrOutputResponseBody: Swift.Equatable {
-    let byoipCidr: GlobalAcceleratorClientTypes.ByoipCidr?
-}
-
-extension WithdrawByoipCidrOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case byoipCidr = "ByoipCidr"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let byoipCidrDecoded = try containerValues.decodeIfPresent(GlobalAcceleratorClientTypes.ByoipCidr.self, forKey: .byoipCidr)
-        byoipCidr = byoipCidrDecoded
     }
 }

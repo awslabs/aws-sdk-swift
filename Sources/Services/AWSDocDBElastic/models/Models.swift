@@ -903,6 +903,47 @@ extension CreateClusterInputBody: Swift.Decodable {
     }
 }
 
+extension CreateClusterOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateClusterOutputBody = try responseDecoder.decode(responseBody: data)
+            self.cluster = output.cluster
+        } else {
+            self.cluster = nil
+        }
+    }
+}
+
+public struct CreateClusterOutput: Swift.Equatable {
+    /// The new Elastic DocumentDB cluster that has been created.
+    /// This member is required.
+    public var cluster: DocDBElasticClientTypes.Cluster?
+
+    public init(
+        cluster: DocDBElasticClientTypes.Cluster? = nil
+    )
+    {
+        self.cluster = cluster
+    }
+}
+
+struct CreateClusterOutputBody: Swift.Equatable {
+    let cluster: DocDBElasticClientTypes.Cluster?
+}
+
+extension CreateClusterOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case cluster
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let clusterDecoded = try containerValues.decodeIfPresent(DocDBElasticClientTypes.Cluster.self, forKey: .cluster)
+        cluster = clusterDecoded
+    }
+}
+
 enum CreateClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -916,47 +957,6 @@ enum CreateClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension CreateClusterOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateClusterOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.cluster = output.cluster
-        } else {
-            self.cluster = nil
-        }
-    }
-}
-
-public struct CreateClusterOutputResponse: Swift.Equatable {
-    /// The new Elastic DocumentDB cluster that has been created.
-    /// This member is required.
-    public var cluster: DocDBElasticClientTypes.Cluster?
-
-    public init(
-        cluster: DocDBElasticClientTypes.Cluster? = nil
-    )
-    {
-        self.cluster = cluster
-    }
-}
-
-struct CreateClusterOutputResponseBody: Swift.Equatable {
-    let cluster: DocDBElasticClientTypes.Cluster?
-}
-
-extension CreateClusterOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case cluster
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let clusterDecoded = try containerValues.decodeIfPresent(DocDBElasticClientTypes.Cluster.self, forKey: .cluster)
-        cluster = clusterDecoded
     }
 }
 
@@ -1045,6 +1045,47 @@ extension CreateClusterSnapshotInputBody: Swift.Decodable {
     }
 }
 
+extension CreateClusterSnapshotOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateClusterSnapshotOutputBody = try responseDecoder.decode(responseBody: data)
+            self.snapshot = output.snapshot
+        } else {
+            self.snapshot = nil
+        }
+    }
+}
+
+public struct CreateClusterSnapshotOutput: Swift.Equatable {
+    /// Returns information about the new Elastic DocumentDB snapshot.
+    /// This member is required.
+    public var snapshot: DocDBElasticClientTypes.ClusterSnapshot?
+
+    public init(
+        snapshot: DocDBElasticClientTypes.ClusterSnapshot? = nil
+    )
+    {
+        self.snapshot = snapshot
+    }
+}
+
+struct CreateClusterSnapshotOutputBody: Swift.Equatable {
+    let snapshot: DocDBElasticClientTypes.ClusterSnapshot?
+}
+
+extension CreateClusterSnapshotOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case snapshot
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let snapshotDecoded = try containerValues.decodeIfPresent(DocDBElasticClientTypes.ClusterSnapshot.self, forKey: .snapshot)
+        snapshot = snapshotDecoded
+    }
+}
+
 enum CreateClusterSnapshotOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -1059,47 +1100,6 @@ enum CreateClusterSnapshotOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension CreateClusterSnapshotOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateClusterSnapshotOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.snapshot = output.snapshot
-        } else {
-            self.snapshot = nil
-        }
-    }
-}
-
-public struct CreateClusterSnapshotOutputResponse: Swift.Equatable {
-    /// Returns information about the new Elastic DocumentDB snapshot.
-    /// This member is required.
-    public var snapshot: DocDBElasticClientTypes.ClusterSnapshot?
-
-    public init(
-        snapshot: DocDBElasticClientTypes.ClusterSnapshot? = nil
-    )
-    {
-        self.snapshot = snapshot
-    }
-}
-
-struct CreateClusterSnapshotOutputResponseBody: Swift.Equatable {
-    let snapshot: DocDBElasticClientTypes.ClusterSnapshot?
-}
-
-extension CreateClusterSnapshotOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case snapshot
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let snapshotDecoded = try containerValues.decodeIfPresent(DocDBElasticClientTypes.ClusterSnapshot.self, forKey: .snapshot)
-        snapshot = snapshotDecoded
     }
 }
 
@@ -1134,6 +1134,47 @@ extension DeleteClusterInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteClusterOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DeleteClusterOutputBody = try responseDecoder.decode(responseBody: data)
+            self.cluster = output.cluster
+        } else {
+            self.cluster = nil
+        }
+    }
+}
+
+public struct DeleteClusterOutput: Swift.Equatable {
+    /// Returns information about the newly deleted Elastic DocumentDB cluster.
+    /// This member is required.
+    public var cluster: DocDBElasticClientTypes.Cluster?
+
+    public init(
+        cluster: DocDBElasticClientTypes.Cluster? = nil
+    )
+    {
+        self.cluster = cluster
+    }
+}
+
+struct DeleteClusterOutputBody: Swift.Equatable {
+    let cluster: DocDBElasticClientTypes.Cluster?
+}
+
+extension DeleteClusterOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case cluster
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let clusterDecoded = try containerValues.decodeIfPresent(DocDBElasticClientTypes.Cluster.self, forKey: .cluster)
+        cluster = clusterDecoded
+    }
+}
+
 enum DeleteClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -1147,47 +1188,6 @@ enum DeleteClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension DeleteClusterOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: DeleteClusterOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.cluster = output.cluster
-        } else {
-            self.cluster = nil
-        }
-    }
-}
-
-public struct DeleteClusterOutputResponse: Swift.Equatable {
-    /// Returns information about the newly deleted Elastic DocumentDB cluster.
-    /// This member is required.
-    public var cluster: DocDBElasticClientTypes.Cluster?
-
-    public init(
-        cluster: DocDBElasticClientTypes.Cluster? = nil
-    )
-    {
-        self.cluster = cluster
-    }
-}
-
-struct DeleteClusterOutputResponseBody: Swift.Equatable {
-    let cluster: DocDBElasticClientTypes.Cluster?
-}
-
-extension DeleteClusterOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case cluster
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let clusterDecoded = try containerValues.decodeIfPresent(DocDBElasticClientTypes.Cluster.self, forKey: .cluster)
-        cluster = clusterDecoded
     }
 }
 
@@ -1222,6 +1222,47 @@ extension DeleteClusterSnapshotInputBody: Swift.Decodable {
     }
 }
 
+extension DeleteClusterSnapshotOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DeleteClusterSnapshotOutputBody = try responseDecoder.decode(responseBody: data)
+            self.snapshot = output.snapshot
+        } else {
+            self.snapshot = nil
+        }
+    }
+}
+
+public struct DeleteClusterSnapshotOutput: Swift.Equatable {
+    /// Returns information about the newly deleted Elastic DocumentDB snapshot.
+    /// This member is required.
+    public var snapshot: DocDBElasticClientTypes.ClusterSnapshot?
+
+    public init(
+        snapshot: DocDBElasticClientTypes.ClusterSnapshot? = nil
+    )
+    {
+        self.snapshot = snapshot
+    }
+}
+
+struct DeleteClusterSnapshotOutputBody: Swift.Equatable {
+    let snapshot: DocDBElasticClientTypes.ClusterSnapshot?
+}
+
+extension DeleteClusterSnapshotOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case snapshot
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let snapshotDecoded = try containerValues.decodeIfPresent(DocDBElasticClientTypes.ClusterSnapshot.self, forKey: .snapshot)
+        snapshot = snapshotDecoded
+    }
+}
+
 enum DeleteClusterSnapshotOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -1235,47 +1276,6 @@ enum DeleteClusterSnapshotOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension DeleteClusterSnapshotOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: DeleteClusterSnapshotOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.snapshot = output.snapshot
-        } else {
-            self.snapshot = nil
-        }
-    }
-}
-
-public struct DeleteClusterSnapshotOutputResponse: Swift.Equatable {
-    /// Returns information about the newly deleted Elastic DocumentDB snapshot.
-    /// This member is required.
-    public var snapshot: DocDBElasticClientTypes.ClusterSnapshot?
-
-    public init(
-        snapshot: DocDBElasticClientTypes.ClusterSnapshot? = nil
-    )
-    {
-        self.snapshot = snapshot
-    }
-}
-
-struct DeleteClusterSnapshotOutputResponseBody: Swift.Equatable {
-    let snapshot: DocDBElasticClientTypes.ClusterSnapshot?
-}
-
-extension DeleteClusterSnapshotOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case snapshot
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let snapshotDecoded = try containerValues.decodeIfPresent(DocDBElasticClientTypes.ClusterSnapshot.self, forKey: .snapshot)
-        snapshot = snapshotDecoded
     }
 }
 
@@ -1310,26 +1310,11 @@ extension GetClusterInputBody: Swift.Decodable {
     }
 }
 
-enum GetClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetClusterOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetClusterOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetClusterOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetClusterOutputBody = try responseDecoder.decode(responseBody: data)
             self.cluster = output.cluster
         } else {
             self.cluster = nil
@@ -1337,7 +1322,7 @@ extension GetClusterOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetClusterOutputResponse: Swift.Equatable {
+public struct GetClusterOutput: Swift.Equatable {
     /// Returns information about a specific Elastic DocumentDB cluster.
     /// This member is required.
     public var cluster: DocDBElasticClientTypes.Cluster?
@@ -1350,11 +1335,11 @@ public struct GetClusterOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetClusterOutputResponseBody: Swift.Equatable {
+struct GetClusterOutputBody: Swift.Equatable {
     let cluster: DocDBElasticClientTypes.Cluster?
 }
 
-extension GetClusterOutputResponseBody: Swift.Decodable {
+extension GetClusterOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case cluster
     }
@@ -1363,6 +1348,21 @@ extension GetClusterOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let clusterDecoded = try containerValues.decodeIfPresent(DocDBElasticClientTypes.Cluster.self, forKey: .cluster)
         cluster = clusterDecoded
+    }
+}
+
+enum GetClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1397,26 +1397,11 @@ extension GetClusterSnapshotInputBody: Swift.Decodable {
     }
 }
 
-enum GetClusterSnapshotOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension GetClusterSnapshotOutputResponse: ClientRuntime.HttpResponseBinding {
+extension GetClusterSnapshotOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: GetClusterSnapshotOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: GetClusterSnapshotOutputBody = try responseDecoder.decode(responseBody: data)
             self.snapshot = output.snapshot
         } else {
             self.snapshot = nil
@@ -1424,7 +1409,7 @@ extension GetClusterSnapshotOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetClusterSnapshotOutputResponse: Swift.Equatable {
+public struct GetClusterSnapshotOutput: Swift.Equatable {
     /// Returns information about a specific Elastic DocumentDB snapshot.
     /// This member is required.
     public var snapshot: DocDBElasticClientTypes.ClusterSnapshot?
@@ -1437,11 +1422,11 @@ public struct GetClusterSnapshotOutputResponse: Swift.Equatable {
     }
 }
 
-struct GetClusterSnapshotOutputResponseBody: Swift.Equatable {
+struct GetClusterSnapshotOutputBody: Swift.Equatable {
     let snapshot: DocDBElasticClientTypes.ClusterSnapshot?
 }
 
-extension GetClusterSnapshotOutputResponseBody: Swift.Decodable {
+extension GetClusterSnapshotOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case snapshot
     }
@@ -1450,6 +1435,21 @@ extension GetClusterSnapshotOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let snapshotDecoded = try containerValues.decodeIfPresent(DocDBElasticClientTypes.ClusterSnapshot.self, forKey: .snapshot)
         snapshot = snapshotDecoded
+    }
+}
+
+enum GetClusterSnapshotOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1565,25 +1565,11 @@ extension ListClusterSnapshotsInputBody: Swift.Decodable {
     }
 }
 
-enum ListClusterSnapshotsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListClusterSnapshotsOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListClusterSnapshotsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListClusterSnapshotsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListClusterSnapshotsOutputBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.snapshots = output.snapshots
         } else {
@@ -1593,7 +1579,7 @@ extension ListClusterSnapshotsOutputResponse: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct ListClusterSnapshotsOutputResponse: Swift.Equatable {
+public struct ListClusterSnapshotsOutput: Swift.Equatable {
     /// The response will provide a nextToken if there is more data beyond the maxResults. If there is no more data in the responce, the nextToken will not be returned.
     public var nextToken: Swift.String?
     /// A list of Elastic DocumentDB snapshots for a specified cluster.
@@ -1609,12 +1595,12 @@ public struct ListClusterSnapshotsOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListClusterSnapshotsOutputResponseBody: Swift.Equatable {
+struct ListClusterSnapshotsOutputBody: Swift.Equatable {
     let snapshots: [DocDBElasticClientTypes.ClusterSnapshotInList]?
     let nextToken: Swift.String?
 }
 
-extension ListClusterSnapshotsOutputResponseBody: Swift.Decodable {
+extension ListClusterSnapshotsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken
         case snapshots
@@ -1635,6 +1621,20 @@ extension ListClusterSnapshotsOutputResponseBody: Swift.Decodable {
         snapshots = snapshotsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListClusterSnapshotsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1686,25 +1686,11 @@ extension ListClustersInputBody: Swift.Decodable {
     }
 }
 
-enum ListClustersOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListClustersOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListClustersOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListClustersOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListClustersOutputBody = try responseDecoder.decode(responseBody: data)
             self.clusters = output.clusters
             self.nextToken = output.nextToken
         } else {
@@ -1714,7 +1700,7 @@ extension ListClustersOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListClustersOutputResponse: Swift.Equatable {
+public struct ListClustersOutput: Swift.Equatable {
     /// A list of Elastic DocumentDB cluster.
     public var clusters: [DocDBElasticClientTypes.ClusterInList]?
     /// The response will provide a nextToken if there is more data beyond the maxResults. If there is no more data in the responce, the nextToken will not be returned.
@@ -1730,12 +1716,12 @@ public struct ListClustersOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListClustersOutputResponseBody: Swift.Equatable {
+struct ListClustersOutputBody: Swift.Equatable {
     let clusters: [DocDBElasticClientTypes.ClusterInList]?
     let nextToken: Swift.String?
 }
 
-extension ListClustersOutputResponseBody: Swift.Decodable {
+extension ListClustersOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clusters
         case nextToken
@@ -1756,6 +1742,20 @@ extension ListClustersOutputResponseBody: Swift.Decodable {
         clusters = clustersDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+enum ListClustersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -1790,25 +1790,11 @@ extension ListTagsForResourceInputBody: Swift.Decodable {
     }
 }
 
-enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
+extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            let output: ListTagsForResourceOutputBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
         } else {
             self.tags = nil
@@ -1816,7 +1802,7 @@ extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutputResponse: Swift.Equatable {
+public struct ListTagsForResourceOutput: Swift.Equatable {
     /// The list of tags for the specified Elastic DocumentDB resource.
     public var tags: [Swift.String:Swift.String]?
 
@@ -1828,11 +1814,11 @@ public struct ListTagsForResourceOutputResponse: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputResponseBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody: Swift.Equatable {
     let tags: [Swift.String:Swift.String]?
 }
 
-extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
+extension ListTagsForResourceOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case tags
     }
@@ -1850,6 +1836,20 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+    }
+}
+
+enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2072,6 +2072,47 @@ extension RestoreClusterFromSnapshotInputBody: Swift.Decodable {
     }
 }
 
+extension RestoreClusterFromSnapshotOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: RestoreClusterFromSnapshotOutputBody = try responseDecoder.decode(responseBody: data)
+            self.cluster = output.cluster
+        } else {
+            self.cluster = nil
+        }
+    }
+}
+
+public struct RestoreClusterFromSnapshotOutput: Swift.Equatable {
+    /// Returns information about a the restored Elastic DocumentDB cluster.
+    /// This member is required.
+    public var cluster: DocDBElasticClientTypes.Cluster?
+
+    public init(
+        cluster: DocDBElasticClientTypes.Cluster? = nil
+    )
+    {
+        self.cluster = cluster
+    }
+}
+
+struct RestoreClusterFromSnapshotOutputBody: Swift.Equatable {
+    let cluster: DocDBElasticClientTypes.Cluster?
+}
+
+extension RestoreClusterFromSnapshotOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case cluster
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let clusterDecoded = try containerValues.decodeIfPresent(DocDBElasticClientTypes.Cluster.self, forKey: .cluster)
+        cluster = clusterDecoded
+    }
+}
+
 enum RestoreClusterFromSnapshotOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -2086,47 +2127,6 @@ enum RestoreClusterFromSnapshotOutputError: ClientRuntime.HttpResponseErrorBindi
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension RestoreClusterFromSnapshotOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: RestoreClusterFromSnapshotOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.cluster = output.cluster
-        } else {
-            self.cluster = nil
-        }
-    }
-}
-
-public struct RestoreClusterFromSnapshotOutputResponse: Swift.Equatable {
-    /// Returns information about a the restored Elastic DocumentDB cluster.
-    /// This member is required.
-    public var cluster: DocDBElasticClientTypes.Cluster?
-
-    public init(
-        cluster: DocDBElasticClientTypes.Cluster? = nil
-    )
-    {
-        self.cluster = cluster
-    }
-}
-
-struct RestoreClusterFromSnapshotOutputResponseBody: Swift.Equatable {
-    let cluster: DocDBElasticClientTypes.Cluster?
-}
-
-extension RestoreClusterFromSnapshotOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case cluster
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let clusterDecoded = try containerValues.decodeIfPresent(DocDBElasticClientTypes.Cluster.self, forKey: .cluster)
-        cluster = clusterDecoded
     }
 }
 
@@ -2307,6 +2307,16 @@ extension TagResourceInputBody: Swift.Decodable {
     }
 }
 
+extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct TagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -2319,16 +2329,6 @@ enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct TagResourceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension ThrottlingException {
@@ -2449,6 +2449,16 @@ extension UntagResourceInputBody: Swift.Decodable {
     }
 }
 
+extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UntagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -2461,16 +2471,6 @@ enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UntagResourceOutputResponse: Swift.Equatable {
-
-    public init() { }
 }
 
 extension UpdateClusterInput: Swift.CustomDebugStringConvertible {
@@ -2641,6 +2641,47 @@ extension UpdateClusterInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateClusterOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateClusterOutputBody = try responseDecoder.decode(responseBody: data)
+            self.cluster = output.cluster
+        } else {
+            self.cluster = nil
+        }
+    }
+}
+
+public struct UpdateClusterOutput: Swift.Equatable {
+    /// Returns information about the updated Elastic DocumentDB cluster.
+    /// This member is required.
+    public var cluster: DocDBElasticClientTypes.Cluster?
+
+    public init(
+        cluster: DocDBElasticClientTypes.Cluster? = nil
+    )
+    {
+        self.cluster = cluster
+    }
+}
+
+struct UpdateClusterOutputBody: Swift.Equatable {
+    let cluster: DocDBElasticClientTypes.Cluster?
+}
+
+extension UpdateClusterOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case cluster
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let clusterDecoded = try containerValues.decodeIfPresent(DocDBElasticClientTypes.Cluster.self, forKey: .cluster)
+        cluster = clusterDecoded
+    }
+}
+
 enum UpdateClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -2654,47 +2695,6 @@ enum UpdateClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension UpdateClusterOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: UpdateClusterOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.cluster = output.cluster
-        } else {
-            self.cluster = nil
-        }
-    }
-}
-
-public struct UpdateClusterOutputResponse: Swift.Equatable {
-    /// Returns information about the updated Elastic DocumentDB cluster.
-    /// This member is required.
-    public var cluster: DocDBElasticClientTypes.Cluster?
-
-    public init(
-        cluster: DocDBElasticClientTypes.Cluster? = nil
-    )
-    {
-        self.cluster = cluster
-    }
-}
-
-struct UpdateClusterOutputResponseBody: Swift.Equatable {
-    let cluster: DocDBElasticClientTypes.Cluster?
-}
-
-extension UpdateClusterOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case cluster
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let clusterDecoded = try containerValues.decodeIfPresent(DocDBElasticClientTypes.Cluster.self, forKey: .cluster)
-        cluster = clusterDecoded
     }
 }
 

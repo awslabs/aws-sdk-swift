@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension S3ControlClient {
-    /// Paginate over `[ListAccessPointsOutputResponse]` results.
+    /// Paginate over `[ListAccessPointsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListAccessPointsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListAccessPointsOutputResponse`
-    public func listAccessPointsPaginated(input: ListAccessPointsInput) -> ClientRuntime.PaginatorSequence<ListAccessPointsInput, ListAccessPointsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListAccessPointsInput, ListAccessPointsOutputResponse>(input: input, inputKey: \ListAccessPointsInput.nextToken, outputKey: \ListAccessPointsOutputResponse.nextToken, paginationFunction: self.listAccessPoints(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAccessPointsOutput`
+    public func listAccessPointsPaginated(input: ListAccessPointsInput) -> ClientRuntime.PaginatorSequence<ListAccessPointsInput, ListAccessPointsOutput> {
+        return ClientRuntime.PaginatorSequence<ListAccessPointsInput, ListAccessPointsOutput>(input: input, inputKey: \ListAccessPointsInput.nextToken, outputKey: \ListAccessPointsOutput.nextToken, paginationFunction: self.listAccessPoints(input:))
     }
 }
 
@@ -26,16 +26,16 @@ extension ListAccessPointsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension S3ControlClient {
-    /// Paginate over `[ListAccessPointsForObjectLambdaOutputResponse]` results.
+    /// Paginate over `[ListAccessPointsForObjectLambdaOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListAccessPointsForObjectLambdaInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListAccessPointsForObjectLambdaOutputResponse`
-    public func listAccessPointsForObjectLambdaPaginated(input: ListAccessPointsForObjectLambdaInput) -> ClientRuntime.PaginatorSequence<ListAccessPointsForObjectLambdaInput, ListAccessPointsForObjectLambdaOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListAccessPointsForObjectLambdaInput, ListAccessPointsForObjectLambdaOutputResponse>(input: input, inputKey: \ListAccessPointsForObjectLambdaInput.nextToken, outputKey: \ListAccessPointsForObjectLambdaOutputResponse.nextToken, paginationFunction: self.listAccessPointsForObjectLambda(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAccessPointsForObjectLambdaOutput`
+    public func listAccessPointsForObjectLambdaPaginated(input: ListAccessPointsForObjectLambdaInput) -> ClientRuntime.PaginatorSequence<ListAccessPointsForObjectLambdaInput, ListAccessPointsForObjectLambdaOutput> {
+        return ClientRuntime.PaginatorSequence<ListAccessPointsForObjectLambdaInput, ListAccessPointsForObjectLambdaOutput>(input: input, inputKey: \ListAccessPointsForObjectLambdaInput.nextToken, outputKey: \ListAccessPointsForObjectLambdaOutput.nextToken, paginationFunction: self.listAccessPointsForObjectLambda(input:))
     }
 }
 
@@ -48,7 +48,7 @@ extension ListAccessPointsForObjectLambdaInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListAccessPointsForObjectLambdaInput, Output == ListAccessPointsForObjectLambdaOutputResponse {
+extension PaginatorSequence where Input == ListAccessPointsForObjectLambdaInput, Output == ListAccessPointsForObjectLambdaOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listAccessPointsForObjectLambdaPaginated`
     /// to access the nested member `[S3ControlClientTypes.ObjectLambdaAccessPoint]`
     /// - Returns: `[S3ControlClientTypes.ObjectLambdaAccessPoint]`
@@ -57,16 +57,16 @@ extension PaginatorSequence where Input == ListAccessPointsForObjectLambdaInput,
     }
 }
 extension S3ControlClient {
-    /// Paginate over `[ListJobsOutputResponse]` results.
+    /// Paginate over `[ListJobsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListJobsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListJobsOutputResponse`
-    public func listJobsPaginated(input: ListJobsInput) -> ClientRuntime.PaginatorSequence<ListJobsInput, ListJobsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListJobsInput, ListJobsOutputResponse>(input: input, inputKey: \ListJobsInput.nextToken, outputKey: \ListJobsOutputResponse.nextToken, paginationFunction: self.listJobs(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListJobsOutput`
+    public func listJobsPaginated(input: ListJobsInput) -> ClientRuntime.PaginatorSequence<ListJobsInput, ListJobsOutput> {
+        return ClientRuntime.PaginatorSequence<ListJobsInput, ListJobsOutput>(input: input, inputKey: \ListJobsInput.nextToken, outputKey: \ListJobsOutput.nextToken, paginationFunction: self.listJobs(input:))
     }
 }
 
@@ -80,16 +80,16 @@ extension ListJobsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension S3ControlClient {
-    /// Paginate over `[ListMultiRegionAccessPointsOutputResponse]` results.
+    /// Paginate over `[ListMultiRegionAccessPointsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListMultiRegionAccessPointsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListMultiRegionAccessPointsOutputResponse`
-    public func listMultiRegionAccessPointsPaginated(input: ListMultiRegionAccessPointsInput) -> ClientRuntime.PaginatorSequence<ListMultiRegionAccessPointsInput, ListMultiRegionAccessPointsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListMultiRegionAccessPointsInput, ListMultiRegionAccessPointsOutputResponse>(input: input, inputKey: \ListMultiRegionAccessPointsInput.nextToken, outputKey: \ListMultiRegionAccessPointsOutputResponse.nextToken, paginationFunction: self.listMultiRegionAccessPoints(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListMultiRegionAccessPointsOutput`
+    public func listMultiRegionAccessPointsPaginated(input: ListMultiRegionAccessPointsInput) -> ClientRuntime.PaginatorSequence<ListMultiRegionAccessPointsInput, ListMultiRegionAccessPointsOutput> {
+        return ClientRuntime.PaginatorSequence<ListMultiRegionAccessPointsInput, ListMultiRegionAccessPointsOutput>(input: input, inputKey: \ListMultiRegionAccessPointsInput.nextToken, outputKey: \ListMultiRegionAccessPointsOutput.nextToken, paginationFunction: self.listMultiRegionAccessPoints(input:))
     }
 }
 
@@ -102,16 +102,16 @@ extension ListMultiRegionAccessPointsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension S3ControlClient {
-    /// Paginate over `[ListRegionalBucketsOutputResponse]` results.
+    /// Paginate over `[ListRegionalBucketsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListRegionalBucketsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListRegionalBucketsOutputResponse`
-    public func listRegionalBucketsPaginated(input: ListRegionalBucketsInput) -> ClientRuntime.PaginatorSequence<ListRegionalBucketsInput, ListRegionalBucketsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListRegionalBucketsInput, ListRegionalBucketsOutputResponse>(input: input, inputKey: \ListRegionalBucketsInput.nextToken, outputKey: \ListRegionalBucketsOutputResponse.nextToken, paginationFunction: self.listRegionalBuckets(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListRegionalBucketsOutput`
+    public func listRegionalBucketsPaginated(input: ListRegionalBucketsInput) -> ClientRuntime.PaginatorSequence<ListRegionalBucketsInput, ListRegionalBucketsOutput> {
+        return ClientRuntime.PaginatorSequence<ListRegionalBucketsInput, ListRegionalBucketsOutput>(input: input, inputKey: \ListRegionalBucketsInput.nextToken, outputKey: \ListRegionalBucketsOutput.nextToken, paginationFunction: self.listRegionalBuckets(input:))
     }
 }
 
@@ -125,16 +125,16 @@ extension ListRegionalBucketsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension S3ControlClient {
-    /// Paginate over `[ListStorageLensConfigurationsOutputResponse]` results.
+    /// Paginate over `[ListStorageLensConfigurationsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListStorageLensConfigurationsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListStorageLensConfigurationsOutputResponse`
-    public func listStorageLensConfigurationsPaginated(input: ListStorageLensConfigurationsInput) -> ClientRuntime.PaginatorSequence<ListStorageLensConfigurationsInput, ListStorageLensConfigurationsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListStorageLensConfigurationsInput, ListStorageLensConfigurationsOutputResponse>(input: input, inputKey: \ListStorageLensConfigurationsInput.nextToken, outputKey: \ListStorageLensConfigurationsOutputResponse.nextToken, paginationFunction: self.listStorageLensConfigurations(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListStorageLensConfigurationsOutput`
+    public func listStorageLensConfigurationsPaginated(input: ListStorageLensConfigurationsInput) -> ClientRuntime.PaginatorSequence<ListStorageLensConfigurationsInput, ListStorageLensConfigurationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListStorageLensConfigurationsInput, ListStorageLensConfigurationsOutput>(input: input, inputKey: \ListStorageLensConfigurationsInput.nextToken, outputKey: \ListStorageLensConfigurationsOutput.nextToken, paginationFunction: self.listStorageLensConfigurations(input:))
     }
 }
 

@@ -3,16 +3,16 @@
 import ClientRuntime
 
 extension SageMakerA2IRuntimeClient {
-    /// Paginate over `[ListHumanLoopsOutputResponse]` results.
+    /// Paginate over `[ListHumanLoopsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
     ///     - input: A `[ListHumanLoopsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListHumanLoopsOutputResponse`
-    public func listHumanLoopsPaginated(input: ListHumanLoopsInput) -> ClientRuntime.PaginatorSequence<ListHumanLoopsInput, ListHumanLoopsOutputResponse> {
-        return ClientRuntime.PaginatorSequence<ListHumanLoopsInput, ListHumanLoopsOutputResponse>(input: input, inputKey: \ListHumanLoopsInput.nextToken, outputKey: \ListHumanLoopsOutputResponse.nextToken, paginationFunction: self.listHumanLoops(input:))
+    /// - Returns: An `AsyncSequence` that can iterate over `ListHumanLoopsOutput`
+    public func listHumanLoopsPaginated(input: ListHumanLoopsInput) -> ClientRuntime.PaginatorSequence<ListHumanLoopsInput, ListHumanLoopsOutput> {
+        return ClientRuntime.PaginatorSequence<ListHumanLoopsInput, ListHumanLoopsOutput>(input: input, inputKey: \ListHumanLoopsInput.nextToken, outputKey: \ListHumanLoopsOutput.nextToken, paginationFunction: self.listHumanLoops(input:))
     }
 }
 
@@ -28,7 +28,7 @@ extension ListHumanLoopsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListHumanLoopsInput, Output == ListHumanLoopsOutputResponse {
+extension PaginatorSequence where Input == ListHumanLoopsInput, Output == ListHumanLoopsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listHumanLoopsPaginated`
     /// to access the nested member `[SageMakerA2IRuntimeClientTypes.HumanLoopSummary]`
     /// - Returns: `[SageMakerA2IRuntimeClientTypes.HumanLoopSummary]`

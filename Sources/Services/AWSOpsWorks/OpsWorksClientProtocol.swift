@@ -67,874 +67,874 @@ public protocol OpsWorksClientProtocol {
     ///
     /// - Parameter AssignInstanceInput : [no documentation found]
     ///
-    /// - Returns: `AssignInstanceOutputResponse` : [no documentation found]
+    /// - Returns: `AssignInstanceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    func assignInstance(input: AssignInstanceInput) async throws -> AssignInstanceOutputResponse
+    func assignInstance(input: AssignInstanceInput) async throws -> AssignInstanceOutput
     /// Assigns one of the stack's registered Amazon EBS volumes to a specified instance. The volume must first be registered with the stack by calling [RegisterVolume]. After you register the volume, you must call [UpdateVolume] to specify a mount point before calling AssignVolume. For more information, see [Resource Management](https://docs.aws.amazon.com/opsworks/latest/userguide/resources.html). Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
     ///
     /// - Parameter AssignVolumeInput : [no documentation found]
     ///
-    /// - Returns: `AssignVolumeOutputResponse` : [no documentation found]
+    /// - Returns: `AssignVolumeOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    func assignVolume(input: AssignVolumeInput) async throws -> AssignVolumeOutputResponse
+    func assignVolume(input: AssignVolumeInput) async throws -> AssignVolumeOutput
     /// Associates one of the stack's registered Elastic IP addresses with a specified instance. The address must first be registered with the stack by calling [RegisterElasticIp]. For more information, see [Resource Management](https://docs.aws.amazon.com/opsworks/latest/userguide/resources.html). Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
     ///
     /// - Parameter AssociateElasticIpInput : [no documentation found]
     ///
-    /// - Returns: `AssociateElasticIpOutputResponse` : [no documentation found]
+    /// - Returns: `AssociateElasticIpOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    func associateElasticIp(input: AssociateElasticIpInput) async throws -> AssociateElasticIpOutputResponse
+    func associateElasticIp(input: AssociateElasticIpInput) async throws -> AssociateElasticIpOutput
     /// Attaches an Elastic Load Balancing load balancer to a specified layer. AWS OpsWorks Stacks does not support Application Load Balancer. You can only use Classic Load Balancer with AWS OpsWorks Stacks. For more information, see [Elastic Load Balancing](https://docs.aws.amazon.com/opsworks/latest/userguide/layers-elb.html). You must create the Elastic Load Balancing instance separately, by using the Elastic Load Balancing console, API, or CLI. For more information, see [ Elastic Load Balancing Developer Guide](https://docs.aws.amazon.com/ElasticLoadBalancing/latest/DeveloperGuide/Welcome.html). Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
     ///
     /// - Parameter AttachElasticLoadBalancerInput : [no documentation found]
     ///
-    /// - Returns: `AttachElasticLoadBalancerOutputResponse` : [no documentation found]
+    /// - Returns: `AttachElasticLoadBalancerOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    func attachElasticLoadBalancer(input: AttachElasticLoadBalancerInput) async throws -> AttachElasticLoadBalancerOutputResponse
+    func attachElasticLoadBalancer(input: AttachElasticLoadBalancerInput) async throws -> AttachElasticLoadBalancerOutput
     /// Creates a clone of a specified stack. For more information, see [Clone a Stack](https://docs.aws.amazon.com/opsworks/latest/userguide/workingstacks-cloning.html). By default, all parameters are set to the values used by the parent stack. Required Permissions: To use this action, an IAM user must have an attached policy that explicitly grants permissions. For more information about user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
     ///
     /// - Parameter CloneStackInput : [no documentation found]
     ///
-    /// - Returns: `CloneStackOutputResponse` : Contains the response to a CloneStack request.
+    /// - Returns: `CloneStackOutput` : Contains the response to a CloneStack request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    func cloneStack(input: CloneStackInput) async throws -> CloneStackOutputResponse
+    func cloneStack(input: CloneStackInput) async throws -> CloneStackOutput
     /// Creates an app for a specified stack. For more information, see [Creating Apps](https://docs.aws.amazon.com/opsworks/latest/userguide/workingapps-creating.html). Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
     ///
     /// - Parameter CreateAppInput : [no documentation found]
     ///
-    /// - Returns: `CreateAppOutputResponse` : Contains the response to a CreateApp request.
+    /// - Returns: `CreateAppOutput` : Contains the response to a CreateApp request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    func createApp(input: CreateAppInput) async throws -> CreateAppOutputResponse
+    func createApp(input: CreateAppInput) async throws -> CreateAppOutput
     /// Runs deployment or stack commands. For more information, see [Deploying Apps](https://docs.aws.amazon.com/opsworks/latest/userguide/workingapps-deploying.html) and [Run Stack Commands](https://docs.aws.amazon.com/opsworks/latest/userguide/workingstacks-commands.html). Required Permissions: To use this action, an IAM user must have a Deploy or Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
     ///
     /// - Parameter CreateDeploymentInput : [no documentation found]
     ///
-    /// - Returns: `CreateDeploymentOutputResponse` : Contains the response to a CreateDeployment request.
+    /// - Returns: `CreateDeploymentOutput` : Contains the response to a CreateDeployment request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    func createDeployment(input: CreateDeploymentInput) async throws -> CreateDeploymentOutputResponse
+    func createDeployment(input: CreateDeploymentInput) async throws -> CreateDeploymentOutput
     /// Creates an instance in a specified stack. For more information, see [Adding an Instance to a Layer](https://docs.aws.amazon.com/opsworks/latest/userguide/workinginstances-add.html). Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
     ///
     /// - Parameter CreateInstanceInput : [no documentation found]
     ///
-    /// - Returns: `CreateInstanceOutputResponse` : Contains the response to a CreateInstance request.
+    /// - Returns: `CreateInstanceOutput` : Contains the response to a CreateInstance request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    func createInstance(input: CreateInstanceInput) async throws -> CreateInstanceOutputResponse
+    func createInstance(input: CreateInstanceInput) async throws -> CreateInstanceOutput
     /// Creates a layer. For more information, see [How to Create a Layer](https://docs.aws.amazon.com/opsworks/latest/userguide/workinglayers-basics-create.html). You should use CreateLayer for noncustom layer types such as PHP App Server only if the stack does not have an existing layer of that type. A stack can have at most one instance of each noncustom layer; if you attempt to create a second instance, CreateLayer fails. A stack can have an arbitrary number of custom layers, so you can call CreateLayer as many times as you like for that layer type. Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
     ///
     /// - Parameter CreateLayerInput : [no documentation found]
     ///
-    /// - Returns: `CreateLayerOutputResponse` : Contains the response to a CreateLayer request.
+    /// - Returns: `CreateLayerOutput` : Contains the response to a CreateLayer request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    func createLayer(input: CreateLayerInput) async throws -> CreateLayerOutputResponse
+    func createLayer(input: CreateLayerInput) async throws -> CreateLayerOutput
     /// Creates a new stack. For more information, see [Create a New Stack](https://docs.aws.amazon.com/opsworks/latest/userguide/workingstacks-edit.html). Required Permissions: To use this action, an IAM user must have an attached policy that explicitly grants permissions. For more information about user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
     ///
     /// - Parameter CreateStackInput : [no documentation found]
     ///
-    /// - Returns: `CreateStackOutputResponse` : Contains the response to a CreateStack request.
+    /// - Returns: `CreateStackOutput` : Contains the response to a CreateStack request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ValidationException` : Indicates that a request was not valid.
-    func createStack(input: CreateStackInput) async throws -> CreateStackOutputResponse
+    func createStack(input: CreateStackInput) async throws -> CreateStackOutput
     /// Creates a new user profile. Required Permissions: To use this action, an IAM user must have an attached policy that explicitly grants permissions. For more information about user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
     ///
     /// - Parameter CreateUserProfileInput : [no documentation found]
     ///
-    /// - Returns: `CreateUserProfileOutputResponse` : Contains the response to a CreateUserProfile request.
+    /// - Returns: `CreateUserProfileOutput` : Contains the response to a CreateUserProfile request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ValidationException` : Indicates that a request was not valid.
-    func createUserProfile(input: CreateUserProfileInput) async throws -> CreateUserProfileOutputResponse
+    func createUserProfile(input: CreateUserProfileInput) async throws -> CreateUserProfileOutput
     /// Deletes a specified app. Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
     ///
     /// - Parameter DeleteAppInput : [no documentation found]
     ///
-    /// - Returns: `DeleteAppOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteAppOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    func deleteApp(input: DeleteAppInput) async throws -> DeleteAppOutputResponse
+    func deleteApp(input: DeleteAppInput) async throws -> DeleteAppOutput
     /// Deletes a specified instance, which terminates the associated Amazon EC2 instance. You must stop an instance before you can delete it. For more information, see [Deleting Instances](https://docs.aws.amazon.com/opsworks/latest/userguide/workinginstances-delete.html). Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
     ///
     /// - Parameter DeleteInstanceInput : [no documentation found]
     ///
-    /// - Returns: `DeleteInstanceOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteInstanceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    func deleteInstance(input: DeleteInstanceInput) async throws -> DeleteInstanceOutputResponse
+    func deleteInstance(input: DeleteInstanceInput) async throws -> DeleteInstanceOutput
     /// Deletes a specified layer. You must first stop and then delete all associated instances or unassign registered instances. For more information, see [How to Delete a Layer](https://docs.aws.amazon.com/opsworks/latest/userguide/workinglayers-basics-delete.html). Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
     ///
     /// - Parameter DeleteLayerInput : [no documentation found]
     ///
-    /// - Returns: `DeleteLayerOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteLayerOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    func deleteLayer(input: DeleteLayerInput) async throws -> DeleteLayerOutputResponse
+    func deleteLayer(input: DeleteLayerInput) async throws -> DeleteLayerOutput
     /// Deletes a specified stack. You must first delete all instances, layers, and apps or deregister registered instances. For more information, see [Shut Down a Stack](https://docs.aws.amazon.com/opsworks/latest/userguide/workingstacks-shutting.html). Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
     ///
     /// - Parameter DeleteStackInput : [no documentation found]
     ///
-    /// - Returns: `DeleteStackOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteStackOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    func deleteStack(input: DeleteStackInput) async throws -> DeleteStackOutputResponse
+    func deleteStack(input: DeleteStackInput) async throws -> DeleteStackOutput
     /// Deletes a user profile. Required Permissions: To use this action, an IAM user must have an attached policy that explicitly grants permissions. For more information about user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
     ///
     /// - Parameter DeleteUserProfileInput : [no documentation found]
     ///
-    /// - Returns: `DeleteUserProfileOutputResponse` : [no documentation found]
+    /// - Returns: `DeleteUserProfileOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    func deleteUserProfile(input: DeleteUserProfileInput) async throws -> DeleteUserProfileOutputResponse
+    func deleteUserProfile(input: DeleteUserProfileInput) async throws -> DeleteUserProfileOutput
     /// Deregisters a specified Amazon ECS cluster from a stack. For more information, see [ Resource Management](https://docs.aws.amazon.com/opsworks/latest/userguide/workinglayers-ecscluster.html#workinglayers-ecscluster-delete). Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack or an attached policy that explicitly grants permissions. For more information on user permissions, see [https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
     ///
     /// - Parameter DeregisterEcsClusterInput : [no documentation found]
     ///
-    /// - Returns: `DeregisterEcsClusterOutputResponse` : [no documentation found]
+    /// - Returns: `DeregisterEcsClusterOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    func deregisterEcsCluster(input: DeregisterEcsClusterInput) async throws -> DeregisterEcsClusterOutputResponse
+    func deregisterEcsCluster(input: DeregisterEcsClusterInput) async throws -> DeregisterEcsClusterOutput
     /// Deregisters a specified Elastic IP address. The address can then be registered by another stack. For more information, see [Resource Management](https://docs.aws.amazon.com/opsworks/latest/userguide/resources.html). Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
     ///
     /// - Parameter DeregisterElasticIpInput : [no documentation found]
     ///
-    /// - Returns: `DeregisterElasticIpOutputResponse` : [no documentation found]
+    /// - Returns: `DeregisterElasticIpOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    func deregisterElasticIp(input: DeregisterElasticIpInput) async throws -> DeregisterElasticIpOutputResponse
+    func deregisterElasticIp(input: DeregisterElasticIpInput) async throws -> DeregisterElasticIpOutput
     /// Deregister a registered Amazon EC2 or on-premises instance. This action removes the instance from the stack and returns it to your control. This action cannot be used with instances that were created with AWS OpsWorks Stacks. Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack or an attached policy that explicitly grants permissions. For more information on user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
     ///
     /// - Parameter DeregisterInstanceInput : [no documentation found]
     ///
-    /// - Returns: `DeregisterInstanceOutputResponse` : [no documentation found]
+    /// - Returns: `DeregisterInstanceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    func deregisterInstance(input: DeregisterInstanceInput) async throws -> DeregisterInstanceOutputResponse
+    func deregisterInstance(input: DeregisterInstanceInput) async throws -> DeregisterInstanceOutput
     /// Deregisters an Amazon RDS instance. Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
     ///
     /// - Parameter DeregisterRdsDbInstanceInput : [no documentation found]
     ///
-    /// - Returns: `DeregisterRdsDbInstanceOutputResponse` : [no documentation found]
+    /// - Returns: `DeregisterRdsDbInstanceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    func deregisterRdsDbInstance(input: DeregisterRdsDbInstanceInput) async throws -> DeregisterRdsDbInstanceOutputResponse
+    func deregisterRdsDbInstance(input: DeregisterRdsDbInstanceInput) async throws -> DeregisterRdsDbInstanceOutput
     /// Deregisters an Amazon EBS volume. The volume can then be registered by another stack. For more information, see [Resource Management](https://docs.aws.amazon.com/opsworks/latest/userguide/resources.html). Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
     ///
     /// - Parameter DeregisterVolumeInput : [no documentation found]
     ///
-    /// - Returns: `DeregisterVolumeOutputResponse` : [no documentation found]
+    /// - Returns: `DeregisterVolumeOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    func deregisterVolume(input: DeregisterVolumeInput) async throws -> DeregisterVolumeOutputResponse
+    func deregisterVolume(input: DeregisterVolumeInput) async throws -> DeregisterVolumeOutput
     /// Describes the available AWS OpsWorks Stacks agent versions. You must specify a stack ID or a configuration manager. DescribeAgentVersions returns a list of available agent versions for the specified stack or configuration manager.
     ///
     /// - Parameter DescribeAgentVersionsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeAgentVersionsOutputResponse` : Contains the response to a DescribeAgentVersions request.
+    /// - Returns: `DescribeAgentVersionsOutput` : Contains the response to a DescribeAgentVersions request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    func describeAgentVersions(input: DescribeAgentVersionsInput) async throws -> DescribeAgentVersionsOutputResponse
+    func describeAgentVersions(input: DescribeAgentVersionsInput) async throws -> DescribeAgentVersionsOutput
     /// Requests a description of a specified set of apps. This call accepts only one resource-identifying parameter. Required Permissions: To use this action, an IAM user must have a Show, Deploy, or Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information about user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
     ///
     /// - Parameter DescribeAppsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeAppsOutputResponse` : Contains the response to a DescribeApps request.
+    /// - Returns: `DescribeAppsOutput` : Contains the response to a DescribeApps request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    func describeApps(input: DescribeAppsInput) async throws -> DescribeAppsOutputResponse
+    func describeApps(input: DescribeAppsInput) async throws -> DescribeAppsOutput
     /// Describes the results of specified commands. This call accepts only one resource-identifying parameter. Required Permissions: To use this action, an IAM user must have a Show, Deploy, or Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information about user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
     ///
     /// - Parameter DescribeCommandsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeCommandsOutputResponse` : Contains the response to a DescribeCommands request.
+    /// - Returns: `DescribeCommandsOutput` : Contains the response to a DescribeCommands request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    func describeCommands(input: DescribeCommandsInput) async throws -> DescribeCommandsOutputResponse
+    func describeCommands(input: DescribeCommandsInput) async throws -> DescribeCommandsOutput
     /// Requests a description of a specified set of deployments. This call accepts only one resource-identifying parameter. Required Permissions: To use this action, an IAM user must have a Show, Deploy, or Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information about user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
     ///
     /// - Parameter DescribeDeploymentsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeDeploymentsOutputResponse` : Contains the response to a DescribeDeployments request.
+    /// - Returns: `DescribeDeploymentsOutput` : Contains the response to a DescribeDeployments request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    func describeDeployments(input: DescribeDeploymentsInput) async throws -> DescribeDeploymentsOutputResponse
+    func describeDeployments(input: DescribeDeploymentsInput) async throws -> DescribeDeploymentsOutput
     /// Describes Amazon ECS clusters that are registered with a stack. If you specify only a stack ID, you can use the MaxResults and NextToken parameters to paginate the response. However, AWS OpsWorks Stacks currently supports only one cluster per layer, so the result set has a maximum of one element. Required Permissions: To use this action, an IAM user must have a Show, Deploy, or Manage permissions level for the stack or an attached policy that explicitly grants permission. For more information about user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html). This call accepts only one resource-identifying parameter.
     ///
     /// - Parameter DescribeEcsClustersInput : [no documentation found]
     ///
-    /// - Returns: `DescribeEcsClustersOutputResponse` : Contains the response to a DescribeEcsClusters request.
+    /// - Returns: `DescribeEcsClustersOutput` : Contains the response to a DescribeEcsClusters request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    func describeEcsClusters(input: DescribeEcsClustersInput) async throws -> DescribeEcsClustersOutputResponse
+    func describeEcsClusters(input: DescribeEcsClustersInput) async throws -> DescribeEcsClustersOutput
     /// Describes [Elastic IP addresses](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html). This call accepts only one resource-identifying parameter. Required Permissions: To use this action, an IAM user must have a Show, Deploy, or Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information about user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
     ///
     /// - Parameter DescribeElasticIpsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeElasticIpsOutputResponse` : Contains the response to a DescribeElasticIps request.
+    /// - Returns: `DescribeElasticIpsOutput` : Contains the response to a DescribeElasticIps request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    func describeElasticIps(input: DescribeElasticIpsInput) async throws -> DescribeElasticIpsOutputResponse
+    func describeElasticIps(input: DescribeElasticIpsInput) async throws -> DescribeElasticIpsOutput
     /// Describes a stack's Elastic Load Balancing instances. This call accepts only one resource-identifying parameter. Required Permissions: To use this action, an IAM user must have a Show, Deploy, or Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information about user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
     ///
     /// - Parameter DescribeElasticLoadBalancersInput : [no documentation found]
     ///
-    /// - Returns: `DescribeElasticLoadBalancersOutputResponse` : Contains the response to a DescribeElasticLoadBalancers request.
+    /// - Returns: `DescribeElasticLoadBalancersOutput` : Contains the response to a DescribeElasticLoadBalancers request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    func describeElasticLoadBalancers(input: DescribeElasticLoadBalancersInput) async throws -> DescribeElasticLoadBalancersOutputResponse
+    func describeElasticLoadBalancers(input: DescribeElasticLoadBalancersInput) async throws -> DescribeElasticLoadBalancersOutput
     /// Requests a description of a set of instances. This call accepts only one resource-identifying parameter. Required Permissions: To use this action, an IAM user must have a Show, Deploy, or Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information about user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
     ///
     /// - Parameter DescribeInstancesInput : [no documentation found]
     ///
-    /// - Returns: `DescribeInstancesOutputResponse` : Contains the response to a DescribeInstances request.
+    /// - Returns: `DescribeInstancesOutput` : Contains the response to a DescribeInstances request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    func describeInstances(input: DescribeInstancesInput) async throws -> DescribeInstancesOutputResponse
+    func describeInstances(input: DescribeInstancesInput) async throws -> DescribeInstancesOutput
     /// Requests a description of one or more layers in a specified stack. This call accepts only one resource-identifying parameter. Required Permissions: To use this action, an IAM user must have a Show, Deploy, or Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information about user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
     ///
     /// - Parameter DescribeLayersInput : [no documentation found]
     ///
-    /// - Returns: `DescribeLayersOutputResponse` : Contains the response to a DescribeLayers request.
+    /// - Returns: `DescribeLayersOutput` : Contains the response to a DescribeLayers request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    func describeLayers(input: DescribeLayersInput) async throws -> DescribeLayersOutputResponse
+    func describeLayers(input: DescribeLayersInput) async throws -> DescribeLayersOutput
     /// Describes load-based auto scaling configurations for specified layers. You must specify at least one of the parameters. Required Permissions: To use this action, an IAM user must have a Show, Deploy, or Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information about user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
     ///
     /// - Parameter DescribeLoadBasedAutoScalingInput : [no documentation found]
     ///
-    /// - Returns: `DescribeLoadBasedAutoScalingOutputResponse` : Contains the response to a DescribeLoadBasedAutoScaling request.
+    /// - Returns: `DescribeLoadBasedAutoScalingOutput` : Contains the response to a DescribeLoadBasedAutoScaling request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    func describeLoadBasedAutoScaling(input: DescribeLoadBasedAutoScalingInput) async throws -> DescribeLoadBasedAutoScalingOutputResponse
+    func describeLoadBasedAutoScaling(input: DescribeLoadBasedAutoScalingInput) async throws -> DescribeLoadBasedAutoScalingOutput
     /// Describes a user's SSH information. Required Permissions: To use this action, an IAM user must have self-management enabled or an attached policy that explicitly grants permissions. For more information about user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
     ///
     /// - Parameter DescribeMyUserProfileInput : [no documentation found]
     ///
-    /// - Returns: `DescribeMyUserProfileOutputResponse` : Contains the response to a DescribeMyUserProfile request.
-    func describeMyUserProfile(input: DescribeMyUserProfileInput) async throws -> DescribeMyUserProfileOutputResponse
+    /// - Returns: `DescribeMyUserProfileOutput` : Contains the response to a DescribeMyUserProfile request.
+    func describeMyUserProfile(input: DescribeMyUserProfileInput) async throws -> DescribeMyUserProfileOutput
     /// Describes the operating systems that are supported by AWS OpsWorks Stacks.
     ///
     /// - Parameter DescribeOperatingSystemsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeOperatingSystemsOutputResponse` : The response to a DescribeOperatingSystems request.
-    func describeOperatingSystems(input: DescribeOperatingSystemsInput) async throws -> DescribeOperatingSystemsOutputResponse
+    /// - Returns: `DescribeOperatingSystemsOutput` : The response to a DescribeOperatingSystems request.
+    func describeOperatingSystems(input: DescribeOperatingSystemsInput) async throws -> DescribeOperatingSystemsOutput
     /// Describes the permissions for a specified stack. Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
     ///
     /// - Parameter DescribePermissionsInput : [no documentation found]
     ///
-    /// - Returns: `DescribePermissionsOutputResponse` : Contains the response to a DescribePermissions request.
+    /// - Returns: `DescribePermissionsOutput` : Contains the response to a DescribePermissions request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    func describePermissions(input: DescribePermissionsInput) async throws -> DescribePermissionsOutputResponse
+    func describePermissions(input: DescribePermissionsInput) async throws -> DescribePermissionsOutput
     /// Describe an instance's RAID arrays. This call accepts only one resource-identifying parameter. Required Permissions: To use this action, an IAM user must have a Show, Deploy, or Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information about user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
     ///
     /// - Parameter DescribeRaidArraysInput : [no documentation found]
     ///
-    /// - Returns: `DescribeRaidArraysOutputResponse` : Contains the response to a DescribeRaidArrays request.
+    /// - Returns: `DescribeRaidArraysOutput` : Contains the response to a DescribeRaidArrays request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    func describeRaidArrays(input: DescribeRaidArraysInput) async throws -> DescribeRaidArraysOutputResponse
+    func describeRaidArrays(input: DescribeRaidArraysInput) async throws -> DescribeRaidArraysOutput
     /// Describes Amazon RDS instances. Required Permissions: To use this action, an IAM user must have a Show, Deploy, or Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information about user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html). This call accepts only one resource-identifying parameter.
     ///
     /// - Parameter DescribeRdsDbInstancesInput : [no documentation found]
     ///
-    /// - Returns: `DescribeRdsDbInstancesOutputResponse` : Contains the response to a DescribeRdsDbInstances request.
+    /// - Returns: `DescribeRdsDbInstancesOutput` : Contains the response to a DescribeRdsDbInstances request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    func describeRdsDbInstances(input: DescribeRdsDbInstancesInput) async throws -> DescribeRdsDbInstancesOutputResponse
+    func describeRdsDbInstances(input: DescribeRdsDbInstancesInput) async throws -> DescribeRdsDbInstancesOutput
     /// Describes AWS OpsWorks Stacks service errors. Required Permissions: To use this action, an IAM user must have a Show, Deploy, or Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information about user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html). This call accepts only one resource-identifying parameter.
     ///
     /// - Parameter DescribeServiceErrorsInput : [no documentation found]
     ///
-    /// - Returns: `DescribeServiceErrorsOutputResponse` : Contains the response to a DescribeServiceErrors request.
+    /// - Returns: `DescribeServiceErrorsOutput` : Contains the response to a DescribeServiceErrors request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    func describeServiceErrors(input: DescribeServiceErrorsInput) async throws -> DescribeServiceErrorsOutputResponse
+    func describeServiceErrors(input: DescribeServiceErrorsInput) async throws -> DescribeServiceErrorsOutput
     /// Requests a description of a stack's provisioning parameters. Required Permissions: To use this action, an IAM user must have a Show, Deploy, or Manage permissions level for the stack or an attached policy that explicitly grants permissions. For more information about user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
     ///
     /// - Parameter DescribeStackProvisioningParametersInput : [no documentation found]
     ///
-    /// - Returns: `DescribeStackProvisioningParametersOutputResponse` : Contains the response to a DescribeStackProvisioningParameters request.
+    /// - Returns: `DescribeStackProvisioningParametersOutput` : Contains the response to a DescribeStackProvisioningParameters request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    func describeStackProvisioningParameters(input: DescribeStackProvisioningParametersInput) async throws -> DescribeStackProvisioningParametersOutputResponse
+    func describeStackProvisioningParameters(input: DescribeStackProvisioningParametersInput) async throws -> DescribeStackProvisioningParametersOutput
     /// Requests a description of one or more stacks. Required Permissions: To use this action, an IAM user must have a Show, Deploy, or Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information about user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
     ///
     /// - Parameter DescribeStacksInput : [no documentation found]
     ///
-    /// - Returns: `DescribeStacksOutputResponse` : Contains the response to a DescribeStacks request.
+    /// - Returns: `DescribeStacksOutput` : Contains the response to a DescribeStacks request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    func describeStacks(input: DescribeStacksInput) async throws -> DescribeStacksOutputResponse
+    func describeStacks(input: DescribeStacksInput) async throws -> DescribeStacksOutput
     /// Describes the number of layers and apps in a specified stack, and the number of instances in each state, such as running_setup or online. Required Permissions: To use this action, an IAM user must have a Show, Deploy, or Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information about user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
     ///
     /// - Parameter DescribeStackSummaryInput : [no documentation found]
     ///
-    /// - Returns: `DescribeStackSummaryOutputResponse` : Contains the response to a DescribeStackSummary request.
+    /// - Returns: `DescribeStackSummaryOutput` : Contains the response to a DescribeStackSummary request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    func describeStackSummary(input: DescribeStackSummaryInput) async throws -> DescribeStackSummaryOutputResponse
+    func describeStackSummary(input: DescribeStackSummaryInput) async throws -> DescribeStackSummaryOutput
     /// Describes time-based auto scaling configurations for specified instances. You must specify at least one of the parameters. Required Permissions: To use this action, an IAM user must have a Show, Deploy, or Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information about user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
     ///
     /// - Parameter DescribeTimeBasedAutoScalingInput : [no documentation found]
     ///
-    /// - Returns: `DescribeTimeBasedAutoScalingOutputResponse` : Contains the response to a DescribeTimeBasedAutoScaling request.
+    /// - Returns: `DescribeTimeBasedAutoScalingOutput` : Contains the response to a DescribeTimeBasedAutoScaling request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    func describeTimeBasedAutoScaling(input: DescribeTimeBasedAutoScalingInput) async throws -> DescribeTimeBasedAutoScalingOutputResponse
+    func describeTimeBasedAutoScaling(input: DescribeTimeBasedAutoScalingInput) async throws -> DescribeTimeBasedAutoScalingOutput
     /// Describe specified users. Required Permissions: To use this action, an IAM user must have an attached policy that explicitly grants permissions. For more information about user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
     ///
     /// - Parameter DescribeUserProfilesInput : [no documentation found]
     ///
-    /// - Returns: `DescribeUserProfilesOutputResponse` : Contains the response to a DescribeUserProfiles request.
+    /// - Returns: `DescribeUserProfilesOutput` : Contains the response to a DescribeUserProfiles request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    func describeUserProfiles(input: DescribeUserProfilesInput) async throws -> DescribeUserProfilesOutputResponse
+    func describeUserProfiles(input: DescribeUserProfilesInput) async throws -> DescribeUserProfilesOutput
     /// Describes an instance's Amazon EBS volumes. This call accepts only one resource-identifying parameter. Required Permissions: To use this action, an IAM user must have a Show, Deploy, or Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information about user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
     ///
     /// - Parameter DescribeVolumesInput : [no documentation found]
     ///
-    /// - Returns: `DescribeVolumesOutputResponse` : Contains the response to a DescribeVolumes request.
+    /// - Returns: `DescribeVolumesOutput` : Contains the response to a DescribeVolumes request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    func describeVolumes(input: DescribeVolumesInput) async throws -> DescribeVolumesOutputResponse
+    func describeVolumes(input: DescribeVolumesInput) async throws -> DescribeVolumesOutput
     /// Detaches a specified Elastic Load Balancing instance from its layer. Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
     ///
     /// - Parameter DetachElasticLoadBalancerInput : [no documentation found]
     ///
-    /// - Returns: `DetachElasticLoadBalancerOutputResponse` : [no documentation found]
+    /// - Returns: `DetachElasticLoadBalancerOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
-    func detachElasticLoadBalancer(input: DetachElasticLoadBalancerInput) async throws -> DetachElasticLoadBalancerOutputResponse
+    func detachElasticLoadBalancer(input: DetachElasticLoadBalancerInput) async throws -> DetachElasticLoadBalancerOutput
     /// Disassociates an Elastic IP address from its instance. The address remains registered with the stack. For more information, see [Resource Management](https://docs.aws.amazon.com/opsworks/latest/userguide/resources.html). Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
     ///
     /// - Parameter DisassociateElasticIpInput : [no documentation found]
     ///
-    /// - Returns: `DisassociateElasticIpOutputResponse` : [no documentation found]
+    /// - Returns: `DisassociateElasticIpOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    func disassociateElasticIp(input: DisassociateElasticIpInput) async throws -> DisassociateElasticIpOutputResponse
+    func disassociateElasticIp(input: DisassociateElasticIpInput) async throws -> DisassociateElasticIpOutput
     /// Gets a generated host name for the specified layer, based on the current host name theme. Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
     ///
     /// - Parameter GetHostnameSuggestionInput : [no documentation found]
     ///
-    /// - Returns: `GetHostnameSuggestionOutputResponse` : Contains the response to a GetHostnameSuggestion request.
+    /// - Returns: `GetHostnameSuggestionOutput` : Contains the response to a GetHostnameSuggestion request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    func getHostnameSuggestion(input: GetHostnameSuggestionInput) async throws -> GetHostnameSuggestionOutputResponse
+    func getHostnameSuggestion(input: GetHostnameSuggestionInput) async throws -> GetHostnameSuggestionOutput
     /// This action can be used only with Windows stacks. Grants RDP access to a Windows instance for a specified time period.
     ///
     /// - Parameter GrantAccessInput : [no documentation found]
     ///
-    /// - Returns: `GrantAccessOutputResponse` : Contains the response to a GrantAccess request.
+    /// - Returns: `GrantAccessOutput` : Contains the response to a GrantAccess request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    func grantAccess(input: GrantAccessInput) async throws -> GrantAccessOutputResponse
+    func grantAccess(input: GrantAccessInput) async throws -> GrantAccessOutput
     /// Returns a list of tags that are applied to the specified stack or layer.
     ///
     /// - Parameter ListTagsInput : [no documentation found]
     ///
-    /// - Returns: `ListTagsOutputResponse` : Contains the response to a ListTags request.
+    /// - Returns: `ListTagsOutput` : Contains the response to a ListTags request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    func listTags(input: ListTagsInput) async throws -> ListTagsOutputResponse
+    func listTags(input: ListTagsInput) async throws -> ListTagsOutput
     /// Reboots a specified instance. For more information, see [Starting, Stopping, and Rebooting Instances](https://docs.aws.amazon.com/opsworks/latest/userguide/workinginstances-starting.html). Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
     ///
     /// - Parameter RebootInstanceInput : [no documentation found]
     ///
-    /// - Returns: `RebootInstanceOutputResponse` : [no documentation found]
+    /// - Returns: `RebootInstanceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    func rebootInstance(input: RebootInstanceInput) async throws -> RebootInstanceOutputResponse
+    func rebootInstance(input: RebootInstanceInput) async throws -> RebootInstanceOutput
     /// Registers a specified Amazon ECS cluster with a stack. You can register only one cluster with a stack. A cluster can be registered with only one stack. For more information, see [ Resource Management](https://docs.aws.amazon.com/opsworks/latest/userguide/workinglayers-ecscluster.html). Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack or an attached policy that explicitly grants permissions. For more information on user permissions, see [ Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
     ///
     /// - Parameter RegisterEcsClusterInput : [no documentation found]
     ///
-    /// - Returns: `RegisterEcsClusterOutputResponse` : Contains the response to a RegisterEcsCluster request.
+    /// - Returns: `RegisterEcsClusterOutput` : Contains the response to a RegisterEcsCluster request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    func registerEcsCluster(input: RegisterEcsClusterInput) async throws -> RegisterEcsClusterOutputResponse
+    func registerEcsCluster(input: RegisterEcsClusterInput) async throws -> RegisterEcsClusterOutput
     /// Registers an Elastic IP address with a specified stack. An address can be registered with only one stack at a time. If the address is already registered, you must first deregister it by calling [DeregisterElasticIp]. For more information, see [Resource Management](https://docs.aws.amazon.com/opsworks/latest/userguide/resources.html). Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
     ///
     /// - Parameter RegisterElasticIpInput : [no documentation found]
     ///
-    /// - Returns: `RegisterElasticIpOutputResponse` : Contains the response to a RegisterElasticIp request.
+    /// - Returns: `RegisterElasticIpOutput` : Contains the response to a RegisterElasticIp request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    func registerElasticIp(input: RegisterElasticIpInput) async throws -> RegisterElasticIpOutputResponse
+    func registerElasticIp(input: RegisterElasticIpInput) async throws -> RegisterElasticIpOutput
     /// Registers instances that were created outside of AWS OpsWorks Stacks with a specified stack. We do not recommend using this action to register instances. The complete registration operation includes two tasks: installing the AWS OpsWorks Stacks agent on the instance, and registering the instance with the stack. RegisterInstance handles only the second step. You should instead use the AWS CLI register command, which performs the entire registration operation. For more information, see [ Registering an Instance with an AWS OpsWorks Stacks Stack](https://docs.aws.amazon.com/opsworks/latest/userguide/registered-instances-register.html). Registered instances have the same requirements as instances that are created by using the [CreateInstance] API. For example, registered instances must be running a supported Linux-based operating system, and they must have a supported instance type. For more information about requirements for instances that you want to register, see [ Preparing the Instance](https://docs.aws.amazon.com/opsworks/latest/userguide/registered-instances-register-registering-preparer.html). Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack or an attached policy that explicitly grants permissions. For more information on user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
     ///
     /// - Parameter RegisterInstanceInput : [no documentation found]
     ///
-    /// - Returns: `RegisterInstanceOutputResponse` : Contains the response to a RegisterInstanceResult request.
+    /// - Returns: `RegisterInstanceOutput` : Contains the response to a RegisterInstanceResult request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    func registerInstance(input: RegisterInstanceInput) async throws -> RegisterInstanceOutputResponse
+    func registerInstance(input: RegisterInstanceInput) async throws -> RegisterInstanceOutput
     /// Registers an Amazon RDS instance with a stack. Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
     ///
     /// - Parameter RegisterRdsDbInstanceInput : [no documentation found]
     ///
-    /// - Returns: `RegisterRdsDbInstanceOutputResponse` : [no documentation found]
+    /// - Returns: `RegisterRdsDbInstanceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    func registerRdsDbInstance(input: RegisterRdsDbInstanceInput) async throws -> RegisterRdsDbInstanceOutputResponse
+    func registerRdsDbInstance(input: RegisterRdsDbInstanceInput) async throws -> RegisterRdsDbInstanceOutput
     /// Registers an Amazon EBS volume with a specified stack. A volume can be registered with only one stack at a time. If the volume is already registered, you must first deregister it by calling [DeregisterVolume]. For more information, see [Resource Management](https://docs.aws.amazon.com/opsworks/latest/userguide/resources.html). Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
     ///
     /// - Parameter RegisterVolumeInput : [no documentation found]
     ///
-    /// - Returns: `RegisterVolumeOutputResponse` : Contains the response to a RegisterVolume request.
+    /// - Returns: `RegisterVolumeOutput` : Contains the response to a RegisterVolume request.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    func registerVolume(input: RegisterVolumeInput) async throws -> RegisterVolumeOutputResponse
+    func registerVolume(input: RegisterVolumeInput) async throws -> RegisterVolumeOutput
     /// Specify the load-based auto scaling configuration for a specified layer. For more information, see [Managing Load with Time-based and Load-based Instances](https://docs.aws.amazon.com/opsworks/latest/userguide/workinginstances-autoscaling.html). To use load-based auto scaling, you must create a set of load-based auto scaling instances. Load-based auto scaling operates only on the instances from that set, so you must ensure that you have created enough instances to handle the maximum anticipated load. Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
     ///
     /// - Parameter SetLoadBasedAutoScalingInput : [no documentation found]
     ///
-    /// - Returns: `SetLoadBasedAutoScalingOutputResponse` : [no documentation found]
+    /// - Returns: `SetLoadBasedAutoScalingOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    func setLoadBasedAutoScaling(input: SetLoadBasedAutoScalingInput) async throws -> SetLoadBasedAutoScalingOutputResponse
+    func setLoadBasedAutoScaling(input: SetLoadBasedAutoScalingInput) async throws -> SetLoadBasedAutoScalingOutput
     /// Specifies a user's permissions. For more information, see [Security and Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/workingsecurity.html). Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
     ///
     /// - Parameter SetPermissionInput : [no documentation found]
     ///
-    /// - Returns: `SetPermissionOutputResponse` : [no documentation found]
+    /// - Returns: `SetPermissionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    func setPermission(input: SetPermissionInput) async throws -> SetPermissionOutputResponse
+    func setPermission(input: SetPermissionInput) async throws -> SetPermissionOutput
     /// Specify the time-based auto scaling configuration for a specified instance. For more information, see [Managing Load with Time-based and Load-based Instances](https://docs.aws.amazon.com/opsworks/latest/userguide/workinginstances-autoscaling.html). Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
     ///
     /// - Parameter SetTimeBasedAutoScalingInput : [no documentation found]
     ///
-    /// - Returns: `SetTimeBasedAutoScalingOutputResponse` : [no documentation found]
+    /// - Returns: `SetTimeBasedAutoScalingOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    func setTimeBasedAutoScaling(input: SetTimeBasedAutoScalingInput) async throws -> SetTimeBasedAutoScalingOutputResponse
+    func setTimeBasedAutoScaling(input: SetTimeBasedAutoScalingInput) async throws -> SetTimeBasedAutoScalingOutput
     /// Starts a specified instance. For more information, see [Starting, Stopping, and Rebooting Instances](https://docs.aws.amazon.com/opsworks/latest/userguide/workinginstances-starting.html). Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
     ///
     /// - Parameter StartInstanceInput : [no documentation found]
     ///
-    /// - Returns: `StartInstanceOutputResponse` : [no documentation found]
+    /// - Returns: `StartInstanceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    func startInstance(input: StartInstanceInput) async throws -> StartInstanceOutputResponse
+    func startInstance(input: StartInstanceInput) async throws -> StartInstanceOutput
     /// Starts a stack's instances. Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
     ///
     /// - Parameter StartStackInput : [no documentation found]
     ///
-    /// - Returns: `StartStackOutputResponse` : [no documentation found]
+    /// - Returns: `StartStackOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    func startStack(input: StartStackInput) async throws -> StartStackOutputResponse
+    func startStack(input: StartStackInput) async throws -> StartStackOutput
     /// Stops a specified instance. When you stop a standard instance, the data disappears and must be reinstalled when you restart the instance. You can stop an Amazon EBS-backed instance without losing data. For more information, see [Starting, Stopping, and Rebooting Instances](https://docs.aws.amazon.com/opsworks/latest/userguide/workinginstances-starting.html). Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
     ///
     /// - Parameter StopInstanceInput : [no documentation found]
     ///
-    /// - Returns: `StopInstanceOutputResponse` : [no documentation found]
+    /// - Returns: `StopInstanceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    func stopInstance(input: StopInstanceInput) async throws -> StopInstanceOutputResponse
+    func stopInstance(input: StopInstanceInput) async throws -> StopInstanceOutput
     /// Stops a specified stack. Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
     ///
     /// - Parameter StopStackInput : [no documentation found]
     ///
-    /// - Returns: `StopStackOutputResponse` : [no documentation found]
+    /// - Returns: `StopStackOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    func stopStack(input: StopStackInput) async throws -> StopStackOutputResponse
+    func stopStack(input: StopStackInput) async throws -> StopStackOutput
     /// Apply cost-allocation tags to a specified stack or layer in AWS OpsWorks Stacks. For more information about how tagging works, see [Tags](https://docs.aws.amazon.com/opsworks/latest/userguide/tagging.html) in the AWS OpsWorks User Guide.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
-    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
+    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     /// Unassigns a registered instance from all layers that are using the instance. The instance remains in the stack as an unassigned instance, and can be assigned to another layer as needed. You cannot use this action with instances that were created with AWS OpsWorks Stacks. Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack or an attached policy that explicitly grants permissions. For more information about user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
     ///
     /// - Parameter UnassignInstanceInput : [no documentation found]
     ///
-    /// - Returns: `UnassignInstanceOutputResponse` : [no documentation found]
+    /// - Returns: `UnassignInstanceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    func unassignInstance(input: UnassignInstanceInput) async throws -> UnassignInstanceOutputResponse
+    func unassignInstance(input: UnassignInstanceInput) async throws -> UnassignInstanceOutput
     /// Unassigns an assigned Amazon EBS volume. The volume remains registered with the stack. For more information, see [Resource Management](https://docs.aws.amazon.com/opsworks/latest/userguide/resources.html). Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
     ///
     /// - Parameter UnassignVolumeInput : [no documentation found]
     ///
-    /// - Returns: `UnassignVolumeOutputResponse` : [no documentation found]
+    /// - Returns: `UnassignVolumeOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    func unassignVolume(input: UnassignVolumeInput) async throws -> UnassignVolumeOutputResponse
+    func unassignVolume(input: UnassignVolumeInput) async throws -> UnassignVolumeOutput
     /// Removes tags from a specified stack or layer.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
-    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    /// - Returns: `UntagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
     /// Updates a specified app. Required Permissions: To use this action, an IAM user must have a Deploy or Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
     ///
     /// - Parameter UpdateAppInput : [no documentation found]
     ///
-    /// - Returns: `UpdateAppOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateAppOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    func updateApp(input: UpdateAppInput) async throws -> UpdateAppOutputResponse
+    func updateApp(input: UpdateAppInput) async throws -> UpdateAppOutput
     /// Updates a registered Elastic IP address's name. For more information, see [Resource Management](https://docs.aws.amazon.com/opsworks/latest/userguide/resources.html). Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
     ///
     /// - Parameter UpdateElasticIpInput : [no documentation found]
     ///
-    /// - Returns: `UpdateElasticIpOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateElasticIpOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    func updateElasticIp(input: UpdateElasticIpInput) async throws -> UpdateElasticIpOutputResponse
+    func updateElasticIp(input: UpdateElasticIpInput) async throws -> UpdateElasticIpOutput
     /// Updates a specified instance. Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
     ///
     /// - Parameter UpdateInstanceInput : [no documentation found]
     ///
-    /// - Returns: `UpdateInstanceOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateInstanceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    func updateInstance(input: UpdateInstanceInput) async throws -> UpdateInstanceOutputResponse
+    func updateInstance(input: UpdateInstanceInput) async throws -> UpdateInstanceOutput
     /// Updates a specified layer. Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
     ///
     /// - Parameter UpdateLayerInput : [no documentation found]
     ///
-    /// - Returns: `UpdateLayerOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateLayerOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    func updateLayer(input: UpdateLayerInput) async throws -> UpdateLayerOutputResponse
+    func updateLayer(input: UpdateLayerInput) async throws -> UpdateLayerOutput
     /// Updates a user's SSH public key. Required Permissions: To use this action, an IAM user must have self-management enabled or an attached policy that explicitly grants permissions. For more information about user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
     ///
     /// - Parameter UpdateMyUserProfileInput : [no documentation found]
     ///
-    /// - Returns: `UpdateMyUserProfileOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateMyUserProfileOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ValidationException` : Indicates that a request was not valid.
-    func updateMyUserProfile(input: UpdateMyUserProfileInput) async throws -> UpdateMyUserProfileOutputResponse
+    func updateMyUserProfile(input: UpdateMyUserProfileInput) async throws -> UpdateMyUserProfileOutput
     /// Updates an Amazon RDS instance. Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
     ///
     /// - Parameter UpdateRdsDbInstanceInput : [no documentation found]
     ///
-    /// - Returns: `UpdateRdsDbInstanceOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateRdsDbInstanceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    func updateRdsDbInstance(input: UpdateRdsDbInstanceInput) async throws -> UpdateRdsDbInstanceOutputResponse
+    func updateRdsDbInstance(input: UpdateRdsDbInstanceInput) async throws -> UpdateRdsDbInstanceOutput
     /// Updates a specified stack. Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
     ///
     /// - Parameter UpdateStackInput : [no documentation found]
     ///
-    /// - Returns: `UpdateStackOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateStackOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    func updateStack(input: UpdateStackInput) async throws -> UpdateStackOutputResponse
+    func updateStack(input: UpdateStackInput) async throws -> UpdateStackOutput
     /// Updates a specified user profile. Required Permissions: To use this action, an IAM user must have an attached policy that explicitly grants permissions. For more information about user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
     ///
     /// - Parameter UpdateUserProfileInput : [no documentation found]
     ///
-    /// - Returns: `UpdateUserProfileOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateUserProfileOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    func updateUserProfile(input: UpdateUserProfileInput) async throws -> UpdateUserProfileOutputResponse
+    func updateUserProfile(input: UpdateUserProfileInput) async throws -> UpdateUserProfileOutput
     /// Updates an Amazon EBS volume's name or mount point. For more information, see [Resource Management](https://docs.aws.amazon.com/opsworks/latest/userguide/resources.html). Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html).
     ///
     /// - Parameter UpdateVolumeInput : [no documentation found]
     ///
-    /// - Returns: `UpdateVolumeOutputResponse` : [no documentation found]
+    /// - Returns: `UpdateVolumeOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Indicates that a resource was not found.
     /// - `ValidationException` : Indicates that a request was not valid.
-    func updateVolume(input: UpdateVolumeInput) async throws -> UpdateVolumeOutputResponse
+    func updateVolume(input: UpdateVolumeInput) async throws -> UpdateVolumeOutput
 }
 
 public enum OpsWorksClientTypes {}

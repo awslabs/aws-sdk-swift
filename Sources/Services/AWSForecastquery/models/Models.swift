@@ -387,6 +387,46 @@ extension QueryForecastInputBody: Swift.Decodable {
     }
 }
 
+extension QueryForecastOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: QueryForecastOutputBody = try responseDecoder.decode(responseBody: data)
+            self.forecast = output.forecast
+        } else {
+            self.forecast = nil
+        }
+    }
+}
+
+public struct QueryForecastOutput: Swift.Equatable {
+    /// The forecast.
+    public var forecast: ForecastqueryClientTypes.Forecast?
+
+    public init(
+        forecast: ForecastqueryClientTypes.Forecast? = nil
+    )
+    {
+        self.forecast = forecast
+    }
+}
+
+struct QueryForecastOutputBody: Swift.Equatable {
+    let forecast: ForecastqueryClientTypes.Forecast?
+}
+
+extension QueryForecastOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case forecast = "Forecast"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let forecastDecoded = try containerValues.decodeIfPresent(ForecastqueryClientTypes.Forecast.self, forKey: .forecast)
+        forecast = forecastDecoded
+    }
+}
+
 enum QueryForecastOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -399,46 +439,6 @@ enum QueryForecastOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension QueryForecastOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: QueryForecastOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.forecast = output.forecast
-        } else {
-            self.forecast = nil
-        }
-    }
-}
-
-public struct QueryForecastOutputResponse: Swift.Equatable {
-    /// The forecast.
-    public var forecast: ForecastqueryClientTypes.Forecast?
-
-    public init(
-        forecast: ForecastqueryClientTypes.Forecast? = nil
-    )
-    {
-        self.forecast = forecast
-    }
-}
-
-struct QueryForecastOutputResponseBody: Swift.Equatable {
-    let forecast: ForecastqueryClientTypes.Forecast?
-}
-
-extension QueryForecastOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case forecast = "Forecast"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let forecastDecoded = try containerValues.decodeIfPresent(ForecastqueryClientTypes.Forecast.self, forKey: .forecast)
-        forecast = forecastDecoded
     }
 }
 
@@ -551,6 +551,46 @@ extension QueryWhatIfForecastInputBody: Swift.Decodable {
     }
 }
 
+extension QueryWhatIfForecastOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: QueryWhatIfForecastOutputBody = try responseDecoder.decode(responseBody: data)
+            self.forecast = output.forecast
+        } else {
+            self.forecast = nil
+        }
+    }
+}
+
+public struct QueryWhatIfForecastOutput: Swift.Equatable {
+    /// Provides information about a forecast. Returned as part of the [QueryForecast] response.
+    public var forecast: ForecastqueryClientTypes.Forecast?
+
+    public init(
+        forecast: ForecastqueryClientTypes.Forecast? = nil
+    )
+    {
+        self.forecast = forecast
+    }
+}
+
+struct QueryWhatIfForecastOutputBody: Swift.Equatable {
+    let forecast: ForecastqueryClientTypes.Forecast?
+}
+
+extension QueryWhatIfForecastOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case forecast = "Forecast"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let forecastDecoded = try containerValues.decodeIfPresent(ForecastqueryClientTypes.Forecast.self, forKey: .forecast)
+        forecast = forecastDecoded
+    }
+}
+
 enum QueryWhatIfForecastOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -563,46 +603,6 @@ enum QueryWhatIfForecastOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension QueryWhatIfForecastOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: QueryWhatIfForecastOutputResponseBody = try responseDecoder.decode(responseBody: data)
-            self.forecast = output.forecast
-        } else {
-            self.forecast = nil
-        }
-    }
-}
-
-public struct QueryWhatIfForecastOutputResponse: Swift.Equatable {
-    /// Provides information about a forecast. Returned as part of the [QueryForecast] response.
-    public var forecast: ForecastqueryClientTypes.Forecast?
-
-    public init(
-        forecast: ForecastqueryClientTypes.Forecast? = nil
-    )
-    {
-        self.forecast = forecast
-    }
-}
-
-struct QueryWhatIfForecastOutputResponseBody: Swift.Equatable {
-    let forecast: ForecastqueryClientTypes.Forecast?
-}
-
-extension QueryWhatIfForecastOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case forecast = "Forecast"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let forecastDecoded = try containerValues.decodeIfPresent(ForecastqueryClientTypes.Forecast.self, forKey: .forecast)
-        forecast = forecastDecoded
     }
 }
 

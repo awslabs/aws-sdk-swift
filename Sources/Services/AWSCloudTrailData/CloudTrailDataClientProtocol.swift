@@ -8,7 +8,7 @@ public protocol CloudTrailDataClientProtocol {
     ///
     /// - Parameter PutAuditEventsInput : [no documentation found]
     ///
-    /// - Returns: `PutAuditEventsOutputResponse` : [no documentation found]
+    /// - Returns: `PutAuditEventsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -19,7 +19,7 @@ public protocol CloudTrailDataClientProtocol {
     /// - `DuplicatedAuditEventId` : Two or more entries in the request have the same event ID.
     /// - `InvalidChannelARN` : The specified channel ARN is not a valid channel ARN.
     /// - `UnsupportedOperationException` : The operation requested is not supported in this region or account.
-    func putAuditEvents(input: PutAuditEventsInput) async throws -> PutAuditEventsOutputResponse
+    func putAuditEvents(input: PutAuditEventsInput) async throws -> PutAuditEventsOutput
 }
 
 public enum CloudTrailDataClientTypes {}
