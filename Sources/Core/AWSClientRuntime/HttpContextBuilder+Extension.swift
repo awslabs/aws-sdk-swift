@@ -53,7 +53,9 @@ extension HttpContext {
         let messageEncoder = AWSClientRuntime.AWSEventStream.AWSMessageEncoder()
         let messageSigner = AWSClientRuntime.AWSEventStream.AWSMessageSigner(encoder: messageEncoder) {
             guard let authScheme = self.getSelectedAuthScheme() else {
-                throw ClientError.authError("Signer for event stream could not be loaded because auth scheme was not configured.")
+                throw ClientError.authError(
+                    "Signer for event stream could not be loaded because auth scheme was not configured."
+                )
             }
             guard let signer = authScheme.signer else {
                 throw ClientError.authError("Signer was not configured for the selected auth scheme.")
