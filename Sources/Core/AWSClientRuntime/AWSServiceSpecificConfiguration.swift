@@ -44,6 +44,5 @@ public protocol AWSServiceSpecificConfiguration {
     /// The auth scheme resolver to use for the service.
     ///
     /// If none is provided at compile time, value will default to default auth scheme resolver for the service generated based on its model.
-
     var authSchemeResolver: AWSAuthSchemeResolver { get }
 }

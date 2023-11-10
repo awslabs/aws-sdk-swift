@@ -71,7 +71,7 @@ extension AWSEventStream {
                                                                    signingConfig: signingConfig)
             return signingResult.output
         }
-        
+
         private func getSigV4Signer() async throws -> AWSSigV4Signer {
             // Fetch resolved signer from selected auth scheme in middleware context
             let signer = try await self.signer()
@@ -80,7 +80,6 @@ extension AWSEventStream {
             guard let sigv4signer else {
                 throw ClientError.authError("Could not sign event stream message using configured signer, \(signer).")
             }
-            
             return sigv4signer
         }
     }
