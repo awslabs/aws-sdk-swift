@@ -11,13 +11,14 @@ import software.amazon.smithy.model.shapes.MemberShape
 import software.amazon.smithy.model.shapes.Shape
 import software.amazon.smithy.model.shapes.ShapeId
 import software.amazon.smithy.model.traits.TimestampFormatTrait
+import software.amazon.smithy.swift.codegen.SmithyXMLTypes
+import software.amazon.smithy.swift.codegen.SwiftDependency
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.codingKeys.CodingKeysCustomizationXmlName
 import software.amazon.smithy.swift.codegen.integration.codingKeys.CodingKeysGenerator
 import software.amazon.smithy.swift.codegen.integration.codingKeys.DefaultCodingKeysGenerator
 import software.amazon.smithy.swift.codegen.integration.httpResponse.HttpResponseGenerator
-import software.amazon.smithy.swift.codegen.integration.serde.DynamicNodeEncodingGeneratorStrategy
 import software.amazon.smithy.swift.codegen.integration.serde.json.StructEncodeXMLGenerator
 import software.amazon.smithy.swift.codegen.model.ShapeMetadata
 
@@ -49,6 +50,11 @@ class RestXmlProtocolGenerator : AWSHttpBindingProtocolGenerator() {
         "S3OperationNoErrorWrappingResponse"
     )
 
+    override val codableProtocol = SmithyXMLTypes.ReadableWritable
+    override val encodableProtocol = null
+    override val decodableProtocol = SmithyXMLTypes.Readable
+    override val codableImport = SwiftDependency.SMITHY_XML.target
+
     override fun renderStructEncode(
         ctx: ProtocolGenerator.GenerationContext,
         shapeContainingMembers: Shape,
@@ -60,10 +66,6 @@ class RestXmlProtocolGenerator : AWSHttpBindingProtocolGenerator() {
     ) {
         val encoder = StructEncodeXMLGenerator(ctx, shapeContainingMembers, members, writer, defaultTimestampFormat)
         encoder.render()
-
-        val xmlNamespaces = encoder.xmlNamespaces
-        val dynamicNodeEncoding = DynamicNodeEncodingGeneratorStrategy(ctx, shapeContainingMembers, xmlNamespaces)
-        dynamicNodeEncoding.renderIfNeeded()
     }
 
     override fun renderStructDecode(
