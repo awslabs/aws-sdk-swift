@@ -64,7 +64,7 @@ class RestXmlProtocolGenerator : AWSHttpBindingProtocolGenerator() {
         defaultTimestampFormat: TimestampFormatTrait.Format,
         path: String?
     ) {
-        val encoder = StructEncodeXMLGenerator(ctx, shapeContainingMembers, members, writer, defaultTimestampFormat)
+        val encoder = StructEncodeXMLGenerator(ctx, shapeContainingMembers, members, writer)
         encoder.render()
     }
 

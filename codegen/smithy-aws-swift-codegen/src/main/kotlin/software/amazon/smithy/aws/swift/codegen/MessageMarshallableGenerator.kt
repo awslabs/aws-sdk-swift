@@ -115,7 +115,7 @@ class MessageMarshallableGenerator(
                     ClientRuntimeTypes.Serde.RequestEncoder,
                     ClientRuntimeTypes.EventStream.Message
                 ) {
-                    writer.write("fatalError(\"not implemented\")")
+                    writer.write("#error(\"Event streams not implemented for this protocol\")")
                 }
             }
         }
