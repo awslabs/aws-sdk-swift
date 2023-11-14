@@ -97,7 +97,6 @@ extension AttributeKeys {
 
     // Keys used to store/retrieve AWSSigningConfig fields in/from signingProperties passed to AWSSigV4Signer
     public static let unsignedBody = AttributeKey<Bool>(name: "UnsignedBody")
-    public static let expiration = AttributeKey<TimeInterval>(name: "Expiration")
     public static let signedBodyHeader = AttributeKey<AWSSignedBodyHeader>(name: "SignedBodyHeader")
     public static let useDoubleURIEncode = AttributeKey<Bool>(name: "UseDoubleURIEncode")
     public static let shouldNormalizeURIPath = AttributeKey<Bool>(name: "ShouldNormalizeURIPath")

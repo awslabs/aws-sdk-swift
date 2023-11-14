@@ -59,7 +59,7 @@ public struct SigV4AuthScheme: ClientRuntime.AuthScheme {
         updatedSigningProperties.set(key: AttributeKeys.unsignedBody, value: unsignedBody)
 
         // Set signedBodyHeader flag
-        let useSignedBodyHeader = SigV4Util.serviceUsesUnsignedBodyHeader(serviceName: serviceName) && !unsignedBody
+        let useSignedBodyHeader = SigV4Util.serviceUsesSignedBodyHeader(serviceName: serviceName) && !unsignedBody
         updatedSigningProperties.set(
             key: AttributeKeys.signedBodyHeader,
             value: useSignedBodyHeader ? .contentSha256 : AWSSignedBodyHeader.none
