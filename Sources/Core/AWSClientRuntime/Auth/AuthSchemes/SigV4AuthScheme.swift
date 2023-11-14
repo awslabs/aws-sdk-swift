@@ -33,34 +33,38 @@ public struct SigV4AuthScheme: ClientRuntime.AuthScheme {
         // Out of the AWSSignatureType enum cases, only two are used. .requestHeaders and .requestQueryParams.
         // .requestHeaders is the deafult signing used for AWS operations.
         let serviceName = context.getServiceName()
-        let isS3PresignURLOp = serviceName == "S3" && ["getObject", "putObject"].contains(context.getOperation())
-        let isPollyPresignURLOp = serviceName == "Polly" && ["synthesizeSpeech"].contains(context.getOperation())
-        let flowType = context.getFlowType()
-        let shouldUseRequestQueryParams = flowType == .PRESIGN_URL && (isS3PresignURLOp || isPollyPresignURLOp)
+        // Operation name is guaranteed to be in middleware context from generic codegen.
+        let operationName = context.getOperation()!
+        let isPresignServiceAndOpPair = SigV4Util.shouldPresignURL(serviceName: serviceName, opName: operationName)
+        let isPresignURLFlow = context.getFlowType() == .PRESIGN_URL
+        let shouldUseRequestQueryParams = isPresignURLFlow && isPresignServiceAndOpPair
         updatedSigningProperties.set(
             key: AttributeKeys.signatureType,
             value: shouldUseRequestQueryParams ? .requestQueryParams : .requestHeaders
         )
 
         // Set unsignedBody flag
-        let shouldForceUnsignedBody = context.getFlowType() == .PRESIGN_URL &&
-                                        context.getServiceName() == "S3" &&
-                                        ["getObject", "putObject"].contains(context.getOperation())
+        let shouldForceUnsignedBody = SigV4Util.shouldForceUnsignedBody(
+            flow: context.getFlowType(),
+            serviceName: serviceName,
+            opName: operationName
+        )
         let unsignedBody = context.hasUnsignedPayloadTrait() || shouldForceUnsignedBody
         updatedSigningProperties.set(key: AttributeKeys.unsignedBody, value: unsignedBody)
 
         // Set signedBodyHeader flag
-        let useSignedBodyHeader = ["S3", "Glacier"].contains(context.getServiceName()) && !unsignedBody
+        let useSignedBodyHeader = SigV4Util.serviceUsesUnsignedBodyHeader(serviceName: serviceName) && !unsignedBody
         updatedSigningProperties.set(
             key: AttributeKeys.signedBodyHeader,
             value: useSignedBodyHeader ? .contentSha256 : AWSSignedBodyHeader.none
         )
 
         // Flags in SigningFlags object
+        let serviceIsS3 = serviceName == "S3"
         // Set useDoubleURIEncode to false IFF service is S3
-        updatedSigningProperties.set(key: AttributeKeys.useDoubleURIEncode, value: serviceName != "S3")
+        updatedSigningProperties.set(key: AttributeKeys.useDoubleURIEncode, value: !serviceIsS3)
         // Set shouldNormalizeURIPath to false IFF service is S3
-        updatedSigningProperties.set(key: AttributeKeys.shouldNormalizeURIPath, value: serviceName != "S3")
+        updatedSigningProperties.set(key: AttributeKeys.shouldNormalizeURIPath, value: !serviceIsS3)
         updatedSigningProperties.set(key: AttributeKeys.omitSessionToken, value: false)
 
         return updatedSigningProperties
