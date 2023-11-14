@@ -63,7 +63,7 @@ extension HttpContext {
         // enable the flag
         attributes.set(key: AttributeKeys.bidirectionalStreaming, value: true)
     }
-    
+
     func fetchSigner() throws -> ClientRuntime.Signer {
         guard let authScheme = self.getSelectedAuthScheme() else {
             throw ClientError.authError(
