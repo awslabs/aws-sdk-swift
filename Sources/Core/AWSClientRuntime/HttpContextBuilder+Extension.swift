@@ -51,26 +51,29 @@ extension HttpContext {
     public func setupBidirectionalStreaming() throws {
         // setup client to server
         let messageEncoder = AWSClientRuntime.AWSEventStream.AWSMessageEncoder()
-        let messageSigner = AWSClientRuntime.AWSEventStream.AWSMessageSigner(encoder: messageEncoder) {
-            guard let authScheme = self.getSelectedAuthScheme() else {
-                throw ClientError.authError(
-                    "Signer for event stream could not be loaded because auth scheme was not configured."
-                )
-            }
-            guard let signer = authScheme.signer else {
-                throw ClientError.authError("Signer was not configured for the selected auth scheme.")
-            }
-            return signer
-        } signingConfig: {
-            try await self.makeEventStreamSigningConfig()
-        } requestSignature: {
-            self.getRequestSignature()
-        }
+        let messageSigner = AWSClientRuntime.AWSEventStream.AWSMessageSigner(
+            encoder: messageEncoder,
+            signer: { try self.fetchSigner() },
+            signingConfig: { try await self.makeEventStreamSigningConfig() },
+            requestSignature: { self.getRequestSignature() }
+        )
         attributes.set(key: AttributeKeys.messageEncoder, value: messageEncoder)
         attributes.set(key: AttributeKeys.messageSigner, value: messageSigner)
 
         // enable the flag
         attributes.set(key: AttributeKeys.bidirectionalStreaming, value: true)
+    }
+    
+    func fetchSigner() throws -> ClientRuntime.Signer {
+        guard let authScheme = self.getSelectedAuthScheme() else {
+            throw ClientError.authError(
+                "Signer for event stream could not be loaded because auth scheme was not configured."
+            )
+        }
+        guard let signer = authScheme.signer else {
+            throw ClientError.authError("Signer was not configured for the selected auth scheme.")
+        }
+        return signer
     }
 }
 
