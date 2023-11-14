@@ -10,7 +10,7 @@ import ClientRuntime
 import Foundation
 
 public class AWSSigV4Signer: ClientRuntime.Signer {
-    public func sign<IdentityT: Identity>(
+    public func signRequest<IdentityT: Identity>(
         requestBuilder: SdkHttpRequestBuilder,
         identity: IdentityT,
         signingProperties: ClientRuntime.Attributes
@@ -92,6 +92,18 @@ public class AWSSigV4Signer: ClientRuntime.Signer {
             signatureType: signatureType,
             signingAlgorithm: signingAlgorithm
         )
+    }
+
+    public func signEvent(
+        payload: Data,
+        previousSignature: String,
+        signingProperties: Attributes
+    ) async throws -> SigningResult<EventStream.Message> {
+        let signingConfig = signingProperties.get(key: AWSEventStream.AWSMessageSigner.signingConfigKey)
+        guard let signingConfig else {
+            throw ClientError.dataNotFound("Failed to sign event stream message due to missing signing config.")
+        }
+        return try await signEvent(payload: payload, previousSignature: previousSignature, signingConfig: signingConfig)
     }
 
     static let logger: SwiftLogger = SwiftLogger(label: "AWSSigV4Signer")
@@ -182,9 +194,4 @@ public class AWSSigV4Signer: ClientRuntime.Signer {
             return nil
         }
     }
-}
-
-public struct SigningResult<T> {
-    public let output: T
-    public let signature: String
 }
