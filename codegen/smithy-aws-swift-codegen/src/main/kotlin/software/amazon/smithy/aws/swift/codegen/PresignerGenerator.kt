@@ -6,7 +6,6 @@
 package software.amazon.smithy.aws.swift.codegen
 
 import software.amazon.smithy.aws.swift.codegen.AWSClientRuntimeTypes.Core.AWSClientConfiguration
-import software.amazon.smithy.aws.swift.codegen.middleware.AWSSigningMiddleware
 import software.amazon.smithy.aws.swift.codegen.model.traits.Presignable
 import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.model.shapes.ServiceShape
@@ -33,12 +32,12 @@ class PresignerGenerator : SwiftIntegration {
     override fun writeAdditionalFiles(ctx: CodegenContext, protoCtx: ProtocolGenerator.GenerationContext, delegator: SwiftDelegator) {
         val service = ctx.model.expectShape<ServiceShape>(ctx.settings.service)
 
-        if (!AWSSigningMiddleware.isSupportedAuthentication(ctx.model, service)) return
+        if (!SigV4Utils.isSupportedAuthentication(ctx.model, service)) return
         val presignOperations = service.allOperations
             .map { ctx.model.expectShape<OperationShape>(it) }
             .filter { operationShape -> operationShape.hasTrait(Presignable.ID) }
             .map { operationShape ->
-                check(AWSSigningMiddleware.hasSigV4AuthScheme(ctx.model, service, operationShape)) { "Operation does not have valid auth trait" }
+                check(SigV4Utils.hasSigV4AuthScheme(ctx.model, service, operationShape)) { "Operation does not have valid auth trait" }
                 PresignableOperation(service.id.toString(), operationShape.id.toString())
             }
         presignOperations.forEach { presignableOperation ->
