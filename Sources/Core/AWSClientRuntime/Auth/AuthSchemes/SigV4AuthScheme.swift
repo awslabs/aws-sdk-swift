@@ -14,7 +14,7 @@ public struct SigV4AuthScheme: ClientRuntime.AuthScheme {
 
     public init() {}
 
-    public func customizeSigningProperties(signingProperties: Attributes, context: HttpContext) -> Attributes {
+    public func customizeSigningProperties(signingProperties: Attributes, context: HttpContext) throws -> Attributes {
         var updatedSigningProperties = signingProperties
 
         // Set signing algorithm flag
@@ -47,9 +47,12 @@ public struct SigV4AuthScheme: ClientRuntime.AuthScheme {
             value: isPresignURLFlow ? .requestQueryParams : .requestHeaders
         )
 
+        // Operation name is guaranteed to be in middleware context from generic codegen, but check just in case.
+        guard let operationName = context.getOperation() else {
+            throw ClientError.dataNotFound("Operation name must be configured on middleware context.")
+        }
+
         // Set unsignedBody flag
-        // Operation name is guaranteed to be in middleware context from generic codegen.
-        let operationName = context.getOperation()!
         let shouldForceUnsignedBody = SigV4Util.shouldForceUnsignedBody(
             flow: context.getFlowType(),
             serviceName: serviceName,
@@ -65,13 +68,8 @@ public struct SigV4AuthScheme: ClientRuntime.AuthScheme {
             value: useSignedBodyHeader ? .contentSha256 : AWSSignedBodyHeader.none
         )
 
-        let serviceIsS3 = serviceName == "S3"
-        // Set flags in SigningFlags object
-        // Set useDoubleURIEncode to false IFF service is S3
-        updatedSigningProperties.set(key: AttributeKeys.useDoubleURIEncode, value: !serviceIsS3)
-        // Set shouldNormalizeURIPath to false IFF service is S3
-        updatedSigningProperties.set(key: AttributeKeys.shouldNormalizeURIPath, value: !serviceIsS3)
-        updatedSigningProperties.set(key: AttributeKeys.omitSessionToken, value: false)
+        // Set flags in SigningFlags object (S3 customizations)
+        SigV4Util.setS3SpecificFlags(signingProperties: &updatedSigningProperties, serviceName: serviceName)
 
         return updatedSigningProperties
     }

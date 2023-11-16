@@ -57,7 +57,7 @@ class RulesBasedAuthSchemeResolverGenerator {
                 ServiceTypes.AuthSchemeResolverParams
             ) {
                 // Return value of array of auth options
-                write("var validAuthOptions = Array<AuthOption>()")
+                write("var validAuthOptions = [AuthOption]()")
 
                 // Cast params to service specific params object
                 openBlock(
