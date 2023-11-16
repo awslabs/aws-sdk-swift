@@ -5,6 +5,7 @@
 /dist
 out/
 /tmp
+/docs
 
 # IntelliJ config & temp files
 /ideaSDK
