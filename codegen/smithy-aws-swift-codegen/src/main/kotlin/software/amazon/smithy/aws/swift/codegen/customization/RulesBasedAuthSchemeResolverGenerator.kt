@@ -93,7 +93,8 @@ class RulesBasedAuthSchemeResolverGenerator {
                         // SigV4A case
                         write("case .sigV4A(let param):")
                         indent()
-                        // sigv4a trait is not yet implemented, this is a customization until the trait is added.
+                        // sigv4a trait is not yet implemented by Smithy
+                        // This is a SDK-level customization until the trait is added
                         write("var sigV4Option = AuthOption(schemeID: \"${SigV4Trait.ID}a\")")
                         write("sigV4Option.signingProperties.set(key: AttributeKeys.signingName, value: param.signingName)")
                         write("sigV4Option.signingProperties.set(key: AttributeKeys.signingRegion, value: param.signingRegionSet?[0])")
