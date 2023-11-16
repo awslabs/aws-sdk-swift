@@ -16,6 +16,31 @@ class Sigv4SigningTests: XCTestCase {
         CommonRuntimeKit.initialize()
     }
 
+    // Test success case
+    func testSignRequestSuccess() async throws {
+        
+    }
+
+    // Test exception cases
+    func testSignRequestMissingBidirecitonalSteamingFlag() async throws {
+        
+    }
+    func testSignRequestWrongTypeOfIdentity() async throws {
+        
+    }
+    func testSignRequestMissingUnsignedBodyFlag() async throws {
+        
+    }
+    func testSignRequestMissingSigningName() async throws {
+        
+    }
+    func testSignRequestMissingSigningRegion() async throws {
+        
+    }
+    func testSignRequestMissingSigningAlgorithm() async throws {
+        
+    }
+
     func testPresigner() async throws {
         let dateString = "2015-08-30T12:36:00Z"
         guard let date = TimestampFormatter(format: .dateTime).date(from: dateString) else {
