@@ -13,6 +13,7 @@ import software.amazon.smithy.model.shapes.ShapeId
 import software.amazon.smithy.model.traits.TimestampFormatTrait
 import software.amazon.smithy.swift.codegen.SmithyXMLTypes
 import software.amazon.smithy.swift.codegen.SwiftDependency
+import software.amazon.smithy.swift.codegen.SwiftTypes
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.codingKeys.CodingKeysCustomizationXmlName
@@ -50,10 +51,9 @@ class RestXmlProtocolGenerator : AWSHttpBindingProtocolGenerator() {
         "S3OperationNoErrorWrappingResponse"
     )
 
-    override val codableProtocol = SmithyXMLTypes.ReadableWritable
+    override val codableProtocol = SwiftTypes.Protocols.Decodable
     override val encodableProtocol = null
-    override val decodableProtocol = SmithyXMLTypes.Readable
-    override val codableImport = SwiftDependency.SMITHY_XML.target
+    override val decodableProtocol = SwiftTypes.Protocols.Decodable
 
     override fun renderStructEncode(
         ctx: ProtocolGenerator.GenerationContext,

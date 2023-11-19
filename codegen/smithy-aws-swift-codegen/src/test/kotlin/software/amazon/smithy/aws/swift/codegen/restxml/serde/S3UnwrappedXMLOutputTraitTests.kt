@@ -16,7 +16,7 @@ class S3UnwrappedXMLOutputTraitTests {
 
         val expectedContents =
             """
-            extension GetBucketLocationOutputBody: SmithyXML.Readable {
+            extension GetBucketLocationOutputBody: Swift.Decodable {
                 enum CodingKeys: Swift.String, Swift.CodingKey {
                     case locationConstraint = "LocationConstraint"
                 }
