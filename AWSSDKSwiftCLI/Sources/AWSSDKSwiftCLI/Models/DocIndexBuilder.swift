@@ -56,8 +56,7 @@ struct DocIndexBuilder {
     private func buildGeneratedContent() -> String {
         let contents = [
             buildServiceIndex(),
-            "",
-            "\n"
+            ""
         ]
         return contents.joined(separator: .newline)
     }
@@ -67,7 +66,8 @@ struct DocIndexBuilder {
     /// - Returns: A pragma mark comment to provide separation between the non-generated (base) and generated content
     private func buildServiceIndex() -> String {
         return services.map { service in
-            "[\(service)](https://dwdoxo7kdzlaf.cloudfront.net/swift/\(service)/latest/documentation/\(service))\n"
-        }.joined(separator: "\n")
+            let urlService = service.lowercased(with: Locale(identifier: "en_US_POSIX"))
+            return "[\(service)](https://dwdoxo7kdzlaf.cloudfront.net/swift/\(urlService)/latest/documentation/\(urlService))\n"
+            }.joined(separator: "\n")
     }
 }

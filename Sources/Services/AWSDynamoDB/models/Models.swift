@@ -947,22 +947,6 @@ extension DynamoDBClientTypes {
 
 }
 
-struct BackupInUseExceptionBody: Swift.Equatable {
-    let message: Swift.String?
-}
-
-extension BackupInUseExceptionBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case message
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
-        message = messageDecoded
-    }
-}
-
 extension BackupInUseException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -1002,11 +986,11 @@ public struct BackupInUseException: ClientRuntime.ModeledError, AWSClientRuntime
     }
 }
 
-struct BackupNotFoundExceptionBody: Swift.Equatable {
+struct BackupInUseExceptionBody: Swift.Equatable {
     let message: Swift.String?
 }
 
-extension BackupNotFoundExceptionBody: Swift.Decodable {
+extension BackupInUseExceptionBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case message
     }
@@ -1054,6 +1038,22 @@ public struct BackupNotFoundException: ClientRuntime.ModeledError, AWSClientRunt
     )
     {
         self.properties.message = message
+    }
+}
+
+struct BackupNotFoundExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension BackupNotFoundExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
     }
 }
 
@@ -1224,6 +1224,41 @@ extension DynamoDBClientTypes {
 }
 
 extension DynamoDBClientTypes {
+    public enum BackupType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case awsBackup
+        case system
+        case user
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BackupType] {
+            return [
+                .awsBackup,
+                .system,
+                .user,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .awsBackup: return "AWS_BACKUP"
+            case .system: return "SYSTEM"
+            case .user: return "USER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = BackupType(rawValue: rawValue) ?? BackupType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension DynamoDBClientTypes {
     public enum BackupTypeFilter: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case all
         case awsBackup
@@ -1261,38 +1296,52 @@ extension DynamoDBClientTypes {
     }
 }
 
-extension DynamoDBClientTypes {
-    public enum BackupType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
-        case awsBackup
-        case system
-        case user
-        case sdkUnknown(Swift.String)
+extension BatchExecuteStatementInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case returnConsumedCapacity = "ReturnConsumedCapacity"
+        case statements = "Statements"
+    }
 
-        public static var allCases: [BackupType] {
-            return [
-                .awsBackup,
-                .system,
-                .user,
-                .sdkUnknown("")
-            ]
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let returnConsumedCapacity = self.returnConsumedCapacity {
+            try encodeContainer.encode(returnConsumedCapacity.rawValue, forKey: .returnConsumedCapacity)
         }
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-        public var rawValue: Swift.String {
-            switch self {
-            case .awsBackup: return "AWS_BACKUP"
-            case .system: return "SYSTEM"
-            case .user: return "USER"
-            case let .sdkUnknown(s): return s
+        if let statements = statements {
+            var statementsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .statements)
+            for batchstatementrequest0 in statements {
+                try statementsContainer.encode(batchstatementrequest0)
             }
         }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = BackupType(rawValue: rawValue) ?? BackupType.sdkUnknown(rawValue)
-        }
+    }
+}
+
+extension BatchExecuteStatementInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct BatchExecuteStatementInput: Swift.Equatable {
+    /// Determines the level of detail about either provisioned or on-demand throughput consumption that is returned in the response:
+    ///
+    /// * INDEXES - The response includes the aggregate ConsumedCapacity for the operation, together with ConsumedCapacity for each table and secondary index that was accessed. Note that some operations, such as GetItem and BatchGetItem, do not access any indexes at all. In these cases, specifying INDEXES will only return ConsumedCapacity information for table(s).
+    ///
+    /// * TOTAL - The response includes only the aggregate ConsumedCapacity for the operation.
+    ///
+    /// * NONE - No ConsumedCapacity details are included in the response.
+    public var returnConsumedCapacity: DynamoDBClientTypes.ReturnConsumedCapacity?
+    /// The list of PartiQL statements representing the batch to run.
+    /// This member is required.
+    public var statements: [DynamoDBClientTypes.BatchStatementRequest]?
+
+    public init(
+        returnConsumedCapacity: DynamoDBClientTypes.ReturnConsumedCapacity? = nil,
+        statements: [DynamoDBClientTypes.BatchStatementRequest]? = nil
+    )
+    {
+        self.returnConsumedCapacity = returnConsumedCapacity
+        self.statements = statements
     }
 }
 
@@ -1325,52 +1374,33 @@ extension BatchExecuteStatementInputBody: Swift.Decodable {
     }
 }
 
-extension BatchExecuteStatementInput: Swift.Encodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case returnConsumedCapacity = "ReturnConsumedCapacity"
-        case statements = "Statements"
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let returnConsumedCapacity = self.returnConsumedCapacity {
-            try encodeContainer.encode(returnConsumedCapacity.rawValue, forKey: .returnConsumedCapacity)
-        }
-        if let statements = statements {
-            var statementsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .statements)
-            for batchstatementrequest0 in statements {
-                try statementsContainer.encode(batchstatementrequest0)
-            }
+extension BatchExecuteStatementOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: BatchExecuteStatementOutputBody = try responseDecoder.decode(responseBody: data)
+            self.consumedCapacity = output.consumedCapacity
+            self.responses = output.responses
+        } else {
+            self.consumedCapacity = nil
+            self.responses = nil
         }
     }
 }
 
-public struct BatchExecuteStatementInput: Swift.Equatable {
-    /// Determines the level of detail about either provisioned or on-demand throughput consumption that is returned in the response:
-    ///
-    /// * INDEXES - The response includes the aggregate ConsumedCapacity for the operation, together with ConsumedCapacity for each table and secondary index that was accessed. Note that some operations, such as GetItem and BatchGetItem, do not access any indexes at all. In these cases, specifying INDEXES will only return ConsumedCapacity information for table(s).
-    ///
-    /// * TOTAL - The response includes only the aggregate ConsumedCapacity for the operation.
-    ///
-    /// * NONE - No ConsumedCapacity details are included in the response.
-    public var returnConsumedCapacity: DynamoDBClientTypes.ReturnConsumedCapacity?
-    /// The list of PartiQL statements representing the batch to run.
-    /// This member is required.
-    public var statements: [DynamoDBClientTypes.BatchStatementRequest]?
+public struct BatchExecuteStatementOutput: Swift.Equatable {
+    /// The capacity units consumed by the entire operation. The values of the list are ordered according to the ordering of the statements.
+    public var consumedCapacity: [DynamoDBClientTypes.ConsumedCapacity]?
+    /// The response to each PartiQL statement in the batch. The values of the list are ordered according to the ordering of the request statements.
+    public var responses: [DynamoDBClientTypes.BatchStatementResponse]?
 
     public init(
-        returnConsumedCapacity: DynamoDBClientTypes.ReturnConsumedCapacity? = nil,
-        statements: [DynamoDBClientTypes.BatchStatementRequest]? = nil
+        consumedCapacity: [DynamoDBClientTypes.ConsumedCapacity]? = nil,
+        responses: [DynamoDBClientTypes.BatchStatementResponse]? = nil
     )
     {
-        self.returnConsumedCapacity = returnConsumedCapacity
-        self.statements = statements
-    }
-}
-
-extension BatchExecuteStatementInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
+        self.consumedCapacity = consumedCapacity
+        self.responses = responses
     }
 }
 
@@ -1424,65 +1454,6 @@ enum BatchExecuteStatementOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension BatchExecuteStatementOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: BatchExecuteStatementOutputBody = try responseDecoder.decode(responseBody: data)
-            self.consumedCapacity = output.consumedCapacity
-            self.responses = output.responses
-        } else {
-            self.consumedCapacity = nil
-            self.responses = nil
-        }
-    }
-}
-
-public struct BatchExecuteStatementOutput: Swift.Equatable {
-    /// The capacity units consumed by the entire operation. The values of the list are ordered according to the ordering of the statements.
-    public var consumedCapacity: [DynamoDBClientTypes.ConsumedCapacity]?
-    /// The response to each PartiQL statement in the batch. The values of the list are ordered according to the ordering of the request statements.
-    public var responses: [DynamoDBClientTypes.BatchStatementResponse]?
-
-    public init(
-        consumedCapacity: [DynamoDBClientTypes.ConsumedCapacity]? = nil,
-        responses: [DynamoDBClientTypes.BatchStatementResponse]? = nil
-    )
-    {
-        self.consumedCapacity = consumedCapacity
-        self.responses = responses
-    }
-}
-
-struct BatchGetItemInputBody: Swift.Equatable {
-    let requestItems: [Swift.String:DynamoDBClientTypes.KeysAndAttributes]?
-    let returnConsumedCapacity: DynamoDBClientTypes.ReturnConsumedCapacity?
-}
-
-extension BatchGetItemInputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case requestItems = "RequestItems"
-        case returnConsumedCapacity = "ReturnConsumedCapacity"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let requestItemsContainer = try containerValues.decodeIfPresent([Swift.String: DynamoDBClientTypes.KeysAndAttributes?].self, forKey: .requestItems)
-        var requestItemsDecoded0: [Swift.String:DynamoDBClientTypes.KeysAndAttributes]? = nil
-        if let requestItemsContainer = requestItemsContainer {
-            requestItemsDecoded0 = [Swift.String:DynamoDBClientTypes.KeysAndAttributes]()
-            for (key0, keysandattributes0) in requestItemsContainer {
-                if let keysandattributes0 = keysandattributes0 {
-                    requestItemsDecoded0?[key0] = keysandattributes0
-                }
-            }
-        }
-        requestItems = requestItemsDecoded0
-        let returnConsumedCapacityDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ReturnConsumedCapacity.self, forKey: .returnConsumedCapacity)
-        returnConsumedCapacity = returnConsumedCapacityDecoded
-    }
-}
-
 extension BatchGetItemInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case requestItems = "RequestItems"
@@ -1500,6 +1471,12 @@ extension BatchGetItemInput: Swift.Encodable {
         if let returnConsumedCapacity = self.returnConsumedCapacity {
             try encodeContainer.encode(returnConsumedCapacity.rawValue, forKey: .returnConsumedCapacity)
         }
+    }
+}
+
+extension BatchGetItemInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
     }
 }
 
@@ -1561,9 +1538,82 @@ public struct BatchGetItemInput: Swift.Equatable {
     }
 }
 
-extension BatchGetItemInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
+struct BatchGetItemInputBody: Swift.Equatable {
+    let requestItems: [Swift.String:DynamoDBClientTypes.KeysAndAttributes]?
+    let returnConsumedCapacity: DynamoDBClientTypes.ReturnConsumedCapacity?
+}
+
+extension BatchGetItemInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case requestItems = "RequestItems"
+        case returnConsumedCapacity = "ReturnConsumedCapacity"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let requestItemsContainer = try containerValues.decodeIfPresent([Swift.String: DynamoDBClientTypes.KeysAndAttributes?].self, forKey: .requestItems)
+        var requestItemsDecoded0: [Swift.String:DynamoDBClientTypes.KeysAndAttributes]? = nil
+        if let requestItemsContainer = requestItemsContainer {
+            requestItemsDecoded0 = [Swift.String:DynamoDBClientTypes.KeysAndAttributes]()
+            for (key0, keysandattributes0) in requestItemsContainer {
+                if let keysandattributes0 = keysandattributes0 {
+                    requestItemsDecoded0?[key0] = keysandattributes0
+                }
+            }
+        }
+        requestItems = requestItemsDecoded0
+        let returnConsumedCapacityDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ReturnConsumedCapacity.self, forKey: .returnConsumedCapacity)
+        returnConsumedCapacity = returnConsumedCapacityDecoded
+    }
+}
+
+extension BatchGetItemOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: BatchGetItemOutputBody = try responseDecoder.decode(responseBody: data)
+            self.consumedCapacity = output.consumedCapacity
+            self.responses = output.responses
+            self.unprocessedKeys = output.unprocessedKeys
+        } else {
+            self.consumedCapacity = nil
+            self.responses = nil
+            self.unprocessedKeys = nil
+        }
+    }
+}
+
+/// Represents the output of a BatchGetItem operation.
+public struct BatchGetItemOutput: Swift.Equatable {
+    /// The read capacity units consumed by the entire BatchGetItem operation. Each element consists of:
+    ///
+    /// * TableName - The table that consumed the provisioned throughput.
+    ///
+    /// * CapacityUnits - The total number of capacity units consumed.
+    public var consumedCapacity: [DynamoDBClientTypes.ConsumedCapacity]?
+    /// A map of table name to a list of items. Each object in Responses consists of a table name, along with a map of attribute data consisting of the data type and attribute value.
+    public var responses: [Swift.String:[[Swift.String:DynamoDBClientTypes.AttributeValue]]]?
+    /// A map of tables and their respective keys that were not processed with the current response. The UnprocessedKeys value is in the same form as RequestItems, so the value can be provided directly to a subsequent BatchGetItem operation. For more information, see RequestItems in the Request Parameters section. Each element consists of:
+    ///
+    /// * Keys - An array of primary key attribute values that define specific items in the table.
+    ///
+    /// * ProjectionExpression - One or more attributes to be retrieved from the table or index. By default, all attributes are returned. If a requested attribute is not found, it does not appear in the result.
+    ///
+    /// * ConsistentRead - The consistency of a read operation. If set to true, then a strongly consistent read is used; otherwise, an eventually consistent read is used.
+    ///
+    ///
+    /// If there are no unprocessed keys remaining, the response contains an empty UnprocessedKeys map.
+    public var unprocessedKeys: [Swift.String:DynamoDBClientTypes.KeysAndAttributes]?
+
+    public init(
+        consumedCapacity: [DynamoDBClientTypes.ConsumedCapacity]? = nil,
+        responses: [Swift.String:[[Swift.String:DynamoDBClientTypes.AttributeValue]]]? = nil,
+        unprocessedKeys: [Swift.String:DynamoDBClientTypes.KeysAndAttributes]? = nil
+    )
+    {
+        self.consumedCapacity = consumedCapacity
+        self.responses = responses
+        self.unprocessedKeys = unprocessedKeys
     }
 }
 
@@ -1649,56 +1699,6 @@ enum BatchGetItemOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension BatchGetItemOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: BatchGetItemOutputBody = try responseDecoder.decode(responseBody: data)
-            self.consumedCapacity = output.consumedCapacity
-            self.responses = output.responses
-            self.unprocessedKeys = output.unprocessedKeys
-        } else {
-            self.consumedCapacity = nil
-            self.responses = nil
-            self.unprocessedKeys = nil
-        }
-    }
-}
-
-/// Represents the output of a BatchGetItem operation.
-public struct BatchGetItemOutput: Swift.Equatable {
-    /// The read capacity units consumed by the entire BatchGetItem operation. Each element consists of:
-    ///
-    /// * TableName - The table that consumed the provisioned throughput.
-    ///
-    /// * CapacityUnits - The total number of capacity units consumed.
-    public var consumedCapacity: [DynamoDBClientTypes.ConsumedCapacity]?
-    /// A map of table name to a list of items. Each object in Responses consists of a table name, along with a map of attribute data consisting of the data type and attribute value.
-    public var responses: [Swift.String:[[Swift.String:DynamoDBClientTypes.AttributeValue]]]?
-    /// A map of tables and their respective keys that were not processed with the current response. The UnprocessedKeys value is in the same form as RequestItems, so the value can be provided directly to a subsequent BatchGetItem operation. For more information, see RequestItems in the Request Parameters section. Each element consists of:
-    ///
-    /// * Keys - An array of primary key attribute values that define specific items in the table.
-    ///
-    /// * ProjectionExpression - One or more attributes to be retrieved from the table or index. By default, all attributes are returned. If a requested attribute is not found, it does not appear in the result.
-    ///
-    /// * ConsistentRead - The consistency of a read operation. If set to true, then a strongly consistent read is used; otherwise, an eventually consistent read is used.
-    ///
-    ///
-    /// If there are no unprocessed keys remaining, the response contains an empty UnprocessedKeys map.
-    public var unprocessedKeys: [Swift.String:DynamoDBClientTypes.KeysAndAttributes]?
-
-    public init(
-        consumedCapacity: [DynamoDBClientTypes.ConsumedCapacity]? = nil,
-        responses: [Swift.String:[[Swift.String:DynamoDBClientTypes.AttributeValue]]]? = nil,
-        unprocessedKeys: [Swift.String:DynamoDBClientTypes.KeysAndAttributes]? = nil
-    )
-    {
-        self.consumedCapacity = consumedCapacity
-        self.responses = responses
-        self.unprocessedKeys = unprocessedKeys
-    }
-}
-
 extension DynamoDBClientTypes.BatchStatementError: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case code = "Code"
@@ -1740,6 +1740,30 @@ extension DynamoDBClientTypes.BatchStatementError: Swift.Codable {
         }
         item = itemDecoded0
     }
+}
+
+extension DynamoDBClientTypes {
+    /// An error associated with a statement in a PartiQL batch that was run.
+    public struct BatchStatementError: Swift.Equatable {
+        /// The error code associated with the failed PartiQL batch statement.
+        public var code: DynamoDBClientTypes.BatchStatementErrorCodeEnum?
+        /// The item which caused the condition check to fail. This will be set if ReturnValuesOnConditionCheckFailure is specified as ALL_OLD.
+        public var item: [Swift.String:DynamoDBClientTypes.AttributeValue]?
+        /// The error message associated with the PartiQL batch response.
+        public var message: Swift.String?
+
+        public init(
+            code: DynamoDBClientTypes.BatchStatementErrorCodeEnum? = nil,
+            item: [Swift.String:DynamoDBClientTypes.AttributeValue]? = nil,
+            message: Swift.String? = nil
+        )
+        {
+            self.code = code
+            self.item = item
+            self.message = message
+        }
+    }
+
 }
 
 extension DynamoDBClientTypes {
@@ -1799,30 +1823,6 @@ extension DynamoDBClientTypes {
             self = BatchStatementErrorCodeEnum(rawValue: rawValue) ?? BatchStatementErrorCodeEnum.sdkUnknown(rawValue)
         }
     }
-}
-
-extension DynamoDBClientTypes {
-    /// An error associated with a statement in a PartiQL batch that was run.
-    public struct BatchStatementError: Swift.Equatable {
-        /// The error code associated with the failed PartiQL batch statement.
-        public var code: DynamoDBClientTypes.BatchStatementErrorCodeEnum?
-        /// The item which caused the condition check to fail. This will be set if ReturnValuesOnConditionCheckFailure is specified as ALL_OLD.
-        public var item: [Swift.String:DynamoDBClientTypes.AttributeValue]?
-        /// The error message associated with the PartiQL batch response.
-        public var message: Swift.String?
-
-        public init(
-            code: DynamoDBClientTypes.BatchStatementErrorCodeEnum? = nil,
-            item: [Swift.String:DynamoDBClientTypes.AttributeValue]? = nil,
-            message: Swift.String? = nil
-        )
-        {
-            self.code = code
-            self.item = item
-            self.message = message
-        }
-    }
-
 }
 
 extension DynamoDBClientTypes.BatchStatementRequest: Swift.Codable {
@@ -1970,46 +1970,6 @@ extension DynamoDBClientTypes {
 
 }
 
-struct BatchWriteItemInputBody: Swift.Equatable {
-    let requestItems: [Swift.String:[DynamoDBClientTypes.WriteRequest]]?
-    let returnConsumedCapacity: DynamoDBClientTypes.ReturnConsumedCapacity?
-    let returnItemCollectionMetrics: DynamoDBClientTypes.ReturnItemCollectionMetrics?
-}
-
-extension BatchWriteItemInputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case requestItems = "RequestItems"
-        case returnConsumedCapacity = "ReturnConsumedCapacity"
-        case returnItemCollectionMetrics = "ReturnItemCollectionMetrics"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let requestItemsContainer = try containerValues.decodeIfPresent([Swift.String: [DynamoDBClientTypes.WriteRequest?]?].self, forKey: .requestItems)
-        var requestItemsDecoded0: [Swift.String:[DynamoDBClientTypes.WriteRequest]]? = nil
-        if let requestItemsContainer = requestItemsContainer {
-            requestItemsDecoded0 = [Swift.String:[DynamoDBClientTypes.WriteRequest]]()
-            for (key0, writerequests0) in requestItemsContainer {
-                var writerequests0Decoded0: [DynamoDBClientTypes.WriteRequest]? = nil
-                if let writerequests0 = writerequests0 {
-                    writerequests0Decoded0 = [DynamoDBClientTypes.WriteRequest]()
-                    for structure1 in writerequests0 {
-                        if let structure1 = structure1 {
-                            writerequests0Decoded0?.append(structure1)
-                        }
-                    }
-                }
-                requestItemsDecoded0?[key0] = writerequests0Decoded0
-            }
-        }
-        requestItems = requestItemsDecoded0
-        let returnConsumedCapacityDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ReturnConsumedCapacity.self, forKey: .returnConsumedCapacity)
-        returnConsumedCapacity = returnConsumedCapacityDecoded
-        let returnItemCollectionMetricsDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ReturnItemCollectionMetrics.self, forKey: .returnItemCollectionMetrics)
-        returnItemCollectionMetrics = returnItemCollectionMetricsDecoded
-    }
-}
-
 extension BatchWriteItemInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case requestItems = "RequestItems"
@@ -2034,6 +1994,12 @@ extension BatchWriteItemInput: Swift.Encodable {
         if let returnItemCollectionMetrics = self.returnItemCollectionMetrics {
             try encodeContainer.encode(returnItemCollectionMetrics.rawValue, forKey: .returnItemCollectionMetrics)
         }
+    }
+}
+
+extension BatchWriteItemInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
     }
 }
 
@@ -2076,9 +2042,105 @@ public struct BatchWriteItemInput: Swift.Equatable {
     }
 }
 
-extension BatchWriteItemInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
+struct BatchWriteItemInputBody: Swift.Equatable {
+    let requestItems: [Swift.String:[DynamoDBClientTypes.WriteRequest]]?
+    let returnConsumedCapacity: DynamoDBClientTypes.ReturnConsumedCapacity?
+    let returnItemCollectionMetrics: DynamoDBClientTypes.ReturnItemCollectionMetrics?
+}
+
+extension BatchWriteItemInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case requestItems = "RequestItems"
+        case returnConsumedCapacity = "ReturnConsumedCapacity"
+        case returnItemCollectionMetrics = "ReturnItemCollectionMetrics"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let requestItemsContainer = try containerValues.decodeIfPresent([Swift.String: [DynamoDBClientTypes.WriteRequest?]?].self, forKey: .requestItems)
+        var requestItemsDecoded0: [Swift.String:[DynamoDBClientTypes.WriteRequest]]? = nil
+        if let requestItemsContainer = requestItemsContainer {
+            requestItemsDecoded0 = [Swift.String:[DynamoDBClientTypes.WriteRequest]]()
+            for (key0, writerequests0) in requestItemsContainer {
+                var writerequests0Decoded0: [DynamoDBClientTypes.WriteRequest]? = nil
+                if let writerequests0 = writerequests0 {
+                    writerequests0Decoded0 = [DynamoDBClientTypes.WriteRequest]()
+                    for structure1 in writerequests0 {
+                        if let structure1 = structure1 {
+                            writerequests0Decoded0?.append(structure1)
+                        }
+                    }
+                }
+                requestItemsDecoded0?[key0] = writerequests0Decoded0
+            }
+        }
+        requestItems = requestItemsDecoded0
+        let returnConsumedCapacityDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ReturnConsumedCapacity.self, forKey: .returnConsumedCapacity)
+        returnConsumedCapacity = returnConsumedCapacityDecoded
+        let returnItemCollectionMetricsDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ReturnItemCollectionMetrics.self, forKey: .returnItemCollectionMetrics)
+        returnItemCollectionMetrics = returnItemCollectionMetricsDecoded
+    }
+}
+
+extension BatchWriteItemOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: BatchWriteItemOutputBody = try responseDecoder.decode(responseBody: data)
+            self.consumedCapacity = output.consumedCapacity
+            self.itemCollectionMetrics = output.itemCollectionMetrics
+            self.unprocessedItems = output.unprocessedItems
+        } else {
+            self.consumedCapacity = nil
+            self.itemCollectionMetrics = nil
+            self.unprocessedItems = nil
+        }
+    }
+}
+
+/// Represents the output of a BatchWriteItem operation.
+public struct BatchWriteItemOutput: Swift.Equatable {
+    /// The capacity units consumed by the entire BatchWriteItem operation. Each element consists of:
+    ///
+    /// * TableName - The table that consumed the provisioned throughput.
+    ///
+    /// * CapacityUnits - The total number of capacity units consumed.
+    public var consumedCapacity: [DynamoDBClientTypes.ConsumedCapacity]?
+    /// A list of tables that were processed by BatchWriteItem and, for each table, information about any item collections that were affected by individual DeleteItem or PutItem operations. Each entry consists of the following subelements:
+    ///
+    /// * ItemCollectionKey - The partition key value of the item collection. This is the same as the partition key value of the item.
+    ///
+    /// * SizeEstimateRangeGB - An estimate of item collection size, expressed in GB. This is a two-element array containing a lower bound and an upper bound for the estimate. The estimate includes the size of all the items in the table, plus the size of all attributes projected into all of the local secondary indexes on the table. Use this estimate to measure whether a local secondary index is approaching its size limit. The estimate is subject to change over time; therefore, do not rely on the precision or accuracy of the estimate.
+    public var itemCollectionMetrics: [Swift.String:[DynamoDBClientTypes.ItemCollectionMetrics]]?
+    /// A map of tables and requests against those tables that were not processed. The UnprocessedItems value is in the same form as RequestItems, so you can provide this value directly to a subsequent BatchWriteItem operation. For more information, see RequestItems in the Request Parameters section. Each UnprocessedItems entry consists of a table name and, for that table, a list of operations to perform (DeleteRequest or PutRequest).
+    ///
+    /// * DeleteRequest - Perform a DeleteItem operation on the specified item. The item to be deleted is identified by a Key subelement:
+    ///
+    /// * Key - A map of primary key attribute values that uniquely identify the item. Each entry in this map consists of an attribute name and an attribute value.
+    ///
+    ///
+    ///
+    ///
+    /// * PutRequest - Perform a PutItem operation on the specified item. The item to be put is identified by an Item subelement:
+    ///
+    /// * Item - A map of attributes and their values. Each entry in this map consists of an attribute name and an attribute value. Attribute values must not be null; string and binary type attributes must have lengths greater than zero; and set type attributes must not be empty. Requests that contain empty values will be rejected with a ValidationException exception. If you specify any attributes that are part of an index key, then the data types for those attributes must match those of the schema in the table's attribute definition.
+    ///
+    ///
+    ///
+    ///
+    ///
+    /// If there are no unprocessed items remaining, the response contains an empty UnprocessedItems map.
+    public var unprocessedItems: [Swift.String:[DynamoDBClientTypes.WriteRequest]]?
+
+    public init(
+        consumedCapacity: [DynamoDBClientTypes.ConsumedCapacity]? = nil,
+        itemCollectionMetrics: [Swift.String:[DynamoDBClientTypes.ItemCollectionMetrics]]? = nil,
+        unprocessedItems: [Swift.String:[DynamoDBClientTypes.WriteRequest]]? = nil
+    )
+    {
+        self.consumedCapacity = consumedCapacity
+        self.itemCollectionMetrics = itemCollectionMetrics
+        self.unprocessedItems = unprocessedItems
     }
 }
 
@@ -2163,65 +2225,35 @@ enum BatchWriteItemOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension BatchWriteItemOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: BatchWriteItemOutputBody = try responseDecoder.decode(responseBody: data)
-            self.consumedCapacity = output.consumedCapacity
-            self.itemCollectionMetrics = output.itemCollectionMetrics
-            self.unprocessedItems = output.unprocessedItems
-        } else {
-            self.consumedCapacity = nil
-            self.itemCollectionMetrics = nil
-            self.unprocessedItems = nil
+extension DynamoDBClientTypes {
+    public enum BillingMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case payPerRequest
+        case provisioned
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BillingMode] {
+            return [
+                .payPerRequest,
+                .provisioned,
+                .sdkUnknown("")
+            ]
         }
-    }
-}
-
-/// Represents the output of a BatchWriteItem operation.
-public struct BatchWriteItemOutput: Swift.Equatable {
-    /// The capacity units consumed by the entire BatchWriteItem operation. Each element consists of:
-    ///
-    /// * TableName - The table that consumed the provisioned throughput.
-    ///
-    /// * CapacityUnits - The total number of capacity units consumed.
-    public var consumedCapacity: [DynamoDBClientTypes.ConsumedCapacity]?
-    /// A list of tables that were processed by BatchWriteItem and, for each table, information about any item collections that were affected by individual DeleteItem or PutItem operations. Each entry consists of the following subelements:
-    ///
-    /// * ItemCollectionKey - The partition key value of the item collection. This is the same as the partition key value of the item.
-    ///
-    /// * SizeEstimateRangeGB - An estimate of item collection size, expressed in GB. This is a two-element array containing a lower bound and an upper bound for the estimate. The estimate includes the size of all the items in the table, plus the size of all attributes projected into all of the local secondary indexes on the table. Use this estimate to measure whether a local secondary index is approaching its size limit. The estimate is subject to change over time; therefore, do not rely on the precision or accuracy of the estimate.
-    public var itemCollectionMetrics: [Swift.String:[DynamoDBClientTypes.ItemCollectionMetrics]]?
-    /// A map of tables and requests against those tables that were not processed. The UnprocessedItems value is in the same form as RequestItems, so you can provide this value directly to a subsequent BatchWriteItem operation. For more information, see RequestItems in the Request Parameters section. Each UnprocessedItems entry consists of a table name and, for that table, a list of operations to perform (DeleteRequest or PutRequest).
-    ///
-    /// * DeleteRequest - Perform a DeleteItem operation on the specified item. The item to be deleted is identified by a Key subelement:
-    ///
-    /// * Key - A map of primary key attribute values that uniquely identify the item. Each entry in this map consists of an attribute name and an attribute value.
-    ///
-    ///
-    ///
-    ///
-    /// * PutRequest - Perform a PutItem operation on the specified item. The item to be put is identified by an Item subelement:
-    ///
-    /// * Item - A map of attributes and their values. Each entry in this map consists of an attribute name and an attribute value. Attribute values must not be null; string and binary type attributes must have lengths greater than zero; and set type attributes must not be empty. Requests that contain empty values will be rejected with a ValidationException exception. If you specify any attributes that are part of an index key, then the data types for those attributes must match those of the schema in the table's attribute definition.
-    ///
-    ///
-    ///
-    ///
-    ///
-    /// If there are no unprocessed items remaining, the response contains an empty UnprocessedItems map.
-    public var unprocessedItems: [Swift.String:[DynamoDBClientTypes.WriteRequest]]?
-
-    public init(
-        consumedCapacity: [DynamoDBClientTypes.ConsumedCapacity]? = nil,
-        itemCollectionMetrics: [Swift.String:[DynamoDBClientTypes.ItemCollectionMetrics]]? = nil,
-        unprocessedItems: [Swift.String:[DynamoDBClientTypes.WriteRequest]]? = nil
-    )
-    {
-        self.consumedCapacity = consumedCapacity
-        self.itemCollectionMetrics = itemCollectionMetrics
-        self.unprocessedItems = unprocessedItems
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .payPerRequest: return "PAY_PER_REQUEST"
+            case .provisioned: return "PROVISIONED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = BillingMode(rawValue: rawValue) ?? BillingMode.sdkUnknown(rawValue)
+        }
     }
 }
 
@@ -2272,38 +2304,6 @@ extension DynamoDBClientTypes {
         }
     }
 
-}
-
-extension DynamoDBClientTypes {
-    public enum BillingMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
-        case payPerRequest
-        case provisioned
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [BillingMode] {
-            return [
-                .payPerRequest,
-                .provisioned,
-                .sdkUnknown("")
-            ]
-        }
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-        public var rawValue: Swift.String {
-            switch self {
-            case .payPerRequest: return "PAY_PER_REQUEST"
-            case .provisioned: return "PROVISIONED"
-            case let .sdkUnknown(s): return s
-            }
-        }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = BillingMode(rawValue: rawValue) ?? BillingMode.sdkUnknown(rawValue)
-        }
-    }
 }
 
 extension DynamoDBClientTypes.CancellationReason: Swift.Codable {
@@ -2493,111 +2493,95 @@ extension DynamoDBClientTypes {
     }
 }
 
-struct ConditionalCheckFailedExceptionBody: Swift.Equatable {
-    let message: Swift.String?
-    let item: [Swift.String:DynamoDBClientTypes.AttributeValue]?
-}
-
-extension ConditionalCheckFailedExceptionBody: Swift.Decodable {
+extension DynamoDBClientTypes.Condition: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case item = "Item"
-        case message
+        case attributeValueList = "AttributeValueList"
+        case comparisonOperator = "ComparisonOperator"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let attributeValueList = attributeValueList {
+            var attributeValueListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attributeValueList)
+            for attributevalue0 in attributeValueList {
+                try attributeValueListContainer.encode(attributevalue0)
+            }
+        }
+        if let comparisonOperator = self.comparisonOperator {
+            try encodeContainer.encode(comparisonOperator.rawValue, forKey: .comparisonOperator)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
-        message = messageDecoded
-        let itemContainer = try containerValues.decodeIfPresent([Swift.String: DynamoDBClientTypes.AttributeValue?].self, forKey: .item)
-        var itemDecoded0: [Swift.String:DynamoDBClientTypes.AttributeValue]? = nil
-        if let itemContainer = itemContainer {
-            itemDecoded0 = [Swift.String:DynamoDBClientTypes.AttributeValue]()
-            for (key0, attributevalue0) in itemContainer {
-                if let attributevalue0 = attributevalue0 {
-                    itemDecoded0?[key0] = attributevalue0
+        let attributeValueListContainer = try containerValues.decodeIfPresent([DynamoDBClientTypes.AttributeValue?].self, forKey: .attributeValueList)
+        var attributeValueListDecoded0:[DynamoDBClientTypes.AttributeValue]? = nil
+        if let attributeValueListContainer = attributeValueListContainer {
+            attributeValueListDecoded0 = [DynamoDBClientTypes.AttributeValue]()
+            for union0 in attributeValueListContainer {
+                if let union0 = union0 {
+                    attributeValueListDecoded0?.append(union0)
                 }
             }
         }
-        item = itemDecoded0
-    }
-}
-
-extension ConditionalCheckFailedException {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: ConditionalCheckFailedExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.properties.item = output.item
-            self.properties.message = output.message
-        } else {
-            self.properties.item = nil
-            self.properties.message = nil
-        }
-        self.httpResponse = httpResponse
-        self.requestID = requestID
-        self.message = message
-    }
-}
-
-/// A condition specified in the operation could not be evaluated.
-public struct ConditionalCheckFailedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
-
-    public struct Properties {
-        /// Item which caused the ConditionalCheckFailedException.
-        public internal(set) var item: [Swift.String:DynamoDBClientTypes.AttributeValue]? = nil
-        /// The conditional request failed.
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ConditionalCheckFailedException" }
-    public static var fault: ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = HttpResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        item: [Swift.String:DynamoDBClientTypes.AttributeValue]? = nil,
-        message: Swift.String? = nil
-    )
-    {
-        self.properties.item = item
-        self.properties.message = message
+        attributeValueList = attributeValueListDecoded0
+        let comparisonOperatorDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ComparisonOperator.self, forKey: .comparisonOperator)
+        comparisonOperator = comparisonOperatorDecoded
     }
 }
 
 extension DynamoDBClientTypes {
-    public enum ConditionalOperator: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
-        case and
-        case or
-        case sdkUnknown(Swift.String)
+    /// Represents the selection criteria for a Query or Scan operation:
+    ///
+    /// * For a Query operation, Condition is used for specifying the KeyConditions to use when querying a table or an index. For KeyConditions, only the following comparison operators are supported: EQ | LE | LT | GE | GT | BEGINS_WITH | BETWEENCondition is also used in a QueryFilter, which evaluates the query results and returns only the desired values.
+    ///
+    /// * For a Scan operation, Condition is used in a ScanFilter, which evaluates the scan results and returns only the desired values.
+    public struct Condition: Swift.Equatable {
+        /// One or more values to evaluate against the supplied attribute. The number of values in the list depends on the ComparisonOperator being used. For type Number, value comparisons are numeric. String value comparisons for greater than, equals, or less than are based on ASCII character code values. For example, a is greater than A, and a is greater than B. For a list of code values, see [http://en.wikipedia.org/wiki/ASCII#ASCII_printable_characters](http://en.wikipedia.org/wiki/ASCII#ASCII_printable_characters). For Binary, DynamoDB treats each byte of the binary data as unsigned when it compares binary values.
+        public var attributeValueList: [DynamoDBClientTypes.AttributeValue]?
+        /// A comparator for evaluating attributes. For example, equals, greater than, less than, etc. The following comparison operators are available: EQ | NE | LE | LT | GE | GT | NOT_NULL | NULL | CONTAINS | NOT_CONTAINS | BEGINS_WITH | IN | BETWEEN The following are descriptions of each comparison operator.
+        ///
+        /// * EQ : Equal. EQ is supported for all data types, including lists and maps. AttributeValueList can contain only one AttributeValue element of type String, Number, Binary, String Set, Number Set, or Binary Set. If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {"S":"6"} does not equal {"N":"6"}. Also, {"N":"6"} does not equal {"NS":["6", "2", "1"]}.
+        ///
+        /// * NE : Not equal. NE is supported for all data types, including lists and maps. AttributeValueList can contain only one AttributeValue of type String, Number, Binary, String Set, Number Set, or Binary Set. If an item contains an AttributeValue of a different type than the one provided in the request, the value does not match. For example, {"S":"6"} does not equal {"N":"6"}. Also, {"N":"6"} does not equal {"NS":["6", "2", "1"]}.
+        ///
+        /// * LE : Less than or equal. AttributeValueList can contain only one AttributeValue element of type String, Number, or Binary (not a set type). If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {"S":"6"} does not equal {"N":"6"}. Also, {"N":"6"} does not compare to {"NS":["6", "2", "1"]}.
+        ///
+        /// * LT : Less than. AttributeValueList can contain only one AttributeValue of type String, Number, or Binary (not a set type). If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {"S":"6"} does not equal {"N":"6"}. Also, {"N":"6"} does not compare to {"NS":["6", "2", "1"]}.
+        ///
+        /// * GE : Greater than or equal. AttributeValueList can contain only one AttributeValue element of type String, Number, or Binary (not a set type). If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {"S":"6"} does not equal {"N":"6"}. Also, {"N":"6"} does not compare to {"NS":["6", "2", "1"]}.
+        ///
+        /// * GT : Greater than. AttributeValueList can contain only one AttributeValue element of type String, Number, or Binary (not a set type). If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {"S":"6"} does not equal {"N":"6"}. Also, {"N":"6"} does not compare to {"NS":["6", "2", "1"]}.
+        ///
+        /// * NOT_NULL : The attribute exists. NOT_NULL is supported for all data types, including lists and maps. This operator tests for the existence of an attribute, not its data type. If the data type of attribute "a" is null, and you evaluate it using NOT_NULL, the result is a Boolean true. This result is because the attribute "a" exists; its data type is not relevant to the NOT_NULL comparison operator.
+        ///
+        /// * NULL : The attribute does not exist. NULL is supported for all data types, including lists and maps. This operator tests for the nonexistence of an attribute, not its data type. If the data type of attribute "a" is null, and you evaluate it using NULL, the result is a Boolean false. This is because the attribute "a" exists; its data type is not relevant to the NULL comparison operator.
+        ///
+        /// * CONTAINS : Checks for a subsequence, or value in a set. AttributeValueList can contain only one AttributeValue element of type String, Number, or Binary (not a set type). If the target attribute of the comparison is of type String, then the operator checks for a substring match. If the target attribute of the comparison is of type Binary, then the operator looks for a subsequence of the target that matches the input. If the target attribute of the comparison is a set ("SS", "NS", or "BS"), then the operator evaluates to true if it finds an exact match with any member of the set. CONTAINS is supported for lists: When evaluating "a CONTAINS b", "a" can be a list; however, "b" cannot be a set, a map, or a list.
+        ///
+        /// * NOT_CONTAINS : Checks for absence of a subsequence, or absence of a value in a set. AttributeValueList can contain only one AttributeValue element of type String, Number, or Binary (not a set type). If the target attribute of the comparison is a String, then the operator checks for the absence of a substring match. If the target attribute of the comparison is Binary, then the operator checks for the absence of a subsequence of the target that matches the input. If the target attribute of the comparison is a set ("SS", "NS", or "BS"), then the operator evaluates to true if it does not find an exact match with any member of the set. NOT_CONTAINS is supported for lists: When evaluating "a NOT CONTAINS b", "a" can be a list; however, "b" cannot be a set, a map, or a list.
+        ///
+        /// * BEGINS_WITH : Checks for a prefix. AttributeValueList can contain only one AttributeValue of type String or Binary (not a Number or a set type). The target attribute of the comparison must be of type String or Binary (not a Number or a set type).
+        ///
+        /// * IN : Checks for matching elements in a list. AttributeValueList can contain one or more AttributeValue elements of type String, Number, or Binary. These attributes are compared against an existing attribute of an item. If any elements of the input are equal to the item attribute, the expression evaluates to true.
+        ///
+        /// * BETWEEN : Greater than or equal to the first value, and less than or equal to the second value. AttributeValueList must contain two AttributeValue elements of the same type, either String, Number, or Binary (not a set type). A target attribute matches if the target value is greater than, or equal to, the first element and less than, or equal to, the second element. If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {"S":"6"} does not compare to {"N":"6"}. Also, {"N":"6"} does not compare to {"NS":["6", "2", "1"]}
+        ///
+        ///
+        /// For usage examples of AttributeValueList and ComparisonOperator, see [Legacy Conditional Parameters](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/LegacyConditionalParameters.html) in the Amazon DynamoDB Developer Guide.
+        /// This member is required.
+        public var comparisonOperator: DynamoDBClientTypes.ComparisonOperator?
 
-        public static var allCases: [ConditionalOperator] {
-            return [
-                .and,
-                .or,
-                .sdkUnknown("")
-            ]
-        }
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-        public var rawValue: Swift.String {
-            switch self {
-            case .and: return "AND"
-            case .or: return "OR"
-            case let .sdkUnknown(s): return s
-            }
-        }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = ConditionalOperator(rawValue: rawValue) ?? ConditionalOperator.sdkUnknown(rawValue)
+        public init(
+            attributeValueList: [DynamoDBClientTypes.AttributeValue]? = nil,
+            comparisonOperator: DynamoDBClientTypes.ComparisonOperator? = nil
+        )
+        {
+            self.attributeValueList = attributeValueList
+            self.comparisonOperator = comparisonOperator
         }
     }
+
 }
 
 extension DynamoDBClientTypes.ConditionCheck: Swift.Codable {
@@ -2724,95 +2708,111 @@ extension DynamoDBClientTypes {
 
 }
 
-extension DynamoDBClientTypes.Condition: Swift.Codable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case attributeValueList = "AttributeValueList"
-        case comparisonOperator = "ComparisonOperator"
+extension ConditionalCheckFailedException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ConditionalCheckFailedExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.properties.item = output.item
+            self.properties.message = output.message
+        } else {
+            self.properties.item = nil
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// A condition specified in the operation could not be evaluated.
+public struct ConditionalCheckFailedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        /// Item which caused the ConditionalCheckFailedException.
+        public internal(set) var item: [Swift.String:DynamoDBClientTypes.AttributeValue]? = nil
+        /// The conditional request failed.
+        public internal(set) var message: Swift.String? = nil
     }
 
-    public func encode(to encoder: Swift.Encoder) throws {
-        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let attributeValueList = attributeValueList {
-            var attributeValueListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attributeValueList)
-            for attributevalue0 in attributeValueList {
-                try attributeValueListContainer.encode(attributevalue0)
-            }
-        }
-        if let comparisonOperator = self.comparisonOperator {
-            try encodeContainer.encode(comparisonOperator.rawValue, forKey: .comparisonOperator)
-        }
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConditionalCheckFailedException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        item: [Swift.String:DynamoDBClientTypes.AttributeValue]? = nil,
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.item = item
+        self.properties.message = message
+    }
+}
+
+struct ConditionalCheckFailedExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+    let item: [Swift.String:DynamoDBClientTypes.AttributeValue]?
+}
+
+extension ConditionalCheckFailedExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case item = "Item"
+        case message
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let attributeValueListContainer = try containerValues.decodeIfPresent([DynamoDBClientTypes.AttributeValue?].self, forKey: .attributeValueList)
-        var attributeValueListDecoded0:[DynamoDBClientTypes.AttributeValue]? = nil
-        if let attributeValueListContainer = attributeValueListContainer {
-            attributeValueListDecoded0 = [DynamoDBClientTypes.AttributeValue]()
-            for union0 in attributeValueListContainer {
-                if let union0 = union0 {
-                    attributeValueListDecoded0?.append(union0)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+        let itemContainer = try containerValues.decodeIfPresent([Swift.String: DynamoDBClientTypes.AttributeValue?].self, forKey: .item)
+        var itemDecoded0: [Swift.String:DynamoDBClientTypes.AttributeValue]? = nil
+        if let itemContainer = itemContainer {
+            itemDecoded0 = [Swift.String:DynamoDBClientTypes.AttributeValue]()
+            for (key0, attributevalue0) in itemContainer {
+                if let attributevalue0 = attributevalue0 {
+                    itemDecoded0?[key0] = attributevalue0
                 }
             }
         }
-        attributeValueList = attributeValueListDecoded0
-        let comparisonOperatorDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ComparisonOperator.self, forKey: .comparisonOperator)
-        comparisonOperator = comparisonOperatorDecoded
+        item = itemDecoded0
     }
 }
 
 extension DynamoDBClientTypes {
-    /// Represents the selection criteria for a Query or Scan operation:
-    ///
-    /// * For a Query operation, Condition is used for specifying the KeyConditions to use when querying a table or an index. For KeyConditions, only the following comparison operators are supported: EQ | LE | LT | GE | GT | BEGINS_WITH | BETWEENCondition is also used in a QueryFilter, which evaluates the query results and returns only the desired values.
-    ///
-    /// * For a Scan operation, Condition is used in a ScanFilter, which evaluates the scan results and returns only the desired values.
-    public struct Condition: Swift.Equatable {
-        /// One or more values to evaluate against the supplied attribute. The number of values in the list depends on the ComparisonOperator being used. For type Number, value comparisons are numeric. String value comparisons for greater than, equals, or less than are based on ASCII character code values. For example, a is greater than A, and a is greater than B. For a list of code values, see [http://en.wikipedia.org/wiki/ASCII#ASCII_printable_characters](http://en.wikipedia.org/wiki/ASCII#ASCII_printable_characters). For Binary, DynamoDB treats each byte of the binary data as unsigned when it compares binary values.
-        public var attributeValueList: [DynamoDBClientTypes.AttributeValue]?
-        /// A comparator for evaluating attributes. For example, equals, greater than, less than, etc. The following comparison operators are available: EQ | NE | LE | LT | GE | GT | NOT_NULL | NULL | CONTAINS | NOT_CONTAINS | BEGINS_WITH | IN | BETWEEN The following are descriptions of each comparison operator.
-        ///
-        /// * EQ : Equal. EQ is supported for all data types, including lists and maps. AttributeValueList can contain only one AttributeValue element of type String, Number, Binary, String Set, Number Set, or Binary Set. If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {"S":"6"} does not equal {"N":"6"}. Also, {"N":"6"} does not equal {"NS":["6", "2", "1"]}.
-        ///
-        /// * NE : Not equal. NE is supported for all data types, including lists and maps. AttributeValueList can contain only one AttributeValue of type String, Number, Binary, String Set, Number Set, or Binary Set. If an item contains an AttributeValue of a different type than the one provided in the request, the value does not match. For example, {"S":"6"} does not equal {"N":"6"}. Also, {"N":"6"} does not equal {"NS":["6", "2", "1"]}.
-        ///
-        /// * LE : Less than or equal. AttributeValueList can contain only one AttributeValue element of type String, Number, or Binary (not a set type). If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {"S":"6"} does not equal {"N":"6"}. Also, {"N":"6"} does not compare to {"NS":["6", "2", "1"]}.
-        ///
-        /// * LT : Less than. AttributeValueList can contain only one AttributeValue of type String, Number, or Binary (not a set type). If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {"S":"6"} does not equal {"N":"6"}. Also, {"N":"6"} does not compare to {"NS":["6", "2", "1"]}.
-        ///
-        /// * GE : Greater than or equal. AttributeValueList can contain only one AttributeValue element of type String, Number, or Binary (not a set type). If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {"S":"6"} does not equal {"N":"6"}. Also, {"N":"6"} does not compare to {"NS":["6", "2", "1"]}.
-        ///
-        /// * GT : Greater than. AttributeValueList can contain only one AttributeValue element of type String, Number, or Binary (not a set type). If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {"S":"6"} does not equal {"N":"6"}. Also, {"N":"6"} does not compare to {"NS":["6", "2", "1"]}.
-        ///
-        /// * NOT_NULL : The attribute exists. NOT_NULL is supported for all data types, including lists and maps. This operator tests for the existence of an attribute, not its data type. If the data type of attribute "a" is null, and you evaluate it using NOT_NULL, the result is a Boolean true. This result is because the attribute "a" exists; its data type is not relevant to the NOT_NULL comparison operator.
-        ///
-        /// * NULL : The attribute does not exist. NULL is supported for all data types, including lists and maps. This operator tests for the nonexistence of an attribute, not its data type. If the data type of attribute "a" is null, and you evaluate it using NULL, the result is a Boolean false. This is because the attribute "a" exists; its data type is not relevant to the NULL comparison operator.
-        ///
-        /// * CONTAINS : Checks for a subsequence, or value in a set. AttributeValueList can contain only one AttributeValue element of type String, Number, or Binary (not a set type). If the target attribute of the comparison is of type String, then the operator checks for a substring match. If the target attribute of the comparison is of type Binary, then the operator looks for a subsequence of the target that matches the input. If the target attribute of the comparison is a set ("SS", "NS", or "BS"), then the operator evaluates to true if it finds an exact match with any member of the set. CONTAINS is supported for lists: When evaluating "a CONTAINS b", "a" can be a list; however, "b" cannot be a set, a map, or a list.
-        ///
-        /// * NOT_CONTAINS : Checks for absence of a subsequence, or absence of a value in a set. AttributeValueList can contain only one AttributeValue element of type String, Number, or Binary (not a set type). If the target attribute of the comparison is a String, then the operator checks for the absence of a substring match. If the target attribute of the comparison is Binary, then the operator checks for the absence of a subsequence of the target that matches the input. If the target attribute of the comparison is a set ("SS", "NS", or "BS"), then the operator evaluates to true if it does not find an exact match with any member of the set. NOT_CONTAINS is supported for lists: When evaluating "a NOT CONTAINS b", "a" can be a list; however, "b" cannot be a set, a map, or a list.
-        ///
-        /// * BEGINS_WITH : Checks for a prefix. AttributeValueList can contain only one AttributeValue of type String or Binary (not a Number or a set type). The target attribute of the comparison must be of type String or Binary (not a Number or a set type).
-        ///
-        /// * IN : Checks for matching elements in a list. AttributeValueList can contain one or more AttributeValue elements of type String, Number, or Binary. These attributes are compared against an existing attribute of an item. If any elements of the input are equal to the item attribute, the expression evaluates to true.
-        ///
-        /// * BETWEEN : Greater than or equal to the first value, and less than or equal to the second value. AttributeValueList must contain two AttributeValue elements of the same type, either String, Number, or Binary (not a set type). A target attribute matches if the target value is greater than, or equal to, the first element and less than, or equal to, the second element. If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {"S":"6"} does not compare to {"N":"6"}. Also, {"N":"6"} does not compare to {"NS":["6", "2", "1"]}
-        ///
-        ///
-        /// For usage examples of AttributeValueList and ComparisonOperator, see [Legacy Conditional Parameters](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/LegacyConditionalParameters.html) in the Amazon DynamoDB Developer Guide.
-        /// This member is required.
-        public var comparisonOperator: DynamoDBClientTypes.ComparisonOperator?
+    public enum ConditionalOperator: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case and
+        case or
+        case sdkUnknown(Swift.String)
 
-        public init(
-            attributeValueList: [DynamoDBClientTypes.AttributeValue]? = nil,
-            comparisonOperator: DynamoDBClientTypes.ComparisonOperator? = nil
-        )
-        {
-            self.attributeValueList = attributeValueList
-            self.comparisonOperator = comparisonOperator
+        public static var allCases: [ConditionalOperator] {
+            return [
+                .and,
+                .or,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .and: return "AND"
+            case .or: return "OR"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ConditionalOperator(rawValue: rawValue) ?? ConditionalOperator.sdkUnknown(rawValue)
         }
     }
-
 }
 
 extension DynamoDBClientTypes.ConsumedCapacity: Swift.Codable {
@@ -3012,22 +3012,6 @@ extension DynamoDBClientTypes {
     }
 }
 
-struct ContinuousBackupsUnavailableExceptionBody: Swift.Equatable {
-    let message: Swift.String?
-}
-
-extension ContinuousBackupsUnavailableExceptionBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case message
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
-        message = messageDecoded
-    }
-}
-
 extension ContinuousBackupsUnavailableException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -3064,6 +3048,22 @@ public struct ContinuousBackupsUnavailableException: ClientRuntime.ModeledError,
     )
     {
         self.properties.message = message
+    }
+}
+
+struct ContinuousBackupsUnavailableExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension ContinuousBackupsUnavailableExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
     }
 }
 
@@ -3195,26 +3195,6 @@ extension DynamoDBClientTypes {
 
 }
 
-struct CreateBackupInputBody: Swift.Equatable {
-    let tableName: Swift.String?
-    let backupName: Swift.String?
-}
-
-extension CreateBackupInputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case backupName = "BackupName"
-        case tableName = "TableName"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let tableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableName)
-        tableName = tableNameDecoded
-        let backupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .backupName)
-        backupName = backupNameDecoded
-    }
-}
-
 extension CreateBackupInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case backupName = "BackupName"
@@ -3229,6 +3209,12 @@ extension CreateBackupInput: Swift.Encodable {
         if let tableName = self.tableName {
             try encodeContainer.encode(tableName, forKey: .tableName)
         }
+    }
+}
+
+extension CreateBackupInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
     }
 }
 
@@ -3250,9 +3236,47 @@ public struct CreateBackupInput: Swift.Equatable {
     }
 }
 
-extension CreateBackupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
+struct CreateBackupInputBody: Swift.Equatable {
+    let tableName: Swift.String?
+    let backupName: Swift.String?
+}
+
+extension CreateBackupInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case backupName = "BackupName"
+        case tableName = "TableName"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let tableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableName)
+        tableName = tableNameDecoded
+        let backupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .backupName)
+        backupName = backupNameDecoded
+    }
+}
+
+extension CreateBackupOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateBackupOutputBody = try responseDecoder.decode(responseBody: data)
+            self.backupDetails = output.backupDetails
+        } else {
+            self.backupDetails = nil
+        }
+    }
+}
+
+public struct CreateBackupOutput: Swift.Equatable {
+    /// Contains the details of the backup created for the table.
+    public var backupDetails: DynamoDBClientTypes.BackupDetails?
+
+    public init(
+        backupDetails: DynamoDBClientTypes.BackupDetails? = nil
+    )
+    {
+        self.backupDetails = backupDetails
     }
 }
 
@@ -3286,30 +3310,6 @@ enum CreateBackupOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TableNotFoundException": return try await TableNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension CreateBackupOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateBackupOutputBody = try responseDecoder.decode(responseBody: data)
-            self.backupDetails = output.backupDetails
-        } else {
-            self.backupDetails = nil
-        }
-    }
-}
-
-public struct CreateBackupOutput: Swift.Equatable {
-    /// Contains the details of the backup created for the table.
-    public var backupDetails: DynamoDBClientTypes.BackupDetails?
-
-    public init(
-        backupDetails: DynamoDBClientTypes.BackupDetails? = nil
-    )
-    {
-        self.backupDetails = backupDetails
     }
 }
 
@@ -3393,6 +3393,50 @@ extension DynamoDBClientTypes {
 
 }
 
+extension CreateGlobalTableInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case globalTableName = "GlobalTableName"
+        case replicationGroup = "ReplicationGroup"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let globalTableName = self.globalTableName {
+            try encodeContainer.encode(globalTableName, forKey: .globalTableName)
+        }
+        if let replicationGroup = replicationGroup {
+            var replicationGroupContainer = encodeContainer.nestedUnkeyedContainer(forKey: .replicationGroup)
+            for replica0 in replicationGroup {
+                try replicationGroupContainer.encode(replica0)
+            }
+        }
+    }
+}
+
+extension CreateGlobalTableInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct CreateGlobalTableInput: Swift.Equatable {
+    /// The global table name.
+    /// This member is required.
+    public var globalTableName: Swift.String?
+    /// The Regions where the global table needs to be created.
+    /// This member is required.
+    public var replicationGroup: [DynamoDBClientTypes.Replica]?
+
+    public init(
+        globalTableName: Swift.String? = nil,
+        replicationGroup: [DynamoDBClientTypes.Replica]? = nil
+    )
+    {
+        self.globalTableName = globalTableName
+        self.replicationGroup = replicationGroup
+    }
+}
+
 struct CreateGlobalTableInputBody: Swift.Equatable {
     let globalTableName: Swift.String?
     let replicationGroup: [DynamoDBClientTypes.Replica]?
@@ -3422,47 +3466,27 @@ extension CreateGlobalTableInputBody: Swift.Decodable {
     }
 }
 
-extension CreateGlobalTableInput: Swift.Encodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case globalTableName = "GlobalTableName"
-        case replicationGroup = "ReplicationGroup"
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let globalTableName = self.globalTableName {
-            try encodeContainer.encode(globalTableName, forKey: .globalTableName)
-        }
-        if let replicationGroup = replicationGroup {
-            var replicationGroupContainer = encodeContainer.nestedUnkeyedContainer(forKey: .replicationGroup)
-            for replica0 in replicationGroup {
-                try replicationGroupContainer.encode(replica0)
-            }
+extension CreateGlobalTableOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateGlobalTableOutputBody = try responseDecoder.decode(responseBody: data)
+            self.globalTableDescription = output.globalTableDescription
+        } else {
+            self.globalTableDescription = nil
         }
     }
 }
 
-public struct CreateGlobalTableInput: Swift.Equatable {
-    /// The global table name.
-    /// This member is required.
-    public var globalTableName: Swift.String?
-    /// The Regions where the global table needs to be created.
-    /// This member is required.
-    public var replicationGroup: [DynamoDBClientTypes.Replica]?
+public struct CreateGlobalTableOutput: Swift.Equatable {
+    /// Contains the details of the global table.
+    public var globalTableDescription: DynamoDBClientTypes.GlobalTableDescription?
 
     public init(
-        globalTableName: Swift.String? = nil,
-        replicationGroup: [DynamoDBClientTypes.Replica]? = nil
+        globalTableDescription: DynamoDBClientTypes.GlobalTableDescription? = nil
     )
     {
-        self.globalTableName = globalTableName
-        self.replicationGroup = replicationGroup
-    }
-}
-
-extension CreateGlobalTableInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
+        self.globalTableDescription = globalTableDescription
     }
 }
 
@@ -3494,30 +3518,6 @@ enum CreateGlobalTableOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TableNotFoundException": return try await TableNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension CreateGlobalTableOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateGlobalTableOutputBody = try responseDecoder.decode(responseBody: data)
-            self.globalTableDescription = output.globalTableDescription
-        } else {
-            self.globalTableDescription = nil
-        }
-    }
-}
-
-public struct CreateGlobalTableOutput: Swift.Equatable {
-    /// Contains the details of the global table.
-    public var globalTableDescription: DynamoDBClientTypes.GlobalTableDescription?
-
-    public init(
-        globalTableDescription: DynamoDBClientTypes.GlobalTableDescription? = nil
-    )
-    {
-        self.globalTableDescription = globalTableDescription
     }
 }
 
@@ -3645,111 +3645,6 @@ extension DynamoDBClientTypes {
 
 }
 
-struct CreateTableInputBody: Swift.Equatable {
-    let attributeDefinitions: [DynamoDBClientTypes.AttributeDefinition]?
-    let tableName: Swift.String?
-    let keySchema: [DynamoDBClientTypes.KeySchemaElement]?
-    let localSecondaryIndexes: [DynamoDBClientTypes.LocalSecondaryIndex]?
-    let globalSecondaryIndexes: [DynamoDBClientTypes.GlobalSecondaryIndex]?
-    let billingMode: DynamoDBClientTypes.BillingMode?
-    let provisionedThroughput: DynamoDBClientTypes.ProvisionedThroughput?
-    let streamSpecification: DynamoDBClientTypes.StreamSpecification?
-    let sseSpecification: DynamoDBClientTypes.SSESpecification?
-    let tags: [DynamoDBClientTypes.Tag]?
-    let tableClass: DynamoDBClientTypes.TableClass?
-    let deletionProtectionEnabled: Swift.Bool?
-}
-
-extension CreateTableInputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case attributeDefinitions = "AttributeDefinitions"
-        case billingMode = "BillingMode"
-        case deletionProtectionEnabled = "DeletionProtectionEnabled"
-        case globalSecondaryIndexes = "GlobalSecondaryIndexes"
-        case keySchema = "KeySchema"
-        case localSecondaryIndexes = "LocalSecondaryIndexes"
-        case provisionedThroughput = "ProvisionedThroughput"
-        case sseSpecification = "SSESpecification"
-        case streamSpecification = "StreamSpecification"
-        case tableClass = "TableClass"
-        case tableName = "TableName"
-        case tags = "Tags"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let attributeDefinitionsContainer = try containerValues.decodeIfPresent([DynamoDBClientTypes.AttributeDefinition?].self, forKey: .attributeDefinitions)
-        var attributeDefinitionsDecoded0:[DynamoDBClientTypes.AttributeDefinition]? = nil
-        if let attributeDefinitionsContainer = attributeDefinitionsContainer {
-            attributeDefinitionsDecoded0 = [DynamoDBClientTypes.AttributeDefinition]()
-            for structure0 in attributeDefinitionsContainer {
-                if let structure0 = structure0 {
-                    attributeDefinitionsDecoded0?.append(structure0)
-                }
-            }
-        }
-        attributeDefinitions = attributeDefinitionsDecoded0
-        let tableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableName)
-        tableName = tableNameDecoded
-        let keySchemaContainer = try containerValues.decodeIfPresent([DynamoDBClientTypes.KeySchemaElement?].self, forKey: .keySchema)
-        var keySchemaDecoded0:[DynamoDBClientTypes.KeySchemaElement]? = nil
-        if let keySchemaContainer = keySchemaContainer {
-            keySchemaDecoded0 = [DynamoDBClientTypes.KeySchemaElement]()
-            for structure0 in keySchemaContainer {
-                if let structure0 = structure0 {
-                    keySchemaDecoded0?.append(structure0)
-                }
-            }
-        }
-        keySchema = keySchemaDecoded0
-        let localSecondaryIndexesContainer = try containerValues.decodeIfPresent([DynamoDBClientTypes.LocalSecondaryIndex?].self, forKey: .localSecondaryIndexes)
-        var localSecondaryIndexesDecoded0:[DynamoDBClientTypes.LocalSecondaryIndex]? = nil
-        if let localSecondaryIndexesContainer = localSecondaryIndexesContainer {
-            localSecondaryIndexesDecoded0 = [DynamoDBClientTypes.LocalSecondaryIndex]()
-            for structure0 in localSecondaryIndexesContainer {
-                if let structure0 = structure0 {
-                    localSecondaryIndexesDecoded0?.append(structure0)
-                }
-            }
-        }
-        localSecondaryIndexes = localSecondaryIndexesDecoded0
-        let globalSecondaryIndexesContainer = try containerValues.decodeIfPresent([DynamoDBClientTypes.GlobalSecondaryIndex?].self, forKey: .globalSecondaryIndexes)
-        var globalSecondaryIndexesDecoded0:[DynamoDBClientTypes.GlobalSecondaryIndex]? = nil
-        if let globalSecondaryIndexesContainer = globalSecondaryIndexesContainer {
-            globalSecondaryIndexesDecoded0 = [DynamoDBClientTypes.GlobalSecondaryIndex]()
-            for structure0 in globalSecondaryIndexesContainer {
-                if let structure0 = structure0 {
-                    globalSecondaryIndexesDecoded0?.append(structure0)
-                }
-            }
-        }
-        globalSecondaryIndexes = globalSecondaryIndexesDecoded0
-        let billingModeDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.BillingMode.self, forKey: .billingMode)
-        billingMode = billingModeDecoded
-        let provisionedThroughputDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ProvisionedThroughput.self, forKey: .provisionedThroughput)
-        provisionedThroughput = provisionedThroughputDecoded
-        let streamSpecificationDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.StreamSpecification.self, forKey: .streamSpecification)
-        streamSpecification = streamSpecificationDecoded
-        let sseSpecificationDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.SSESpecification.self, forKey: .sseSpecification)
-        sseSpecification = sseSpecificationDecoded
-        let tagsContainer = try containerValues.decodeIfPresent([DynamoDBClientTypes.Tag?].self, forKey: .tags)
-        var tagsDecoded0:[DynamoDBClientTypes.Tag]? = nil
-        if let tagsContainer = tagsContainer {
-            tagsDecoded0 = [DynamoDBClientTypes.Tag]()
-            for structure0 in tagsContainer {
-                if let structure0 = structure0 {
-                    tagsDecoded0?.append(structure0)
-                }
-            }
-        }
-        tags = tagsDecoded0
-        let tableClassDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.TableClass.self, forKey: .tableClass)
-        tableClass = tableClassDecoded
-        let deletionProtectionEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deletionProtectionEnabled)
-        deletionProtectionEnabled = deletionProtectionEnabledDecoded
-    }
-}
-
 extension CreateTableInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case attributeDefinitions = "AttributeDefinitions"
@@ -3819,6 +3714,12 @@ extension CreateTableInput: Swift.Encodable {
                 try tagsContainer.encode(tag0)
             }
         }
+    }
+}
+
+extension CreateTableInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
     }
 }
 
@@ -3955,9 +3856,133 @@ public struct CreateTableInput: Swift.Equatable {
     }
 }
 
-extension CreateTableInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
+struct CreateTableInputBody: Swift.Equatable {
+    let attributeDefinitions: [DynamoDBClientTypes.AttributeDefinition]?
+    let tableName: Swift.String?
+    let keySchema: [DynamoDBClientTypes.KeySchemaElement]?
+    let localSecondaryIndexes: [DynamoDBClientTypes.LocalSecondaryIndex]?
+    let globalSecondaryIndexes: [DynamoDBClientTypes.GlobalSecondaryIndex]?
+    let billingMode: DynamoDBClientTypes.BillingMode?
+    let provisionedThroughput: DynamoDBClientTypes.ProvisionedThroughput?
+    let streamSpecification: DynamoDBClientTypes.StreamSpecification?
+    let sseSpecification: DynamoDBClientTypes.SSESpecification?
+    let tags: [DynamoDBClientTypes.Tag]?
+    let tableClass: DynamoDBClientTypes.TableClass?
+    let deletionProtectionEnabled: Swift.Bool?
+}
+
+extension CreateTableInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case attributeDefinitions = "AttributeDefinitions"
+        case billingMode = "BillingMode"
+        case deletionProtectionEnabled = "DeletionProtectionEnabled"
+        case globalSecondaryIndexes = "GlobalSecondaryIndexes"
+        case keySchema = "KeySchema"
+        case localSecondaryIndexes = "LocalSecondaryIndexes"
+        case provisionedThroughput = "ProvisionedThroughput"
+        case sseSpecification = "SSESpecification"
+        case streamSpecification = "StreamSpecification"
+        case tableClass = "TableClass"
+        case tableName = "TableName"
+        case tags = "Tags"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let attributeDefinitionsContainer = try containerValues.decodeIfPresent([DynamoDBClientTypes.AttributeDefinition?].self, forKey: .attributeDefinitions)
+        var attributeDefinitionsDecoded0:[DynamoDBClientTypes.AttributeDefinition]? = nil
+        if let attributeDefinitionsContainer = attributeDefinitionsContainer {
+            attributeDefinitionsDecoded0 = [DynamoDBClientTypes.AttributeDefinition]()
+            for structure0 in attributeDefinitionsContainer {
+                if let structure0 = structure0 {
+                    attributeDefinitionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        attributeDefinitions = attributeDefinitionsDecoded0
+        let tableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableName)
+        tableName = tableNameDecoded
+        let keySchemaContainer = try containerValues.decodeIfPresent([DynamoDBClientTypes.KeySchemaElement?].self, forKey: .keySchema)
+        var keySchemaDecoded0:[DynamoDBClientTypes.KeySchemaElement]? = nil
+        if let keySchemaContainer = keySchemaContainer {
+            keySchemaDecoded0 = [DynamoDBClientTypes.KeySchemaElement]()
+            for structure0 in keySchemaContainer {
+                if let structure0 = structure0 {
+                    keySchemaDecoded0?.append(structure0)
+                }
+            }
+        }
+        keySchema = keySchemaDecoded0
+        let localSecondaryIndexesContainer = try containerValues.decodeIfPresent([DynamoDBClientTypes.LocalSecondaryIndex?].self, forKey: .localSecondaryIndexes)
+        var localSecondaryIndexesDecoded0:[DynamoDBClientTypes.LocalSecondaryIndex]? = nil
+        if let localSecondaryIndexesContainer = localSecondaryIndexesContainer {
+            localSecondaryIndexesDecoded0 = [DynamoDBClientTypes.LocalSecondaryIndex]()
+            for structure0 in localSecondaryIndexesContainer {
+                if let structure0 = structure0 {
+                    localSecondaryIndexesDecoded0?.append(structure0)
+                }
+            }
+        }
+        localSecondaryIndexes = localSecondaryIndexesDecoded0
+        let globalSecondaryIndexesContainer = try containerValues.decodeIfPresent([DynamoDBClientTypes.GlobalSecondaryIndex?].self, forKey: .globalSecondaryIndexes)
+        var globalSecondaryIndexesDecoded0:[DynamoDBClientTypes.GlobalSecondaryIndex]? = nil
+        if let globalSecondaryIndexesContainer = globalSecondaryIndexesContainer {
+            globalSecondaryIndexesDecoded0 = [DynamoDBClientTypes.GlobalSecondaryIndex]()
+            for structure0 in globalSecondaryIndexesContainer {
+                if let structure0 = structure0 {
+                    globalSecondaryIndexesDecoded0?.append(structure0)
+                }
+            }
+        }
+        globalSecondaryIndexes = globalSecondaryIndexesDecoded0
+        let billingModeDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.BillingMode.self, forKey: .billingMode)
+        billingMode = billingModeDecoded
+        let provisionedThroughputDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ProvisionedThroughput.self, forKey: .provisionedThroughput)
+        provisionedThroughput = provisionedThroughputDecoded
+        let streamSpecificationDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.StreamSpecification.self, forKey: .streamSpecification)
+        streamSpecification = streamSpecificationDecoded
+        let sseSpecificationDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.SSESpecification.self, forKey: .sseSpecification)
+        sseSpecification = sseSpecificationDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([DynamoDBClientTypes.Tag?].self, forKey: .tags)
+        var tagsDecoded0:[DynamoDBClientTypes.Tag]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [DynamoDBClientTypes.Tag]()
+            for structure0 in tagsContainer {
+                if let structure0 = structure0 {
+                    tagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tags = tagsDecoded0
+        let tableClassDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.TableClass.self, forKey: .tableClass)
+        tableClass = tableClassDecoded
+        let deletionProtectionEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deletionProtectionEnabled)
+        deletionProtectionEnabled = deletionProtectionEnabledDecoded
+    }
+}
+
+extension CreateTableOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateTableOutputBody = try responseDecoder.decode(responseBody: data)
+            self.tableDescription = output.tableDescription
+        } else {
+            self.tableDescription = nil
+        }
+    }
+}
+
+/// Represents the output of a CreateTable operation.
+public struct CreateTableOutput: Swift.Equatable {
+    /// Represents the properties of the table.
+    public var tableDescription: DynamoDBClientTypes.TableDescription?
+
+    public init(
+        tableDescription: DynamoDBClientTypes.TableDescription? = nil
+    )
+    {
+        self.tableDescription = tableDescription
     }
 }
 
@@ -3988,31 +4013,6 @@ enum CreateTableOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ResourceInUseException": return try await ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension CreateTableOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateTableOutputBody = try responseDecoder.decode(responseBody: data)
-            self.tableDescription = output.tableDescription
-        } else {
-            self.tableDescription = nil
-        }
-    }
-}
-
-/// Represents the output of a CreateTable operation.
-public struct CreateTableOutput: Swift.Equatable {
-    /// Represents the properties of the table.
-    public var tableDescription: DynamoDBClientTypes.TableDescription?
-
-    public init(
-        tableDescription: DynamoDBClientTypes.TableDescription? = nil
-    )
-    {
-        self.tableDescription = tableDescription
     }
 }
 
@@ -4071,109 +4071,6 @@ extension DynamoDBClientTypes {
         }
     }
 
-}
-
-struct DeleteBackupInputBody: Swift.Equatable {
-    let backupArn: Swift.String?
-}
-
-extension DeleteBackupInputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case backupArn = "BackupArn"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let backupArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .backupArn)
-        backupArn = backupArnDecoded
-    }
-}
-
-extension DeleteBackupInput: Swift.Encodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case backupArn = "BackupArn"
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let backupArn = self.backupArn {
-            try encodeContainer.encode(backupArn, forKey: .backupArn)
-        }
-    }
-}
-
-public struct DeleteBackupInput: Swift.Equatable {
-    /// The ARN associated with the backup.
-    /// This member is required.
-    public var backupArn: Swift.String?
-
-    public init(
-        backupArn: Swift.String? = nil
-    )
-    {
-        self.backupArn = backupArn
-    }
-}
-
-extension DeleteBackupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
-    }
-}
-
-struct DeleteBackupOutputBody: Swift.Equatable {
-    let backupDescription: DynamoDBClientTypes.BackupDescription?
-}
-
-extension DeleteBackupOutputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case backupDescription = "BackupDescription"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let backupDescriptionDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.BackupDescription.self, forKey: .backupDescription)
-        backupDescription = backupDescriptionDecoded
-    }
-}
-
-enum DeleteBackupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BackupInUseException": return try await BackupInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "BackupNotFoundException": return try await BackupNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidEndpointException": return try await InvalidEndpointException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension DeleteBackupOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: DeleteBackupOutputBody = try responseDecoder.decode(responseBody: data)
-            self.backupDescription = output.backupDescription
-        } else {
-            self.backupDescription = nil
-        }
-    }
-}
-
-public struct DeleteBackupOutput: Swift.Equatable {
-    /// Contains the description of the backup created for the table.
-    public var backupDescription: DynamoDBClientTypes.BackupDescription?
-
-    public init(
-        backupDescription: DynamoDBClientTypes.BackupDescription? = nil
-    )
-    {
-        self.backupDescription = backupDescription
-    }
 }
 
 extension DynamoDBClientTypes.Delete: Swift.Codable {
@@ -4261,6 +4158,147 @@ extension DynamoDBClientTypes.Delete: Swift.Codable {
     }
 }
 
+extension DynamoDBClientTypes {
+    /// Represents a request to perform a DeleteItem operation.
+    public struct Delete: Swift.Equatable {
+        /// A condition that must be satisfied in order for a conditional delete to succeed.
+        public var conditionExpression: Swift.String?
+        /// One or more substitution tokens for attribute names in an expression.
+        public var expressionAttributeNames: [Swift.String:Swift.String]?
+        /// One or more values that can be substituted in an expression.
+        public var expressionAttributeValues: [Swift.String:DynamoDBClientTypes.AttributeValue]?
+        /// The primary key of the item to be deleted. Each element consists of an attribute name and a value for that attribute.
+        /// This member is required.
+        public var key: [Swift.String:DynamoDBClientTypes.AttributeValue]?
+        /// Use ReturnValuesOnConditionCheckFailure to get the item attributes if the Delete condition fails. For ReturnValuesOnConditionCheckFailure, the valid values are: NONE and ALL_OLD.
+        public var returnValuesOnConditionCheckFailure: DynamoDBClientTypes.ReturnValuesOnConditionCheckFailure?
+        /// Name of the table in which the item to be deleted resides.
+        /// This member is required.
+        public var tableName: Swift.String?
+
+        public init(
+            conditionExpression: Swift.String? = nil,
+            expressionAttributeNames: [Swift.String:Swift.String]? = nil,
+            expressionAttributeValues: [Swift.String:DynamoDBClientTypes.AttributeValue]? = nil,
+            key: [Swift.String:DynamoDBClientTypes.AttributeValue]? = nil,
+            returnValuesOnConditionCheckFailure: DynamoDBClientTypes.ReturnValuesOnConditionCheckFailure? = nil,
+            tableName: Swift.String? = nil
+        )
+        {
+            self.conditionExpression = conditionExpression
+            self.expressionAttributeNames = expressionAttributeNames
+            self.expressionAttributeValues = expressionAttributeValues
+            self.key = key
+            self.returnValuesOnConditionCheckFailure = returnValuesOnConditionCheckFailure
+            self.tableName = tableName
+        }
+    }
+
+}
+
+extension DeleteBackupInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case backupArn = "BackupArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let backupArn = self.backupArn {
+            try encodeContainer.encode(backupArn, forKey: .backupArn)
+        }
+    }
+}
+
+extension DeleteBackupInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DeleteBackupInput: Swift.Equatable {
+    /// The ARN associated with the backup.
+    /// This member is required.
+    public var backupArn: Swift.String?
+
+    public init(
+        backupArn: Swift.String? = nil
+    )
+    {
+        self.backupArn = backupArn
+    }
+}
+
+struct DeleteBackupInputBody: Swift.Equatable {
+    let backupArn: Swift.String?
+}
+
+extension DeleteBackupInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case backupArn = "BackupArn"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let backupArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .backupArn)
+        backupArn = backupArnDecoded
+    }
+}
+
+extension DeleteBackupOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DeleteBackupOutputBody = try responseDecoder.decode(responseBody: data)
+            self.backupDescription = output.backupDescription
+        } else {
+            self.backupDescription = nil
+        }
+    }
+}
+
+public struct DeleteBackupOutput: Swift.Equatable {
+    /// Contains the description of the backup created for the table.
+    public var backupDescription: DynamoDBClientTypes.BackupDescription?
+
+    public init(
+        backupDescription: DynamoDBClientTypes.BackupDescription? = nil
+    )
+    {
+        self.backupDescription = backupDescription
+    }
+}
+
+struct DeleteBackupOutputBody: Swift.Equatable {
+    let backupDescription: DynamoDBClientTypes.BackupDescription?
+}
+
+extension DeleteBackupOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case backupDescription = "BackupDescription"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let backupDescriptionDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.BackupDescription.self, forKey: .backupDescription)
+        backupDescription = backupDescriptionDecoded
+    }
+}
+
+enum DeleteBackupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BackupInUseException": return try await BackupInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BackupNotFoundException": return try await BackupNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidEndpointException": return try await InvalidEndpointException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension DynamoDBClientTypes.DeleteGlobalSecondaryIndexAction: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case indexName = "IndexName"
@@ -4295,98 +4333,6 @@ extension DynamoDBClientTypes {
         }
     }
 
-}
-
-struct DeleteItemInputBody: Swift.Equatable {
-    let tableName: Swift.String?
-    let key: [Swift.String:DynamoDBClientTypes.AttributeValue]?
-    let expected: [Swift.String:DynamoDBClientTypes.ExpectedAttributeValue]?
-    let conditionalOperator: DynamoDBClientTypes.ConditionalOperator?
-    let returnValues: DynamoDBClientTypes.ReturnValue?
-    let returnConsumedCapacity: DynamoDBClientTypes.ReturnConsumedCapacity?
-    let returnItemCollectionMetrics: DynamoDBClientTypes.ReturnItemCollectionMetrics?
-    let conditionExpression: Swift.String?
-    let expressionAttributeNames: [Swift.String:Swift.String]?
-    let expressionAttributeValues: [Swift.String:DynamoDBClientTypes.AttributeValue]?
-    let returnValuesOnConditionCheckFailure: DynamoDBClientTypes.ReturnValuesOnConditionCheckFailure?
-}
-
-extension DeleteItemInputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case conditionExpression = "ConditionExpression"
-        case conditionalOperator = "ConditionalOperator"
-        case expected = "Expected"
-        case expressionAttributeNames = "ExpressionAttributeNames"
-        case expressionAttributeValues = "ExpressionAttributeValues"
-        case key = "Key"
-        case returnConsumedCapacity = "ReturnConsumedCapacity"
-        case returnItemCollectionMetrics = "ReturnItemCollectionMetrics"
-        case returnValues = "ReturnValues"
-        case returnValuesOnConditionCheckFailure = "ReturnValuesOnConditionCheckFailure"
-        case tableName = "TableName"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let tableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableName)
-        tableName = tableNameDecoded
-        let keyContainer = try containerValues.decodeIfPresent([Swift.String: DynamoDBClientTypes.AttributeValue?].self, forKey: .key)
-        var keyDecoded0: [Swift.String:DynamoDBClientTypes.AttributeValue]? = nil
-        if let keyContainer = keyContainer {
-            keyDecoded0 = [Swift.String:DynamoDBClientTypes.AttributeValue]()
-            for (key0, attributevalue0) in keyContainer {
-                if let attributevalue0 = attributevalue0 {
-                    keyDecoded0?[key0] = attributevalue0
-                }
-            }
-        }
-        key = keyDecoded0
-        let expectedContainer = try containerValues.decodeIfPresent([Swift.String: DynamoDBClientTypes.ExpectedAttributeValue?].self, forKey: .expected)
-        var expectedDecoded0: [Swift.String:DynamoDBClientTypes.ExpectedAttributeValue]? = nil
-        if let expectedContainer = expectedContainer {
-            expectedDecoded0 = [Swift.String:DynamoDBClientTypes.ExpectedAttributeValue]()
-            for (key0, expectedattributevalue0) in expectedContainer {
-                if let expectedattributevalue0 = expectedattributevalue0 {
-                    expectedDecoded0?[key0] = expectedattributevalue0
-                }
-            }
-        }
-        expected = expectedDecoded0
-        let conditionalOperatorDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ConditionalOperator.self, forKey: .conditionalOperator)
-        conditionalOperator = conditionalOperatorDecoded
-        let returnValuesDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ReturnValue.self, forKey: .returnValues)
-        returnValues = returnValuesDecoded
-        let returnConsumedCapacityDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ReturnConsumedCapacity.self, forKey: .returnConsumedCapacity)
-        returnConsumedCapacity = returnConsumedCapacityDecoded
-        let returnItemCollectionMetricsDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ReturnItemCollectionMetrics.self, forKey: .returnItemCollectionMetrics)
-        returnItemCollectionMetrics = returnItemCollectionMetricsDecoded
-        let conditionExpressionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .conditionExpression)
-        conditionExpression = conditionExpressionDecoded
-        let expressionAttributeNamesContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .expressionAttributeNames)
-        var expressionAttributeNamesDecoded0: [Swift.String:Swift.String]? = nil
-        if let expressionAttributeNamesContainer = expressionAttributeNamesContainer {
-            expressionAttributeNamesDecoded0 = [Swift.String:Swift.String]()
-            for (key0, attributename0) in expressionAttributeNamesContainer {
-                if let attributename0 = attributename0 {
-                    expressionAttributeNamesDecoded0?[key0] = attributename0
-                }
-            }
-        }
-        expressionAttributeNames = expressionAttributeNamesDecoded0
-        let expressionAttributeValuesContainer = try containerValues.decodeIfPresent([Swift.String: DynamoDBClientTypes.AttributeValue?].self, forKey: .expressionAttributeValues)
-        var expressionAttributeValuesDecoded0: [Swift.String:DynamoDBClientTypes.AttributeValue]? = nil
-        if let expressionAttributeValuesContainer = expressionAttributeValuesContainer {
-            expressionAttributeValuesDecoded0 = [Swift.String:DynamoDBClientTypes.AttributeValue]()
-            for (key0, attributevalue0) in expressionAttributeValuesContainer {
-                if let attributevalue0 = attributevalue0 {
-                    expressionAttributeValuesDecoded0?[key0] = attributevalue0
-                }
-            }
-        }
-        expressionAttributeValues = expressionAttributeValuesDecoded0
-        let returnValuesOnConditionCheckFailureDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ReturnValuesOnConditionCheckFailure.self, forKey: .returnValuesOnConditionCheckFailure)
-        returnValuesOnConditionCheckFailure = returnValuesOnConditionCheckFailureDecoded
-    }
 }
 
 extension DeleteItemInput: Swift.Encodable {
@@ -4451,6 +4397,12 @@ extension DeleteItemInput: Swift.Encodable {
         if let tableName = self.tableName {
             try encodeContainer.encode(tableName, forKey: .tableName)
         }
+    }
+}
+
+extension DeleteItemInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
     }
 }
 
@@ -4555,9 +4507,136 @@ public struct DeleteItemInput: Swift.Equatable {
     }
 }
 
-extension DeleteItemInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
+struct DeleteItemInputBody: Swift.Equatable {
+    let tableName: Swift.String?
+    let key: [Swift.String:DynamoDBClientTypes.AttributeValue]?
+    let expected: [Swift.String:DynamoDBClientTypes.ExpectedAttributeValue]?
+    let conditionalOperator: DynamoDBClientTypes.ConditionalOperator?
+    let returnValues: DynamoDBClientTypes.ReturnValue?
+    let returnConsumedCapacity: DynamoDBClientTypes.ReturnConsumedCapacity?
+    let returnItemCollectionMetrics: DynamoDBClientTypes.ReturnItemCollectionMetrics?
+    let conditionExpression: Swift.String?
+    let expressionAttributeNames: [Swift.String:Swift.String]?
+    let expressionAttributeValues: [Swift.String:DynamoDBClientTypes.AttributeValue]?
+    let returnValuesOnConditionCheckFailure: DynamoDBClientTypes.ReturnValuesOnConditionCheckFailure?
+}
+
+extension DeleteItemInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case conditionExpression = "ConditionExpression"
+        case conditionalOperator = "ConditionalOperator"
+        case expected = "Expected"
+        case expressionAttributeNames = "ExpressionAttributeNames"
+        case expressionAttributeValues = "ExpressionAttributeValues"
+        case key = "Key"
+        case returnConsumedCapacity = "ReturnConsumedCapacity"
+        case returnItemCollectionMetrics = "ReturnItemCollectionMetrics"
+        case returnValues = "ReturnValues"
+        case returnValuesOnConditionCheckFailure = "ReturnValuesOnConditionCheckFailure"
+        case tableName = "TableName"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let tableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableName)
+        tableName = tableNameDecoded
+        let keyContainer = try containerValues.decodeIfPresent([Swift.String: DynamoDBClientTypes.AttributeValue?].self, forKey: .key)
+        var keyDecoded0: [Swift.String:DynamoDBClientTypes.AttributeValue]? = nil
+        if let keyContainer = keyContainer {
+            keyDecoded0 = [Swift.String:DynamoDBClientTypes.AttributeValue]()
+            for (key0, attributevalue0) in keyContainer {
+                if let attributevalue0 = attributevalue0 {
+                    keyDecoded0?[key0] = attributevalue0
+                }
+            }
+        }
+        key = keyDecoded0
+        let expectedContainer = try containerValues.decodeIfPresent([Swift.String: DynamoDBClientTypes.ExpectedAttributeValue?].self, forKey: .expected)
+        var expectedDecoded0: [Swift.String:DynamoDBClientTypes.ExpectedAttributeValue]? = nil
+        if let expectedContainer = expectedContainer {
+            expectedDecoded0 = [Swift.String:DynamoDBClientTypes.ExpectedAttributeValue]()
+            for (key0, expectedattributevalue0) in expectedContainer {
+                if let expectedattributevalue0 = expectedattributevalue0 {
+                    expectedDecoded0?[key0] = expectedattributevalue0
+                }
+            }
+        }
+        expected = expectedDecoded0
+        let conditionalOperatorDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ConditionalOperator.self, forKey: .conditionalOperator)
+        conditionalOperator = conditionalOperatorDecoded
+        let returnValuesDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ReturnValue.self, forKey: .returnValues)
+        returnValues = returnValuesDecoded
+        let returnConsumedCapacityDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ReturnConsumedCapacity.self, forKey: .returnConsumedCapacity)
+        returnConsumedCapacity = returnConsumedCapacityDecoded
+        let returnItemCollectionMetricsDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ReturnItemCollectionMetrics.self, forKey: .returnItemCollectionMetrics)
+        returnItemCollectionMetrics = returnItemCollectionMetricsDecoded
+        let conditionExpressionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .conditionExpression)
+        conditionExpression = conditionExpressionDecoded
+        let expressionAttributeNamesContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .expressionAttributeNames)
+        var expressionAttributeNamesDecoded0: [Swift.String:Swift.String]? = nil
+        if let expressionAttributeNamesContainer = expressionAttributeNamesContainer {
+            expressionAttributeNamesDecoded0 = [Swift.String:Swift.String]()
+            for (key0, attributename0) in expressionAttributeNamesContainer {
+                if let attributename0 = attributename0 {
+                    expressionAttributeNamesDecoded0?[key0] = attributename0
+                }
+            }
+        }
+        expressionAttributeNames = expressionAttributeNamesDecoded0
+        let expressionAttributeValuesContainer = try containerValues.decodeIfPresent([Swift.String: DynamoDBClientTypes.AttributeValue?].self, forKey: .expressionAttributeValues)
+        var expressionAttributeValuesDecoded0: [Swift.String:DynamoDBClientTypes.AttributeValue]? = nil
+        if let expressionAttributeValuesContainer = expressionAttributeValuesContainer {
+            expressionAttributeValuesDecoded0 = [Swift.String:DynamoDBClientTypes.AttributeValue]()
+            for (key0, attributevalue0) in expressionAttributeValuesContainer {
+                if let attributevalue0 = attributevalue0 {
+                    expressionAttributeValuesDecoded0?[key0] = attributevalue0
+                }
+            }
+        }
+        expressionAttributeValues = expressionAttributeValuesDecoded0
+        let returnValuesOnConditionCheckFailureDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ReturnValuesOnConditionCheckFailure.self, forKey: .returnValuesOnConditionCheckFailure)
+        returnValuesOnConditionCheckFailure = returnValuesOnConditionCheckFailureDecoded
+    }
+}
+
+extension DeleteItemOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DeleteItemOutputBody = try responseDecoder.decode(responseBody: data)
+            self.attributes = output.attributes
+            self.consumedCapacity = output.consumedCapacity
+            self.itemCollectionMetrics = output.itemCollectionMetrics
+        } else {
+            self.attributes = nil
+            self.consumedCapacity = nil
+            self.itemCollectionMetrics = nil
+        }
+    }
+}
+
+/// Represents the output of a DeleteItem operation.
+public struct DeleteItemOutput: Swift.Equatable {
+    /// A map of attribute names to AttributeValue objects, representing the item as it appeared before the DeleteItem operation. This map appears in the response only if ReturnValues was specified as ALL_OLD in the request.
+    public var attributes: [Swift.String:DynamoDBClientTypes.AttributeValue]?
+    /// The capacity units consumed by the DeleteItem operation. The data returned includes the total provisioned throughput consumed, along with statistics for the table and any indexes involved in the operation. ConsumedCapacity is only returned if the ReturnConsumedCapacity parameter was specified. For more information, see [Provisioned Throughput](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ProvisionedThroughputIntro.html) in the Amazon DynamoDB Developer Guide.
+    public var consumedCapacity: DynamoDBClientTypes.ConsumedCapacity?
+    /// Information about item collections, if any, that were affected by the DeleteItem operation. ItemCollectionMetrics is only returned if the ReturnItemCollectionMetrics parameter was specified. If the table does not have any local secondary indexes, this information is not returned in the response. Each ItemCollectionMetrics element consists of:
+    ///
+    /// * ItemCollectionKey - The partition key value of the item collection. This is the same as the partition key value of the item itself.
+    ///
+    /// * SizeEstimateRangeGB - An estimate of item collection size, in gigabytes. This value is a two-element array containing a lower bound and an upper bound for the estimate. The estimate includes the size of all the items in the table, plus the size of all attributes projected into all of the local secondary indexes on that table. Use this estimate to measure whether a local secondary index is approaching its size limit. The estimate is subject to change over time; therefore, do not rely on the precision or accuracy of the estimate.
+    public var itemCollectionMetrics: DynamoDBClientTypes.ItemCollectionMetrics?
+
+    public init(
+        attributes: [Swift.String:DynamoDBClientTypes.AttributeValue]? = nil,
+        consumedCapacity: DynamoDBClientTypes.ConsumedCapacity? = nil,
+        itemCollectionMetrics: DynamoDBClientTypes.ItemCollectionMetrics? = nil
+    )
+    {
+        self.attributes = attributes
+        self.consumedCapacity = consumedCapacity
+        self.itemCollectionMetrics = itemCollectionMetrics
     }
 }
 
@@ -4609,47 +4688,6 @@ enum DeleteItemOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TransactionConflictException": return try await TransactionConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension DeleteItemOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: DeleteItemOutputBody = try responseDecoder.decode(responseBody: data)
-            self.attributes = output.attributes
-            self.consumedCapacity = output.consumedCapacity
-            self.itemCollectionMetrics = output.itemCollectionMetrics
-        } else {
-            self.attributes = nil
-            self.consumedCapacity = nil
-            self.itemCollectionMetrics = nil
-        }
-    }
-}
-
-/// Represents the output of a DeleteItem operation.
-public struct DeleteItemOutput: Swift.Equatable {
-    /// A map of attribute names to AttributeValue objects, representing the item as it appeared before the DeleteItem operation. This map appears in the response only if ReturnValues was specified as ALL_OLD in the request.
-    public var attributes: [Swift.String:DynamoDBClientTypes.AttributeValue]?
-    /// The capacity units consumed by the DeleteItem operation. The data returned includes the total provisioned throughput consumed, along with statistics for the table and any indexes involved in the operation. ConsumedCapacity is only returned if the ReturnConsumedCapacity parameter was specified. For more information, see [Provisioned Throughput](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ProvisionedThroughputIntro.html) in the Amazon DynamoDB Developer Guide.
-    public var consumedCapacity: DynamoDBClientTypes.ConsumedCapacity?
-    /// Information about item collections, if any, that were affected by the DeleteItem operation. ItemCollectionMetrics is only returned if the ReturnItemCollectionMetrics parameter was specified. If the table does not have any local secondary indexes, this information is not returned in the response. Each ItemCollectionMetrics element consists of:
-    ///
-    /// * ItemCollectionKey - The partition key value of the item collection. This is the same as the partition key value of the item itself.
-    ///
-    /// * SizeEstimateRangeGB - An estimate of item collection size, in gigabytes. This value is a two-element array containing a lower bound and an upper bound for the estimate. The estimate includes the size of all the items in the table, plus the size of all attributes projected into all of the local secondary indexes on that table. Use this estimate to measure whether a local secondary index is approaching its size limit. The estimate is subject to change over time; therefore, do not rely on the precision or accuracy of the estimate.
-    public var itemCollectionMetrics: DynamoDBClientTypes.ItemCollectionMetrics?
-
-    public init(
-        attributes: [Swift.String:DynamoDBClientTypes.AttributeValue]? = nil,
-        consumedCapacity: DynamoDBClientTypes.ConsumedCapacity? = nil,
-        itemCollectionMetrics: DynamoDBClientTypes.ItemCollectionMetrics? = nil
-    )
-    {
-        self.attributes = attributes
-        self.consumedCapacity = consumedCapacity
-        self.itemCollectionMetrics = itemCollectionMetrics
     }
 }
 
@@ -4773,42 +4811,37 @@ extension DynamoDBClientTypes {
 
 }
 
-extension DynamoDBClientTypes {
-    /// Represents a request to perform a DeleteItem operation.
-    public struct Delete: Swift.Equatable {
-        /// A condition that must be satisfied in order for a conditional delete to succeed.
-        public var conditionExpression: Swift.String?
-        /// One or more substitution tokens for attribute names in an expression.
-        public var expressionAttributeNames: [Swift.String:Swift.String]?
-        /// One or more values that can be substituted in an expression.
-        public var expressionAttributeValues: [Swift.String:DynamoDBClientTypes.AttributeValue]?
-        /// The primary key of the item to be deleted. Each element consists of an attribute name and a value for that attribute.
-        /// This member is required.
-        public var key: [Swift.String:DynamoDBClientTypes.AttributeValue]?
-        /// Use ReturnValuesOnConditionCheckFailure to get the item attributes if the Delete condition fails. For ReturnValuesOnConditionCheckFailure, the valid values are: NONE and ALL_OLD.
-        public var returnValuesOnConditionCheckFailure: DynamoDBClientTypes.ReturnValuesOnConditionCheckFailure?
-        /// Name of the table in which the item to be deleted resides.
-        /// This member is required.
-        public var tableName: Swift.String?
-
-        public init(
-            conditionExpression: Swift.String? = nil,
-            expressionAttributeNames: [Swift.String:Swift.String]? = nil,
-            expressionAttributeValues: [Swift.String:DynamoDBClientTypes.AttributeValue]? = nil,
-            key: [Swift.String:DynamoDBClientTypes.AttributeValue]? = nil,
-            returnValuesOnConditionCheckFailure: DynamoDBClientTypes.ReturnValuesOnConditionCheckFailure? = nil,
-            tableName: Swift.String? = nil
-        )
-        {
-            self.conditionExpression = conditionExpression
-            self.expressionAttributeNames = expressionAttributeNames
-            self.expressionAttributeValues = expressionAttributeValues
-            self.key = key
-            self.returnValuesOnConditionCheckFailure = returnValuesOnConditionCheckFailure
-            self.tableName = tableName
-        }
+extension DeleteTableInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case tableName = "TableName"
     }
 
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let tableName = self.tableName {
+            try encodeContainer.encode(tableName, forKey: .tableName)
+        }
+    }
+}
+
+extension DeleteTableInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+/// Represents the input of a DeleteTable operation.
+public struct DeleteTableInput: Swift.Equatable {
+    /// The name of the table to delete.
+    /// This member is required.
+    public var tableName: Swift.String?
+
+    public init(
+        tableName: Swift.String? = nil
+    )
+    {
+        self.tableName = tableName
+    }
 }
 
 struct DeleteTableInputBody: Swift.Equatable {
@@ -4827,36 +4860,28 @@ extension DeleteTableInputBody: Swift.Decodable {
     }
 }
 
-extension DeleteTableInput: Swift.Encodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case tableName = "TableName"
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let tableName = self.tableName {
-            try encodeContainer.encode(tableName, forKey: .tableName)
+extension DeleteTableOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DeleteTableOutputBody = try responseDecoder.decode(responseBody: data)
+            self.tableDescription = output.tableDescription
+        } else {
+            self.tableDescription = nil
         }
     }
 }
 
-/// Represents the input of a DeleteTable operation.
-public struct DeleteTableInput: Swift.Equatable {
-    /// The name of the table to delete.
-    /// This member is required.
-    public var tableName: Swift.String?
+/// Represents the output of a DeleteTable operation.
+public struct DeleteTableOutput: Swift.Equatable {
+    /// Represents the properties of a table.
+    public var tableDescription: DynamoDBClientTypes.TableDescription?
 
     public init(
-        tableName: Swift.String? = nil
+        tableDescription: DynamoDBClientTypes.TableDescription? = nil
     )
     {
-        self.tableName = tableName
-    }
-}
-
-extension DeleteTableInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
+        self.tableDescription = tableDescription
     }
 }
 
@@ -4891,28 +4916,35 @@ enum DeleteTableOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteTableOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: DeleteTableOutputBody = try responseDecoder.decode(responseBody: data)
-            self.tableDescription = output.tableDescription
-        } else {
-            self.tableDescription = nil
+extension DescribeBackupInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case backupArn = "BackupArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let backupArn = self.backupArn {
+            try encodeContainer.encode(backupArn, forKey: .backupArn)
         }
     }
 }
 
-/// Represents the output of a DeleteTable operation.
-public struct DeleteTableOutput: Swift.Equatable {
-    /// Represents the properties of a table.
-    public var tableDescription: DynamoDBClientTypes.TableDescription?
+extension DescribeBackupInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeBackupInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) associated with the backup.
+    /// This member is required.
+    public var backupArn: Swift.String?
 
     public init(
-        tableDescription: DynamoDBClientTypes.TableDescription? = nil
+        backupArn: Swift.String? = nil
     )
     {
-        self.tableDescription = tableDescription
+        self.backupArn = backupArn
     }
 }
 
@@ -4932,35 +4964,27 @@ extension DescribeBackupInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeBackupInput: Swift.Encodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case backupArn = "BackupArn"
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let backupArn = self.backupArn {
-            try encodeContainer.encode(backupArn, forKey: .backupArn)
+extension DescribeBackupOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeBackupOutputBody = try responseDecoder.decode(responseBody: data)
+            self.backupDescription = output.backupDescription
+        } else {
+            self.backupDescription = nil
         }
     }
 }
 
-public struct DescribeBackupInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) associated with the backup.
-    /// This member is required.
-    public var backupArn: Swift.String?
+public struct DescribeBackupOutput: Swift.Equatable {
+    /// Contains the description of the backup created for the table.
+    public var backupDescription: DynamoDBClientTypes.BackupDescription?
 
     public init(
-        backupArn: Swift.String? = nil
+        backupDescription: DynamoDBClientTypes.BackupDescription? = nil
     )
     {
-        self.backupArn = backupArn
-    }
-}
-
-extension DescribeBackupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
+        self.backupDescription = backupDescription
     }
 }
 
@@ -4993,27 +5017,35 @@ enum DescribeBackupOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeBackupOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: DescribeBackupOutputBody = try responseDecoder.decode(responseBody: data)
-            self.backupDescription = output.backupDescription
-        } else {
-            self.backupDescription = nil
+extension DescribeContinuousBackupsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case tableName = "TableName"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let tableName = self.tableName {
+            try encodeContainer.encode(tableName, forKey: .tableName)
         }
     }
 }
 
-public struct DescribeBackupOutput: Swift.Equatable {
-    /// Contains the description of the backup created for the table.
-    public var backupDescription: DynamoDBClientTypes.BackupDescription?
+extension DescribeContinuousBackupsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeContinuousBackupsInput: Swift.Equatable {
+    /// Name of the table for which the customer wants to check the continuous backups and point in time recovery settings.
+    /// This member is required.
+    public var tableName: Swift.String?
 
     public init(
-        backupDescription: DynamoDBClientTypes.BackupDescription? = nil
+        tableName: Swift.String? = nil
     )
     {
-        self.backupDescription = backupDescription
+        self.tableName = tableName
     }
 }
 
@@ -5033,35 +5065,27 @@ extension DescribeContinuousBackupsInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeContinuousBackupsInput: Swift.Encodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case tableName = "TableName"
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let tableName = self.tableName {
-            try encodeContainer.encode(tableName, forKey: .tableName)
+extension DescribeContinuousBackupsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeContinuousBackupsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.continuousBackupsDescription = output.continuousBackupsDescription
+        } else {
+            self.continuousBackupsDescription = nil
         }
     }
 }
 
-public struct DescribeContinuousBackupsInput: Swift.Equatable {
-    /// Name of the table for which the customer wants to check the continuous backups and point in time recovery settings.
-    /// This member is required.
-    public var tableName: Swift.String?
+public struct DescribeContinuousBackupsOutput: Swift.Equatable {
+    /// Represents the continuous backups and point in time recovery settings on the table.
+    public var continuousBackupsDescription: DynamoDBClientTypes.ContinuousBackupsDescription?
 
     public init(
-        tableName: Swift.String? = nil
+        continuousBackupsDescription: DynamoDBClientTypes.ContinuousBackupsDescription? = nil
     )
     {
-        self.tableName = tableName
-    }
-}
-
-extension DescribeContinuousBackupsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
+        self.continuousBackupsDescription = continuousBackupsDescription
     }
 }
 
@@ -5094,50 +5118,6 @@ enum DescribeContinuousBackupsOutputError: ClientRuntime.HttpResponseErrorBindin
     }
 }
 
-extension DescribeContinuousBackupsOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: DescribeContinuousBackupsOutputBody = try responseDecoder.decode(responseBody: data)
-            self.continuousBackupsDescription = output.continuousBackupsDescription
-        } else {
-            self.continuousBackupsDescription = nil
-        }
-    }
-}
-
-public struct DescribeContinuousBackupsOutput: Swift.Equatable {
-    /// Represents the continuous backups and point in time recovery settings on the table.
-    public var continuousBackupsDescription: DynamoDBClientTypes.ContinuousBackupsDescription?
-
-    public init(
-        continuousBackupsDescription: DynamoDBClientTypes.ContinuousBackupsDescription? = nil
-    )
-    {
-        self.continuousBackupsDescription = continuousBackupsDescription
-    }
-}
-
-struct DescribeContributorInsightsInputBody: Swift.Equatable {
-    let tableName: Swift.String?
-    let indexName: Swift.String?
-}
-
-extension DescribeContributorInsightsInputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case indexName = "IndexName"
-        case tableName = "TableName"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let tableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableName)
-        tableName = tableNameDecoded
-        let indexNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .indexName)
-        indexName = indexNameDecoded
-    }
-}
-
 extension DescribeContributorInsightsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case indexName = "IndexName"
@@ -5152,6 +5132,12 @@ extension DescribeContributorInsightsInput: Swift.Encodable {
         if let tableName = self.tableName {
             try encodeContainer.encode(tableName, forKey: .tableName)
         }
+    }
+}
+
+extension DescribeContributorInsightsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
     }
 }
 
@@ -5172,28 +5158,14 @@ public struct DescribeContributorInsightsInput: Swift.Equatable {
     }
 }
 
-extension DescribeContributorInsightsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
-    }
-}
-
-struct DescribeContributorInsightsOutputBody: Swift.Equatable {
+struct DescribeContributorInsightsInputBody: Swift.Equatable {
     let tableName: Swift.String?
     let indexName: Swift.String?
-    let contributorInsightsRuleList: [Swift.String]?
-    let contributorInsightsStatus: DynamoDBClientTypes.ContributorInsightsStatus?
-    let lastUpdateDateTime: ClientRuntime.Date?
-    let failureException: DynamoDBClientTypes.FailureException?
 }
 
-extension DescribeContributorInsightsOutputBody: Swift.Decodable {
+extension DescribeContributorInsightsInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case contributorInsightsRuleList = "ContributorInsightsRuleList"
-        case contributorInsightsStatus = "ContributorInsightsStatus"
-        case failureException = "FailureException"
         case indexName = "IndexName"
-        case lastUpdateDateTime = "LastUpdateDateTime"
         case tableName = "TableName"
     }
 
@@ -5203,35 +5175,6 @@ extension DescribeContributorInsightsOutputBody: Swift.Decodable {
         tableName = tableNameDecoded
         let indexNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .indexName)
         indexName = indexNameDecoded
-        let contributorInsightsRuleListContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .contributorInsightsRuleList)
-        var contributorInsightsRuleListDecoded0:[Swift.String]? = nil
-        if let contributorInsightsRuleListContainer = contributorInsightsRuleListContainer {
-            contributorInsightsRuleListDecoded0 = [Swift.String]()
-            for string0 in contributorInsightsRuleListContainer {
-                if let string0 = string0 {
-                    contributorInsightsRuleListDecoded0?.append(string0)
-                }
-            }
-        }
-        contributorInsightsRuleList = contributorInsightsRuleListDecoded0
-        let contributorInsightsStatusDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ContributorInsightsStatus.self, forKey: .contributorInsightsStatus)
-        contributorInsightsStatus = contributorInsightsStatusDecoded
-        let lastUpdateDateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastUpdateDateTime)
-        lastUpdateDateTime = lastUpdateDateTimeDecoded
-        let failureExceptionDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.FailureException.self, forKey: .failureException)
-        failureException = failureExceptionDecoded
-    }
-}
-
-enum DescribeContributorInsightsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
     }
 }
 
@@ -5297,12 +5240,60 @@ public struct DescribeContributorInsightsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeEndpointsInputBody: Swift.Equatable {
+struct DescribeContributorInsightsOutputBody: Swift.Equatable {
+    let tableName: Swift.String?
+    let indexName: Swift.String?
+    let contributorInsightsRuleList: [Swift.String]?
+    let contributorInsightsStatus: DynamoDBClientTypes.ContributorInsightsStatus?
+    let lastUpdateDateTime: ClientRuntime.Date?
+    let failureException: DynamoDBClientTypes.FailureException?
 }
 
-extension DescribeEndpointsInputBody: Swift.Decodable {
+extension DescribeContributorInsightsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case contributorInsightsRuleList = "ContributorInsightsRuleList"
+        case contributorInsightsStatus = "ContributorInsightsStatus"
+        case failureException = "FailureException"
+        case indexName = "IndexName"
+        case lastUpdateDateTime = "LastUpdateDateTime"
+        case tableName = "TableName"
+    }
 
     public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let tableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableName)
+        tableName = tableNameDecoded
+        let indexNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .indexName)
+        indexName = indexNameDecoded
+        let contributorInsightsRuleListContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .contributorInsightsRuleList)
+        var contributorInsightsRuleListDecoded0:[Swift.String]? = nil
+        if let contributorInsightsRuleListContainer = contributorInsightsRuleListContainer {
+            contributorInsightsRuleListDecoded0 = [Swift.String]()
+            for string0 in contributorInsightsRuleListContainer {
+                if let string0 = string0 {
+                    contributorInsightsRuleListDecoded0?.append(string0)
+                }
+            }
+        }
+        contributorInsightsRuleList = contributorInsightsRuleListDecoded0
+        let contributorInsightsStatusDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ContributorInsightsStatus.self, forKey: .contributorInsightsStatus)
+        contributorInsightsStatus = contributorInsightsStatusDecoded
+        let lastUpdateDateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastUpdateDateTime)
+        lastUpdateDateTime = lastUpdateDateTimeDecoded
+        let failureExceptionDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.FailureException.self, forKey: .failureException)
+        failureException = failureExceptionDecoded
+    }
+}
+
+enum DescribeContributorInsightsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5314,14 +5305,48 @@ extension DescribeEndpointsInput: Swift.Encodable {
     }
 }
 
+extension DescribeEndpointsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
 public struct DescribeEndpointsInput: Swift.Equatable {
 
     public init() { }
 }
 
-extension DescribeEndpointsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
+struct DescribeEndpointsInputBody: Swift.Equatable {
+}
+
+extension DescribeEndpointsInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DescribeEndpointsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeEndpointsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.endpoints = output.endpoints
+        } else {
+            self.endpoints = nil
+        }
+    }
+}
+
+public struct DescribeEndpointsOutput: Swift.Equatable {
+    /// List of endpoints.
+    /// This member is required.
+    public var endpoints: [DynamoDBClientTypes.Endpoint]?
+
+    public init(
+        endpoints: [DynamoDBClientTypes.Endpoint]? = nil
+    )
+    {
+        self.endpoints = endpoints
     }
 }
 
@@ -5360,28 +5385,35 @@ enum DescribeEndpointsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeEndpointsOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: DescribeEndpointsOutputBody = try responseDecoder.decode(responseBody: data)
-            self.endpoints = output.endpoints
-        } else {
-            self.endpoints = nil
+extension DescribeExportInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case exportArn = "ExportArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let exportArn = self.exportArn {
+            try encodeContainer.encode(exportArn, forKey: .exportArn)
         }
     }
 }
 
-public struct DescribeEndpointsOutput: Swift.Equatable {
-    /// List of endpoints.
+extension DescribeExportInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeExportInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) associated with the export.
     /// This member is required.
-    public var endpoints: [DynamoDBClientTypes.Endpoint]?
+    public var exportArn: Swift.String?
 
     public init(
-        endpoints: [DynamoDBClientTypes.Endpoint]? = nil
+        exportArn: Swift.String? = nil
     )
     {
-        self.endpoints = endpoints
+        self.exportArn = exportArn
     }
 }
 
@@ -5401,35 +5433,27 @@ extension DescribeExportInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeExportInput: Swift.Encodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case exportArn = "ExportArn"
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let exportArn = self.exportArn {
-            try encodeContainer.encode(exportArn, forKey: .exportArn)
+extension DescribeExportOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeExportOutputBody = try responseDecoder.decode(responseBody: data)
+            self.exportDescription = output.exportDescription
+        } else {
+            self.exportDescription = nil
         }
     }
 }
 
-public struct DescribeExportInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) associated with the export.
-    /// This member is required.
-    public var exportArn: Swift.String?
+public struct DescribeExportOutput: Swift.Equatable {
+    /// Represents the properties of the export.
+    public var exportDescription: DynamoDBClientTypes.ExportDescription?
 
     public init(
-        exportArn: Swift.String? = nil
+        exportDescription: DynamoDBClientTypes.ExportDescription? = nil
     )
     {
-        self.exportArn = exportArn
-    }
-}
-
-extension DescribeExportInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
+        self.exportDescription = exportDescription
     }
 }
 
@@ -5462,27 +5486,35 @@ enum DescribeExportOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeExportOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: DescribeExportOutputBody = try responseDecoder.decode(responseBody: data)
-            self.exportDescription = output.exportDescription
-        } else {
-            self.exportDescription = nil
+extension DescribeGlobalTableInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case globalTableName = "GlobalTableName"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let globalTableName = self.globalTableName {
+            try encodeContainer.encode(globalTableName, forKey: .globalTableName)
         }
     }
 }
 
-public struct DescribeExportOutput: Swift.Equatable {
-    /// Represents the properties of the export.
-    public var exportDescription: DynamoDBClientTypes.ExportDescription?
+extension DescribeGlobalTableInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeGlobalTableInput: Swift.Equatable {
+    /// The name of the global table.
+    /// This member is required.
+    public var globalTableName: Swift.String?
 
     public init(
-        exportDescription: DynamoDBClientTypes.ExportDescription? = nil
+        globalTableName: Swift.String? = nil
     )
     {
-        self.exportDescription = exportDescription
+        self.globalTableName = globalTableName
     }
 }
 
@@ -5502,35 +5534,27 @@ extension DescribeGlobalTableInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeGlobalTableInput: Swift.Encodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case globalTableName = "GlobalTableName"
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let globalTableName = self.globalTableName {
-            try encodeContainer.encode(globalTableName, forKey: .globalTableName)
+extension DescribeGlobalTableOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeGlobalTableOutputBody = try responseDecoder.decode(responseBody: data)
+            self.globalTableDescription = output.globalTableDescription
+        } else {
+            self.globalTableDescription = nil
         }
     }
 }
 
-public struct DescribeGlobalTableInput: Swift.Equatable {
-    /// The name of the global table.
-    /// This member is required.
-    public var globalTableName: Swift.String?
+public struct DescribeGlobalTableOutput: Swift.Equatable {
+    /// Contains the details of the global table.
+    public var globalTableDescription: DynamoDBClientTypes.GlobalTableDescription?
 
     public init(
-        globalTableName: Swift.String? = nil
+        globalTableDescription: DynamoDBClientTypes.GlobalTableDescription? = nil
     )
     {
-        self.globalTableName = globalTableName
-    }
-}
-
-extension DescribeGlobalTableInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
+        self.globalTableDescription = globalTableDescription
     }
 }
 
@@ -5563,27 +5587,35 @@ enum DescribeGlobalTableOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeGlobalTableOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: DescribeGlobalTableOutputBody = try responseDecoder.decode(responseBody: data)
-            self.globalTableDescription = output.globalTableDescription
-        } else {
-            self.globalTableDescription = nil
+extension DescribeGlobalTableSettingsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case globalTableName = "GlobalTableName"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let globalTableName = self.globalTableName {
+            try encodeContainer.encode(globalTableName, forKey: .globalTableName)
         }
     }
 }
 
-public struct DescribeGlobalTableOutput: Swift.Equatable {
-    /// Contains the details of the global table.
-    public var globalTableDescription: DynamoDBClientTypes.GlobalTableDescription?
+extension DescribeGlobalTableSettingsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeGlobalTableSettingsInput: Swift.Equatable {
+    /// The name of the global table to describe.
+    /// This member is required.
+    public var globalTableName: Swift.String?
 
     public init(
-        globalTableDescription: DynamoDBClientTypes.GlobalTableDescription? = nil
+        globalTableName: Swift.String? = nil
     )
     {
-        self.globalTableDescription = globalTableDescription
+        self.globalTableName = globalTableName
     }
 }
 
@@ -5603,35 +5635,33 @@ extension DescribeGlobalTableSettingsInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeGlobalTableSettingsInput: Swift.Encodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case globalTableName = "GlobalTableName"
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let globalTableName = self.globalTableName {
-            try encodeContainer.encode(globalTableName, forKey: .globalTableName)
+extension DescribeGlobalTableSettingsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeGlobalTableSettingsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.globalTableName = output.globalTableName
+            self.replicaSettings = output.replicaSettings
+        } else {
+            self.globalTableName = nil
+            self.replicaSettings = nil
         }
     }
 }
 
-public struct DescribeGlobalTableSettingsInput: Swift.Equatable {
-    /// The name of the global table to describe.
-    /// This member is required.
+public struct DescribeGlobalTableSettingsOutput: Swift.Equatable {
+    /// The name of the global table.
     public var globalTableName: Swift.String?
+    /// The Region-specific settings for the global table.
+    public var replicaSettings: [DynamoDBClientTypes.ReplicaSettingsDescription]?
 
     public init(
-        globalTableName: Swift.String? = nil
+        globalTableName: Swift.String? = nil,
+        replicaSettings: [DynamoDBClientTypes.ReplicaSettingsDescription]? = nil
     )
     {
         self.globalTableName = globalTableName
-    }
-}
-
-extension DescribeGlobalTableSettingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
+        self.replicaSettings = replicaSettings
     }
 }
 
@@ -5677,33 +5707,35 @@ enum DescribeGlobalTableSettingsOutputError: ClientRuntime.HttpResponseErrorBind
     }
 }
 
-extension DescribeGlobalTableSettingsOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: DescribeGlobalTableSettingsOutputBody = try responseDecoder.decode(responseBody: data)
-            self.globalTableName = output.globalTableName
-            self.replicaSettings = output.replicaSettings
-        } else {
-            self.globalTableName = nil
-            self.replicaSettings = nil
+extension DescribeImportInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case importArn = "ImportArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let importArn = self.importArn {
+            try encodeContainer.encode(importArn, forKey: .importArn)
         }
     }
 }
 
-public struct DescribeGlobalTableSettingsOutput: Swift.Equatable {
-    /// The name of the global table.
-    public var globalTableName: Swift.String?
-    /// The Region-specific settings for the global table.
-    public var replicaSettings: [DynamoDBClientTypes.ReplicaSettingsDescription]?
+extension DescribeImportInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeImportInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) associated with the table you're importing to.
+    /// This member is required.
+    public var importArn: Swift.String?
 
     public init(
-        globalTableName: Swift.String? = nil,
-        replicaSettings: [DynamoDBClientTypes.ReplicaSettingsDescription]? = nil
+        importArn: Swift.String? = nil
     )
     {
-        self.globalTableName = globalTableName
-        self.replicaSettings = replicaSettings
+        self.importArn = importArn
     }
 }
 
@@ -5723,35 +5755,28 @@ extension DescribeImportInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeImportInput: Swift.Encodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case importArn = "ImportArn"
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let importArn = self.importArn {
-            try encodeContainer.encode(importArn, forKey: .importArn)
+extension DescribeImportOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeImportOutputBody = try responseDecoder.decode(responseBody: data)
+            self.importTableDescription = output.importTableDescription
+        } else {
+            self.importTableDescription = nil
         }
     }
 }
 
-public struct DescribeImportInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) associated with the table you're importing to.
+public struct DescribeImportOutput: Swift.Equatable {
+    /// Represents the properties of the table created for the import, and parameters of the import. The import parameters include import status, how many items were processed, and how many errors were encountered.
     /// This member is required.
-    public var importArn: Swift.String?
+    public var importTableDescription: DynamoDBClientTypes.ImportTableDescription?
 
     public init(
-        importArn: Swift.String? = nil
+        importTableDescription: DynamoDBClientTypes.ImportTableDescription? = nil
     )
     {
-        self.importArn = importArn
-    }
-}
-
-extension DescribeImportInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
+        self.importTableDescription = importTableDescription
     }
 }
 
@@ -5782,28 +5807,35 @@ enum DescribeImportOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeImportOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: DescribeImportOutputBody = try responseDecoder.decode(responseBody: data)
-            self.importTableDescription = output.importTableDescription
-        } else {
-            self.importTableDescription = nil
+extension DescribeKinesisStreamingDestinationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case tableName = "TableName"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let tableName = self.tableName {
+            try encodeContainer.encode(tableName, forKey: .tableName)
         }
     }
 }
 
-public struct DescribeImportOutput: Swift.Equatable {
-    /// Represents the properties of the table created for the import, and parameters of the import. The import parameters include import status, how many items were processed, and how many errors were encountered.
+extension DescribeKinesisStreamingDestinationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeKinesisStreamingDestinationInput: Swift.Equatable {
+    /// The name of the table being described.
     /// This member is required.
-    public var importTableDescription: DynamoDBClientTypes.ImportTableDescription?
+    public var tableName: Swift.String?
 
     public init(
-        importTableDescription: DynamoDBClientTypes.ImportTableDescription? = nil
+        tableName: Swift.String? = nil
     )
     {
-        self.importTableDescription = importTableDescription
+        self.tableName = tableName
     }
 }
 
@@ -5823,35 +5855,33 @@ extension DescribeKinesisStreamingDestinationInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeKinesisStreamingDestinationInput: Swift.Encodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case tableName = "TableName"
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let tableName = self.tableName {
-            try encodeContainer.encode(tableName, forKey: .tableName)
+extension DescribeKinesisStreamingDestinationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeKinesisStreamingDestinationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.kinesisDataStreamDestinations = output.kinesisDataStreamDestinations
+            self.tableName = output.tableName
+        } else {
+            self.kinesisDataStreamDestinations = nil
+            self.tableName = nil
         }
     }
 }
 
-public struct DescribeKinesisStreamingDestinationInput: Swift.Equatable {
+public struct DescribeKinesisStreamingDestinationOutput: Swift.Equatable {
+    /// The list of replica structures for the table being described.
+    public var kinesisDataStreamDestinations: [DynamoDBClientTypes.KinesisDataStreamDestination]?
     /// The name of the table being described.
-    /// This member is required.
     public var tableName: Swift.String?
 
     public init(
+        kinesisDataStreamDestinations: [DynamoDBClientTypes.KinesisDataStreamDestination]? = nil,
         tableName: Swift.String? = nil
     )
     {
+        self.kinesisDataStreamDestinations = kinesisDataStreamDestinations
         self.tableName = tableName
-    }
-}
-
-extension DescribeKinesisStreamingDestinationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
     }
 }
 
@@ -5897,50 +5927,17 @@ enum DescribeKinesisStreamingDestinationOutputError: ClientRuntime.HttpResponseE
     }
 }
 
-extension DescribeKinesisStreamingDestinationOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: DescribeKinesisStreamingDestinationOutputBody = try responseDecoder.decode(responseBody: data)
-            self.kinesisDataStreamDestinations = output.kinesisDataStreamDestinations
-            self.tableName = output.tableName
-        } else {
-            self.kinesisDataStreamDestinations = nil
-            self.tableName = nil
-        }
-    }
-}
-
-public struct DescribeKinesisStreamingDestinationOutput: Swift.Equatable {
-    /// The list of replica structures for the table being described.
-    public var kinesisDataStreamDestinations: [DynamoDBClientTypes.KinesisDataStreamDestination]?
-    /// The name of the table being described.
-    public var tableName: Swift.String?
-
-    public init(
-        kinesisDataStreamDestinations: [DynamoDBClientTypes.KinesisDataStreamDestination]? = nil,
-        tableName: Swift.String? = nil
-    )
-    {
-        self.kinesisDataStreamDestinations = kinesisDataStreamDestinations
-        self.tableName = tableName
-    }
-}
-
-struct DescribeLimitsInputBody: Swift.Equatable {
-}
-
-extension DescribeLimitsInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
 extension DescribeLimitsInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.singleValueContainer()
         try container.encode([String:String]())
+    }
+}
+
+extension DescribeLimitsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
     }
 }
 
@@ -5950,49 +5947,12 @@ public struct DescribeLimitsInput: Swift.Equatable {
     public init() { }
 }
 
-extension DescribeLimitsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
-    }
+struct DescribeLimitsInputBody: Swift.Equatable {
 }
 
-struct DescribeLimitsOutputBody: Swift.Equatable {
-    let accountMaxReadCapacityUnits: Swift.Int?
-    let accountMaxWriteCapacityUnits: Swift.Int?
-    let tableMaxReadCapacityUnits: Swift.Int?
-    let tableMaxWriteCapacityUnits: Swift.Int?
-}
-
-extension DescribeLimitsOutputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case accountMaxReadCapacityUnits = "AccountMaxReadCapacityUnits"
-        case accountMaxWriteCapacityUnits = "AccountMaxWriteCapacityUnits"
-        case tableMaxReadCapacityUnits = "TableMaxReadCapacityUnits"
-        case tableMaxWriteCapacityUnits = "TableMaxWriteCapacityUnits"
-    }
+extension DescribeLimitsInputBody: Swift.Decodable {
 
     public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let accountMaxReadCapacityUnitsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .accountMaxReadCapacityUnits)
-        accountMaxReadCapacityUnits = accountMaxReadCapacityUnitsDecoded
-        let accountMaxWriteCapacityUnitsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .accountMaxWriteCapacityUnits)
-        accountMaxWriteCapacityUnits = accountMaxWriteCapacityUnitsDecoded
-        let tableMaxReadCapacityUnitsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .tableMaxReadCapacityUnits)
-        tableMaxReadCapacityUnits = tableMaxReadCapacityUnitsDecoded
-        let tableMaxWriteCapacityUnitsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .tableMaxWriteCapacityUnits)
-        tableMaxWriteCapacityUnits = tableMaxWriteCapacityUnitsDecoded
-    }
-}
-
-enum DescribeLimitsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidEndpointException": return try await InvalidEndpointException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
     }
 }
 
@@ -6039,19 +5999,43 @@ public struct DescribeLimitsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeTableInputBody: Swift.Equatable {
-    let tableName: Swift.String?
+struct DescribeLimitsOutputBody: Swift.Equatable {
+    let accountMaxReadCapacityUnits: Swift.Int?
+    let accountMaxWriteCapacityUnits: Swift.Int?
+    let tableMaxReadCapacityUnits: Swift.Int?
+    let tableMaxWriteCapacityUnits: Swift.Int?
 }
 
-extension DescribeTableInputBody: Swift.Decodable {
+extension DescribeLimitsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case tableName = "TableName"
+        case accountMaxReadCapacityUnits = "AccountMaxReadCapacityUnits"
+        case accountMaxWriteCapacityUnits = "AccountMaxWriteCapacityUnits"
+        case tableMaxReadCapacityUnits = "TableMaxReadCapacityUnits"
+        case tableMaxWriteCapacityUnits = "TableMaxWriteCapacityUnits"
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let tableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableName)
-        tableName = tableNameDecoded
+        let accountMaxReadCapacityUnitsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .accountMaxReadCapacityUnits)
+        accountMaxReadCapacityUnits = accountMaxReadCapacityUnitsDecoded
+        let accountMaxWriteCapacityUnitsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .accountMaxWriteCapacityUnits)
+        accountMaxWriteCapacityUnits = accountMaxWriteCapacityUnitsDecoded
+        let tableMaxReadCapacityUnitsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .tableMaxReadCapacityUnits)
+        tableMaxReadCapacityUnits = tableMaxReadCapacityUnitsDecoded
+        let tableMaxWriteCapacityUnitsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .tableMaxWriteCapacityUnits)
+        tableMaxWriteCapacityUnits = tableMaxWriteCapacityUnitsDecoded
+    }
+}
+
+enum DescribeLimitsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidEndpointException": return try await InvalidEndpointException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -6065,6 +6049,12 @@ extension DescribeTableInput: Swift.Encodable {
         if let tableName = self.tableName {
             try encodeContainer.encode(tableName, forKey: .tableName)
         }
+    }
+}
+
+extension DescribeTableInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
     }
 }
 
@@ -6082,9 +6072,44 @@ public struct DescribeTableInput: Swift.Equatable {
     }
 }
 
-extension DescribeTableInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
+struct DescribeTableInputBody: Swift.Equatable {
+    let tableName: Swift.String?
+}
+
+extension DescribeTableInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case tableName = "TableName"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let tableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableName)
+        tableName = tableNameDecoded
+    }
+}
+
+extension DescribeTableOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeTableOutputBody = try responseDecoder.decode(responseBody: data)
+            self.table = output.table
+        } else {
+            self.table = nil
+        }
+    }
+}
+
+/// Represents the output of a DescribeTable operation.
+public struct DescribeTableOutput: Swift.Equatable {
+    /// The properties of the table.
+    public var table: DynamoDBClientTypes.TableDescription?
+
+    public init(
+        table: DynamoDBClientTypes.TableDescription? = nil
+    )
+    {
+        self.table = table
     }
 }
 
@@ -6117,28 +6142,35 @@ enum DescribeTableOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeTableOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: DescribeTableOutputBody = try responseDecoder.decode(responseBody: data)
-            self.table = output.table
-        } else {
-            self.table = nil
+extension DescribeTableReplicaAutoScalingInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case tableName = "TableName"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let tableName = self.tableName {
+            try encodeContainer.encode(tableName, forKey: .tableName)
         }
     }
 }
 
-/// Represents the output of a DescribeTable operation.
-public struct DescribeTableOutput: Swift.Equatable {
-    /// The properties of the table.
-    public var table: DynamoDBClientTypes.TableDescription?
+extension DescribeTableReplicaAutoScalingInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeTableReplicaAutoScalingInput: Swift.Equatable {
+    /// The name of the table.
+    /// This member is required.
+    public var tableName: Swift.String?
 
     public init(
-        table: DynamoDBClientTypes.TableDescription? = nil
+        tableName: Swift.String? = nil
     )
     {
-        self.table = table
+        self.tableName = tableName
     }
 }
 
@@ -6158,35 +6190,27 @@ extension DescribeTableReplicaAutoScalingInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeTableReplicaAutoScalingInput: Swift.Encodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case tableName = "TableName"
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let tableName = self.tableName {
-            try encodeContainer.encode(tableName, forKey: .tableName)
+extension DescribeTableReplicaAutoScalingOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeTableReplicaAutoScalingOutputBody = try responseDecoder.decode(responseBody: data)
+            self.tableAutoScalingDescription = output.tableAutoScalingDescription
+        } else {
+            self.tableAutoScalingDescription = nil
         }
     }
 }
 
-public struct DescribeTableReplicaAutoScalingInput: Swift.Equatable {
-    /// The name of the table.
-    /// This member is required.
-    public var tableName: Swift.String?
+public struct DescribeTableReplicaAutoScalingOutput: Swift.Equatable {
+    /// Represents the auto scaling properties of the table.
+    public var tableAutoScalingDescription: DynamoDBClientTypes.TableAutoScalingDescription?
 
     public init(
-        tableName: Swift.String? = nil
+        tableAutoScalingDescription: DynamoDBClientTypes.TableAutoScalingDescription? = nil
     )
     {
-        self.tableName = tableName
-    }
-}
-
-extension DescribeTableReplicaAutoScalingInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
+        self.tableAutoScalingDescription = tableAutoScalingDescription
     }
 }
 
@@ -6218,27 +6242,35 @@ enum DescribeTableReplicaAutoScalingOutputError: ClientRuntime.HttpResponseError
     }
 }
 
-extension DescribeTableReplicaAutoScalingOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: DescribeTableReplicaAutoScalingOutputBody = try responseDecoder.decode(responseBody: data)
-            self.tableAutoScalingDescription = output.tableAutoScalingDescription
-        } else {
-            self.tableAutoScalingDescription = nil
+extension DescribeTimeToLiveInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case tableName = "TableName"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let tableName = self.tableName {
+            try encodeContainer.encode(tableName, forKey: .tableName)
         }
     }
 }
 
-public struct DescribeTableReplicaAutoScalingOutput: Swift.Equatable {
-    /// Represents the auto scaling properties of the table.
-    public var tableAutoScalingDescription: DynamoDBClientTypes.TableAutoScalingDescription?
+extension DescribeTimeToLiveInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeTimeToLiveInput: Swift.Equatable {
+    /// The name of the table to be described.
+    /// This member is required.
+    public var tableName: Swift.String?
 
     public init(
-        tableAutoScalingDescription: DynamoDBClientTypes.TableAutoScalingDescription? = nil
+        tableName: Swift.String? = nil
     )
     {
-        self.tableAutoScalingDescription = tableAutoScalingDescription
+        self.tableName = tableName
     }
 }
 
@@ -6258,35 +6290,27 @@ extension DescribeTimeToLiveInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeTimeToLiveInput: Swift.Encodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case tableName = "TableName"
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let tableName = self.tableName {
-            try encodeContainer.encode(tableName, forKey: .tableName)
+extension DescribeTimeToLiveOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeTimeToLiveOutputBody = try responseDecoder.decode(responseBody: data)
+            self.timeToLiveDescription = output.timeToLiveDescription
+        } else {
+            self.timeToLiveDescription = nil
         }
     }
 }
 
-public struct DescribeTimeToLiveInput: Swift.Equatable {
-    /// The name of the table to be described.
-    /// This member is required.
-    public var tableName: Swift.String?
+public struct DescribeTimeToLiveOutput: Swift.Equatable {
+    ///
+    public var timeToLiveDescription: DynamoDBClientTypes.TimeToLiveDescription?
 
     public init(
-        tableName: Swift.String? = nil
+        timeToLiveDescription: DynamoDBClientTypes.TimeToLiveDescription? = nil
     )
     {
-        self.tableName = tableName
-    }
-}
-
-extension DescribeTimeToLiveInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
+        self.timeToLiveDescription = timeToLiveDescription
     }
 }
 
@@ -6316,30 +6340,6 @@ enum DescribeTimeToLiveOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension DescribeTimeToLiveOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: DescribeTimeToLiveOutputBody = try responseDecoder.decode(responseBody: data)
-            self.timeToLiveDescription = output.timeToLiveDescription
-        } else {
-            self.timeToLiveDescription = nil
-        }
-    }
-}
-
-public struct DescribeTimeToLiveOutput: Swift.Equatable {
-    ///
-    public var timeToLiveDescription: DynamoDBClientTypes.TimeToLiveDescription?
-
-    public init(
-        timeToLiveDescription: DynamoDBClientTypes.TimeToLiveDescription? = nil
-    )
-    {
-        self.timeToLiveDescription = timeToLiveDescription
     }
 }
 
@@ -6384,26 +6384,6 @@ extension DynamoDBClientTypes {
     }
 }
 
-struct DisableKinesisStreamingDestinationInputBody: Swift.Equatable {
-    let tableName: Swift.String?
-    let streamArn: Swift.String?
-}
-
-extension DisableKinesisStreamingDestinationInputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case streamArn = "StreamArn"
-        case tableName = "TableName"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let tableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableName)
-        tableName = tableNameDecoded
-        let streamArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .streamArn)
-        streamArn = streamArnDecoded
-    }
-}
-
 extension DisableKinesisStreamingDestinationInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case streamArn = "StreamArn"
@@ -6418,6 +6398,12 @@ extension DisableKinesisStreamingDestinationInput: Swift.Encodable {
         if let tableName = self.tableName {
             try encodeContainer.encode(tableName, forKey: .tableName)
         }
+    }
+}
+
+extension DisableKinesisStreamingDestinationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
     }
 }
 
@@ -6439,9 +6425,59 @@ public struct DisableKinesisStreamingDestinationInput: Swift.Equatable {
     }
 }
 
-extension DisableKinesisStreamingDestinationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
+struct DisableKinesisStreamingDestinationInputBody: Swift.Equatable {
+    let tableName: Swift.String?
+    let streamArn: Swift.String?
+}
+
+extension DisableKinesisStreamingDestinationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case streamArn = "StreamArn"
+        case tableName = "TableName"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let tableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableName)
+        tableName = tableNameDecoded
+        let streamArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .streamArn)
+        streamArn = streamArnDecoded
+    }
+}
+
+extension DisableKinesisStreamingDestinationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DisableKinesisStreamingDestinationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.destinationStatus = output.destinationStatus
+            self.streamArn = output.streamArn
+            self.tableName = output.tableName
+        } else {
+            self.destinationStatus = nil
+            self.streamArn = nil
+            self.tableName = nil
+        }
+    }
+}
+
+public struct DisableKinesisStreamingDestinationOutput: Swift.Equatable {
+    /// The current status of the replication.
+    public var destinationStatus: DynamoDBClientTypes.DestinationStatus?
+    /// The ARN for the specific Kinesis data stream.
+    public var streamArn: Swift.String?
+    /// The name of the table being modified.
+    public var tableName: Swift.String?
+
+    public init(
+        destinationStatus: DynamoDBClientTypes.DestinationStatus? = nil,
+        streamArn: Swift.String? = nil,
+        tableName: Swift.String? = nil
+    )
+    {
+        self.destinationStatus = destinationStatus
+        self.streamArn = streamArn
+        self.tableName = tableName
     }
 }
 
@@ -6484,58 +6520,6 @@ enum DisableKinesisStreamingDestinationOutputError: ClientRuntime.HttpResponseEr
     }
 }
 
-extension DisableKinesisStreamingDestinationOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: DisableKinesisStreamingDestinationOutputBody = try responseDecoder.decode(responseBody: data)
-            self.destinationStatus = output.destinationStatus
-            self.streamArn = output.streamArn
-            self.tableName = output.tableName
-        } else {
-            self.destinationStatus = nil
-            self.streamArn = nil
-            self.tableName = nil
-        }
-    }
-}
-
-public struct DisableKinesisStreamingDestinationOutput: Swift.Equatable {
-    /// The current status of the replication.
-    public var destinationStatus: DynamoDBClientTypes.DestinationStatus?
-    /// The ARN for the specific Kinesis data stream.
-    public var streamArn: Swift.String?
-    /// The name of the table being modified.
-    public var tableName: Swift.String?
-
-    public init(
-        destinationStatus: DynamoDBClientTypes.DestinationStatus? = nil,
-        streamArn: Swift.String? = nil,
-        tableName: Swift.String? = nil
-    )
-    {
-        self.destinationStatus = destinationStatus
-        self.streamArn = streamArn
-        self.tableName = tableName
-    }
-}
-
-struct DuplicateItemExceptionBody: Swift.Equatable {
-    let message: Swift.String?
-}
-
-extension DuplicateItemExceptionBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case message
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
-        message = messageDecoded
-    }
-}
-
 extension DuplicateItemException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -6575,23 +6559,19 @@ public struct DuplicateItemException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct EnableKinesisStreamingDestinationInputBody: Swift.Equatable {
-    let tableName: Swift.String?
-    let streamArn: Swift.String?
+struct DuplicateItemExceptionBody: Swift.Equatable {
+    let message: Swift.String?
 }
 
-extension EnableKinesisStreamingDestinationInputBody: Swift.Decodable {
+extension DuplicateItemExceptionBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case streamArn = "StreamArn"
-        case tableName = "TableName"
+        case message
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let tableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableName)
-        tableName = tableNameDecoded
-        let streamArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .streamArn)
-        streamArn = streamArnDecoded
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
     }
 }
 
@@ -6609,6 +6589,12 @@ extension EnableKinesisStreamingDestinationInput: Swift.Encodable {
         if let tableName = self.tableName {
             try encodeContainer.encode(tableName, forKey: .tableName)
         }
+    }
+}
+
+extension EnableKinesisStreamingDestinationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
     }
 }
 
@@ -6630,9 +6616,59 @@ public struct EnableKinesisStreamingDestinationInput: Swift.Equatable {
     }
 }
 
-extension EnableKinesisStreamingDestinationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
+struct EnableKinesisStreamingDestinationInputBody: Swift.Equatable {
+    let tableName: Swift.String?
+    let streamArn: Swift.String?
+}
+
+extension EnableKinesisStreamingDestinationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case streamArn = "StreamArn"
+        case tableName = "TableName"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let tableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableName)
+        tableName = tableNameDecoded
+        let streamArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .streamArn)
+        streamArn = streamArnDecoded
+    }
+}
+
+extension EnableKinesisStreamingDestinationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: EnableKinesisStreamingDestinationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.destinationStatus = output.destinationStatus
+            self.streamArn = output.streamArn
+            self.tableName = output.tableName
+        } else {
+            self.destinationStatus = nil
+            self.streamArn = nil
+            self.tableName = nil
+        }
+    }
+}
+
+public struct EnableKinesisStreamingDestinationOutput: Swift.Equatable {
+    /// The current status of the replication.
+    public var destinationStatus: DynamoDBClientTypes.DestinationStatus?
+    /// The ARN for the specific Kinesis data stream.
+    public var streamArn: Swift.String?
+    /// The name of the table being modified.
+    public var tableName: Swift.String?
+
+    public init(
+        destinationStatus: DynamoDBClientTypes.DestinationStatus? = nil,
+        streamArn: Swift.String? = nil,
+        tableName: Swift.String? = nil
+    )
+    {
+        self.destinationStatus = destinationStatus
+        self.streamArn = streamArn
+        self.tableName = tableName
     }
 }
 
@@ -6672,42 +6708,6 @@ enum EnableKinesisStreamingDestinationOutputError: ClientRuntime.HttpResponseErr
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension EnableKinesisStreamingDestinationOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: EnableKinesisStreamingDestinationOutputBody = try responseDecoder.decode(responseBody: data)
-            self.destinationStatus = output.destinationStatus
-            self.streamArn = output.streamArn
-            self.tableName = output.tableName
-        } else {
-            self.destinationStatus = nil
-            self.streamArn = nil
-            self.tableName = nil
-        }
-    }
-}
-
-public struct EnableKinesisStreamingDestinationOutput: Swift.Equatable {
-    /// The current status of the replication.
-    public var destinationStatus: DynamoDBClientTypes.DestinationStatus?
-    /// The ARN for the specific Kinesis data stream.
-    public var streamArn: Swift.String?
-    /// The name of the table being modified.
-    public var tableName: Swift.String?
-
-    public init(
-        destinationStatus: DynamoDBClientTypes.DestinationStatus? = nil,
-        streamArn: Swift.String? = nil,
-        tableName: Swift.String? = nil
-    )
-    {
-        self.destinationStatus = destinationStatus
-        self.streamArn = streamArn
-        self.tableName = tableName
     }
 }
 
@@ -6756,6 +6756,95 @@ extension DynamoDBClientTypes {
         }
     }
 
+}
+
+extension ExecuteStatementInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case consistentRead = "ConsistentRead"
+        case limit = "Limit"
+        case nextToken = "NextToken"
+        case parameters = "Parameters"
+        case returnConsumedCapacity = "ReturnConsumedCapacity"
+        case returnValuesOnConditionCheckFailure = "ReturnValuesOnConditionCheckFailure"
+        case statement = "Statement"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let consistentRead = self.consistentRead {
+            try encodeContainer.encode(consistentRead, forKey: .consistentRead)
+        }
+        if let limit = self.limit {
+            try encodeContainer.encode(limit, forKey: .limit)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let parameters = parameters {
+            var parametersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .parameters)
+            for attributevalue0 in parameters {
+                try parametersContainer.encode(attributevalue0)
+            }
+        }
+        if let returnConsumedCapacity = self.returnConsumedCapacity {
+            try encodeContainer.encode(returnConsumedCapacity.rawValue, forKey: .returnConsumedCapacity)
+        }
+        if let returnValuesOnConditionCheckFailure = self.returnValuesOnConditionCheckFailure {
+            try encodeContainer.encode(returnValuesOnConditionCheckFailure.rawValue, forKey: .returnValuesOnConditionCheckFailure)
+        }
+        if let statement = self.statement {
+            try encodeContainer.encode(statement, forKey: .statement)
+        }
+    }
+}
+
+extension ExecuteStatementInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ExecuteStatementInput: Swift.Equatable {
+    /// The consistency of a read operation. If set to true, then a strongly consistent read is used; otherwise, an eventually consistent read is used.
+    public var consistentRead: Swift.Bool?
+    /// The maximum number of items to evaluate (not necessarily the number of matching items). If DynamoDB processes the number of items up to the limit while processing the results, it stops the operation and returns the matching values up to that point, along with a key in LastEvaluatedKey to apply in a subsequent operation so you can pick up where you left off. Also, if the processed dataset size exceeds 1 MB before DynamoDB reaches this limit, it stops the operation and returns the matching values up to the limit, and a key in LastEvaluatedKey to apply in a subsequent operation to continue the operation.
+    public var limit: Swift.Int?
+    /// Set this value to get remaining results, if NextToken was returned in the statement response.
+    public var nextToken: Swift.String?
+    /// The parameters for the PartiQL statement, if any.
+    public var parameters: [DynamoDBClientTypes.AttributeValue]?
+    /// Determines the level of detail about either provisioned or on-demand throughput consumption that is returned in the response:
+    ///
+    /// * INDEXES - The response includes the aggregate ConsumedCapacity for the operation, together with ConsumedCapacity for each table and secondary index that was accessed. Note that some operations, such as GetItem and BatchGetItem, do not access any indexes at all. In these cases, specifying INDEXES will only return ConsumedCapacity information for table(s).
+    ///
+    /// * TOTAL - The response includes only the aggregate ConsumedCapacity for the operation.
+    ///
+    /// * NONE - No ConsumedCapacity details are included in the response.
+    public var returnConsumedCapacity: DynamoDBClientTypes.ReturnConsumedCapacity?
+    /// An optional parameter that returns the item attributes for an ExecuteStatement operation that failed a condition check. There is no additional cost associated with requesting a return value aside from the small network and processing overhead of receiving a larger response. No read capacity units are consumed.
+    public var returnValuesOnConditionCheckFailure: DynamoDBClientTypes.ReturnValuesOnConditionCheckFailure?
+    /// The PartiQL statement representing the operation to run.
+    /// This member is required.
+    public var statement: Swift.String?
+
+    public init(
+        consistentRead: Swift.Bool? = nil,
+        limit: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        parameters: [DynamoDBClientTypes.AttributeValue]? = nil,
+        returnConsumedCapacity: DynamoDBClientTypes.ReturnConsumedCapacity? = nil,
+        returnValuesOnConditionCheckFailure: DynamoDBClientTypes.ReturnValuesOnConditionCheckFailure? = nil,
+        statement: Swift.String? = nil
+    )
+    {
+        self.consistentRead = consistentRead
+        self.limit = limit
+        self.nextToken = nextToken
+        self.parameters = parameters
+        self.returnConsumedCapacity = returnConsumedCapacity
+        self.returnValuesOnConditionCheckFailure = returnValuesOnConditionCheckFailure
+        self.statement = statement
+    }
 }
 
 struct ExecuteStatementInputBody: Swift.Equatable {
@@ -6807,92 +6896,45 @@ extension ExecuteStatementInputBody: Swift.Decodable {
     }
 }
 
-extension ExecuteStatementInput: Swift.Encodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case consistentRead = "ConsistentRead"
-        case limit = "Limit"
-        case nextToken = "NextToken"
-        case parameters = "Parameters"
-        case returnConsumedCapacity = "ReturnConsumedCapacity"
-        case returnValuesOnConditionCheckFailure = "ReturnValuesOnConditionCheckFailure"
-        case statement = "Statement"
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let consistentRead = self.consistentRead {
-            try encodeContainer.encode(consistentRead, forKey: .consistentRead)
-        }
-        if let limit = self.limit {
-            try encodeContainer.encode(limit, forKey: .limit)
-        }
-        if let nextToken = self.nextToken {
-            try encodeContainer.encode(nextToken, forKey: .nextToken)
-        }
-        if let parameters = parameters {
-            var parametersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .parameters)
-            for attributevalue0 in parameters {
-                try parametersContainer.encode(attributevalue0)
-            }
-        }
-        if let returnConsumedCapacity = self.returnConsumedCapacity {
-            try encodeContainer.encode(returnConsumedCapacity.rawValue, forKey: .returnConsumedCapacity)
-        }
-        if let returnValuesOnConditionCheckFailure = self.returnValuesOnConditionCheckFailure {
-            try encodeContainer.encode(returnValuesOnConditionCheckFailure.rawValue, forKey: .returnValuesOnConditionCheckFailure)
-        }
-        if let statement = self.statement {
-            try encodeContainer.encode(statement, forKey: .statement)
+extension ExecuteStatementOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ExecuteStatementOutputBody = try responseDecoder.decode(responseBody: data)
+            self.consumedCapacity = output.consumedCapacity
+            self.items = output.items
+            self.lastEvaluatedKey = output.lastEvaluatedKey
+            self.nextToken = output.nextToken
+        } else {
+            self.consumedCapacity = nil
+            self.items = nil
+            self.lastEvaluatedKey = nil
+            self.nextToken = nil
         }
     }
 }
 
-public struct ExecuteStatementInput: Swift.Equatable {
-    /// The consistency of a read operation. If set to true, then a strongly consistent read is used; otherwise, an eventually consistent read is used.
-    public var consistentRead: Swift.Bool?
-    /// The maximum number of items to evaluate (not necessarily the number of matching items). If DynamoDB processes the number of items up to the limit while processing the results, it stops the operation and returns the matching values up to that point, along with a key in LastEvaluatedKey to apply in a subsequent operation so you can pick up where you left off. Also, if the processed dataset size exceeds 1 MB before DynamoDB reaches this limit, it stops the operation and returns the matching values up to the limit, and a key in LastEvaluatedKey to apply in a subsequent operation to continue the operation.
-    public var limit: Swift.Int?
-    /// Set this value to get remaining results, if NextToken was returned in the statement response.
+public struct ExecuteStatementOutput: Swift.Equatable {
+    /// The capacity units consumed by an operation. The data returned includes the total provisioned throughput consumed, along with statistics for the table and any indexes involved in the operation. ConsumedCapacity is only returned if the request asked for it. For more information, see [Provisioned Throughput](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ProvisionedThroughputIntro.html) in the Amazon DynamoDB Developer Guide.
+    public var consumedCapacity: DynamoDBClientTypes.ConsumedCapacity?
+    /// If a read operation was used, this property will contain the result of the read operation; a map of attribute names and their values. For the write operations this value will be empty.
+    public var items: [[Swift.String:DynamoDBClientTypes.AttributeValue]]?
+    /// The primary key of the item where the operation stopped, inclusive of the previous result set. Use this value to start a new operation, excluding this value in the new request. If LastEvaluatedKey is empty, then the "last page" of results has been processed and there is no more data to be retrieved. If LastEvaluatedKey is not empty, it does not necessarily mean that there is more data in the result set. The only way to know when you have reached the end of the result set is when LastEvaluatedKey is empty.
+    public var lastEvaluatedKey: [Swift.String:DynamoDBClientTypes.AttributeValue]?
+    /// If the response of a read request exceeds the response payload limit DynamoDB will set this value in the response. If set, you can use that this value in the subsequent request to get the remaining results.
     public var nextToken: Swift.String?
-    /// The parameters for the PartiQL statement, if any.
-    public var parameters: [DynamoDBClientTypes.AttributeValue]?
-    /// Determines the level of detail about either provisioned or on-demand throughput consumption that is returned in the response:
-    ///
-    /// * INDEXES - The response includes the aggregate ConsumedCapacity for the operation, together with ConsumedCapacity for each table and secondary index that was accessed. Note that some operations, such as GetItem and BatchGetItem, do not access any indexes at all. In these cases, specifying INDEXES will only return ConsumedCapacity information for table(s).
-    ///
-    /// * TOTAL - The response includes only the aggregate ConsumedCapacity for the operation.
-    ///
-    /// * NONE - No ConsumedCapacity details are included in the response.
-    public var returnConsumedCapacity: DynamoDBClientTypes.ReturnConsumedCapacity?
-    /// An optional parameter that returns the item attributes for an ExecuteStatement operation that failed a condition check. There is no additional cost associated with requesting a return value aside from the small network and processing overhead of receiving a larger response. No read capacity units are consumed.
-    public var returnValuesOnConditionCheckFailure: DynamoDBClientTypes.ReturnValuesOnConditionCheckFailure?
-    /// The PartiQL statement representing the operation to run.
-    /// This member is required.
-    public var statement: Swift.String?
 
     public init(
-        consistentRead: Swift.Bool? = nil,
-        limit: Swift.Int? = nil,
-        nextToken: Swift.String? = nil,
-        parameters: [DynamoDBClientTypes.AttributeValue]? = nil,
-        returnConsumedCapacity: DynamoDBClientTypes.ReturnConsumedCapacity? = nil,
-        returnValuesOnConditionCheckFailure: DynamoDBClientTypes.ReturnValuesOnConditionCheckFailure? = nil,
-        statement: Swift.String? = nil
+        consumedCapacity: DynamoDBClientTypes.ConsumedCapacity? = nil,
+        items: [[Swift.String:DynamoDBClientTypes.AttributeValue]]? = nil,
+        lastEvaluatedKey: [Swift.String:DynamoDBClientTypes.AttributeValue]? = nil,
+        nextToken: Swift.String? = nil
     )
     {
-        self.consistentRead = consistentRead
-        self.limit = limit
+        self.consumedCapacity = consumedCapacity
+        self.items = items
+        self.lastEvaluatedKey = lastEvaluatedKey
         self.nextToken = nextToken
-        self.parameters = parameters
-        self.returnConsumedCapacity = returnConsumedCapacity
-        self.returnValuesOnConditionCheckFailure = returnValuesOnConditionCheckFailure
-        self.statement = statement
-    }
-}
-
-extension ExecuteStatementInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
     }
 }
 
@@ -6969,45 +7011,54 @@ enum ExecuteStatementOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ExecuteStatementOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: ExecuteStatementOutputBody = try responseDecoder.decode(responseBody: data)
-            self.consumedCapacity = output.consumedCapacity
-            self.items = output.items
-            self.lastEvaluatedKey = output.lastEvaluatedKey
-            self.nextToken = output.nextToken
-        } else {
-            self.consumedCapacity = nil
-            self.items = nil
-            self.lastEvaluatedKey = nil
-            self.nextToken = nil
+extension ExecuteTransactionInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientRequestToken = "ClientRequestToken"
+        case returnConsumedCapacity = "ReturnConsumedCapacity"
+        case transactStatements = "TransactStatements"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientRequestToken = self.clientRequestToken {
+            try encodeContainer.encode(clientRequestToken, forKey: .clientRequestToken)
+        }
+        if let returnConsumedCapacity = self.returnConsumedCapacity {
+            try encodeContainer.encode(returnConsumedCapacity.rawValue, forKey: .returnConsumedCapacity)
+        }
+        if let transactStatements = transactStatements {
+            var transactStatementsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .transactStatements)
+            for parameterizedstatement0 in transactStatements {
+                try transactStatementsContainer.encode(parameterizedstatement0)
+            }
         }
     }
 }
 
-public struct ExecuteStatementOutput: Swift.Equatable {
-    /// The capacity units consumed by an operation. The data returned includes the total provisioned throughput consumed, along with statistics for the table and any indexes involved in the operation. ConsumedCapacity is only returned if the request asked for it. For more information, see [Provisioned Throughput](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ProvisionedThroughputIntro.html) in the Amazon DynamoDB Developer Guide.
-    public var consumedCapacity: DynamoDBClientTypes.ConsumedCapacity?
-    /// If a read operation was used, this property will contain the result of the read operation; a map of attribute names and their values. For the write operations this value will be empty.
-    public var items: [[Swift.String:DynamoDBClientTypes.AttributeValue]]?
-    /// The primary key of the item where the operation stopped, inclusive of the previous result set. Use this value to start a new operation, excluding this value in the new request. If LastEvaluatedKey is empty, then the "last page" of results has been processed and there is no more data to be retrieved. If LastEvaluatedKey is not empty, it does not necessarily mean that there is more data in the result set. The only way to know when you have reached the end of the result set is when LastEvaluatedKey is empty.
-    public var lastEvaluatedKey: [Swift.String:DynamoDBClientTypes.AttributeValue]?
-    /// If the response of a read request exceeds the response payload limit DynamoDB will set this value in the response. If set, you can use that this value in the subsequent request to get the remaining results.
-    public var nextToken: Swift.String?
+extension ExecuteTransactionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ExecuteTransactionInput: Swift.Equatable {
+    /// Set this value to get remaining results, if NextToken was returned in the statement response.
+    public var clientRequestToken: Swift.String?
+    /// Determines the level of detail about either provisioned or on-demand throughput consumption that is returned in the response. For more information, see [TransactGetItems](https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_TransactGetItems.html) and [TransactWriteItems](https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_TransactWriteItems.html).
+    public var returnConsumedCapacity: DynamoDBClientTypes.ReturnConsumedCapacity?
+    /// The list of PartiQL statements representing the transaction to run.
+    /// This member is required.
+    public var transactStatements: [DynamoDBClientTypes.ParameterizedStatement]?
 
     public init(
-        consumedCapacity: DynamoDBClientTypes.ConsumedCapacity? = nil,
-        items: [[Swift.String:DynamoDBClientTypes.AttributeValue]]? = nil,
-        lastEvaluatedKey: [Swift.String:DynamoDBClientTypes.AttributeValue]? = nil,
-        nextToken: Swift.String? = nil
+        clientRequestToken: Swift.String? = nil,
+        returnConsumedCapacity: DynamoDBClientTypes.ReturnConsumedCapacity? = nil,
+        transactStatements: [DynamoDBClientTypes.ParameterizedStatement]? = nil
     )
     {
-        self.consumedCapacity = consumedCapacity
-        self.items = items
-        self.lastEvaluatedKey = lastEvaluatedKey
-        self.nextToken = nextToken
+        self.clientRequestToken = clientRequestToken
+        self.returnConsumedCapacity = returnConsumedCapacity
+        self.transactStatements = transactStatements
     }
 }
 
@@ -7044,54 +7095,33 @@ extension ExecuteTransactionInputBody: Swift.Decodable {
     }
 }
 
-extension ExecuteTransactionInput: Swift.Encodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case clientRequestToken = "ClientRequestToken"
-        case returnConsumedCapacity = "ReturnConsumedCapacity"
-        case transactStatements = "TransactStatements"
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let clientRequestToken = self.clientRequestToken {
-            try encodeContainer.encode(clientRequestToken, forKey: .clientRequestToken)
-        }
-        if let returnConsumedCapacity = self.returnConsumedCapacity {
-            try encodeContainer.encode(returnConsumedCapacity.rawValue, forKey: .returnConsumedCapacity)
-        }
-        if let transactStatements = transactStatements {
-            var transactStatementsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .transactStatements)
-            for parameterizedstatement0 in transactStatements {
-                try transactStatementsContainer.encode(parameterizedstatement0)
-            }
+extension ExecuteTransactionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ExecuteTransactionOutputBody = try responseDecoder.decode(responseBody: data)
+            self.consumedCapacity = output.consumedCapacity
+            self.responses = output.responses
+        } else {
+            self.consumedCapacity = nil
+            self.responses = nil
         }
     }
 }
 
-public struct ExecuteTransactionInput: Swift.Equatable {
-    /// Set this value to get remaining results, if NextToken was returned in the statement response.
-    public var clientRequestToken: Swift.String?
-    /// Determines the level of detail about either provisioned or on-demand throughput consumption that is returned in the response. For more information, see [TransactGetItems](https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_TransactGetItems.html) and [TransactWriteItems](https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_TransactWriteItems.html).
-    public var returnConsumedCapacity: DynamoDBClientTypes.ReturnConsumedCapacity?
-    /// The list of PartiQL statements representing the transaction to run.
-    /// This member is required.
-    public var transactStatements: [DynamoDBClientTypes.ParameterizedStatement]?
+public struct ExecuteTransactionOutput: Swift.Equatable {
+    /// The capacity units consumed by the entire operation. The values of the list are ordered according to the ordering of the statements.
+    public var consumedCapacity: [DynamoDBClientTypes.ConsumedCapacity]?
+    /// The response to a PartiQL transaction.
+    public var responses: [DynamoDBClientTypes.ItemResponse]?
 
     public init(
-        clientRequestToken: Swift.String? = nil,
-        returnConsumedCapacity: DynamoDBClientTypes.ReturnConsumedCapacity? = nil,
-        transactStatements: [DynamoDBClientTypes.ParameterizedStatement]? = nil
+        consumedCapacity: [DynamoDBClientTypes.ConsumedCapacity]? = nil,
+        responses: [DynamoDBClientTypes.ItemResponse]? = nil
     )
     {
-        self.clientRequestToken = clientRequestToken
-        self.returnConsumedCapacity = returnConsumedCapacity
-        self.transactStatements = transactStatements
-    }
-}
-
-extension ExecuteTransactionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
+        self.consumedCapacity = consumedCapacity
+        self.responses = responses
     }
 }
 
@@ -7147,36 +7177,6 @@ enum ExecuteTransactionOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TransactionInProgressException": return try await TransactionInProgressException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension ExecuteTransactionOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: ExecuteTransactionOutputBody = try responseDecoder.decode(responseBody: data)
-            self.consumedCapacity = output.consumedCapacity
-            self.responses = output.responses
-        } else {
-            self.consumedCapacity = nil
-            self.responses = nil
-        }
-    }
-}
-
-public struct ExecuteTransactionOutput: Swift.Equatable {
-    /// The capacity units consumed by the entire operation. The values of the list are ordered according to the ordering of the statements.
-    public var consumedCapacity: [DynamoDBClientTypes.ConsumedCapacity]?
-    /// The response to a PartiQL transaction.
-    public var responses: [DynamoDBClientTypes.ItemResponse]?
-
-    public init(
-        consumedCapacity: [DynamoDBClientTypes.ConsumedCapacity]? = nil,
-        responses: [DynamoDBClientTypes.ItemResponse]? = nil
-    )
-    {
-        self.consumedCapacity = consumedCapacity
-        self.responses = responses
     }
 }
 
@@ -7301,22 +7301,6 @@ extension DynamoDBClientTypes {
 
 }
 
-struct ExportConflictExceptionBody: Swift.Equatable {
-    let message: Swift.String?
-}
-
-extension ExportConflictExceptionBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case message
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
-        message = messageDecoded
-    }
-}
-
 extension ExportConflictException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -7353,6 +7337,22 @@ public struct ExportConflictException: ClientRuntime.ModeledError, AWSClientRunt
     )
     {
         self.properties.message = message
+    }
+}
+
+struct ExportConflictExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension ExportConflictExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
     }
 }
 
@@ -7627,22 +7627,6 @@ extension DynamoDBClientTypes {
     }
 }
 
-struct ExportNotFoundExceptionBody: Swift.Equatable {
-    let message: Swift.String?
-}
-
-extension ExportNotFoundExceptionBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case message
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
-        message = messageDecoded
-    }
-}
-
 extension ExportNotFoundException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -7679,6 +7663,22 @@ public struct ExportNotFoundException: ClientRuntime.ModeledError, AWSClientRunt
     )
     {
         self.properties.message = message
+    }
+}
+
+struct ExportNotFoundExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension ExportNotFoundExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
     }
 }
 
@@ -7772,62 +7772,6 @@ extension DynamoDBClientTypes {
 
 }
 
-struct ExportTableToPointInTimeInputBody: Swift.Equatable {
-    let tableArn: Swift.String?
-    let exportTime: ClientRuntime.Date?
-    let clientToken: Swift.String?
-    let s3Bucket: Swift.String?
-    let s3BucketOwner: Swift.String?
-    let s3Prefix: Swift.String?
-    let s3SseAlgorithm: DynamoDBClientTypes.S3SseAlgorithm?
-    let s3SseKmsKeyId: Swift.String?
-    let exportFormat: DynamoDBClientTypes.ExportFormat?
-    let exportType: DynamoDBClientTypes.ExportType?
-    let incrementalExportSpecification: DynamoDBClientTypes.IncrementalExportSpecification?
-}
-
-extension ExportTableToPointInTimeInputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case clientToken = "ClientToken"
-        case exportFormat = "ExportFormat"
-        case exportTime = "ExportTime"
-        case exportType = "ExportType"
-        case incrementalExportSpecification = "IncrementalExportSpecification"
-        case s3Bucket = "S3Bucket"
-        case s3BucketOwner = "S3BucketOwner"
-        case s3Prefix = "S3Prefix"
-        case s3SseAlgorithm = "S3SseAlgorithm"
-        case s3SseKmsKeyId = "S3SseKmsKeyId"
-        case tableArn = "TableArn"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let tableArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableArn)
-        tableArn = tableArnDecoded
-        let exportTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .exportTime)
-        exportTime = exportTimeDecoded
-        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
-        clientToken = clientTokenDecoded
-        let s3BucketDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .s3Bucket)
-        s3Bucket = s3BucketDecoded
-        let s3BucketOwnerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .s3BucketOwner)
-        s3BucketOwner = s3BucketOwnerDecoded
-        let s3PrefixDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .s3Prefix)
-        s3Prefix = s3PrefixDecoded
-        let s3SseAlgorithmDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.S3SseAlgorithm.self, forKey: .s3SseAlgorithm)
-        s3SseAlgorithm = s3SseAlgorithmDecoded
-        let s3SseKmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .s3SseKmsKeyId)
-        s3SseKmsKeyId = s3SseKmsKeyIdDecoded
-        let exportFormatDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ExportFormat.self, forKey: .exportFormat)
-        exportFormat = exportFormatDecoded
-        let exportTypeDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ExportType.self, forKey: .exportType)
-        exportType = exportTypeDecoded
-        let incrementalExportSpecificationDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.IncrementalExportSpecification.self, forKey: .incrementalExportSpecification)
-        incrementalExportSpecification = incrementalExportSpecificationDecoded
-    }
-}
-
 extension ExportTableToPointInTimeInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientToken = "ClientToken"
@@ -7878,6 +7822,12 @@ extension ExportTableToPointInTimeInput: Swift.Encodable {
         if let tableArn = self.tableArn {
             try encodeContainer.encode(tableArn, forKey: .tableArn)
         }
+    }
+}
+
+extension ExportTableToPointInTimeInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
     }
 }
 
@@ -7939,9 +7889,83 @@ public struct ExportTableToPointInTimeInput: Swift.Equatable {
     }
 }
 
-extension ExportTableToPointInTimeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
+struct ExportTableToPointInTimeInputBody: Swift.Equatable {
+    let tableArn: Swift.String?
+    let exportTime: ClientRuntime.Date?
+    let clientToken: Swift.String?
+    let s3Bucket: Swift.String?
+    let s3BucketOwner: Swift.String?
+    let s3Prefix: Swift.String?
+    let s3SseAlgorithm: DynamoDBClientTypes.S3SseAlgorithm?
+    let s3SseKmsKeyId: Swift.String?
+    let exportFormat: DynamoDBClientTypes.ExportFormat?
+    let exportType: DynamoDBClientTypes.ExportType?
+    let incrementalExportSpecification: DynamoDBClientTypes.IncrementalExportSpecification?
+}
+
+extension ExportTableToPointInTimeInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken = "ClientToken"
+        case exportFormat = "ExportFormat"
+        case exportTime = "ExportTime"
+        case exportType = "ExportType"
+        case incrementalExportSpecification = "IncrementalExportSpecification"
+        case s3Bucket = "S3Bucket"
+        case s3BucketOwner = "S3BucketOwner"
+        case s3Prefix = "S3Prefix"
+        case s3SseAlgorithm = "S3SseAlgorithm"
+        case s3SseKmsKeyId = "S3SseKmsKeyId"
+        case tableArn = "TableArn"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let tableArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableArn)
+        tableArn = tableArnDecoded
+        let exportTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .exportTime)
+        exportTime = exportTimeDecoded
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
+        let s3BucketDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .s3Bucket)
+        s3Bucket = s3BucketDecoded
+        let s3BucketOwnerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .s3BucketOwner)
+        s3BucketOwner = s3BucketOwnerDecoded
+        let s3PrefixDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .s3Prefix)
+        s3Prefix = s3PrefixDecoded
+        let s3SseAlgorithmDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.S3SseAlgorithm.self, forKey: .s3SseAlgorithm)
+        s3SseAlgorithm = s3SseAlgorithmDecoded
+        let s3SseKmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .s3SseKmsKeyId)
+        s3SseKmsKeyId = s3SseKmsKeyIdDecoded
+        let exportFormatDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ExportFormat.self, forKey: .exportFormat)
+        exportFormat = exportFormatDecoded
+        let exportTypeDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ExportType.self, forKey: .exportType)
+        exportType = exportTypeDecoded
+        let incrementalExportSpecificationDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.IncrementalExportSpecification.self, forKey: .incrementalExportSpecification)
+        incrementalExportSpecification = incrementalExportSpecificationDecoded
+    }
+}
+
+extension ExportTableToPointInTimeOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ExportTableToPointInTimeOutputBody = try responseDecoder.decode(responseBody: data)
+            self.exportDescription = output.exportDescription
+        } else {
+            self.exportDescription = nil
+        }
+    }
+}
+
+public struct ExportTableToPointInTimeOutput: Swift.Equatable {
+    /// Contains a description of the table export.
+    public var exportDescription: DynamoDBClientTypes.ExportDescription?
+
+    public init(
+        exportDescription: DynamoDBClientTypes.ExportDescription? = nil
+    )
+    {
+        self.exportDescription = exportDescription
     }
 }
 
@@ -7974,30 +7998,6 @@ enum ExportTableToPointInTimeOutputError: ClientRuntime.HttpResponseErrorBinding
             case "TableNotFoundException": return try await TableNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension ExportTableToPointInTimeOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: ExportTableToPointInTimeOutputBody = try responseDecoder.decode(responseBody: data)
-            self.exportDescription = output.exportDescription
-        } else {
-            self.exportDescription = nil
-        }
-    }
-}
-
-public struct ExportTableToPointInTimeOutput: Swift.Equatable {
-    /// Contains a description of the table export.
-    public var exportDescription: DynamoDBClientTypes.ExportDescription?
-
-    public init(
-        exportDescription: DynamoDBClientTypes.ExportDescription? = nil
-    )
-    {
-        self.exportDescription = exportDescription
     }
 }
 
@@ -8171,71 +8171,34 @@ extension DynamoDBClientTypes.Get: Swift.Codable {
     }
 }
 
-struct GetItemInputBody: Swift.Equatable {
-    let tableName: Swift.String?
-    let key: [Swift.String:DynamoDBClientTypes.AttributeValue]?
-    let attributesToGet: [Swift.String]?
-    let consistentRead: Swift.Bool?
-    let returnConsumedCapacity: DynamoDBClientTypes.ReturnConsumedCapacity?
-    let projectionExpression: Swift.String?
-    let expressionAttributeNames: [Swift.String:Swift.String]?
-}
+extension DynamoDBClientTypes {
+    /// Specifies an item and related attribute values to retrieve in a TransactGetItem object.
+    public struct Get: Swift.Equatable {
+        /// One or more substitution tokens for attribute names in the ProjectionExpression parameter.
+        public var expressionAttributeNames: [Swift.String:Swift.String]?
+        /// A map of attribute names to AttributeValue objects that specifies the primary key of the item to retrieve.
+        /// This member is required.
+        public var key: [Swift.String:DynamoDBClientTypes.AttributeValue]?
+        /// A string that identifies one or more attributes of the specified item to retrieve from the table. The attributes in the expression must be separated by commas. If no attribute names are specified, then all attributes of the specified item are returned. If any of the requested attributes are not found, they do not appear in the result.
+        public var projectionExpression: Swift.String?
+        /// The name of the table from which to retrieve the specified item.
+        /// This member is required.
+        public var tableName: Swift.String?
 
-extension GetItemInputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case attributesToGet = "AttributesToGet"
-        case consistentRead = "ConsistentRead"
-        case expressionAttributeNames = "ExpressionAttributeNames"
-        case key = "Key"
-        case projectionExpression = "ProjectionExpression"
-        case returnConsumedCapacity = "ReturnConsumedCapacity"
-        case tableName = "TableName"
+        public init(
+            expressionAttributeNames: [Swift.String:Swift.String]? = nil,
+            key: [Swift.String:DynamoDBClientTypes.AttributeValue]? = nil,
+            projectionExpression: Swift.String? = nil,
+            tableName: Swift.String? = nil
+        )
+        {
+            self.expressionAttributeNames = expressionAttributeNames
+            self.key = key
+            self.projectionExpression = projectionExpression
+            self.tableName = tableName
+        }
     }
 
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let tableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableName)
-        tableName = tableNameDecoded
-        let keyContainer = try containerValues.decodeIfPresent([Swift.String: DynamoDBClientTypes.AttributeValue?].self, forKey: .key)
-        var keyDecoded0: [Swift.String:DynamoDBClientTypes.AttributeValue]? = nil
-        if let keyContainer = keyContainer {
-            keyDecoded0 = [Swift.String:DynamoDBClientTypes.AttributeValue]()
-            for (key0, attributevalue0) in keyContainer {
-                if let attributevalue0 = attributevalue0 {
-                    keyDecoded0?[key0] = attributevalue0
-                }
-            }
-        }
-        key = keyDecoded0
-        let attributesToGetContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .attributesToGet)
-        var attributesToGetDecoded0:[Swift.String]? = nil
-        if let attributesToGetContainer = attributesToGetContainer {
-            attributesToGetDecoded0 = [Swift.String]()
-            for string0 in attributesToGetContainer {
-                if let string0 = string0 {
-                    attributesToGetDecoded0?.append(string0)
-                }
-            }
-        }
-        attributesToGet = attributesToGetDecoded0
-        let consistentReadDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .consistentRead)
-        consistentRead = consistentReadDecoded
-        let returnConsumedCapacityDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ReturnConsumedCapacity.self, forKey: .returnConsumedCapacity)
-        returnConsumedCapacity = returnConsumedCapacityDecoded
-        let projectionExpressionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .projectionExpression)
-        projectionExpression = projectionExpressionDecoded
-        let expressionAttributeNamesContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .expressionAttributeNames)
-        var expressionAttributeNamesDecoded0: [Swift.String:Swift.String]? = nil
-        if let expressionAttributeNamesContainer = expressionAttributeNamesContainer {
-            expressionAttributeNamesDecoded0 = [Swift.String:Swift.String]()
-            for (key0, attributename0) in expressionAttributeNamesContainer {
-                if let attributename0 = attributename0 {
-                    expressionAttributeNamesDecoded0?[key0] = attributename0
-                }
-            }
-        }
-        expressionAttributeNames = expressionAttributeNamesDecoded0
-    }
 }
 
 extension GetItemInput: Swift.Encodable {
@@ -8281,6 +8244,12 @@ extension GetItemInput: Swift.Encodable {
         if let tableName = self.tableName {
             try encodeContainer.encode(tableName, forKey: .tableName)
         }
+    }
+}
+
+extension GetItemInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
     }
 }
 
@@ -8353,9 +8322,101 @@ public struct GetItemInput: Swift.Equatable {
     }
 }
 
-extension GetItemInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
+struct GetItemInputBody: Swift.Equatable {
+    let tableName: Swift.String?
+    let key: [Swift.String:DynamoDBClientTypes.AttributeValue]?
+    let attributesToGet: [Swift.String]?
+    let consistentRead: Swift.Bool?
+    let returnConsumedCapacity: DynamoDBClientTypes.ReturnConsumedCapacity?
+    let projectionExpression: Swift.String?
+    let expressionAttributeNames: [Swift.String:Swift.String]?
+}
+
+extension GetItemInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case attributesToGet = "AttributesToGet"
+        case consistentRead = "ConsistentRead"
+        case expressionAttributeNames = "ExpressionAttributeNames"
+        case key = "Key"
+        case projectionExpression = "ProjectionExpression"
+        case returnConsumedCapacity = "ReturnConsumedCapacity"
+        case tableName = "TableName"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let tableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableName)
+        tableName = tableNameDecoded
+        let keyContainer = try containerValues.decodeIfPresent([Swift.String: DynamoDBClientTypes.AttributeValue?].self, forKey: .key)
+        var keyDecoded0: [Swift.String:DynamoDBClientTypes.AttributeValue]? = nil
+        if let keyContainer = keyContainer {
+            keyDecoded0 = [Swift.String:DynamoDBClientTypes.AttributeValue]()
+            for (key0, attributevalue0) in keyContainer {
+                if let attributevalue0 = attributevalue0 {
+                    keyDecoded0?[key0] = attributevalue0
+                }
+            }
+        }
+        key = keyDecoded0
+        let attributesToGetContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .attributesToGet)
+        var attributesToGetDecoded0:[Swift.String]? = nil
+        if let attributesToGetContainer = attributesToGetContainer {
+            attributesToGetDecoded0 = [Swift.String]()
+            for string0 in attributesToGetContainer {
+                if let string0 = string0 {
+                    attributesToGetDecoded0?.append(string0)
+                }
+            }
+        }
+        attributesToGet = attributesToGetDecoded0
+        let consistentReadDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .consistentRead)
+        consistentRead = consistentReadDecoded
+        let returnConsumedCapacityDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ReturnConsumedCapacity.self, forKey: .returnConsumedCapacity)
+        returnConsumedCapacity = returnConsumedCapacityDecoded
+        let projectionExpressionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .projectionExpression)
+        projectionExpression = projectionExpressionDecoded
+        let expressionAttributeNamesContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .expressionAttributeNames)
+        var expressionAttributeNamesDecoded0: [Swift.String:Swift.String]? = nil
+        if let expressionAttributeNamesContainer = expressionAttributeNamesContainer {
+            expressionAttributeNamesDecoded0 = [Swift.String:Swift.String]()
+            for (key0, attributename0) in expressionAttributeNamesContainer {
+                if let attributename0 = attributename0 {
+                    expressionAttributeNamesDecoded0?[key0] = attributename0
+                }
+            }
+        }
+        expressionAttributeNames = expressionAttributeNamesDecoded0
+    }
+}
+
+extension GetItemOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetItemOutputBody = try responseDecoder.decode(responseBody: data)
+            self.consumedCapacity = output.consumedCapacity
+            self.item = output.item
+        } else {
+            self.consumedCapacity = nil
+            self.item = nil
+        }
+    }
+}
+
+/// Represents the output of a GetItem operation.
+public struct GetItemOutput: Swift.Equatable {
+    /// The capacity units consumed by the GetItem operation. The data returned includes the total provisioned throughput consumed, along with statistics for the table and any indexes involved in the operation. ConsumedCapacity is only returned if the ReturnConsumedCapacity parameter was specified. For more information, see [Provisioned Throughput](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ProvisionedThroughput.html#ItemSizeCalculations.Reads) in the Amazon DynamoDB Developer Guide.
+    public var consumedCapacity: DynamoDBClientTypes.ConsumedCapacity?
+    /// A map of attribute names to AttributeValue objects, as specified by ProjectionExpression.
+    public var item: [Swift.String:DynamoDBClientTypes.AttributeValue]?
+
+    public init(
+        consumedCapacity: DynamoDBClientTypes.ConsumedCapacity? = nil,
+        item: [Swift.String:DynamoDBClientTypes.AttributeValue]? = nil
+    )
+    {
+        self.consumedCapacity = consumedCapacity
+        self.item = item
     }
 }
 
@@ -8401,112 +8462,6 @@ enum GetItemOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension GetItemOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetItemOutputBody = try responseDecoder.decode(responseBody: data)
-            self.consumedCapacity = output.consumedCapacity
-            self.item = output.item
-        } else {
-            self.consumedCapacity = nil
-            self.item = nil
-        }
-    }
-}
-
-/// Represents the output of a GetItem operation.
-public struct GetItemOutput: Swift.Equatable {
-    /// The capacity units consumed by the GetItem operation. The data returned includes the total provisioned throughput consumed, along with statistics for the table and any indexes involved in the operation. ConsumedCapacity is only returned if the ReturnConsumedCapacity parameter was specified. For more information, see [Provisioned Throughput](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ProvisionedThroughput.html#ItemSizeCalculations.Reads) in the Amazon DynamoDB Developer Guide.
-    public var consumedCapacity: DynamoDBClientTypes.ConsumedCapacity?
-    /// A map of attribute names to AttributeValue objects, as specified by ProjectionExpression.
-    public var item: [Swift.String:DynamoDBClientTypes.AttributeValue]?
-
-    public init(
-        consumedCapacity: DynamoDBClientTypes.ConsumedCapacity? = nil,
-        item: [Swift.String:DynamoDBClientTypes.AttributeValue]? = nil
-    )
-    {
-        self.consumedCapacity = consumedCapacity
-        self.item = item
-    }
-}
-
-extension DynamoDBClientTypes {
-    /// Specifies an item and related attribute values to retrieve in a TransactGetItem object.
-    public struct Get: Swift.Equatable {
-        /// One or more substitution tokens for attribute names in the ProjectionExpression parameter.
-        public var expressionAttributeNames: [Swift.String:Swift.String]?
-        /// A map of attribute names to AttributeValue objects that specifies the primary key of the item to retrieve.
-        /// This member is required.
-        public var key: [Swift.String:DynamoDBClientTypes.AttributeValue]?
-        /// A string that identifies one or more attributes of the specified item to retrieve from the table. The attributes in the expression must be separated by commas. If no attribute names are specified, then all attributes of the specified item are returned. If any of the requested attributes are not found, they do not appear in the result.
-        public var projectionExpression: Swift.String?
-        /// The name of the table from which to retrieve the specified item.
-        /// This member is required.
-        public var tableName: Swift.String?
-
-        public init(
-            expressionAttributeNames: [Swift.String:Swift.String]? = nil,
-            key: [Swift.String:DynamoDBClientTypes.AttributeValue]? = nil,
-            projectionExpression: Swift.String? = nil,
-            tableName: Swift.String? = nil
-        )
-        {
-            self.expressionAttributeNames = expressionAttributeNames
-            self.key = key
-            self.projectionExpression = projectionExpression
-            self.tableName = tableName
-        }
-    }
-
-}
-
-extension DynamoDBClientTypes.GlobalSecondaryIndexAutoScalingUpdate: Swift.Codable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case indexName = "IndexName"
-        case provisionedWriteCapacityAutoScalingUpdate = "ProvisionedWriteCapacityAutoScalingUpdate"
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let indexName = self.indexName {
-            try encodeContainer.encode(indexName, forKey: .indexName)
-        }
-        if let provisionedWriteCapacityAutoScalingUpdate = self.provisionedWriteCapacityAutoScalingUpdate {
-            try encodeContainer.encode(provisionedWriteCapacityAutoScalingUpdate, forKey: .provisionedWriteCapacityAutoScalingUpdate)
-        }
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let indexNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .indexName)
-        indexName = indexNameDecoded
-        let provisionedWriteCapacityAutoScalingUpdateDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.AutoScalingSettingsUpdate.self, forKey: .provisionedWriteCapacityAutoScalingUpdate)
-        provisionedWriteCapacityAutoScalingUpdate = provisionedWriteCapacityAutoScalingUpdateDecoded
-    }
-}
-
-extension DynamoDBClientTypes {
-    /// Represents the auto scaling settings of a global secondary index for a global table that will be modified.
-    public struct GlobalSecondaryIndexAutoScalingUpdate: Swift.Equatable {
-        /// The name of the global secondary index.
-        public var indexName: Swift.String?
-        /// Represents the auto scaling settings to be modified for a global table or global secondary index.
-        public var provisionedWriteCapacityAutoScalingUpdate: DynamoDBClientTypes.AutoScalingSettingsUpdate?
-
-        public init(
-            indexName: Swift.String? = nil,
-            provisionedWriteCapacityAutoScalingUpdate: DynamoDBClientTypes.AutoScalingSettingsUpdate? = nil
-        )
-        {
-            self.indexName = indexName
-            self.provisionedWriteCapacityAutoScalingUpdate = provisionedWriteCapacityAutoScalingUpdate
-        }
-    }
-
 }
 
 extension DynamoDBClientTypes.GlobalSecondaryIndex: Swift.Codable {
@@ -8556,6 +8511,89 @@ extension DynamoDBClientTypes.GlobalSecondaryIndex: Swift.Codable {
         let provisionedThroughputDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ProvisionedThroughput.self, forKey: .provisionedThroughput)
         provisionedThroughput = provisionedThroughputDecoded
     }
+}
+
+extension DynamoDBClientTypes {
+    /// Represents the properties of a global secondary index.
+    public struct GlobalSecondaryIndex: Swift.Equatable {
+        /// The name of the global secondary index. The name must be unique among all other indexes on this table.
+        /// This member is required.
+        public var indexName: Swift.String?
+        /// The complete key schema for a global secondary index, which consists of one or more pairs of attribute names and key types:
+        ///
+        /// * HASH - partition key
+        ///
+        /// * RANGE - sort key
+        ///
+        ///
+        /// The partition key of an item is also known as its hash attribute. The term "hash attribute" derives from DynamoDB's usage of an internal hash function to evenly distribute data items across partitions, based on their partition key values. The sort key of an item is also known as its range attribute. The term "range attribute" derives from the way DynamoDB stores items with the same partition key physically close together, in sorted order by the sort key value.
+        /// This member is required.
+        public var keySchema: [DynamoDBClientTypes.KeySchemaElement]?
+        /// Represents attributes that are copied (projected) from the table into the global secondary index. These are in addition to the primary key attributes and index key attributes, which are automatically projected.
+        /// This member is required.
+        public var projection: DynamoDBClientTypes.Projection?
+        /// Represents the provisioned throughput settings for the specified global secondary index. For current minimum and maximum provisioned throughput values, see [Service, Account, and Table Quotas](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Limits.html) in the Amazon DynamoDB Developer Guide.
+        public var provisionedThroughput: DynamoDBClientTypes.ProvisionedThroughput?
+
+        public init(
+            indexName: Swift.String? = nil,
+            keySchema: [DynamoDBClientTypes.KeySchemaElement]? = nil,
+            projection: DynamoDBClientTypes.Projection? = nil,
+            provisionedThroughput: DynamoDBClientTypes.ProvisionedThroughput? = nil
+        )
+        {
+            self.indexName = indexName
+            self.keySchema = keySchema
+            self.projection = projection
+            self.provisionedThroughput = provisionedThroughput
+        }
+    }
+
+}
+
+extension DynamoDBClientTypes.GlobalSecondaryIndexAutoScalingUpdate: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case indexName = "IndexName"
+        case provisionedWriteCapacityAutoScalingUpdate = "ProvisionedWriteCapacityAutoScalingUpdate"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let indexName = self.indexName {
+            try encodeContainer.encode(indexName, forKey: .indexName)
+        }
+        if let provisionedWriteCapacityAutoScalingUpdate = self.provisionedWriteCapacityAutoScalingUpdate {
+            try encodeContainer.encode(provisionedWriteCapacityAutoScalingUpdate, forKey: .provisionedWriteCapacityAutoScalingUpdate)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let indexNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .indexName)
+        indexName = indexNameDecoded
+        let provisionedWriteCapacityAutoScalingUpdateDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.AutoScalingSettingsUpdate.self, forKey: .provisionedWriteCapacityAutoScalingUpdate)
+        provisionedWriteCapacityAutoScalingUpdate = provisionedWriteCapacityAutoScalingUpdateDecoded
+    }
+}
+
+extension DynamoDBClientTypes {
+    /// Represents the auto scaling settings of a global secondary index for a global table that will be modified.
+    public struct GlobalSecondaryIndexAutoScalingUpdate: Swift.Equatable {
+        /// The name of the global secondary index.
+        public var indexName: Swift.String?
+        /// Represents the auto scaling settings to be modified for a global table or global secondary index.
+        public var provisionedWriteCapacityAutoScalingUpdate: DynamoDBClientTypes.AutoScalingSettingsUpdate?
+
+        public init(
+            indexName: Swift.String? = nil,
+            provisionedWriteCapacityAutoScalingUpdate: DynamoDBClientTypes.AutoScalingSettingsUpdate? = nil
+        )
+        {
+            self.indexName = indexName
+            self.provisionedWriteCapacityAutoScalingUpdate = provisionedWriteCapacityAutoScalingUpdate
+        }
+    }
+
 }
 
 extension DynamoDBClientTypes.GlobalSecondaryIndexDescription: Swift.Codable {
@@ -8784,44 +8822,6 @@ extension DynamoDBClientTypes {
 
 }
 
-extension DynamoDBClientTypes {
-    /// Represents the properties of a global secondary index.
-    public struct GlobalSecondaryIndex: Swift.Equatable {
-        /// The name of the global secondary index. The name must be unique among all other indexes on this table.
-        /// This member is required.
-        public var indexName: Swift.String?
-        /// The complete key schema for a global secondary index, which consists of one or more pairs of attribute names and key types:
-        ///
-        /// * HASH - partition key
-        ///
-        /// * RANGE - sort key
-        ///
-        ///
-        /// The partition key of an item is also known as its hash attribute. The term "hash attribute" derives from DynamoDB's usage of an internal hash function to evenly distribute data items across partitions, based on their partition key values. The sort key of an item is also known as its range attribute. The term "range attribute" derives from the way DynamoDB stores items with the same partition key physically close together, in sorted order by the sort key value.
-        /// This member is required.
-        public var keySchema: [DynamoDBClientTypes.KeySchemaElement]?
-        /// Represents attributes that are copied (projected) from the table into the global secondary index. These are in addition to the primary key attributes and index key attributes, which are automatically projected.
-        /// This member is required.
-        public var projection: DynamoDBClientTypes.Projection?
-        /// Represents the provisioned throughput settings for the specified global secondary index. For current minimum and maximum provisioned throughput values, see [Service, Account, and Table Quotas](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Limits.html) in the Amazon DynamoDB Developer Guide.
-        public var provisionedThroughput: DynamoDBClientTypes.ProvisionedThroughput?
-
-        public init(
-            indexName: Swift.String? = nil,
-            keySchema: [DynamoDBClientTypes.KeySchemaElement]? = nil,
-            projection: DynamoDBClientTypes.Projection? = nil,
-            provisionedThroughput: DynamoDBClientTypes.ProvisionedThroughput? = nil
-        )
-        {
-            self.indexName = indexName
-            self.keySchema = keySchema
-            self.projection = projection
-            self.provisionedThroughput = provisionedThroughput
-        }
-    }
-
-}
-
 extension DynamoDBClientTypes.GlobalSecondaryIndexUpdate: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case create = "Create"
@@ -8893,20 +8893,61 @@ extension DynamoDBClientTypes {
 
 }
 
-struct GlobalTableAlreadyExistsExceptionBody: Swift.Equatable {
-    let message: Swift.String?
-}
-
-extension GlobalTableAlreadyExistsExceptionBody: Swift.Decodable {
+extension DynamoDBClientTypes.GlobalTable: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case message
+        case globalTableName = "GlobalTableName"
+        case replicationGroup = "ReplicationGroup"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let globalTableName = self.globalTableName {
+            try encodeContainer.encode(globalTableName, forKey: .globalTableName)
+        }
+        if let replicationGroup = replicationGroup {
+            var replicationGroupContainer = encodeContainer.nestedUnkeyedContainer(forKey: .replicationGroup)
+            for replica0 in replicationGroup {
+                try replicationGroupContainer.encode(replica0)
+            }
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
-        message = messageDecoded
+        let globalTableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .globalTableName)
+        globalTableName = globalTableNameDecoded
+        let replicationGroupContainer = try containerValues.decodeIfPresent([DynamoDBClientTypes.Replica?].self, forKey: .replicationGroup)
+        var replicationGroupDecoded0:[DynamoDBClientTypes.Replica]? = nil
+        if let replicationGroupContainer = replicationGroupContainer {
+            replicationGroupDecoded0 = [DynamoDBClientTypes.Replica]()
+            for structure0 in replicationGroupContainer {
+                if let structure0 = structure0 {
+                    replicationGroupDecoded0?.append(structure0)
+                }
+            }
+        }
+        replicationGroup = replicationGroupDecoded0
     }
+}
+
+extension DynamoDBClientTypes {
+    /// Represents the properties of a global table.
+    public struct GlobalTable: Swift.Equatable {
+        /// The global table name.
+        public var globalTableName: Swift.String?
+        /// The Regions where the global table has replicas.
+        public var replicationGroup: [DynamoDBClientTypes.Replica]?
+
+        public init(
+            globalTableName: Swift.String? = nil,
+            replicationGroup: [DynamoDBClientTypes.Replica]? = nil
+        )
+        {
+            self.globalTableName = globalTableName
+            self.replicationGroup = replicationGroup
+        }
+    }
+
 }
 
 extension GlobalTableAlreadyExistsException {
@@ -8948,40 +8989,19 @@ public struct GlobalTableAlreadyExistsException: ClientRuntime.ModeledError, AWS
     }
 }
 
-extension DynamoDBClientTypes.GlobalTable: Swift.Codable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case globalTableName = "GlobalTableName"
-        case replicationGroup = "ReplicationGroup"
-    }
+struct GlobalTableAlreadyExistsExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
 
-    public func encode(to encoder: Swift.Encoder) throws {
-        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let globalTableName = self.globalTableName {
-            try encodeContainer.encode(globalTableName, forKey: .globalTableName)
-        }
-        if let replicationGroup = replicationGroup {
-            var replicationGroupContainer = encodeContainer.nestedUnkeyedContainer(forKey: .replicationGroup)
-            for replica0 in replicationGroup {
-                try replicationGroupContainer.encode(replica0)
-            }
-        }
+extension GlobalTableAlreadyExistsExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let globalTableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .globalTableName)
-        globalTableName = globalTableNameDecoded
-        let replicationGroupContainer = try containerValues.decodeIfPresent([DynamoDBClientTypes.Replica?].self, forKey: .replicationGroup)
-        var replicationGroupDecoded0:[DynamoDBClientTypes.Replica]? = nil
-        if let replicationGroupContainer = replicationGroupContainer {
-            replicationGroupDecoded0 = [DynamoDBClientTypes.Replica]()
-            for structure0 in replicationGroupContainer {
-                if let structure0 = structure0 {
-                    replicationGroupDecoded0?.append(structure0)
-                }
-            }
-        }
-        replicationGroup = replicationGroupDecoded0
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
     }
 }
 
@@ -9136,22 +9156,6 @@ extension DynamoDBClientTypes {
 
 }
 
-struct GlobalTableNotFoundExceptionBody: Swift.Equatable {
-    let message: Swift.String?
-}
-
-extension GlobalTableNotFoundExceptionBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case message
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
-        message = messageDecoded
-    }
-}
-
 extension GlobalTableNotFoundException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -9191,6 +9195,22 @@ public struct GlobalTableNotFoundException: ClientRuntime.ModeledError, AWSClien
     }
 }
 
+struct GlobalTableNotFoundExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension GlobalTableNotFoundExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
 extension DynamoDBClientTypes {
     public enum GlobalTableStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case active
@@ -9226,42 +9246,6 @@ extension DynamoDBClientTypes {
             let rawValue = try container.decode(RawValue.self)
             self = GlobalTableStatus(rawValue: rawValue) ?? GlobalTableStatus.sdkUnknown(rawValue)
         }
-    }
-}
-
-extension DynamoDBClientTypes {
-    /// Represents the properties of a global table.
-    public struct GlobalTable: Swift.Equatable {
-        /// The global table name.
-        public var globalTableName: Swift.String?
-        /// The Regions where the global table has replicas.
-        public var replicationGroup: [DynamoDBClientTypes.Replica]?
-
-        public init(
-            globalTableName: Swift.String? = nil,
-            replicationGroup: [DynamoDBClientTypes.Replica]? = nil
-        )
-        {
-            self.globalTableName = globalTableName
-            self.replicationGroup = replicationGroup
-        }
-    }
-
-}
-
-struct IdempotentParameterMismatchExceptionBody: Swift.Equatable {
-    let message: Swift.String?
-}
-
-extension IdempotentParameterMismatchExceptionBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case message = "Message"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
-        message = messageDecoded
     }
 }
 
@@ -9304,13 +9288,13 @@ public struct IdempotentParameterMismatchException: ClientRuntime.ModeledError, 
     }
 }
 
-struct ImportConflictExceptionBody: Swift.Equatable {
+struct IdempotentParameterMismatchExceptionBody: Swift.Equatable {
     let message: Swift.String?
 }
 
-extension ImportConflictExceptionBody: Swift.Decodable {
+extension IdempotentParameterMismatchExceptionBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case message
+        case message = "Message"
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -9359,11 +9343,11 @@ public struct ImportConflictException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct ImportNotFoundExceptionBody: Swift.Equatable {
+struct ImportConflictExceptionBody: Swift.Equatable {
     let message: Swift.String?
 }
 
-extension ImportNotFoundExceptionBody: Swift.Decodable {
+extension ImportConflictExceptionBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case message
     }
@@ -9411,6 +9395,22 @@ public struct ImportNotFoundException: ClientRuntime.ModeledError, AWSClientRunt
     )
     {
         self.properties.message = message
+    }
+}
+
+struct ImportNotFoundExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension ImportNotFoundExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
     }
 }
 
@@ -9775,42 +9775,6 @@ extension DynamoDBClientTypes {
 
 }
 
-struct ImportTableInputBody: Swift.Equatable {
-    let clientToken: Swift.String?
-    let s3BucketSource: DynamoDBClientTypes.S3BucketSource?
-    let inputFormat: DynamoDBClientTypes.InputFormat?
-    let inputFormatOptions: DynamoDBClientTypes.InputFormatOptions?
-    let inputCompressionType: DynamoDBClientTypes.InputCompressionType?
-    let tableCreationParameters: DynamoDBClientTypes.TableCreationParameters?
-}
-
-extension ImportTableInputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case clientToken = "ClientToken"
-        case inputCompressionType = "InputCompressionType"
-        case inputFormat = "InputFormat"
-        case inputFormatOptions = "InputFormatOptions"
-        case s3BucketSource = "S3BucketSource"
-        case tableCreationParameters = "TableCreationParameters"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
-        clientToken = clientTokenDecoded
-        let s3BucketSourceDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.S3BucketSource.self, forKey: .s3BucketSource)
-        s3BucketSource = s3BucketSourceDecoded
-        let inputFormatDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.InputFormat.self, forKey: .inputFormat)
-        inputFormat = inputFormatDecoded
-        let inputFormatOptionsDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.InputFormatOptions.self, forKey: .inputFormatOptions)
-        inputFormatOptions = inputFormatOptionsDecoded
-        let inputCompressionTypeDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.InputCompressionType.self, forKey: .inputCompressionType)
-        inputCompressionType = inputCompressionTypeDecoded
-        let tableCreationParametersDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.TableCreationParameters.self, forKey: .tableCreationParameters)
-        tableCreationParameters = tableCreationParametersDecoded
-    }
-}
-
 extension ImportTableInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientToken = "ClientToken"
@@ -9841,6 +9805,12 @@ extension ImportTableInput: Swift.Encodable {
         if let tableCreationParameters = self.tableCreationParameters {
             try encodeContainer.encode(tableCreationParameters, forKey: .tableCreationParameters)
         }
+    }
+}
+
+extension ImportTableInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
     }
 }
 
@@ -9879,9 +9849,64 @@ public struct ImportTableInput: Swift.Equatable {
     }
 }
 
-extension ImportTableInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
+struct ImportTableInputBody: Swift.Equatable {
+    let clientToken: Swift.String?
+    let s3BucketSource: DynamoDBClientTypes.S3BucketSource?
+    let inputFormat: DynamoDBClientTypes.InputFormat?
+    let inputFormatOptions: DynamoDBClientTypes.InputFormatOptions?
+    let inputCompressionType: DynamoDBClientTypes.InputCompressionType?
+    let tableCreationParameters: DynamoDBClientTypes.TableCreationParameters?
+}
+
+extension ImportTableInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken = "ClientToken"
+        case inputCompressionType = "InputCompressionType"
+        case inputFormat = "InputFormat"
+        case inputFormatOptions = "InputFormatOptions"
+        case s3BucketSource = "S3BucketSource"
+        case tableCreationParameters = "TableCreationParameters"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
+        let s3BucketSourceDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.S3BucketSource.self, forKey: .s3BucketSource)
+        s3BucketSource = s3BucketSourceDecoded
+        let inputFormatDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.InputFormat.self, forKey: .inputFormat)
+        inputFormat = inputFormatDecoded
+        let inputFormatOptionsDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.InputFormatOptions.self, forKey: .inputFormatOptions)
+        inputFormatOptions = inputFormatOptionsDecoded
+        let inputCompressionTypeDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.InputCompressionType.self, forKey: .inputCompressionType)
+        inputCompressionType = inputCompressionTypeDecoded
+        let tableCreationParametersDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.TableCreationParameters.self, forKey: .tableCreationParameters)
+        tableCreationParameters = tableCreationParametersDecoded
+    }
+}
+
+extension ImportTableOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ImportTableOutputBody = try responseDecoder.decode(responseBody: data)
+            self.importTableDescription = output.importTableDescription
+        } else {
+            self.importTableDescription = nil
+        }
+    }
+}
+
+public struct ImportTableOutput: Swift.Equatable {
+    /// Represents the properties of the table created for the import, and parameters of the import. The import parameters include import status, how many items were processed, and how many errors were encountered.
+    /// This member is required.
+    public var importTableDescription: DynamoDBClientTypes.ImportTableDescription?
+
+    public init(
+        importTableDescription: DynamoDBClientTypes.ImportTableDescription? = nil
+    )
+    {
+        self.importTableDescription = importTableDescription
     }
 }
 
@@ -9911,31 +9936,6 @@ enum ImportTableOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ResourceInUseException": return try await ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension ImportTableOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: ImportTableOutputBody = try responseDecoder.decode(responseBody: data)
-            self.importTableDescription = output.importTableDescription
-        } else {
-            self.importTableDescription = nil
-        }
-    }
-}
-
-public struct ImportTableOutput: Swift.Equatable {
-    /// Represents the properties of the table created for the import, and parameters of the import. The import parameters include import status, how many items were processed, and how many errors were encountered.
-    /// This member is required.
-    public var importTableDescription: DynamoDBClientTypes.ImportTableDescription?
-
-    public init(
-        importTableDescription: DynamoDBClientTypes.ImportTableDescription? = nil
-    )
-    {
-        self.importTableDescription = importTableDescription
     }
 }
 
@@ -9994,22 +9994,6 @@ extension DynamoDBClientTypes {
 
 }
 
-struct IndexNotFoundExceptionBody: Swift.Equatable {
-    let message: Swift.String?
-}
-
-extension IndexNotFoundExceptionBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case message
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
-        message = messageDecoded
-    }
-}
-
 extension IndexNotFoundException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -10046,6 +10030,22 @@ public struct IndexNotFoundException: ClientRuntime.ModeledError, AWSClientRunti
     )
     {
         self.properties.message = message
+    }
+}
+
+struct IndexNotFoundExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension IndexNotFoundExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
     }
 }
 
@@ -10122,41 +10122,6 @@ extension DynamoDBClientTypes {
     }
 }
 
-extension DynamoDBClientTypes.InputFormatOptions: Swift.Codable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case csv = "Csv"
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let csv = self.csv {
-            try encodeContainer.encode(csv, forKey: .csv)
-        }
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let csvDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.CsvOptions.self, forKey: .csv)
-        csv = csvDecoded
-    }
-}
-
-extension DynamoDBClientTypes {
-    /// The format options for the data that was imported into the target table. There is one value, CsvOption.
-    public struct InputFormatOptions: Swift.Equatable {
-        /// The options for imported source files in CSV format. The values are Delimiter and HeaderList.
-        public var csv: DynamoDBClientTypes.CsvOptions?
-
-        public init(
-            csv: DynamoDBClientTypes.CsvOptions? = nil
-        )
-        {
-            self.csv = csv
-        }
-    }
-
-}
-
 extension DynamoDBClientTypes {
     public enum InputFormat: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case csv
@@ -10192,20 +10157,39 @@ extension DynamoDBClientTypes {
     }
 }
 
-struct InternalServerErrorBody: Swift.Equatable {
-    let message: Swift.String?
-}
-
-extension InternalServerErrorBody: Swift.Decodable {
+extension DynamoDBClientTypes.InputFormatOptions: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case message
+        case csv = "Csv"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let csv = self.csv {
+            try encodeContainer.encode(csv, forKey: .csv)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
-        message = messageDecoded
+        let csvDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.CsvOptions.self, forKey: .csv)
+        csv = csvDecoded
     }
+}
+
+extension DynamoDBClientTypes {
+    /// The format options for the data that was imported into the target table. There is one value, CsvOption.
+    public struct InputFormatOptions: Swift.Equatable {
+        /// The options for imported source files in CSV format. The values are Delimiter and HeaderList.
+        public var csv: DynamoDBClientTypes.CsvOptions?
+
+        public init(
+            csv: DynamoDBClientTypes.CsvOptions? = nil
+        )
+        {
+            self.csv = csv
+        }
+    }
+
 }
 
 extension InternalServerError {
@@ -10248,13 +10232,13 @@ public struct InternalServerError: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct InvalidEndpointExceptionBody: Swift.Equatable {
+struct InternalServerErrorBody: Swift.Equatable {
     let message: Swift.String?
 }
 
-extension InvalidEndpointExceptionBody: Swift.Decodable {
+extension InternalServerErrorBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case message = "Message"
+        case message
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -10302,13 +10286,13 @@ public struct InvalidEndpointException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct InvalidExportTimeExceptionBody: Swift.Equatable {
+struct InvalidEndpointExceptionBody: Swift.Equatable {
     let message: Swift.String?
 }
 
-extension InvalidExportTimeExceptionBody: Swift.Decodable {
+extension InvalidEndpointExceptionBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case message
+        case message = "Message"
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -10357,11 +10341,11 @@ public struct InvalidExportTimeException: ClientRuntime.ModeledError, AWSClientR
     }
 }
 
-struct InvalidRestoreTimeExceptionBody: Swift.Equatable {
+struct InvalidExportTimeExceptionBody: Swift.Equatable {
     let message: Swift.String?
 }
 
-extension InvalidRestoreTimeExceptionBody: Swift.Decodable {
+extension InvalidExportTimeExceptionBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case message
     }
@@ -10409,6 +10393,22 @@ public struct InvalidRestoreTimeException: ClientRuntime.ModeledError, AWSClient
     )
     {
         self.properties.message = message
+    }
+}
+
+struct InvalidRestoreTimeExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension InvalidRestoreTimeExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
     }
 }
 
@@ -10481,22 +10481,6 @@ extension DynamoDBClientTypes {
 
 }
 
-struct ItemCollectionSizeLimitExceededExceptionBody: Swift.Equatable {
-    let message: Swift.String?
-}
-
-extension ItemCollectionSizeLimitExceededExceptionBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case message
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
-        message = messageDecoded
-    }
-}
-
 extension ItemCollectionSizeLimitExceededException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -10534,6 +10518,22 @@ public struct ItemCollectionSizeLimitExceededException: ClientRuntime.ModeledErr
     )
     {
         self.properties.message = message
+    }
+}
+
+struct ItemCollectionSizeLimitExceededExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension ItemCollectionSizeLimitExceededExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
     }
 }
 
@@ -10582,6 +10582,92 @@ extension DynamoDBClientTypes {
         }
     }
 
+}
+
+extension DynamoDBClientTypes.KeySchemaElement: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case attributeName = "AttributeName"
+        case keyType = "KeyType"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let attributeName = self.attributeName {
+            try encodeContainer.encode(attributeName, forKey: .attributeName)
+        }
+        if let keyType = self.keyType {
+            try encodeContainer.encode(keyType.rawValue, forKey: .keyType)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let attributeNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .attributeName)
+        attributeName = attributeNameDecoded
+        let keyTypeDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.KeyType.self, forKey: .keyType)
+        keyType = keyTypeDecoded
+    }
+}
+
+extension DynamoDBClientTypes {
+    /// Represents a single element of a key schema. A key schema specifies the attributes that make up the primary key of a table, or the key attributes of an index. A KeySchemaElement represents exactly one attribute of the primary key. For example, a simple primary key would be represented by one KeySchemaElement (for the partition key). A composite primary key would require one KeySchemaElement for the partition key, and another KeySchemaElement for the sort key. A KeySchemaElement must be a scalar, top-level attribute (not a nested attribute). The data type must be one of String, Number, or Binary. The attribute cannot be nested within a List or a Map.
+    public struct KeySchemaElement: Swift.Equatable {
+        /// The name of a key attribute.
+        /// This member is required.
+        public var attributeName: Swift.String?
+        /// The role that this key attribute will assume:
+        ///
+        /// * HASH - partition key
+        ///
+        /// * RANGE - sort key
+        ///
+        ///
+        /// The partition key of an item is also known as its hash attribute. The term "hash attribute" derives from DynamoDB's usage of an internal hash function to evenly distribute data items across partitions, based on their partition key values. The sort key of an item is also known as its range attribute. The term "range attribute" derives from the way DynamoDB stores items with the same partition key physically close together, in sorted order by the sort key value.
+        /// This member is required.
+        public var keyType: DynamoDBClientTypes.KeyType?
+
+        public init(
+            attributeName: Swift.String? = nil,
+            keyType: DynamoDBClientTypes.KeyType? = nil
+        )
+        {
+            self.attributeName = attributeName
+            self.keyType = keyType
+        }
+    }
+
+}
+
+extension DynamoDBClientTypes {
+    public enum KeyType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case hash
+        case range
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [KeyType] {
+            return [
+                .hash,
+                .range,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .hash: return "HASH"
+            case .range: return "RANGE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = KeyType(rawValue: rawValue) ?? KeyType.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension DynamoDBClientTypes.KeysAndAttributes: Swift.Codable {
@@ -10732,92 +10818,6 @@ extension DynamoDBClientTypes {
 
 }
 
-extension DynamoDBClientTypes.KeySchemaElement: Swift.Codable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case attributeName = "AttributeName"
-        case keyType = "KeyType"
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let attributeName = self.attributeName {
-            try encodeContainer.encode(attributeName, forKey: .attributeName)
-        }
-        if let keyType = self.keyType {
-            try encodeContainer.encode(keyType.rawValue, forKey: .keyType)
-        }
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let attributeNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .attributeName)
-        attributeName = attributeNameDecoded
-        let keyTypeDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.KeyType.self, forKey: .keyType)
-        keyType = keyTypeDecoded
-    }
-}
-
-extension DynamoDBClientTypes {
-    /// Represents a single element of a key schema. A key schema specifies the attributes that make up the primary key of a table, or the key attributes of an index. A KeySchemaElement represents exactly one attribute of the primary key. For example, a simple primary key would be represented by one KeySchemaElement (for the partition key). A composite primary key would require one KeySchemaElement for the partition key, and another KeySchemaElement for the sort key. A KeySchemaElement must be a scalar, top-level attribute (not a nested attribute). The data type must be one of String, Number, or Binary. The attribute cannot be nested within a List or a Map.
-    public struct KeySchemaElement: Swift.Equatable {
-        /// The name of a key attribute.
-        /// This member is required.
-        public var attributeName: Swift.String?
-        /// The role that this key attribute will assume:
-        ///
-        /// * HASH - partition key
-        ///
-        /// * RANGE - sort key
-        ///
-        ///
-        /// The partition key of an item is also known as its hash attribute. The term "hash attribute" derives from DynamoDB's usage of an internal hash function to evenly distribute data items across partitions, based on their partition key values. The sort key of an item is also known as its range attribute. The term "range attribute" derives from the way DynamoDB stores items with the same partition key physically close together, in sorted order by the sort key value.
-        /// This member is required.
-        public var keyType: DynamoDBClientTypes.KeyType?
-
-        public init(
-            attributeName: Swift.String? = nil,
-            keyType: DynamoDBClientTypes.KeyType? = nil
-        )
-        {
-            self.attributeName = attributeName
-            self.keyType = keyType
-        }
-    }
-
-}
-
-extension DynamoDBClientTypes {
-    public enum KeyType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
-        case hash
-        case range
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [KeyType] {
-            return [
-                .hash,
-                .range,
-                .sdkUnknown("")
-            ]
-        }
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-        public var rawValue: Swift.String {
-            switch self {
-            case .hash: return "HASH"
-            case .range: return "RANGE"
-            case let .sdkUnknown(s): return s
-            }
-        }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = KeyType(rawValue: rawValue) ?? KeyType.sdkUnknown(rawValue)
-        }
-    }
-}
-
 extension DynamoDBClientTypes.KinesisDataStreamDestination: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case destinationStatus = "DestinationStatus"
@@ -10873,22 +10873,6 @@ extension DynamoDBClientTypes {
 
 }
 
-struct LimitExceededExceptionBody: Swift.Equatable {
-    let message: Swift.String?
-}
-
-extension LimitExceededExceptionBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case message
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
-        message = messageDecoded
-    }
-}
-
 extension LimitExceededException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -10929,39 +10913,19 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct ListBackupsInputBody: Swift.Equatable {
-    let tableName: Swift.String?
-    let limit: Swift.Int?
-    let timeRangeLowerBound: ClientRuntime.Date?
-    let timeRangeUpperBound: ClientRuntime.Date?
-    let exclusiveStartBackupArn: Swift.String?
-    let backupType: DynamoDBClientTypes.BackupTypeFilter?
+struct LimitExceededExceptionBody: Swift.Equatable {
+    let message: Swift.String?
 }
 
-extension ListBackupsInputBody: Swift.Decodable {
+extension LimitExceededExceptionBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case backupType = "BackupType"
-        case exclusiveStartBackupArn = "ExclusiveStartBackupArn"
-        case limit = "Limit"
-        case tableName = "TableName"
-        case timeRangeLowerBound = "TimeRangeLowerBound"
-        case timeRangeUpperBound = "TimeRangeUpperBound"
+        case message
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let tableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableName)
-        tableName = tableNameDecoded
-        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit)
-        limit = limitDecoded
-        let timeRangeLowerBoundDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .timeRangeLowerBound)
-        timeRangeLowerBound = timeRangeLowerBoundDecoded
-        let timeRangeUpperBoundDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .timeRangeUpperBound)
-        timeRangeUpperBound = timeRangeUpperBoundDecoded
-        let exclusiveStartBackupArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .exclusiveStartBackupArn)
-        exclusiveStartBackupArn = exclusiveStartBackupArnDecoded
-        let backupTypeDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.BackupTypeFilter.self, forKey: .backupType)
-        backupType = backupTypeDecoded
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
     }
 }
 
@@ -10995,6 +10959,12 @@ extension ListBackupsInput: Swift.Encodable {
         if let timeRangeUpperBound = self.timeRangeUpperBound {
             try encodeContainer.encodeTimestamp(timeRangeUpperBound, format: .epochSeconds, forKey: .timeRangeUpperBound)
         }
+    }
+}
+
+extension ListBackupsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
     }
 }
 
@@ -11036,9 +11006,69 @@ public struct ListBackupsInput: Swift.Equatable {
     }
 }
 
-extension ListBackupsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
+struct ListBackupsInputBody: Swift.Equatable {
+    let tableName: Swift.String?
+    let limit: Swift.Int?
+    let timeRangeLowerBound: ClientRuntime.Date?
+    let timeRangeUpperBound: ClientRuntime.Date?
+    let exclusiveStartBackupArn: Swift.String?
+    let backupType: DynamoDBClientTypes.BackupTypeFilter?
+}
+
+extension ListBackupsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case backupType = "BackupType"
+        case exclusiveStartBackupArn = "ExclusiveStartBackupArn"
+        case limit = "Limit"
+        case tableName = "TableName"
+        case timeRangeLowerBound = "TimeRangeLowerBound"
+        case timeRangeUpperBound = "TimeRangeUpperBound"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let tableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableName)
+        tableName = tableNameDecoded
+        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit)
+        limit = limitDecoded
+        let timeRangeLowerBoundDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .timeRangeLowerBound)
+        timeRangeLowerBound = timeRangeLowerBoundDecoded
+        let timeRangeUpperBoundDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .timeRangeUpperBound)
+        timeRangeUpperBound = timeRangeUpperBoundDecoded
+        let exclusiveStartBackupArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .exclusiveStartBackupArn)
+        exclusiveStartBackupArn = exclusiveStartBackupArnDecoded
+        let backupTypeDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.BackupTypeFilter.self, forKey: .backupType)
+        backupType = backupTypeDecoded
+    }
+}
+
+extension ListBackupsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListBackupsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.backupSummaries = output.backupSummaries
+            self.lastEvaluatedBackupArn = output.lastEvaluatedBackupArn
+        } else {
+            self.backupSummaries = nil
+            self.lastEvaluatedBackupArn = nil
+        }
+    }
+}
+
+public struct ListBackupsOutput: Swift.Equatable {
+    /// List of BackupSummary objects.
+    public var backupSummaries: [DynamoDBClientTypes.BackupSummary]?
+    /// The ARN of the backup last evaluated when the current page of results was returned, inclusive of the current page of results. This value may be specified as the ExclusiveStartBackupArn of a new ListBackups operation in order to fetch the next page of results. If LastEvaluatedBackupArn is empty, then the last page of results has been processed and there are no more results to be retrieved. If LastEvaluatedBackupArn is not empty, this may or may not indicate that there is more data to be returned. All results are guaranteed to have been returned if and only if no value for LastEvaluatedBackupArn is returned.
+    public var lastEvaluatedBackupArn: Swift.String?
+
+    public init(
+        backupSummaries: [DynamoDBClientTypes.BackupSummary]? = nil,
+        lastEvaluatedBackupArn: Swift.String? = nil
+    )
+    {
+        self.backupSummaries = backupSummaries
+        self.lastEvaluatedBackupArn = lastEvaluatedBackupArn
     }
 }
 
@@ -11083,33 +11113,50 @@ enum ListBackupsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListBackupsOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: ListBackupsOutputBody = try responseDecoder.decode(responseBody: data)
-            self.backupSummaries = output.backupSummaries
-            self.lastEvaluatedBackupArn = output.lastEvaluatedBackupArn
-        } else {
-            self.backupSummaries = nil
-            self.lastEvaluatedBackupArn = nil
+extension ListContributorInsightsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case tableName = "TableName"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let tableName = self.tableName {
+            try encodeContainer.encode(tableName, forKey: .tableName)
         }
     }
 }
 
-public struct ListBackupsOutput: Swift.Equatable {
-    /// List of BackupSummary objects.
-    public var backupSummaries: [DynamoDBClientTypes.BackupSummary]?
-    /// The ARN of the backup last evaluated when the current page of results was returned, inclusive of the current page of results. This value may be specified as the ExclusiveStartBackupArn of a new ListBackups operation in order to fetch the next page of results. If LastEvaluatedBackupArn is empty, then the last page of results has been processed and there are no more results to be retrieved. If LastEvaluatedBackupArn is not empty, this may or may not indicate that there is more data to be returned. All results are guaranteed to have been returned if and only if no value for LastEvaluatedBackupArn is returned.
-    public var lastEvaluatedBackupArn: Swift.String?
+extension ListContributorInsightsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListContributorInsightsInput: Swift.Equatable {
+    /// Maximum number of results to return per page.
+    public var maxResults: Swift.Int?
+    /// A token to for the desired page, if there is one.
+    public var nextToken: Swift.String?
+    /// The name of the table.
+    public var tableName: Swift.String?
 
     public init(
-        backupSummaries: [DynamoDBClientTypes.BackupSummary]? = nil,
-        lastEvaluatedBackupArn: Swift.String? = nil
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        tableName: Swift.String? = nil
     )
     {
-        self.backupSummaries = backupSummaries
-        self.lastEvaluatedBackupArn = lastEvaluatedBackupArn
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.tableName = tableName
     }
 }
 
@@ -11137,50 +11184,33 @@ extension ListContributorInsightsInputBody: Swift.Decodable {
     }
 }
 
-extension ListContributorInsightsInput: Swift.Encodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case maxResults = "MaxResults"
-        case nextToken = "NextToken"
-        case tableName = "TableName"
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let maxResults = self.maxResults {
-            try encodeContainer.encode(maxResults, forKey: .maxResults)
-        }
-        if let nextToken = self.nextToken {
-            try encodeContainer.encode(nextToken, forKey: .nextToken)
-        }
-        if let tableName = self.tableName {
-            try encodeContainer.encode(tableName, forKey: .tableName)
+extension ListContributorInsightsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListContributorInsightsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.contributorInsightsSummaries = output.contributorInsightsSummaries
+            self.nextToken = output.nextToken
+        } else {
+            self.contributorInsightsSummaries = nil
+            self.nextToken = nil
         }
     }
 }
 
-public struct ListContributorInsightsInput: Swift.Equatable {
-    /// Maximum number of results to return per page.
-    public var maxResults: Swift.Int?
-    /// A token to for the desired page, if there is one.
+public struct ListContributorInsightsOutput: Swift.Equatable {
+    /// A list of ContributorInsightsSummary.
+    public var contributorInsightsSummaries: [DynamoDBClientTypes.ContributorInsightsSummary]?
+    /// A token to go to the next page if there is one.
     public var nextToken: Swift.String?
-    /// The name of the table.
-    public var tableName: Swift.String?
 
     public init(
-        maxResults: Swift.Int? = nil,
-        nextToken: Swift.String? = nil,
-        tableName: Swift.String? = nil
+        contributorInsightsSummaries: [DynamoDBClientTypes.ContributorInsightsSummary]? = nil,
+        nextToken: Swift.String? = nil
     )
     {
-        self.maxResults = maxResults
+        self.contributorInsightsSummaries = contributorInsightsSummaries
         self.nextToken = nextToken
-        self.tableName = tableName
-    }
-}
-
-extension ListContributorInsightsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
     }
 }
 
@@ -11225,33 +11255,50 @@ enum ListContributorInsightsOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
-extension ListContributorInsightsOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: ListContributorInsightsOutputBody = try responseDecoder.decode(responseBody: data)
-            self.contributorInsightsSummaries = output.contributorInsightsSummaries
-            self.nextToken = output.nextToken
-        } else {
-            self.contributorInsightsSummaries = nil
-            self.nextToken = nil
+extension ListExportsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case tableArn = "TableArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let tableArn = self.tableArn {
+            try encodeContainer.encode(tableArn, forKey: .tableArn)
         }
     }
 }
 
-public struct ListContributorInsightsOutput: Swift.Equatable {
-    /// A list of ContributorInsightsSummary.
-    public var contributorInsightsSummaries: [DynamoDBClientTypes.ContributorInsightsSummary]?
-    /// A token to go to the next page if there is one.
+extension ListExportsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListExportsInput: Swift.Equatable {
+    /// Maximum number of results to return per page.
+    public var maxResults: Swift.Int?
+    /// An optional string that, if supplied, must be copied from the output of a previous call to ListExports. When provided in this manner, the API fetches the next page of results.
     public var nextToken: Swift.String?
+    /// The Amazon Resource Name (ARN) associated with the exported table.
+    public var tableArn: Swift.String?
 
     public init(
-        contributorInsightsSummaries: [DynamoDBClientTypes.ContributorInsightsSummary]? = nil,
-        nextToken: Swift.String? = nil
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        tableArn: Swift.String? = nil
     )
     {
-        self.contributorInsightsSummaries = contributorInsightsSummaries
+        self.maxResults = maxResults
         self.nextToken = nextToken
+        self.tableArn = tableArn
     }
 }
 
@@ -11279,50 +11326,33 @@ extension ListExportsInputBody: Swift.Decodable {
     }
 }
 
-extension ListExportsInput: Swift.Encodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case maxResults = "MaxResults"
-        case nextToken = "NextToken"
-        case tableArn = "TableArn"
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let maxResults = self.maxResults {
-            try encodeContainer.encode(maxResults, forKey: .maxResults)
-        }
-        if let nextToken = self.nextToken {
-            try encodeContainer.encode(nextToken, forKey: .nextToken)
-        }
-        if let tableArn = self.tableArn {
-            try encodeContainer.encode(tableArn, forKey: .tableArn)
+extension ListExportsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListExportsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.exportSummaries = output.exportSummaries
+            self.nextToken = output.nextToken
+        } else {
+            self.exportSummaries = nil
+            self.nextToken = nil
         }
     }
 }
 
-public struct ListExportsInput: Swift.Equatable {
-    /// Maximum number of results to return per page.
-    public var maxResults: Swift.Int?
-    /// An optional string that, if supplied, must be copied from the output of a previous call to ListExports. When provided in this manner, the API fetches the next page of results.
+public struct ListExportsOutput: Swift.Equatable {
+    /// A list of ExportSummary objects.
+    public var exportSummaries: [DynamoDBClientTypes.ExportSummary]?
+    /// If this value is returned, there are additional results to be displayed. To retrieve them, call ListExports again, with NextToken set to this value.
     public var nextToken: Swift.String?
-    /// The Amazon Resource Name (ARN) associated with the exported table.
-    public var tableArn: Swift.String?
 
     public init(
-        maxResults: Swift.Int? = nil,
-        nextToken: Swift.String? = nil,
-        tableArn: Swift.String? = nil
+        exportSummaries: [DynamoDBClientTypes.ExportSummary]? = nil,
+        nextToken: Swift.String? = nil
     )
     {
-        self.maxResults = maxResults
+        self.exportSummaries = exportSummaries
         self.nextToken = nextToken
-        self.tableArn = tableArn
-    }
-}
-
-extension ListExportsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
     }
 }
 
@@ -11367,33 +11397,50 @@ enum ListExportsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListExportsOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: ListExportsOutputBody = try responseDecoder.decode(responseBody: data)
-            self.exportSummaries = output.exportSummaries
-            self.nextToken = output.nextToken
-        } else {
-            self.exportSummaries = nil
-            self.nextToken = nil
+extension ListGlobalTablesInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case exclusiveStartGlobalTableName = "ExclusiveStartGlobalTableName"
+        case limit = "Limit"
+        case regionName = "RegionName"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let exclusiveStartGlobalTableName = self.exclusiveStartGlobalTableName {
+            try encodeContainer.encode(exclusiveStartGlobalTableName, forKey: .exclusiveStartGlobalTableName)
+        }
+        if let limit = self.limit {
+            try encodeContainer.encode(limit, forKey: .limit)
+        }
+        if let regionName = self.regionName {
+            try encodeContainer.encode(regionName, forKey: .regionName)
         }
     }
 }
 
-public struct ListExportsOutput: Swift.Equatable {
-    /// A list of ExportSummary objects.
-    public var exportSummaries: [DynamoDBClientTypes.ExportSummary]?
-    /// If this value is returned, there are additional results to be displayed. To retrieve them, call ListExports again, with NextToken set to this value.
-    public var nextToken: Swift.String?
+extension ListGlobalTablesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListGlobalTablesInput: Swift.Equatable {
+    /// The first global table name that this operation will evaluate.
+    public var exclusiveStartGlobalTableName: Swift.String?
+    /// The maximum number of table names to return, if the parameter is not specified DynamoDB defaults to 100. If the number of global tables DynamoDB finds reaches this limit, it stops the operation and returns the table names collected up to that point, with a table name in the LastEvaluatedGlobalTableName to apply in a subsequent operation to the ExclusiveStartGlobalTableName parameter.
+    public var limit: Swift.Int?
+    /// Lists the global tables in a specific Region.
+    public var regionName: Swift.String?
 
     public init(
-        exportSummaries: [DynamoDBClientTypes.ExportSummary]? = nil,
-        nextToken: Swift.String? = nil
+        exclusiveStartGlobalTableName: Swift.String? = nil,
+        limit: Swift.Int? = nil,
+        regionName: Swift.String? = nil
     )
     {
-        self.exportSummaries = exportSummaries
-        self.nextToken = nextToken
+        self.exclusiveStartGlobalTableName = exclusiveStartGlobalTableName
+        self.limit = limit
+        self.regionName = regionName
     }
 }
 
@@ -11421,50 +11468,33 @@ extension ListGlobalTablesInputBody: Swift.Decodable {
     }
 }
 
-extension ListGlobalTablesInput: Swift.Encodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case exclusiveStartGlobalTableName = "ExclusiveStartGlobalTableName"
-        case limit = "Limit"
-        case regionName = "RegionName"
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let exclusiveStartGlobalTableName = self.exclusiveStartGlobalTableName {
-            try encodeContainer.encode(exclusiveStartGlobalTableName, forKey: .exclusiveStartGlobalTableName)
-        }
-        if let limit = self.limit {
-            try encodeContainer.encode(limit, forKey: .limit)
-        }
-        if let regionName = self.regionName {
-            try encodeContainer.encode(regionName, forKey: .regionName)
+extension ListGlobalTablesOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListGlobalTablesOutputBody = try responseDecoder.decode(responseBody: data)
+            self.globalTables = output.globalTables
+            self.lastEvaluatedGlobalTableName = output.lastEvaluatedGlobalTableName
+        } else {
+            self.globalTables = nil
+            self.lastEvaluatedGlobalTableName = nil
         }
     }
 }
 
-public struct ListGlobalTablesInput: Swift.Equatable {
-    /// The first global table name that this operation will evaluate.
-    public var exclusiveStartGlobalTableName: Swift.String?
-    /// The maximum number of table names to return, if the parameter is not specified DynamoDB defaults to 100. If the number of global tables DynamoDB finds reaches this limit, it stops the operation and returns the table names collected up to that point, with a table name in the LastEvaluatedGlobalTableName to apply in a subsequent operation to the ExclusiveStartGlobalTableName parameter.
-    public var limit: Swift.Int?
-    /// Lists the global tables in a specific Region.
-    public var regionName: Swift.String?
+public struct ListGlobalTablesOutput: Swift.Equatable {
+    /// List of global table names.
+    public var globalTables: [DynamoDBClientTypes.GlobalTable]?
+    /// Last evaluated global table name.
+    public var lastEvaluatedGlobalTableName: Swift.String?
 
     public init(
-        exclusiveStartGlobalTableName: Swift.String? = nil,
-        limit: Swift.Int? = nil,
-        regionName: Swift.String? = nil
+        globalTables: [DynamoDBClientTypes.GlobalTable]? = nil,
+        lastEvaluatedGlobalTableName: Swift.String? = nil
     )
     {
-        self.exclusiveStartGlobalTableName = exclusiveStartGlobalTableName
-        self.limit = limit
-        self.regionName = regionName
-    }
-}
-
-extension ListGlobalTablesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
+        self.globalTables = globalTables
+        self.lastEvaluatedGlobalTableName = lastEvaluatedGlobalTableName
     }
 }
 
@@ -11509,33 +11539,50 @@ enum ListGlobalTablesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListGlobalTablesOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: ListGlobalTablesOutputBody = try responseDecoder.decode(responseBody: data)
-            self.globalTables = output.globalTables
-            self.lastEvaluatedGlobalTableName = output.lastEvaluatedGlobalTableName
-        } else {
-            self.globalTables = nil
-            self.lastEvaluatedGlobalTableName = nil
+extension ListImportsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken = "NextToken"
+        case pageSize = "PageSize"
+        case tableArn = "TableArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let pageSize = self.pageSize {
+            try encodeContainer.encode(pageSize, forKey: .pageSize)
+        }
+        if let tableArn = self.tableArn {
+            try encodeContainer.encode(tableArn, forKey: .tableArn)
         }
     }
 }
 
-public struct ListGlobalTablesOutput: Swift.Equatable {
-    /// List of global table names.
-    public var globalTables: [DynamoDBClientTypes.GlobalTable]?
-    /// Last evaluated global table name.
-    public var lastEvaluatedGlobalTableName: Swift.String?
+extension ListImportsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListImportsInput: Swift.Equatable {
+    /// An optional string that, if supplied, must be copied from the output of a previous call to ListImports. When provided in this manner, the API fetches the next page of results.
+    public var nextToken: Swift.String?
+    /// The number of ImportSummary objects returned in a single page.
+    public var pageSize: Swift.Int?
+    /// The Amazon Resource Name (ARN) associated with the table that was imported to.
+    public var tableArn: Swift.String?
 
     public init(
-        globalTables: [DynamoDBClientTypes.GlobalTable]? = nil,
-        lastEvaluatedGlobalTableName: Swift.String? = nil
+        nextToken: Swift.String? = nil,
+        pageSize: Swift.Int? = nil,
+        tableArn: Swift.String? = nil
     )
     {
-        self.globalTables = globalTables
-        self.lastEvaluatedGlobalTableName = lastEvaluatedGlobalTableName
+        self.nextToken = nextToken
+        self.pageSize = pageSize
+        self.tableArn = tableArn
     }
 }
 
@@ -11563,50 +11610,33 @@ extension ListImportsInputBody: Swift.Decodable {
     }
 }
 
-extension ListImportsInput: Swift.Encodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case nextToken = "NextToken"
-        case pageSize = "PageSize"
-        case tableArn = "TableArn"
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let nextToken = self.nextToken {
-            try encodeContainer.encode(nextToken, forKey: .nextToken)
-        }
-        if let pageSize = self.pageSize {
-            try encodeContainer.encode(pageSize, forKey: .pageSize)
-        }
-        if let tableArn = self.tableArn {
-            try encodeContainer.encode(tableArn, forKey: .tableArn)
+extension ListImportsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListImportsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.importSummaryList = output.importSummaryList
+            self.nextToken = output.nextToken
+        } else {
+            self.importSummaryList = nil
+            self.nextToken = nil
         }
     }
 }
 
-public struct ListImportsInput: Swift.Equatable {
-    /// An optional string that, if supplied, must be copied from the output of a previous call to ListImports. When provided in this manner, the API fetches the next page of results.
+public struct ListImportsOutput: Swift.Equatable {
+    /// A list of ImportSummary objects.
+    public var importSummaryList: [DynamoDBClientTypes.ImportSummary]?
+    /// If this value is returned, there are additional results to be displayed. To retrieve them, call ListImports again, with NextToken set to this value.
     public var nextToken: Swift.String?
-    /// The number of ImportSummary objects returned in a single page.
-    public var pageSize: Swift.Int?
-    /// The Amazon Resource Name (ARN) associated with the table that was imported to.
-    public var tableArn: Swift.String?
 
     public init(
-        nextToken: Swift.String? = nil,
-        pageSize: Swift.Int? = nil,
-        tableArn: Swift.String? = nil
+        importSummaryList: [DynamoDBClientTypes.ImportSummary]? = nil,
+        nextToken: Swift.String? = nil
     )
     {
+        self.importSummaryList = importSummaryList
         self.nextToken = nextToken
-        self.pageSize = pageSize
-        self.tableArn = tableArn
-    }
-}
-
-extension ListImportsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
     }
 }
 
@@ -11650,33 +11680,43 @@ enum ListImportsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListImportsOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: ListImportsOutputBody = try responseDecoder.decode(responseBody: data)
-            self.importSummaryList = output.importSummaryList
-            self.nextToken = output.nextToken
-        } else {
-            self.importSummaryList = nil
-            self.nextToken = nil
+extension ListTablesInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case exclusiveStartTableName = "ExclusiveStartTableName"
+        case limit = "Limit"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let exclusiveStartTableName = self.exclusiveStartTableName {
+            try encodeContainer.encode(exclusiveStartTableName, forKey: .exclusiveStartTableName)
+        }
+        if let limit = self.limit {
+            try encodeContainer.encode(limit, forKey: .limit)
         }
     }
 }
 
-public struct ListImportsOutput: Swift.Equatable {
-    /// A list of ImportSummary objects.
-    public var importSummaryList: [DynamoDBClientTypes.ImportSummary]?
-    /// If this value is returned, there are additional results to be displayed. To retrieve them, call ListImports again, with NextToken set to this value.
-    public var nextToken: Swift.String?
+extension ListTablesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+/// Represents the input of a ListTables operation.
+public struct ListTablesInput: Swift.Equatable {
+    /// The first table name that this operation will evaluate. Use the value that was returned for LastEvaluatedTableName in a previous operation, so that you can obtain the next page of results.
+    public var exclusiveStartTableName: Swift.String?
+    /// A maximum number of table names to return. If this parameter is not specified, the limit is 100.
+    public var limit: Swift.Int?
 
     public init(
-        importSummaryList: [DynamoDBClientTypes.ImportSummary]? = nil,
-        nextToken: Swift.String? = nil
+        exclusiveStartTableName: Swift.String? = nil,
+        limit: Swift.Int? = nil
     )
     {
-        self.importSummaryList = importSummaryList
-        self.nextToken = nextToken
+        self.exclusiveStartTableName = exclusiveStartTableName
+        self.limit = limit
     }
 }
 
@@ -11700,43 +11740,34 @@ extension ListTablesInputBody: Swift.Decodable {
     }
 }
 
-extension ListTablesInput: Swift.Encodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case exclusiveStartTableName = "ExclusiveStartTableName"
-        case limit = "Limit"
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let exclusiveStartTableName = self.exclusiveStartTableName {
-            try encodeContainer.encode(exclusiveStartTableName, forKey: .exclusiveStartTableName)
-        }
-        if let limit = self.limit {
-            try encodeContainer.encode(limit, forKey: .limit)
+extension ListTablesOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListTablesOutputBody = try responseDecoder.decode(responseBody: data)
+            self.lastEvaluatedTableName = output.lastEvaluatedTableName
+            self.tableNames = output.tableNames
+        } else {
+            self.lastEvaluatedTableName = nil
+            self.tableNames = nil
         }
     }
 }
 
-/// Represents the input of a ListTables operation.
-public struct ListTablesInput: Swift.Equatable {
-    /// The first table name that this operation will evaluate. Use the value that was returned for LastEvaluatedTableName in a previous operation, so that you can obtain the next page of results.
-    public var exclusiveStartTableName: Swift.String?
-    /// A maximum number of table names to return. If this parameter is not specified, the limit is 100.
-    public var limit: Swift.Int?
+/// Represents the output of a ListTables operation.
+public struct ListTablesOutput: Swift.Equatable {
+    /// The name of the last table in the current page of results. Use this value as the ExclusiveStartTableName in a new request to obtain the next page of results, until all the table names are returned. If you do not receive a LastEvaluatedTableName value in the response, this means that there are no more table names to be retrieved.
+    public var lastEvaluatedTableName: Swift.String?
+    /// The names of the tables associated with the current account at the current endpoint. The maximum size of this array is 100. If LastEvaluatedTableName also appears in the output, you can use this value as the ExclusiveStartTableName parameter in a subsequent ListTables request and obtain the next page of results.
+    public var tableNames: [Swift.String]?
 
     public init(
-        exclusiveStartTableName: Swift.String? = nil,
-        limit: Swift.Int? = nil
+        lastEvaluatedTableName: Swift.String? = nil,
+        tableNames: [Swift.String]? = nil
     )
     {
-        self.exclusiveStartTableName = exclusiveStartTableName
-        self.limit = limit
-    }
-}
-
-extension ListTablesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
+        self.lastEvaluatedTableName = lastEvaluatedTableName
+        self.tableNames = tableNames
     }
 }
 
@@ -11781,34 +11812,43 @@ enum ListTablesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListTablesOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: ListTablesOutputBody = try responseDecoder.decode(responseBody: data)
-            self.lastEvaluatedTableName = output.lastEvaluatedTableName
-            self.tableNames = output.tableNames
-        } else {
-            self.lastEvaluatedTableName = nil
-            self.tableNames = nil
+extension ListTagsOfResourceInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken = "NextToken"
+        case resourceArn = "ResourceArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let resourceArn = self.resourceArn {
+            try encodeContainer.encode(resourceArn, forKey: .resourceArn)
         }
     }
 }
 
-/// Represents the output of a ListTables operation.
-public struct ListTablesOutput: Swift.Equatable {
-    /// The name of the last table in the current page of results. Use this value as the ExclusiveStartTableName in a new request to obtain the next page of results, until all the table names are returned. If you do not receive a LastEvaluatedTableName value in the response, this means that there are no more table names to be retrieved.
-    public var lastEvaluatedTableName: Swift.String?
-    /// The names of the tables associated with the current account at the current endpoint. The maximum size of this array is 100. If LastEvaluatedTableName also appears in the output, you can use this value as the ExclusiveStartTableName parameter in a subsequent ListTables request and obtain the next page of results.
-    public var tableNames: [Swift.String]?
+extension ListTagsOfResourceInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListTagsOfResourceInput: Swift.Equatable {
+    /// An optional string that, if supplied, must be copied from the output of a previous call to ListTagOfResource. When provided in this manner, this API fetches the next page of results.
+    public var nextToken: Swift.String?
+    /// The Amazon DynamoDB resource with tags to be listed. This value is an Amazon Resource Name (ARN).
+    /// This member is required.
+    public var resourceArn: Swift.String?
 
     public init(
-        lastEvaluatedTableName: Swift.String? = nil,
-        tableNames: [Swift.String]? = nil
+        nextToken: Swift.String? = nil,
+        resourceArn: Swift.String? = nil
     )
     {
-        self.lastEvaluatedTableName = lastEvaluatedTableName
-        self.tableNames = tableNames
+        self.nextToken = nextToken
+        self.resourceArn = resourceArn
     }
 }
 
@@ -11832,43 +11872,33 @@ extension ListTagsOfResourceInputBody: Swift.Decodable {
     }
 }
 
-extension ListTagsOfResourceInput: Swift.Encodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case nextToken = "NextToken"
-        case resourceArn = "ResourceArn"
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let nextToken = self.nextToken {
-            try encodeContainer.encode(nextToken, forKey: .nextToken)
-        }
-        if let resourceArn = self.resourceArn {
-            try encodeContainer.encode(resourceArn, forKey: .resourceArn)
+extension ListTagsOfResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListTagsOfResourceOutputBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.tags = output.tags
+        } else {
+            self.nextToken = nil
+            self.tags = nil
         }
     }
 }
 
-public struct ListTagsOfResourceInput: Swift.Equatable {
-    /// An optional string that, if supplied, must be copied from the output of a previous call to ListTagOfResource. When provided in this manner, this API fetches the next page of results.
+public struct ListTagsOfResourceOutput: Swift.Equatable {
+    /// If this value is returned, there are additional results to be displayed. To retrieve them, call ListTagsOfResource again, with NextToken set to this value.
     public var nextToken: Swift.String?
-    /// The Amazon DynamoDB resource with tags to be listed. This value is an Amazon Resource Name (ARN).
-    /// This member is required.
-    public var resourceArn: Swift.String?
+    /// The tags currently associated with the Amazon DynamoDB resource.
+    public var tags: [DynamoDBClientTypes.Tag]?
 
     public init(
         nextToken: Swift.String? = nil,
-        resourceArn: Swift.String? = nil
+        tags: [DynamoDBClientTypes.Tag]? = nil
     )
     {
         self.nextToken = nextToken
-        self.resourceArn = resourceArn
-    }
-}
-
-extension ListTagsOfResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
+        self.tags = tags
     }
 }
 
@@ -11914,36 +11944,6 @@ enum ListTagsOfResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListTagsOfResourceOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: ListTagsOfResourceOutputBody = try responseDecoder.decode(responseBody: data)
-            self.nextToken = output.nextToken
-            self.tags = output.tags
-        } else {
-            self.nextToken = nil
-            self.tags = nil
-        }
-    }
-}
-
-public struct ListTagsOfResourceOutput: Swift.Equatable {
-    /// If this value is returned, there are additional results to be displayed. To retrieve them, call ListTagsOfResource again, with NextToken set to this value.
-    public var nextToken: Swift.String?
-    /// The tags currently associated with the Amazon DynamoDB resource.
-    public var tags: [DynamoDBClientTypes.Tag]?
-
-    public init(
-        nextToken: Swift.String? = nil,
-        tags: [DynamoDBClientTypes.Tag]? = nil
-    )
-    {
-        self.nextToken = nextToken
-        self.tags = tags
-    }
-}
-
 extension DynamoDBClientTypes.LocalSecondaryIndex: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case indexName = "IndexName"
@@ -11985,6 +11985,40 @@ extension DynamoDBClientTypes.LocalSecondaryIndex: Swift.Codable {
         let projectionDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.Projection.self, forKey: .projection)
         projection = projectionDecoded
     }
+}
+
+extension DynamoDBClientTypes {
+    /// Represents the properties of a local secondary index.
+    public struct LocalSecondaryIndex: Swift.Equatable {
+        /// The name of the local secondary index. The name must be unique among all other indexes on this table.
+        /// This member is required.
+        public var indexName: Swift.String?
+        /// The complete key schema for the local secondary index, consisting of one or more pairs of attribute names and key types:
+        ///
+        /// * HASH - partition key
+        ///
+        /// * RANGE - sort key
+        ///
+        ///
+        /// The partition key of an item is also known as its hash attribute. The term "hash attribute" derives from DynamoDB's usage of an internal hash function to evenly distribute data items across partitions, based on their partition key values. The sort key of an item is also known as its range attribute. The term "range attribute" derives from the way DynamoDB stores items with the same partition key physically close together, in sorted order by the sort key value.
+        /// This member is required.
+        public var keySchema: [DynamoDBClientTypes.KeySchemaElement]?
+        /// Represents attributes that are copied (projected) from the table into the local secondary index. These are in addition to the primary key attributes and index key attributes, which are automatically projected.
+        /// This member is required.
+        public var projection: DynamoDBClientTypes.Projection?
+
+        public init(
+            indexName: Swift.String? = nil,
+            keySchema: [DynamoDBClientTypes.KeySchemaElement]? = nil,
+            projection: DynamoDBClientTypes.Projection? = nil
+        )
+        {
+            self.indexName = indexName
+            self.keySchema = keySchema
+            self.projection = projection
+        }
+    }
+
 }
 
 extension DynamoDBClientTypes.LocalSecondaryIndexDescription: Swift.Codable {
@@ -12149,40 +12183,6 @@ extension DynamoDBClientTypes {
         /// The partition key of an item is also known as its hash attribute. The term "hash attribute" derives from DynamoDB's usage of an internal hash function to evenly distribute data items across partitions, based on their partition key values. The sort key of an item is also known as its range attribute. The term "range attribute" derives from the way DynamoDB stores items with the same partition key physically close together, in sorted order by the sort key value.
         public var keySchema: [DynamoDBClientTypes.KeySchemaElement]?
         /// Represents attributes that are copied (projected) from the table into the global secondary index. These are in addition to the primary key attributes and index key attributes, which are automatically projected.
-        public var projection: DynamoDBClientTypes.Projection?
-
-        public init(
-            indexName: Swift.String? = nil,
-            keySchema: [DynamoDBClientTypes.KeySchemaElement]? = nil,
-            projection: DynamoDBClientTypes.Projection? = nil
-        )
-        {
-            self.indexName = indexName
-            self.keySchema = keySchema
-            self.projection = projection
-        }
-    }
-
-}
-
-extension DynamoDBClientTypes {
-    /// Represents the properties of a local secondary index.
-    public struct LocalSecondaryIndex: Swift.Equatable {
-        /// The name of the local secondary index. The name must be unique among all other indexes on this table.
-        /// This member is required.
-        public var indexName: Swift.String?
-        /// The complete key schema for the local secondary index, consisting of one or more pairs of attribute names and key types:
-        ///
-        /// * HASH - partition key
-        ///
-        /// * RANGE - sort key
-        ///
-        ///
-        /// The partition key of an item is also known as its hash attribute. The term "hash attribute" derives from DynamoDB's usage of an internal hash function to evenly distribute data items across partitions, based on their partition key values. The sort key of an item is also known as its range attribute. The term "range attribute" derives from the way DynamoDB stores items with the same partition key physically close together, in sorted order by the sort key value.
-        /// This member is required.
-        public var keySchema: [DynamoDBClientTypes.KeySchemaElement]?
-        /// Represents attributes that are copied (projected) from the table into the local secondary index. These are in addition to the primary key attributes and index key attributes, which are automatically projected.
-        /// This member is required.
         public var projection: DynamoDBClientTypes.Projection?
 
         public init(
@@ -12394,22 +12394,6 @@ extension DynamoDBClientTypes {
     }
 }
 
-struct PointInTimeRecoveryUnavailableExceptionBody: Swift.Equatable {
-    let message: Swift.String?
-}
-
-extension PointInTimeRecoveryUnavailableExceptionBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case message
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
-        message = messageDecoded
-    }
-}
-
 extension PointInTimeRecoveryUnavailableException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -12446,6 +12430,22 @@ public struct PointInTimeRecoveryUnavailableException: ClientRuntime.ModeledErro
     )
     {
         self.properties.message = message
+    }
+}
+
+struct PointInTimeRecoveryUnavailableExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension PointInTimeRecoveryUnavailableExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
     }
 }
 
@@ -12572,6 +12572,28 @@ extension DynamoDBClientTypes.ProvisionedThroughput: Swift.Codable {
     }
 }
 
+extension DynamoDBClientTypes {
+    /// Represents the provisioned throughput settings for a specified table or index. The settings can be modified using the UpdateTable operation. For current minimum and maximum provisioned throughput values, see [Service, Account, and Table Quotas](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Limits.html) in the Amazon DynamoDB Developer Guide.
+    public struct ProvisionedThroughput: Swift.Equatable {
+        /// The maximum number of strongly consistent reads consumed per second before DynamoDB returns a ThrottlingException. For more information, see [Specifying Read and Write Requirements](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ProvisionedThroughput.html) in the Amazon DynamoDB Developer Guide. If read/write capacity mode is PAY_PER_REQUEST the value is set to 0.
+        /// This member is required.
+        public var readCapacityUnits: Swift.Int?
+        /// The maximum number of writes consumed per second before DynamoDB returns a ThrottlingException. For more information, see [Specifying Read and Write Requirements](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ProvisionedThroughput.html) in the Amazon DynamoDB Developer Guide. If read/write capacity mode is PAY_PER_REQUEST the value is set to 0.
+        /// This member is required.
+        public var writeCapacityUnits: Swift.Int?
+
+        public init(
+            readCapacityUnits: Swift.Int? = nil,
+            writeCapacityUnits: Swift.Int? = nil
+        )
+        {
+            self.readCapacityUnits = readCapacityUnits
+            self.writeCapacityUnits = writeCapacityUnits
+        }
+    }
+
+}
+
 extension DynamoDBClientTypes.ProvisionedThroughputDescription: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case lastDecreaseDateTime = "LastDecreaseDateTime"
@@ -12647,22 +12669,6 @@ extension DynamoDBClientTypes {
 
 }
 
-struct ProvisionedThroughputExceededExceptionBody: Swift.Equatable {
-    let message: Swift.String?
-}
-
-extension ProvisionedThroughputExceededExceptionBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case message
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
-        message = messageDecoded
-    }
-}
-
 extension ProvisionedThroughputExceededException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -12703,6 +12709,22 @@ public struct ProvisionedThroughputExceededException: ClientRuntime.ModeledError
     }
 }
 
+struct ProvisionedThroughputExceededExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension ProvisionedThroughputExceededExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
 extension DynamoDBClientTypes.ProvisionedThroughputOverride: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case readCapacityUnits = "ReadCapacityUnits"
@@ -12733,28 +12755,6 @@ extension DynamoDBClientTypes {
         )
         {
             self.readCapacityUnits = readCapacityUnits
-        }
-    }
-
-}
-
-extension DynamoDBClientTypes {
-    /// Represents the provisioned throughput settings for a specified table or index. The settings can be modified using the UpdateTable operation. For current minimum and maximum provisioned throughput values, see [Service, Account, and Table Quotas](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Limits.html) in the Amazon DynamoDB Developer Guide.
-    public struct ProvisionedThroughput: Swift.Equatable {
-        /// The maximum number of strongly consistent reads consumed per second before DynamoDB returns a ThrottlingException. For more information, see [Specifying Read and Write Requirements](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ProvisionedThroughput.html) in the Amazon DynamoDB Developer Guide. If read/write capacity mode is PAY_PER_REQUEST the value is set to 0.
-        /// This member is required.
-        public var readCapacityUnits: Swift.Int?
-        /// The maximum number of writes consumed per second before DynamoDB returns a ThrottlingException. For more information, see [Specifying Read and Write Requirements](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ProvisionedThroughput.html) in the Amazon DynamoDB Developer Guide. If read/write capacity mode is PAY_PER_REQUEST the value is set to 0.
-        /// This member is required.
-        public var writeCapacityUnits: Swift.Int?
-
-        public init(
-            readCapacityUnits: Swift.Int? = nil,
-            writeCapacityUnits: Swift.Int? = nil
-        )
-        {
-            self.readCapacityUnits = readCapacityUnits
-            self.writeCapacityUnits = writeCapacityUnits
         }
     }
 
@@ -12845,96 +12845,42 @@ extension DynamoDBClientTypes.Put: Swift.Codable {
     }
 }
 
-struct PutItemInputBody: Swift.Equatable {
-    let tableName: Swift.String?
-    let item: [Swift.String:DynamoDBClientTypes.AttributeValue]?
-    let expected: [Swift.String:DynamoDBClientTypes.ExpectedAttributeValue]?
-    let returnValues: DynamoDBClientTypes.ReturnValue?
-    let returnConsumedCapacity: DynamoDBClientTypes.ReturnConsumedCapacity?
-    let returnItemCollectionMetrics: DynamoDBClientTypes.ReturnItemCollectionMetrics?
-    let conditionalOperator: DynamoDBClientTypes.ConditionalOperator?
-    let conditionExpression: Swift.String?
-    let expressionAttributeNames: [Swift.String:Swift.String]?
-    let expressionAttributeValues: [Swift.String:DynamoDBClientTypes.AttributeValue]?
-    let returnValuesOnConditionCheckFailure: DynamoDBClientTypes.ReturnValuesOnConditionCheckFailure?
-}
+extension DynamoDBClientTypes {
+    /// Represents a request to perform a PutItem operation.
+    public struct Put: Swift.Equatable {
+        /// A condition that must be satisfied in order for a conditional update to succeed.
+        public var conditionExpression: Swift.String?
+        /// One or more substitution tokens for attribute names in an expression.
+        public var expressionAttributeNames: [Swift.String:Swift.String]?
+        /// One or more values that can be substituted in an expression.
+        public var expressionAttributeValues: [Swift.String:DynamoDBClientTypes.AttributeValue]?
+        /// A map of attribute name to attribute values, representing the primary key of the item to be written by PutItem. All of the table's primary key attributes must be specified, and their data types must match those of the table's key schema. If any attributes are present in the item that are part of an index key schema for the table, their types must match the index key schema.
+        /// This member is required.
+        public var item: [Swift.String:DynamoDBClientTypes.AttributeValue]?
+        /// Use ReturnValuesOnConditionCheckFailure to get the item attributes if the Put condition fails. For ReturnValuesOnConditionCheckFailure, the valid values are: NONE and ALL_OLD.
+        public var returnValuesOnConditionCheckFailure: DynamoDBClientTypes.ReturnValuesOnConditionCheckFailure?
+        /// Name of the table in which to write the item.
+        /// This member is required.
+        public var tableName: Swift.String?
 
-extension PutItemInputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case conditionExpression = "ConditionExpression"
-        case conditionalOperator = "ConditionalOperator"
-        case expected = "Expected"
-        case expressionAttributeNames = "ExpressionAttributeNames"
-        case expressionAttributeValues = "ExpressionAttributeValues"
-        case item = "Item"
-        case returnConsumedCapacity = "ReturnConsumedCapacity"
-        case returnItemCollectionMetrics = "ReturnItemCollectionMetrics"
-        case returnValues = "ReturnValues"
-        case returnValuesOnConditionCheckFailure = "ReturnValuesOnConditionCheckFailure"
-        case tableName = "TableName"
+        public init(
+            conditionExpression: Swift.String? = nil,
+            expressionAttributeNames: [Swift.String:Swift.String]? = nil,
+            expressionAttributeValues: [Swift.String:DynamoDBClientTypes.AttributeValue]? = nil,
+            item: [Swift.String:DynamoDBClientTypes.AttributeValue]? = nil,
+            returnValuesOnConditionCheckFailure: DynamoDBClientTypes.ReturnValuesOnConditionCheckFailure? = nil,
+            tableName: Swift.String? = nil
+        )
+        {
+            self.conditionExpression = conditionExpression
+            self.expressionAttributeNames = expressionAttributeNames
+            self.expressionAttributeValues = expressionAttributeValues
+            self.item = item
+            self.returnValuesOnConditionCheckFailure = returnValuesOnConditionCheckFailure
+            self.tableName = tableName
+        }
     }
 
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let tableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableName)
-        tableName = tableNameDecoded
-        let itemContainer = try containerValues.decodeIfPresent([Swift.String: DynamoDBClientTypes.AttributeValue?].self, forKey: .item)
-        var itemDecoded0: [Swift.String:DynamoDBClientTypes.AttributeValue]? = nil
-        if let itemContainer = itemContainer {
-            itemDecoded0 = [Swift.String:DynamoDBClientTypes.AttributeValue]()
-            for (key0, attributevalue0) in itemContainer {
-                if let attributevalue0 = attributevalue0 {
-                    itemDecoded0?[key0] = attributevalue0
-                }
-            }
-        }
-        item = itemDecoded0
-        let expectedContainer = try containerValues.decodeIfPresent([Swift.String: DynamoDBClientTypes.ExpectedAttributeValue?].self, forKey: .expected)
-        var expectedDecoded0: [Swift.String:DynamoDBClientTypes.ExpectedAttributeValue]? = nil
-        if let expectedContainer = expectedContainer {
-            expectedDecoded0 = [Swift.String:DynamoDBClientTypes.ExpectedAttributeValue]()
-            for (key0, expectedattributevalue0) in expectedContainer {
-                if let expectedattributevalue0 = expectedattributevalue0 {
-                    expectedDecoded0?[key0] = expectedattributevalue0
-                }
-            }
-        }
-        expected = expectedDecoded0
-        let returnValuesDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ReturnValue.self, forKey: .returnValues)
-        returnValues = returnValuesDecoded
-        let returnConsumedCapacityDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ReturnConsumedCapacity.self, forKey: .returnConsumedCapacity)
-        returnConsumedCapacity = returnConsumedCapacityDecoded
-        let returnItemCollectionMetricsDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ReturnItemCollectionMetrics.self, forKey: .returnItemCollectionMetrics)
-        returnItemCollectionMetrics = returnItemCollectionMetricsDecoded
-        let conditionalOperatorDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ConditionalOperator.self, forKey: .conditionalOperator)
-        conditionalOperator = conditionalOperatorDecoded
-        let conditionExpressionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .conditionExpression)
-        conditionExpression = conditionExpressionDecoded
-        let expressionAttributeNamesContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .expressionAttributeNames)
-        var expressionAttributeNamesDecoded0: [Swift.String:Swift.String]? = nil
-        if let expressionAttributeNamesContainer = expressionAttributeNamesContainer {
-            expressionAttributeNamesDecoded0 = [Swift.String:Swift.String]()
-            for (key0, attributename0) in expressionAttributeNamesContainer {
-                if let attributename0 = attributename0 {
-                    expressionAttributeNamesDecoded0?[key0] = attributename0
-                }
-            }
-        }
-        expressionAttributeNames = expressionAttributeNamesDecoded0
-        let expressionAttributeValuesContainer = try containerValues.decodeIfPresent([Swift.String: DynamoDBClientTypes.AttributeValue?].self, forKey: .expressionAttributeValues)
-        var expressionAttributeValuesDecoded0: [Swift.String:DynamoDBClientTypes.AttributeValue]? = nil
-        if let expressionAttributeValuesContainer = expressionAttributeValuesContainer {
-            expressionAttributeValuesDecoded0 = [Swift.String:DynamoDBClientTypes.AttributeValue]()
-            for (key0, attributevalue0) in expressionAttributeValuesContainer {
-                if let attributevalue0 = attributevalue0 {
-                    expressionAttributeValuesDecoded0?[key0] = attributevalue0
-                }
-            }
-        }
-        expressionAttributeValues = expressionAttributeValuesDecoded0
-        let returnValuesOnConditionCheckFailureDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ReturnValuesOnConditionCheckFailure.self, forKey: .returnValuesOnConditionCheckFailure)
-        returnValuesOnConditionCheckFailure = returnValuesOnConditionCheckFailureDecoded
-    }
 }
 
 extension PutItemInput: Swift.Encodable {
@@ -12999,6 +12945,12 @@ extension PutItemInput: Swift.Encodable {
         if let tableName = self.tableName {
             try encodeContainer.encode(tableName, forKey: .tableName)
         }
+    }
+}
+
+extension PutItemInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
     }
 }
 
@@ -13103,9 +13055,136 @@ public struct PutItemInput: Swift.Equatable {
     }
 }
 
-extension PutItemInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
+struct PutItemInputBody: Swift.Equatable {
+    let tableName: Swift.String?
+    let item: [Swift.String:DynamoDBClientTypes.AttributeValue]?
+    let expected: [Swift.String:DynamoDBClientTypes.ExpectedAttributeValue]?
+    let returnValues: DynamoDBClientTypes.ReturnValue?
+    let returnConsumedCapacity: DynamoDBClientTypes.ReturnConsumedCapacity?
+    let returnItemCollectionMetrics: DynamoDBClientTypes.ReturnItemCollectionMetrics?
+    let conditionalOperator: DynamoDBClientTypes.ConditionalOperator?
+    let conditionExpression: Swift.String?
+    let expressionAttributeNames: [Swift.String:Swift.String]?
+    let expressionAttributeValues: [Swift.String:DynamoDBClientTypes.AttributeValue]?
+    let returnValuesOnConditionCheckFailure: DynamoDBClientTypes.ReturnValuesOnConditionCheckFailure?
+}
+
+extension PutItemInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case conditionExpression = "ConditionExpression"
+        case conditionalOperator = "ConditionalOperator"
+        case expected = "Expected"
+        case expressionAttributeNames = "ExpressionAttributeNames"
+        case expressionAttributeValues = "ExpressionAttributeValues"
+        case item = "Item"
+        case returnConsumedCapacity = "ReturnConsumedCapacity"
+        case returnItemCollectionMetrics = "ReturnItemCollectionMetrics"
+        case returnValues = "ReturnValues"
+        case returnValuesOnConditionCheckFailure = "ReturnValuesOnConditionCheckFailure"
+        case tableName = "TableName"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let tableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableName)
+        tableName = tableNameDecoded
+        let itemContainer = try containerValues.decodeIfPresent([Swift.String: DynamoDBClientTypes.AttributeValue?].self, forKey: .item)
+        var itemDecoded0: [Swift.String:DynamoDBClientTypes.AttributeValue]? = nil
+        if let itemContainer = itemContainer {
+            itemDecoded0 = [Swift.String:DynamoDBClientTypes.AttributeValue]()
+            for (key0, attributevalue0) in itemContainer {
+                if let attributevalue0 = attributevalue0 {
+                    itemDecoded0?[key0] = attributevalue0
+                }
+            }
+        }
+        item = itemDecoded0
+        let expectedContainer = try containerValues.decodeIfPresent([Swift.String: DynamoDBClientTypes.ExpectedAttributeValue?].self, forKey: .expected)
+        var expectedDecoded0: [Swift.String:DynamoDBClientTypes.ExpectedAttributeValue]? = nil
+        if let expectedContainer = expectedContainer {
+            expectedDecoded0 = [Swift.String:DynamoDBClientTypes.ExpectedAttributeValue]()
+            for (key0, expectedattributevalue0) in expectedContainer {
+                if let expectedattributevalue0 = expectedattributevalue0 {
+                    expectedDecoded0?[key0] = expectedattributevalue0
+                }
+            }
+        }
+        expected = expectedDecoded0
+        let returnValuesDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ReturnValue.self, forKey: .returnValues)
+        returnValues = returnValuesDecoded
+        let returnConsumedCapacityDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ReturnConsumedCapacity.self, forKey: .returnConsumedCapacity)
+        returnConsumedCapacity = returnConsumedCapacityDecoded
+        let returnItemCollectionMetricsDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ReturnItemCollectionMetrics.self, forKey: .returnItemCollectionMetrics)
+        returnItemCollectionMetrics = returnItemCollectionMetricsDecoded
+        let conditionalOperatorDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ConditionalOperator.self, forKey: .conditionalOperator)
+        conditionalOperator = conditionalOperatorDecoded
+        let conditionExpressionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .conditionExpression)
+        conditionExpression = conditionExpressionDecoded
+        let expressionAttributeNamesContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .expressionAttributeNames)
+        var expressionAttributeNamesDecoded0: [Swift.String:Swift.String]? = nil
+        if let expressionAttributeNamesContainer = expressionAttributeNamesContainer {
+            expressionAttributeNamesDecoded0 = [Swift.String:Swift.String]()
+            for (key0, attributename0) in expressionAttributeNamesContainer {
+                if let attributename0 = attributename0 {
+                    expressionAttributeNamesDecoded0?[key0] = attributename0
+                }
+            }
+        }
+        expressionAttributeNames = expressionAttributeNamesDecoded0
+        let expressionAttributeValuesContainer = try containerValues.decodeIfPresent([Swift.String: DynamoDBClientTypes.AttributeValue?].self, forKey: .expressionAttributeValues)
+        var expressionAttributeValuesDecoded0: [Swift.String:DynamoDBClientTypes.AttributeValue]? = nil
+        if let expressionAttributeValuesContainer = expressionAttributeValuesContainer {
+            expressionAttributeValuesDecoded0 = [Swift.String:DynamoDBClientTypes.AttributeValue]()
+            for (key0, attributevalue0) in expressionAttributeValuesContainer {
+                if let attributevalue0 = attributevalue0 {
+                    expressionAttributeValuesDecoded0?[key0] = attributevalue0
+                }
+            }
+        }
+        expressionAttributeValues = expressionAttributeValuesDecoded0
+        let returnValuesOnConditionCheckFailureDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ReturnValuesOnConditionCheckFailure.self, forKey: .returnValuesOnConditionCheckFailure)
+        returnValuesOnConditionCheckFailure = returnValuesOnConditionCheckFailureDecoded
+    }
+}
+
+extension PutItemOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: PutItemOutputBody = try responseDecoder.decode(responseBody: data)
+            self.attributes = output.attributes
+            self.consumedCapacity = output.consumedCapacity
+            self.itemCollectionMetrics = output.itemCollectionMetrics
+        } else {
+            self.attributes = nil
+            self.consumedCapacity = nil
+            self.itemCollectionMetrics = nil
+        }
+    }
+}
+
+/// Represents the output of a PutItem operation.
+public struct PutItemOutput: Swift.Equatable {
+    /// The attribute values as they appeared before the PutItem operation, but only if ReturnValues is specified as ALL_OLD in the request. Each element consists of an attribute name and an attribute value.
+    public var attributes: [Swift.String:DynamoDBClientTypes.AttributeValue]?
+    /// The capacity units consumed by the PutItem operation. The data returned includes the total provisioned throughput consumed, along with statistics for the table and any indexes involved in the operation. ConsumedCapacity is only returned if the ReturnConsumedCapacity parameter was specified. For more information, see [Provisioned Throughput](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ProvisionedThroughputIntro.html) in the Amazon DynamoDB Developer Guide.
+    public var consumedCapacity: DynamoDBClientTypes.ConsumedCapacity?
+    /// Information about item collections, if any, that were affected by the PutItem operation. ItemCollectionMetrics is only returned if the ReturnItemCollectionMetrics parameter was specified. If the table does not have any local secondary indexes, this information is not returned in the response. Each ItemCollectionMetrics element consists of:
+    ///
+    /// * ItemCollectionKey - The partition key value of the item collection. This is the same as the partition key value of the item itself.
+    ///
+    /// * SizeEstimateRangeGB - An estimate of item collection size, in gigabytes. This value is a two-element array containing a lower bound and an upper bound for the estimate. The estimate includes the size of all the items in the table, plus the size of all attributes projected into all of the local secondary indexes on that table. Use this estimate to measure whether a local secondary index is approaching its size limit. The estimate is subject to change over time; therefore, do not rely on the precision or accuracy of the estimate.
+    public var itemCollectionMetrics: DynamoDBClientTypes.ItemCollectionMetrics?
+
+    public init(
+        attributes: [Swift.String:DynamoDBClientTypes.AttributeValue]? = nil,
+        consumedCapacity: DynamoDBClientTypes.ConsumedCapacity? = nil,
+        itemCollectionMetrics: DynamoDBClientTypes.ItemCollectionMetrics? = nil
+    )
+    {
+        self.attributes = attributes
+        self.consumedCapacity = consumedCapacity
+        self.itemCollectionMetrics = itemCollectionMetrics
     }
 }
 
@@ -13160,47 +13239,6 @@ enum PutItemOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension PutItemOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: PutItemOutputBody = try responseDecoder.decode(responseBody: data)
-            self.attributes = output.attributes
-            self.consumedCapacity = output.consumedCapacity
-            self.itemCollectionMetrics = output.itemCollectionMetrics
-        } else {
-            self.attributes = nil
-            self.consumedCapacity = nil
-            self.itemCollectionMetrics = nil
-        }
-    }
-}
-
-/// Represents the output of a PutItem operation.
-public struct PutItemOutput: Swift.Equatable {
-    /// The attribute values as they appeared before the PutItem operation, but only if ReturnValues is specified as ALL_OLD in the request. Each element consists of an attribute name and an attribute value.
-    public var attributes: [Swift.String:DynamoDBClientTypes.AttributeValue]?
-    /// The capacity units consumed by the PutItem operation. The data returned includes the total provisioned throughput consumed, along with statistics for the table and any indexes involved in the operation. ConsumedCapacity is only returned if the ReturnConsumedCapacity parameter was specified. For more information, see [Provisioned Throughput](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ProvisionedThroughputIntro.html) in the Amazon DynamoDB Developer Guide.
-    public var consumedCapacity: DynamoDBClientTypes.ConsumedCapacity?
-    /// Information about item collections, if any, that were affected by the PutItem operation. ItemCollectionMetrics is only returned if the ReturnItemCollectionMetrics parameter was specified. If the table does not have any local secondary indexes, this information is not returned in the response. Each ItemCollectionMetrics element consists of:
-    ///
-    /// * ItemCollectionKey - The partition key value of the item collection. This is the same as the partition key value of the item itself.
-    ///
-    /// * SizeEstimateRangeGB - An estimate of item collection size, in gigabytes. This value is a two-element array containing a lower bound and an upper bound for the estimate. The estimate includes the size of all the items in the table, plus the size of all attributes projected into all of the local secondary indexes on that table. Use this estimate to measure whether a local secondary index is approaching its size limit. The estimate is subject to change over time; therefore, do not rely on the precision or accuracy of the estimate.
-    public var itemCollectionMetrics: DynamoDBClientTypes.ItemCollectionMetrics?
-
-    public init(
-        attributes: [Swift.String:DynamoDBClientTypes.AttributeValue]? = nil,
-        consumedCapacity: DynamoDBClientTypes.ConsumedCapacity? = nil,
-        itemCollectionMetrics: DynamoDBClientTypes.ItemCollectionMetrics? = nil
-    )
-    {
-        self.attributes = attributes
-        self.consumedCapacity = consumedCapacity
-        self.itemCollectionMetrics = itemCollectionMetrics
-    }
-}
-
 extension DynamoDBClientTypes.PutRequest: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case item = "Item"
@@ -13247,178 +13285,6 @@ extension DynamoDBClientTypes {
         }
     }
 
-}
-
-extension DynamoDBClientTypes {
-    /// Represents a request to perform a PutItem operation.
-    public struct Put: Swift.Equatable {
-        /// A condition that must be satisfied in order for a conditional update to succeed.
-        public var conditionExpression: Swift.String?
-        /// One or more substitution tokens for attribute names in an expression.
-        public var expressionAttributeNames: [Swift.String:Swift.String]?
-        /// One or more values that can be substituted in an expression.
-        public var expressionAttributeValues: [Swift.String:DynamoDBClientTypes.AttributeValue]?
-        /// A map of attribute name to attribute values, representing the primary key of the item to be written by PutItem. All of the table's primary key attributes must be specified, and their data types must match those of the table's key schema. If any attributes are present in the item that are part of an index key schema for the table, their types must match the index key schema.
-        /// This member is required.
-        public var item: [Swift.String:DynamoDBClientTypes.AttributeValue]?
-        /// Use ReturnValuesOnConditionCheckFailure to get the item attributes if the Put condition fails. For ReturnValuesOnConditionCheckFailure, the valid values are: NONE and ALL_OLD.
-        public var returnValuesOnConditionCheckFailure: DynamoDBClientTypes.ReturnValuesOnConditionCheckFailure?
-        /// Name of the table in which to write the item.
-        /// This member is required.
-        public var tableName: Swift.String?
-
-        public init(
-            conditionExpression: Swift.String? = nil,
-            expressionAttributeNames: [Swift.String:Swift.String]? = nil,
-            expressionAttributeValues: [Swift.String:DynamoDBClientTypes.AttributeValue]? = nil,
-            item: [Swift.String:DynamoDBClientTypes.AttributeValue]? = nil,
-            returnValuesOnConditionCheckFailure: DynamoDBClientTypes.ReturnValuesOnConditionCheckFailure? = nil,
-            tableName: Swift.String? = nil
-        )
-        {
-            self.conditionExpression = conditionExpression
-            self.expressionAttributeNames = expressionAttributeNames
-            self.expressionAttributeValues = expressionAttributeValues
-            self.item = item
-            self.returnValuesOnConditionCheckFailure = returnValuesOnConditionCheckFailure
-            self.tableName = tableName
-        }
-    }
-
-}
-
-struct QueryInputBody: Swift.Equatable {
-    let tableName: Swift.String?
-    let indexName: Swift.String?
-    let select: DynamoDBClientTypes.Select?
-    let attributesToGet: [Swift.String]?
-    let limit: Swift.Int?
-    let consistentRead: Swift.Bool?
-    let keyConditions: [Swift.String:DynamoDBClientTypes.Condition]?
-    let queryFilter: [Swift.String:DynamoDBClientTypes.Condition]?
-    let conditionalOperator: DynamoDBClientTypes.ConditionalOperator?
-    let scanIndexForward: Swift.Bool?
-    let exclusiveStartKey: [Swift.String:DynamoDBClientTypes.AttributeValue]?
-    let returnConsumedCapacity: DynamoDBClientTypes.ReturnConsumedCapacity?
-    let projectionExpression: Swift.String?
-    let filterExpression: Swift.String?
-    let keyConditionExpression: Swift.String?
-    let expressionAttributeNames: [Swift.String:Swift.String]?
-    let expressionAttributeValues: [Swift.String:DynamoDBClientTypes.AttributeValue]?
-}
-
-extension QueryInputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case attributesToGet = "AttributesToGet"
-        case conditionalOperator = "ConditionalOperator"
-        case consistentRead = "ConsistentRead"
-        case exclusiveStartKey = "ExclusiveStartKey"
-        case expressionAttributeNames = "ExpressionAttributeNames"
-        case expressionAttributeValues = "ExpressionAttributeValues"
-        case filterExpression = "FilterExpression"
-        case indexName = "IndexName"
-        case keyConditionExpression = "KeyConditionExpression"
-        case keyConditions = "KeyConditions"
-        case limit = "Limit"
-        case projectionExpression = "ProjectionExpression"
-        case queryFilter = "QueryFilter"
-        case returnConsumedCapacity = "ReturnConsumedCapacity"
-        case scanIndexForward = "ScanIndexForward"
-        case select = "Select"
-        case tableName = "TableName"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let tableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableName)
-        tableName = tableNameDecoded
-        let indexNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .indexName)
-        indexName = indexNameDecoded
-        let selectDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.Select.self, forKey: .select)
-        select = selectDecoded
-        let attributesToGetContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .attributesToGet)
-        var attributesToGetDecoded0:[Swift.String]? = nil
-        if let attributesToGetContainer = attributesToGetContainer {
-            attributesToGetDecoded0 = [Swift.String]()
-            for string0 in attributesToGetContainer {
-                if let string0 = string0 {
-                    attributesToGetDecoded0?.append(string0)
-                }
-            }
-        }
-        attributesToGet = attributesToGetDecoded0
-        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit)
-        limit = limitDecoded
-        let consistentReadDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .consistentRead)
-        consistentRead = consistentReadDecoded
-        let keyConditionsContainer = try containerValues.decodeIfPresent([Swift.String: DynamoDBClientTypes.Condition?].self, forKey: .keyConditions)
-        var keyConditionsDecoded0: [Swift.String:DynamoDBClientTypes.Condition]? = nil
-        if let keyConditionsContainer = keyConditionsContainer {
-            keyConditionsDecoded0 = [Swift.String:DynamoDBClientTypes.Condition]()
-            for (key0, condition0) in keyConditionsContainer {
-                if let condition0 = condition0 {
-                    keyConditionsDecoded0?[key0] = condition0
-                }
-            }
-        }
-        keyConditions = keyConditionsDecoded0
-        let queryFilterContainer = try containerValues.decodeIfPresent([Swift.String: DynamoDBClientTypes.Condition?].self, forKey: .queryFilter)
-        var queryFilterDecoded0: [Swift.String:DynamoDBClientTypes.Condition]? = nil
-        if let queryFilterContainer = queryFilterContainer {
-            queryFilterDecoded0 = [Swift.String:DynamoDBClientTypes.Condition]()
-            for (key0, condition0) in queryFilterContainer {
-                if let condition0 = condition0 {
-                    queryFilterDecoded0?[key0] = condition0
-                }
-            }
-        }
-        queryFilter = queryFilterDecoded0
-        let conditionalOperatorDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ConditionalOperator.self, forKey: .conditionalOperator)
-        conditionalOperator = conditionalOperatorDecoded
-        let scanIndexForwardDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .scanIndexForward)
-        scanIndexForward = scanIndexForwardDecoded
-        let exclusiveStartKeyContainer = try containerValues.decodeIfPresent([Swift.String: DynamoDBClientTypes.AttributeValue?].self, forKey: .exclusiveStartKey)
-        var exclusiveStartKeyDecoded0: [Swift.String:DynamoDBClientTypes.AttributeValue]? = nil
-        if let exclusiveStartKeyContainer = exclusiveStartKeyContainer {
-            exclusiveStartKeyDecoded0 = [Swift.String:DynamoDBClientTypes.AttributeValue]()
-            for (key0, attributevalue0) in exclusiveStartKeyContainer {
-                if let attributevalue0 = attributevalue0 {
-                    exclusiveStartKeyDecoded0?[key0] = attributevalue0
-                }
-            }
-        }
-        exclusiveStartKey = exclusiveStartKeyDecoded0
-        let returnConsumedCapacityDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ReturnConsumedCapacity.self, forKey: .returnConsumedCapacity)
-        returnConsumedCapacity = returnConsumedCapacityDecoded
-        let projectionExpressionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .projectionExpression)
-        projectionExpression = projectionExpressionDecoded
-        let filterExpressionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .filterExpression)
-        filterExpression = filterExpressionDecoded
-        let keyConditionExpressionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .keyConditionExpression)
-        keyConditionExpression = keyConditionExpressionDecoded
-        let expressionAttributeNamesContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .expressionAttributeNames)
-        var expressionAttributeNamesDecoded0: [Swift.String:Swift.String]? = nil
-        if let expressionAttributeNamesContainer = expressionAttributeNamesContainer {
-            expressionAttributeNamesDecoded0 = [Swift.String:Swift.String]()
-            for (key0, attributename0) in expressionAttributeNamesContainer {
-                if let attributename0 = attributename0 {
-                    expressionAttributeNamesDecoded0?[key0] = attributename0
-                }
-            }
-        }
-        expressionAttributeNames = expressionAttributeNamesDecoded0
-        let expressionAttributeValuesContainer = try containerValues.decodeIfPresent([Swift.String: DynamoDBClientTypes.AttributeValue?].self, forKey: .expressionAttributeValues)
-        var expressionAttributeValuesDecoded0: [Swift.String:DynamoDBClientTypes.AttributeValue]? = nil
-        if let expressionAttributeValuesContainer = expressionAttributeValuesContainer {
-            expressionAttributeValuesDecoded0 = [Swift.String:DynamoDBClientTypes.AttributeValue]()
-            for (key0, attributevalue0) in expressionAttributeValuesContainer {
-                if let attributevalue0 = attributevalue0 {
-                    expressionAttributeValuesDecoded0?[key0] = attributevalue0
-                }
-            }
-        }
-        expressionAttributeValues = expressionAttributeValuesDecoded0
-    }
 }
 
 extension QueryInput: Swift.Encodable {
@@ -13513,6 +13379,12 @@ extension QueryInput: Swift.Encodable {
         if let tableName = self.tableName {
             try encodeContainer.encode(tableName, forKey: .tableName)
         }
+    }
+}
+
+extension QueryInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
     }
 }
 
@@ -13677,9 +13549,186 @@ public struct QueryInput: Swift.Equatable {
     }
 }
 
-extension QueryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
+struct QueryInputBody: Swift.Equatable {
+    let tableName: Swift.String?
+    let indexName: Swift.String?
+    let select: DynamoDBClientTypes.Select?
+    let attributesToGet: [Swift.String]?
+    let limit: Swift.Int?
+    let consistentRead: Swift.Bool?
+    let keyConditions: [Swift.String:DynamoDBClientTypes.Condition]?
+    let queryFilter: [Swift.String:DynamoDBClientTypes.Condition]?
+    let conditionalOperator: DynamoDBClientTypes.ConditionalOperator?
+    let scanIndexForward: Swift.Bool?
+    let exclusiveStartKey: [Swift.String:DynamoDBClientTypes.AttributeValue]?
+    let returnConsumedCapacity: DynamoDBClientTypes.ReturnConsumedCapacity?
+    let projectionExpression: Swift.String?
+    let filterExpression: Swift.String?
+    let keyConditionExpression: Swift.String?
+    let expressionAttributeNames: [Swift.String:Swift.String]?
+    let expressionAttributeValues: [Swift.String:DynamoDBClientTypes.AttributeValue]?
+}
+
+extension QueryInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case attributesToGet = "AttributesToGet"
+        case conditionalOperator = "ConditionalOperator"
+        case consistentRead = "ConsistentRead"
+        case exclusiveStartKey = "ExclusiveStartKey"
+        case expressionAttributeNames = "ExpressionAttributeNames"
+        case expressionAttributeValues = "ExpressionAttributeValues"
+        case filterExpression = "FilterExpression"
+        case indexName = "IndexName"
+        case keyConditionExpression = "KeyConditionExpression"
+        case keyConditions = "KeyConditions"
+        case limit = "Limit"
+        case projectionExpression = "ProjectionExpression"
+        case queryFilter = "QueryFilter"
+        case returnConsumedCapacity = "ReturnConsumedCapacity"
+        case scanIndexForward = "ScanIndexForward"
+        case select = "Select"
+        case tableName = "TableName"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let tableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableName)
+        tableName = tableNameDecoded
+        let indexNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .indexName)
+        indexName = indexNameDecoded
+        let selectDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.Select.self, forKey: .select)
+        select = selectDecoded
+        let attributesToGetContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .attributesToGet)
+        var attributesToGetDecoded0:[Swift.String]? = nil
+        if let attributesToGetContainer = attributesToGetContainer {
+            attributesToGetDecoded0 = [Swift.String]()
+            for string0 in attributesToGetContainer {
+                if let string0 = string0 {
+                    attributesToGetDecoded0?.append(string0)
+                }
+            }
+        }
+        attributesToGet = attributesToGetDecoded0
+        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit)
+        limit = limitDecoded
+        let consistentReadDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .consistentRead)
+        consistentRead = consistentReadDecoded
+        let keyConditionsContainer = try containerValues.decodeIfPresent([Swift.String: DynamoDBClientTypes.Condition?].self, forKey: .keyConditions)
+        var keyConditionsDecoded0: [Swift.String:DynamoDBClientTypes.Condition]? = nil
+        if let keyConditionsContainer = keyConditionsContainer {
+            keyConditionsDecoded0 = [Swift.String:DynamoDBClientTypes.Condition]()
+            for (key0, condition0) in keyConditionsContainer {
+                if let condition0 = condition0 {
+                    keyConditionsDecoded0?[key0] = condition0
+                }
+            }
+        }
+        keyConditions = keyConditionsDecoded0
+        let queryFilterContainer = try containerValues.decodeIfPresent([Swift.String: DynamoDBClientTypes.Condition?].self, forKey: .queryFilter)
+        var queryFilterDecoded0: [Swift.String:DynamoDBClientTypes.Condition]? = nil
+        if let queryFilterContainer = queryFilterContainer {
+            queryFilterDecoded0 = [Swift.String:DynamoDBClientTypes.Condition]()
+            for (key0, condition0) in queryFilterContainer {
+                if let condition0 = condition0 {
+                    queryFilterDecoded0?[key0] = condition0
+                }
+            }
+        }
+        queryFilter = queryFilterDecoded0
+        let conditionalOperatorDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ConditionalOperator.self, forKey: .conditionalOperator)
+        conditionalOperator = conditionalOperatorDecoded
+        let scanIndexForwardDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .scanIndexForward)
+        scanIndexForward = scanIndexForwardDecoded
+        let exclusiveStartKeyContainer = try containerValues.decodeIfPresent([Swift.String: DynamoDBClientTypes.AttributeValue?].self, forKey: .exclusiveStartKey)
+        var exclusiveStartKeyDecoded0: [Swift.String:DynamoDBClientTypes.AttributeValue]? = nil
+        if let exclusiveStartKeyContainer = exclusiveStartKeyContainer {
+            exclusiveStartKeyDecoded0 = [Swift.String:DynamoDBClientTypes.AttributeValue]()
+            for (key0, attributevalue0) in exclusiveStartKeyContainer {
+                if let attributevalue0 = attributevalue0 {
+                    exclusiveStartKeyDecoded0?[key0] = attributevalue0
+                }
+            }
+        }
+        exclusiveStartKey = exclusiveStartKeyDecoded0
+        let returnConsumedCapacityDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ReturnConsumedCapacity.self, forKey: .returnConsumedCapacity)
+        returnConsumedCapacity = returnConsumedCapacityDecoded
+        let projectionExpressionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .projectionExpression)
+        projectionExpression = projectionExpressionDecoded
+        let filterExpressionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .filterExpression)
+        filterExpression = filterExpressionDecoded
+        let keyConditionExpressionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .keyConditionExpression)
+        keyConditionExpression = keyConditionExpressionDecoded
+        let expressionAttributeNamesContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .expressionAttributeNames)
+        var expressionAttributeNamesDecoded0: [Swift.String:Swift.String]? = nil
+        if let expressionAttributeNamesContainer = expressionAttributeNamesContainer {
+            expressionAttributeNamesDecoded0 = [Swift.String:Swift.String]()
+            for (key0, attributename0) in expressionAttributeNamesContainer {
+                if let attributename0 = attributename0 {
+                    expressionAttributeNamesDecoded0?[key0] = attributename0
+                }
+            }
+        }
+        expressionAttributeNames = expressionAttributeNamesDecoded0
+        let expressionAttributeValuesContainer = try containerValues.decodeIfPresent([Swift.String: DynamoDBClientTypes.AttributeValue?].self, forKey: .expressionAttributeValues)
+        var expressionAttributeValuesDecoded0: [Swift.String:DynamoDBClientTypes.AttributeValue]? = nil
+        if let expressionAttributeValuesContainer = expressionAttributeValuesContainer {
+            expressionAttributeValuesDecoded0 = [Swift.String:DynamoDBClientTypes.AttributeValue]()
+            for (key0, attributevalue0) in expressionAttributeValuesContainer {
+                if let attributevalue0 = attributevalue0 {
+                    expressionAttributeValuesDecoded0?[key0] = attributevalue0
+                }
+            }
+        }
+        expressionAttributeValues = expressionAttributeValuesDecoded0
+    }
+}
+
+extension QueryOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: QueryOutputBody = try responseDecoder.decode(responseBody: data)
+            self.consumedCapacity = output.consumedCapacity
+            self.count = output.count
+            self.items = output.items
+            self.lastEvaluatedKey = output.lastEvaluatedKey
+            self.scannedCount = output.scannedCount
+        } else {
+            self.consumedCapacity = nil
+            self.count = 0
+            self.items = nil
+            self.lastEvaluatedKey = nil
+            self.scannedCount = 0
+        }
+    }
+}
+
+/// Represents the output of a Query operation.
+public struct QueryOutput: Swift.Equatable {
+    /// The capacity units consumed by the Query operation. The data returned includes the total provisioned throughput consumed, along with statistics for the table and any indexes involved in the operation. ConsumedCapacity is only returned if the ReturnConsumedCapacity parameter was specified. For more information, see [Provisioned Throughput](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ProvisionedThroughputIntro.html) in the Amazon DynamoDB Developer Guide.
+    public var consumedCapacity: DynamoDBClientTypes.ConsumedCapacity?
+    /// The number of items in the response. If you used a QueryFilter in the request, then Count is the number of items returned after the filter was applied, and ScannedCount is the number of matching items before the filter was applied. If you did not use a filter in the request, then Count and ScannedCount are the same.
+    public var count: Swift.Int
+    /// An array of item attributes that match the query criteria. Each element in this array consists of an attribute name and the value for that attribute.
+    public var items: [[Swift.String:DynamoDBClientTypes.AttributeValue]]?
+    /// The primary key of the item where the operation stopped, inclusive of the previous result set. Use this value to start a new operation, excluding this value in the new request. If LastEvaluatedKey is empty, then the "last page" of results has been processed and there is no more data to be retrieved. If LastEvaluatedKey is not empty, it does not necessarily mean that there is more data in the result set. The only way to know when you have reached the end of the result set is when LastEvaluatedKey is empty.
+    public var lastEvaluatedKey: [Swift.String:DynamoDBClientTypes.AttributeValue]?
+    /// The number of items evaluated, before any QueryFilter is applied. A high ScannedCount value with few, or no, Count results indicates an inefficient Query operation. For more information, see [Count and ScannedCount](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/QueryAndScan.html#Count) in the Amazon DynamoDB Developer Guide. If you did not use a filter in the request, then ScannedCount is the same as Count.
+    public var scannedCount: Swift.Int
+
+    public init(
+        consumedCapacity: DynamoDBClientTypes.ConsumedCapacity? = nil,
+        count: Swift.Int = 0,
+        items: [[Swift.String:DynamoDBClientTypes.AttributeValue]]? = nil,
+        lastEvaluatedKey: [Swift.String:DynamoDBClientTypes.AttributeValue]? = nil,
+        scannedCount: Swift.Int = 0
+    )
+    {
+        self.consumedCapacity = consumedCapacity
+        self.count = count
+        self.items = items
+        self.lastEvaluatedKey = lastEvaluatedKey
+        self.scannedCount = scannedCount
     }
 }
 
@@ -13757,69 +13806,39 @@ enum QueryOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension QueryOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: QueryOutputBody = try responseDecoder.decode(responseBody: data)
-            self.consumedCapacity = output.consumedCapacity
-            self.count = output.count
-            self.items = output.items
-            self.lastEvaluatedKey = output.lastEvaluatedKey
-            self.scannedCount = output.scannedCount
-        } else {
-            self.consumedCapacity = nil
-            self.count = 0
-            self.items = nil
-            self.lastEvaluatedKey = nil
-            self.scannedCount = 0
-        }
-    }
-}
-
-/// Represents the output of a Query operation.
-public struct QueryOutput: Swift.Equatable {
-    /// The capacity units consumed by the Query operation. The data returned includes the total provisioned throughput consumed, along with statistics for the table and any indexes involved in the operation. ConsumedCapacity is only returned if the ReturnConsumedCapacity parameter was specified. For more information, see [Provisioned Throughput](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ProvisionedThroughputIntro.html) in the Amazon DynamoDB Developer Guide.
-    public var consumedCapacity: DynamoDBClientTypes.ConsumedCapacity?
-    /// The number of items in the response. If you used a QueryFilter in the request, then Count is the number of items returned after the filter was applied, and ScannedCount is the number of matching items before the filter was applied. If you did not use a filter in the request, then Count and ScannedCount are the same.
-    public var count: Swift.Int
-    /// An array of item attributes that match the query criteria. Each element in this array consists of an attribute name and the value for that attribute.
-    public var items: [[Swift.String:DynamoDBClientTypes.AttributeValue]]?
-    /// The primary key of the item where the operation stopped, inclusive of the previous result set. Use this value to start a new operation, excluding this value in the new request. If LastEvaluatedKey is empty, then the "last page" of results has been processed and there is no more data to be retrieved. If LastEvaluatedKey is not empty, it does not necessarily mean that there is more data in the result set. The only way to know when you have reached the end of the result set is when LastEvaluatedKey is empty.
-    public var lastEvaluatedKey: [Swift.String:DynamoDBClientTypes.AttributeValue]?
-    /// The number of items evaluated, before any QueryFilter is applied. A high ScannedCount value with few, or no, Count results indicates an inefficient Query operation. For more information, see [Count and ScannedCount](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/QueryAndScan.html#Count) in the Amazon DynamoDB Developer Guide. If you did not use a filter in the request, then ScannedCount is the same as Count.
-    public var scannedCount: Swift.Int
-
-    public init(
-        consumedCapacity: DynamoDBClientTypes.ConsumedCapacity? = nil,
-        count: Swift.Int = 0,
-        items: [[Swift.String:DynamoDBClientTypes.AttributeValue]]? = nil,
-        lastEvaluatedKey: [Swift.String:DynamoDBClientTypes.AttributeValue]? = nil,
-        scannedCount: Swift.Int = 0
-    )
-    {
-        self.consumedCapacity = consumedCapacity
-        self.count = count
-        self.items = items
-        self.lastEvaluatedKey = lastEvaluatedKey
-        self.scannedCount = scannedCount
-    }
-}
-
-struct ReplicaAlreadyExistsExceptionBody: Swift.Equatable {
-    let message: Swift.String?
-}
-
-extension ReplicaAlreadyExistsExceptionBody: Swift.Decodable {
+extension DynamoDBClientTypes.Replica: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case message
+        case regionName = "RegionName"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let regionName = self.regionName {
+            try encodeContainer.encode(regionName, forKey: .regionName)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
-        message = messageDecoded
+        let regionNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .regionName)
+        regionName = regionNameDecoded
     }
+}
+
+extension DynamoDBClientTypes {
+    /// Represents the properties of a replica.
+    public struct Replica: Swift.Equatable {
+        /// The Region where the replica needs to be created.
+        public var regionName: Swift.String?
+
+        public init(
+            regionName: Swift.String? = nil
+        )
+        {
+            self.regionName = regionName
+        }
+    }
+
 }
 
 extension ReplicaAlreadyExistsException {
@@ -13858,6 +13877,22 @@ public struct ReplicaAlreadyExistsException: ClientRuntime.ModeledError, AWSClie
     )
     {
         self.properties.message = message
+    }
+}
+
+struct ReplicaAlreadyExistsExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension ReplicaAlreadyExistsExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
     }
 }
 
@@ -14024,25 +14059,6 @@ extension DynamoDBClientTypes {
 
 }
 
-extension DynamoDBClientTypes.Replica: Swift.Codable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case regionName = "RegionName"
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let regionName = self.regionName {
-            try encodeContainer.encode(regionName, forKey: .regionName)
-        }
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let regionNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .regionName)
-        regionName = regionNameDecoded
-    }
-}
-
 extension DynamoDBClientTypes.ReplicaDescription: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case globalSecondaryIndexes = "GlobalSecondaryIndexes"
@@ -14182,6 +14198,52 @@ extension DynamoDBClientTypes {
 
 }
 
+extension DynamoDBClientTypes.ReplicaGlobalSecondaryIndex: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case indexName = "IndexName"
+        case provisionedThroughputOverride = "ProvisionedThroughputOverride"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let indexName = self.indexName {
+            try encodeContainer.encode(indexName, forKey: .indexName)
+        }
+        if let provisionedThroughputOverride = self.provisionedThroughputOverride {
+            try encodeContainer.encode(provisionedThroughputOverride, forKey: .provisionedThroughputOverride)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let indexNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .indexName)
+        indexName = indexNameDecoded
+        let provisionedThroughputOverrideDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ProvisionedThroughputOverride.self, forKey: .provisionedThroughputOverride)
+        provisionedThroughputOverride = provisionedThroughputOverrideDecoded
+    }
+}
+
+extension DynamoDBClientTypes {
+    /// Represents the properties of a replica global secondary index.
+    public struct ReplicaGlobalSecondaryIndex: Swift.Equatable {
+        /// The name of the global secondary index.
+        /// This member is required.
+        public var indexName: Swift.String?
+        /// Replica table GSI-specific provisioned throughput. If not specified, uses the source table GSI's read capacity settings.
+        public var provisionedThroughputOverride: DynamoDBClientTypes.ProvisionedThroughputOverride?
+
+        public init(
+            indexName: Swift.String? = nil,
+            provisionedThroughputOverride: DynamoDBClientTypes.ProvisionedThroughputOverride? = nil
+        )
+        {
+            self.indexName = indexName
+            self.provisionedThroughputOverride = provisionedThroughputOverride
+        }
+    }
+
+}
+
 extension DynamoDBClientTypes.ReplicaGlobalSecondaryIndexAutoScalingDescription: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case indexName = "IndexName"
@@ -14298,31 +14360,6 @@ extension DynamoDBClientTypes {
         }
     }
 
-}
-
-extension DynamoDBClientTypes.ReplicaGlobalSecondaryIndex: Swift.Codable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case indexName = "IndexName"
-        case provisionedThroughputOverride = "ProvisionedThroughputOverride"
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let indexName = self.indexName {
-            try encodeContainer.encode(indexName, forKey: .indexName)
-        }
-        if let provisionedThroughputOverride = self.provisionedThroughputOverride {
-            try encodeContainer.encode(provisionedThroughputOverride, forKey: .provisionedThroughputOverride)
-        }
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let indexNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .indexName)
-        indexName = indexNameDecoded
-        let provisionedThroughputOverrideDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ProvisionedThroughputOverride.self, forKey: .provisionedThroughputOverride)
-        provisionedThroughputOverride = provisionedThroughputOverrideDecoded
-    }
 }
 
 extension DynamoDBClientTypes.ReplicaGlobalSecondaryIndexDescription: Swift.Codable {
@@ -14520,43 +14557,6 @@ extension DynamoDBClientTypes {
 
 }
 
-extension DynamoDBClientTypes {
-    /// Represents the properties of a replica global secondary index.
-    public struct ReplicaGlobalSecondaryIndex: Swift.Equatable {
-        /// The name of the global secondary index.
-        /// This member is required.
-        public var indexName: Swift.String?
-        /// Replica table GSI-specific provisioned throughput. If not specified, uses the source table GSI's read capacity settings.
-        public var provisionedThroughputOverride: DynamoDBClientTypes.ProvisionedThroughputOverride?
-
-        public init(
-            indexName: Swift.String? = nil,
-            provisionedThroughputOverride: DynamoDBClientTypes.ProvisionedThroughputOverride? = nil
-        )
-        {
-            self.indexName = indexName
-            self.provisionedThroughputOverride = provisionedThroughputOverride
-        }
-    }
-
-}
-
-struct ReplicaNotFoundExceptionBody: Swift.Equatable {
-    let message: Swift.String?
-}
-
-extension ReplicaNotFoundExceptionBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case message
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
-        message = messageDecoded
-    }
-}
-
 extension ReplicaNotFoundException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -14593,6 +14593,22 @@ public struct ReplicaNotFoundException: ClientRuntime.ModeledError, AWSClientRun
     )
     {
         self.properties.message = message
+    }
+}
+
+struct ReplicaNotFoundExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension ReplicaNotFoundExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
     }
 }
 
@@ -14867,17 +14883,52 @@ extension DynamoDBClientTypes {
     }
 }
 
+extension DynamoDBClientTypes.ReplicaUpdate: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case create = "Create"
+        case delete = "Delete"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let create = self.create {
+            try encodeContainer.encode(create, forKey: .create)
+        }
+        if let delete = self.delete {
+            try encodeContainer.encode(delete, forKey: .delete)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let createDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.CreateReplicaAction.self, forKey: .create)
+        create = createDecoded
+        let deleteDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.DeleteReplicaAction.self, forKey: .delete)
+        delete = deleteDecoded
+    }
+}
+
 extension DynamoDBClientTypes {
-    /// Represents the properties of a replica.
-    public struct Replica: Swift.Equatable {
-        /// The Region where the replica needs to be created.
-        public var regionName: Swift.String?
+    /// Represents one of the following:
+    ///
+    /// * A new replica to be added to an existing global table.
+    ///
+    /// * New parameters for an existing replica.
+    ///
+    /// * An existing replica to be removed from an existing global table.
+    public struct ReplicaUpdate: Swift.Equatable {
+        /// The parameters required for creating a replica on an existing global table.
+        public var create: DynamoDBClientTypes.CreateReplicaAction?
+        /// The name of the existing replica to be removed.
+        public var delete: DynamoDBClientTypes.DeleteReplicaAction?
 
         public init(
-            regionName: Swift.String? = nil
+            create: DynamoDBClientTypes.CreateReplicaAction? = nil,
+            delete: DynamoDBClientTypes.DeleteReplicaAction? = nil
         )
         {
-            self.regionName = regionName
+            self.create = create
+            self.delete = delete
         }
     }
 
@@ -14947,73 +14998,6 @@ extension DynamoDBClientTypes {
 
 }
 
-extension DynamoDBClientTypes.ReplicaUpdate: Swift.Codable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case create = "Create"
-        case delete = "Delete"
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let create = self.create {
-            try encodeContainer.encode(create, forKey: .create)
-        }
-        if let delete = self.delete {
-            try encodeContainer.encode(delete, forKey: .delete)
-        }
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let createDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.CreateReplicaAction.self, forKey: .create)
-        create = createDecoded
-        let deleteDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.DeleteReplicaAction.self, forKey: .delete)
-        delete = deleteDecoded
-    }
-}
-
-extension DynamoDBClientTypes {
-    /// Represents one of the following:
-    ///
-    /// * A new replica to be added to an existing global table.
-    ///
-    /// * New parameters for an existing replica.
-    ///
-    /// * An existing replica to be removed from an existing global table.
-    public struct ReplicaUpdate: Swift.Equatable {
-        /// The parameters required for creating a replica on an existing global table.
-        public var create: DynamoDBClientTypes.CreateReplicaAction?
-        /// The name of the existing replica to be removed.
-        public var delete: DynamoDBClientTypes.DeleteReplicaAction?
-
-        public init(
-            create: DynamoDBClientTypes.CreateReplicaAction? = nil,
-            delete: DynamoDBClientTypes.DeleteReplicaAction? = nil
-        )
-        {
-            self.create = create
-            self.delete = delete
-        }
-    }
-
-}
-
-struct RequestLimitExceededBody: Swift.Equatable {
-    let message: Swift.String?
-}
-
-extension RequestLimitExceededBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case message
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
-        message = messageDecoded
-    }
-}
-
 extension RequestLimitExceeded {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -15053,11 +15037,11 @@ public struct RequestLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime
     }
 }
 
-struct ResourceInUseExceptionBody: Swift.Equatable {
+struct RequestLimitExceededBody: Swift.Equatable {
     let message: Swift.String?
 }
 
-extension ResourceInUseExceptionBody: Swift.Decodable {
+extension RequestLimitExceededBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case message
     }
@@ -15109,11 +15093,11 @@ public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceInUseExceptionBody: Swift.Equatable {
     let message: Swift.String?
 }
 
-extension ResourceNotFoundExceptionBody: Swift.Decodable {
+extension ResourceInUseExceptionBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case message
     }
@@ -15162,6 +15146,22 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     )
     {
         self.properties.message = message
+    }
+}
+
+struct ResourceNotFoundExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension ResourceNotFoundExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
     }
 }
 
@@ -15232,6 +15232,93 @@ extension DynamoDBClientTypes {
 
 }
 
+extension RestoreTableFromBackupInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case backupArn = "BackupArn"
+        case billingModeOverride = "BillingModeOverride"
+        case globalSecondaryIndexOverride = "GlobalSecondaryIndexOverride"
+        case localSecondaryIndexOverride = "LocalSecondaryIndexOverride"
+        case provisionedThroughputOverride = "ProvisionedThroughputOverride"
+        case sseSpecificationOverride = "SSESpecificationOverride"
+        case targetTableName = "TargetTableName"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let backupArn = self.backupArn {
+            try encodeContainer.encode(backupArn, forKey: .backupArn)
+        }
+        if let billingModeOverride = self.billingModeOverride {
+            try encodeContainer.encode(billingModeOverride.rawValue, forKey: .billingModeOverride)
+        }
+        if let globalSecondaryIndexOverride = globalSecondaryIndexOverride {
+            var globalSecondaryIndexOverrideContainer = encodeContainer.nestedUnkeyedContainer(forKey: .globalSecondaryIndexOverride)
+            for globalsecondaryindex0 in globalSecondaryIndexOverride {
+                try globalSecondaryIndexOverrideContainer.encode(globalsecondaryindex0)
+            }
+        }
+        if let localSecondaryIndexOverride = localSecondaryIndexOverride {
+            var localSecondaryIndexOverrideContainer = encodeContainer.nestedUnkeyedContainer(forKey: .localSecondaryIndexOverride)
+            for localsecondaryindex0 in localSecondaryIndexOverride {
+                try localSecondaryIndexOverrideContainer.encode(localsecondaryindex0)
+            }
+        }
+        if let provisionedThroughputOverride = self.provisionedThroughputOverride {
+            try encodeContainer.encode(provisionedThroughputOverride, forKey: .provisionedThroughputOverride)
+        }
+        if let sseSpecificationOverride = self.sseSpecificationOverride {
+            try encodeContainer.encode(sseSpecificationOverride, forKey: .sseSpecificationOverride)
+        }
+        if let targetTableName = self.targetTableName {
+            try encodeContainer.encode(targetTableName, forKey: .targetTableName)
+        }
+    }
+}
+
+extension RestoreTableFromBackupInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct RestoreTableFromBackupInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) associated with the backup.
+    /// This member is required.
+    public var backupArn: Swift.String?
+    /// The billing mode of the restored table.
+    public var billingModeOverride: DynamoDBClientTypes.BillingMode?
+    /// List of global secondary indexes for the restored table. The indexes provided should match existing secondary indexes. You can choose to exclude some or all of the indexes at the time of restore.
+    public var globalSecondaryIndexOverride: [DynamoDBClientTypes.GlobalSecondaryIndex]?
+    /// List of local secondary indexes for the restored table. The indexes provided should match existing secondary indexes. You can choose to exclude some or all of the indexes at the time of restore.
+    public var localSecondaryIndexOverride: [DynamoDBClientTypes.LocalSecondaryIndex]?
+    /// Provisioned throughput settings for the restored table.
+    public var provisionedThroughputOverride: DynamoDBClientTypes.ProvisionedThroughput?
+    /// The new server-side encryption settings for the restored table.
+    public var sseSpecificationOverride: DynamoDBClientTypes.SSESpecification?
+    /// The name of the new table to which the backup must be restored.
+    /// This member is required.
+    public var targetTableName: Swift.String?
+
+    public init(
+        backupArn: Swift.String? = nil,
+        billingModeOverride: DynamoDBClientTypes.BillingMode? = nil,
+        globalSecondaryIndexOverride: [DynamoDBClientTypes.GlobalSecondaryIndex]? = nil,
+        localSecondaryIndexOverride: [DynamoDBClientTypes.LocalSecondaryIndex]? = nil,
+        provisionedThroughputOverride: DynamoDBClientTypes.ProvisionedThroughput? = nil,
+        sseSpecificationOverride: DynamoDBClientTypes.SSESpecification? = nil,
+        targetTableName: Swift.String? = nil
+    )
+    {
+        self.backupArn = backupArn
+        self.billingModeOverride = billingModeOverride
+        self.globalSecondaryIndexOverride = globalSecondaryIndexOverride
+        self.localSecondaryIndexOverride = localSecondaryIndexOverride
+        self.provisionedThroughputOverride = provisionedThroughputOverride
+        self.sseSpecificationOverride = sseSpecificationOverride
+        self.targetTableName = targetTableName
+    }
+}
+
 struct RestoreTableFromBackupInputBody: Swift.Equatable {
     let targetTableName: Swift.String?
     let backupArn: Swift.String?
@@ -15290,90 +15377,27 @@ extension RestoreTableFromBackupInputBody: Swift.Decodable {
     }
 }
 
-extension RestoreTableFromBackupInput: Swift.Encodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case backupArn = "BackupArn"
-        case billingModeOverride = "BillingModeOverride"
-        case globalSecondaryIndexOverride = "GlobalSecondaryIndexOverride"
-        case localSecondaryIndexOverride = "LocalSecondaryIndexOverride"
-        case provisionedThroughputOverride = "ProvisionedThroughputOverride"
-        case sseSpecificationOverride = "SSESpecificationOverride"
-        case targetTableName = "TargetTableName"
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let backupArn = self.backupArn {
-            try encodeContainer.encode(backupArn, forKey: .backupArn)
-        }
-        if let billingModeOverride = self.billingModeOverride {
-            try encodeContainer.encode(billingModeOverride.rawValue, forKey: .billingModeOverride)
-        }
-        if let globalSecondaryIndexOverride = globalSecondaryIndexOverride {
-            var globalSecondaryIndexOverrideContainer = encodeContainer.nestedUnkeyedContainer(forKey: .globalSecondaryIndexOverride)
-            for globalsecondaryindex0 in globalSecondaryIndexOverride {
-                try globalSecondaryIndexOverrideContainer.encode(globalsecondaryindex0)
-            }
-        }
-        if let localSecondaryIndexOverride = localSecondaryIndexOverride {
-            var localSecondaryIndexOverrideContainer = encodeContainer.nestedUnkeyedContainer(forKey: .localSecondaryIndexOverride)
-            for localsecondaryindex0 in localSecondaryIndexOverride {
-                try localSecondaryIndexOverrideContainer.encode(localsecondaryindex0)
-            }
-        }
-        if let provisionedThroughputOverride = self.provisionedThroughputOverride {
-            try encodeContainer.encode(provisionedThroughputOverride, forKey: .provisionedThroughputOverride)
-        }
-        if let sseSpecificationOverride = self.sseSpecificationOverride {
-            try encodeContainer.encode(sseSpecificationOverride, forKey: .sseSpecificationOverride)
-        }
-        if let targetTableName = self.targetTableName {
-            try encodeContainer.encode(targetTableName, forKey: .targetTableName)
+extension RestoreTableFromBackupOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: RestoreTableFromBackupOutputBody = try responseDecoder.decode(responseBody: data)
+            self.tableDescription = output.tableDescription
+        } else {
+            self.tableDescription = nil
         }
     }
 }
 
-public struct RestoreTableFromBackupInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) associated with the backup.
-    /// This member is required.
-    public var backupArn: Swift.String?
-    /// The billing mode of the restored table.
-    public var billingModeOverride: DynamoDBClientTypes.BillingMode?
-    /// List of global secondary indexes for the restored table. The indexes provided should match existing secondary indexes. You can choose to exclude some or all of the indexes at the time of restore.
-    public var globalSecondaryIndexOverride: [DynamoDBClientTypes.GlobalSecondaryIndex]?
-    /// List of local secondary indexes for the restored table. The indexes provided should match existing secondary indexes. You can choose to exclude some or all of the indexes at the time of restore.
-    public var localSecondaryIndexOverride: [DynamoDBClientTypes.LocalSecondaryIndex]?
-    /// Provisioned throughput settings for the restored table.
-    public var provisionedThroughputOverride: DynamoDBClientTypes.ProvisionedThroughput?
-    /// The new server-side encryption settings for the restored table.
-    public var sseSpecificationOverride: DynamoDBClientTypes.SSESpecification?
-    /// The name of the new table to which the backup must be restored.
-    /// This member is required.
-    public var targetTableName: Swift.String?
+public struct RestoreTableFromBackupOutput: Swift.Equatable {
+    /// The description of the table created from an existing backup.
+    public var tableDescription: DynamoDBClientTypes.TableDescription?
 
     public init(
-        backupArn: Swift.String? = nil,
-        billingModeOverride: DynamoDBClientTypes.BillingMode? = nil,
-        globalSecondaryIndexOverride: [DynamoDBClientTypes.GlobalSecondaryIndex]? = nil,
-        localSecondaryIndexOverride: [DynamoDBClientTypes.LocalSecondaryIndex]? = nil,
-        provisionedThroughputOverride: DynamoDBClientTypes.ProvisionedThroughput? = nil,
-        sseSpecificationOverride: DynamoDBClientTypes.SSESpecification? = nil,
-        targetTableName: Swift.String? = nil
+        tableDescription: DynamoDBClientTypes.TableDescription? = nil
     )
     {
-        self.backupArn = backupArn
-        self.billingModeOverride = billingModeOverride
-        self.globalSecondaryIndexOverride = globalSecondaryIndexOverride
-        self.localSecondaryIndexOverride = localSecondaryIndexOverride
-        self.provisionedThroughputOverride = provisionedThroughputOverride
-        self.sseSpecificationOverride = sseSpecificationOverride
-        self.targetTableName = targetTableName
-    }
-}
-
-extension RestoreTableFromBackupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
+        self.tableDescription = tableDescription
     }
 }
 
@@ -15410,27 +15434,113 @@ enum RestoreTableFromBackupOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension RestoreTableFromBackupOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: RestoreTableFromBackupOutputBody = try responseDecoder.decode(responseBody: data)
-            self.tableDescription = output.tableDescription
-        } else {
-            self.tableDescription = nil
+extension RestoreTableToPointInTimeInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case billingModeOverride = "BillingModeOverride"
+        case globalSecondaryIndexOverride = "GlobalSecondaryIndexOverride"
+        case localSecondaryIndexOverride = "LocalSecondaryIndexOverride"
+        case provisionedThroughputOverride = "ProvisionedThroughputOverride"
+        case restoreDateTime = "RestoreDateTime"
+        case sseSpecificationOverride = "SSESpecificationOverride"
+        case sourceTableArn = "SourceTableArn"
+        case sourceTableName = "SourceTableName"
+        case targetTableName = "TargetTableName"
+        case useLatestRestorableTime = "UseLatestRestorableTime"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let billingModeOverride = self.billingModeOverride {
+            try encodeContainer.encode(billingModeOverride.rawValue, forKey: .billingModeOverride)
+        }
+        if let globalSecondaryIndexOverride = globalSecondaryIndexOverride {
+            var globalSecondaryIndexOverrideContainer = encodeContainer.nestedUnkeyedContainer(forKey: .globalSecondaryIndexOverride)
+            for globalsecondaryindex0 in globalSecondaryIndexOverride {
+                try globalSecondaryIndexOverrideContainer.encode(globalsecondaryindex0)
+            }
+        }
+        if let localSecondaryIndexOverride = localSecondaryIndexOverride {
+            var localSecondaryIndexOverrideContainer = encodeContainer.nestedUnkeyedContainer(forKey: .localSecondaryIndexOverride)
+            for localsecondaryindex0 in localSecondaryIndexOverride {
+                try localSecondaryIndexOverrideContainer.encode(localsecondaryindex0)
+            }
+        }
+        if let provisionedThroughputOverride = self.provisionedThroughputOverride {
+            try encodeContainer.encode(provisionedThroughputOverride, forKey: .provisionedThroughputOverride)
+        }
+        if let restoreDateTime = self.restoreDateTime {
+            try encodeContainer.encodeTimestamp(restoreDateTime, format: .epochSeconds, forKey: .restoreDateTime)
+        }
+        if let sseSpecificationOverride = self.sseSpecificationOverride {
+            try encodeContainer.encode(sseSpecificationOverride, forKey: .sseSpecificationOverride)
+        }
+        if let sourceTableArn = self.sourceTableArn {
+            try encodeContainer.encode(sourceTableArn, forKey: .sourceTableArn)
+        }
+        if let sourceTableName = self.sourceTableName {
+            try encodeContainer.encode(sourceTableName, forKey: .sourceTableName)
+        }
+        if let targetTableName = self.targetTableName {
+            try encodeContainer.encode(targetTableName, forKey: .targetTableName)
+        }
+        if let useLatestRestorableTime = self.useLatestRestorableTime {
+            try encodeContainer.encode(useLatestRestorableTime, forKey: .useLatestRestorableTime)
         }
     }
 }
 
-public struct RestoreTableFromBackupOutput: Swift.Equatable {
-    /// The description of the table created from an existing backup.
-    public var tableDescription: DynamoDBClientTypes.TableDescription?
+extension RestoreTableToPointInTimeInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct RestoreTableToPointInTimeInput: Swift.Equatable {
+    /// The billing mode of the restored table.
+    public var billingModeOverride: DynamoDBClientTypes.BillingMode?
+    /// List of global secondary indexes for the restored table. The indexes provided should match existing secondary indexes. You can choose to exclude some or all of the indexes at the time of restore.
+    public var globalSecondaryIndexOverride: [DynamoDBClientTypes.GlobalSecondaryIndex]?
+    /// List of local secondary indexes for the restored table. The indexes provided should match existing secondary indexes. You can choose to exclude some or all of the indexes at the time of restore.
+    public var localSecondaryIndexOverride: [DynamoDBClientTypes.LocalSecondaryIndex]?
+    /// Provisioned throughput settings for the restored table.
+    public var provisionedThroughputOverride: DynamoDBClientTypes.ProvisionedThroughput?
+    /// Time in the past to restore the table to.
+    public var restoreDateTime: ClientRuntime.Date?
+    /// The DynamoDB table that will be restored. This value is an Amazon Resource Name (ARN).
+    public var sourceTableArn: Swift.String?
+    /// Name of the source table that is being restored.
+    public var sourceTableName: Swift.String?
+    /// The new server-side encryption settings for the restored table.
+    public var sseSpecificationOverride: DynamoDBClientTypes.SSESpecification?
+    /// The name of the new table to which it must be restored to.
+    /// This member is required.
+    public var targetTableName: Swift.String?
+    /// Restore the table to the latest possible time. LatestRestorableDateTime is typically 5 minutes before the current time.
+    public var useLatestRestorableTime: Swift.Bool?
 
     public init(
-        tableDescription: DynamoDBClientTypes.TableDescription? = nil
+        billingModeOverride: DynamoDBClientTypes.BillingMode? = nil,
+        globalSecondaryIndexOverride: [DynamoDBClientTypes.GlobalSecondaryIndex]? = nil,
+        localSecondaryIndexOverride: [DynamoDBClientTypes.LocalSecondaryIndex]? = nil,
+        provisionedThroughputOverride: DynamoDBClientTypes.ProvisionedThroughput? = nil,
+        restoreDateTime: ClientRuntime.Date? = nil,
+        sourceTableArn: Swift.String? = nil,
+        sourceTableName: Swift.String? = nil,
+        sseSpecificationOverride: DynamoDBClientTypes.SSESpecification? = nil,
+        targetTableName: Swift.String? = nil,
+        useLatestRestorableTime: Swift.Bool? = nil
     )
     {
-        self.tableDescription = tableDescription
+        self.billingModeOverride = billingModeOverride
+        self.globalSecondaryIndexOverride = globalSecondaryIndexOverride
+        self.localSecondaryIndexOverride = localSecondaryIndexOverride
+        self.provisionedThroughputOverride = provisionedThroughputOverride
+        self.restoreDateTime = restoreDateTime
+        self.sourceTableArn = sourceTableArn
+        self.sourceTableName = sourceTableName
+        self.sseSpecificationOverride = sseSpecificationOverride
+        self.targetTableName = targetTableName
+        self.useLatestRestorableTime = useLatestRestorableTime
     }
 }
 
@@ -15504,113 +15614,27 @@ extension RestoreTableToPointInTimeInputBody: Swift.Decodable {
     }
 }
 
-extension RestoreTableToPointInTimeInput: Swift.Encodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case billingModeOverride = "BillingModeOverride"
-        case globalSecondaryIndexOverride = "GlobalSecondaryIndexOverride"
-        case localSecondaryIndexOverride = "LocalSecondaryIndexOverride"
-        case provisionedThroughputOverride = "ProvisionedThroughputOverride"
-        case restoreDateTime = "RestoreDateTime"
-        case sseSpecificationOverride = "SSESpecificationOverride"
-        case sourceTableArn = "SourceTableArn"
-        case sourceTableName = "SourceTableName"
-        case targetTableName = "TargetTableName"
-        case useLatestRestorableTime = "UseLatestRestorableTime"
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let billingModeOverride = self.billingModeOverride {
-            try encodeContainer.encode(billingModeOverride.rawValue, forKey: .billingModeOverride)
-        }
-        if let globalSecondaryIndexOverride = globalSecondaryIndexOverride {
-            var globalSecondaryIndexOverrideContainer = encodeContainer.nestedUnkeyedContainer(forKey: .globalSecondaryIndexOverride)
-            for globalsecondaryindex0 in globalSecondaryIndexOverride {
-                try globalSecondaryIndexOverrideContainer.encode(globalsecondaryindex0)
-            }
-        }
-        if let localSecondaryIndexOverride = localSecondaryIndexOverride {
-            var localSecondaryIndexOverrideContainer = encodeContainer.nestedUnkeyedContainer(forKey: .localSecondaryIndexOverride)
-            for localsecondaryindex0 in localSecondaryIndexOverride {
-                try localSecondaryIndexOverrideContainer.encode(localsecondaryindex0)
-            }
-        }
-        if let provisionedThroughputOverride = self.provisionedThroughputOverride {
-            try encodeContainer.encode(provisionedThroughputOverride, forKey: .provisionedThroughputOverride)
-        }
-        if let restoreDateTime = self.restoreDateTime {
-            try encodeContainer.encodeTimestamp(restoreDateTime, format: .epochSeconds, forKey: .restoreDateTime)
-        }
-        if let sseSpecificationOverride = self.sseSpecificationOverride {
-            try encodeContainer.encode(sseSpecificationOverride, forKey: .sseSpecificationOverride)
-        }
-        if let sourceTableArn = self.sourceTableArn {
-            try encodeContainer.encode(sourceTableArn, forKey: .sourceTableArn)
-        }
-        if let sourceTableName = self.sourceTableName {
-            try encodeContainer.encode(sourceTableName, forKey: .sourceTableName)
-        }
-        if let targetTableName = self.targetTableName {
-            try encodeContainer.encode(targetTableName, forKey: .targetTableName)
-        }
-        if let useLatestRestorableTime = self.useLatestRestorableTime {
-            try encodeContainer.encode(useLatestRestorableTime, forKey: .useLatestRestorableTime)
+extension RestoreTableToPointInTimeOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: RestoreTableToPointInTimeOutputBody = try responseDecoder.decode(responseBody: data)
+            self.tableDescription = output.tableDescription
+        } else {
+            self.tableDescription = nil
         }
     }
 }
 
-public struct RestoreTableToPointInTimeInput: Swift.Equatable {
-    /// The billing mode of the restored table.
-    public var billingModeOverride: DynamoDBClientTypes.BillingMode?
-    /// List of global secondary indexes for the restored table. The indexes provided should match existing secondary indexes. You can choose to exclude some or all of the indexes at the time of restore.
-    public var globalSecondaryIndexOverride: [DynamoDBClientTypes.GlobalSecondaryIndex]?
-    /// List of local secondary indexes for the restored table. The indexes provided should match existing secondary indexes. You can choose to exclude some or all of the indexes at the time of restore.
-    public var localSecondaryIndexOverride: [DynamoDBClientTypes.LocalSecondaryIndex]?
-    /// Provisioned throughput settings for the restored table.
-    public var provisionedThroughputOverride: DynamoDBClientTypes.ProvisionedThroughput?
-    /// Time in the past to restore the table to.
-    public var restoreDateTime: ClientRuntime.Date?
-    /// The DynamoDB table that will be restored. This value is an Amazon Resource Name (ARN).
-    public var sourceTableArn: Swift.String?
-    /// Name of the source table that is being restored.
-    public var sourceTableName: Swift.String?
-    /// The new server-side encryption settings for the restored table.
-    public var sseSpecificationOverride: DynamoDBClientTypes.SSESpecification?
-    /// The name of the new table to which it must be restored to.
-    /// This member is required.
-    public var targetTableName: Swift.String?
-    /// Restore the table to the latest possible time. LatestRestorableDateTime is typically 5 minutes before the current time.
-    public var useLatestRestorableTime: Swift.Bool?
+public struct RestoreTableToPointInTimeOutput: Swift.Equatable {
+    /// Represents the properties of a table.
+    public var tableDescription: DynamoDBClientTypes.TableDescription?
 
     public init(
-        billingModeOverride: DynamoDBClientTypes.BillingMode? = nil,
-        globalSecondaryIndexOverride: [DynamoDBClientTypes.GlobalSecondaryIndex]? = nil,
-        localSecondaryIndexOverride: [DynamoDBClientTypes.LocalSecondaryIndex]? = nil,
-        provisionedThroughputOverride: DynamoDBClientTypes.ProvisionedThroughput? = nil,
-        restoreDateTime: ClientRuntime.Date? = nil,
-        sourceTableArn: Swift.String? = nil,
-        sourceTableName: Swift.String? = nil,
-        sseSpecificationOverride: DynamoDBClientTypes.SSESpecification? = nil,
-        targetTableName: Swift.String? = nil,
-        useLatestRestorableTime: Swift.Bool? = nil
+        tableDescription: DynamoDBClientTypes.TableDescription? = nil
     )
     {
-        self.billingModeOverride = billingModeOverride
-        self.globalSecondaryIndexOverride = globalSecondaryIndexOverride
-        self.localSecondaryIndexOverride = localSecondaryIndexOverride
-        self.provisionedThroughputOverride = provisionedThroughputOverride
-        self.restoreDateTime = restoreDateTime
-        self.sourceTableArn = sourceTableArn
-        self.sourceTableName = sourceTableName
-        self.sseSpecificationOverride = sseSpecificationOverride
-        self.targetTableName = targetTableName
-        self.useLatestRestorableTime = useLatestRestorableTime
-    }
-}
-
-extension RestoreTableToPointInTimeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
+        self.tableDescription = tableDescription
     }
 }
 
@@ -15645,30 +15669,6 @@ enum RestoreTableToPointInTimeOutputError: ClientRuntime.HttpResponseErrorBindin
             case "TableNotFoundException": return try await TableNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension RestoreTableToPointInTimeOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: RestoreTableToPointInTimeOutputBody = try responseDecoder.decode(responseBody: data)
-            self.tableDescription = output.tableDescription
-        } else {
-            self.tableDescription = nil
-        }
-    }
-}
-
-public struct RestoreTableToPointInTimeOutput: Swift.Equatable {
-    /// Represents the properties of a table.
-    public var tableDescription: DynamoDBClientTypes.TableDescription?
-
-    public init(
-        tableDescription: DynamoDBClientTypes.TableDescription? = nil
-    )
-    {
-        self.tableDescription = tableDescription
     }
 }
 
@@ -15747,38 +15747,6 @@ extension DynamoDBClientTypes {
 }
 
 extension DynamoDBClientTypes {
-    public enum ReturnValuesOnConditionCheckFailure: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
-        case allOld
-        case `none`
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ReturnValuesOnConditionCheckFailure] {
-            return [
-                .allOld,
-                .none,
-                .sdkUnknown("")
-            ]
-        }
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-        public var rawValue: Swift.String {
-            switch self {
-            case .allOld: return "ALL_OLD"
-            case .none: return "NONE"
-            case let .sdkUnknown(s): return s
-            }
-        }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = ReturnValuesOnConditionCheckFailure(rawValue: rawValue) ?? ReturnValuesOnConditionCheckFailure.sdkUnknown(rawValue)
-        }
-    }
-}
-
-extension DynamoDBClientTypes {
     public enum ReturnValue: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case allNew
         case allOld
@@ -15815,6 +15783,38 @@ extension DynamoDBClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = ReturnValue(rawValue: rawValue) ?? ReturnValue.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension DynamoDBClientTypes {
+    public enum ReturnValuesOnConditionCheckFailure: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case allOld
+        case `none`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ReturnValuesOnConditionCheckFailure] {
+            return [
+                .allOld,
+                .none,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .allOld: return "ALL_OLD"
+            case .none: return "NONE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ReturnValuesOnConditionCheckFailure(rawValue: rawValue) ?? ReturnValuesOnConditionCheckFailure.sdkUnknown(rawValue)
         }
     }
 }
@@ -15907,6 +15907,207 @@ extension DynamoDBClientTypes {
     }
 }
 
+extension DynamoDBClientTypes.SSEDescription: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case inaccessibleEncryptionDateTime = "InaccessibleEncryptionDateTime"
+        case kmsMasterKeyArn = "KMSMasterKeyArn"
+        case sseType = "SSEType"
+        case status = "Status"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let inaccessibleEncryptionDateTime = self.inaccessibleEncryptionDateTime {
+            try encodeContainer.encodeTimestamp(inaccessibleEncryptionDateTime, format: .epochSeconds, forKey: .inaccessibleEncryptionDateTime)
+        }
+        if let kmsMasterKeyArn = self.kmsMasterKeyArn {
+            try encodeContainer.encode(kmsMasterKeyArn, forKey: .kmsMasterKeyArn)
+        }
+        if let sseType = self.sseType {
+            try encodeContainer.encode(sseType.rawValue, forKey: .sseType)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let statusDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.SSEStatus.self, forKey: .status)
+        status = statusDecoded
+        let sseTypeDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.SSEType.self, forKey: .sseType)
+        sseType = sseTypeDecoded
+        let kmsMasterKeyArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsMasterKeyArn)
+        kmsMasterKeyArn = kmsMasterKeyArnDecoded
+        let inaccessibleEncryptionDateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .inaccessibleEncryptionDateTime)
+        inaccessibleEncryptionDateTime = inaccessibleEncryptionDateTimeDecoded
+    }
+}
+
+extension DynamoDBClientTypes {
+    /// The description of the server-side encryption status on the specified table.
+    public struct SSEDescription: Swift.Equatable {
+        /// Indicates the time, in UNIX epoch date format, when DynamoDB detected that the table's KMS key was inaccessible. This attribute will automatically be cleared when DynamoDB detects that the table's KMS key is accessible again. DynamoDB will initiate the table archival process when table's KMS key remains inaccessible for more than seven days from this date.
+        public var inaccessibleEncryptionDateTime: ClientRuntime.Date?
+        /// The KMS key ARN used for the KMS encryption.
+        public var kmsMasterKeyArn: Swift.String?
+        /// Server-side encryption type. The only supported value is:
+        ///
+        /// * KMS - Server-side encryption that uses Key Management Service. The key is stored in your account and is managed by KMS (KMS charges apply).
+        public var sseType: DynamoDBClientTypes.SSEType?
+        /// Represents the current state of server-side encryption. The only supported values are:
+        ///
+        /// * ENABLED - Server-side encryption is enabled.
+        ///
+        /// * UPDATING - Server-side encryption is being updated.
+        public var status: DynamoDBClientTypes.SSEStatus?
+
+        public init(
+            inaccessibleEncryptionDateTime: ClientRuntime.Date? = nil,
+            kmsMasterKeyArn: Swift.String? = nil,
+            sseType: DynamoDBClientTypes.SSEType? = nil,
+            status: DynamoDBClientTypes.SSEStatus? = nil
+        )
+        {
+            self.inaccessibleEncryptionDateTime = inaccessibleEncryptionDateTime
+            self.kmsMasterKeyArn = kmsMasterKeyArn
+            self.sseType = sseType
+            self.status = status
+        }
+    }
+
+}
+
+extension DynamoDBClientTypes.SSESpecification: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case enabled = "Enabled"
+        case kmsMasterKeyId = "KMSMasterKeyId"
+        case sseType = "SSEType"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let enabled = self.enabled {
+            try encodeContainer.encode(enabled, forKey: .enabled)
+        }
+        if let kmsMasterKeyId = self.kmsMasterKeyId {
+            try encodeContainer.encode(kmsMasterKeyId, forKey: .kmsMasterKeyId)
+        }
+        if let sseType = self.sseType {
+            try encodeContainer.encode(sseType.rawValue, forKey: .sseType)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled)
+        enabled = enabledDecoded
+        let sseTypeDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.SSEType.self, forKey: .sseType)
+        sseType = sseTypeDecoded
+        let kmsMasterKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsMasterKeyId)
+        kmsMasterKeyId = kmsMasterKeyIdDecoded
+    }
+}
+
+extension DynamoDBClientTypes {
+    /// Represents the settings used to enable server-side encryption.
+    public struct SSESpecification: Swift.Equatable {
+        /// Indicates whether server-side encryption is done using an Amazon Web Services managed key or an Amazon Web Services owned key. If enabled (true), server-side encryption type is set to KMS and an Amazon Web Services managed key is used (KMS charges apply). If disabled (false) or not specified, server-side encryption is set to Amazon Web Services owned key.
+        public var enabled: Swift.Bool?
+        /// The KMS key that should be used for the KMS encryption. To specify a key, use its key ID, Amazon Resource Name (ARN), alias name, or alias ARN. Note that you should only provide this parameter if the key is different from the default DynamoDB key alias/aws/dynamodb.
+        public var kmsMasterKeyId: Swift.String?
+        /// Server-side encryption type. The only supported value is:
+        ///
+        /// * KMS - Server-side encryption that uses Key Management Service. The key is stored in your account and is managed by KMS (KMS charges apply).
+        public var sseType: DynamoDBClientTypes.SSEType?
+
+        public init(
+            enabled: Swift.Bool? = nil,
+            kmsMasterKeyId: Swift.String? = nil,
+            sseType: DynamoDBClientTypes.SSEType? = nil
+        )
+        {
+            self.enabled = enabled
+            self.kmsMasterKeyId = kmsMasterKeyId
+            self.sseType = sseType
+        }
+    }
+
+}
+
+extension DynamoDBClientTypes {
+    public enum SSEStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case disabled
+        case disabling
+        case enabled
+        case enabling
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SSEStatus] {
+            return [
+                .disabled,
+                .disabling,
+                .enabled,
+                .enabling,
+                .updating,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .disabling: return "DISABLING"
+            case .enabled: return "ENABLED"
+            case .enabling: return "ENABLING"
+            case .updating: return "UPDATING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = SSEStatus(rawValue: rawValue) ?? SSEStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension DynamoDBClientTypes {
+    public enum SSEType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case aes256
+        case kms
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SSEType] {
+            return [
+                .aes256,
+                .kms,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .aes256: return "AES256"
+            case .kms: return "KMS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = SSEType(rawValue: rawValue) ?? SSEType.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension DynamoDBClientTypes {
     public enum ScalarAttributeType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case b
@@ -15939,127 +16140,6 @@ extension DynamoDBClientTypes {
             let rawValue = try container.decode(RawValue.self)
             self = ScalarAttributeType(rawValue: rawValue) ?? ScalarAttributeType.sdkUnknown(rawValue)
         }
-    }
-}
-
-struct ScanInputBody: Swift.Equatable {
-    let tableName: Swift.String?
-    let indexName: Swift.String?
-    let attributesToGet: [Swift.String]?
-    let limit: Swift.Int?
-    let select: DynamoDBClientTypes.Select?
-    let scanFilter: [Swift.String:DynamoDBClientTypes.Condition]?
-    let conditionalOperator: DynamoDBClientTypes.ConditionalOperator?
-    let exclusiveStartKey: [Swift.String:DynamoDBClientTypes.AttributeValue]?
-    let returnConsumedCapacity: DynamoDBClientTypes.ReturnConsumedCapacity?
-    let totalSegments: Swift.Int?
-    let segment: Swift.Int?
-    let projectionExpression: Swift.String?
-    let filterExpression: Swift.String?
-    let expressionAttributeNames: [Swift.String:Swift.String]?
-    let expressionAttributeValues: [Swift.String:DynamoDBClientTypes.AttributeValue]?
-    let consistentRead: Swift.Bool?
-}
-
-extension ScanInputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case attributesToGet = "AttributesToGet"
-        case conditionalOperator = "ConditionalOperator"
-        case consistentRead = "ConsistentRead"
-        case exclusiveStartKey = "ExclusiveStartKey"
-        case expressionAttributeNames = "ExpressionAttributeNames"
-        case expressionAttributeValues = "ExpressionAttributeValues"
-        case filterExpression = "FilterExpression"
-        case indexName = "IndexName"
-        case limit = "Limit"
-        case projectionExpression = "ProjectionExpression"
-        case returnConsumedCapacity = "ReturnConsumedCapacity"
-        case scanFilter = "ScanFilter"
-        case segment = "Segment"
-        case select = "Select"
-        case tableName = "TableName"
-        case totalSegments = "TotalSegments"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let tableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableName)
-        tableName = tableNameDecoded
-        let indexNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .indexName)
-        indexName = indexNameDecoded
-        let attributesToGetContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .attributesToGet)
-        var attributesToGetDecoded0:[Swift.String]? = nil
-        if let attributesToGetContainer = attributesToGetContainer {
-            attributesToGetDecoded0 = [Swift.String]()
-            for string0 in attributesToGetContainer {
-                if let string0 = string0 {
-                    attributesToGetDecoded0?.append(string0)
-                }
-            }
-        }
-        attributesToGet = attributesToGetDecoded0
-        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit)
-        limit = limitDecoded
-        let selectDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.Select.self, forKey: .select)
-        select = selectDecoded
-        let scanFilterContainer = try containerValues.decodeIfPresent([Swift.String: DynamoDBClientTypes.Condition?].self, forKey: .scanFilter)
-        var scanFilterDecoded0: [Swift.String:DynamoDBClientTypes.Condition]? = nil
-        if let scanFilterContainer = scanFilterContainer {
-            scanFilterDecoded0 = [Swift.String:DynamoDBClientTypes.Condition]()
-            for (key0, condition0) in scanFilterContainer {
-                if let condition0 = condition0 {
-                    scanFilterDecoded0?[key0] = condition0
-                }
-            }
-        }
-        scanFilter = scanFilterDecoded0
-        let conditionalOperatorDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ConditionalOperator.self, forKey: .conditionalOperator)
-        conditionalOperator = conditionalOperatorDecoded
-        let exclusiveStartKeyContainer = try containerValues.decodeIfPresent([Swift.String: DynamoDBClientTypes.AttributeValue?].self, forKey: .exclusiveStartKey)
-        var exclusiveStartKeyDecoded0: [Swift.String:DynamoDBClientTypes.AttributeValue]? = nil
-        if let exclusiveStartKeyContainer = exclusiveStartKeyContainer {
-            exclusiveStartKeyDecoded0 = [Swift.String:DynamoDBClientTypes.AttributeValue]()
-            for (key0, attributevalue0) in exclusiveStartKeyContainer {
-                if let attributevalue0 = attributevalue0 {
-                    exclusiveStartKeyDecoded0?[key0] = attributevalue0
-                }
-            }
-        }
-        exclusiveStartKey = exclusiveStartKeyDecoded0
-        let returnConsumedCapacityDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ReturnConsumedCapacity.self, forKey: .returnConsumedCapacity)
-        returnConsumedCapacity = returnConsumedCapacityDecoded
-        let totalSegmentsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalSegments)
-        totalSegments = totalSegmentsDecoded
-        let segmentDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .segment)
-        segment = segmentDecoded
-        let projectionExpressionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .projectionExpression)
-        projectionExpression = projectionExpressionDecoded
-        let filterExpressionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .filterExpression)
-        filterExpression = filterExpressionDecoded
-        let expressionAttributeNamesContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .expressionAttributeNames)
-        var expressionAttributeNamesDecoded0: [Swift.String:Swift.String]? = nil
-        if let expressionAttributeNamesContainer = expressionAttributeNamesContainer {
-            expressionAttributeNamesDecoded0 = [Swift.String:Swift.String]()
-            for (key0, attributename0) in expressionAttributeNamesContainer {
-                if let attributename0 = attributename0 {
-                    expressionAttributeNamesDecoded0?[key0] = attributename0
-                }
-            }
-        }
-        expressionAttributeNames = expressionAttributeNamesDecoded0
-        let expressionAttributeValuesContainer = try containerValues.decodeIfPresent([Swift.String: DynamoDBClientTypes.AttributeValue?].self, forKey: .expressionAttributeValues)
-        var expressionAttributeValuesDecoded0: [Swift.String:DynamoDBClientTypes.AttributeValue]? = nil
-        if let expressionAttributeValuesContainer = expressionAttributeValuesContainer {
-            expressionAttributeValuesDecoded0 = [Swift.String:DynamoDBClientTypes.AttributeValue]()
-            for (key0, attributevalue0) in expressionAttributeValuesContainer {
-                if let attributevalue0 = attributevalue0 {
-                    expressionAttributeValuesDecoded0?[key0] = attributevalue0
-                }
-            }
-        }
-        expressionAttributeValues = expressionAttributeValuesDecoded0
-        let consistentReadDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .consistentRead)
-        consistentRead = consistentReadDecoded
     }
 }
 
@@ -16148,6 +16228,12 @@ extension ScanInput: Swift.Encodable {
         if let totalSegments = self.totalSegments {
             try encodeContainer.encode(totalSegments, forKey: .totalSegments)
         }
+    }
+}
+
+extension ScanInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
     }
 }
 
@@ -16273,9 +16359,173 @@ public struct ScanInput: Swift.Equatable {
     }
 }
 
-extension ScanInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
+struct ScanInputBody: Swift.Equatable {
+    let tableName: Swift.String?
+    let indexName: Swift.String?
+    let attributesToGet: [Swift.String]?
+    let limit: Swift.Int?
+    let select: DynamoDBClientTypes.Select?
+    let scanFilter: [Swift.String:DynamoDBClientTypes.Condition]?
+    let conditionalOperator: DynamoDBClientTypes.ConditionalOperator?
+    let exclusiveStartKey: [Swift.String:DynamoDBClientTypes.AttributeValue]?
+    let returnConsumedCapacity: DynamoDBClientTypes.ReturnConsumedCapacity?
+    let totalSegments: Swift.Int?
+    let segment: Swift.Int?
+    let projectionExpression: Swift.String?
+    let filterExpression: Swift.String?
+    let expressionAttributeNames: [Swift.String:Swift.String]?
+    let expressionAttributeValues: [Swift.String:DynamoDBClientTypes.AttributeValue]?
+    let consistentRead: Swift.Bool?
+}
+
+extension ScanInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case attributesToGet = "AttributesToGet"
+        case conditionalOperator = "ConditionalOperator"
+        case consistentRead = "ConsistentRead"
+        case exclusiveStartKey = "ExclusiveStartKey"
+        case expressionAttributeNames = "ExpressionAttributeNames"
+        case expressionAttributeValues = "ExpressionAttributeValues"
+        case filterExpression = "FilterExpression"
+        case indexName = "IndexName"
+        case limit = "Limit"
+        case projectionExpression = "ProjectionExpression"
+        case returnConsumedCapacity = "ReturnConsumedCapacity"
+        case scanFilter = "ScanFilter"
+        case segment = "Segment"
+        case select = "Select"
+        case tableName = "TableName"
+        case totalSegments = "TotalSegments"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let tableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableName)
+        tableName = tableNameDecoded
+        let indexNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .indexName)
+        indexName = indexNameDecoded
+        let attributesToGetContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .attributesToGet)
+        var attributesToGetDecoded0:[Swift.String]? = nil
+        if let attributesToGetContainer = attributesToGetContainer {
+            attributesToGetDecoded0 = [Swift.String]()
+            for string0 in attributesToGetContainer {
+                if let string0 = string0 {
+                    attributesToGetDecoded0?.append(string0)
+                }
+            }
+        }
+        attributesToGet = attributesToGetDecoded0
+        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit)
+        limit = limitDecoded
+        let selectDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.Select.self, forKey: .select)
+        select = selectDecoded
+        let scanFilterContainer = try containerValues.decodeIfPresent([Swift.String: DynamoDBClientTypes.Condition?].self, forKey: .scanFilter)
+        var scanFilterDecoded0: [Swift.String:DynamoDBClientTypes.Condition]? = nil
+        if let scanFilterContainer = scanFilterContainer {
+            scanFilterDecoded0 = [Swift.String:DynamoDBClientTypes.Condition]()
+            for (key0, condition0) in scanFilterContainer {
+                if let condition0 = condition0 {
+                    scanFilterDecoded0?[key0] = condition0
+                }
+            }
+        }
+        scanFilter = scanFilterDecoded0
+        let conditionalOperatorDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ConditionalOperator.self, forKey: .conditionalOperator)
+        conditionalOperator = conditionalOperatorDecoded
+        let exclusiveStartKeyContainer = try containerValues.decodeIfPresent([Swift.String: DynamoDBClientTypes.AttributeValue?].self, forKey: .exclusiveStartKey)
+        var exclusiveStartKeyDecoded0: [Swift.String:DynamoDBClientTypes.AttributeValue]? = nil
+        if let exclusiveStartKeyContainer = exclusiveStartKeyContainer {
+            exclusiveStartKeyDecoded0 = [Swift.String:DynamoDBClientTypes.AttributeValue]()
+            for (key0, attributevalue0) in exclusiveStartKeyContainer {
+                if let attributevalue0 = attributevalue0 {
+                    exclusiveStartKeyDecoded0?[key0] = attributevalue0
+                }
+            }
+        }
+        exclusiveStartKey = exclusiveStartKeyDecoded0
+        let returnConsumedCapacityDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ReturnConsumedCapacity.self, forKey: .returnConsumedCapacity)
+        returnConsumedCapacity = returnConsumedCapacityDecoded
+        let totalSegmentsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalSegments)
+        totalSegments = totalSegmentsDecoded
+        let segmentDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .segment)
+        segment = segmentDecoded
+        let projectionExpressionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .projectionExpression)
+        projectionExpression = projectionExpressionDecoded
+        let filterExpressionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .filterExpression)
+        filterExpression = filterExpressionDecoded
+        let expressionAttributeNamesContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .expressionAttributeNames)
+        var expressionAttributeNamesDecoded0: [Swift.String:Swift.String]? = nil
+        if let expressionAttributeNamesContainer = expressionAttributeNamesContainer {
+            expressionAttributeNamesDecoded0 = [Swift.String:Swift.String]()
+            for (key0, attributename0) in expressionAttributeNamesContainer {
+                if let attributename0 = attributename0 {
+                    expressionAttributeNamesDecoded0?[key0] = attributename0
+                }
+            }
+        }
+        expressionAttributeNames = expressionAttributeNamesDecoded0
+        let expressionAttributeValuesContainer = try containerValues.decodeIfPresent([Swift.String: DynamoDBClientTypes.AttributeValue?].self, forKey: .expressionAttributeValues)
+        var expressionAttributeValuesDecoded0: [Swift.String:DynamoDBClientTypes.AttributeValue]? = nil
+        if let expressionAttributeValuesContainer = expressionAttributeValuesContainer {
+            expressionAttributeValuesDecoded0 = [Swift.String:DynamoDBClientTypes.AttributeValue]()
+            for (key0, attributevalue0) in expressionAttributeValuesContainer {
+                if let attributevalue0 = attributevalue0 {
+                    expressionAttributeValuesDecoded0?[key0] = attributevalue0
+                }
+            }
+        }
+        expressionAttributeValues = expressionAttributeValuesDecoded0
+        let consistentReadDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .consistentRead)
+        consistentRead = consistentReadDecoded
+    }
+}
+
+extension ScanOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ScanOutputBody = try responseDecoder.decode(responseBody: data)
+            self.consumedCapacity = output.consumedCapacity
+            self.count = output.count
+            self.items = output.items
+            self.lastEvaluatedKey = output.lastEvaluatedKey
+            self.scannedCount = output.scannedCount
+        } else {
+            self.consumedCapacity = nil
+            self.count = 0
+            self.items = nil
+            self.lastEvaluatedKey = nil
+            self.scannedCount = 0
+        }
+    }
+}
+
+/// Represents the output of a Scan operation.
+public struct ScanOutput: Swift.Equatable {
+    /// The capacity units consumed by the Scan operation. The data returned includes the total provisioned throughput consumed, along with statistics for the table and any indexes involved in the operation. ConsumedCapacity is only returned if the ReturnConsumedCapacity parameter was specified. For more information, see [Provisioned Throughput](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ProvisionedThroughput.html#ItemSizeCalculations.Reads) in the Amazon DynamoDB Developer Guide.
+    public var consumedCapacity: DynamoDBClientTypes.ConsumedCapacity?
+    /// The number of items in the response. If you set ScanFilter in the request, then Count is the number of items returned after the filter was applied, and ScannedCount is the number of matching items before the filter was applied. If you did not use a filter in the request, then Count is the same as ScannedCount.
+    public var count: Swift.Int
+    /// An array of item attributes that match the scan criteria. Each element in this array consists of an attribute name and the value for that attribute.
+    public var items: [[Swift.String:DynamoDBClientTypes.AttributeValue]]?
+    /// The primary key of the item where the operation stopped, inclusive of the previous result set. Use this value to start a new operation, excluding this value in the new request. If LastEvaluatedKey is empty, then the "last page" of results has been processed and there is no more data to be retrieved. If LastEvaluatedKey is not empty, it does not necessarily mean that there is more data in the result set. The only way to know when you have reached the end of the result set is when LastEvaluatedKey is empty.
+    public var lastEvaluatedKey: [Swift.String:DynamoDBClientTypes.AttributeValue]?
+    /// The number of items evaluated, before any ScanFilter is applied. A high ScannedCount value with few, or no, Count results indicates an inefficient Scan operation. For more information, see [Count and ScannedCount](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/QueryAndScan.html#Count) in the Amazon DynamoDB Developer Guide. If you did not use a filter in the request, then ScannedCount is the same as Count.
+    public var scannedCount: Swift.Int
+
+    public init(
+        consumedCapacity: DynamoDBClientTypes.ConsumedCapacity? = nil,
+        count: Swift.Int = 0,
+        items: [[Swift.String:DynamoDBClientTypes.AttributeValue]]? = nil,
+        lastEvaluatedKey: [Swift.String:DynamoDBClientTypes.AttributeValue]? = nil,
+        scannedCount: Swift.Int = 0
+    )
+    {
+        self.consumedCapacity = consumedCapacity
+        self.count = count
+        self.items = items
+        self.lastEvaluatedKey = lastEvaluatedKey
+        self.scannedCount = scannedCount
     }
 }
 
@@ -16350,55 +16600,6 @@ enum ScanOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension ScanOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: ScanOutputBody = try responseDecoder.decode(responseBody: data)
-            self.consumedCapacity = output.consumedCapacity
-            self.count = output.count
-            self.items = output.items
-            self.lastEvaluatedKey = output.lastEvaluatedKey
-            self.scannedCount = output.scannedCount
-        } else {
-            self.consumedCapacity = nil
-            self.count = 0
-            self.items = nil
-            self.lastEvaluatedKey = nil
-            self.scannedCount = 0
-        }
-    }
-}
-
-/// Represents the output of a Scan operation.
-public struct ScanOutput: Swift.Equatable {
-    /// The capacity units consumed by the Scan operation. The data returned includes the total provisioned throughput consumed, along with statistics for the table and any indexes involved in the operation. ConsumedCapacity is only returned if the ReturnConsumedCapacity parameter was specified. For more information, see [Provisioned Throughput](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ProvisionedThroughput.html#ItemSizeCalculations.Reads) in the Amazon DynamoDB Developer Guide.
-    public var consumedCapacity: DynamoDBClientTypes.ConsumedCapacity?
-    /// The number of items in the response. If you set ScanFilter in the request, then Count is the number of items returned after the filter was applied, and ScannedCount is the number of matching items before the filter was applied. If you did not use a filter in the request, then Count is the same as ScannedCount.
-    public var count: Swift.Int
-    /// An array of item attributes that match the scan criteria. Each element in this array consists of an attribute name and the value for that attribute.
-    public var items: [[Swift.String:DynamoDBClientTypes.AttributeValue]]?
-    /// The primary key of the item where the operation stopped, inclusive of the previous result set. Use this value to start a new operation, excluding this value in the new request. If LastEvaluatedKey is empty, then the "last page" of results has been processed and there is no more data to be retrieved. If LastEvaluatedKey is not empty, it does not necessarily mean that there is more data in the result set. The only way to know when you have reached the end of the result set is when LastEvaluatedKey is empty.
-    public var lastEvaluatedKey: [Swift.String:DynamoDBClientTypes.AttributeValue]?
-    /// The number of items evaluated, before any ScanFilter is applied. A high ScannedCount value with few, or no, Count results indicates an inefficient Scan operation. For more information, see [Count and ScannedCount](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/QueryAndScan.html#Count) in the Amazon DynamoDB Developer Guide. If you did not use a filter in the request, then ScannedCount is the same as Count.
-    public var scannedCount: Swift.Int
-
-    public init(
-        consumedCapacity: DynamoDBClientTypes.ConsumedCapacity? = nil,
-        count: Swift.Int = 0,
-        items: [[Swift.String:DynamoDBClientTypes.AttributeValue]]? = nil,
-        lastEvaluatedKey: [Swift.String:DynamoDBClientTypes.AttributeValue]? = nil,
-        scannedCount: Swift.Int = 0
-    )
-    {
-        self.consumedCapacity = consumedCapacity
-        self.count = count
-        self.items = items
-        self.lastEvaluatedKey = lastEvaluatedKey
-        self.scannedCount = scannedCount
     }
 }
 
@@ -16675,207 +16876,6 @@ extension DynamoDBClientTypes {
 
 }
 
-extension DynamoDBClientTypes.SSEDescription: Swift.Codable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case inaccessibleEncryptionDateTime = "InaccessibleEncryptionDateTime"
-        case kmsMasterKeyArn = "KMSMasterKeyArn"
-        case sseType = "SSEType"
-        case status = "Status"
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let inaccessibleEncryptionDateTime = self.inaccessibleEncryptionDateTime {
-            try encodeContainer.encodeTimestamp(inaccessibleEncryptionDateTime, format: .epochSeconds, forKey: .inaccessibleEncryptionDateTime)
-        }
-        if let kmsMasterKeyArn = self.kmsMasterKeyArn {
-            try encodeContainer.encode(kmsMasterKeyArn, forKey: .kmsMasterKeyArn)
-        }
-        if let sseType = self.sseType {
-            try encodeContainer.encode(sseType.rawValue, forKey: .sseType)
-        }
-        if let status = self.status {
-            try encodeContainer.encode(status.rawValue, forKey: .status)
-        }
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let statusDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.SSEStatus.self, forKey: .status)
-        status = statusDecoded
-        let sseTypeDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.SSEType.self, forKey: .sseType)
-        sseType = sseTypeDecoded
-        let kmsMasterKeyArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsMasterKeyArn)
-        kmsMasterKeyArn = kmsMasterKeyArnDecoded
-        let inaccessibleEncryptionDateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .inaccessibleEncryptionDateTime)
-        inaccessibleEncryptionDateTime = inaccessibleEncryptionDateTimeDecoded
-    }
-}
-
-extension DynamoDBClientTypes {
-    /// The description of the server-side encryption status on the specified table.
-    public struct SSEDescription: Swift.Equatable {
-        /// Indicates the time, in UNIX epoch date format, when DynamoDB detected that the table's KMS key was inaccessible. This attribute will automatically be cleared when DynamoDB detects that the table's KMS key is accessible again. DynamoDB will initiate the table archival process when table's KMS key remains inaccessible for more than seven days from this date.
-        public var inaccessibleEncryptionDateTime: ClientRuntime.Date?
-        /// The KMS key ARN used for the KMS encryption.
-        public var kmsMasterKeyArn: Swift.String?
-        /// Server-side encryption type. The only supported value is:
-        ///
-        /// * KMS - Server-side encryption that uses Key Management Service. The key is stored in your account and is managed by KMS (KMS charges apply).
-        public var sseType: DynamoDBClientTypes.SSEType?
-        /// Represents the current state of server-side encryption. The only supported values are:
-        ///
-        /// * ENABLED - Server-side encryption is enabled.
-        ///
-        /// * UPDATING - Server-side encryption is being updated.
-        public var status: DynamoDBClientTypes.SSEStatus?
-
-        public init(
-            inaccessibleEncryptionDateTime: ClientRuntime.Date? = nil,
-            kmsMasterKeyArn: Swift.String? = nil,
-            sseType: DynamoDBClientTypes.SSEType? = nil,
-            status: DynamoDBClientTypes.SSEStatus? = nil
-        )
-        {
-            self.inaccessibleEncryptionDateTime = inaccessibleEncryptionDateTime
-            self.kmsMasterKeyArn = kmsMasterKeyArn
-            self.sseType = sseType
-            self.status = status
-        }
-    }
-
-}
-
-extension DynamoDBClientTypes.SSESpecification: Swift.Codable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case enabled = "Enabled"
-        case kmsMasterKeyId = "KMSMasterKeyId"
-        case sseType = "SSEType"
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let enabled = self.enabled {
-            try encodeContainer.encode(enabled, forKey: .enabled)
-        }
-        if let kmsMasterKeyId = self.kmsMasterKeyId {
-            try encodeContainer.encode(kmsMasterKeyId, forKey: .kmsMasterKeyId)
-        }
-        if let sseType = self.sseType {
-            try encodeContainer.encode(sseType.rawValue, forKey: .sseType)
-        }
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled)
-        enabled = enabledDecoded
-        let sseTypeDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.SSEType.self, forKey: .sseType)
-        sseType = sseTypeDecoded
-        let kmsMasterKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsMasterKeyId)
-        kmsMasterKeyId = kmsMasterKeyIdDecoded
-    }
-}
-
-extension DynamoDBClientTypes {
-    /// Represents the settings used to enable server-side encryption.
-    public struct SSESpecification: Swift.Equatable {
-        /// Indicates whether server-side encryption is done using an Amazon Web Services managed key or an Amazon Web Services owned key. If enabled (true), server-side encryption type is set to KMS and an Amazon Web Services managed key is used (KMS charges apply). If disabled (false) or not specified, server-side encryption is set to Amazon Web Services owned key.
-        public var enabled: Swift.Bool?
-        /// The KMS key that should be used for the KMS encryption. To specify a key, use its key ID, Amazon Resource Name (ARN), alias name, or alias ARN. Note that you should only provide this parameter if the key is different from the default DynamoDB key alias/aws/dynamodb.
-        public var kmsMasterKeyId: Swift.String?
-        /// Server-side encryption type. The only supported value is:
-        ///
-        /// * KMS - Server-side encryption that uses Key Management Service. The key is stored in your account and is managed by KMS (KMS charges apply).
-        public var sseType: DynamoDBClientTypes.SSEType?
-
-        public init(
-            enabled: Swift.Bool? = nil,
-            kmsMasterKeyId: Swift.String? = nil,
-            sseType: DynamoDBClientTypes.SSEType? = nil
-        )
-        {
-            self.enabled = enabled
-            self.kmsMasterKeyId = kmsMasterKeyId
-            self.sseType = sseType
-        }
-    }
-
-}
-
-extension DynamoDBClientTypes {
-    public enum SSEStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
-        case disabled
-        case disabling
-        case enabled
-        case enabling
-        case updating
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [SSEStatus] {
-            return [
-                .disabled,
-                .disabling,
-                .enabled,
-                .enabling,
-                .updating,
-                .sdkUnknown("")
-            ]
-        }
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-        public var rawValue: Swift.String {
-            switch self {
-            case .disabled: return "DISABLED"
-            case .disabling: return "DISABLING"
-            case .enabled: return "ENABLED"
-            case .enabling: return "ENABLING"
-            case .updating: return "UPDATING"
-            case let .sdkUnknown(s): return s
-            }
-        }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = SSEStatus(rawValue: rawValue) ?? SSEStatus.sdkUnknown(rawValue)
-        }
-    }
-}
-
-extension DynamoDBClientTypes {
-    public enum SSEType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
-        case aes256
-        case kms
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [SSEType] {
-            return [
-                .aes256,
-                .kms,
-                .sdkUnknown("")
-            ]
-        }
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-        public var rawValue: Swift.String {
-            switch self {
-            case .aes256: return "AES256"
-            case .kms: return "KMS"
-            case let .sdkUnknown(s): return s
-            }
-        }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = SSEType(rawValue: rawValue) ?? SSEType.sdkUnknown(rawValue)
-        }
-    }
-}
-
 extension DynamoDBClientTypes.StreamSpecification: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case streamEnabled = "StreamEnabled"
@@ -16968,22 +16968,6 @@ extension DynamoDBClientTypes {
     }
 }
 
-struct TableAlreadyExistsExceptionBody: Swift.Equatable {
-    let message: Swift.String?
-}
-
-extension TableAlreadyExistsExceptionBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case message
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
-        message = messageDecoded
-    }
-}
-
 extension TableAlreadyExistsException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -17020,6 +17004,22 @@ public struct TableAlreadyExistsException: ClientRuntime.ModeledError, AWSClient
     )
     {
         self.properties.message = message
+    }
+}
+
+struct TableAlreadyExistsExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension TableAlreadyExistsExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
     }
 }
 
@@ -17098,6 +17098,38 @@ extension DynamoDBClientTypes {
 
 }
 
+extension DynamoDBClientTypes {
+    public enum TableClass: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case standard
+        case standardInfrequentAccess
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TableClass] {
+            return [
+                .standard,
+                .standardInfrequentAccess,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .standard: return "STANDARD"
+            case .standardInfrequentAccess: return "STANDARD_INFREQUENT_ACCESS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = TableClass(rawValue: rawValue) ?? TableClass.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension DynamoDBClientTypes.TableClassSummary: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case lastUpdateDateTime = "LastUpdateDateTime"
@@ -17141,38 +17173,6 @@ extension DynamoDBClientTypes {
         }
     }
 
-}
-
-extension DynamoDBClientTypes {
-    public enum TableClass: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
-        case standard
-        case standardInfrequentAccess
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [TableClass] {
-            return [
-                .standard,
-                .standardInfrequentAccess,
-                .sdkUnknown("")
-            ]
-        }
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-        public var rawValue: Swift.String {
-            switch self {
-            case .standard: return "STANDARD"
-            case .standardInfrequentAccess: return "STANDARD_INFREQUENT_ACCESS"
-            case let .sdkUnknown(s): return s
-            }
-        }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = TableClass(rawValue: rawValue) ?? TableClass.sdkUnknown(rawValue)
-        }
-    }
 }
 
 extension DynamoDBClientTypes.TableCreationParameters: Swift.Codable {
@@ -17737,22 +17737,6 @@ extension DynamoDBClientTypes {
 
 }
 
-struct TableInUseExceptionBody: Swift.Equatable {
-    let message: Swift.String?
-}
-
-extension TableInUseExceptionBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case message
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
-        message = messageDecoded
-    }
-}
-
 extension TableInUseException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -17792,11 +17776,11 @@ public struct TableInUseException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct TableNotFoundExceptionBody: Swift.Equatable {
+struct TableInUseExceptionBody: Swift.Equatable {
     let message: Swift.String?
 }
 
-extension TableNotFoundExceptionBody: Swift.Decodable {
+extension TableInUseExceptionBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case message
     }
@@ -17844,6 +17828,22 @@ public struct TableNotFoundException: ClientRuntime.ModeledError, AWSClientRunti
     )
     {
         self.properties.message = message
+    }
+}
+
+struct TableNotFoundExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension TableNotFoundExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
     }
 }
 
@@ -17919,6 +17919,72 @@ extension DynamoDBClientTypes.Tag: Swift.Codable {
     }
 }
 
+extension DynamoDBClientTypes {
+    /// Describes a tag. A tag is a key-value pair. You can add up to 50 tags to a single DynamoDB table. Amazon Web Services-assigned tag names and values are automatically assigned the aws: prefix, which the user cannot assign. Amazon Web Services-assigned tag names do not count towards the tag limit of 50. User-assigned tag names have the prefix user: in the Cost Allocation Report. You cannot backdate the application of a tag. For an overview on tagging DynamoDB resources, see [Tagging for DynamoDB](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Tagging.html) in the Amazon DynamoDB Developer Guide.
+    public struct Tag: Swift.Equatable {
+        /// The key of the tag. Tag keys are case sensitive. Each DynamoDB table can only have up to one tag with the same key. If you try to add an existing tag (same key), the existing tag value will be updated to the new value.
+        /// This member is required.
+        public var key: Swift.String?
+        /// The value of the tag. Tag values are case-sensitive and can be null.
+        /// This member is required.
+        public var value: Swift.String?
+
+        public init(
+            key: Swift.String? = nil,
+            value: Swift.String? = nil
+        )
+        {
+            self.key = key
+            self.value = value
+        }
+    }
+
+}
+
+extension TagResourceInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case resourceArn = "ResourceArn"
+        case tags = "Tags"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let resourceArn = self.resourceArn {
+            try encodeContainer.encode(resourceArn, forKey: .resourceArn)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
+            }
+        }
+    }
+}
+
+extension TagResourceInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct TagResourceInput: Swift.Equatable {
+    /// Identifies the Amazon DynamoDB resource to which tags should be added. This value is an Amazon Resource Name (ARN).
+    /// This member is required.
+    public var resourceArn: Swift.String?
+    /// The tags to be assigned to the Amazon DynamoDB resource.
+    /// This member is required.
+    public var tags: [DynamoDBClientTypes.Tag]?
+
+    public init(
+        resourceArn: Swift.String? = nil,
+        tags: [DynamoDBClientTypes.Tag]? = nil
+    )
+    {
+        self.resourceArn = resourceArn
+        self.tags = tags
+    }
+}
+
 struct TagResourceInputBody: Swift.Equatable {
     let resourceArn: Swift.String?
     let tags: [DynamoDBClientTypes.Tag]?
@@ -17948,48 +18014,14 @@ extension TagResourceInputBody: Swift.Decodable {
     }
 }
 
-extension TagResourceInput: Swift.Encodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case resourceArn = "ResourceArn"
-        case tags = "Tags"
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let resourceArn = self.resourceArn {
-            try encodeContainer.encode(resourceArn, forKey: .resourceArn)
-        }
-        if let tags = tags {
-            var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tag0 in tags {
-                try tagsContainer.encode(tag0)
-            }
-        }
+extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
-    /// Identifies the Amazon DynamoDB resource to which tags should be added. This value is an Amazon Resource Name (ARN).
-    /// This member is required.
-    public var resourceArn: Swift.String?
-    /// The tags to be assigned to the Amazon DynamoDB resource.
-    /// This member is required.
-    public var tags: [DynamoDBClientTypes.Tag]?
+public struct TagResourceOutput: Swift.Equatable {
 
-    public init(
-        resourceArn: Swift.String? = nil,
-        tags: [DynamoDBClientTypes.Tag]? = nil
-    )
-    {
-        self.resourceArn = resourceArn
-        self.tags = tags
-    }
-}
-
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
-    }
+    public init() { }
 }
 
 enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
@@ -18005,38 +18037,6 @@ enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct TagResourceOutput: Swift.Equatable {
-
-    public init() { }
-}
-
-extension DynamoDBClientTypes {
-    /// Describes a tag. A tag is a key-value pair. You can add up to 50 tags to a single DynamoDB table. Amazon Web Services-assigned tag names and values are automatically assigned the aws: prefix, which the user cannot assign. Amazon Web Services-assigned tag names do not count towards the tag limit of 50. User-assigned tag names have the prefix user: in the Cost Allocation Report. You cannot backdate the application of a tag. For an overview on tagging DynamoDB resources, see [Tagging for DynamoDB](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Tagging.html) in the Amazon DynamoDB Developer Guide.
-    public struct Tag: Swift.Equatable {
-        /// The key of the tag. Tag keys are case sensitive. Each DynamoDB table can only have up to one tag with the same key. If you try to add an existing tag (same key), the existing tag value will be updated to the new value.
-        /// This member is required.
-        public var key: Swift.String?
-        /// The value of the tag. Tag values are case-sensitive and can be null.
-        /// This member is required.
-        public var value: Swift.String?
-
-        public init(
-            key: Swift.String? = nil,
-            value: Swift.String? = nil
-        )
-        {
-            self.key = key
-            self.value = value
-        }
-    }
-
 }
 
 extension DynamoDBClientTypes.TimeToLiveDescription: Swift.Codable {
@@ -18188,6 +18188,66 @@ extension DynamoDBClientTypes.TransactGetItem: Swift.Codable {
     }
 }
 
+extension DynamoDBClientTypes {
+    /// Specifies an item to be retrieved as part of the transaction.
+    public struct TransactGetItem: Swift.Equatable {
+        /// Contains the primary key that identifies the item to get, together with the name of the table that contains the item, and optionally the specific attributes of the item to retrieve.
+        /// This member is required.
+        public var `get`: DynamoDBClientTypes.Get?
+
+        public init(
+            `get`: DynamoDBClientTypes.Get? = nil
+        )
+        {
+            self.`get` = `get`
+        }
+    }
+
+}
+
+extension TransactGetItemsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case returnConsumedCapacity = "ReturnConsumedCapacity"
+        case transactItems = "TransactItems"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let returnConsumedCapacity = self.returnConsumedCapacity {
+            try encodeContainer.encode(returnConsumedCapacity.rawValue, forKey: .returnConsumedCapacity)
+        }
+        if let transactItems = transactItems {
+            var transactItemsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .transactItems)
+            for transactgetitem0 in transactItems {
+                try transactItemsContainer.encode(transactgetitem0)
+            }
+        }
+    }
+}
+
+extension TransactGetItemsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct TransactGetItemsInput: Swift.Equatable {
+    /// A value of TOTAL causes consumed capacity information to be returned, and a value of NONE prevents that information from being returned. No other value is valid.
+    public var returnConsumedCapacity: DynamoDBClientTypes.ReturnConsumedCapacity?
+    /// An ordered array of up to 100 TransactGetItem objects, each of which contains a Get structure.
+    /// This member is required.
+    public var transactItems: [DynamoDBClientTypes.TransactGetItem]?
+
+    public init(
+        returnConsumedCapacity: DynamoDBClientTypes.ReturnConsumedCapacity? = nil,
+        transactItems: [DynamoDBClientTypes.TransactGetItem]? = nil
+    )
+    {
+        self.returnConsumedCapacity = returnConsumedCapacity
+        self.transactItems = transactItems
+    }
+}
+
 struct TransactGetItemsInputBody: Swift.Equatable {
     let transactItems: [DynamoDBClientTypes.TransactGetItem]?
     let returnConsumedCapacity: DynamoDBClientTypes.ReturnConsumedCapacity?
@@ -18217,46 +18277,33 @@ extension TransactGetItemsInputBody: Swift.Decodable {
     }
 }
 
-extension TransactGetItemsInput: Swift.Encodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case returnConsumedCapacity = "ReturnConsumedCapacity"
-        case transactItems = "TransactItems"
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let returnConsumedCapacity = self.returnConsumedCapacity {
-            try encodeContainer.encode(returnConsumedCapacity.rawValue, forKey: .returnConsumedCapacity)
-        }
-        if let transactItems = transactItems {
-            var transactItemsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .transactItems)
-            for transactgetitem0 in transactItems {
-                try transactItemsContainer.encode(transactgetitem0)
-            }
+extension TransactGetItemsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: TransactGetItemsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.consumedCapacity = output.consumedCapacity
+            self.responses = output.responses
+        } else {
+            self.consumedCapacity = nil
+            self.responses = nil
         }
     }
 }
 
-public struct TransactGetItemsInput: Swift.Equatable {
-    /// A value of TOTAL causes consumed capacity information to be returned, and a value of NONE prevents that information from being returned. No other value is valid.
-    public var returnConsumedCapacity: DynamoDBClientTypes.ReturnConsumedCapacity?
-    /// An ordered array of up to 100 TransactGetItem objects, each of which contains a Get structure.
-    /// This member is required.
-    public var transactItems: [DynamoDBClientTypes.TransactGetItem]?
+public struct TransactGetItemsOutput: Swift.Equatable {
+    /// If the ReturnConsumedCapacity value was TOTAL, this is an array of ConsumedCapacity objects, one for each table addressed by TransactGetItem objects in the TransactItems parameter. These ConsumedCapacity objects report the read-capacity units consumed by the TransactGetItems call in that table.
+    public var consumedCapacity: [DynamoDBClientTypes.ConsumedCapacity]?
+    /// An ordered array of up to 100 ItemResponse objects, each of which corresponds to the TransactGetItem object in the same position in the TransactItems array. Each ItemResponse object contains a Map of the name-value pairs that are the projected attributes of the requested item. If a requested item could not be retrieved, the corresponding ItemResponse object is Null, or if the requested item has no projected attributes, the corresponding ItemResponse object is an empty Map.
+    public var responses: [DynamoDBClientTypes.ItemResponse]?
 
     public init(
-        returnConsumedCapacity: DynamoDBClientTypes.ReturnConsumedCapacity? = nil,
-        transactItems: [DynamoDBClientTypes.TransactGetItem]? = nil
+        consumedCapacity: [DynamoDBClientTypes.ConsumedCapacity]? = nil,
+        responses: [DynamoDBClientTypes.ItemResponse]? = nil
     )
     {
-        self.returnConsumedCapacity = returnConsumedCapacity
-        self.transactItems = transactItems
-    }
-}
-
-extension TransactGetItemsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
+        self.consumedCapacity = consumedCapacity
+        self.responses = responses
     }
 }
 
@@ -18314,79 +18361,263 @@ enum TransactGetItemsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension TransactGetItemsOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: TransactGetItemsOutputBody = try responseDecoder.decode(responseBody: data)
-            self.consumedCapacity = output.consumedCapacity
-            self.responses = output.responses
-        } else {
-            self.consumedCapacity = nil
-            self.responses = nil
-        }
-    }
-}
-
-public struct TransactGetItemsOutput: Swift.Equatable {
-    /// If the ReturnConsumedCapacity value was TOTAL, this is an array of ConsumedCapacity objects, one for each table addressed by TransactGetItem objects in the TransactItems parameter. These ConsumedCapacity objects report the read-capacity units consumed by the TransactGetItems call in that table.
-    public var consumedCapacity: [DynamoDBClientTypes.ConsumedCapacity]?
-    /// An ordered array of up to 100 ItemResponse objects, each of which corresponds to the TransactGetItem object in the same position in the TransactItems array. Each ItemResponse object contains a Map of the name-value pairs that are the projected attributes of the requested item. If a requested item could not be retrieved, the corresponding ItemResponse object is Null, or if the requested item has no projected attributes, the corresponding ItemResponse object is an empty Map.
-    public var responses: [DynamoDBClientTypes.ItemResponse]?
-
-    public init(
-        consumedCapacity: [DynamoDBClientTypes.ConsumedCapacity]? = nil,
-        responses: [DynamoDBClientTypes.ItemResponse]? = nil
-    )
-    {
-        self.consumedCapacity = consumedCapacity
-        self.responses = responses
-    }
-}
-
-extension DynamoDBClientTypes {
-    /// Specifies an item to be retrieved as part of the transaction.
-    public struct TransactGetItem: Swift.Equatable {
-        /// Contains the primary key that identifies the item to get, together with the name of the table that contains the item, and optionally the specific attributes of the item to retrieve.
-        /// This member is required.
-        public var `get`: DynamoDBClientTypes.Get?
-
-        public init(
-            `get`: DynamoDBClientTypes.Get? = nil
-        )
-        {
-            self.`get` = `get`
-        }
-    }
-
-}
-
-struct TransactionCanceledExceptionBody: Swift.Equatable {
-    let message: Swift.String?
-    let cancellationReasons: [DynamoDBClientTypes.CancellationReason]?
-}
-
-extension TransactionCanceledExceptionBody: Swift.Decodable {
+extension DynamoDBClientTypes.TransactWriteItem: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case cancellationReasons = "CancellationReasons"
-        case message = "Message"
+        case conditionCheck = "ConditionCheck"
+        case delete = "Delete"
+        case put = "Put"
+        case update = "Update"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let conditionCheck = self.conditionCheck {
+            try encodeContainer.encode(conditionCheck, forKey: .conditionCheck)
+        }
+        if let delete = self.delete {
+            try encodeContainer.encode(delete, forKey: .delete)
+        }
+        if let put = self.put {
+            try encodeContainer.encode(put, forKey: .put)
+        }
+        if let update = self.update {
+            try encodeContainer.encode(update, forKey: .update)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
-        message = messageDecoded
-        let cancellationReasonsContainer = try containerValues.decodeIfPresent([DynamoDBClientTypes.CancellationReason?].self, forKey: .cancellationReasons)
-        var cancellationReasonsDecoded0:[DynamoDBClientTypes.CancellationReason]? = nil
-        if let cancellationReasonsContainer = cancellationReasonsContainer {
-            cancellationReasonsDecoded0 = [DynamoDBClientTypes.CancellationReason]()
-            for structure0 in cancellationReasonsContainer {
+        let conditionCheckDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ConditionCheck.self, forKey: .conditionCheck)
+        conditionCheck = conditionCheckDecoded
+        let putDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.Put.self, forKey: .put)
+        put = putDecoded
+        let deleteDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.Delete.self, forKey: .delete)
+        delete = deleteDecoded
+        let updateDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.Update.self, forKey: .update)
+        update = updateDecoded
+    }
+}
+
+extension DynamoDBClientTypes {
+    /// A list of requests that can perform update, put, delete, or check operations on multiple items in one or more tables atomically.
+    public struct TransactWriteItem: Swift.Equatable {
+        /// A request to perform a check item operation.
+        public var conditionCheck: DynamoDBClientTypes.ConditionCheck?
+        /// A request to perform a DeleteItem operation.
+        public var delete: DynamoDBClientTypes.Delete?
+        /// A request to perform a PutItem operation.
+        public var put: DynamoDBClientTypes.Put?
+        /// A request to perform an UpdateItem operation.
+        public var update: DynamoDBClientTypes.Update?
+
+        public init(
+            conditionCheck: DynamoDBClientTypes.ConditionCheck? = nil,
+            delete: DynamoDBClientTypes.Delete? = nil,
+            put: DynamoDBClientTypes.Put? = nil,
+            update: DynamoDBClientTypes.Update? = nil
+        )
+        {
+            self.conditionCheck = conditionCheck
+            self.delete = delete
+            self.put = put
+            self.update = update
+        }
+    }
+
+}
+
+extension TransactWriteItemsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientRequestToken = "ClientRequestToken"
+        case returnConsumedCapacity = "ReturnConsumedCapacity"
+        case returnItemCollectionMetrics = "ReturnItemCollectionMetrics"
+        case transactItems = "TransactItems"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientRequestToken = self.clientRequestToken {
+            try encodeContainer.encode(clientRequestToken, forKey: .clientRequestToken)
+        }
+        if let returnConsumedCapacity = self.returnConsumedCapacity {
+            try encodeContainer.encode(returnConsumedCapacity.rawValue, forKey: .returnConsumedCapacity)
+        }
+        if let returnItemCollectionMetrics = self.returnItemCollectionMetrics {
+            try encodeContainer.encode(returnItemCollectionMetrics.rawValue, forKey: .returnItemCollectionMetrics)
+        }
+        if let transactItems = transactItems {
+            var transactItemsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .transactItems)
+            for transactwriteitem0 in transactItems {
+                try transactItemsContainer.encode(transactwriteitem0)
+            }
+        }
+    }
+}
+
+extension TransactWriteItemsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct TransactWriteItemsInput: Swift.Equatable {
+    /// Providing a ClientRequestToken makes the call to TransactWriteItems idempotent, meaning that multiple identical calls have the same effect as one single call. Although multiple identical calls using the same client request token produce the same result on the server (no side effects), the responses to the calls might not be the same. If the ReturnConsumedCapacity parameter is set, then the initial TransactWriteItems call returns the amount of write capacity units consumed in making the changes. Subsequent TransactWriteItems calls with the same client token return the number of read capacity units consumed in reading the item. A client request token is valid for 10 minutes after the first request that uses it is completed. After 10 minutes, any request with the same client token is treated as a new request. Do not resubmit the same request with the same client token for more than 10 minutes, or the result might not be idempotent. If you submit a request with the same client token but a change in other parameters within the 10-minute idempotency window, DynamoDB returns an IdempotentParameterMismatch exception.
+    public var clientRequestToken: Swift.String?
+    /// Determines the level of detail about either provisioned or on-demand throughput consumption that is returned in the response:
+    ///
+    /// * INDEXES - The response includes the aggregate ConsumedCapacity for the operation, together with ConsumedCapacity for each table and secondary index that was accessed. Note that some operations, such as GetItem and BatchGetItem, do not access any indexes at all. In these cases, specifying INDEXES will only return ConsumedCapacity information for table(s).
+    ///
+    /// * TOTAL - The response includes only the aggregate ConsumedCapacity for the operation.
+    ///
+    /// * NONE - No ConsumedCapacity details are included in the response.
+    public var returnConsumedCapacity: DynamoDBClientTypes.ReturnConsumedCapacity?
+    /// Determines whether item collection metrics are returned. If set to SIZE, the response includes statistics about item collections (if any), that were modified during the operation and are returned in the response. If set to NONE (the default), no statistics are returned.
+    public var returnItemCollectionMetrics: DynamoDBClientTypes.ReturnItemCollectionMetrics?
+    /// An ordered array of up to 100 TransactWriteItem objects, each of which contains a ConditionCheck, Put, Update, or Delete object. These can operate on items in different tables, but the tables must reside in the same Amazon Web Services account and Region, and no two of them can operate on the same item.
+    /// This member is required.
+    public var transactItems: [DynamoDBClientTypes.TransactWriteItem]?
+
+    public init(
+        clientRequestToken: Swift.String? = nil,
+        returnConsumedCapacity: DynamoDBClientTypes.ReturnConsumedCapacity? = nil,
+        returnItemCollectionMetrics: DynamoDBClientTypes.ReturnItemCollectionMetrics? = nil,
+        transactItems: [DynamoDBClientTypes.TransactWriteItem]? = nil
+    )
+    {
+        self.clientRequestToken = clientRequestToken
+        self.returnConsumedCapacity = returnConsumedCapacity
+        self.returnItemCollectionMetrics = returnItemCollectionMetrics
+        self.transactItems = transactItems
+    }
+}
+
+struct TransactWriteItemsInputBody: Swift.Equatable {
+    let transactItems: [DynamoDBClientTypes.TransactWriteItem]?
+    let returnConsumedCapacity: DynamoDBClientTypes.ReturnConsumedCapacity?
+    let returnItemCollectionMetrics: DynamoDBClientTypes.ReturnItemCollectionMetrics?
+    let clientRequestToken: Swift.String?
+}
+
+extension TransactWriteItemsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientRequestToken = "ClientRequestToken"
+        case returnConsumedCapacity = "ReturnConsumedCapacity"
+        case returnItemCollectionMetrics = "ReturnItemCollectionMetrics"
+        case transactItems = "TransactItems"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let transactItemsContainer = try containerValues.decodeIfPresent([DynamoDBClientTypes.TransactWriteItem?].self, forKey: .transactItems)
+        var transactItemsDecoded0:[DynamoDBClientTypes.TransactWriteItem]? = nil
+        if let transactItemsContainer = transactItemsContainer {
+            transactItemsDecoded0 = [DynamoDBClientTypes.TransactWriteItem]()
+            for structure0 in transactItemsContainer {
                 if let structure0 = structure0 {
-                    cancellationReasonsDecoded0?.append(structure0)
+                    transactItemsDecoded0?.append(structure0)
                 }
             }
         }
-        cancellationReasons = cancellationReasonsDecoded0
+        transactItems = transactItemsDecoded0
+        let returnConsumedCapacityDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ReturnConsumedCapacity.self, forKey: .returnConsumedCapacity)
+        returnConsumedCapacity = returnConsumedCapacityDecoded
+        let returnItemCollectionMetricsDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ReturnItemCollectionMetrics.self, forKey: .returnItemCollectionMetrics)
+        returnItemCollectionMetrics = returnItemCollectionMetricsDecoded
+        let clientRequestTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientRequestToken)
+        clientRequestToken = clientRequestTokenDecoded
+    }
+}
+
+extension TransactWriteItemsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: TransactWriteItemsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.consumedCapacity = output.consumedCapacity
+            self.itemCollectionMetrics = output.itemCollectionMetrics
+        } else {
+            self.consumedCapacity = nil
+            self.itemCollectionMetrics = nil
+        }
+    }
+}
+
+public struct TransactWriteItemsOutput: Swift.Equatable {
+    /// The capacity units consumed by the entire TransactWriteItems operation. The values of the list are ordered according to the ordering of the TransactItems request parameter.
+    public var consumedCapacity: [DynamoDBClientTypes.ConsumedCapacity]?
+    /// A list of tables that were processed by TransactWriteItems and, for each table, information about any item collections that were affected by individual UpdateItem, PutItem, or DeleteItem operations.
+    public var itemCollectionMetrics: [Swift.String:[DynamoDBClientTypes.ItemCollectionMetrics]]?
+
+    public init(
+        consumedCapacity: [DynamoDBClientTypes.ConsumedCapacity]? = nil,
+        itemCollectionMetrics: [Swift.String:[DynamoDBClientTypes.ItemCollectionMetrics]]? = nil
+    )
+    {
+        self.consumedCapacity = consumedCapacity
+        self.itemCollectionMetrics = itemCollectionMetrics
+    }
+}
+
+struct TransactWriteItemsOutputBody: Swift.Equatable {
+    let consumedCapacity: [DynamoDBClientTypes.ConsumedCapacity]?
+    let itemCollectionMetrics: [Swift.String:[DynamoDBClientTypes.ItemCollectionMetrics]]?
+}
+
+extension TransactWriteItemsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case consumedCapacity = "ConsumedCapacity"
+        case itemCollectionMetrics = "ItemCollectionMetrics"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let consumedCapacityContainer = try containerValues.decodeIfPresent([DynamoDBClientTypes.ConsumedCapacity?].self, forKey: .consumedCapacity)
+        var consumedCapacityDecoded0:[DynamoDBClientTypes.ConsumedCapacity]? = nil
+        if let consumedCapacityContainer = consumedCapacityContainer {
+            consumedCapacityDecoded0 = [DynamoDBClientTypes.ConsumedCapacity]()
+            for structure0 in consumedCapacityContainer {
+                if let structure0 = structure0 {
+                    consumedCapacityDecoded0?.append(structure0)
+                }
+            }
+        }
+        consumedCapacity = consumedCapacityDecoded0
+        let itemCollectionMetricsContainer = try containerValues.decodeIfPresent([Swift.String: [DynamoDBClientTypes.ItemCollectionMetrics?]?].self, forKey: .itemCollectionMetrics)
+        var itemCollectionMetricsDecoded0: [Swift.String:[DynamoDBClientTypes.ItemCollectionMetrics]]? = nil
+        if let itemCollectionMetricsContainer = itemCollectionMetricsContainer {
+            itemCollectionMetricsDecoded0 = [Swift.String:[DynamoDBClientTypes.ItemCollectionMetrics]]()
+            for (key0, itemcollectionmetricsmultiple0) in itemCollectionMetricsContainer {
+                var itemcollectionmetricsmultiple0Decoded0: [DynamoDBClientTypes.ItemCollectionMetrics]? = nil
+                if let itemcollectionmetricsmultiple0 = itemcollectionmetricsmultiple0 {
+                    itemcollectionmetricsmultiple0Decoded0 = [DynamoDBClientTypes.ItemCollectionMetrics]()
+                    for structure1 in itemcollectionmetricsmultiple0 {
+                        if let structure1 = structure1 {
+                            itemcollectionmetricsmultiple0Decoded0?.append(structure1)
+                        }
+                    }
+                }
+                itemCollectionMetricsDecoded0?[key0] = itemcollectionmetricsmultiple0Decoded0
+            }
+        }
+        itemCollectionMetrics = itemCollectionMetricsDecoded0
+    }
+}
+
+enum TransactWriteItemsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "IdempotentParameterMismatchException": return try await IdempotentParameterMismatchException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidEndpointException": return try await InvalidEndpointException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ProvisionedThroughputExceededException": return try await ProvisionedThroughputExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RequestLimitExceeded": return try await RequestLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TransactionCanceledException": return try await TransactionCanceledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TransactionInProgressException": return try await TransactionInProgressException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -18557,19 +18788,32 @@ public struct TransactionCanceledException: ClientRuntime.ModeledError, AWSClien
     }
 }
 
-struct TransactionConflictExceptionBody: Swift.Equatable {
+struct TransactionCanceledExceptionBody: Swift.Equatable {
     let message: Swift.String?
+    let cancellationReasons: [DynamoDBClientTypes.CancellationReason]?
 }
 
-extension TransactionConflictExceptionBody: Swift.Decodable {
+extension TransactionCanceledExceptionBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case message
+        case cancellationReasons = "CancellationReasons"
+        case message = "Message"
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
+        let cancellationReasonsContainer = try containerValues.decodeIfPresent([DynamoDBClientTypes.CancellationReason?].self, forKey: .cancellationReasons)
+        var cancellationReasonsDecoded0:[DynamoDBClientTypes.CancellationReason]? = nil
+        if let cancellationReasonsContainer = cancellationReasonsContainer {
+            cancellationReasonsDecoded0 = [DynamoDBClientTypes.CancellationReason]()
+            for structure0 in cancellationReasonsContainer {
+                if let structure0 = structure0 {
+                    cancellationReasonsDecoded0?.append(structure0)
+                }
+            }
+        }
+        cancellationReasons = cancellationReasonsDecoded0
     }
 }
 
@@ -18612,13 +18856,13 @@ public struct TransactionConflictException: ClientRuntime.ModeledError, AWSClien
     }
 }
 
-struct TransactionInProgressExceptionBody: Swift.Equatable {
+struct TransactionConflictExceptionBody: Swift.Equatable {
     let message: Swift.String?
 }
 
-extension TransactionInProgressExceptionBody: Swift.Decodable {
+extension TransactionConflictExceptionBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case message = "Message"
+        case message
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -18692,264 +18936,64 @@ public struct TransactionInProgressException: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-extension DynamoDBClientTypes.TransactWriteItem: Swift.Codable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case conditionCheck = "ConditionCheck"
-        case delete = "Delete"
-        case put = "Put"
-        case update = "Update"
-    }
+struct TransactionInProgressExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
 
-    public func encode(to encoder: Swift.Encoder) throws {
-        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let conditionCheck = self.conditionCheck {
-            try encodeContainer.encode(conditionCheck, forKey: .conditionCheck)
-        }
-        if let delete = self.delete {
-            try encodeContainer.encode(delete, forKey: .delete)
-        }
-        if let put = self.put {
-            try encodeContainer.encode(put, forKey: .put)
-        }
-        if let update = self.update {
-            try encodeContainer.encode(update, forKey: .update)
-        }
+extension TransactionInProgressExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message = "Message"
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let conditionCheckDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ConditionCheck.self, forKey: .conditionCheck)
-        conditionCheck = conditionCheckDecoded
-        let putDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.Put.self, forKey: .put)
-        put = putDecoded
-        let deleteDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.Delete.self, forKey: .delete)
-        delete = deleteDecoded
-        let updateDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.Update.self, forKey: .update)
-        update = updateDecoded
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
     }
 }
 
-struct TransactWriteItemsInputBody: Swift.Equatable {
-    let transactItems: [DynamoDBClientTypes.TransactWriteItem]?
-    let returnConsumedCapacity: DynamoDBClientTypes.ReturnConsumedCapacity?
-    let returnItemCollectionMetrics: DynamoDBClientTypes.ReturnItemCollectionMetrics?
-    let clientRequestToken: Swift.String?
-}
-
-extension TransactWriteItemsInputBody: Swift.Decodable {
+extension UntagResourceInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case clientRequestToken = "ClientRequestToken"
-        case returnConsumedCapacity = "ReturnConsumedCapacity"
-        case returnItemCollectionMetrics = "ReturnItemCollectionMetrics"
-        case transactItems = "TransactItems"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let transactItemsContainer = try containerValues.decodeIfPresent([DynamoDBClientTypes.TransactWriteItem?].self, forKey: .transactItems)
-        var transactItemsDecoded0:[DynamoDBClientTypes.TransactWriteItem]? = nil
-        if let transactItemsContainer = transactItemsContainer {
-            transactItemsDecoded0 = [DynamoDBClientTypes.TransactWriteItem]()
-            for structure0 in transactItemsContainer {
-                if let structure0 = structure0 {
-                    transactItemsDecoded0?.append(structure0)
-                }
-            }
-        }
-        transactItems = transactItemsDecoded0
-        let returnConsumedCapacityDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ReturnConsumedCapacity.self, forKey: .returnConsumedCapacity)
-        returnConsumedCapacity = returnConsumedCapacityDecoded
-        let returnItemCollectionMetricsDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ReturnItemCollectionMetrics.self, forKey: .returnItemCollectionMetrics)
-        returnItemCollectionMetrics = returnItemCollectionMetricsDecoded
-        let clientRequestTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientRequestToken)
-        clientRequestToken = clientRequestTokenDecoded
-    }
-}
-
-extension TransactWriteItemsInput: Swift.Encodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case clientRequestToken = "ClientRequestToken"
-        case returnConsumedCapacity = "ReturnConsumedCapacity"
-        case returnItemCollectionMetrics = "ReturnItemCollectionMetrics"
-        case transactItems = "TransactItems"
+        case resourceArn = "ResourceArn"
+        case tagKeys = "TagKeys"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let clientRequestToken = self.clientRequestToken {
-            try encodeContainer.encode(clientRequestToken, forKey: .clientRequestToken)
+        if let resourceArn = self.resourceArn {
+            try encodeContainer.encode(resourceArn, forKey: .resourceArn)
         }
-        if let returnConsumedCapacity = self.returnConsumedCapacity {
-            try encodeContainer.encode(returnConsumedCapacity.rawValue, forKey: .returnConsumedCapacity)
-        }
-        if let returnItemCollectionMetrics = self.returnItemCollectionMetrics {
-            try encodeContainer.encode(returnItemCollectionMetrics.rawValue, forKey: .returnItemCollectionMetrics)
-        }
-        if let transactItems = transactItems {
-            var transactItemsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .transactItems)
-            for transactwriteitem0 in transactItems {
-                try transactItemsContainer.encode(transactwriteitem0)
+        if let tagKeys = tagKeys {
+            var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
+            for tagkeystring0 in tagKeys {
+                try tagKeysContainer.encode(tagkeystring0)
             }
         }
     }
 }
 
-public struct TransactWriteItemsInput: Swift.Equatable {
-    /// Providing a ClientRequestToken makes the call to TransactWriteItems idempotent, meaning that multiple identical calls have the same effect as one single call. Although multiple identical calls using the same client request token produce the same result on the server (no side effects), the responses to the calls might not be the same. If the ReturnConsumedCapacity parameter is set, then the initial TransactWriteItems call returns the amount of write capacity units consumed in making the changes. Subsequent TransactWriteItems calls with the same client token return the number of read capacity units consumed in reading the item. A client request token is valid for 10 minutes after the first request that uses it is completed. After 10 minutes, any request with the same client token is treated as a new request. Do not resubmit the same request with the same client token for more than 10 minutes, or the result might not be idempotent. If you submit a request with the same client token but a change in other parameters within the 10-minute idempotency window, DynamoDB returns an IdempotentParameterMismatch exception.
-    public var clientRequestToken: Swift.String?
-    /// Determines the level of detail about either provisioned or on-demand throughput consumption that is returned in the response:
-    ///
-    /// * INDEXES - The response includes the aggregate ConsumedCapacity for the operation, together with ConsumedCapacity for each table and secondary index that was accessed. Note that some operations, such as GetItem and BatchGetItem, do not access any indexes at all. In these cases, specifying INDEXES will only return ConsumedCapacity information for table(s).
-    ///
-    /// * TOTAL - The response includes only the aggregate ConsumedCapacity for the operation.
-    ///
-    /// * NONE - No ConsumedCapacity details are included in the response.
-    public var returnConsumedCapacity: DynamoDBClientTypes.ReturnConsumedCapacity?
-    /// Determines whether item collection metrics are returned. If set to SIZE, the response includes statistics about item collections (if any), that were modified during the operation and are returned in the response. If set to NONE (the default), no statistics are returned.
-    public var returnItemCollectionMetrics: DynamoDBClientTypes.ReturnItemCollectionMetrics?
-    /// An ordered array of up to 100 TransactWriteItem objects, each of which contains a ConditionCheck, Put, Update, or Delete object. These can operate on items in different tables, but the tables must reside in the same Amazon Web Services account and Region, and no two of them can operate on the same item.
-    /// This member is required.
-    public var transactItems: [DynamoDBClientTypes.TransactWriteItem]?
-
-    public init(
-        clientRequestToken: Swift.String? = nil,
-        returnConsumedCapacity: DynamoDBClientTypes.ReturnConsumedCapacity? = nil,
-        returnItemCollectionMetrics: DynamoDBClientTypes.ReturnItemCollectionMetrics? = nil,
-        transactItems: [DynamoDBClientTypes.TransactWriteItem]? = nil
-    )
-    {
-        self.clientRequestToken = clientRequestToken
-        self.returnConsumedCapacity = returnConsumedCapacity
-        self.returnItemCollectionMetrics = returnItemCollectionMetrics
-        self.transactItems = transactItems
-    }
-}
-
-extension TransactWriteItemsInput: ClientRuntime.URLPathProvider {
+extension UntagResourceInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         return "/"
     }
 }
 
-struct TransactWriteItemsOutputBody: Swift.Equatable {
-    let consumedCapacity: [DynamoDBClientTypes.ConsumedCapacity]?
-    let itemCollectionMetrics: [Swift.String:[DynamoDBClientTypes.ItemCollectionMetrics]]?
-}
-
-extension TransactWriteItemsOutputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case consumedCapacity = "ConsumedCapacity"
-        case itemCollectionMetrics = "ItemCollectionMetrics"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let consumedCapacityContainer = try containerValues.decodeIfPresent([DynamoDBClientTypes.ConsumedCapacity?].self, forKey: .consumedCapacity)
-        var consumedCapacityDecoded0:[DynamoDBClientTypes.ConsumedCapacity]? = nil
-        if let consumedCapacityContainer = consumedCapacityContainer {
-            consumedCapacityDecoded0 = [DynamoDBClientTypes.ConsumedCapacity]()
-            for structure0 in consumedCapacityContainer {
-                if let structure0 = structure0 {
-                    consumedCapacityDecoded0?.append(structure0)
-                }
-            }
-        }
-        consumedCapacity = consumedCapacityDecoded0
-        let itemCollectionMetricsContainer = try containerValues.decodeIfPresent([Swift.String: [DynamoDBClientTypes.ItemCollectionMetrics?]?].self, forKey: .itemCollectionMetrics)
-        var itemCollectionMetricsDecoded0: [Swift.String:[DynamoDBClientTypes.ItemCollectionMetrics]]? = nil
-        if let itemCollectionMetricsContainer = itemCollectionMetricsContainer {
-            itemCollectionMetricsDecoded0 = [Swift.String:[DynamoDBClientTypes.ItemCollectionMetrics]]()
-            for (key0, itemcollectionmetricsmultiple0) in itemCollectionMetricsContainer {
-                var itemcollectionmetricsmultiple0Decoded0: [DynamoDBClientTypes.ItemCollectionMetrics]? = nil
-                if let itemcollectionmetricsmultiple0 = itemcollectionmetricsmultiple0 {
-                    itemcollectionmetricsmultiple0Decoded0 = [DynamoDBClientTypes.ItemCollectionMetrics]()
-                    for structure1 in itemcollectionmetricsmultiple0 {
-                        if let structure1 = structure1 {
-                            itemcollectionmetricsmultiple0Decoded0?.append(structure1)
-                        }
-                    }
-                }
-                itemCollectionMetricsDecoded0?[key0] = itemcollectionmetricsmultiple0Decoded0
-            }
-        }
-        itemCollectionMetrics = itemCollectionMetricsDecoded0
-    }
-}
-
-enum TransactWriteItemsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "IdempotentParameterMismatchException": return try await IdempotentParameterMismatchException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidEndpointException": return try await InvalidEndpointException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ProvisionedThroughputExceededException": return try await ProvisionedThroughputExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "RequestLimitExceeded": return try await RequestLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TransactionCanceledException": return try await TransactionCanceledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TransactionInProgressException": return try await TransactionInProgressException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-extension TransactWriteItemsOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: TransactWriteItemsOutputBody = try responseDecoder.decode(responseBody: data)
-            self.consumedCapacity = output.consumedCapacity
-            self.itemCollectionMetrics = output.itemCollectionMetrics
-        } else {
-            self.consumedCapacity = nil
-            self.itemCollectionMetrics = nil
-        }
-    }
-}
-
-public struct TransactWriteItemsOutput: Swift.Equatable {
-    /// The capacity units consumed by the entire TransactWriteItems operation. The values of the list are ordered according to the ordering of the TransactItems request parameter.
-    public var consumedCapacity: [DynamoDBClientTypes.ConsumedCapacity]?
-    /// A list of tables that were processed by TransactWriteItems and, for each table, information about any item collections that were affected by individual UpdateItem, PutItem, or DeleteItem operations.
-    public var itemCollectionMetrics: [Swift.String:[DynamoDBClientTypes.ItemCollectionMetrics]]?
+public struct UntagResourceInput: Swift.Equatable {
+    /// The DynamoDB resource that the tags will be removed from. This value is an Amazon Resource Name (ARN).
+    /// This member is required.
+    public var resourceArn: Swift.String?
+    /// A list of tag keys. Existing tags of the resource whose keys are members of this list will be removed from the DynamoDB resource.
+    /// This member is required.
+    public var tagKeys: [Swift.String]?
 
     public init(
-        consumedCapacity: [DynamoDBClientTypes.ConsumedCapacity]? = nil,
-        itemCollectionMetrics: [Swift.String:[DynamoDBClientTypes.ItemCollectionMetrics]]? = nil
+        resourceArn: Swift.String? = nil,
+        tagKeys: [Swift.String]? = nil
     )
     {
-        self.consumedCapacity = consumedCapacity
-        self.itemCollectionMetrics = itemCollectionMetrics
+        self.resourceArn = resourceArn
+        self.tagKeys = tagKeys
     }
-}
-
-extension DynamoDBClientTypes {
-    /// A list of requests that can perform update, put, delete, or check operations on multiple items in one or more tables atomically.
-    public struct TransactWriteItem: Swift.Equatable {
-        /// A request to perform a check item operation.
-        public var conditionCheck: DynamoDBClientTypes.ConditionCheck?
-        /// A request to perform a DeleteItem operation.
-        public var delete: DynamoDBClientTypes.Delete?
-        /// A request to perform a PutItem operation.
-        public var put: DynamoDBClientTypes.Put?
-        /// A request to perform an UpdateItem operation.
-        public var update: DynamoDBClientTypes.Update?
-
-        public init(
-            conditionCheck: DynamoDBClientTypes.ConditionCheck? = nil,
-            delete: DynamoDBClientTypes.Delete? = nil,
-            put: DynamoDBClientTypes.Put? = nil,
-            update: DynamoDBClientTypes.Update? = nil
-        )
-        {
-            self.conditionCheck = conditionCheck
-            self.delete = delete
-            self.put = put
-            self.update = update
-        }
-    }
-
 }
 
 struct UntagResourceInputBody: Swift.Equatable {
@@ -18981,48 +19025,14 @@ extension UntagResourceInputBody: Swift.Decodable {
     }
 }
 
-extension UntagResourceInput: Swift.Encodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case resourceArn = "ResourceArn"
-        case tagKeys = "TagKeys"
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let resourceArn = self.resourceArn {
-            try encodeContainer.encode(resourceArn, forKey: .resourceArn)
-        }
-        if let tagKeys = tagKeys {
-            var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
-            for tagkeystring0 in tagKeys {
-                try tagKeysContainer.encode(tagkeystring0)
-            }
-        }
+extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
-    /// The DynamoDB resource that the tags will be removed from. This value is an Amazon Resource Name (ARN).
-    /// This member is required.
-    public var resourceArn: Swift.String?
-    /// A list of tag keys. Existing tags of the resource whose keys are members of this list will be removed from the DynamoDB resource.
-    /// This member is required.
-    public var tagKeys: [Swift.String]?
+public struct UntagResourceOutput: Swift.Equatable {
 
-    public init(
-        resourceArn: Swift.String? = nil,
-        tagKeys: [Swift.String]? = nil
-    )
-    {
-        self.resourceArn = resourceArn
-        self.tagKeys = tagKeys
-    }
-}
-
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
-    }
+    public init() { }
 }
 
 enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
@@ -19038,16 +19048,6 @@ enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct UntagResourceOutput: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DynamoDBClientTypes.Update: Swift.Codable {
@@ -19141,24 +19141,47 @@ extension DynamoDBClientTypes.Update: Swift.Codable {
     }
 }
 
-struct UpdateContinuousBackupsInputBody: Swift.Equatable {
-    let tableName: Swift.String?
-    let pointInTimeRecoverySpecification: DynamoDBClientTypes.PointInTimeRecoverySpecification?
-}
+extension DynamoDBClientTypes {
+    /// Represents a request to perform an UpdateItem operation.
+    public struct Update: Swift.Equatable {
+        /// A condition that must be satisfied in order for a conditional update to succeed.
+        public var conditionExpression: Swift.String?
+        /// One or more substitution tokens for attribute names in an expression.
+        public var expressionAttributeNames: [Swift.String:Swift.String]?
+        /// One or more values that can be substituted in an expression.
+        public var expressionAttributeValues: [Swift.String:DynamoDBClientTypes.AttributeValue]?
+        /// The primary key of the item to be updated. Each element consists of an attribute name and a value for that attribute.
+        /// This member is required.
+        public var key: [Swift.String:DynamoDBClientTypes.AttributeValue]?
+        /// Use ReturnValuesOnConditionCheckFailure to get the item attributes if the Update condition fails. For ReturnValuesOnConditionCheckFailure, the valid values are: NONE and ALL_OLD.
+        public var returnValuesOnConditionCheckFailure: DynamoDBClientTypes.ReturnValuesOnConditionCheckFailure?
+        /// Name of the table for the UpdateItem request.
+        /// This member is required.
+        public var tableName: Swift.String?
+        /// An expression that defines one or more attributes to be updated, the action to be performed on them, and new value(s) for them.
+        /// This member is required.
+        public var updateExpression: Swift.String?
 
-extension UpdateContinuousBackupsInputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case pointInTimeRecoverySpecification = "PointInTimeRecoverySpecification"
-        case tableName = "TableName"
+        public init(
+            conditionExpression: Swift.String? = nil,
+            expressionAttributeNames: [Swift.String:Swift.String]? = nil,
+            expressionAttributeValues: [Swift.String:DynamoDBClientTypes.AttributeValue]? = nil,
+            key: [Swift.String:DynamoDBClientTypes.AttributeValue]? = nil,
+            returnValuesOnConditionCheckFailure: DynamoDBClientTypes.ReturnValuesOnConditionCheckFailure? = nil,
+            tableName: Swift.String? = nil,
+            updateExpression: Swift.String? = nil
+        )
+        {
+            self.conditionExpression = conditionExpression
+            self.expressionAttributeNames = expressionAttributeNames
+            self.expressionAttributeValues = expressionAttributeValues
+            self.key = key
+            self.returnValuesOnConditionCheckFailure = returnValuesOnConditionCheckFailure
+            self.tableName = tableName
+            self.updateExpression = updateExpression
+        }
     }
 
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let tableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableName)
-        tableName = tableNameDecoded
-        let pointInTimeRecoverySpecificationDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.PointInTimeRecoverySpecification.self, forKey: .pointInTimeRecoverySpecification)
-        pointInTimeRecoverySpecification = pointInTimeRecoverySpecificationDecoded
-    }
 }
 
 extension UpdateContinuousBackupsInput: Swift.Encodable {
@@ -19175,6 +19198,12 @@ extension UpdateContinuousBackupsInput: Swift.Encodable {
         if let tableName = self.tableName {
             try encodeContainer.encode(tableName, forKey: .tableName)
         }
+    }
+}
+
+extension UpdateContinuousBackupsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
     }
 }
 
@@ -19196,9 +19225,47 @@ public struct UpdateContinuousBackupsInput: Swift.Equatable {
     }
 }
 
-extension UpdateContinuousBackupsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
+struct UpdateContinuousBackupsInputBody: Swift.Equatable {
+    let tableName: Swift.String?
+    let pointInTimeRecoverySpecification: DynamoDBClientTypes.PointInTimeRecoverySpecification?
+}
+
+extension UpdateContinuousBackupsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case pointInTimeRecoverySpecification = "PointInTimeRecoverySpecification"
+        case tableName = "TableName"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let tableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableName)
+        tableName = tableNameDecoded
+        let pointInTimeRecoverySpecificationDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.PointInTimeRecoverySpecification.self, forKey: .pointInTimeRecoverySpecification)
+        pointInTimeRecoverySpecification = pointInTimeRecoverySpecificationDecoded
+    }
+}
+
+extension UpdateContinuousBackupsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateContinuousBackupsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.continuousBackupsDescription = output.continuousBackupsDescription
+        } else {
+            self.continuousBackupsDescription = nil
+        }
+    }
+}
+
+public struct UpdateContinuousBackupsOutput: Swift.Equatable {
+    /// Represents the continuous backups and point in time recovery settings on the table.
+    public var continuousBackupsDescription: DynamoDBClientTypes.ContinuousBackupsDescription?
+
+    public init(
+        continuousBackupsDescription: DynamoDBClientTypes.ContinuousBackupsDescription? = nil
+    )
+    {
+        self.continuousBackupsDescription = continuousBackupsDescription
     }
 }
 
@@ -19232,54 +19299,6 @@ enum UpdateContinuousBackupsOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
-extension UpdateContinuousBackupsOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: UpdateContinuousBackupsOutputBody = try responseDecoder.decode(responseBody: data)
-            self.continuousBackupsDescription = output.continuousBackupsDescription
-        } else {
-            self.continuousBackupsDescription = nil
-        }
-    }
-}
-
-public struct UpdateContinuousBackupsOutput: Swift.Equatable {
-    /// Represents the continuous backups and point in time recovery settings on the table.
-    public var continuousBackupsDescription: DynamoDBClientTypes.ContinuousBackupsDescription?
-
-    public init(
-        continuousBackupsDescription: DynamoDBClientTypes.ContinuousBackupsDescription? = nil
-    )
-    {
-        self.continuousBackupsDescription = continuousBackupsDescription
-    }
-}
-
-struct UpdateContributorInsightsInputBody: Swift.Equatable {
-    let tableName: Swift.String?
-    let indexName: Swift.String?
-    let contributorInsightsAction: DynamoDBClientTypes.ContributorInsightsAction?
-}
-
-extension UpdateContributorInsightsInputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case contributorInsightsAction = "ContributorInsightsAction"
-        case indexName = "IndexName"
-        case tableName = "TableName"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let tableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableName)
-        tableName = tableNameDecoded
-        let indexNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .indexName)
-        indexName = indexNameDecoded
-        let contributorInsightsActionDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ContributorInsightsAction.self, forKey: .contributorInsightsAction)
-        contributorInsightsAction = contributorInsightsActionDecoded
-    }
-}
-
 extension UpdateContributorInsightsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case contributorInsightsAction = "ContributorInsightsAction"
@@ -19298,6 +19317,12 @@ extension UpdateContributorInsightsInput: Swift.Encodable {
         if let tableName = self.tableName {
             try encodeContainer.encode(tableName, forKey: .tableName)
         }
+    }
+}
+
+extension UpdateContributorInsightsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
     }
 }
 
@@ -19323,21 +19348,15 @@ public struct UpdateContributorInsightsInput: Swift.Equatable {
     }
 }
 
-extension UpdateContributorInsightsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
-    }
-}
-
-struct UpdateContributorInsightsOutputBody: Swift.Equatable {
+struct UpdateContributorInsightsInputBody: Swift.Equatable {
     let tableName: Swift.String?
     let indexName: Swift.String?
-    let contributorInsightsStatus: DynamoDBClientTypes.ContributorInsightsStatus?
+    let contributorInsightsAction: DynamoDBClientTypes.ContributorInsightsAction?
 }
 
-extension UpdateContributorInsightsOutputBody: Swift.Decodable {
+extension UpdateContributorInsightsInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case contributorInsightsStatus = "ContributorInsightsStatus"
+        case contributorInsightsAction = "ContributorInsightsAction"
         case indexName = "IndexName"
         case tableName = "TableName"
     }
@@ -19348,20 +19367,8 @@ extension UpdateContributorInsightsOutputBody: Swift.Decodable {
         tableName = tableNameDecoded
         let indexNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .indexName)
         indexName = indexNameDecoded
-        let contributorInsightsStatusDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ContributorInsightsStatus.self, forKey: .contributorInsightsStatus)
-        contributorInsightsStatus = contributorInsightsStatusDecoded
-    }
-}
-
-enum UpdateContributorInsightsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
+        let contributorInsightsActionDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ContributorInsightsAction.self, forKey: .contributorInsightsAction)
+        contributorInsightsAction = contributorInsightsActionDecoded
     }
 }
 
@@ -19398,6 +19405,42 @@ public struct UpdateContributorInsightsOutput: Swift.Equatable {
         self.contributorInsightsStatus = contributorInsightsStatus
         self.indexName = indexName
         self.tableName = tableName
+    }
+}
+
+struct UpdateContributorInsightsOutputBody: Swift.Equatable {
+    let tableName: Swift.String?
+    let indexName: Swift.String?
+    let contributorInsightsStatus: DynamoDBClientTypes.ContributorInsightsStatus?
+}
+
+extension UpdateContributorInsightsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case contributorInsightsStatus = "ContributorInsightsStatus"
+        case indexName = "IndexName"
+        case tableName = "TableName"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let tableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableName)
+        tableName = tableNameDecoded
+        let indexNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .indexName)
+        indexName = indexNameDecoded
+        let contributorInsightsStatusDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ContributorInsightsStatus.self, forKey: .contributorInsightsStatus)
+        contributorInsightsStatus = contributorInsightsStatusDecoded
+    }
+}
+
+enum UpdateContributorInsightsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -19448,6 +19491,50 @@ extension DynamoDBClientTypes {
 
 }
 
+extension UpdateGlobalTableInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case globalTableName = "GlobalTableName"
+        case replicaUpdates = "ReplicaUpdates"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let globalTableName = self.globalTableName {
+            try encodeContainer.encode(globalTableName, forKey: .globalTableName)
+        }
+        if let replicaUpdates = replicaUpdates {
+            var replicaUpdatesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .replicaUpdates)
+            for replicaupdate0 in replicaUpdates {
+                try replicaUpdatesContainer.encode(replicaupdate0)
+            }
+        }
+    }
+}
+
+extension UpdateGlobalTableInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct UpdateGlobalTableInput: Swift.Equatable {
+    /// The global table name.
+    /// This member is required.
+    public var globalTableName: Swift.String?
+    /// A list of Regions that should be added or removed from the global table.
+    /// This member is required.
+    public var replicaUpdates: [DynamoDBClientTypes.ReplicaUpdate]?
+
+    public init(
+        globalTableName: Swift.String? = nil,
+        replicaUpdates: [DynamoDBClientTypes.ReplicaUpdate]? = nil
+    )
+    {
+        self.globalTableName = globalTableName
+        self.replicaUpdates = replicaUpdates
+    }
+}
+
 struct UpdateGlobalTableInputBody: Swift.Equatable {
     let globalTableName: Swift.String?
     let replicaUpdates: [DynamoDBClientTypes.ReplicaUpdate]?
@@ -19477,47 +19564,27 @@ extension UpdateGlobalTableInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateGlobalTableInput: Swift.Encodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case globalTableName = "GlobalTableName"
-        case replicaUpdates = "ReplicaUpdates"
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let globalTableName = self.globalTableName {
-            try encodeContainer.encode(globalTableName, forKey: .globalTableName)
-        }
-        if let replicaUpdates = replicaUpdates {
-            var replicaUpdatesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .replicaUpdates)
-            for replicaupdate0 in replicaUpdates {
-                try replicaUpdatesContainer.encode(replicaupdate0)
-            }
+extension UpdateGlobalTableOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateGlobalTableOutputBody = try responseDecoder.decode(responseBody: data)
+            self.globalTableDescription = output.globalTableDescription
+        } else {
+            self.globalTableDescription = nil
         }
     }
 }
 
-public struct UpdateGlobalTableInput: Swift.Equatable {
-    /// The global table name.
-    /// This member is required.
-    public var globalTableName: Swift.String?
-    /// A list of Regions that should be added or removed from the global table.
-    /// This member is required.
-    public var replicaUpdates: [DynamoDBClientTypes.ReplicaUpdate]?
+public struct UpdateGlobalTableOutput: Swift.Equatable {
+    /// Contains the details of the global table.
+    public var globalTableDescription: DynamoDBClientTypes.GlobalTableDescription?
 
     public init(
-        globalTableName: Swift.String? = nil,
-        replicaUpdates: [DynamoDBClientTypes.ReplicaUpdate]? = nil
+        globalTableDescription: DynamoDBClientTypes.GlobalTableDescription? = nil
     )
     {
-        self.globalTableName = globalTableName
-        self.replicaUpdates = replicaUpdates
-    }
-}
-
-extension UpdateGlobalTableInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
+        self.globalTableDescription = globalTableDescription
     }
 }
 
@@ -19553,27 +19620,85 @@ enum UpdateGlobalTableOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension UpdateGlobalTableOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: UpdateGlobalTableOutputBody = try responseDecoder.decode(responseBody: data)
-            self.globalTableDescription = output.globalTableDescription
-        } else {
-            self.globalTableDescription = nil
+extension UpdateGlobalTableSettingsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case globalTableBillingMode = "GlobalTableBillingMode"
+        case globalTableGlobalSecondaryIndexSettingsUpdate = "GlobalTableGlobalSecondaryIndexSettingsUpdate"
+        case globalTableName = "GlobalTableName"
+        case globalTableProvisionedWriteCapacityAutoScalingSettingsUpdate = "GlobalTableProvisionedWriteCapacityAutoScalingSettingsUpdate"
+        case globalTableProvisionedWriteCapacityUnits = "GlobalTableProvisionedWriteCapacityUnits"
+        case replicaSettingsUpdate = "ReplicaSettingsUpdate"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let globalTableBillingMode = self.globalTableBillingMode {
+            try encodeContainer.encode(globalTableBillingMode.rawValue, forKey: .globalTableBillingMode)
+        }
+        if let globalTableGlobalSecondaryIndexSettingsUpdate = globalTableGlobalSecondaryIndexSettingsUpdate {
+            var globalTableGlobalSecondaryIndexSettingsUpdateContainer = encodeContainer.nestedUnkeyedContainer(forKey: .globalTableGlobalSecondaryIndexSettingsUpdate)
+            for globaltableglobalsecondaryindexsettingsupdate0 in globalTableGlobalSecondaryIndexSettingsUpdate {
+                try globalTableGlobalSecondaryIndexSettingsUpdateContainer.encode(globaltableglobalsecondaryindexsettingsupdate0)
+            }
+        }
+        if let globalTableName = self.globalTableName {
+            try encodeContainer.encode(globalTableName, forKey: .globalTableName)
+        }
+        if let globalTableProvisionedWriteCapacityAutoScalingSettingsUpdate = self.globalTableProvisionedWriteCapacityAutoScalingSettingsUpdate {
+            try encodeContainer.encode(globalTableProvisionedWriteCapacityAutoScalingSettingsUpdate, forKey: .globalTableProvisionedWriteCapacityAutoScalingSettingsUpdate)
+        }
+        if let globalTableProvisionedWriteCapacityUnits = self.globalTableProvisionedWriteCapacityUnits {
+            try encodeContainer.encode(globalTableProvisionedWriteCapacityUnits, forKey: .globalTableProvisionedWriteCapacityUnits)
+        }
+        if let replicaSettingsUpdate = replicaSettingsUpdate {
+            var replicaSettingsUpdateContainer = encodeContainer.nestedUnkeyedContainer(forKey: .replicaSettingsUpdate)
+            for replicasettingsupdate0 in replicaSettingsUpdate {
+                try replicaSettingsUpdateContainer.encode(replicasettingsupdate0)
+            }
         }
     }
 }
 
-public struct UpdateGlobalTableOutput: Swift.Equatable {
-    /// Contains the details of the global table.
-    public var globalTableDescription: DynamoDBClientTypes.GlobalTableDescription?
+extension UpdateGlobalTableSettingsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct UpdateGlobalTableSettingsInput: Swift.Equatable {
+    /// The billing mode of the global table. If GlobalTableBillingMode is not specified, the global table defaults to PROVISIONED capacity billing mode.
+    ///
+    /// * PROVISIONED - We recommend using PROVISIONED for predictable workloads. PROVISIONED sets the billing mode to [Provisioned Mode](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.ReadWriteCapacityMode.html#HowItWorks.ProvisionedThroughput.Manual).
+    ///
+    /// * PAY_PER_REQUEST - We recommend using PAY_PER_REQUEST for unpredictable workloads. PAY_PER_REQUEST sets the billing mode to [On-Demand Mode](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.ReadWriteCapacityMode.html#HowItWorks.OnDemand).
+    public var globalTableBillingMode: DynamoDBClientTypes.BillingMode?
+    /// Represents the settings of a global secondary index for a global table that will be modified.
+    public var globalTableGlobalSecondaryIndexSettingsUpdate: [DynamoDBClientTypes.GlobalTableGlobalSecondaryIndexSettingsUpdate]?
+    /// The name of the global table
+    /// This member is required.
+    public var globalTableName: Swift.String?
+    /// Auto scaling settings for managing provisioned write capacity for the global table.
+    public var globalTableProvisionedWriteCapacityAutoScalingSettingsUpdate: DynamoDBClientTypes.AutoScalingSettingsUpdate?
+    /// The maximum number of writes consumed per second before DynamoDB returns a ThrottlingException.
+    public var globalTableProvisionedWriteCapacityUnits: Swift.Int?
+    /// Represents the settings for a global table in a Region that will be modified.
+    public var replicaSettingsUpdate: [DynamoDBClientTypes.ReplicaSettingsUpdate]?
 
     public init(
-        globalTableDescription: DynamoDBClientTypes.GlobalTableDescription? = nil
+        globalTableBillingMode: DynamoDBClientTypes.BillingMode? = nil,
+        globalTableGlobalSecondaryIndexSettingsUpdate: [DynamoDBClientTypes.GlobalTableGlobalSecondaryIndexSettingsUpdate]? = nil,
+        globalTableName: Swift.String? = nil,
+        globalTableProvisionedWriteCapacityAutoScalingSettingsUpdate: DynamoDBClientTypes.AutoScalingSettingsUpdate? = nil,
+        globalTableProvisionedWriteCapacityUnits: Swift.Int? = nil,
+        replicaSettingsUpdate: [DynamoDBClientTypes.ReplicaSettingsUpdate]? = nil
     )
     {
-        self.globalTableDescription = globalTableDescription
+        self.globalTableBillingMode = globalTableBillingMode
+        self.globalTableGlobalSecondaryIndexSettingsUpdate = globalTableGlobalSecondaryIndexSettingsUpdate
+        self.globalTableName = globalTableName
+        self.globalTableProvisionedWriteCapacityAutoScalingSettingsUpdate = globalTableProvisionedWriteCapacityAutoScalingSettingsUpdate
+        self.globalTableProvisionedWriteCapacityUnits = globalTableProvisionedWriteCapacityUnits
+        self.replicaSettingsUpdate = replicaSettingsUpdate
     }
 }
 
@@ -19631,85 +19756,33 @@ extension UpdateGlobalTableSettingsInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateGlobalTableSettingsInput: Swift.Encodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case globalTableBillingMode = "GlobalTableBillingMode"
-        case globalTableGlobalSecondaryIndexSettingsUpdate = "GlobalTableGlobalSecondaryIndexSettingsUpdate"
-        case globalTableName = "GlobalTableName"
-        case globalTableProvisionedWriteCapacityAutoScalingSettingsUpdate = "GlobalTableProvisionedWriteCapacityAutoScalingSettingsUpdate"
-        case globalTableProvisionedWriteCapacityUnits = "GlobalTableProvisionedWriteCapacityUnits"
-        case replicaSettingsUpdate = "ReplicaSettingsUpdate"
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let globalTableBillingMode = self.globalTableBillingMode {
-            try encodeContainer.encode(globalTableBillingMode.rawValue, forKey: .globalTableBillingMode)
-        }
-        if let globalTableGlobalSecondaryIndexSettingsUpdate = globalTableGlobalSecondaryIndexSettingsUpdate {
-            var globalTableGlobalSecondaryIndexSettingsUpdateContainer = encodeContainer.nestedUnkeyedContainer(forKey: .globalTableGlobalSecondaryIndexSettingsUpdate)
-            for globaltableglobalsecondaryindexsettingsupdate0 in globalTableGlobalSecondaryIndexSettingsUpdate {
-                try globalTableGlobalSecondaryIndexSettingsUpdateContainer.encode(globaltableglobalsecondaryindexsettingsupdate0)
-            }
-        }
-        if let globalTableName = self.globalTableName {
-            try encodeContainer.encode(globalTableName, forKey: .globalTableName)
-        }
-        if let globalTableProvisionedWriteCapacityAutoScalingSettingsUpdate = self.globalTableProvisionedWriteCapacityAutoScalingSettingsUpdate {
-            try encodeContainer.encode(globalTableProvisionedWriteCapacityAutoScalingSettingsUpdate, forKey: .globalTableProvisionedWriteCapacityAutoScalingSettingsUpdate)
-        }
-        if let globalTableProvisionedWriteCapacityUnits = self.globalTableProvisionedWriteCapacityUnits {
-            try encodeContainer.encode(globalTableProvisionedWriteCapacityUnits, forKey: .globalTableProvisionedWriteCapacityUnits)
-        }
-        if let replicaSettingsUpdate = replicaSettingsUpdate {
-            var replicaSettingsUpdateContainer = encodeContainer.nestedUnkeyedContainer(forKey: .replicaSettingsUpdate)
-            for replicasettingsupdate0 in replicaSettingsUpdate {
-                try replicaSettingsUpdateContainer.encode(replicasettingsupdate0)
-            }
+extension UpdateGlobalTableSettingsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateGlobalTableSettingsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.globalTableName = output.globalTableName
+            self.replicaSettings = output.replicaSettings
+        } else {
+            self.globalTableName = nil
+            self.replicaSettings = nil
         }
     }
 }
 
-public struct UpdateGlobalTableSettingsInput: Swift.Equatable {
-    /// The billing mode of the global table. If GlobalTableBillingMode is not specified, the global table defaults to PROVISIONED capacity billing mode.
-    ///
-    /// * PROVISIONED - We recommend using PROVISIONED for predictable workloads. PROVISIONED sets the billing mode to [Provisioned Mode](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.ReadWriteCapacityMode.html#HowItWorks.ProvisionedThroughput.Manual).
-    ///
-    /// * PAY_PER_REQUEST - We recommend using PAY_PER_REQUEST for unpredictable workloads. PAY_PER_REQUEST sets the billing mode to [On-Demand Mode](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.ReadWriteCapacityMode.html#HowItWorks.OnDemand).
-    public var globalTableBillingMode: DynamoDBClientTypes.BillingMode?
-    /// Represents the settings of a global secondary index for a global table that will be modified.
-    public var globalTableGlobalSecondaryIndexSettingsUpdate: [DynamoDBClientTypes.GlobalTableGlobalSecondaryIndexSettingsUpdate]?
-    /// The name of the global table
-    /// This member is required.
+public struct UpdateGlobalTableSettingsOutput: Swift.Equatable {
+    /// The name of the global table.
     public var globalTableName: Swift.String?
-    /// Auto scaling settings for managing provisioned write capacity for the global table.
-    public var globalTableProvisionedWriteCapacityAutoScalingSettingsUpdate: DynamoDBClientTypes.AutoScalingSettingsUpdate?
-    /// The maximum number of writes consumed per second before DynamoDB returns a ThrottlingException.
-    public var globalTableProvisionedWriteCapacityUnits: Swift.Int?
-    /// Represents the settings for a global table in a Region that will be modified.
-    public var replicaSettingsUpdate: [DynamoDBClientTypes.ReplicaSettingsUpdate]?
+    /// The Region-specific settings for the global table.
+    public var replicaSettings: [DynamoDBClientTypes.ReplicaSettingsDescription]?
 
     public init(
-        globalTableBillingMode: DynamoDBClientTypes.BillingMode? = nil,
-        globalTableGlobalSecondaryIndexSettingsUpdate: [DynamoDBClientTypes.GlobalTableGlobalSecondaryIndexSettingsUpdate]? = nil,
         globalTableName: Swift.String? = nil,
-        globalTableProvisionedWriteCapacityAutoScalingSettingsUpdate: DynamoDBClientTypes.AutoScalingSettingsUpdate? = nil,
-        globalTableProvisionedWriteCapacityUnits: Swift.Int? = nil,
-        replicaSettingsUpdate: [DynamoDBClientTypes.ReplicaSettingsUpdate]? = nil
+        replicaSettings: [DynamoDBClientTypes.ReplicaSettingsDescription]? = nil
     )
     {
-        self.globalTableBillingMode = globalTableBillingMode
-        self.globalTableGlobalSecondaryIndexSettingsUpdate = globalTableGlobalSecondaryIndexSettingsUpdate
         self.globalTableName = globalTableName
-        self.globalTableProvisionedWriteCapacityAutoScalingSettingsUpdate = globalTableProvisionedWriteCapacityAutoScalingSettingsUpdate
-        self.globalTableProvisionedWriteCapacityUnits = globalTableProvisionedWriteCapacityUnits
-        self.replicaSettingsUpdate = replicaSettingsUpdate
-    }
-}
-
-extension UpdateGlobalTableSettingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
+        self.replicaSettings = replicaSettings
     }
 }
 
@@ -19756,145 +19829,6 @@ enum UpdateGlobalTableSettingsOutputError: ClientRuntime.HttpResponseErrorBindin
             case "ResourceInUseException": return try await ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension UpdateGlobalTableSettingsOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: UpdateGlobalTableSettingsOutputBody = try responseDecoder.decode(responseBody: data)
-            self.globalTableName = output.globalTableName
-            self.replicaSettings = output.replicaSettings
-        } else {
-            self.globalTableName = nil
-            self.replicaSettings = nil
-        }
-    }
-}
-
-public struct UpdateGlobalTableSettingsOutput: Swift.Equatable {
-    /// The name of the global table.
-    public var globalTableName: Swift.String?
-    /// The Region-specific settings for the global table.
-    public var replicaSettings: [DynamoDBClientTypes.ReplicaSettingsDescription]?
-
-    public init(
-        globalTableName: Swift.String? = nil,
-        replicaSettings: [DynamoDBClientTypes.ReplicaSettingsDescription]? = nil
-    )
-    {
-        self.globalTableName = globalTableName
-        self.replicaSettings = replicaSettings
-    }
-}
-
-struct UpdateItemInputBody: Swift.Equatable {
-    let tableName: Swift.String?
-    let key: [Swift.String:DynamoDBClientTypes.AttributeValue]?
-    let attributeUpdates: [Swift.String:DynamoDBClientTypes.AttributeValueUpdate]?
-    let expected: [Swift.String:DynamoDBClientTypes.ExpectedAttributeValue]?
-    let conditionalOperator: DynamoDBClientTypes.ConditionalOperator?
-    let returnValues: DynamoDBClientTypes.ReturnValue?
-    let returnConsumedCapacity: DynamoDBClientTypes.ReturnConsumedCapacity?
-    let returnItemCollectionMetrics: DynamoDBClientTypes.ReturnItemCollectionMetrics?
-    let updateExpression: Swift.String?
-    let conditionExpression: Swift.String?
-    let expressionAttributeNames: [Swift.String:Swift.String]?
-    let expressionAttributeValues: [Swift.String:DynamoDBClientTypes.AttributeValue]?
-    let returnValuesOnConditionCheckFailure: DynamoDBClientTypes.ReturnValuesOnConditionCheckFailure?
-}
-
-extension UpdateItemInputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case attributeUpdates = "AttributeUpdates"
-        case conditionExpression = "ConditionExpression"
-        case conditionalOperator = "ConditionalOperator"
-        case expected = "Expected"
-        case expressionAttributeNames = "ExpressionAttributeNames"
-        case expressionAttributeValues = "ExpressionAttributeValues"
-        case key = "Key"
-        case returnConsumedCapacity = "ReturnConsumedCapacity"
-        case returnItemCollectionMetrics = "ReturnItemCollectionMetrics"
-        case returnValues = "ReturnValues"
-        case returnValuesOnConditionCheckFailure = "ReturnValuesOnConditionCheckFailure"
-        case tableName = "TableName"
-        case updateExpression = "UpdateExpression"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let tableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableName)
-        tableName = tableNameDecoded
-        let keyContainer = try containerValues.decodeIfPresent([Swift.String: DynamoDBClientTypes.AttributeValue?].self, forKey: .key)
-        var keyDecoded0: [Swift.String:DynamoDBClientTypes.AttributeValue]? = nil
-        if let keyContainer = keyContainer {
-            keyDecoded0 = [Swift.String:DynamoDBClientTypes.AttributeValue]()
-            for (key0, attributevalue0) in keyContainer {
-                if let attributevalue0 = attributevalue0 {
-                    keyDecoded0?[key0] = attributevalue0
-                }
-            }
-        }
-        key = keyDecoded0
-        let attributeUpdatesContainer = try containerValues.decodeIfPresent([Swift.String: DynamoDBClientTypes.AttributeValueUpdate?].self, forKey: .attributeUpdates)
-        var attributeUpdatesDecoded0: [Swift.String:DynamoDBClientTypes.AttributeValueUpdate]? = nil
-        if let attributeUpdatesContainer = attributeUpdatesContainer {
-            attributeUpdatesDecoded0 = [Swift.String:DynamoDBClientTypes.AttributeValueUpdate]()
-            for (key0, attributevalueupdate0) in attributeUpdatesContainer {
-                if let attributevalueupdate0 = attributevalueupdate0 {
-                    attributeUpdatesDecoded0?[key0] = attributevalueupdate0
-                }
-            }
-        }
-        attributeUpdates = attributeUpdatesDecoded0
-        let expectedContainer = try containerValues.decodeIfPresent([Swift.String: DynamoDBClientTypes.ExpectedAttributeValue?].self, forKey: .expected)
-        var expectedDecoded0: [Swift.String:DynamoDBClientTypes.ExpectedAttributeValue]? = nil
-        if let expectedContainer = expectedContainer {
-            expectedDecoded0 = [Swift.String:DynamoDBClientTypes.ExpectedAttributeValue]()
-            for (key0, expectedattributevalue0) in expectedContainer {
-                if let expectedattributevalue0 = expectedattributevalue0 {
-                    expectedDecoded0?[key0] = expectedattributevalue0
-                }
-            }
-        }
-        expected = expectedDecoded0
-        let conditionalOperatorDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ConditionalOperator.self, forKey: .conditionalOperator)
-        conditionalOperator = conditionalOperatorDecoded
-        let returnValuesDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ReturnValue.self, forKey: .returnValues)
-        returnValues = returnValuesDecoded
-        let returnConsumedCapacityDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ReturnConsumedCapacity.self, forKey: .returnConsumedCapacity)
-        returnConsumedCapacity = returnConsumedCapacityDecoded
-        let returnItemCollectionMetricsDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ReturnItemCollectionMetrics.self, forKey: .returnItemCollectionMetrics)
-        returnItemCollectionMetrics = returnItemCollectionMetricsDecoded
-        let updateExpressionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .updateExpression)
-        updateExpression = updateExpressionDecoded
-        let conditionExpressionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .conditionExpression)
-        conditionExpression = conditionExpressionDecoded
-        let expressionAttributeNamesContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .expressionAttributeNames)
-        var expressionAttributeNamesDecoded0: [Swift.String:Swift.String]? = nil
-        if let expressionAttributeNamesContainer = expressionAttributeNamesContainer {
-            expressionAttributeNamesDecoded0 = [Swift.String:Swift.String]()
-            for (key0, attributename0) in expressionAttributeNamesContainer {
-                if let attributename0 = attributename0 {
-                    expressionAttributeNamesDecoded0?[key0] = attributename0
-                }
-            }
-        }
-        expressionAttributeNames = expressionAttributeNamesDecoded0
-        let expressionAttributeValuesContainer = try containerValues.decodeIfPresent([Swift.String: DynamoDBClientTypes.AttributeValue?].self, forKey: .expressionAttributeValues)
-        var expressionAttributeValuesDecoded0: [Swift.String:DynamoDBClientTypes.AttributeValue]? = nil
-        if let expressionAttributeValuesContainer = expressionAttributeValuesContainer {
-            expressionAttributeValuesDecoded0 = [Swift.String:DynamoDBClientTypes.AttributeValue]()
-            for (key0, attributevalue0) in expressionAttributeValuesContainer {
-                if let attributevalue0 = attributevalue0 {
-                    expressionAttributeValuesDecoded0?[key0] = attributevalue0
-                }
-            }
-        }
-        expressionAttributeValues = expressionAttributeValuesDecoded0
-        let returnValuesOnConditionCheckFailureDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ReturnValuesOnConditionCheckFailure.self, forKey: .returnValuesOnConditionCheckFailure)
-        returnValuesOnConditionCheckFailure = returnValuesOnConditionCheckFailureDecoded
     }
 }
 
@@ -19971,6 +19905,12 @@ extension UpdateItemInput: Swift.Encodable {
         if let updateExpression = self.updateExpression {
             try encodeContainer.encode(updateExpression, forKey: .updateExpression)
         }
+    }
+}
+
+extension UpdateItemInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
     }
 }
 
@@ -20114,9 +20054,153 @@ public struct UpdateItemInput: Swift.Equatable {
     }
 }
 
-extension UpdateItemInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
+struct UpdateItemInputBody: Swift.Equatable {
+    let tableName: Swift.String?
+    let key: [Swift.String:DynamoDBClientTypes.AttributeValue]?
+    let attributeUpdates: [Swift.String:DynamoDBClientTypes.AttributeValueUpdate]?
+    let expected: [Swift.String:DynamoDBClientTypes.ExpectedAttributeValue]?
+    let conditionalOperator: DynamoDBClientTypes.ConditionalOperator?
+    let returnValues: DynamoDBClientTypes.ReturnValue?
+    let returnConsumedCapacity: DynamoDBClientTypes.ReturnConsumedCapacity?
+    let returnItemCollectionMetrics: DynamoDBClientTypes.ReturnItemCollectionMetrics?
+    let updateExpression: Swift.String?
+    let conditionExpression: Swift.String?
+    let expressionAttributeNames: [Swift.String:Swift.String]?
+    let expressionAttributeValues: [Swift.String:DynamoDBClientTypes.AttributeValue]?
+    let returnValuesOnConditionCheckFailure: DynamoDBClientTypes.ReturnValuesOnConditionCheckFailure?
+}
+
+extension UpdateItemInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case attributeUpdates = "AttributeUpdates"
+        case conditionExpression = "ConditionExpression"
+        case conditionalOperator = "ConditionalOperator"
+        case expected = "Expected"
+        case expressionAttributeNames = "ExpressionAttributeNames"
+        case expressionAttributeValues = "ExpressionAttributeValues"
+        case key = "Key"
+        case returnConsumedCapacity = "ReturnConsumedCapacity"
+        case returnItemCollectionMetrics = "ReturnItemCollectionMetrics"
+        case returnValues = "ReturnValues"
+        case returnValuesOnConditionCheckFailure = "ReturnValuesOnConditionCheckFailure"
+        case tableName = "TableName"
+        case updateExpression = "UpdateExpression"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let tableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableName)
+        tableName = tableNameDecoded
+        let keyContainer = try containerValues.decodeIfPresent([Swift.String: DynamoDBClientTypes.AttributeValue?].self, forKey: .key)
+        var keyDecoded0: [Swift.String:DynamoDBClientTypes.AttributeValue]? = nil
+        if let keyContainer = keyContainer {
+            keyDecoded0 = [Swift.String:DynamoDBClientTypes.AttributeValue]()
+            for (key0, attributevalue0) in keyContainer {
+                if let attributevalue0 = attributevalue0 {
+                    keyDecoded0?[key0] = attributevalue0
+                }
+            }
+        }
+        key = keyDecoded0
+        let attributeUpdatesContainer = try containerValues.decodeIfPresent([Swift.String: DynamoDBClientTypes.AttributeValueUpdate?].self, forKey: .attributeUpdates)
+        var attributeUpdatesDecoded0: [Swift.String:DynamoDBClientTypes.AttributeValueUpdate]? = nil
+        if let attributeUpdatesContainer = attributeUpdatesContainer {
+            attributeUpdatesDecoded0 = [Swift.String:DynamoDBClientTypes.AttributeValueUpdate]()
+            for (key0, attributevalueupdate0) in attributeUpdatesContainer {
+                if let attributevalueupdate0 = attributevalueupdate0 {
+                    attributeUpdatesDecoded0?[key0] = attributevalueupdate0
+                }
+            }
+        }
+        attributeUpdates = attributeUpdatesDecoded0
+        let expectedContainer = try containerValues.decodeIfPresent([Swift.String: DynamoDBClientTypes.ExpectedAttributeValue?].self, forKey: .expected)
+        var expectedDecoded0: [Swift.String:DynamoDBClientTypes.ExpectedAttributeValue]? = nil
+        if let expectedContainer = expectedContainer {
+            expectedDecoded0 = [Swift.String:DynamoDBClientTypes.ExpectedAttributeValue]()
+            for (key0, expectedattributevalue0) in expectedContainer {
+                if let expectedattributevalue0 = expectedattributevalue0 {
+                    expectedDecoded0?[key0] = expectedattributevalue0
+                }
+            }
+        }
+        expected = expectedDecoded0
+        let conditionalOperatorDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ConditionalOperator.self, forKey: .conditionalOperator)
+        conditionalOperator = conditionalOperatorDecoded
+        let returnValuesDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ReturnValue.self, forKey: .returnValues)
+        returnValues = returnValuesDecoded
+        let returnConsumedCapacityDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ReturnConsumedCapacity.self, forKey: .returnConsumedCapacity)
+        returnConsumedCapacity = returnConsumedCapacityDecoded
+        let returnItemCollectionMetricsDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ReturnItemCollectionMetrics.self, forKey: .returnItemCollectionMetrics)
+        returnItemCollectionMetrics = returnItemCollectionMetricsDecoded
+        let updateExpressionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .updateExpression)
+        updateExpression = updateExpressionDecoded
+        let conditionExpressionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .conditionExpression)
+        conditionExpression = conditionExpressionDecoded
+        let expressionAttributeNamesContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .expressionAttributeNames)
+        var expressionAttributeNamesDecoded0: [Swift.String:Swift.String]? = nil
+        if let expressionAttributeNamesContainer = expressionAttributeNamesContainer {
+            expressionAttributeNamesDecoded0 = [Swift.String:Swift.String]()
+            for (key0, attributename0) in expressionAttributeNamesContainer {
+                if let attributename0 = attributename0 {
+                    expressionAttributeNamesDecoded0?[key0] = attributename0
+                }
+            }
+        }
+        expressionAttributeNames = expressionAttributeNamesDecoded0
+        let expressionAttributeValuesContainer = try containerValues.decodeIfPresent([Swift.String: DynamoDBClientTypes.AttributeValue?].self, forKey: .expressionAttributeValues)
+        var expressionAttributeValuesDecoded0: [Swift.String:DynamoDBClientTypes.AttributeValue]? = nil
+        if let expressionAttributeValuesContainer = expressionAttributeValuesContainer {
+            expressionAttributeValuesDecoded0 = [Swift.String:DynamoDBClientTypes.AttributeValue]()
+            for (key0, attributevalue0) in expressionAttributeValuesContainer {
+                if let attributevalue0 = attributevalue0 {
+                    expressionAttributeValuesDecoded0?[key0] = attributevalue0
+                }
+            }
+        }
+        expressionAttributeValues = expressionAttributeValuesDecoded0
+        let returnValuesOnConditionCheckFailureDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ReturnValuesOnConditionCheckFailure.self, forKey: .returnValuesOnConditionCheckFailure)
+        returnValuesOnConditionCheckFailure = returnValuesOnConditionCheckFailureDecoded
+    }
+}
+
+extension UpdateItemOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateItemOutputBody = try responseDecoder.decode(responseBody: data)
+            self.attributes = output.attributes
+            self.consumedCapacity = output.consumedCapacity
+            self.itemCollectionMetrics = output.itemCollectionMetrics
+        } else {
+            self.attributes = nil
+            self.consumedCapacity = nil
+            self.itemCollectionMetrics = nil
+        }
+    }
+}
+
+/// Represents the output of an UpdateItem operation.
+public struct UpdateItemOutput: Swift.Equatable {
+    /// A map of attribute values as they appear before or after the UpdateItem operation, as determined by the ReturnValues parameter. The Attributes map is only present if the update was successful and ReturnValues was specified as something other than NONE in the request. Each element represents one attribute.
+    public var attributes: [Swift.String:DynamoDBClientTypes.AttributeValue]?
+    /// The capacity units consumed by the UpdateItem operation. The data returned includes the total provisioned throughput consumed, along with statistics for the table and any indexes involved in the operation. ConsumedCapacity is only returned if the ReturnConsumedCapacity parameter was specified. For more information, see [Provisioned Throughput](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ProvisionedThroughput.html#ItemSizeCalculations.Reads) in the Amazon DynamoDB Developer Guide.
+    public var consumedCapacity: DynamoDBClientTypes.ConsumedCapacity?
+    /// Information about item collections, if any, that were affected by the UpdateItem operation. ItemCollectionMetrics is only returned if the ReturnItemCollectionMetrics parameter was specified. If the table does not have any local secondary indexes, this information is not returned in the response. Each ItemCollectionMetrics element consists of:
+    ///
+    /// * ItemCollectionKey - The partition key value of the item collection. This is the same as the partition key value of the item itself.
+    ///
+    /// * SizeEstimateRangeGB - An estimate of item collection size, in gigabytes. This value is a two-element array containing a lower bound and an upper bound for the estimate. The estimate includes the size of all the items in the table, plus the size of all attributes projected into all of the local secondary indexes on that table. Use this estimate to measure whether a local secondary index is approaching its size limit. The estimate is subject to change over time; therefore, do not rely on the precision or accuracy of the estimate.
+    public var itemCollectionMetrics: DynamoDBClientTypes.ItemCollectionMetrics?
+
+    public init(
+        attributes: [Swift.String:DynamoDBClientTypes.AttributeValue]? = nil,
+        consumedCapacity: DynamoDBClientTypes.ConsumedCapacity? = nil,
+        itemCollectionMetrics: DynamoDBClientTypes.ItemCollectionMetrics? = nil
+    )
+    {
+        self.attributes = attributes
+        self.consumedCapacity = consumedCapacity
+        self.itemCollectionMetrics = itemCollectionMetrics
     }
 }
 
@@ -20168,47 +20252,6 @@ enum UpdateItemOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TransactionConflictException": return try await TransactionConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension UpdateItemOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: UpdateItemOutputBody = try responseDecoder.decode(responseBody: data)
-            self.attributes = output.attributes
-            self.consumedCapacity = output.consumedCapacity
-            self.itemCollectionMetrics = output.itemCollectionMetrics
-        } else {
-            self.attributes = nil
-            self.consumedCapacity = nil
-            self.itemCollectionMetrics = nil
-        }
-    }
-}
-
-/// Represents the output of an UpdateItem operation.
-public struct UpdateItemOutput: Swift.Equatable {
-    /// A map of attribute values as they appear before or after the UpdateItem operation, as determined by the ReturnValues parameter. The Attributes map is only present if the update was successful and ReturnValues was specified as something other than NONE in the request. Each element represents one attribute.
-    public var attributes: [Swift.String:DynamoDBClientTypes.AttributeValue]?
-    /// The capacity units consumed by the UpdateItem operation. The data returned includes the total provisioned throughput consumed, along with statistics for the table and any indexes involved in the operation. ConsumedCapacity is only returned if the ReturnConsumedCapacity parameter was specified. For more information, see [Provisioned Throughput](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ProvisionedThroughput.html#ItemSizeCalculations.Reads) in the Amazon DynamoDB Developer Guide.
-    public var consumedCapacity: DynamoDBClientTypes.ConsumedCapacity?
-    /// Information about item collections, if any, that were affected by the UpdateItem operation. ItemCollectionMetrics is only returned if the ReturnItemCollectionMetrics parameter was specified. If the table does not have any local secondary indexes, this information is not returned in the response. Each ItemCollectionMetrics element consists of:
-    ///
-    /// * ItemCollectionKey - The partition key value of the item collection. This is the same as the partition key value of the item itself.
-    ///
-    /// * SizeEstimateRangeGB - An estimate of item collection size, in gigabytes. This value is a two-element array containing a lower bound and an upper bound for the estimate. The estimate includes the size of all the items in the table, plus the size of all attributes projected into all of the local secondary indexes on that table. Use this estimate to measure whether a local secondary index is approaching its size limit. The estimate is subject to change over time; therefore, do not rely on the precision or accuracy of the estimate.
-    public var itemCollectionMetrics: DynamoDBClientTypes.ItemCollectionMetrics?
-
-    public init(
-        attributes: [Swift.String:DynamoDBClientTypes.AttributeValue]? = nil,
-        consumedCapacity: DynamoDBClientTypes.ConsumedCapacity? = nil,
-        itemCollectionMetrics: DynamoDBClientTypes.ItemCollectionMetrics? = nil
-    )
-    {
-        self.attributes = attributes
-        self.consumedCapacity = consumedCapacity
-        self.itemCollectionMetrics = itemCollectionMetrics
     }
 }
 
@@ -20300,47 +20343,131 @@ extension DynamoDBClientTypes {
 
 }
 
-extension DynamoDBClientTypes {
-    /// Represents a request to perform an UpdateItem operation.
-    public struct Update: Swift.Equatable {
-        /// A condition that must be satisfied in order for a conditional update to succeed.
-        public var conditionExpression: Swift.String?
-        /// One or more substitution tokens for attribute names in an expression.
-        public var expressionAttributeNames: [Swift.String:Swift.String]?
-        /// One or more values that can be substituted in an expression.
-        public var expressionAttributeValues: [Swift.String:DynamoDBClientTypes.AttributeValue]?
-        /// The primary key of the item to be updated. Each element consists of an attribute name and a value for that attribute.
-        /// This member is required.
-        public var key: [Swift.String:DynamoDBClientTypes.AttributeValue]?
-        /// Use ReturnValuesOnConditionCheckFailure to get the item attributes if the Update condition fails. For ReturnValuesOnConditionCheckFailure, the valid values are: NONE and ALL_OLD.
-        public var returnValuesOnConditionCheckFailure: DynamoDBClientTypes.ReturnValuesOnConditionCheckFailure?
-        /// Name of the table for the UpdateItem request.
-        /// This member is required.
-        public var tableName: Swift.String?
-        /// An expression that defines one or more attributes to be updated, the action to be performed on them, and new value(s) for them.
-        /// This member is required.
-        public var updateExpression: Swift.String?
-
-        public init(
-            conditionExpression: Swift.String? = nil,
-            expressionAttributeNames: [Swift.String:Swift.String]? = nil,
-            expressionAttributeValues: [Swift.String:DynamoDBClientTypes.AttributeValue]? = nil,
-            key: [Swift.String:DynamoDBClientTypes.AttributeValue]? = nil,
-            returnValuesOnConditionCheckFailure: DynamoDBClientTypes.ReturnValuesOnConditionCheckFailure? = nil,
-            tableName: Swift.String? = nil,
-            updateExpression: Swift.String? = nil
-        )
-        {
-            self.conditionExpression = conditionExpression
-            self.expressionAttributeNames = expressionAttributeNames
-            self.expressionAttributeValues = expressionAttributeValues
-            self.key = key
-            self.returnValuesOnConditionCheckFailure = returnValuesOnConditionCheckFailure
-            self.tableName = tableName
-            self.updateExpression = updateExpression
-        }
+extension UpdateTableInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case attributeDefinitions = "AttributeDefinitions"
+        case billingMode = "BillingMode"
+        case deletionProtectionEnabled = "DeletionProtectionEnabled"
+        case globalSecondaryIndexUpdates = "GlobalSecondaryIndexUpdates"
+        case provisionedThroughput = "ProvisionedThroughput"
+        case replicaUpdates = "ReplicaUpdates"
+        case sseSpecification = "SSESpecification"
+        case streamSpecification = "StreamSpecification"
+        case tableClass = "TableClass"
+        case tableName = "TableName"
     }
 
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let attributeDefinitions = attributeDefinitions {
+            var attributeDefinitionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attributeDefinitions)
+            for attributedefinition0 in attributeDefinitions {
+                try attributeDefinitionsContainer.encode(attributedefinition0)
+            }
+        }
+        if let billingMode = self.billingMode {
+            try encodeContainer.encode(billingMode.rawValue, forKey: .billingMode)
+        }
+        if let deletionProtectionEnabled = self.deletionProtectionEnabled {
+            try encodeContainer.encode(deletionProtectionEnabled, forKey: .deletionProtectionEnabled)
+        }
+        if let globalSecondaryIndexUpdates = globalSecondaryIndexUpdates {
+            var globalSecondaryIndexUpdatesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .globalSecondaryIndexUpdates)
+            for globalsecondaryindexupdate0 in globalSecondaryIndexUpdates {
+                try globalSecondaryIndexUpdatesContainer.encode(globalsecondaryindexupdate0)
+            }
+        }
+        if let provisionedThroughput = self.provisionedThroughput {
+            try encodeContainer.encode(provisionedThroughput, forKey: .provisionedThroughput)
+        }
+        if let replicaUpdates = replicaUpdates {
+            var replicaUpdatesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .replicaUpdates)
+            for replicationgroupupdate0 in replicaUpdates {
+                try replicaUpdatesContainer.encode(replicationgroupupdate0)
+            }
+        }
+        if let sseSpecification = self.sseSpecification {
+            try encodeContainer.encode(sseSpecification, forKey: .sseSpecification)
+        }
+        if let streamSpecification = self.streamSpecification {
+            try encodeContainer.encode(streamSpecification, forKey: .streamSpecification)
+        }
+        if let tableClass = self.tableClass {
+            try encodeContainer.encode(tableClass.rawValue, forKey: .tableClass)
+        }
+        if let tableName = self.tableName {
+            try encodeContainer.encode(tableName, forKey: .tableName)
+        }
+    }
+}
+
+extension UpdateTableInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+/// Represents the input of an UpdateTable operation.
+public struct UpdateTableInput: Swift.Equatable {
+    /// An array of attributes that describe the key schema for the table and indexes. If you are adding a new global secondary index to the table, AttributeDefinitions must include the key element(s) of the new index.
+    public var attributeDefinitions: [DynamoDBClientTypes.AttributeDefinition]?
+    /// Controls how you are charged for read and write throughput and how you manage capacity. When switching from pay-per-request to provisioned capacity, initial provisioned capacity values must be set. The initial provisioned capacity values are estimated based on the consumed read and write capacity of your table and global secondary indexes over the past 30 minutes.
+    ///
+    /// * PROVISIONED - We recommend using PROVISIONED for predictable workloads. PROVISIONED sets the billing mode to [Provisioned Mode](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.ReadWriteCapacityMode.html#HowItWorks.ProvisionedThroughput.Manual).
+    ///
+    /// * PAY_PER_REQUEST - We recommend using PAY_PER_REQUEST for unpredictable workloads. PAY_PER_REQUEST sets the billing mode to [On-Demand Mode](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.ReadWriteCapacityMode.html#HowItWorks.OnDemand).
+    public var billingMode: DynamoDBClientTypes.BillingMode?
+    /// Indicates whether deletion protection is to be enabled (true) or disabled (false) on the table.
+    public var deletionProtectionEnabled: Swift.Bool?
+    /// An array of one or more global secondary indexes for the table. For each index in the array, you can request one action:
+    ///
+    /// * Create - add a new global secondary index to the table.
+    ///
+    /// * Update - modify the provisioned throughput settings of an existing global secondary index.
+    ///
+    /// * Delete - remove a global secondary index from the table.
+    ///
+    ///
+    /// You can create or delete only one global secondary index per UpdateTable operation. For more information, see [Managing Global Secondary Indexes](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GSI.OnlineOps.html) in the Amazon DynamoDB Developer Guide.
+    public var globalSecondaryIndexUpdates: [DynamoDBClientTypes.GlobalSecondaryIndexUpdate]?
+    /// The new provisioned throughput settings for the specified table or index.
+    public var provisionedThroughput: DynamoDBClientTypes.ProvisionedThroughput?
+    /// A list of replica update actions (create, delete, or update) for the table. This property only applies to [Version 2019.11.21 (Current)](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.V2.html) of global tables.
+    public var replicaUpdates: [DynamoDBClientTypes.ReplicationGroupUpdate]?
+    /// The new server-side encryption settings for the specified table.
+    public var sseSpecification: DynamoDBClientTypes.SSESpecification?
+    /// Represents the DynamoDB Streams configuration for the table. You receive a ResourceInUseException if you try to enable a stream on a table that already has a stream, or if you try to disable a stream on a table that doesn't have a stream.
+    public var streamSpecification: DynamoDBClientTypes.StreamSpecification?
+    /// The table class of the table to be updated. Valid values are STANDARD and STANDARD_INFREQUENT_ACCESS.
+    public var tableClass: DynamoDBClientTypes.TableClass?
+    /// The name of the table to be updated.
+    /// This member is required.
+    public var tableName: Swift.String?
+
+    public init(
+        attributeDefinitions: [DynamoDBClientTypes.AttributeDefinition]? = nil,
+        billingMode: DynamoDBClientTypes.BillingMode? = nil,
+        deletionProtectionEnabled: Swift.Bool? = nil,
+        globalSecondaryIndexUpdates: [DynamoDBClientTypes.GlobalSecondaryIndexUpdate]? = nil,
+        provisionedThroughput: DynamoDBClientTypes.ProvisionedThroughput? = nil,
+        replicaUpdates: [DynamoDBClientTypes.ReplicationGroupUpdate]? = nil,
+        sseSpecification: DynamoDBClientTypes.SSESpecification? = nil,
+        streamSpecification: DynamoDBClientTypes.StreamSpecification? = nil,
+        tableClass: DynamoDBClientTypes.TableClass? = nil,
+        tableName: Swift.String? = nil
+    )
+    {
+        self.attributeDefinitions = attributeDefinitions
+        self.billingMode = billingMode
+        self.deletionProtectionEnabled = deletionProtectionEnabled
+        self.globalSecondaryIndexUpdates = globalSecondaryIndexUpdates
+        self.provisionedThroughput = provisionedThroughput
+        self.replicaUpdates = replicaUpdates
+        self.sseSpecification = sseSpecification
+        self.streamSpecification = streamSpecification
+        self.tableClass = tableClass
+        self.tableName = tableName
+    }
 }
 
 struct UpdateTableInputBody: Swift.Equatable {
@@ -20422,130 +20549,28 @@ extension UpdateTableInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateTableInput: Swift.Encodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case attributeDefinitions = "AttributeDefinitions"
-        case billingMode = "BillingMode"
-        case deletionProtectionEnabled = "DeletionProtectionEnabled"
-        case globalSecondaryIndexUpdates = "GlobalSecondaryIndexUpdates"
-        case provisionedThroughput = "ProvisionedThroughput"
-        case replicaUpdates = "ReplicaUpdates"
-        case sseSpecification = "SSESpecification"
-        case streamSpecification = "StreamSpecification"
-        case tableClass = "TableClass"
-        case tableName = "TableName"
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let attributeDefinitions = attributeDefinitions {
-            var attributeDefinitionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attributeDefinitions)
-            for attributedefinition0 in attributeDefinitions {
-                try attributeDefinitionsContainer.encode(attributedefinition0)
-            }
-        }
-        if let billingMode = self.billingMode {
-            try encodeContainer.encode(billingMode.rawValue, forKey: .billingMode)
-        }
-        if let deletionProtectionEnabled = self.deletionProtectionEnabled {
-            try encodeContainer.encode(deletionProtectionEnabled, forKey: .deletionProtectionEnabled)
-        }
-        if let globalSecondaryIndexUpdates = globalSecondaryIndexUpdates {
-            var globalSecondaryIndexUpdatesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .globalSecondaryIndexUpdates)
-            for globalsecondaryindexupdate0 in globalSecondaryIndexUpdates {
-                try globalSecondaryIndexUpdatesContainer.encode(globalsecondaryindexupdate0)
-            }
-        }
-        if let provisionedThroughput = self.provisionedThroughput {
-            try encodeContainer.encode(provisionedThroughput, forKey: .provisionedThroughput)
-        }
-        if let replicaUpdates = replicaUpdates {
-            var replicaUpdatesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .replicaUpdates)
-            for replicationgroupupdate0 in replicaUpdates {
-                try replicaUpdatesContainer.encode(replicationgroupupdate0)
-            }
-        }
-        if let sseSpecification = self.sseSpecification {
-            try encodeContainer.encode(sseSpecification, forKey: .sseSpecification)
-        }
-        if let streamSpecification = self.streamSpecification {
-            try encodeContainer.encode(streamSpecification, forKey: .streamSpecification)
-        }
-        if let tableClass = self.tableClass {
-            try encodeContainer.encode(tableClass.rawValue, forKey: .tableClass)
-        }
-        if let tableName = self.tableName {
-            try encodeContainer.encode(tableName, forKey: .tableName)
+extension UpdateTableOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateTableOutputBody = try responseDecoder.decode(responseBody: data)
+            self.tableDescription = output.tableDescription
+        } else {
+            self.tableDescription = nil
         }
     }
 }
 
-/// Represents the input of an UpdateTable operation.
-public struct UpdateTableInput: Swift.Equatable {
-    /// An array of attributes that describe the key schema for the table and indexes. If you are adding a new global secondary index to the table, AttributeDefinitions must include the key element(s) of the new index.
-    public var attributeDefinitions: [DynamoDBClientTypes.AttributeDefinition]?
-    /// Controls how you are charged for read and write throughput and how you manage capacity. When switching from pay-per-request to provisioned capacity, initial provisioned capacity values must be set. The initial provisioned capacity values are estimated based on the consumed read and write capacity of your table and global secondary indexes over the past 30 minutes.
-    ///
-    /// * PROVISIONED - We recommend using PROVISIONED for predictable workloads. PROVISIONED sets the billing mode to [Provisioned Mode](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.ReadWriteCapacityMode.html#HowItWorks.ProvisionedThroughput.Manual).
-    ///
-    /// * PAY_PER_REQUEST - We recommend using PAY_PER_REQUEST for unpredictable workloads. PAY_PER_REQUEST sets the billing mode to [On-Demand Mode](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.ReadWriteCapacityMode.html#HowItWorks.OnDemand).
-    public var billingMode: DynamoDBClientTypes.BillingMode?
-    /// Indicates whether deletion protection is to be enabled (true) or disabled (false) on the table.
-    public var deletionProtectionEnabled: Swift.Bool?
-    /// An array of one or more global secondary indexes for the table. For each index in the array, you can request one action:
-    ///
-    /// * Create - add a new global secondary index to the table.
-    ///
-    /// * Update - modify the provisioned throughput settings of an existing global secondary index.
-    ///
-    /// * Delete - remove a global secondary index from the table.
-    ///
-    ///
-    /// You can create or delete only one global secondary index per UpdateTable operation. For more information, see [Managing Global Secondary Indexes](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GSI.OnlineOps.html) in the Amazon DynamoDB Developer Guide.
-    public var globalSecondaryIndexUpdates: [DynamoDBClientTypes.GlobalSecondaryIndexUpdate]?
-    /// The new provisioned throughput settings for the specified table or index.
-    public var provisionedThroughput: DynamoDBClientTypes.ProvisionedThroughput?
-    /// A list of replica update actions (create, delete, or update) for the table. This property only applies to [Version 2019.11.21 (Current)](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.V2.html) of global tables.
-    public var replicaUpdates: [DynamoDBClientTypes.ReplicationGroupUpdate]?
-    /// The new server-side encryption settings for the specified table.
-    public var sseSpecification: DynamoDBClientTypes.SSESpecification?
-    /// Represents the DynamoDB Streams configuration for the table. You receive a ResourceInUseException if you try to enable a stream on a table that already has a stream, or if you try to disable a stream on a table that doesn't have a stream.
-    public var streamSpecification: DynamoDBClientTypes.StreamSpecification?
-    /// The table class of the table to be updated. Valid values are STANDARD and STANDARD_INFREQUENT_ACCESS.
-    public var tableClass: DynamoDBClientTypes.TableClass?
-    /// The name of the table to be updated.
-    /// This member is required.
-    public var tableName: Swift.String?
+/// Represents the output of an UpdateTable operation.
+public struct UpdateTableOutput: Swift.Equatable {
+    /// Represents the properties of the table.
+    public var tableDescription: DynamoDBClientTypes.TableDescription?
 
     public init(
-        attributeDefinitions: [DynamoDBClientTypes.AttributeDefinition]? = nil,
-        billingMode: DynamoDBClientTypes.BillingMode? = nil,
-        deletionProtectionEnabled: Swift.Bool? = nil,
-        globalSecondaryIndexUpdates: [DynamoDBClientTypes.GlobalSecondaryIndexUpdate]? = nil,
-        provisionedThroughput: DynamoDBClientTypes.ProvisionedThroughput? = nil,
-        replicaUpdates: [DynamoDBClientTypes.ReplicationGroupUpdate]? = nil,
-        sseSpecification: DynamoDBClientTypes.SSESpecification? = nil,
-        streamSpecification: DynamoDBClientTypes.StreamSpecification? = nil,
-        tableClass: DynamoDBClientTypes.TableClass? = nil,
-        tableName: Swift.String? = nil
+        tableDescription: DynamoDBClientTypes.TableDescription? = nil
     )
     {
-        self.attributeDefinitions = attributeDefinitions
-        self.billingMode = billingMode
-        self.deletionProtectionEnabled = deletionProtectionEnabled
-        self.globalSecondaryIndexUpdates = globalSecondaryIndexUpdates
-        self.provisionedThroughput = provisionedThroughput
-        self.replicaUpdates = replicaUpdates
-        self.sseSpecification = sseSpecification
-        self.streamSpecification = streamSpecification
-        self.tableClass = tableClass
-        self.tableName = tableName
-    }
-}
-
-extension UpdateTableInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
+        self.tableDescription = tableDescription
     }
 }
 
@@ -20580,28 +20605,65 @@ enum UpdateTableOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension UpdateTableOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: UpdateTableOutputBody = try responseDecoder.decode(responseBody: data)
-            self.tableDescription = output.tableDescription
-        } else {
-            self.tableDescription = nil
+extension UpdateTableReplicaAutoScalingInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case globalSecondaryIndexUpdates = "GlobalSecondaryIndexUpdates"
+        case provisionedWriteCapacityAutoScalingUpdate = "ProvisionedWriteCapacityAutoScalingUpdate"
+        case replicaUpdates = "ReplicaUpdates"
+        case tableName = "TableName"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let globalSecondaryIndexUpdates = globalSecondaryIndexUpdates {
+            var globalSecondaryIndexUpdatesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .globalSecondaryIndexUpdates)
+            for globalsecondaryindexautoscalingupdate0 in globalSecondaryIndexUpdates {
+                try globalSecondaryIndexUpdatesContainer.encode(globalsecondaryindexautoscalingupdate0)
+            }
+        }
+        if let provisionedWriteCapacityAutoScalingUpdate = self.provisionedWriteCapacityAutoScalingUpdate {
+            try encodeContainer.encode(provisionedWriteCapacityAutoScalingUpdate, forKey: .provisionedWriteCapacityAutoScalingUpdate)
+        }
+        if let replicaUpdates = replicaUpdates {
+            var replicaUpdatesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .replicaUpdates)
+            for replicaautoscalingupdate0 in replicaUpdates {
+                try replicaUpdatesContainer.encode(replicaautoscalingupdate0)
+            }
+        }
+        if let tableName = self.tableName {
+            try encodeContainer.encode(tableName, forKey: .tableName)
         }
     }
 }
 
-/// Represents the output of an UpdateTable operation.
-public struct UpdateTableOutput: Swift.Equatable {
-    /// Represents the properties of the table.
-    public var tableDescription: DynamoDBClientTypes.TableDescription?
+extension UpdateTableReplicaAutoScalingInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct UpdateTableReplicaAutoScalingInput: Swift.Equatable {
+    /// Represents the auto scaling settings of the global secondary indexes of the replica to be updated.
+    public var globalSecondaryIndexUpdates: [DynamoDBClientTypes.GlobalSecondaryIndexAutoScalingUpdate]?
+    /// Represents the auto scaling settings to be modified for a global table or global secondary index.
+    public var provisionedWriteCapacityAutoScalingUpdate: DynamoDBClientTypes.AutoScalingSettingsUpdate?
+    /// Represents the auto scaling settings of replicas of the table that will be modified.
+    public var replicaUpdates: [DynamoDBClientTypes.ReplicaAutoScalingUpdate]?
+    /// The name of the global table to be updated.
+    /// This member is required.
+    public var tableName: Swift.String?
 
     public init(
-        tableDescription: DynamoDBClientTypes.TableDescription? = nil
+        globalSecondaryIndexUpdates: [DynamoDBClientTypes.GlobalSecondaryIndexAutoScalingUpdate]? = nil,
+        provisionedWriteCapacityAutoScalingUpdate: DynamoDBClientTypes.AutoScalingSettingsUpdate? = nil,
+        replicaUpdates: [DynamoDBClientTypes.ReplicaAutoScalingUpdate]? = nil,
+        tableName: Swift.String? = nil
     )
     {
-        self.tableDescription = tableDescription
+        self.globalSecondaryIndexUpdates = globalSecondaryIndexUpdates
+        self.provisionedWriteCapacityAutoScalingUpdate = provisionedWriteCapacityAutoScalingUpdate
+        self.replicaUpdates = replicaUpdates
+        self.tableName = tableName
     }
 }
 
@@ -20651,65 +20713,27 @@ extension UpdateTableReplicaAutoScalingInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateTableReplicaAutoScalingInput: Swift.Encodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case globalSecondaryIndexUpdates = "GlobalSecondaryIndexUpdates"
-        case provisionedWriteCapacityAutoScalingUpdate = "ProvisionedWriteCapacityAutoScalingUpdate"
-        case replicaUpdates = "ReplicaUpdates"
-        case tableName = "TableName"
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let globalSecondaryIndexUpdates = globalSecondaryIndexUpdates {
-            var globalSecondaryIndexUpdatesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .globalSecondaryIndexUpdates)
-            for globalsecondaryindexautoscalingupdate0 in globalSecondaryIndexUpdates {
-                try globalSecondaryIndexUpdatesContainer.encode(globalsecondaryindexautoscalingupdate0)
-            }
-        }
-        if let provisionedWriteCapacityAutoScalingUpdate = self.provisionedWriteCapacityAutoScalingUpdate {
-            try encodeContainer.encode(provisionedWriteCapacityAutoScalingUpdate, forKey: .provisionedWriteCapacityAutoScalingUpdate)
-        }
-        if let replicaUpdates = replicaUpdates {
-            var replicaUpdatesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .replicaUpdates)
-            for replicaautoscalingupdate0 in replicaUpdates {
-                try replicaUpdatesContainer.encode(replicaautoscalingupdate0)
-            }
-        }
-        if let tableName = self.tableName {
-            try encodeContainer.encode(tableName, forKey: .tableName)
+extension UpdateTableReplicaAutoScalingOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateTableReplicaAutoScalingOutputBody = try responseDecoder.decode(responseBody: data)
+            self.tableAutoScalingDescription = output.tableAutoScalingDescription
+        } else {
+            self.tableAutoScalingDescription = nil
         }
     }
 }
 
-public struct UpdateTableReplicaAutoScalingInput: Swift.Equatable {
-    /// Represents the auto scaling settings of the global secondary indexes of the replica to be updated.
-    public var globalSecondaryIndexUpdates: [DynamoDBClientTypes.GlobalSecondaryIndexAutoScalingUpdate]?
-    /// Represents the auto scaling settings to be modified for a global table or global secondary index.
-    public var provisionedWriteCapacityAutoScalingUpdate: DynamoDBClientTypes.AutoScalingSettingsUpdate?
-    /// Represents the auto scaling settings of replicas of the table that will be modified.
-    public var replicaUpdates: [DynamoDBClientTypes.ReplicaAutoScalingUpdate]?
-    /// The name of the global table to be updated.
-    /// This member is required.
-    public var tableName: Swift.String?
+public struct UpdateTableReplicaAutoScalingOutput: Swift.Equatable {
+    /// Returns information about the auto scaling settings of a table with replicas.
+    public var tableAutoScalingDescription: DynamoDBClientTypes.TableAutoScalingDescription?
 
     public init(
-        globalSecondaryIndexUpdates: [DynamoDBClientTypes.GlobalSecondaryIndexAutoScalingUpdate]? = nil,
-        provisionedWriteCapacityAutoScalingUpdate: DynamoDBClientTypes.AutoScalingSettingsUpdate? = nil,
-        replicaUpdates: [DynamoDBClientTypes.ReplicaAutoScalingUpdate]? = nil,
-        tableName: Swift.String? = nil
+        tableAutoScalingDescription: DynamoDBClientTypes.TableAutoScalingDescription? = nil
     )
     {
-        self.globalSecondaryIndexUpdates = globalSecondaryIndexUpdates
-        self.provisionedWriteCapacityAutoScalingUpdate = provisionedWriteCapacityAutoScalingUpdate
-        self.replicaUpdates = replicaUpdates
-        self.tableName = tableName
-    }
-}
-
-extension UpdateTableReplicaAutoScalingInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
+        self.tableAutoScalingDescription = tableAutoScalingDescription
     }
 }
 
@@ -20743,27 +20767,45 @@ enum UpdateTableReplicaAutoScalingOutputError: ClientRuntime.HttpResponseErrorBi
     }
 }
 
-extension UpdateTableReplicaAutoScalingOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: UpdateTableReplicaAutoScalingOutputBody = try responseDecoder.decode(responseBody: data)
-            self.tableAutoScalingDescription = output.tableAutoScalingDescription
-        } else {
-            self.tableAutoScalingDescription = nil
+extension UpdateTimeToLiveInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case tableName = "TableName"
+        case timeToLiveSpecification = "TimeToLiveSpecification"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let tableName = self.tableName {
+            try encodeContainer.encode(tableName, forKey: .tableName)
+        }
+        if let timeToLiveSpecification = self.timeToLiveSpecification {
+            try encodeContainer.encode(timeToLiveSpecification, forKey: .timeToLiveSpecification)
         }
     }
 }
 
-public struct UpdateTableReplicaAutoScalingOutput: Swift.Equatable {
-    /// Returns information about the auto scaling settings of a table with replicas.
-    public var tableAutoScalingDescription: DynamoDBClientTypes.TableAutoScalingDescription?
+extension UpdateTimeToLiveInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+/// Represents the input of an UpdateTimeToLive operation.
+public struct UpdateTimeToLiveInput: Swift.Equatable {
+    /// The name of the table to be configured.
+    /// This member is required.
+    public var tableName: Swift.String?
+    /// Represents the settings used to enable or disable Time to Live for the specified table.
+    /// This member is required.
+    public var timeToLiveSpecification: DynamoDBClientTypes.TimeToLiveSpecification?
 
     public init(
-        tableAutoScalingDescription: DynamoDBClientTypes.TableAutoScalingDescription? = nil
+        tableName: Swift.String? = nil,
+        timeToLiveSpecification: DynamoDBClientTypes.TimeToLiveSpecification? = nil
     )
     {
-        self.tableAutoScalingDescription = tableAutoScalingDescription
+        self.tableName = tableName
+        self.timeToLiveSpecification = timeToLiveSpecification
     }
 }
 
@@ -20787,45 +20829,27 @@ extension UpdateTimeToLiveInputBody: Swift.Decodable {
     }
 }
 
-extension UpdateTimeToLiveInput: Swift.Encodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case tableName = "TableName"
-        case timeToLiveSpecification = "TimeToLiveSpecification"
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let tableName = self.tableName {
-            try encodeContainer.encode(tableName, forKey: .tableName)
-        }
-        if let timeToLiveSpecification = self.timeToLiveSpecification {
-            try encodeContainer.encode(timeToLiveSpecification, forKey: .timeToLiveSpecification)
+extension UpdateTimeToLiveOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateTimeToLiveOutputBody = try responseDecoder.decode(responseBody: data)
+            self.timeToLiveSpecification = output.timeToLiveSpecification
+        } else {
+            self.timeToLiveSpecification = nil
         }
     }
 }
 
-/// Represents the input of an UpdateTimeToLive operation.
-public struct UpdateTimeToLiveInput: Swift.Equatable {
-    /// The name of the table to be configured.
-    /// This member is required.
-    public var tableName: Swift.String?
-    /// Represents the settings used to enable or disable Time to Live for the specified table.
-    /// This member is required.
+public struct UpdateTimeToLiveOutput: Swift.Equatable {
+    /// Represents the output of an UpdateTimeToLive operation.
     public var timeToLiveSpecification: DynamoDBClientTypes.TimeToLiveSpecification?
 
     public init(
-        tableName: Swift.String? = nil,
         timeToLiveSpecification: DynamoDBClientTypes.TimeToLiveSpecification? = nil
     )
     {
-        self.tableName = tableName
         self.timeToLiveSpecification = timeToLiveSpecification
-    }
-}
-
-extension UpdateTimeToLiveInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
     }
 }
 
@@ -20857,30 +20881,6 @@ enum UpdateTimeToLiveOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-    }
-}
-
-extension UpdateTimeToLiveOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: UpdateTimeToLiveOutputBody = try responseDecoder.decode(responseBody: data)
-            self.timeToLiveSpecification = output.timeToLiveSpecification
-        } else {
-            self.timeToLiveSpecification = nil
-        }
-    }
-}
-
-public struct UpdateTimeToLiveOutput: Swift.Equatable {
-    /// Represents the output of an UpdateTimeToLive operation.
-    public var timeToLiveSpecification: DynamoDBClientTypes.TimeToLiveSpecification?
-
-    public init(
-        timeToLiveSpecification: DynamoDBClientTypes.TimeToLiveSpecification? = nil
-    )
-    {
-        self.timeToLiveSpecification = timeToLiveSpecification
     }
 }
 

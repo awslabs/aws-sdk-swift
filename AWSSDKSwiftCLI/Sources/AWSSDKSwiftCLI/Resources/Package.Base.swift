@@ -36,8 +36,8 @@ let package = Package(
     targets: [
         .target(
             name: "AWSSDKForSwift",
-            path: "./Sources/Core/AWSSDKForSwift",
-            exclude: ["Sources/Core/AWSSDKForSwift/Documentation/*"]
+            path: "Sources/Core/AWSSDKForSwift",
+            exclude: ["Documentation.docc/AWSSDKForSwift.md"]
         ),
         .target(
             name: "AWSClientRuntime",

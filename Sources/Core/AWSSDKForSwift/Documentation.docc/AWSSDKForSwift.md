@@ -11,11 +11,11 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 ## Service Documentation
 
 
-[AWSDynamoDB](https://dwdoxo7kdzlaf.cloudfront.net/swift/AWSDynamoDB/latest/documentation/AWSDynamoDB)
+[AWSBedrockRuntime](https://dwdoxo7kdzlaf.cloudfront.net/swift/awsbedrockruntime/latest/documentation/awsbedrockruntime)
 
-[AWSS3](https://dwdoxo7kdzlaf.cloudfront.net/swift/AWSS3/latest/documentation/AWSS3)
+[AWSDynamoDB](https://dwdoxo7kdzlaf.cloudfront.net/swift/awsdynamodb/latest/documentation/awsdynamodb)
 
-[AWSSTS](https://dwdoxo7kdzlaf.cloudfront.net/swift/AWSSTS/latest/documentation/AWSSTS)
+[AWSS3](https://dwdoxo7kdzlaf.cloudfront.net/swift/awss3/latest/documentation/awss3)
 
-
+[AWSSTS](https://dwdoxo7kdzlaf.cloudfront.net/swift/awssts/latest/documentation/awssts)
 

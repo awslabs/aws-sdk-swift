@@ -31,6 +31,8 @@ generateDocs() {
     if [ $? -ne 0 ]; then
         echo "Failed to generate docs for $package $VERSION"
         exit 1
+    else
+        echo "Generating docs complete"
     fi
 
     # sync to AWSS3, adding the new version
@@ -42,7 +44,7 @@ generateDocs() {
     mkdir -p ./docs/$package_lowercase/latest
 
     # generate docs for latest
-    echo "Generating docs for $package latest"
+    echo "Generating docs for $package latest..."
     swift package --allow-writing-to-directory $OUTPUT_DIR \
             generate-documentation --target $package \
             --disable-indexing \
@@ -54,13 +56,33 @@ generateDocs() {
     if [ $? -ne 0 ]; then
         echo "Failed to generate docs for $package latest"
         exit 1
+    else
+        echo "Generating docs complete"
     fi
 
     # sync to AWSS3, replacing the previous "latest"
     echo "Syncing doccarchive to S3 for $package latest"
     aws s3 sync --delete --quiet $OUTPUT_DIR/$package_lowercase-latest.doccarchive s3://docs-spike/$package_lowercase-latest.doccarchive
-    echo "Syncing complete"
 
+    # break if S3 sync fails
+    if [ $? -ne 0 ]; then
+        echo "Failed to sync $package latest to S3"
+        exit 1
+    else
+        echo "Syncing complete"
+    fi
+
+    # generate invalidation for latest
+    echo "Invalidating $package latest..."
+    aws cloudfront create-invalidation --distribution-id "$DISTRIBUTION_ID" --paths "/$package_lowercase-latest.doccarchive/*"
+
+    # break if invalidation fails
+    if [ $? -ne 0 ]; then
+        echo "Failed to invalidate $package latest"
+        exit 1
+    else
+        echo "Invalidation created"
+    fi
 }
 
 if [ $# -ne 4 ]; then

@@ -37,7 +37,7 @@ let package = Package(
         .target(
             name: "AWSSDKForSwift",
             path: "Sources/Core/AWSSDKForSwift",
-            exclude: ["Sources/Core/AWSSDKForSwift/Documentation/*"]
+            exclude: ["Documentation.docc/AWSSDKForSwift.md"]
         ),
         .target(
             name: "AWSClientRuntime",
@@ -201,6 +201,7 @@ addDependencies(
 )
 
 let serviceTargets: [String] = [
+    "AWSBedrockRuntime",
     "AWSDynamoDB",
     "AWSS3",
     "AWSSTS",
