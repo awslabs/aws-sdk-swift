@@ -186,6 +186,79 @@ enum CreateHomeRegionControlOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
+extension DeleteHomeRegionControlInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case controlId = "ControlId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let controlId = self.controlId {
+            try encodeContainer.encode(controlId, forKey: .controlId)
+        }
+    }
+}
+
+extension DeleteHomeRegionControlInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DeleteHomeRegionControlInput: Swift.Equatable {
+    /// A unique identifier that's generated for each home region control. It's always a string that begins with "hrc-" followed by 12 lowercase letters and numbers.
+    /// This member is required.
+    public var controlId: Swift.String?
+
+    public init(
+        controlId: Swift.String? = nil
+    )
+    {
+        self.controlId = controlId
+    }
+}
+
+struct DeleteHomeRegionControlInputBody: Swift.Equatable {
+    let controlId: Swift.String?
+}
+
+extension DeleteHomeRegionControlInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case controlId = "ControlId"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let controlIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .controlId)
+        controlId = controlIdDecoded
+    }
+}
+
+extension DeleteHomeRegionControlOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteHomeRegionControlOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteHomeRegionControlOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension DescribeHomeRegionControlsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case controlId = "ControlId"

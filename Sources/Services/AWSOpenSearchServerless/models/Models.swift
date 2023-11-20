@@ -194,7 +194,7 @@ extension OpenSearchServerlessClientTypes {
         public var name: Swift.String?
         /// The version of the policy.
         public var policyVersion: Swift.String?
-        /// The type of access policy. Currently the only available type is data.
+        /// The type of access policy. Currently, the only available type is data.
         public var type: OpenSearchServerlessClientTypes.AccessPolicyType?
 
         public init(
@@ -434,6 +434,286 @@ extension BatchGetCollectionOutputBody: Swift.Decodable {
 }
 
 enum BatchGetCollectionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension BatchGetEffectiveLifecyclePolicyInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case resourceIdentifiers
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let resourceIdentifiers = resourceIdentifiers {
+            var resourceIdentifiersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceIdentifiers)
+            for lifecyclepolicyresourceidentifier0 in resourceIdentifiers {
+                try resourceIdentifiersContainer.encode(lifecyclepolicyresourceidentifier0)
+            }
+        }
+    }
+}
+
+extension BatchGetEffectiveLifecyclePolicyInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct BatchGetEffectiveLifecyclePolicyInput: Swift.Equatable {
+    /// The unique identifiers of policy types and resource names.
+    /// This member is required.
+    public var resourceIdentifiers: [OpenSearchServerlessClientTypes.LifecyclePolicyResourceIdentifier]?
+
+    public init(
+        resourceIdentifiers: [OpenSearchServerlessClientTypes.LifecyclePolicyResourceIdentifier]? = nil
+    )
+    {
+        self.resourceIdentifiers = resourceIdentifiers
+    }
+}
+
+struct BatchGetEffectiveLifecyclePolicyInputBody: Swift.Equatable {
+    let resourceIdentifiers: [OpenSearchServerlessClientTypes.LifecyclePolicyResourceIdentifier]?
+}
+
+extension BatchGetEffectiveLifecyclePolicyInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case resourceIdentifiers
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourceIdentifiersContainer = try containerValues.decodeIfPresent([OpenSearchServerlessClientTypes.LifecyclePolicyResourceIdentifier?].self, forKey: .resourceIdentifiers)
+        var resourceIdentifiersDecoded0:[OpenSearchServerlessClientTypes.LifecyclePolicyResourceIdentifier]? = nil
+        if let resourceIdentifiersContainer = resourceIdentifiersContainer {
+            resourceIdentifiersDecoded0 = [OpenSearchServerlessClientTypes.LifecyclePolicyResourceIdentifier]()
+            for structure0 in resourceIdentifiersContainer {
+                if let structure0 = structure0 {
+                    resourceIdentifiersDecoded0?.append(structure0)
+                }
+            }
+        }
+        resourceIdentifiers = resourceIdentifiersDecoded0
+    }
+}
+
+extension BatchGetEffectiveLifecyclePolicyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: BatchGetEffectiveLifecyclePolicyOutputBody = try responseDecoder.decode(responseBody: data)
+            self.effectiveLifecyclePolicyDetails = output.effectiveLifecyclePolicyDetails
+            self.effectiveLifecyclePolicyErrorDetails = output.effectiveLifecyclePolicyErrorDetails
+        } else {
+            self.effectiveLifecyclePolicyDetails = nil
+            self.effectiveLifecyclePolicyErrorDetails = nil
+        }
+    }
+}
+
+public struct BatchGetEffectiveLifecyclePolicyOutput: Swift.Equatable {
+    /// A list of lifecycle policies applied to the OpenSearch Serverless indexes.
+    public var effectiveLifecyclePolicyDetails: [OpenSearchServerlessClientTypes.EffectiveLifecyclePolicyDetail]?
+    /// A list of resources for which retrieval failed.
+    public var effectiveLifecyclePolicyErrorDetails: [OpenSearchServerlessClientTypes.EffectiveLifecyclePolicyErrorDetail]?
+
+    public init(
+        effectiveLifecyclePolicyDetails: [OpenSearchServerlessClientTypes.EffectiveLifecyclePolicyDetail]? = nil,
+        effectiveLifecyclePolicyErrorDetails: [OpenSearchServerlessClientTypes.EffectiveLifecyclePolicyErrorDetail]? = nil
+    )
+    {
+        self.effectiveLifecyclePolicyDetails = effectiveLifecyclePolicyDetails
+        self.effectiveLifecyclePolicyErrorDetails = effectiveLifecyclePolicyErrorDetails
+    }
+}
+
+struct BatchGetEffectiveLifecyclePolicyOutputBody: Swift.Equatable {
+    let effectiveLifecyclePolicyDetails: [OpenSearchServerlessClientTypes.EffectiveLifecyclePolicyDetail]?
+    let effectiveLifecyclePolicyErrorDetails: [OpenSearchServerlessClientTypes.EffectiveLifecyclePolicyErrorDetail]?
+}
+
+extension BatchGetEffectiveLifecyclePolicyOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case effectiveLifecyclePolicyDetails
+        case effectiveLifecyclePolicyErrorDetails
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let effectiveLifecyclePolicyDetailsContainer = try containerValues.decodeIfPresent([OpenSearchServerlessClientTypes.EffectiveLifecyclePolicyDetail?].self, forKey: .effectiveLifecyclePolicyDetails)
+        var effectiveLifecyclePolicyDetailsDecoded0:[OpenSearchServerlessClientTypes.EffectiveLifecyclePolicyDetail]? = nil
+        if let effectiveLifecyclePolicyDetailsContainer = effectiveLifecyclePolicyDetailsContainer {
+            effectiveLifecyclePolicyDetailsDecoded0 = [OpenSearchServerlessClientTypes.EffectiveLifecyclePolicyDetail]()
+            for structure0 in effectiveLifecyclePolicyDetailsContainer {
+                if let structure0 = structure0 {
+                    effectiveLifecyclePolicyDetailsDecoded0?.append(structure0)
+                }
+            }
+        }
+        effectiveLifecyclePolicyDetails = effectiveLifecyclePolicyDetailsDecoded0
+        let effectiveLifecyclePolicyErrorDetailsContainer = try containerValues.decodeIfPresent([OpenSearchServerlessClientTypes.EffectiveLifecyclePolicyErrorDetail?].self, forKey: .effectiveLifecyclePolicyErrorDetails)
+        var effectiveLifecyclePolicyErrorDetailsDecoded0:[OpenSearchServerlessClientTypes.EffectiveLifecyclePolicyErrorDetail]? = nil
+        if let effectiveLifecyclePolicyErrorDetailsContainer = effectiveLifecyclePolicyErrorDetailsContainer {
+            effectiveLifecyclePolicyErrorDetailsDecoded0 = [OpenSearchServerlessClientTypes.EffectiveLifecyclePolicyErrorDetail]()
+            for structure0 in effectiveLifecyclePolicyErrorDetailsContainer {
+                if let structure0 = structure0 {
+                    effectiveLifecyclePolicyErrorDetailsDecoded0?.append(structure0)
+                }
+            }
+        }
+        effectiveLifecyclePolicyErrorDetails = effectiveLifecyclePolicyErrorDetailsDecoded0
+    }
+}
+
+enum BatchGetEffectiveLifecyclePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension BatchGetLifecyclePolicyInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case identifiers
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let identifiers = identifiers {
+            var identifiersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .identifiers)
+            for lifecyclepolicyidentifier0 in identifiers {
+                try identifiersContainer.encode(lifecyclepolicyidentifier0)
+            }
+        }
+    }
+}
+
+extension BatchGetLifecyclePolicyInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct BatchGetLifecyclePolicyInput: Swift.Equatable {
+    /// The unique identifiers of policy types and policy names.
+    /// This member is required.
+    public var identifiers: [OpenSearchServerlessClientTypes.LifecyclePolicyIdentifier]?
+
+    public init(
+        identifiers: [OpenSearchServerlessClientTypes.LifecyclePolicyIdentifier]? = nil
+    )
+    {
+        self.identifiers = identifiers
+    }
+}
+
+struct BatchGetLifecyclePolicyInputBody: Swift.Equatable {
+    let identifiers: [OpenSearchServerlessClientTypes.LifecyclePolicyIdentifier]?
+}
+
+extension BatchGetLifecyclePolicyInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case identifiers
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let identifiersContainer = try containerValues.decodeIfPresent([OpenSearchServerlessClientTypes.LifecyclePolicyIdentifier?].self, forKey: .identifiers)
+        var identifiersDecoded0:[OpenSearchServerlessClientTypes.LifecyclePolicyIdentifier]? = nil
+        if let identifiersContainer = identifiersContainer {
+            identifiersDecoded0 = [OpenSearchServerlessClientTypes.LifecyclePolicyIdentifier]()
+            for structure0 in identifiersContainer {
+                if let structure0 = structure0 {
+                    identifiersDecoded0?.append(structure0)
+                }
+            }
+        }
+        identifiers = identifiersDecoded0
+    }
+}
+
+extension BatchGetLifecyclePolicyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: BatchGetLifecyclePolicyOutputBody = try responseDecoder.decode(responseBody: data)
+            self.lifecyclePolicyDetails = output.lifecyclePolicyDetails
+            self.lifecyclePolicyErrorDetails = output.lifecyclePolicyErrorDetails
+        } else {
+            self.lifecyclePolicyDetails = nil
+            self.lifecyclePolicyErrorDetails = nil
+        }
+    }
+}
+
+public struct BatchGetLifecyclePolicyOutput: Swift.Equatable {
+    /// A list of lifecycle policies matched to the input policy name and policy type.
+    public var lifecyclePolicyDetails: [OpenSearchServerlessClientTypes.LifecyclePolicyDetail]?
+    /// A list of lifecycle policy names and policy types for which retrieval failed.
+    public var lifecyclePolicyErrorDetails: [OpenSearchServerlessClientTypes.LifecyclePolicyErrorDetail]?
+
+    public init(
+        lifecyclePolicyDetails: [OpenSearchServerlessClientTypes.LifecyclePolicyDetail]? = nil,
+        lifecyclePolicyErrorDetails: [OpenSearchServerlessClientTypes.LifecyclePolicyErrorDetail]? = nil
+    )
+    {
+        self.lifecyclePolicyDetails = lifecyclePolicyDetails
+        self.lifecyclePolicyErrorDetails = lifecyclePolicyErrorDetails
+    }
+}
+
+struct BatchGetLifecyclePolicyOutputBody: Swift.Equatable {
+    let lifecyclePolicyDetails: [OpenSearchServerlessClientTypes.LifecyclePolicyDetail]?
+    let lifecyclePolicyErrorDetails: [OpenSearchServerlessClientTypes.LifecyclePolicyErrorDetail]?
+}
+
+extension BatchGetLifecyclePolicyOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case lifecyclePolicyDetails
+        case lifecyclePolicyErrorDetails
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let lifecyclePolicyDetailsContainer = try containerValues.decodeIfPresent([OpenSearchServerlessClientTypes.LifecyclePolicyDetail?].self, forKey: .lifecyclePolicyDetails)
+        var lifecyclePolicyDetailsDecoded0:[OpenSearchServerlessClientTypes.LifecyclePolicyDetail]? = nil
+        if let lifecyclePolicyDetailsContainer = lifecyclePolicyDetailsContainer {
+            lifecyclePolicyDetailsDecoded0 = [OpenSearchServerlessClientTypes.LifecyclePolicyDetail]()
+            for structure0 in lifecyclePolicyDetailsContainer {
+                if let structure0 = structure0 {
+                    lifecyclePolicyDetailsDecoded0?.append(structure0)
+                }
+            }
+        }
+        lifecyclePolicyDetails = lifecyclePolicyDetailsDecoded0
+        let lifecyclePolicyErrorDetailsContainer = try containerValues.decodeIfPresent([OpenSearchServerlessClientTypes.LifecyclePolicyErrorDetail?].self, forKey: .lifecyclePolicyErrorDetails)
+        var lifecyclePolicyErrorDetailsDecoded0:[OpenSearchServerlessClientTypes.LifecyclePolicyErrorDetail]? = nil
+        if let lifecyclePolicyErrorDetailsContainer = lifecyclePolicyErrorDetailsContainer {
+            lifecyclePolicyErrorDetailsDecoded0 = [OpenSearchServerlessClientTypes.LifecyclePolicyErrorDetail]()
+            for structure0 in lifecyclePolicyErrorDetailsContainer {
+                if let structure0 = structure0 {
+                    lifecyclePolicyErrorDetailsDecoded0?.append(structure0)
+                }
+            }
+        }
+        lifecyclePolicyErrorDetails = lifecyclePolicyErrorDetailsDecoded0
+    }
+}
+
+enum BatchGetLifecyclePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
@@ -856,7 +1136,7 @@ extension OpenSearchServerlessClientTypes.CollectionFilters: Swift.Codable {
 }
 
 extension OpenSearchServerlessClientTypes {
-    /// List of filter keys that you can use for LIST, UPDATE, and DELETE requests to OpenSearch Serverless collections.
+    /// A list of filter keys that you can use for LIST, UPDATE, and DELETE requests to OpenSearch Serverless collections.
     public struct CollectionFilters: Swift.Equatable {
         /// The name of the collection.
         public var name: Swift.String?
@@ -1498,6 +1778,158 @@ enum CreateCollectionOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "OcuLimitExceededException": return try await OcuLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension CreateLifecyclePolicyInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken
+        case description
+        case name
+        case policy
+        case type
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let policy = self.policy {
+            try encodeContainer.encode(policy, forKey: .policy)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+    }
+}
+
+extension CreateLifecyclePolicyInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct CreateLifecyclePolicyInput: Swift.Equatable {
+    /// A unique, case-sensitive identifier to ensure idempotency of the request.
+    public var clientToken: Swift.String?
+    /// A description of the lifecycle policy.
+    public var description: Swift.String?
+    /// The name of the lifecycle policy.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The JSON policy document to use as the content for the lifecycle policy.
+    /// This member is required.
+    public var policy: Swift.String?
+    /// The type of lifecycle policy.
+    /// This member is required.
+    public var type: OpenSearchServerlessClientTypes.LifecyclePolicyType?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        description: Swift.String? = nil,
+        name: Swift.String? = nil,
+        policy: Swift.String? = nil,
+        type: OpenSearchServerlessClientTypes.LifecyclePolicyType? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.description = description
+        self.name = name
+        self.policy = policy
+        self.type = type
+    }
+}
+
+struct CreateLifecyclePolicyInputBody: Swift.Equatable {
+    let type: OpenSearchServerlessClientTypes.LifecyclePolicyType?
+    let name: Swift.String?
+    let description: Swift.String?
+    let policy: Swift.String?
+    let clientToken: Swift.String?
+}
+
+extension CreateLifecyclePolicyInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken
+        case description
+        case name
+        case policy
+        case type
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let typeDecoded = try containerValues.decodeIfPresent(OpenSearchServerlessClientTypes.LifecyclePolicyType.self, forKey: .type)
+        type = typeDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let policyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policy)
+        policy = policyDecoded
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
+    }
+}
+
+extension CreateLifecyclePolicyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateLifecyclePolicyOutputBody = try responseDecoder.decode(responseBody: data)
+            self.lifecyclePolicyDetail = output.lifecyclePolicyDetail
+        } else {
+            self.lifecyclePolicyDetail = nil
+        }
+    }
+}
+
+public struct CreateLifecyclePolicyOutput: Swift.Equatable {
+    /// Details about the created lifecycle policy.
+    public var lifecyclePolicyDetail: OpenSearchServerlessClientTypes.LifecyclePolicyDetail?
+
+    public init(
+        lifecyclePolicyDetail: OpenSearchServerlessClientTypes.LifecyclePolicyDetail? = nil
+    )
+    {
+        self.lifecyclePolicyDetail = lifecyclePolicyDetail
+    }
+}
+
+struct CreateLifecyclePolicyOutputBody: Swift.Equatable {
+    let lifecyclePolicyDetail: OpenSearchServerlessClientTypes.LifecyclePolicyDetail?
+}
+
+extension CreateLifecyclePolicyOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case lifecyclePolicyDetail
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let lifecyclePolicyDetailDecoded = try containerValues.decodeIfPresent(OpenSearchServerlessClientTypes.LifecyclePolicyDetail.self, forKey: .lifecyclePolicyDetail)
+        lifecyclePolicyDetail = lifecyclePolicyDetailDecoded
+    }
+}
+
+enum CreateLifecyclePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
@@ -2305,6 +2737,103 @@ enum DeleteCollectionOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension DeleteLifecyclePolicyInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken
+        case name
+        case type
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+    }
+}
+
+extension DeleteLifecyclePolicyInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DeleteLifecyclePolicyInput: Swift.Equatable {
+    /// Unique, case-sensitive identifier to ensure idempotency of the request.
+    public var clientToken: Swift.String?
+    /// The name of the policy to delete.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The type of lifecycle policy.
+    /// This member is required.
+    public var type: OpenSearchServerlessClientTypes.LifecyclePolicyType?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        name: Swift.String? = nil,
+        type: OpenSearchServerlessClientTypes.LifecyclePolicyType? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.name = name
+        self.type = type
+    }
+}
+
+struct DeleteLifecyclePolicyInputBody: Swift.Equatable {
+    let type: OpenSearchServerlessClientTypes.LifecyclePolicyType?
+    let name: Swift.String?
+    let clientToken: Swift.String?
+}
+
+extension DeleteLifecyclePolicyInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken
+        case name
+        case type
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let typeDecoded = try containerValues.decodeIfPresent(OpenSearchServerlessClientTypes.LifecyclePolicyType.self, forKey: .type)
+        type = typeDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
+    }
+}
+
+extension DeleteLifecyclePolicyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteLifecyclePolicyOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteLifecyclePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension DeleteSecurityConfigInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientToken
@@ -2655,6 +3184,156 @@ enum DeleteVpcEndpointOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension OpenSearchServerlessClientTypes.EffectiveLifecyclePolicyDetail: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case noMinRetentionPeriod
+        case policyName
+        case resource
+        case resourceType
+        case retentionPeriod
+        case type
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let noMinRetentionPeriod = self.noMinRetentionPeriod {
+            try encodeContainer.encode(noMinRetentionPeriod, forKey: .noMinRetentionPeriod)
+        }
+        if let policyName = self.policyName {
+            try encodeContainer.encode(policyName, forKey: .policyName)
+        }
+        if let resource = self.resource {
+            try encodeContainer.encode(resource, forKey: .resource)
+        }
+        if let resourceType = self.resourceType {
+            try encodeContainer.encode(resourceType.rawValue, forKey: .resourceType)
+        }
+        if let retentionPeriod = self.retentionPeriod {
+            try encodeContainer.encode(retentionPeriod, forKey: .retentionPeriod)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let typeDecoded = try containerValues.decodeIfPresent(OpenSearchServerlessClientTypes.LifecyclePolicyType.self, forKey: .type)
+        type = typeDecoded
+        let resourceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resource)
+        resource = resourceDecoded
+        let policyNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policyName)
+        policyName = policyNameDecoded
+        let resourceTypeDecoded = try containerValues.decodeIfPresent(OpenSearchServerlessClientTypes.ResourceType.self, forKey: .resourceType)
+        resourceType = resourceTypeDecoded
+        let retentionPeriodDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .retentionPeriod)
+        retentionPeriod = retentionPeriodDecoded
+        let noMinRetentionPeriodDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .noMinRetentionPeriod)
+        noMinRetentionPeriod = noMinRetentionPeriodDecoded
+    }
+}
+
+extension OpenSearchServerlessClientTypes {
+    /// Error information for an OpenSearch Serverless request.
+    public struct EffectiveLifecyclePolicyDetail: Swift.Equatable {
+        /// The minimum number of index retention days set. That is an optional param that will return as true if the minimum number of days or hours is not set to a index resource.
+        public var noMinRetentionPeriod: Swift.Bool?
+        /// The name of the lifecycle policy.
+        public var policyName: Swift.String?
+        /// The name of the OpenSearch Serverless index resource.
+        public var resource: Swift.String?
+        /// The type of OpenSearch Serverless resource. Currently, the only supported resource is index.
+        public var resourceType: OpenSearchServerlessClientTypes.ResourceType?
+        /// The minimum number of index retention in days or hours. This is an optional parameter that will return only if it’s set.
+        public var retentionPeriod: Swift.String?
+        /// The type of lifecycle policy.
+        public var type: OpenSearchServerlessClientTypes.LifecyclePolicyType?
+
+        public init(
+            noMinRetentionPeriod: Swift.Bool? = nil,
+            policyName: Swift.String? = nil,
+            resource: Swift.String? = nil,
+            resourceType: OpenSearchServerlessClientTypes.ResourceType? = nil,
+            retentionPeriod: Swift.String? = nil,
+            type: OpenSearchServerlessClientTypes.LifecyclePolicyType? = nil
+        )
+        {
+            self.noMinRetentionPeriod = noMinRetentionPeriod
+            self.policyName = policyName
+            self.resource = resource
+            self.resourceType = resourceType
+            self.retentionPeriod = retentionPeriod
+            self.type = type
+        }
+    }
+
+}
+
+extension OpenSearchServerlessClientTypes.EffectiveLifecyclePolicyErrorDetail: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case errorCode
+        case errorMessage
+        case resource
+        case type
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let errorCode = self.errorCode {
+            try encodeContainer.encode(errorCode, forKey: .errorCode)
+        }
+        if let errorMessage = self.errorMessage {
+            try encodeContainer.encode(errorMessage, forKey: .errorMessage)
+        }
+        if let resource = self.resource {
+            try encodeContainer.encode(resource, forKey: .resource)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let typeDecoded = try containerValues.decodeIfPresent(OpenSearchServerlessClientTypes.LifecyclePolicyType.self, forKey: .type)
+        type = typeDecoded
+        let resourceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resource)
+        resource = resourceDecoded
+        let errorMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorMessage)
+        errorMessage = errorMessageDecoded
+        let errorCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorCode)
+        errorCode = errorCodeDecoded
+    }
+}
+
+extension OpenSearchServerlessClientTypes {
+    /// Error information for an OpenSearch Serverless request.
+    public struct EffectiveLifecyclePolicyErrorDetail: Swift.Equatable {
+        /// The error code for the request.
+        public var errorCode: Swift.String?
+        /// A description of the error. For example, The specified Index resource is not found.
+        public var errorMessage: Swift.String?
+        /// The name of OpenSearch Serverless index resource.
+        public var resource: Swift.String?
+        /// The type of lifecycle policy.
+        public var type: OpenSearchServerlessClientTypes.LifecyclePolicyType?
+
+        public init(
+            errorCode: Swift.String? = nil,
+            errorMessage: Swift.String? = nil,
+            resource: Swift.String? = nil,
+            type: OpenSearchServerlessClientTypes.LifecyclePolicyType? = nil
+        )
+        {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+            self.resource = resource
+            self.type = type
+        }
+    }
+
+}
+
 extension GetAccessPolicyInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case name
@@ -2682,7 +3361,7 @@ public struct GetAccessPolicyInput: Swift.Equatable {
     /// The name of the access policy.
     /// This member is required.
     public var name: Swift.String?
-    /// Tye type of policy. Currently the only supported value is data.
+    /// Tye type of policy. Currently, the only supported value is data.
     /// This member is required.
     public var type: OpenSearchServerlessClientTypes.AccessPolicyType?
 
@@ -2883,11 +3562,13 @@ extension GetPoliciesStatsOutput: ClientRuntime.HttpResponseBinding {
             let responseDecoder = decoder {
             let output: GetPoliciesStatsOutputBody = try responseDecoder.decode(responseBody: data)
             self.accessPolicyStats = output.accessPolicyStats
+            self.lifecyclePolicyStats = output.lifecyclePolicyStats
             self.securityConfigStats = output.securityConfigStats
             self.securityPolicyStats = output.securityPolicyStats
             self.totalPolicyCount = output.totalPolicyCount
         } else {
             self.accessPolicyStats = nil
+            self.lifecyclePolicyStats = nil
             self.securityConfigStats = nil
             self.securityPolicyStats = nil
             self.totalPolicyCount = nil
@@ -2898,6 +3579,8 @@ extension GetPoliciesStatsOutput: ClientRuntime.HttpResponseBinding {
 public struct GetPoliciesStatsOutput: Swift.Equatable {
     /// Information about the data access policies in your account.
     public var accessPolicyStats: OpenSearchServerlessClientTypes.AccessPolicyStats?
+    /// Information about the lifecycle policies in your account.
+    public var lifecyclePolicyStats: OpenSearchServerlessClientTypes.LifecyclePolicyStats?
     /// Information about the security configurations in your account.
     public var securityConfigStats: OpenSearchServerlessClientTypes.SecurityConfigStats?
     /// Information about the security policies in your account.
@@ -2907,12 +3590,14 @@ public struct GetPoliciesStatsOutput: Swift.Equatable {
 
     public init(
         accessPolicyStats: OpenSearchServerlessClientTypes.AccessPolicyStats? = nil,
+        lifecyclePolicyStats: OpenSearchServerlessClientTypes.LifecyclePolicyStats? = nil,
         securityConfigStats: OpenSearchServerlessClientTypes.SecurityConfigStats? = nil,
         securityPolicyStats: OpenSearchServerlessClientTypes.SecurityPolicyStats? = nil,
         totalPolicyCount: Swift.Int? = nil
     )
     {
         self.accessPolicyStats = accessPolicyStats
+        self.lifecyclePolicyStats = lifecyclePolicyStats
         self.securityConfigStats = securityConfigStats
         self.securityPolicyStats = securityPolicyStats
         self.totalPolicyCount = totalPolicyCount
@@ -2923,12 +3608,14 @@ struct GetPoliciesStatsOutputBody: Swift.Equatable {
     let accessPolicyStats: OpenSearchServerlessClientTypes.AccessPolicyStats?
     let securityPolicyStats: OpenSearchServerlessClientTypes.SecurityPolicyStats?
     let securityConfigStats: OpenSearchServerlessClientTypes.SecurityConfigStats?
+    let lifecyclePolicyStats: OpenSearchServerlessClientTypes.LifecyclePolicyStats?
     let totalPolicyCount: Swift.Int?
 }
 
 extension GetPoliciesStatsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accessPolicyStats = "AccessPolicyStats"
+        case lifecyclePolicyStats = "LifecyclePolicyStats"
         case securityConfigStats = "SecurityConfigStats"
         case securityPolicyStats = "SecurityPolicyStats"
         case totalPolicyCount = "TotalPolicyCount"
@@ -2942,6 +3629,8 @@ extension GetPoliciesStatsOutputBody: Swift.Decodable {
         securityPolicyStats = securityPolicyStatsDecoded
         let securityConfigStatsDecoded = try containerValues.decodeIfPresent(OpenSearchServerlessClientTypes.SecurityConfigStats.self, forKey: .securityConfigStats)
         securityConfigStats = securityConfigStatsDecoded
+        let lifecyclePolicyStatsDecoded = try containerValues.decodeIfPresent(OpenSearchServerlessClientTypes.LifecyclePolicyStats.self, forKey: .lifecyclePolicyStats)
+        lifecyclePolicyStats = lifecyclePolicyStatsDecoded
         let totalPolicyCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalPolicyCount)
         totalPolicyCount = totalPolicyCountDecoded
     }
@@ -3228,6 +3917,410 @@ extension InternalServerExceptionBody: Swift.Decodable {
     }
 }
 
+extension OpenSearchServerlessClientTypes.LifecyclePolicyDetail: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case createdDate
+        case description
+        case lastModifiedDate
+        case name
+        case policy
+        case policyVersion
+        case type
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let createdDate = self.createdDate {
+            try encodeContainer.encode(createdDate, forKey: .createdDate)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let lastModifiedDate = self.lastModifiedDate {
+            try encodeContainer.encode(lastModifiedDate, forKey: .lastModifiedDate)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let policy = self.policy {
+            try encodeContainer.encode(policy, forKey: .policy)
+        }
+        if let policyVersion = self.policyVersion {
+            try encodeContainer.encode(policyVersion, forKey: .policyVersion)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let typeDecoded = try containerValues.decodeIfPresent(OpenSearchServerlessClientTypes.LifecyclePolicyType.self, forKey: .type)
+        type = typeDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let policyVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policyVersion)
+        policyVersion = policyVersionDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let policyDecoded = try containerValues.decodeIfPresent(ClientRuntime.Document.self, forKey: .policy)
+        policy = policyDecoded
+        let createdDateDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .createdDate)
+        createdDate = createdDateDecoded
+        let lastModifiedDateDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .lastModifiedDate)
+        lastModifiedDate = lastModifiedDateDecoded
+    }
+}
+
+extension OpenSearchServerlessClientTypes {
+    /// Details about an OpenSearch Serverless lifecycle policy.
+    public struct LifecyclePolicyDetail: Swift.Equatable {
+        /// The date the lifecycle policy was created.
+        public var createdDate: Swift.Int?
+        /// The description of the lifecycle policy.
+        public var description: Swift.String?
+        /// The timestamp of when the lifecycle policy was last modified.
+        public var lastModifiedDate: Swift.Int?
+        /// The name of the lifecycle policy.
+        public var name: Swift.String?
+        /// The JSON policy document without any whitespaces.
+        public var policy: ClientRuntime.Document?
+        /// The version of the lifecycle policy.
+        public var policyVersion: Swift.String?
+        /// The type of lifecycle policy.
+        public var type: OpenSearchServerlessClientTypes.LifecyclePolicyType?
+
+        public init(
+            createdDate: Swift.Int? = nil,
+            description: Swift.String? = nil,
+            lastModifiedDate: Swift.Int? = nil,
+            name: Swift.String? = nil,
+            policy: ClientRuntime.Document? = nil,
+            policyVersion: Swift.String? = nil,
+            type: OpenSearchServerlessClientTypes.LifecyclePolicyType? = nil
+        )
+        {
+            self.createdDate = createdDate
+            self.description = description
+            self.lastModifiedDate = lastModifiedDate
+            self.name = name
+            self.policy = policy
+            self.policyVersion = policyVersion
+            self.type = type
+        }
+    }
+
+}
+
+extension OpenSearchServerlessClientTypes.LifecyclePolicyErrorDetail: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case errorCode
+        case errorMessage
+        case name
+        case type
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let errorCode = self.errorCode {
+            try encodeContainer.encode(errorCode, forKey: .errorCode)
+        }
+        if let errorMessage = self.errorMessage {
+            try encodeContainer.encode(errorMessage, forKey: .errorMessage)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let typeDecoded = try containerValues.decodeIfPresent(OpenSearchServerlessClientTypes.LifecyclePolicyType.self, forKey: .type)
+        type = typeDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let errorMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorMessage)
+        errorMessage = errorMessageDecoded
+        let errorCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorCode)
+        errorCode = errorCodeDecoded
+    }
+}
+
+extension OpenSearchServerlessClientTypes {
+    /// Error information for an OpenSearch Serverless request.
+    public struct LifecyclePolicyErrorDetail: Swift.Equatable {
+        /// The error code for the request. For example, NOT_FOUND.
+        public var errorCode: Swift.String?
+        /// A description of the error. For example, The specified Lifecycle Policy is not found.
+        public var errorMessage: Swift.String?
+        /// The name of the lifecycle policy.
+        public var name: Swift.String?
+        /// The type of lifecycle policy.
+        public var type: OpenSearchServerlessClientTypes.LifecyclePolicyType?
+
+        public init(
+            errorCode: Swift.String? = nil,
+            errorMessage: Swift.String? = nil,
+            name: Swift.String? = nil,
+            type: OpenSearchServerlessClientTypes.LifecyclePolicyType? = nil
+        )
+        {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+            self.name = name
+            self.type = type
+        }
+    }
+
+}
+
+extension OpenSearchServerlessClientTypes.LifecyclePolicyIdentifier: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name
+        case type
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let typeDecoded = try containerValues.decodeIfPresent(OpenSearchServerlessClientTypes.LifecyclePolicyType.self, forKey: .type)
+        type = typeDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+    }
+}
+
+extension OpenSearchServerlessClientTypes {
+    /// The unique identifiers of policy types and policy names.
+    public struct LifecyclePolicyIdentifier: Swift.Equatable {
+        /// The name of the lifecycle policy.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The type of lifecycle policy.
+        /// This member is required.
+        public var type: OpenSearchServerlessClientTypes.LifecyclePolicyType?
+
+        public init(
+            name: Swift.String? = nil,
+            type: OpenSearchServerlessClientTypes.LifecyclePolicyType? = nil
+        )
+        {
+            self.name = name
+            self.type = type
+        }
+    }
+
+}
+
+extension OpenSearchServerlessClientTypes.LifecyclePolicyResourceIdentifier: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case resource
+        case type
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let resource = self.resource {
+            try encodeContainer.encode(resource, forKey: .resource)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let typeDecoded = try containerValues.decodeIfPresent(OpenSearchServerlessClientTypes.LifecyclePolicyType.self, forKey: .type)
+        type = typeDecoded
+        let resourceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resource)
+        resource = resourceDecoded
+    }
+}
+
+extension OpenSearchServerlessClientTypes {
+    /// The unique identifiers of policy types and resource names.
+    public struct LifecyclePolicyResourceIdentifier: Swift.Equatable {
+        /// The name of the OpenSearch Serverless ilndex resource.
+        /// This member is required.
+        public var resource: Swift.String?
+        /// The type of lifecycle policy.
+        /// This member is required.
+        public var type: OpenSearchServerlessClientTypes.LifecyclePolicyType?
+
+        public init(
+            resource: Swift.String? = nil,
+            type: OpenSearchServerlessClientTypes.LifecyclePolicyType? = nil
+        )
+        {
+            self.resource = resource
+            self.type = type
+        }
+    }
+
+}
+
+extension OpenSearchServerlessClientTypes.LifecyclePolicyStats: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case retentionPolicyCount = "RetentionPolicyCount"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let retentionPolicyCount = self.retentionPolicyCount {
+            try encodeContainer.encode(retentionPolicyCount, forKey: .retentionPolicyCount)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let retentionPolicyCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .retentionPolicyCount)
+        retentionPolicyCount = retentionPolicyCountDecoded
+    }
+}
+
+extension OpenSearchServerlessClientTypes {
+    /// Statistics for an OpenSearch Serverless lifecycle policy.
+    public struct LifecyclePolicyStats: Swift.Equatable {
+        /// The number of retention lifecycle policies in the current account.
+        public var retentionPolicyCount: Swift.Int?
+
+        public init(
+            retentionPolicyCount: Swift.Int? = nil
+        )
+        {
+            self.retentionPolicyCount = retentionPolicyCount
+        }
+    }
+
+}
+
+extension OpenSearchServerlessClientTypes.LifecyclePolicySummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case createdDate
+        case description
+        case lastModifiedDate
+        case name
+        case policyVersion
+        case type
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let createdDate = self.createdDate {
+            try encodeContainer.encode(createdDate, forKey: .createdDate)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let lastModifiedDate = self.lastModifiedDate {
+            try encodeContainer.encode(lastModifiedDate, forKey: .lastModifiedDate)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let policyVersion = self.policyVersion {
+            try encodeContainer.encode(policyVersion, forKey: .policyVersion)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let typeDecoded = try containerValues.decodeIfPresent(OpenSearchServerlessClientTypes.LifecyclePolicyType.self, forKey: .type)
+        type = typeDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let policyVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policyVersion)
+        policyVersion = policyVersionDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let createdDateDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .createdDate)
+        createdDate = createdDateDecoded
+        let lastModifiedDateDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .lastModifiedDate)
+        lastModifiedDate = lastModifiedDateDecoded
+    }
+}
+
+extension OpenSearchServerlessClientTypes {
+    /// A summary of the lifecycle policy.
+    public struct LifecyclePolicySummary: Swift.Equatable {
+        /// The Epoch time when the lifecycle policy was created.
+        public var createdDate: Swift.Int?
+        /// The description of the lifecycle policy.
+        public var description: Swift.String?
+        /// The date and time when the lifecycle policy was last modified.
+        public var lastModifiedDate: Swift.Int?
+        /// The name of the lifecycle policy.
+        public var name: Swift.String?
+        /// The version of the lifecycle policy.
+        public var policyVersion: Swift.String?
+        /// The type of lifecycle policy.
+        public var type: OpenSearchServerlessClientTypes.LifecyclePolicyType?
+
+        public init(
+            createdDate: Swift.Int? = nil,
+            description: Swift.String? = nil,
+            lastModifiedDate: Swift.Int? = nil,
+            name: Swift.String? = nil,
+            policyVersion: Swift.String? = nil,
+            type: OpenSearchServerlessClientTypes.LifecyclePolicyType? = nil
+        )
+        {
+            self.createdDate = createdDate
+            self.description = description
+            self.lastModifiedDate = lastModifiedDate
+            self.name = name
+            self.policyVersion = policyVersion
+            self.type = type
+        }
+    }
+
+}
+
+extension OpenSearchServerlessClientTypes {
+    public enum LifecyclePolicyType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        /// retention policy type
+        case retention
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LifecyclePolicyType] {
+            return [
+                .retention,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .retention: return "retention"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = LifecyclePolicyType(rawValue: rawValue) ?? LifecyclePolicyType.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension ListAccessPoliciesInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case maxResults
@@ -3423,7 +4516,7 @@ extension ListCollectionsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListCollectionsInput: Swift.Equatable {
-    /// List of filter names and values that you can use for requests.
+    /// A list of filter names and values that you can use for requests.
     public var collectionFilters: OpenSearchServerlessClientTypes.CollectionFilters?
     /// The maximum number of results to return. Default is 20. You can use nextToken to get the next page of results.
     public var maxResults: Swift.Int?
@@ -3526,6 +4619,173 @@ extension ListCollectionsOutputBody: Swift.Decodable {
 }
 
 enum ListCollectionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListLifecyclePoliciesInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults
+        case nextToken
+        case resources
+        case type
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let resources = resources {
+            var resourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resources)
+            for lifecycleresource0 in resources {
+                try resourcesContainer.encode(lifecycleresource0)
+            }
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+    }
+}
+
+extension ListLifecyclePoliciesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListLifecyclePoliciesInput: Swift.Equatable {
+    /// An optional parameter that specifies the maximum number of results to return. You can use use nextToken to get the next page of results. The default is 10.
+    public var maxResults: Swift.Int?
+    /// If your initial ListLifecyclePolicies operation returns a nextToken, you can include the returned nextToken in subsequent ListLifecyclePolicies operations, which returns results in the next page.
+    public var nextToken: Swift.String?
+    /// Resource filters that policies can apply to. Currently, the only supported resource type is index.
+    public var resources: [Swift.String]?
+    /// The type of lifecycle policy.
+    /// This member is required.
+    public var type: OpenSearchServerlessClientTypes.LifecyclePolicyType?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        resources: [Swift.String]? = nil,
+        type: OpenSearchServerlessClientTypes.LifecyclePolicyType? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.resources = resources
+        self.type = type
+    }
+}
+
+struct ListLifecyclePoliciesInputBody: Swift.Equatable {
+    let type: OpenSearchServerlessClientTypes.LifecyclePolicyType?
+    let resources: [Swift.String]?
+    let nextToken: Swift.String?
+    let maxResults: Swift.Int?
+}
+
+extension ListLifecyclePoliciesInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults
+        case nextToken
+        case resources
+        case type
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let typeDecoded = try containerValues.decodeIfPresent(OpenSearchServerlessClientTypes.LifecyclePolicyType.self, forKey: .type)
+        type = typeDecoded
+        let resourcesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .resources)
+        var resourcesDecoded0:[Swift.String]? = nil
+        if let resourcesContainer = resourcesContainer {
+            resourcesDecoded0 = [Swift.String]()
+            for string0 in resourcesContainer {
+                if let string0 = string0 {
+                    resourcesDecoded0?.append(string0)
+                }
+            }
+        }
+        resources = resourcesDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+    }
+}
+
+extension ListLifecyclePoliciesOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListLifecyclePoliciesOutputBody = try responseDecoder.decode(responseBody: data)
+            self.lifecyclePolicySummaries = output.lifecyclePolicySummaries
+            self.nextToken = output.nextToken
+        } else {
+            self.lifecyclePolicySummaries = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListLifecyclePoliciesOutput: Swift.Equatable {
+    /// Details about the requested lifecycle policies.
+    public var lifecyclePolicySummaries: [OpenSearchServerlessClientTypes.LifecyclePolicySummary]?
+    /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
+    public var nextToken: Swift.String?
+
+    public init(
+        lifecyclePolicySummaries: [OpenSearchServerlessClientTypes.LifecyclePolicySummary]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.lifecyclePolicySummaries = lifecyclePolicySummaries
+        self.nextToken = nextToken
+    }
+}
+
+struct ListLifecyclePoliciesOutputBody: Swift.Equatable {
+    let lifecyclePolicySummaries: [OpenSearchServerlessClientTypes.LifecyclePolicySummary]?
+    let nextToken: Swift.String?
+}
+
+extension ListLifecyclePoliciesOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case lifecyclePolicySummaries
+        case nextToken
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let lifecyclePolicySummariesContainer = try containerValues.decodeIfPresent([OpenSearchServerlessClientTypes.LifecyclePolicySummary?].self, forKey: .lifecyclePolicySummaries)
+        var lifecyclePolicySummariesDecoded0:[OpenSearchServerlessClientTypes.LifecyclePolicySummary]? = nil
+        if let lifecyclePolicySummariesContainer = lifecyclePolicySummariesContainer {
+            lifecyclePolicySummariesDecoded0 = [OpenSearchServerlessClientTypes.LifecyclePolicySummary]()
+            for structure0 in lifecyclePolicySummariesContainer {
+                if let structure0 = structure0 {
+                    lifecyclePolicySummariesDecoded0?.append(structure0)
+                }
+            }
+        }
+        lifecyclePolicySummaries = lifecyclePolicySummariesDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListLifecyclePoliciesOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
@@ -4208,6 +5468,36 @@ extension ResourceNotFoundExceptionBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
+    }
+}
+
+extension OpenSearchServerlessClientTypes {
+    public enum ResourceType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        /// index resource type
+        case index
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResourceType] {
+            return [
+                .index,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .index: return "index"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ResourceType(rawValue: rawValue) ?? ResourceType.sdkUnknown(rawValue)
+        }
     }
 }
 
@@ -5608,6 +6898,171 @@ enum UpdateCollectionOutputError: ClientRuntime.HttpResponseErrorBinding {
         switch restJSONError.errorType {
             case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension UpdateLifecyclePolicyInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken
+        case description
+        case name
+        case policy
+        case policyVersion
+        case type
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let policy = self.policy {
+            try encodeContainer.encode(policy, forKey: .policy)
+        }
+        if let policyVersion = self.policyVersion {
+            try encodeContainer.encode(policyVersion, forKey: .policyVersion)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+    }
+}
+
+extension UpdateLifecyclePolicyInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct UpdateLifecyclePolicyInput: Swift.Equatable {
+    /// A unique, case-sensitive identifier to ensure idempotency of the request.
+    public var clientToken: Swift.String?
+    /// A description of the lifecycle policy.
+    public var description: Swift.String?
+    /// The name of the policy.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The JSON policy document to use as the content for the lifecycle policy.
+    public var policy: Swift.String?
+    /// The version of the policy being updated.
+    /// This member is required.
+    public var policyVersion: Swift.String?
+    /// The type of lifecycle policy.
+    /// This member is required.
+    public var type: OpenSearchServerlessClientTypes.LifecyclePolicyType?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        description: Swift.String? = nil,
+        name: Swift.String? = nil,
+        policy: Swift.String? = nil,
+        policyVersion: Swift.String? = nil,
+        type: OpenSearchServerlessClientTypes.LifecyclePolicyType? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.description = description
+        self.name = name
+        self.policy = policy
+        self.policyVersion = policyVersion
+        self.type = type
+    }
+}
+
+struct UpdateLifecyclePolicyInputBody: Swift.Equatable {
+    let type: OpenSearchServerlessClientTypes.LifecyclePolicyType?
+    let name: Swift.String?
+    let policyVersion: Swift.String?
+    let description: Swift.String?
+    let policy: Swift.String?
+    let clientToken: Swift.String?
+}
+
+extension UpdateLifecyclePolicyInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken
+        case description
+        case name
+        case policy
+        case policyVersion
+        case type
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let typeDecoded = try containerValues.decodeIfPresent(OpenSearchServerlessClientTypes.LifecyclePolicyType.self, forKey: .type)
+        type = typeDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let policyVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policyVersion)
+        policyVersion = policyVersionDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let policyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policy)
+        policy = policyDecoded
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
+    }
+}
+
+extension UpdateLifecyclePolicyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateLifecyclePolicyOutputBody = try responseDecoder.decode(responseBody: data)
+            self.lifecyclePolicyDetail = output.lifecyclePolicyDetail
+        } else {
+            self.lifecyclePolicyDetail = nil
+        }
+    }
+}
+
+public struct UpdateLifecyclePolicyOutput: Swift.Equatable {
+    /// Details about the updated lifecycle policy.
+    public var lifecyclePolicyDetail: OpenSearchServerlessClientTypes.LifecyclePolicyDetail?
+
+    public init(
+        lifecyclePolicyDetail: OpenSearchServerlessClientTypes.LifecyclePolicyDetail? = nil
+    )
+    {
+        self.lifecyclePolicyDetail = lifecyclePolicyDetail
+    }
+}
+
+struct UpdateLifecyclePolicyOutputBody: Swift.Equatable {
+    let lifecyclePolicyDetail: OpenSearchServerlessClientTypes.LifecyclePolicyDetail?
+}
+
+extension UpdateLifecyclePolicyOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case lifecyclePolicyDetail
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let lifecyclePolicyDetailDecoded = try containerValues.decodeIfPresent(OpenSearchServerlessClientTypes.LifecyclePolicyDetail.self, forKey: .lifecyclePolicyDetail)
+        lifecyclePolicyDetail = lifecyclePolicyDetailDecoded
+    }
+}
+
+enum UpdateLifecyclePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }

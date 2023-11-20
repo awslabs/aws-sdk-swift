@@ -2664,6 +2664,7 @@ extension CreateDomainInput: Swift.Encodable {
         case ebsOptions = "EBSOptions"
         case encryptionAtRestOptions = "EncryptionAtRestOptions"
         case engineVersion = "EngineVersion"
+        case ipAddressType = "IPAddressType"
         case logPublishingOptions = "LogPublishingOptions"
         case nodeToNodeEncryptionOptions = "NodeToNodeEncryptionOptions"
         case offPeakWindowOptions = "OffPeakWindowOptions"
@@ -2710,6 +2711,9 @@ extension CreateDomainInput: Swift.Encodable {
         }
         if let engineVersion = self.engineVersion {
             try encodeContainer.encode(engineVersion, forKey: .engineVersion)
+        }
+        if let ipAddressType = self.ipAddressType {
+            try encodeContainer.encode(ipAddressType.rawValue, forKey: .ipAddressType)
         }
         if let logPublishingOptions = logPublishingOptions {
             var logPublishingOptionsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .logPublishingOptions)
@@ -2782,6 +2786,8 @@ public struct CreateDomainInput: Swift.Equatable {
     public var encryptionAtRestOptions: OpenSearchClientTypes.EncryptionAtRestOptions?
     /// String of format Elasticsearch_X.Y or OpenSearch_X.Y to specify the engine version for the OpenSearch Service domain. For example, OpenSearch_1.0 or Elasticsearch_7.9. For more information, see [Creating and managing Amazon OpenSearch Service domains](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/createupdatedomains.html#createdomains).
     public var engineVersion: Swift.String?
+    /// The type of IP addresses supported by the endpoint for the domain.
+    public var ipAddressType: OpenSearchClientTypes.IPAddressType?
     /// Key-value pairs to configure log publishing.
     public var logPublishingOptions: [Swift.String:OpenSearchClientTypes.LogPublishingOption]?
     /// Enables node-to-node encryption.
@@ -2809,6 +2815,7 @@ public struct CreateDomainInput: Swift.Equatable {
         ebsOptions: OpenSearchClientTypes.EBSOptions? = nil,
         encryptionAtRestOptions: OpenSearchClientTypes.EncryptionAtRestOptions? = nil,
         engineVersion: Swift.String? = nil,
+        ipAddressType: OpenSearchClientTypes.IPAddressType? = nil,
         logPublishingOptions: [Swift.String:OpenSearchClientTypes.LogPublishingOption]? = nil,
         nodeToNodeEncryptionOptions: OpenSearchClientTypes.NodeToNodeEncryptionOptions? = nil,
         offPeakWindowOptions: OpenSearchClientTypes.OffPeakWindowOptions? = nil,
@@ -2829,6 +2836,7 @@ public struct CreateDomainInput: Swift.Equatable {
         self.ebsOptions = ebsOptions
         self.encryptionAtRestOptions = encryptionAtRestOptions
         self.engineVersion = engineVersion
+        self.ipAddressType = ipAddressType
         self.logPublishingOptions = logPublishingOptions
         self.nodeToNodeEncryptionOptions = nodeToNodeEncryptionOptions
         self.offPeakWindowOptions = offPeakWindowOptions
@@ -2845,6 +2853,7 @@ struct CreateDomainInputBody: Swift.Equatable {
     let clusterConfig: OpenSearchClientTypes.ClusterConfig?
     let ebsOptions: OpenSearchClientTypes.EBSOptions?
     let accessPolicies: Swift.String?
+    let ipAddressType: OpenSearchClientTypes.IPAddressType?
     let snapshotOptions: OpenSearchClientTypes.SnapshotOptions?
     let vpcOptions: OpenSearchClientTypes.VPCOptions?
     let cognitoOptions: OpenSearchClientTypes.CognitoOptions?
@@ -2873,6 +2882,7 @@ extension CreateDomainInputBody: Swift.Decodable {
         case ebsOptions = "EBSOptions"
         case encryptionAtRestOptions = "EncryptionAtRestOptions"
         case engineVersion = "EngineVersion"
+        case ipAddressType = "IPAddressType"
         case logPublishingOptions = "LogPublishingOptions"
         case nodeToNodeEncryptionOptions = "NodeToNodeEncryptionOptions"
         case offPeakWindowOptions = "OffPeakWindowOptions"
@@ -2894,6 +2904,8 @@ extension CreateDomainInputBody: Swift.Decodable {
         ebsOptions = ebsOptionsDecoded
         let accessPoliciesDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accessPolicies)
         accessPolicies = accessPoliciesDecoded
+        let ipAddressTypeDecoded = try containerValues.decodeIfPresent(OpenSearchClientTypes.IPAddressType.self, forKey: .ipAddressType)
+        ipAddressType = ipAddressTypeDecoded
         let snapshotOptionsDecoded = try containerValues.decodeIfPresent(OpenSearchClientTypes.SnapshotOptions.self, forKey: .snapshotOptions)
         snapshotOptions = snapshotOptionsDecoded
         let vpcOptionsDecoded = try containerValues.decodeIfPresent(OpenSearchClientTypes.VPCOptions.self, forKey: .vpcOptions)
@@ -6334,6 +6346,7 @@ extension OpenSearchClientTypes.DomainConfig: Swift.Codable {
         case ebsOptions = "EBSOptions"
         case encryptionAtRestOptions = "EncryptionAtRestOptions"
         case engineVersion = "EngineVersion"
+        case ipAddressType = "IPAddressType"
         case logPublishingOptions = "LogPublishingOptions"
         case nodeToNodeEncryptionOptions = "NodeToNodeEncryptionOptions"
         case offPeakWindowOptions = "OffPeakWindowOptions"
@@ -6377,6 +6390,9 @@ extension OpenSearchClientTypes.DomainConfig: Swift.Codable {
         if let engineVersion = self.engineVersion {
             try encodeContainer.encode(engineVersion, forKey: .engineVersion)
         }
+        if let ipAddressType = self.ipAddressType {
+            try encodeContainer.encode(ipAddressType, forKey: .ipAddressType)
+        }
         if let logPublishingOptions = self.logPublishingOptions {
             try encodeContainer.encode(logPublishingOptions, forKey: .logPublishingOptions)
         }
@@ -6407,6 +6423,8 @@ extension OpenSearchClientTypes.DomainConfig: Swift.Codable {
         ebsOptions = ebsOptionsDecoded
         let accessPoliciesDecoded = try containerValues.decodeIfPresent(OpenSearchClientTypes.AccessPoliciesStatus.self, forKey: .accessPolicies)
         accessPolicies = accessPoliciesDecoded
+        let ipAddressTypeDecoded = try containerValues.decodeIfPresent(OpenSearchClientTypes.IPAddressTypeStatus.self, forKey: .ipAddressType)
+        ipAddressType = ipAddressTypeDecoded
         let snapshotOptionsDecoded = try containerValues.decodeIfPresent(OpenSearchClientTypes.SnapshotOptionsStatus.self, forKey: .snapshotOptions)
         snapshotOptions = snapshotOptionsDecoded
         let vpcOptionsDecoded = try containerValues.decodeIfPresent(OpenSearchClientTypes.VPCDerivedInfoStatus.self, forKey: .vpcOptions)
@@ -6461,6 +6479,8 @@ extension OpenSearchClientTypes {
         public var encryptionAtRestOptions: OpenSearchClientTypes.EncryptionAtRestOptionsStatus?
         /// The OpenSearch or Elasticsearch version that the domain is running.
         public var engineVersion: OpenSearchClientTypes.VersionStatus?
+        /// The type of IP addresses supported by the endpoint for the domain.
+        public var ipAddressType: OpenSearchClientTypes.IPAddressTypeStatus?
         /// Key-value pairs to configure log publishing.
         public var logPublishingOptions: OpenSearchClientTypes.LogPublishingOptionsStatus?
         /// Whether node-to-node encryption is enabled or disabled.
@@ -6486,6 +6506,7 @@ extension OpenSearchClientTypes {
             ebsOptions: OpenSearchClientTypes.EBSOptionsStatus? = nil,
             encryptionAtRestOptions: OpenSearchClientTypes.EncryptionAtRestOptionsStatus? = nil,
             engineVersion: OpenSearchClientTypes.VersionStatus? = nil,
+            ipAddressType: OpenSearchClientTypes.IPAddressTypeStatus? = nil,
             logPublishingOptions: OpenSearchClientTypes.LogPublishingOptionsStatus? = nil,
             nodeToNodeEncryptionOptions: OpenSearchClientTypes.NodeToNodeEncryptionOptionsStatus? = nil,
             offPeakWindowOptions: OpenSearchClientTypes.OffPeakWindowOptionsStatus? = nil,
@@ -6505,6 +6526,7 @@ extension OpenSearchClientTypes {
             self.ebsOptions = ebsOptions
             self.encryptionAtRestOptions = encryptionAtRestOptions
             self.engineVersion = engineVersion
+            self.ipAddressType = ipAddressType
             self.logPublishingOptions = logPublishingOptions
             self.nodeToNodeEncryptionOptions = nodeToNodeEncryptionOptions
             self.offPeakWindowOptions = offPeakWindowOptions
@@ -6826,19 +6848,19 @@ extension OpenSearchClientTypes {
     public struct DomainMaintenanceDetails: Swift.Equatable {
         /// The name of the action.
         public var action: OpenSearchClientTypes.MaintenanceType?
-        /// Contains time at which action created.
+        /// The time at which the action was created.
         public var createdAt: ClientRuntime.Date?
         /// The name of the domain.
         public var domainName: Swift.String?
-        /// Id of the requested action.
+        /// The ID of the requested action.
         public var maintenanceId: Swift.String?
-        /// Id of the data node.
+        /// The ID of the data node.
         public var nodeId: Swift.String?
         /// The status of the action.
         public var status: OpenSearchClientTypes.MaintenanceStatus?
-        /// The status message of the action.
+        /// The status message for the action.
         public var statusMessage: Swift.String?
-        /// Contains time at which action updated.
+        /// The time at which the action was updated.
         public var updatedAt: ClientRuntime.Date?
 
         public init(
@@ -7179,8 +7201,10 @@ extension OpenSearchClientTypes.DomainStatus: Swift.Codable {
         case ebsOptions = "EBSOptions"
         case encryptionAtRestOptions = "EncryptionAtRestOptions"
         case endpoint = "Endpoint"
+        case endpointV2 = "EndpointV2"
         case endpoints = "Endpoints"
         case engineVersion = "EngineVersion"
+        case ipAddressType = "IPAddressType"
         case logPublishingOptions = "LogPublishingOptions"
         case nodeToNodeEncryptionOptions = "NodeToNodeEncryptionOptions"
         case offPeakWindowOptions = "OffPeakWindowOptions"
@@ -7245,6 +7269,9 @@ extension OpenSearchClientTypes.DomainStatus: Swift.Codable {
         if let endpoint = self.endpoint {
             try encodeContainer.encode(endpoint, forKey: .endpoint)
         }
+        if let endpointV2 = self.endpointV2 {
+            try encodeContainer.encode(endpointV2, forKey: .endpointV2)
+        }
         if let endpoints = endpoints {
             var endpointsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .endpoints)
             for (dictKey0, endpointsMap0) in endpoints {
@@ -7253,6 +7280,9 @@ extension OpenSearchClientTypes.DomainStatus: Swift.Codable {
         }
         if let engineVersion = self.engineVersion {
             try encodeContainer.encode(engineVersion, forKey: .engineVersion)
+        }
+        if let ipAddressType = self.ipAddressType {
+            try encodeContainer.encode(ipAddressType.rawValue, forKey: .ipAddressType)
         }
         if let logPublishingOptions = logPublishingOptions {
             var logPublishingOptionsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .logPublishingOptions)
@@ -7300,6 +7330,8 @@ extension OpenSearchClientTypes.DomainStatus: Swift.Codable {
         deleted = deletedDecoded
         let endpointDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .endpoint)
         endpoint = endpointDecoded
+        let endpointV2Decoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .endpointV2)
+        endpointV2 = endpointV2Decoded
         let endpointsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .endpoints)
         var endpointsDecoded0: [Swift.String:Swift.String]? = nil
         if let endpointsContainer = endpointsContainer {
@@ -7323,6 +7355,8 @@ extension OpenSearchClientTypes.DomainStatus: Swift.Codable {
         ebsOptions = ebsOptionsDecoded
         let accessPoliciesDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accessPolicies)
         accessPolicies = accessPoliciesDecoded
+        let ipAddressTypeDecoded = try containerValues.decodeIfPresent(OpenSearchClientTypes.IPAddressType.self, forKey: .ipAddressType)
+        ipAddressType = ipAddressTypeDecoded
         let snapshotOptionsDecoded = try containerValues.decodeIfPresent(OpenSearchClientTypes.SnapshotOptions.self, forKey: .snapshotOptions)
         snapshotOptions = snapshotOptionsDecoded
         let vpcOptionsDecoded = try containerValues.decodeIfPresent(OpenSearchClientTypes.VPCDerivedInfo.self, forKey: .vpcOptions)
@@ -7411,10 +7445,14 @@ extension OpenSearchClientTypes {
         public var encryptionAtRestOptions: OpenSearchClientTypes.EncryptionAtRestOptions?
         /// Domain-specific endpoint used to submit index, search, and data upload requests to the domain.
         public var endpoint: Swift.String?
+        /// The domain endpoint to which index and search requests are submitted. For example, search-imdb-movies-oopcnjfn6ugo.eu-west-1.es.amazonaws.com or doc-imdb-movies-oopcnjfn6u.eu-west-1.es.amazonaws.com.
+        public var endpointV2: Swift.String?
         /// The key-value pair that exists if the OpenSearch Service domain uses VPC endpoints.. Example key, value: 'vpc','vpc-endpoint-h2dsd34efgyghrtguk5gt6j2foh4.us-east-1.es.amazonaws.com'.
         public var endpoints: [Swift.String:Swift.String]?
         /// Version of OpenSearch or Elasticsearch that the domain is running, in the format Elasticsearch_X.Y or OpenSearch_X.Y.
         public var engineVersion: Swift.String?
+        /// The type of IP addresses supported by the endpoint for the domain.
+        public var ipAddressType: OpenSearchClientTypes.IPAddressType?
         /// Log publishing options for the domain.
         public var logPublishingOptions: [Swift.String:OpenSearchClientTypes.LogPublishingOption]?
         /// Whether node-to-node encryption is enabled or disabled.
@@ -7451,8 +7489,10 @@ extension OpenSearchClientTypes {
             ebsOptions: OpenSearchClientTypes.EBSOptions? = nil,
             encryptionAtRestOptions: OpenSearchClientTypes.EncryptionAtRestOptions? = nil,
             endpoint: Swift.String? = nil,
+            endpointV2: Swift.String? = nil,
             endpoints: [Swift.String:Swift.String]? = nil,
             engineVersion: Swift.String? = nil,
+            ipAddressType: OpenSearchClientTypes.IPAddressType? = nil,
             logPublishingOptions: [Swift.String:OpenSearchClientTypes.LogPublishingOption]? = nil,
             nodeToNodeEncryptionOptions: OpenSearchClientTypes.NodeToNodeEncryptionOptions? = nil,
             offPeakWindowOptions: OpenSearchClientTypes.OffPeakWindowOptions? = nil,
@@ -7480,8 +7520,10 @@ extension OpenSearchClientTypes {
             self.ebsOptions = ebsOptions
             self.encryptionAtRestOptions = encryptionAtRestOptions
             self.endpoint = endpoint
+            self.endpointV2 = endpointV2
             self.endpoints = endpoints
             self.engineVersion = engineVersion
+            self.ipAddressType = ipAddressType
             self.logPublishingOptions = logPublishingOptions
             self.nodeToNodeEncryptionOptions = nodeToNodeEncryptionOptions
             self.offPeakWindowOptions = offPeakWindowOptions
@@ -8247,7 +8289,7 @@ public struct GetDomainMaintenanceStatusInput: Swift.Equatable {
     /// The name of the domain.
     /// This member is required.
     public var domainName: Swift.String?
-    /// The request id of the maintenance action.
+    /// The request ID of the maintenance action.
     /// This member is required.
     public var maintenanceId: Swift.String?
 
@@ -8292,19 +8334,19 @@ extension GetDomainMaintenanceStatusOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-/// The result of a GetDomainMaintenanceStatus request. Contains information about the requested action.
+/// The result of a GetDomainMaintenanceStatus request that information about the requested action.
 public struct GetDomainMaintenanceStatusOutput: Swift.Equatable {
-    /// Contains action name.
+    /// The action name.
     public var action: OpenSearchClientTypes.MaintenanceType?
-    /// Contains time at which action created.
+    /// The time at which the action was created.
     public var createdAt: ClientRuntime.Date?
-    /// Contains node id of maintenance action.
+    /// The node ID of the maintenance action.
     public var nodeId: Swift.String?
-    /// Contains status of the maintenance action.
+    /// The status of the maintenance action.
     public var status: OpenSearchClientTypes.MaintenanceStatus?
-    /// Contains status message of the maintenance action.
+    /// The status message of the maintenance action.
     public var statusMessage: Swift.String?
-    /// Contains time at which action updated.
+    /// The time at which the action was updated.
     public var updatedAt: ClientRuntime.Date?
 
     public init(
@@ -8756,6 +8798,85 @@ enum GetUpgradeStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
+}
+
+extension OpenSearchClientTypes {
+    public enum IPAddressType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case dualstack
+        case ipv4
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IPAddressType] {
+            return [
+                .dualstack,
+                .ipv4,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .dualstack: return "dualstack"
+            case .ipv4: return "ipv4"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = IPAddressType(rawValue: rawValue) ?? IPAddressType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension OpenSearchClientTypes.IPAddressTypeStatus: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case options = "Options"
+        case status = "Status"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let options = self.options {
+            try encodeContainer.encode(options.rawValue, forKey: .options)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status, forKey: .status)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let optionsDecoded = try containerValues.decodeIfPresent(OpenSearchClientTypes.IPAddressType.self, forKey: .options)
+        options = optionsDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(OpenSearchClientTypes.OptionStatus.self, forKey: .status)
+        status = statusDecoded
+    }
+}
+
+extension OpenSearchClientTypes {
+    /// The IP address type status for the domain.
+    public struct IPAddressTypeStatus: Swift.Equatable {
+        /// The IP address options for the domain.
+        /// This member is required.
+        public var options: OpenSearchClientTypes.IPAddressType?
+        /// Provides the current status of an entity.
+        /// This member is required.
+        public var status: OpenSearchClientTypes.OptionStatus?
+
+        public init(
+            options: OpenSearchClientTypes.IPAddressType? = nil,
+            status: OpenSearchClientTypes.OptionStatus? = nil
+        )
+        {
+            self.options = options
+            self.status = status
+        }
+    }
+
 }
 
 extension OpenSearchClientTypes.InboundConnection: Swift.Codable {
@@ -9499,7 +9620,7 @@ public struct ListDomainMaintenancesInput: Swift.Equatable {
     public var domainName: Swift.String?
     /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results.
     public var maxResults: Swift.Int?
-    /// If your initial ListDomainMaintenances operation returns a nextToken, you can include the returned nextToken in subsequent ListDomainMaintenances operations, which returns results in the next page.
+    /// If your initial ListDomainMaintenances operation returns a nextToken, include the returned nextToken in subsequent ListDomainMaintenances operations, which returns results in the next page.
     public var nextToken: Swift.String?
     /// The status of the action.
     public var status: OpenSearchClientTypes.MaintenanceStatus?
@@ -9543,9 +9664,9 @@ extension ListDomainMaintenancesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-/// The result of a ListDomainMaintenances request. Contains information about the requested actions.
+/// The result of a ListDomainMaintenances request that contains information about the requested actions.
 public struct ListDomainMaintenancesOutput: Swift.Equatable {
-    /// List of the submitted maintenance actions.
+    /// A list of the submitted maintenance actions.
     public var domainMaintenances: [OpenSearchClientTypes.DomainMaintenanceDetails]?
     /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
     public var nextToken: Swift.String?
@@ -14470,7 +14591,7 @@ public struct StartDomainMaintenanceInput: Swift.Equatable {
     /// The name of the domain.
     /// This member is required.
     public var domainName: Swift.String?
-    /// Id of the data node.
+    /// The ID of the data node.
     public var nodeId: Swift.String?
 
     public init(
@@ -14517,9 +14638,9 @@ extension StartDomainMaintenanceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-/// The result of a StartDomainMaintenance request. Contains information about the requested action.
+/// The result of a StartDomainMaintenance request that information about the requested action.
 public struct StartDomainMaintenanceOutput: Swift.Equatable {
-    /// Contains request id of requested action.
+    /// The request ID of requested action.
     public var maintenanceId: Swift.String?
 
     public init(
@@ -14956,6 +15077,7 @@ extension UpdateDomainConfigInput: Swift.Encodable {
         case dryRunMode = "DryRunMode"
         case ebsOptions = "EBSOptions"
         case encryptionAtRestOptions = "EncryptionAtRestOptions"
+        case ipAddressType = "IPAddressType"
         case logPublishingOptions = "LogPublishingOptions"
         case nodeToNodeEncryptionOptions = "NodeToNodeEncryptionOptions"
         case offPeakWindowOptions = "OffPeakWindowOptions"
@@ -15001,6 +15123,9 @@ extension UpdateDomainConfigInput: Swift.Encodable {
         }
         if let encryptionAtRestOptions = self.encryptionAtRestOptions {
             try encodeContainer.encode(encryptionAtRestOptions, forKey: .encryptionAtRestOptions)
+        }
+        if let ipAddressType = self.ipAddressType {
+            try encodeContainer.encode(ipAddressType.rawValue, forKey: .ipAddressType)
         }
         if let logPublishingOptions = logPublishingOptions {
             var logPublishingOptionsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .logPublishingOptions)
@@ -15075,6 +15200,8 @@ public struct UpdateDomainConfigInput: Swift.Equatable {
     public var ebsOptions: OpenSearchClientTypes.EBSOptions?
     /// Encryption at rest options for the domain.
     public var encryptionAtRestOptions: OpenSearchClientTypes.EncryptionAtRestOptions?
+    /// The type of IP addresses supported by the endpoint for the domain.
+    public var ipAddressType: OpenSearchClientTypes.IPAddressType?
     /// Options to publish OpenSearch logs to Amazon CloudWatch Logs.
     public var logPublishingOptions: [Swift.String:OpenSearchClientTypes.LogPublishingOption]?
     /// Node-to-node encryption options for the domain.
@@ -15101,6 +15228,7 @@ public struct UpdateDomainConfigInput: Swift.Equatable {
         dryRunMode: OpenSearchClientTypes.DryRunMode? = nil,
         ebsOptions: OpenSearchClientTypes.EBSOptions? = nil,
         encryptionAtRestOptions: OpenSearchClientTypes.EncryptionAtRestOptions? = nil,
+        ipAddressType: OpenSearchClientTypes.IPAddressType? = nil,
         logPublishingOptions: [Swift.String:OpenSearchClientTypes.LogPublishingOption]? = nil,
         nodeToNodeEncryptionOptions: OpenSearchClientTypes.NodeToNodeEncryptionOptions? = nil,
         offPeakWindowOptions: OpenSearchClientTypes.OffPeakWindowOptions? = nil,
@@ -15121,6 +15249,7 @@ public struct UpdateDomainConfigInput: Swift.Equatable {
         self.dryRunMode = dryRunMode
         self.ebsOptions = ebsOptions
         self.encryptionAtRestOptions = encryptionAtRestOptions
+        self.ipAddressType = ipAddressType
         self.logPublishingOptions = logPublishingOptions
         self.nodeToNodeEncryptionOptions = nodeToNodeEncryptionOptions
         self.offPeakWindowOptions = offPeakWindowOptions
@@ -15138,6 +15267,7 @@ struct UpdateDomainConfigInputBody: Swift.Equatable {
     let cognitoOptions: OpenSearchClientTypes.CognitoOptions?
     let advancedOptions: [Swift.String:Swift.String]?
     let accessPolicies: Swift.String?
+    let ipAddressType: OpenSearchClientTypes.IPAddressType?
     let logPublishingOptions: [Swift.String:OpenSearchClientTypes.LogPublishingOption]?
     let encryptionAtRestOptions: OpenSearchClientTypes.EncryptionAtRestOptions?
     let domainEndpointOptions: OpenSearchClientTypes.DomainEndpointOptions?
@@ -15163,6 +15293,7 @@ extension UpdateDomainConfigInputBody: Swift.Decodable {
         case dryRunMode = "DryRunMode"
         case ebsOptions = "EBSOptions"
         case encryptionAtRestOptions = "EncryptionAtRestOptions"
+        case ipAddressType = "IPAddressType"
         case logPublishingOptions = "LogPublishingOptions"
         case nodeToNodeEncryptionOptions = "NodeToNodeEncryptionOptions"
         case offPeakWindowOptions = "OffPeakWindowOptions"
@@ -15196,6 +15327,8 @@ extension UpdateDomainConfigInputBody: Swift.Decodable {
         advancedOptions = advancedOptionsDecoded0
         let accessPoliciesDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accessPolicies)
         accessPolicies = accessPoliciesDecoded
+        let ipAddressTypeDecoded = try containerValues.decodeIfPresent(OpenSearchClientTypes.IPAddressType.self, forKey: .ipAddressType)
+        ipAddressType = ipAddressTypeDecoded
         let logPublishingOptionsContainer = try containerValues.decodeIfPresent([Swift.String: OpenSearchClientTypes.LogPublishingOption?].self, forKey: .logPublishingOptions)
         var logPublishingOptionsDecoded0: [Swift.String:OpenSearchClientTypes.LogPublishingOption]? = nil
         if let logPublishingOptionsContainer = logPublishingOptionsContainer {

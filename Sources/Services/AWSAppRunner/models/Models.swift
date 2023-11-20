@@ -4376,6 +4376,38 @@ extension InvalidStateExceptionBody: Swift.Decodable {
     }
 }
 
+extension AppRunnerClientTypes {
+    public enum IpAddressType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case dualStack
+        case ipv4
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IpAddressType] {
+            return [
+                .dualStack,
+                .ipv4,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .dualStack: return "DUAL_STACK"
+            case .ipv4: return "IPV4"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = IpAddressType(rawValue: rawValue) ?? IpAddressType.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension ListAutoScalingConfigurationsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case autoScalingConfigurationName = "AutoScalingConfigurationName"
@@ -5683,6 +5715,7 @@ extension AppRunnerClientTypes.NetworkConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case egressConfiguration = "EgressConfiguration"
         case ingressConfiguration = "IngressConfiguration"
+        case ipAddressType = "IpAddressType"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -5693,6 +5726,9 @@ extension AppRunnerClientTypes.NetworkConfiguration: Swift.Codable {
         if let ingressConfiguration = self.ingressConfiguration {
             try encodeContainer.encode(ingressConfiguration, forKey: .ingressConfiguration)
         }
+        if let ipAddressType = self.ipAddressType {
+            try encodeContainer.encode(ipAddressType.rawValue, forKey: .ipAddressType)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -5701,6 +5737,8 @@ extension AppRunnerClientTypes.NetworkConfiguration: Swift.Codable {
         egressConfiguration = egressConfigurationDecoded
         let ingressConfigurationDecoded = try containerValues.decodeIfPresent(AppRunnerClientTypes.IngressConfiguration.self, forKey: .ingressConfiguration)
         ingressConfiguration = ingressConfigurationDecoded
+        let ipAddressTypeDecoded = try containerValues.decodeIfPresent(AppRunnerClientTypes.IpAddressType.self, forKey: .ipAddressType)
+        ipAddressType = ipAddressTypeDecoded
     }
 }
 
@@ -5711,14 +5749,18 @@ extension AppRunnerClientTypes {
         public var egressConfiguration: AppRunnerClientTypes.EgressConfiguration?
         /// Network configuration settings for inbound message traffic.
         public var ingressConfiguration: AppRunnerClientTypes.IngressConfiguration?
+        /// App Runner provides you with the option to choose between Internet Protocol version 4 (IPv4) and dual-stack (IPv4 and IPv6) for your incoming public network configuration. This is an optional parameter. If you do not specify an IpAddressType, it defaults to select IPv4. Currently, App Runner supports dual-stack for only Public endpoint. Only IPv4 is supported for Private endpoint. If you update a service that's using dual-stack Public endpoint to a Private endpoint, your App Runner service will default to support only IPv4 for Private endpoint and fail to receive traffic originating from IPv6 endpoint.
+        public var ipAddressType: AppRunnerClientTypes.IpAddressType?
 
         public init(
             egressConfiguration: AppRunnerClientTypes.EgressConfiguration? = nil,
-            ingressConfiguration: AppRunnerClientTypes.IngressConfiguration? = nil
+            ingressConfiguration: AppRunnerClientTypes.IngressConfiguration? = nil,
+            ipAddressType: AppRunnerClientTypes.IpAddressType? = nil
         )
         {
             self.egressConfiguration = egressConfiguration
             self.ingressConfiguration = ingressConfiguration
+            self.ipAddressType = ipAddressType
         }
     }
 

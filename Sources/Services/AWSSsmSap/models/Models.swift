@@ -2,6 +2,44 @@
 import AWSClientRuntime
 import ClientRuntime
 
+extension SsmSapClientTypes {
+    public enum AllocationType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case elasticIp
+        case overlay
+        case unknown
+        case vpcSubnet
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AllocationType] {
+            return [
+                .elasticIp,
+                .overlay,
+                .unknown,
+                .vpcSubnet,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .elasticIp: return "ELASTIC_IP"
+            case .overlay: return "OVERLAY"
+            case .unknown: return "UNKNOWN"
+            case .vpcSubnet: return "VPC_SUBNET"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AllocationType(rawValue: rawValue) ?? AllocationType.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension SsmSapClientTypes.Application: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case appRegistryArn = "AppRegistryArn"
@@ -286,6 +324,7 @@ extension SsmSapClientTypes {
 extension SsmSapClientTypes.ApplicationSummary: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "Arn"
+        case discoveryStatus = "DiscoveryStatus"
         case id = "Id"
         case tags = "Tags"
         case type = "Type"
@@ -295,6 +334,9 @@ extension SsmSapClientTypes.ApplicationSummary: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let arn = self.arn {
             try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let discoveryStatus = self.discoveryStatus {
+            try encodeContainer.encode(discoveryStatus.rawValue, forKey: .discoveryStatus)
         }
         if let id = self.id {
             try encodeContainer.encode(id, forKey: .id)
@@ -314,6 +356,8 @@ extension SsmSapClientTypes.ApplicationSummary: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
+        let discoveryStatusDecoded = try containerValues.decodeIfPresent(SsmSapClientTypes.ApplicationDiscoveryStatus.self, forKey: .discoveryStatus)
+        discoveryStatus = discoveryStatusDecoded
         let typeDecoded = try containerValues.decodeIfPresent(SsmSapClientTypes.ApplicationType.self, forKey: .type)
         type = typeDecoded
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
@@ -337,6 +381,8 @@ extension SsmSapClientTypes {
     public struct ApplicationSummary: Swift.Equatable {
         /// The Amazon Resource Name (ARN) of the application.
         public var arn: Swift.String?
+        /// The status of the latest discovery.
+        public var discoveryStatus: SsmSapClientTypes.ApplicationDiscoveryStatus?
         /// The ID of the application.
         public var id: Swift.String?
         /// The tags on the application.
@@ -346,12 +392,14 @@ extension SsmSapClientTypes {
 
         public init(
             arn: Swift.String? = nil,
+            discoveryStatus: SsmSapClientTypes.ApplicationDiscoveryStatus? = nil,
             id: Swift.String? = nil,
             tags: [Swift.String:Swift.String]? = nil,
             type: SsmSapClientTypes.ApplicationType? = nil
         )
         {
             self.arn = arn
+            self.discoveryStatus = discoveryStatus
             self.id = id
             self.tags = tags
             self.type = type
@@ -363,11 +411,13 @@ extension SsmSapClientTypes {
 extension SsmSapClientTypes {
     public enum ApplicationType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case hana
+        case sapAbap
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ApplicationType] {
             return [
                 .hana,
+                .sapAbap,
                 .sdkUnknown("")
             ]
         }
@@ -378,6 +428,7 @@ extension SsmSapClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .hana: return "HANA"
+            case .sapAbap: return "SAP_ABAP"
             case let .sdkUnknown(s): return s
             }
         }
@@ -393,6 +444,7 @@ extension SsmSapClientTypes.AssociatedHost: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case ec2InstanceId = "Ec2InstanceId"
         case hostname = "Hostname"
+        case ipAddresses = "IpAddresses"
         case osVersion = "OsVersion"
     }
 
@@ -403,6 +455,12 @@ extension SsmSapClientTypes.AssociatedHost: Swift.Codable {
         }
         if let hostname = self.hostname {
             try encodeContainer.encode(hostname, forKey: .hostname)
+        }
+        if let ipAddresses = ipAddresses {
+            var ipAddressesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ipAddresses)
+            for ipaddressmember0 in ipAddresses {
+                try ipAddressesContainer.encode(ipaddressmember0)
+            }
         }
         if let osVersion = self.osVersion {
             try encodeContainer.encode(osVersion, forKey: .osVersion)
@@ -415,6 +473,17 @@ extension SsmSapClientTypes.AssociatedHost: Swift.Codable {
         hostname = hostnameDecoded
         let ec2InstanceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ec2InstanceId)
         ec2InstanceId = ec2InstanceIdDecoded
+        let ipAddressesContainer = try containerValues.decodeIfPresent([SsmSapClientTypes.IpAddressMember?].self, forKey: .ipAddresses)
+        var ipAddressesDecoded0:[SsmSapClientTypes.IpAddressMember]? = nil
+        if let ipAddressesContainer = ipAddressesContainer {
+            ipAddressesDecoded0 = [SsmSapClientTypes.IpAddressMember]()
+            for structure0 in ipAddressesContainer {
+                if let structure0 = structure0 {
+                    ipAddressesDecoded0?.append(structure0)
+                }
+            }
+        }
+        ipAddresses = ipAddressesDecoded0
         let osVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .osVersion)
         osVersion = osVersionDecoded
     }
@@ -427,17 +496,21 @@ extension SsmSapClientTypes {
         public var ec2InstanceId: Swift.String?
         /// The name of the host.
         public var hostname: Swift.String?
+        /// The IP addresses of the associated host.
+        public var ipAddresses: [SsmSapClientTypes.IpAddressMember]?
         /// The version of the operating system.
         public var osVersion: Swift.String?
 
         public init(
             ec2InstanceId: Swift.String? = nil,
             hostname: Swift.String? = nil,
+            ipAddresses: [SsmSapClientTypes.IpAddressMember]? = nil,
             osVersion: Swift.String? = nil
         )
         {
             self.ec2InstanceId = ec2InstanceId
             self.hostname = hostname
+            self.ipAddresses = ipAddresses
             self.osVersion = osVersion
         }
     }
@@ -569,6 +642,7 @@ extension SsmSapClientTypes.Component: Swift.Codable {
         case childComponents = "ChildComponents"
         case componentId = "ComponentId"
         case componentType = "ComponentType"
+        case databaseConnection = "DatabaseConnection"
         case databases = "Databases"
         case hdbVersion = "HdbVersion"
         case hosts = "Hosts"
@@ -576,9 +650,12 @@ extension SsmSapClientTypes.Component: Swift.Codable {
         case parentComponent = "ParentComponent"
         case primaryHost = "PrimaryHost"
         case resilience = "Resilience"
+        case sapFeature = "SapFeature"
         case sapHostname = "SapHostname"
         case sapKernelVersion = "SapKernelVersion"
+        case sid = "Sid"
         case status = "Status"
+        case systemNumber = "SystemNumber"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -603,6 +680,9 @@ extension SsmSapClientTypes.Component: Swift.Codable {
         }
         if let componentType = self.componentType {
             try encodeContainer.encode(componentType.rawValue, forKey: .componentType)
+        }
+        if let databaseConnection = self.databaseConnection {
+            try encodeContainer.encode(databaseConnection, forKey: .databaseConnection)
         }
         if let databases = databases {
             var databasesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .databases)
@@ -631,14 +711,23 @@ extension SsmSapClientTypes.Component: Swift.Codable {
         if let resilience = self.resilience {
             try encodeContainer.encode(resilience, forKey: .resilience)
         }
+        if let sapFeature = self.sapFeature {
+            try encodeContainer.encode(sapFeature, forKey: .sapFeature)
+        }
         if let sapHostname = self.sapHostname {
             try encodeContainer.encode(sapHostname, forKey: .sapHostname)
         }
         if let sapKernelVersion = self.sapKernelVersion {
             try encodeContainer.encode(sapKernelVersion, forKey: .sapKernelVersion)
         }
+        if let sid = self.sid {
+            try encodeContainer.encode(sid, forKey: .sid)
+        }
         if let status = self.status {
             try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+        if let systemNumber = self.systemNumber {
+            try encodeContainer.encode(systemNumber, forKey: .systemNumber)
         }
     }
 
@@ -646,6 +735,10 @@ extension SsmSapClientTypes.Component: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let componentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .componentId)
         componentId = componentIdDecoded
+        let sidDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sid)
+        sid = sidDecoded
+        let systemNumberDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .systemNumber)
+        systemNumber = systemNumberDecoded
         let parentComponentDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .parentComponent)
         parentComponent = parentComponentDecoded
         let childComponentsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .childComponents)
@@ -667,6 +760,8 @@ extension SsmSapClientTypes.Component: Swift.Codable {
         status = statusDecoded
         let sapHostnameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sapHostname)
         sapHostname = sapHostnameDecoded
+        let sapFeatureDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sapFeature)
+        sapFeature = sapFeatureDecoded
         let sapKernelVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sapKernelVersion)
         sapKernelVersion = sapKernelVersionDecoded
         let hdbVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .hdbVersion)
@@ -699,6 +794,8 @@ extension SsmSapClientTypes.Component: Swift.Codable {
         hosts = hostsDecoded0
         let primaryHostDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .primaryHost)
         primaryHost = primaryHostDecoded
+        let databaseConnectionDecoded = try containerValues.decodeIfPresent(SsmSapClientTypes.DatabaseConnection.self, forKey: .databaseConnection)
+        databaseConnection = databaseConnectionDecoded
         let lastUpdatedDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastUpdated)
         lastUpdated = lastUpdatedDecoded
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
@@ -721,6 +818,8 @@ extension SsmSapClientTypes {
         public var componentId: Swift.String?
         /// The type of the component.
         public var componentType: SsmSapClientTypes.ComponentType?
+        /// The connection specifications for the database of the component.
+        public var databaseConnection: SsmSapClientTypes.DatabaseConnection?
         /// The SAP HANA databases of the component.
         public var databases: [Swift.String]?
         /// The SAP HANA version of the component.
@@ -737,12 +836,32 @@ extension SsmSapClientTypes {
         public var primaryHost: Swift.String?
         /// Details of the SAP HANA system replication for the component.
         public var resilience: SsmSapClientTypes.Resilience?
+        /// The SAP feature of the component.
+        public var sapFeature: Swift.String?
         /// The hostname of the component.
         public var sapHostname: Swift.String?
         /// The kernel version of the component.
         public var sapKernelVersion: Swift.String?
+        /// The SAP System Identifier of the application component.
+        public var sid: Swift.String?
         /// The status of the component.
+        ///
+        /// * ACTIVATED - this status has been deprecated.
+        ///
+        /// * STARTING - the component is in the process of being started.
+        ///
+        /// * STOPPED - the component is not running.
+        ///
+        /// * STOPPING - the component is in the process of being stopped.
+        ///
+        /// * RUNNING - the component is running.
+        ///
+        /// * RUNNING_WITH_ERROR - one or more child component(s) of the parent component is not running. Call [GetComponent](https://docs.aws.amazon.com/ssmsap/latest/APIReference/API_GetComponent.html) to review the status of each child component.
+        ///
+        /// * UNDEFINED - AWS Systems Manager for SAP cannot provide the component status based on the discovered information. Verify your SAP application.
         public var status: SsmSapClientTypes.ComponentStatus?
+        /// The SAP system number of the application component.
+        public var systemNumber: Swift.String?
 
         public init(
             applicationId: Swift.String? = nil,
@@ -751,6 +870,7 @@ extension SsmSapClientTypes {
             childComponents: [Swift.String]? = nil,
             componentId: Swift.String? = nil,
             componentType: SsmSapClientTypes.ComponentType? = nil,
+            databaseConnection: SsmSapClientTypes.DatabaseConnection? = nil,
             databases: [Swift.String]? = nil,
             hdbVersion: Swift.String? = nil,
             hosts: [SsmSapClientTypes.Host]? = nil,
@@ -758,9 +878,12 @@ extension SsmSapClientTypes {
             parentComponent: Swift.String? = nil,
             primaryHost: Swift.String? = nil,
             resilience: SsmSapClientTypes.Resilience? = nil,
+            sapFeature: Swift.String? = nil,
             sapHostname: Swift.String? = nil,
             sapKernelVersion: Swift.String? = nil,
-            status: SsmSapClientTypes.ComponentStatus? = nil
+            sid: Swift.String? = nil,
+            status: SsmSapClientTypes.ComponentStatus? = nil,
+            systemNumber: Swift.String? = nil
         )
         {
             self.applicationId = applicationId
@@ -769,6 +892,7 @@ extension SsmSapClientTypes {
             self.childComponents = childComponents
             self.componentId = componentId
             self.componentType = componentType
+            self.databaseConnection = databaseConnection
             self.databases = databases
             self.hdbVersion = hdbVersion
             self.hosts = hosts
@@ -776,9 +900,12 @@ extension SsmSapClientTypes {
             self.parentComponent = parentComponent
             self.primaryHost = primaryHost
             self.resilience = resilience
+            self.sapFeature = sapFeature
             self.sapHostname = sapHostname
             self.sapKernelVersion = sapKernelVersion
+            self.sid = sid
             self.status = status
+            self.systemNumber = systemNumber
         }
     }
 
@@ -920,14 +1047,26 @@ extension SsmSapClientTypes {
 
 extension SsmSapClientTypes {
     public enum ComponentType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case abap
+        case ascs
+        case dialog
+        case ers
         case hana
         case hanaNode
+        case wd
+        case webdisp
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ComponentType] {
             return [
+                .abap,
+                .ascs,
+                .dialog,
+                .ers,
                 .hana,
                 .hanaNode,
+                .wd,
+                .webdisp,
                 .sdkUnknown("")
             ]
         }
@@ -937,8 +1076,14 @@ extension SsmSapClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .abap: return "ABAP"
+            case .ascs: return "ASCS"
+            case .dialog: return "DIALOG"
+            case .ers: return "ERS"
             case .hana: return "HANA"
             case .hanaNode: return "HANA_NODE"
+            case .wd: return "WD"
+            case .webdisp: return "WEBDISP"
             case let .sdkUnknown(s): return s
             }
         }
@@ -1179,6 +1324,93 @@ extension SsmSapClientTypes {
         }
     }
 
+}
+
+extension SsmSapClientTypes.DatabaseConnection: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case connectionIp = "ConnectionIp"
+        case databaseArn = "DatabaseArn"
+        case databaseConnectionMethod = "DatabaseConnectionMethod"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let connectionIp = self.connectionIp {
+            try encodeContainer.encode(connectionIp, forKey: .connectionIp)
+        }
+        if let databaseArn = self.databaseArn {
+            try encodeContainer.encode(databaseArn, forKey: .databaseArn)
+        }
+        if let databaseConnectionMethod = self.databaseConnectionMethod {
+            try encodeContainer.encode(databaseConnectionMethod.rawValue, forKey: .databaseConnectionMethod)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let databaseConnectionMethodDecoded = try containerValues.decodeIfPresent(SsmSapClientTypes.DatabaseConnectionMethod.self, forKey: .databaseConnectionMethod)
+        databaseConnectionMethod = databaseConnectionMethodDecoded
+        let databaseArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .databaseArn)
+        databaseArn = databaseArnDecoded
+        let connectionIpDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .connectionIp)
+        connectionIp = connectionIpDecoded
+    }
+}
+
+extension SsmSapClientTypes {
+    /// The connection specifications for the database.
+    public struct DatabaseConnection: Swift.Equatable {
+        /// The IP address for connection.
+        public var connectionIp: Swift.String?
+        /// The Amazon Resource Name of the connected SAP HANA database.
+        public var databaseArn: Swift.String?
+        /// The method of connection.
+        public var databaseConnectionMethod: SsmSapClientTypes.DatabaseConnectionMethod?
+
+        public init(
+            connectionIp: Swift.String? = nil,
+            databaseArn: Swift.String? = nil,
+            databaseConnectionMethod: SsmSapClientTypes.DatabaseConnectionMethod? = nil
+        )
+        {
+            self.connectionIp = connectionIp
+            self.databaseArn = databaseArn
+            self.databaseConnectionMethod = databaseConnectionMethod
+        }
+    }
+
+}
+
+extension SsmSapClientTypes {
+    public enum DatabaseConnectionMethod: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case direct
+        case overlay
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DatabaseConnectionMethod] {
+            return [
+                .direct,
+                .overlay,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .direct: return "DIRECT"
+            case .overlay: return "OVERLAY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = DatabaseConnectionMethod(rawValue: rawValue) ?? DatabaseConnectionMethod.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension SsmSapClientTypes {
@@ -1543,6 +1775,7 @@ enum DeregisterApplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
@@ -1910,6 +2143,7 @@ enum GetComponentOutputError: ClientRuntime.HttpResponseErrorBinding {
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
@@ -2461,14 +2695,76 @@ extension InternalServerExceptionBody: Swift.Decodable {
     }
 }
 
+extension SsmSapClientTypes.IpAddressMember: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case allocationType = "AllocationType"
+        case ipAddress = "IpAddress"
+        case primary = "Primary"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let allocationType = self.allocationType {
+            try encodeContainer.encode(allocationType.rawValue, forKey: .allocationType)
+        }
+        if let ipAddress = self.ipAddress {
+            try encodeContainer.encode(ipAddress, forKey: .ipAddress)
+        }
+        if let primary = self.primary {
+            try encodeContainer.encode(primary, forKey: .primary)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let ipAddressDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ipAddress)
+        ipAddress = ipAddressDecoded
+        let primaryDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .primary)
+        primary = primaryDecoded
+        let allocationTypeDecoded = try containerValues.decodeIfPresent(SsmSapClientTypes.AllocationType.self, forKey: .allocationType)
+        allocationType = allocationTypeDecoded
+    }
+}
+
+extension SsmSapClientTypes {
+    /// Provides information of the IP address.
+    public struct IpAddressMember: Swift.Equatable {
+        /// The type of allocation for the IP address.
+        public var allocationType: SsmSapClientTypes.AllocationType?
+        /// The IP address.
+        public var ipAddress: Swift.String?
+        /// The primary IP address.
+        public var primary: Swift.Bool?
+
+        public init(
+            allocationType: SsmSapClientTypes.AllocationType? = nil,
+            ipAddress: Swift.String? = nil,
+            primary: Swift.Bool? = nil
+        )
+        {
+            self.allocationType = allocationType
+            self.ipAddress = ipAddress
+            self.primary = primary
+        }
+    }
+
+}
+
 extension ListApplicationsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filters = "Filters"
         case maxResults = "MaxResults"
         case nextToken = "NextToken"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let filters = filters {
+            var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
+            }
+        }
         if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
@@ -2485,16 +2781,20 @@ extension ListApplicationsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListApplicationsInput: Swift.Equatable {
+    /// The filter of name, value, and operator.
+    public var filters: [SsmSapClientTypes.Filter]?
     /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
     public var maxResults: Swift.Int?
     /// The token for the next page of results.
     public var nextToken: Swift.String?
 
     public init(
+        filters: [SsmSapClientTypes.Filter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
+        self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -2503,10 +2803,12 @@ public struct ListApplicationsInput: Swift.Equatable {
 struct ListApplicationsInputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
+    let filters: [SsmSapClientTypes.Filter]?
 }
 
 extension ListApplicationsInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filters = "Filters"
         case maxResults = "MaxResults"
         case nextToken = "NextToken"
     }
@@ -2517,6 +2819,17 @@ extension ListApplicationsInputBody: Swift.Decodable {
         nextToken = nextTokenDecoded
         let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
+        let filtersContainer = try containerValues.decodeIfPresent([SsmSapClientTypes.Filter?].self, forKey: .filters)
+        var filtersDecoded0:[SsmSapClientTypes.Filter]? = nil
+        if let filtersContainer = filtersContainer {
+            filtersDecoded0 = [SsmSapClientTypes.Filter]()
+            for structure0 in filtersContainer {
+                if let structure0 = structure0 {
+                    filtersDecoded0?.append(structure0)
+                }
+            }
+        }
+        filters = filtersDecoded0
     }
 }
 
@@ -2729,6 +3042,7 @@ enum ListComponentsOutputError: ClientRuntime.HttpResponseErrorBinding {
         switch restJSONError.errorType {
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
@@ -3536,6 +3850,7 @@ extension RegisterApplicationInput: Swift.Encodable {
         case applicationId = "ApplicationId"
         case applicationType = "ApplicationType"
         case credentials = "Credentials"
+        case databaseArn = "DatabaseArn"
         case instances = "Instances"
         case sapInstanceNumber = "SapInstanceNumber"
         case sid = "Sid"
@@ -3555,6 +3870,9 @@ extension RegisterApplicationInput: Swift.Encodable {
             for applicationcredential0 in credentials {
                 try credentialsContainer.encode(applicationcredential0)
             }
+        }
+        if let databaseArn = self.databaseArn {
+            try encodeContainer.encode(databaseArn, forKey: .databaseArn)
         }
         if let instances = instances {
             var instancesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .instances)
@@ -3591,8 +3909,9 @@ public struct RegisterApplicationInput: Swift.Equatable {
     /// This member is required.
     public var applicationType: SsmSapClientTypes.ApplicationType?
     /// The credentials of the SAP application.
-    /// This member is required.
     public var credentials: [SsmSapClientTypes.ApplicationCredential]?
+    /// The Amazon Resource Name of the SAP HANA database.
+    public var databaseArn: Swift.String?
     /// The Amazon EC2 instances on which your SAP application is running.
     /// This member is required.
     public var instances: [Swift.String]?
@@ -3607,6 +3926,7 @@ public struct RegisterApplicationInput: Swift.Equatable {
         applicationId: Swift.String? = nil,
         applicationType: SsmSapClientTypes.ApplicationType? = nil,
         credentials: [SsmSapClientTypes.ApplicationCredential]? = nil,
+        databaseArn: Swift.String? = nil,
         instances: [Swift.String]? = nil,
         sapInstanceNumber: Swift.String? = nil,
         sid: Swift.String? = nil,
@@ -3616,6 +3936,7 @@ public struct RegisterApplicationInput: Swift.Equatable {
         self.applicationId = applicationId
         self.applicationType = applicationType
         self.credentials = credentials
+        self.databaseArn = databaseArn
         self.instances = instances
         self.sapInstanceNumber = sapInstanceNumber
         self.sid = sid
@@ -3631,6 +3952,7 @@ struct RegisterApplicationInputBody: Swift.Equatable {
     let sid: Swift.String?
     let tags: [Swift.String:Swift.String]?
     let credentials: [SsmSapClientTypes.ApplicationCredential]?
+    let databaseArn: Swift.String?
 }
 
 extension RegisterApplicationInputBody: Swift.Decodable {
@@ -3638,6 +3960,7 @@ extension RegisterApplicationInputBody: Swift.Decodable {
         case applicationId = "ApplicationId"
         case applicationType = "ApplicationType"
         case credentials = "Credentials"
+        case databaseArn = "DatabaseArn"
         case instances = "Instances"
         case sapInstanceNumber = "SapInstanceNumber"
         case sid = "Sid"
@@ -3687,6 +4010,8 @@ extension RegisterApplicationInputBody: Swift.Decodable {
             }
         }
         credentials = credentialsDecoded0
+        let databaseArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .databaseArn)
+        databaseArn = databaseArnDecoded
     }
 }
 
@@ -3747,6 +4072,7 @@ enum RegisterApplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
         switch restJSONError.errorType {
             case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
@@ -3797,6 +4123,7 @@ extension SsmSapClientTypes {
 extension SsmSapClientTypes.Resilience: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clusterStatus = "ClusterStatus"
+        case enqueueReplication = "EnqueueReplication"
         case hsrOperationMode = "HsrOperationMode"
         case hsrReplicationMode = "HsrReplicationMode"
         case hsrTier = "HsrTier"
@@ -3806,6 +4133,9 @@ extension SsmSapClientTypes.Resilience: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let clusterStatus = self.clusterStatus {
             try encodeContainer.encode(clusterStatus.rawValue, forKey: .clusterStatus)
+        }
+        if let enqueueReplication = self.enqueueReplication {
+            try encodeContainer.encode(enqueueReplication, forKey: .enqueueReplication)
         }
         if let hsrOperationMode = self.hsrOperationMode {
             try encodeContainer.encode(hsrOperationMode.rawValue, forKey: .hsrOperationMode)
@@ -3828,6 +4158,8 @@ extension SsmSapClientTypes.Resilience: Swift.Codable {
         hsrOperationMode = hsrOperationModeDecoded
         let clusterStatusDecoded = try containerValues.decodeIfPresent(SsmSapClientTypes.ClusterStatus.self, forKey: .clusterStatus)
         clusterStatus = clusterStatusDecoded
+        let enqueueReplicationDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enqueueReplication)
+        enqueueReplication = enqueueReplicationDecoded
     }
 }
 
@@ -3836,6 +4168,8 @@ extension SsmSapClientTypes {
     public struct Resilience: Swift.Equatable {
         /// The cluster status of the component.
         public var clusterStatus: SsmSapClientTypes.ClusterStatus?
+        /// Indicates if or not enqueue replication is enabled for the ASCS component.
+        public var enqueueReplication: Swift.Bool?
         /// The operation mode of the component.
         public var hsrOperationMode: SsmSapClientTypes.OperationMode?
         /// The replication mode of the component.
@@ -3845,12 +4179,14 @@ extension SsmSapClientTypes {
 
         public init(
             clusterStatus: SsmSapClientTypes.ClusterStatus? = nil,
+            enqueueReplication: Swift.Bool? = nil,
             hsrOperationMode: SsmSapClientTypes.OperationMode? = nil,
             hsrReplicationMode: SsmSapClientTypes.ReplicationMode? = nil,
             hsrTier: Swift.String? = nil
         )
         {
             self.clusterStatus = clusterStatus
+            self.enqueueReplication = enqueueReplication
             self.hsrOperationMode = hsrOperationMode
             self.hsrReplicationMode = hsrReplicationMode
             self.hsrTier = hsrTier
@@ -4010,6 +4346,7 @@ enum StartApplicationRefreshOutputError: ClientRuntime.HttpResponseErrorBinding 
             case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
@@ -4107,6 +4444,61 @@ enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension UnauthorizedException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UnauthorizedExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// The request is not authorized.
+public struct UnauthorizedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "UnauthorizedException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct UnauthorizedExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension UnauthorizedExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message = "Message"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
 extension UntagResourceInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -4189,6 +4581,7 @@ extension UpdateApplicationSettingsInput: Swift.Encodable {
         case backint = "Backint"
         case credentialsToAddOrUpdate = "CredentialsToAddOrUpdate"
         case credentialsToRemove = "CredentialsToRemove"
+        case databaseArn = "DatabaseArn"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -4211,6 +4604,9 @@ extension UpdateApplicationSettingsInput: Swift.Encodable {
                 try credentialsToRemoveContainer.encode(applicationcredential0)
             }
         }
+        if let databaseArn = self.databaseArn {
+            try encodeContainer.encode(databaseArn, forKey: .databaseArn)
+        }
     }
 }
 
@@ -4230,18 +4626,22 @@ public struct UpdateApplicationSettingsInput: Swift.Equatable {
     public var credentialsToAddOrUpdate: [SsmSapClientTypes.ApplicationCredential]?
     /// The credentials to be removed.
     public var credentialsToRemove: [SsmSapClientTypes.ApplicationCredential]?
+    /// The Amazon Resource Name of the SAP HANA database that replaces the current SAP HANA connection with the SAP_ABAP application.
+    public var databaseArn: Swift.String?
 
     public init(
         applicationId: Swift.String? = nil,
         backint: SsmSapClientTypes.BackintConfig? = nil,
         credentialsToAddOrUpdate: [SsmSapClientTypes.ApplicationCredential]? = nil,
-        credentialsToRemove: [SsmSapClientTypes.ApplicationCredential]? = nil
+        credentialsToRemove: [SsmSapClientTypes.ApplicationCredential]? = nil,
+        databaseArn: Swift.String? = nil
     )
     {
         self.applicationId = applicationId
         self.backint = backint
         self.credentialsToAddOrUpdate = credentialsToAddOrUpdate
         self.credentialsToRemove = credentialsToRemove
+        self.databaseArn = databaseArn
     }
 }
 
@@ -4250,6 +4650,7 @@ struct UpdateApplicationSettingsInputBody: Swift.Equatable {
     let credentialsToAddOrUpdate: [SsmSapClientTypes.ApplicationCredential]?
     let credentialsToRemove: [SsmSapClientTypes.ApplicationCredential]?
     let backint: SsmSapClientTypes.BackintConfig?
+    let databaseArn: Swift.String?
 }
 
 extension UpdateApplicationSettingsInputBody: Swift.Decodable {
@@ -4258,6 +4659,7 @@ extension UpdateApplicationSettingsInputBody: Swift.Decodable {
         case backint = "Backint"
         case credentialsToAddOrUpdate = "CredentialsToAddOrUpdate"
         case credentialsToRemove = "CredentialsToRemove"
+        case databaseArn = "DatabaseArn"
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -4288,6 +4690,8 @@ extension UpdateApplicationSettingsInputBody: Swift.Decodable {
         credentialsToRemove = credentialsToRemoveDecoded0
         let backintDecoded = try containerValues.decodeIfPresent(SsmSapClientTypes.BackintConfig.self, forKey: .backint)
         backint = backintDecoded
+        let databaseArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .databaseArn)
+        databaseArn = databaseArnDecoded
     }
 }
 
@@ -4358,6 +4762,7 @@ enum UpdateApplicationSettingsOutputError: ClientRuntime.HttpResponseErrorBindin
             case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }

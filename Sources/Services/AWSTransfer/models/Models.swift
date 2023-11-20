@@ -1719,7 +1719,7 @@ public struct CreateUserInput: Swift.Equatable {
     /// A system-assigned unique identifier for a server instance. This is the specific server that you added your user to.
     /// This member is required.
     public var serverId: Swift.String?
-    /// The public portion of the Secure Shell (SSH) key used to authenticate the user to the server. The three standard SSH public key format elements are , , and an optional , with spaces between each element. Transfer Family accepts RSA, ECDSA, and ED25519 keys.
+    /// The public portion of the Secure Shell (SSH) key used to authenticate the user to the server. The three standard SSH public key format elements are <key type>, <body base64>, and an optional <comment>, with spaces between each element. Transfer Family accepts RSA, ECDSA, and ED25519 keys.
     ///
     /// * For RSA keys, the key type is ssh-rsa.
     ///
@@ -11051,13 +11051,13 @@ extension TransferClientTypes.SftpConnectorConfig: Swift.Codable {
 extension TransferClientTypes {
     /// Contains the details for an SFTP connector object. The connector object is used for transferring files to and from a partner's SFTP server.
     public struct SftpConnectorConfig: Swift.Equatable {
-        /// The public portion of the host key, or keys, that are used to identify the external server to which you are connecting. You can use the ssh-keyscan command against the SFTP server to retrieve the necessary key. The three standard SSH public key format elements are , , and an optional , with spaces between each element. Specify only the  and : do not enter the  portion of the key. For the trusted host key, Transfer Family accepts RSA and ECDSA keys.
+        /// The public portion of the host key, or keys, that are used to identify the external server to which you are connecting. You can use the ssh-keyscan command against the SFTP server to retrieve the necessary key. The three standard SSH public key format elements are <key type>, <body base64>, and an optional <comment>, with spaces between each element. Specify only the <key type> and <body base64>: do not enter the <comment> portion of the key. For the trusted host key, Transfer Family accepts RSA and ECDSA keys.
         ///
-        /// * For RSA keys, the  string is ssh-rsa.
+        /// * For RSA keys, the <key type> string is ssh-rsa.
         ///
-        /// * For ECDSA keys, the  string is either ecdsa-sha2-nistp256, ecdsa-sha2-nistp384, or ecdsa-sha2-nistp521, depending on the size of the key you generated.
+        /// * For ECDSA keys, the <key type> string is either ecdsa-sha2-nistp256, ecdsa-sha2-nistp384, or ecdsa-sha2-nistp521, depending on the size of the key you generated.
         public var trustedHostKeys: [Swift.String]?
-        /// The identifier for the secret (in Amazon Web Services Secrets Manager) that contains the SFTP user's private key, password, or both. The identifier can be either the Amazon Resource Name (ARN) or the name of the secret.
+        /// The identifier for the secret (in Amazon Web Services Secrets Manager) that contains the SFTP user's private key, password, or both. The identifier must be the Amazon Resource Name (ARN) of the secret.
         public var userSecretId: Swift.String?
 
         public init(

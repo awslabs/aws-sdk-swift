@@ -3,6 +3,9 @@
 @_spi(FileBasedConfig) import AWSClientRuntime
 import ClientRuntime
 import Foundation
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
 import Logging
 
 public class PollyClient {
@@ -480,4 +483,44 @@ extension PollyClient: PollyClientProtocol {
         return result
     }
 
+}
+
+extension PollyClient {
+    /// Presigns the URL for SynthesizeSpeech operation with the given input object SynthesizeSpeechInput.
+    /// The presigned URL will be valid for the given expiration, in seconds.
+    ///
+    /// Below is the documentation for SynthesizeSpeech operation:
+    /// Synthesizes UTF-8 input, plain text or SSML, to a stream of bytes. SSML input must be valid, well-formed SSML. Some alphabets might not be available with all the voices (for example, Cyrillic might not be read at all by English voices) unless phoneme mapping is used. For more information, see [How it Works](https://docs.aws.amazon.com/polly/latest/dg/how-text-to-speech-works.html).
+    ///
+    /// - Parameter input: The input object for SynthesizeSpeech operation used to construct request.
+    /// - Parameter expiration: The duration (in seconds) the presigned request will be valid for.
+    ///
+    /// - Returns: `Foundation.URL`: The presigned URL for SynthesizeSpeech operation.
+    public func presignedURLForSynthesizeSpeech(input: SynthesizeSpeechInput, expiration: Foundation.TimeInterval) async throws -> Foundation.URL {
+        let presignedURL = try await input.presignURL(config: config, expiration: expiration)
+        guard let presignedURL else {
+            throw ClientError.unknownError("Could not generate presigned URL for the operation SynthesizeSpeech.")
+        }
+        return presignedURL
+    }
+}
+
+extension PollyClient {
+    /// Presigns the request for SynthesizeSpeech operation with the given input object SynthesizeSpeechInput.
+    /// The presigned request will be valid for the given expiration, in seconds.
+    ///
+    /// Below is the documentation for SynthesizeSpeech operation:
+    /// Synthesizes UTF-8 input, plain text or SSML, to a stream of bytes. SSML input must be valid, well-formed SSML. Some alphabets might not be available with all the voices (for example, Cyrillic might not be read at all by English voices) unless phoneme mapping is used. For more information, see [How it Works](https://docs.aws.amazon.com/polly/latest/dg/how-text-to-speech-works.html).
+    ///
+    /// - Parameter input: The input object for SynthesizeSpeech operation used to construct request.
+    /// - Parameter expiration: The duration (in seconds) the presigned request will be valid for.
+    ///
+    /// - Returns: `URLRequest`: The presigned request for SynthesizeSpeech operation.
+    public func presignedRequestForSynthesizeSpeech(input: SynthesizeSpeechInput, expiration: Foundation.TimeInterval) async throws -> URLRequest {
+        let presignedRequest = try await input.presign(config: config, expiration: expiration)
+        guard let presignedRequest else {
+            throw ClientError.unknownError("Could not presign the request for the operation SynthesizeSpeech.")
+        }
+        return try await URLRequest(sdkRequest: presignedRequest)
+    }
 }

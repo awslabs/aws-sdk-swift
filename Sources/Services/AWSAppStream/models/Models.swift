@@ -1926,6 +1926,7 @@ extension AppStreamClientTypes {
 extension AppStreamClientTypes.ComputeCapacity: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case desiredInstances = "DesiredInstances"
+        case desiredSessions = "DesiredSessions"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -1933,12 +1934,17 @@ extension AppStreamClientTypes.ComputeCapacity: Swift.Codable {
         if let desiredInstances = self.desiredInstances {
             try encodeContainer.encode(desiredInstances, forKey: .desiredInstances)
         }
+        if let desiredSessions = self.desiredSessions {
+            try encodeContainer.encode(desiredSessions, forKey: .desiredSessions)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let desiredInstancesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .desiredInstances)
         desiredInstances = desiredInstancesDecoded
+        let desiredSessionsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .desiredSessions)
+        desiredSessions = desiredSessionsDecoded
     }
 }
 
@@ -1946,14 +1952,17 @@ extension AppStreamClientTypes {
     /// Describes the capacity for a fleet.
     public struct ComputeCapacity: Swift.Equatable {
         /// The desired number of streaming instances.
-        /// This member is required.
         public var desiredInstances: Swift.Int?
+        /// The desired number of user sessions for a multi-session fleet. This is not allowed for single-session fleets. When you create a fleet, you must set either the DesiredSessions or DesiredInstances attribute, based on the type of fleet you create. You can’t define both attributes or leave both attributes blank.
+        public var desiredSessions: Swift.Int?
 
         public init(
-            desiredInstances: Swift.Int? = nil
+            desiredInstances: Swift.Int? = nil,
+            desiredSessions: Swift.Int? = nil
         )
         {
             self.desiredInstances = desiredInstances
+            self.desiredSessions = desiredSessions
         }
     }
 
@@ -1961,19 +1970,35 @@ extension AppStreamClientTypes {
 
 extension AppStreamClientTypes.ComputeCapacityStatus: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case activeUserSessions = "ActiveUserSessions"
+        case actualUserSessions = "ActualUserSessions"
         case available = "Available"
+        case availableUserSessions = "AvailableUserSessions"
         case desired = "Desired"
+        case desiredUserSessions = "DesiredUserSessions"
         case inUse = "InUse"
         case running = "Running"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let activeUserSessions = self.activeUserSessions {
+            try encodeContainer.encode(activeUserSessions, forKey: .activeUserSessions)
+        }
+        if let actualUserSessions = self.actualUserSessions {
+            try encodeContainer.encode(actualUserSessions, forKey: .actualUserSessions)
+        }
         if let available = self.available {
             try encodeContainer.encode(available, forKey: .available)
         }
+        if let availableUserSessions = self.availableUserSessions {
+            try encodeContainer.encode(availableUserSessions, forKey: .availableUserSessions)
+        }
         if let desired = self.desired {
             try encodeContainer.encode(desired, forKey: .desired)
+        }
+        if let desiredUserSessions = self.desiredUserSessions {
+            try encodeContainer.encode(desiredUserSessions, forKey: .desiredUserSessions)
         }
         if let inUse = self.inUse {
             try encodeContainer.encode(inUse, forKey: .inUse)
@@ -1993,31 +2018,55 @@ extension AppStreamClientTypes.ComputeCapacityStatus: Swift.Codable {
         inUse = inUseDecoded
         let availableDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .available)
         available = availableDecoded
+        let desiredUserSessionsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .desiredUserSessions)
+        desiredUserSessions = desiredUserSessionsDecoded
+        let availableUserSessionsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .availableUserSessions)
+        availableUserSessions = availableUserSessionsDecoded
+        let activeUserSessionsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .activeUserSessions)
+        activeUserSessions = activeUserSessionsDecoded
+        let actualUserSessionsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .actualUserSessions)
+        actualUserSessions = actualUserSessionsDecoded
     }
 }
 
 extension AppStreamClientTypes {
     /// Describes the capacity status for a fleet.
     public struct ComputeCapacityStatus: Swift.Equatable {
+        /// The number of user sessions currently being used for streaming sessions. This only applies to multi-session fleets.
+        public var activeUserSessions: Swift.Int?
+        /// The total number of session slots that are available for streaming or are currently streaming. ActualUserSessionCapacity = AvailableUserSessionCapacity + ActiveUserSessions This only applies to multi-session fleets.
+        public var actualUserSessions: Swift.Int?
         /// The number of currently available instances that can be used to stream sessions.
         public var available: Swift.Int?
+        /// The number of idle session slots currently available for user sessions. AvailableUserSessionCapacity = ActualUserSessionCapacity - ActiveUserSessions This only applies to multi-session fleets.
+        public var availableUserSessions: Swift.Int?
         /// The desired number of streaming instances.
         /// This member is required.
         public var desired: Swift.Int?
+        /// The total number of sessions slots that are either running or pending. This represents the total number of concurrent streaming sessions your fleet can support in a steady state. DesiredUserSessionCapacity = ActualUserSessionCapacity + PendingUserSessionCapacity This only applies to multi-session fleets.
+        public var desiredUserSessions: Swift.Int?
         /// The number of instances in use for streaming.
         public var inUse: Swift.Int?
         /// The total number of simultaneous streaming instances that are running.
         public var running: Swift.Int?
 
         public init(
+            activeUserSessions: Swift.Int? = nil,
+            actualUserSessions: Swift.Int? = nil,
             available: Swift.Int? = nil,
+            availableUserSessions: Swift.Int? = nil,
             desired: Swift.Int? = nil,
+            desiredUserSessions: Swift.Int? = nil,
             inUse: Swift.Int? = nil,
             running: Swift.Int? = nil
         )
         {
+            self.activeUserSessions = activeUserSessions
+            self.actualUserSessions = actualUserSessions
             self.available = available
+            self.availableUserSessions = availableUserSessions
             self.desired = desired
+            self.desiredUserSessions = desiredUserSessions
             self.inUse = inUse
             self.running = running
         }
@@ -3394,6 +3443,7 @@ extension CreateFleetInput: Swift.Encodable {
         case imageName = "ImageName"
         case instanceType = "InstanceType"
         case maxConcurrentSessions = "MaxConcurrentSessions"
+        case maxSessionsPerInstance = "MaxSessionsPerInstance"
         case maxUserDurationInSeconds = "MaxUserDurationInSeconds"
         case name = "Name"
         case platform = "Platform"
@@ -3444,6 +3494,9 @@ extension CreateFleetInput: Swift.Encodable {
         }
         if let maxConcurrentSessions = self.maxConcurrentSessions {
             try encodeContainer.encode(maxConcurrentSessions, forKey: .maxConcurrentSessions)
+        }
+        if let maxSessionsPerInstance = self.maxSessionsPerInstance {
+            try encodeContainer.encode(maxSessionsPerInstance, forKey: .maxSessionsPerInstance)
         }
         if let maxUserDurationInSeconds = self.maxUserDurationInSeconds {
             try encodeContainer.encode(maxUserDurationInSeconds, forKey: .maxUserDurationInSeconds)
@@ -3595,7 +3648,9 @@ public struct CreateFleetInput: Swift.Equatable {
     public var instanceType: Swift.String?
     /// The maximum concurrent sessions of the Elastic fleet. This is required for Elastic fleets, and not allowed for other fleet types.
     public var maxConcurrentSessions: Swift.Int?
-    /// The maximum amount of time that a streaming session can remain active, in seconds. If users are still connected to a streaming instance five minutes before this limit is reached, they are prompted to save any open documents before being disconnected. After this time elapses, the instance is terminated and replaced by a new instance. Specify a value between 600 and 360000.
+    /// The maximum number of user sessions on an instance. This only applies to multi-session fleets.
+    public var maxSessionsPerInstance: Swift.Int?
+    /// The maximum amount of time that a streaming session can remain active, in seconds. If users are still connected to a streaming instance five minutes before this limit is reached, they are prompted to save any open documents before being disconnected. After this time elapses, the instance is terminated and replaced by a new instance. Specify a value between 600 and 432000.
     public var maxUserDurationInSeconds: Swift.Int?
     /// A unique name for the fleet.
     /// This member is required.
@@ -3627,6 +3682,7 @@ public struct CreateFleetInput: Swift.Equatable {
         imageName: Swift.String? = nil,
         instanceType: Swift.String? = nil,
         maxConcurrentSessions: Swift.Int? = nil,
+        maxSessionsPerInstance: Swift.Int? = nil,
         maxUserDurationInSeconds: Swift.Int? = nil,
         name: Swift.String? = nil,
         platform: AppStreamClientTypes.PlatformType? = nil,
@@ -3650,6 +3706,7 @@ public struct CreateFleetInput: Swift.Equatable {
         self.imageName = imageName
         self.instanceType = instanceType
         self.maxConcurrentSessions = maxConcurrentSessions
+        self.maxSessionsPerInstance = maxSessionsPerInstance
         self.maxUserDurationInSeconds = maxUserDurationInSeconds
         self.name = name
         self.platform = platform
@@ -3683,6 +3740,7 @@ struct CreateFleetInputBody: Swift.Equatable {
     let maxConcurrentSessions: Swift.Int?
     let usbDeviceFilterStrings: [Swift.String]?
     let sessionScriptS3Location: AppStreamClientTypes.S3Location?
+    let maxSessionsPerInstance: Swift.Int?
 }
 
 extension CreateFleetInputBody: Swift.Decodable {
@@ -3700,6 +3758,7 @@ extension CreateFleetInputBody: Swift.Decodable {
         case imageName = "ImageName"
         case instanceType = "InstanceType"
         case maxConcurrentSessions = "MaxConcurrentSessions"
+        case maxSessionsPerInstance = "MaxSessionsPerInstance"
         case maxUserDurationInSeconds = "MaxUserDurationInSeconds"
         case name = "Name"
         case platform = "Platform"
@@ -3772,6 +3831,8 @@ extension CreateFleetInputBody: Swift.Decodable {
         usbDeviceFilterStrings = usbDeviceFilterStringsDecoded0
         let sessionScriptS3LocationDecoded = try containerValues.decodeIfPresent(AppStreamClientTypes.S3Location.self, forKey: .sessionScriptS3Location)
         sessionScriptS3Location = sessionScriptS3LocationDecoded
+        let maxSessionsPerInstanceDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxSessionsPerInstance)
+        maxSessionsPerInstance = maxSessionsPerInstanceDecoded
     }
 }
 
@@ -7858,6 +7919,7 @@ extension DescribeSessionsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case authenticationType = "AuthenticationType"
         case fleetName = "FleetName"
+        case instanceId = "InstanceId"
         case limit = "Limit"
         case nextToken = "NextToken"
         case stackName = "StackName"
@@ -7871,6 +7933,9 @@ extension DescribeSessionsInput: Swift.Encodable {
         }
         if let fleetName = self.fleetName {
             try encodeContainer.encode(fleetName, forKey: .fleetName)
+        }
+        if let instanceId = self.instanceId {
+            try encodeContainer.encode(instanceId, forKey: .instanceId)
         }
         if let limit = self.limit {
             try encodeContainer.encode(limit, forKey: .limit)
@@ -7899,6 +7964,8 @@ public struct DescribeSessionsInput: Swift.Equatable {
     /// The name of the fleet. This value is case-sensitive.
     /// This member is required.
     public var fleetName: Swift.String?
+    /// The identifier for the instance hosting the session.
+    public var instanceId: Swift.String?
     /// The size of each page of results. The default value is 20 and the maximum value is 50.
     public var limit: Swift.Int?
     /// The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
@@ -7912,6 +7979,7 @@ public struct DescribeSessionsInput: Swift.Equatable {
     public init(
         authenticationType: AppStreamClientTypes.AuthenticationType? = nil,
         fleetName: Swift.String? = nil,
+        instanceId: Swift.String? = nil,
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         stackName: Swift.String? = nil,
@@ -7920,6 +7988,7 @@ public struct DescribeSessionsInput: Swift.Equatable {
     {
         self.authenticationType = authenticationType
         self.fleetName = fleetName
+        self.instanceId = instanceId
         self.limit = limit
         self.nextToken = nextToken
         self.stackName = stackName
@@ -7934,12 +8003,14 @@ struct DescribeSessionsInputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let limit: Swift.Int?
     let authenticationType: AppStreamClientTypes.AuthenticationType?
+    let instanceId: Swift.String?
 }
 
 extension DescribeSessionsInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case authenticationType = "AuthenticationType"
         case fleetName = "FleetName"
+        case instanceId = "InstanceId"
         case limit = "Limit"
         case nextToken = "NextToken"
         case stackName = "StackName"
@@ -7960,6 +8031,8 @@ extension DescribeSessionsInputBody: Swift.Decodable {
         limit = limitDecoded
         let authenticationTypeDecoded = try containerValues.decodeIfPresent(AppStreamClientTypes.AuthenticationType.self, forKey: .authenticationType)
         authenticationType = authenticationTypeDecoded
+        let instanceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceId)
+        instanceId = instanceIdDecoded
     }
 }
 
@@ -9729,6 +9802,7 @@ extension AppStreamClientTypes.Fleet: Swift.Codable {
         case imageName = "ImageName"
         case instanceType = "InstanceType"
         case maxConcurrentSessions = "MaxConcurrentSessions"
+        case maxSessionsPerInstance = "MaxSessionsPerInstance"
         case maxUserDurationInSeconds = "MaxUserDurationInSeconds"
         case name = "Name"
         case platform = "Platform"
@@ -9791,6 +9865,9 @@ extension AppStreamClientTypes.Fleet: Swift.Codable {
         }
         if let maxConcurrentSessions = self.maxConcurrentSessions {
             try encodeContainer.encode(maxConcurrentSessions, forKey: .maxConcurrentSessions)
+        }
+        if let maxSessionsPerInstance = self.maxSessionsPerInstance {
+            try encodeContainer.encode(maxSessionsPerInstance, forKey: .maxSessionsPerInstance)
         }
         if let maxUserDurationInSeconds = self.maxUserDurationInSeconds {
             try encodeContainer.encode(maxUserDurationInSeconds, forKey: .maxUserDurationInSeconds)
@@ -9889,6 +9966,8 @@ extension AppStreamClientTypes.Fleet: Swift.Codable {
         usbDeviceFilterStrings = usbDeviceFilterStringsDecoded0
         let sessionScriptS3LocationDecoded = try containerValues.decodeIfPresent(AppStreamClientTypes.S3Location.self, forKey: .sessionScriptS3Location)
         sessionScriptS3Location = sessionScriptS3LocationDecoded
+        let maxSessionsPerInstanceDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxSessionsPerInstance)
+        maxSessionsPerInstance = maxSessionsPerInstanceDecoded
     }
 }
 
@@ -9996,6 +10075,8 @@ extension AppStreamClientTypes {
         public var instanceType: Swift.String?
         /// The maximum number of concurrent sessions for the fleet.
         public var maxConcurrentSessions: Swift.Int?
+        /// The maximum number of user sessions on an instance. This only applies to multi-session fleets.
+        public var maxSessionsPerInstance: Swift.Int?
         /// The maximum amount of time that a streaming session can remain active, in seconds. If users are still connected to a streaming instance five minutes before this limit is reached, they are prompted to save any open documents before being disconnected. After this time elapses, the instance is terminated and replaced by a new instance. Specify a value between 600 and 360000.
         public var maxUserDurationInSeconds: Swift.Int?
         /// The name of the fleet.
@@ -10032,6 +10113,7 @@ extension AppStreamClientTypes {
             imageName: Swift.String? = nil,
             instanceType: Swift.String? = nil,
             maxConcurrentSessions: Swift.Int? = nil,
+            maxSessionsPerInstance: Swift.Int? = nil,
             maxUserDurationInSeconds: Swift.Int? = nil,
             name: Swift.String? = nil,
             platform: AppStreamClientTypes.PlatformType? = nil,
@@ -10058,6 +10140,7 @@ extension AppStreamClientTypes {
             self.imageName = imageName
             self.instanceType = instanceType
             self.maxConcurrentSessions = maxConcurrentSessions
+            self.maxSessionsPerInstance = maxSessionsPerInstance
             self.maxUserDurationInSeconds = maxUserDurationInSeconds
             self.name = name
             self.platform = platform
@@ -10076,6 +10159,7 @@ extension AppStreamClientTypes {
     public enum FleetAttribute: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case domainJoinInfo
         case iamRoleArn
+        case maxSessionsPerInstance
         case sessionScriptS3Location
         case usbDeviceFilterStrings
         case vpcConfiguration
@@ -10086,6 +10170,7 @@ extension AppStreamClientTypes {
             return [
                 .domainJoinInfo,
                 .iamRoleArn,
+                .maxSessionsPerInstance,
                 .sessionScriptS3Location,
                 .usbDeviceFilterStrings,
                 .vpcConfiguration,
@@ -10101,6 +10186,7 @@ extension AppStreamClientTypes {
             switch self {
             case .domainJoinInfo: return "DOMAIN_JOIN_INFO"
             case .iamRoleArn: return "IAM_ROLE_ARN"
+            case .maxSessionsPerInstance: return "MAX_SESSIONS_PER_INSTANCE"
             case .sessionScriptS3Location: return "SESSION_SCRIPT_S3_LOCATION"
             case .usbDeviceFilterStrings: return "USB_DEVICE_FILTER_STRINGS"
             case .vpcConfiguration: return "VPC_CONFIGURATION"
@@ -12806,6 +12892,7 @@ extension AppStreamClientTypes.Session: Swift.Codable {
         case connectionState = "ConnectionState"
         case fleetName = "FleetName"
         case id = "Id"
+        case instanceId = "InstanceId"
         case maxExpirationTime = "MaxExpirationTime"
         case networkAccessConfiguration = "NetworkAccessConfiguration"
         case stackName = "StackName"
@@ -12827,6 +12914,9 @@ extension AppStreamClientTypes.Session: Swift.Codable {
         }
         if let id = self.id {
             try encodeContainer.encode(id, forKey: .id)
+        }
+        if let instanceId = self.instanceId {
+            try encodeContainer.encode(instanceId, forKey: .instanceId)
         }
         if let maxExpirationTime = self.maxExpirationTime {
             try encodeContainer.encodeTimestamp(maxExpirationTime, format: .epochSeconds, forKey: .maxExpirationTime)
@@ -12870,6 +12960,8 @@ extension AppStreamClientTypes.Session: Swift.Codable {
         authenticationType = authenticationTypeDecoded
         let networkAccessConfigurationDecoded = try containerValues.decodeIfPresent(AppStreamClientTypes.NetworkAccessConfiguration.self, forKey: .networkAccessConfiguration)
         networkAccessConfiguration = networkAccessConfigurationDecoded
+        let instanceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceId)
+        instanceId = instanceIdDecoded
     }
 }
 
@@ -12886,6 +12978,8 @@ extension AppStreamClientTypes {
         /// The identifier of the streaming session.
         /// This member is required.
         public var id: Swift.String?
+        /// The identifier for the instance hosting the session.
+        public var instanceId: Swift.String?
         /// The time when the streaming session is set to expire. This time is based on the MaxUserDurationinSeconds value, which determines the maximum length of time that a streaming session can run. A streaming session might end earlier than the time specified in SessionMaxExpirationTime, when the DisconnectTimeOutInSeconds elapses or the user chooses to end his or her session. If the DisconnectTimeOutInSeconds elapses, or the user chooses to end his or her session, the streaming instance is terminated and the streaming session ends.
         public var maxExpirationTime: ClientRuntime.Date?
         /// The network details for the streaming session.
@@ -12907,6 +13001,7 @@ extension AppStreamClientTypes {
             connectionState: AppStreamClientTypes.SessionConnectionState? = nil,
             fleetName: Swift.String? = nil,
             id: Swift.String? = nil,
+            instanceId: Swift.String? = nil,
             maxExpirationTime: ClientRuntime.Date? = nil,
             networkAccessConfiguration: AppStreamClientTypes.NetworkAccessConfiguration? = nil,
             stackName: Swift.String? = nil,
@@ -12919,6 +13014,7 @@ extension AppStreamClientTypes {
             self.connectionState = connectionState
             self.fleetName = fleetName
             self.id = id
+            self.instanceId = instanceId
             self.maxExpirationTime = maxExpirationTime
             self.networkAccessConfiguration = networkAccessConfiguration
             self.stackName = stackName
@@ -15128,6 +15224,7 @@ extension UpdateFleetInput: Swift.Encodable {
         case imageName = "ImageName"
         case instanceType = "InstanceType"
         case maxConcurrentSessions = "MaxConcurrentSessions"
+        case maxSessionsPerInstance = "MaxSessionsPerInstance"
         case maxUserDurationInSeconds = "MaxUserDurationInSeconds"
         case name = "Name"
         case platform = "Platform"
@@ -15183,6 +15280,9 @@ extension UpdateFleetInput: Swift.Encodable {
         }
         if let maxConcurrentSessions = self.maxConcurrentSessions {
             try encodeContainer.encode(maxConcurrentSessions, forKey: .maxConcurrentSessions)
+        }
+        if let maxSessionsPerInstance = self.maxSessionsPerInstance {
+            try encodeContainer.encode(maxSessionsPerInstance, forKey: .maxSessionsPerInstance)
         }
         if let maxUserDurationInSeconds = self.maxUserDurationInSeconds {
             try encodeContainer.encode(maxUserDurationInSeconds, forKey: .maxUserDurationInSeconds)
@@ -15330,6 +15430,8 @@ public struct UpdateFleetInput: Swift.Equatable {
     public var instanceType: Swift.String?
     /// The maximum number of concurrent sessions for a fleet.
     public var maxConcurrentSessions: Swift.Int?
+    /// The maximum number of user sessions on an instance. This only applies to multi-session fleets.
+    public var maxSessionsPerInstance: Swift.Int?
     /// The maximum amount of time that a streaming session can remain active, in seconds. If users are still connected to a streaming instance five minutes before this limit is reached, they are prompted to save any open documents before being disconnected. After this time elapses, the instance is terminated and replaced by a new instance. Specify a value between 600 and 432000.
     public var maxUserDurationInSeconds: Swift.Int?
     /// A unique name for the fleet.
@@ -15360,6 +15462,7 @@ public struct UpdateFleetInput: Swift.Equatable {
         imageName: Swift.String? = nil,
         instanceType: Swift.String? = nil,
         maxConcurrentSessions: Swift.Int? = nil,
+        maxSessionsPerInstance: Swift.Int? = nil,
         maxUserDurationInSeconds: Swift.Int? = nil,
         name: Swift.String? = nil,
         platform: AppStreamClientTypes.PlatformType? = nil,
@@ -15383,6 +15486,7 @@ public struct UpdateFleetInput: Swift.Equatable {
         self.imageName = imageName
         self.instanceType = instanceType
         self.maxConcurrentSessions = maxConcurrentSessions
+        self.maxSessionsPerInstance = maxSessionsPerInstance
         self.maxUserDurationInSeconds = maxUserDurationInSeconds
         self.name = name
         self.platform = platform
@@ -15415,6 +15519,7 @@ struct UpdateFleetInputBody: Swift.Equatable {
     let maxConcurrentSessions: Swift.Int?
     let usbDeviceFilterStrings: [Swift.String]?
     let sessionScriptS3Location: AppStreamClientTypes.S3Location?
+    let maxSessionsPerInstance: Swift.Int?
 }
 
 extension UpdateFleetInputBody: Swift.Decodable {
@@ -15433,6 +15538,7 @@ extension UpdateFleetInputBody: Swift.Decodable {
         case imageName = "ImageName"
         case instanceType = "InstanceType"
         case maxConcurrentSessions = "MaxConcurrentSessions"
+        case maxSessionsPerInstance = "MaxSessionsPerInstance"
         case maxUserDurationInSeconds = "MaxUserDurationInSeconds"
         case name = "Name"
         case platform = "Platform"
@@ -15504,6 +15610,8 @@ extension UpdateFleetInputBody: Swift.Decodable {
         usbDeviceFilterStrings = usbDeviceFilterStringsDecoded0
         let sessionScriptS3LocationDecoded = try containerValues.decodeIfPresent(AppStreamClientTypes.S3Location.self, forKey: .sessionScriptS3Location)
         sessionScriptS3Location = sessionScriptS3LocationDecoded
+        let maxSessionsPerInstanceDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxSessionsPerInstance)
+        maxSessionsPerInstance = maxSessionsPerInstanceDecoded
     }
 }
 

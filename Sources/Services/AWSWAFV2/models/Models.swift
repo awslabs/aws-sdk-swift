@@ -873,7 +873,7 @@ extension WAFV2ClientTypes {
         ///
         /// * JA3Fingerprint: Match against the request's JA3 fingerprint. The JA3 fingerprint is a 32-character hash derived from the TLS Client Hello of an incoming request. This fingerprint serves as a unique identifier for the client's TLS configuration. You can use this choice only with a string match ByteMatchStatement with the PositionalConstraint set to EXACTLY. You can obtain the JA3 fingerprint for client requests from the web ACL logs. If WAF is able to calculate the fingerprint, it includes it in the logs. For information about the logging fields, see [Log fields](https://docs.aws.amazon.com/waf/latest/developerguide/logging-fields.html) in the WAF Developer Guide.
         ///
-        /// * HeaderOrder: The comma-separated list of header names to match for. WAF creates a string that contains the ordered list of header names, from the headers in the web request, and then matches against that string.
+        /// * HeaderOrder: The list of header names to match for. WAF creates a string that contains the ordered list of header names, from the headers in the web request, and then matches against that string.
         ///
         ///
         /// If SearchString includes alphabetic characters A-Z and a-z, note that the value is case sensitive. If you're using the WAF API Specify a base64-encoded version of the value. The maximum length of the value before you base64-encode it is 200 bytes. For example, suppose the value of Type is HEADER and the value of Data is User-Agent. If you want to search the User-Agent header for the value BadBot, you base64-encode BadBot using MIME base64-encoding and include the resulting value, QmFkQm90, in the value of SearchString. If you're using the CLI or one of the Amazon Web Services SDKs The value that you want WAF to search for. The SDK automatically base64 encodes the value.
@@ -1522,7 +1522,7 @@ extension WAFV2ClientTypes {
         /// The filter to use to identify the subset of cookies to inspect in a web request. You must specify exactly one setting: either All, IncludedCookies, or ExcludedCookies. Example JSON: "MatchPattern": { "IncludedCookies": [ "session-id-time", "session-id" ] }
         /// This member is required.
         public var matchPattern: WAFV2ClientTypes.CookieMatchPattern?
-        /// The parts of the cookies to inspect with the rule inspection criteria. If you specify All, WAF inspects both keys and values.
+        /// The parts of the cookies to inspect with the rule inspection criteria. If you specify ALL, WAF inspects both keys and values. All does not require a match to be found in the keys and a match to be found in the values. It requires a match to be found in the keys or the values or both. To require a match in the keys and in the values, use a logical AND statement to combine two match rules, one that inspects the keys and another that inspects the values.
         /// This member is required.
         public var matchScope: WAFV2ClientTypes.MapMatchScope?
         /// What WAF should do if the cookies of the request are more numerous or larger than WAF can inspect. WAF does not support inspecting the entire contents of request cookies when they exceed 8 KB (8192 bytes) or 200 total cookies. The underlying host service forwards a maximum of 200 cookies and at most 8 KB of cookie contents to WAF. The options for oversize handling are the following:
@@ -7751,7 +7751,7 @@ extension WAFV2ClientTypes {
         /// The filter to use to identify the subset of headers to inspect in a web request. You must specify exactly one setting: either All, IncludedHeaders, or ExcludedHeaders. Example JSON: "MatchPattern": { "ExcludedHeaders": [ "KeyToExclude1", "KeyToExclude2" ] }
         /// This member is required.
         public var matchPattern: WAFV2ClientTypes.HeaderMatchPattern?
-        /// The parts of the headers to match with the rule inspection criteria. If you specify All, WAF inspects both keys and values.
+        /// The parts of the headers to match with the rule inspection criteria. If you specify ALL, WAF inspects both keys and values. All does not require a match to be found in the keys and a match to be found in the values. It requires a match to be found in the keys or the values or both. To require a match in the keys and in the values, use a logical AND statement to combine two match rules, one that inspects the keys and another that inspects the values.
         /// This member is required.
         public var matchScope: WAFV2ClientTypes.MapMatchScope?
         /// What WAF should do if the headers of the request are more numerous or larger than WAF can inspect. WAF does not support inspecting the entire contents of request headers when they exceed 8 KB (8192 bytes) or 200 total headers. The underlying host service forwards a maximum of 200 headers and at most 8 KB of header contents to WAF. The options for oversize handling are the following:
@@ -8288,7 +8288,7 @@ extension WAFV2ClientTypes {
         /// The patterns to look for in the JSON body. WAF inspects the results of these pattern matches against the rule inspection criteria.
         /// This member is required.
         public var matchPattern: WAFV2ClientTypes.JsonMatchPattern?
-        /// The parts of the JSON to match against using the MatchPattern. If you specify All, WAF matches against keys and values.
+        /// The parts of the JSON to match against using the MatchPattern. If you specify ALL, WAF matches against keys and values. All does not require a match to be found in the keys and a match to be found in the values. It requires a match to be found in the keys or the values or both. To require a match in the keys and in the values, use a logical AND statement to combine two match rules, one that inspects the keys and another that inspects the values.
         /// This member is required.
         public var matchScope: WAFV2ClientTypes.JsonMatchScope?
         /// What WAF should do if the body is larger than WAF can inspect. WAF does not support inspecting the entire contents of the web request body if the body exceeds the limit for the resource type. If the body is larger than the limit, the underlying host service only forwards the contents that are below the limit to WAF for inspection. The default limit is 8 KB (8,192 bytes) for regional resources and 16 KB (16,384 bytes) for CloudFront distributions. For CloudFront distributions, you can increase the limit in the web ACL AssociationConfig, for additional processing fees. The options for oversize handling are the following:

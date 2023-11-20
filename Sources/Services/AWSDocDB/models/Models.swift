@@ -564,6 +564,51 @@ extension DocDBClientTypes {
 
 }
 
+extension DocDBClientTypes.CertificateDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case caIdentifier = "CAIdentifier"
+        case validTill = "ValidTill"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let caIdentifier = caIdentifier {
+            try container.encode(caIdentifier, forKey: ClientRuntime.Key("CAIdentifier"))
+        }
+        if let validTill = validTill {
+            try container.encodeTimestamp(validTill, format: .dateTime, forKey: ClientRuntime.Key("ValidTill"))
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let caIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .caIdentifier)
+        caIdentifier = caIdentifierDecoded
+        let validTillDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .validTill)
+        validTill = validTillDecoded
+    }
+}
+
+extension DocDBClientTypes {
+    /// Returns the details of the DB instance’s server certificate. For more information, see [Updating Your Amazon DocumentDB TLS Certificates](https://docs.aws.amazon.com/documentdb/latest/developerguide/ca_cert_rotation.html) and [ Encrypting Data in Transit](https://docs.aws.amazon.com/documentdb/latest/developerguide/security.encryption.ssl.html) in the Amazon DocumentDB Developer Guide.
+    public struct CertificateDetails: Swift.Equatable {
+        /// The CA identifier of the CA certificate used for the DB instance's server certificate.
+        public var caIdentifier: Swift.String?
+        /// The expiration date of the DB instance’s server certificate.
+        public var validTill: ClientRuntime.Date?
+
+        public init(
+            caIdentifier: Swift.String? = nil,
+            validTill: ClientRuntime.Date? = nil
+        )
+        {
+            self.caIdentifier = caIdentifier
+            self.validTill = validTill
+        }
+    }
+
+}
+
 extension CertificateNotFoundFault {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
@@ -1899,6 +1944,9 @@ extension CreateDBInstanceInput: Swift.Encodable {
         if let availabilityZone = availabilityZone {
             try container.encode(availabilityZone, forKey: ClientRuntime.Key("AvailabilityZone"))
         }
+        if let caCertificateIdentifier = caCertificateIdentifier {
+            try container.encode(caCertificateIdentifier, forKey: ClientRuntime.Key("CACertificateIdentifier"))
+        }
         if let copyTagsToSnapshot = copyTagsToSnapshot {
             try container.encode(copyTagsToSnapshot, forKey: ClientRuntime.Key("CopyTagsToSnapshot"))
         }
@@ -1955,6 +2003,8 @@ public struct CreateDBInstanceInput: Swift.Equatable {
     public var autoMinorVersionUpgrade: Swift.Bool?
     /// The Amazon EC2 Availability Zone that the instance is created in. Default: A random, system-chosen Availability Zone in the endpoint's Amazon Web Services Region. Example: us-east-1d
     public var availabilityZone: Swift.String?
+    /// The CA certificate identifier to use for the DB instance's server certificate. For more information, see [Updating Your Amazon DocumentDB TLS Certificates](https://docs.aws.amazon.com/documentdb/latest/developerguide/ca_cert_rotation.html) and [ Encrypting Data in Transit](https://docs.aws.amazon.com/documentdb/latest/developerguide/security.encryption.ssl.html) in the Amazon DocumentDB Developer Guide.
+    public var caCertificateIdentifier: Swift.String?
     /// A value that indicates whether to copy tags from the DB instance to snapshots of the DB instance. By default, tags are not copied.
     public var copyTagsToSnapshot: Swift.Bool?
     /// The identifier of the cluster that the instance will belong to.
@@ -1992,6 +2042,7 @@ public struct CreateDBInstanceInput: Swift.Equatable {
     public init(
         autoMinorVersionUpgrade: Swift.Bool? = nil,
         availabilityZone: Swift.String? = nil,
+        caCertificateIdentifier: Swift.String? = nil,
         copyTagsToSnapshot: Swift.Bool? = nil,
         dbClusterIdentifier: Swift.String? = nil,
         dbInstanceClass: Swift.String? = nil,
@@ -2006,6 +2057,7 @@ public struct CreateDBInstanceInput: Swift.Equatable {
     {
         self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
         self.availabilityZone = availabilityZone
+        self.caCertificateIdentifier = caCertificateIdentifier
         self.copyTagsToSnapshot = copyTagsToSnapshot
         self.dbClusterIdentifier = dbClusterIdentifier
         self.dbInstanceClass = dbInstanceClass
@@ -2032,12 +2084,14 @@ struct CreateDBInstanceInputBody: Swift.Equatable {
     let promotionTier: Swift.Int?
     let enablePerformanceInsights: Swift.Bool?
     let performanceInsightsKMSKeyId: Swift.String?
+    let caCertificateIdentifier: Swift.String?
 }
 
 extension CreateDBInstanceInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case autoMinorVersionUpgrade = "AutoMinorVersionUpgrade"
         case availabilityZone = "AvailabilityZone"
+        case caCertificateIdentifier = "CACertificateIdentifier"
         case copyTagsToSnapshot = "CopyTagsToSnapshot"
         case dbClusterIdentifier = "DBClusterIdentifier"
         case dbInstanceClass = "DBInstanceClass"
@@ -2093,6 +2147,8 @@ extension CreateDBInstanceInputBody: Swift.Decodable {
         enablePerformanceInsights = enablePerformanceInsightsDecoded
         let performanceInsightsKMSKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .performanceInsightsKMSKeyId)
         performanceInsightsKMSKeyId = performanceInsightsKMSKeyIdDecoded
+        let caCertificateIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .caCertificateIdentifier)
+        caCertificateIdentifier = caCertificateIdentifierDecoded
     }
 }
 
@@ -4153,6 +4209,8 @@ extension DocDBClientTypes.DBEngineVersion: Swift.Codable {
         case engine = "Engine"
         case engineVersion = "EngineVersion"
         case exportableLogTypes = "ExportableLogTypes"
+        case supportedCACertificateIdentifiers = "SupportedCACertificateIdentifiers"
+        case supportsCertificateRotationWithoutRestart = "SupportsCertificateRotationWithoutRestart"
         case supportsLogExportsToCloudwatchLogs = "SupportsLogExportsToCloudwatchLogs"
         case validUpgradeTarget = "ValidUpgradeTarget"
     }
@@ -4185,6 +4243,21 @@ extension DocDBClientTypes.DBEngineVersion: Swift.Codable {
                 var exportableLogTypesContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("ExportableLogTypes"))
                 try exportableLogTypesContainer.encode("", forKey: ClientRuntime.Key(""))
             }
+        }
+        if let supportedCACertificateIdentifiers = supportedCACertificateIdentifiers {
+            if !supportedCACertificateIdentifiers.isEmpty {
+                var supportedCACertificateIdentifiersContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("SupportedCACertificateIdentifiers"))
+                for (index0, string0) in supportedCACertificateIdentifiers.enumerated() {
+                    try supportedCACertificateIdentifiersContainer.encode(string0, forKey: ClientRuntime.Key("member.\(index0.advanced(by: 1))"))
+                }
+            }
+            else {
+                var supportedCACertificateIdentifiersContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("SupportedCACertificateIdentifiers"))
+                try supportedCACertificateIdentifiersContainer.encode("", forKey: ClientRuntime.Key(""))
+            }
+        }
+        if let supportsCertificateRotationWithoutRestart = supportsCertificateRotationWithoutRestart {
+            try container.encode(supportsCertificateRotationWithoutRestart, forKey: ClientRuntime.Key("SupportsCertificateRotationWithoutRestart"))
         }
         if let supportsLogExportsToCloudwatchLogs = supportsLogExportsToCloudwatchLogs {
             try container.encode(supportsLogExportsToCloudwatchLogs, forKey: ClientRuntime.Key("SupportsLogExportsToCloudwatchLogs"))
@@ -4255,6 +4328,27 @@ extension DocDBClientTypes.DBEngineVersion: Swift.Codable {
         }
         let supportsLogExportsToCloudwatchLogsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsLogExportsToCloudwatchLogs)
         supportsLogExportsToCloudwatchLogs = supportsLogExportsToCloudwatchLogsDecoded
+        if containerValues.contains(.supportedCACertificateIdentifiers) {
+            struct KeyVal0{struct member{}}
+            let supportedCACertificateIdentifiersWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.member>.CodingKeys.self, forKey: .supportedCACertificateIdentifiers)
+            if let supportedCACertificateIdentifiersWrappedContainer = supportedCACertificateIdentifiersWrappedContainer {
+                let supportedCACertificateIdentifiersContainer = try supportedCACertificateIdentifiersWrappedContainer.decodeIfPresent([Swift.String].self, forKey: .member)
+                var supportedCACertificateIdentifiersBuffer:[Swift.String]? = nil
+                if let supportedCACertificateIdentifiersContainer = supportedCACertificateIdentifiersContainer {
+                    supportedCACertificateIdentifiersBuffer = [Swift.String]()
+                    for stringContainer0 in supportedCACertificateIdentifiersContainer {
+                        supportedCACertificateIdentifiersBuffer?.append(stringContainer0)
+                    }
+                }
+                supportedCACertificateIdentifiers = supportedCACertificateIdentifiersBuffer
+            } else {
+                supportedCACertificateIdentifiers = []
+            }
+        } else {
+            supportedCACertificateIdentifiers = nil
+        }
+        let supportsCertificateRotationWithoutRestartDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsCertificateRotationWithoutRestart)
+        supportsCertificateRotationWithoutRestart = supportsCertificateRotationWithoutRestartDecoded
     }
 }
 
@@ -4273,6 +4367,10 @@ extension DocDBClientTypes {
         public var engineVersion: Swift.String?
         /// The types of logs that the database engine has available for export to Amazon CloudWatch Logs.
         public var exportableLogTypes: [Swift.String]?
+        /// A list of the supported CA certificate identifiers. For more information, see [Updating Your Amazon DocumentDB TLS Certificates](https://docs.aws.amazon.com/documentdb/latest/developerguide/ca_cert_rotation.html) and [ Encrypting Data in Transit](https://docs.aws.amazon.com/documentdb/latest/developerguide/security.encryption.ssl.html) in the Amazon DocumentDB Developer Guide.
+        public var supportedCACertificateIdentifiers: [Swift.String]?
+        /// Indicates whether the engine version supports rotating the server certificate without rebooting the DB instance.
+        public var supportsCertificateRotationWithoutRestart: Swift.Bool?
         /// A value that indicates whether the engine version supports exporting the log types specified by ExportableLogTypes to CloudWatch Logs.
         public var supportsLogExportsToCloudwatchLogs: Swift.Bool?
         /// A list of engine versions that this database engine version can be upgraded to.
@@ -4285,6 +4383,8 @@ extension DocDBClientTypes {
             engine: Swift.String? = nil,
             engineVersion: Swift.String? = nil,
             exportableLogTypes: [Swift.String]? = nil,
+            supportedCACertificateIdentifiers: [Swift.String]? = nil,
+            supportsCertificateRotationWithoutRestart: Swift.Bool? = nil,
             supportsLogExportsToCloudwatchLogs: Swift.Bool? = nil,
             validUpgradeTarget: [DocDBClientTypes.UpgradeTarget]? = nil
         )
@@ -4295,6 +4395,8 @@ extension DocDBClientTypes {
             self.engine = engine
             self.engineVersion = engineVersion
             self.exportableLogTypes = exportableLogTypes
+            self.supportedCACertificateIdentifiers = supportedCACertificateIdentifiers
+            self.supportsCertificateRotationWithoutRestart = supportsCertificateRotationWithoutRestart
             self.supportsLogExportsToCloudwatchLogs = supportsLogExportsToCloudwatchLogs
             self.validUpgradeTarget = validUpgradeTarget
         }
@@ -4308,6 +4410,7 @@ extension DocDBClientTypes.DBInstance: Swift.Codable {
         case availabilityZone = "AvailabilityZone"
         case backupRetentionPeriod = "BackupRetentionPeriod"
         case caCertificateIdentifier = "CACertificateIdentifier"
+        case certificateDetails = "CertificateDetails"
         case copyTagsToSnapshot = "CopyTagsToSnapshot"
         case dbClusterIdentifier = "DBClusterIdentifier"
         case dbInstanceArn = "DBInstanceArn"
@@ -4346,6 +4449,9 @@ extension DocDBClientTypes.DBInstance: Swift.Codable {
         }
         if let caCertificateIdentifier = caCertificateIdentifier {
             try container.encode(caCertificateIdentifier, forKey: ClientRuntime.Key("CACertificateIdentifier"))
+        }
+        if let certificateDetails = certificateDetails {
+            try container.encode(certificateDetails, forKey: ClientRuntime.Key("CertificateDetails"))
         }
         if let copyTagsToSnapshot = copyTagsToSnapshot {
             try container.encode(copyTagsToSnapshot, forKey: ClientRuntime.Key("CopyTagsToSnapshot"))
@@ -4552,6 +4658,8 @@ extension DocDBClientTypes.DBInstance: Swift.Codable {
         } else {
             enabledCloudwatchLogsExports = nil
         }
+        let certificateDetailsDecoded = try containerValues.decodeIfPresent(DocDBClientTypes.CertificateDetails.self, forKey: .certificateDetails)
+        certificateDetails = certificateDetailsDecoded
     }
 }
 
@@ -4566,6 +4674,8 @@ extension DocDBClientTypes {
         public var backupRetentionPeriod: Swift.Int?
         /// The identifier of the CA certificate for this DB instance.
         public var caCertificateIdentifier: Swift.String?
+        /// The details of the DB instance's server certificate.
+        public var certificateDetails: DocDBClientTypes.CertificateDetails?
         /// A value that indicates whether to copy tags from the DB instance to snapshots of the DB instance. By default, tags are not copied.
         public var copyTagsToSnapshot: Swift.Bool?
         /// Contains the name of the cluster that the instance is a member of if the instance is a member of a cluster.
@@ -4618,6 +4728,7 @@ extension DocDBClientTypes {
             availabilityZone: Swift.String? = nil,
             backupRetentionPeriod: Swift.Int? = nil,
             caCertificateIdentifier: Swift.String? = nil,
+            certificateDetails: DocDBClientTypes.CertificateDetails? = nil,
             copyTagsToSnapshot: Swift.Bool? = nil,
             dbClusterIdentifier: Swift.String? = nil,
             dbInstanceArn: Swift.String? = nil,
@@ -4647,6 +4758,7 @@ extension DocDBClientTypes {
             self.availabilityZone = availabilityZone
             self.backupRetentionPeriod = backupRetentionPeriod
             self.caCertificateIdentifier = caCertificateIdentifier
+            self.certificateDetails = certificateDetails
             self.copyTagsToSnapshot = copyTagsToSnapshot
             self.dbClusterIdentifier = dbClusterIdentifier
             self.dbInstanceArn = dbInstanceArn
@@ -12263,6 +12375,9 @@ extension ModifyDBInstanceInput: Swift.Encodable {
         if let caCertificateIdentifier = caCertificateIdentifier {
             try container.encode(caCertificateIdentifier, forKey: ClientRuntime.Key("CACertificateIdentifier"))
         }
+        if let certificateRotationRestart = certificateRotationRestart {
+            try container.encode(certificateRotationRestart, forKey: ClientRuntime.Key("CertificateRotationRestart"))
+        }
         if let copyTagsToSnapshot = copyTagsToSnapshot {
             try container.encode(copyTagsToSnapshot, forKey: ClientRuntime.Key("CopyTagsToSnapshot"))
         }
@@ -12306,6 +12421,8 @@ public struct ModifyDBInstanceInput: Swift.Equatable {
     public var autoMinorVersionUpgrade: Swift.Bool?
     /// Indicates the certificate that needs to be associated with the instance.
     public var caCertificateIdentifier: Swift.String?
+    /// Specifies whether the DB instance is restarted when you rotate your SSL/TLS certificate. By default, the DB instance is restarted when you rotate your SSL/TLS certificate. The certificate is not updated until the DB instance is restarted. Set this parameter only if you are not using SSL/TLS to connect to the DB instance. If you are using SSL/TLS to connect to the DB instance, see [Updating Your Amazon DocumentDB TLS Certificates](https://docs.aws.amazon.com/documentdb/latest/developerguide/ca_cert_rotation.html) and [ Encrypting Data in Transit](https://docs.aws.amazon.com/documentdb/latest/developerguide/security.encryption.ssl.html) in the Amazon DocumentDB Developer Guide.
+    public var certificateRotationRestart: Swift.Bool?
     /// A value that indicates whether to copy all tags from the DB instance to snapshots of the DB instance. By default, tags are not copied.
     public var copyTagsToSnapshot: Swift.Bool?
     /// The new compute and memory capacity of the instance; for example, db.r5.large. Not all instance classes are available in all Amazon Web Services Regions. If you modify the instance class, an outage occurs during the change. The change is applied during the next maintenance window, unless ApplyImmediately is specified as true for this request. Default: Uses existing setting.
@@ -12339,6 +12456,7 @@ public struct ModifyDBInstanceInput: Swift.Equatable {
         applyImmediately: Swift.Bool? = nil,
         autoMinorVersionUpgrade: Swift.Bool? = nil,
         caCertificateIdentifier: Swift.String? = nil,
+        certificateRotationRestart: Swift.Bool? = nil,
         copyTagsToSnapshot: Swift.Bool? = nil,
         dbInstanceClass: Swift.String? = nil,
         dbInstanceIdentifier: Swift.String? = nil,
@@ -12352,6 +12470,7 @@ public struct ModifyDBInstanceInput: Swift.Equatable {
         self.applyImmediately = applyImmediately
         self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
         self.caCertificateIdentifier = caCertificateIdentifier
+        self.certificateRotationRestart = certificateRotationRestart
         self.copyTagsToSnapshot = copyTagsToSnapshot
         self.dbInstanceClass = dbInstanceClass
         self.dbInstanceIdentifier = dbInstanceIdentifier
@@ -12375,6 +12494,7 @@ struct ModifyDBInstanceInputBody: Swift.Equatable {
     let promotionTier: Swift.Int?
     let enablePerformanceInsights: Swift.Bool?
     let performanceInsightsKMSKeyId: Swift.String?
+    let certificateRotationRestart: Swift.Bool?
 }
 
 extension ModifyDBInstanceInputBody: Swift.Decodable {
@@ -12382,6 +12502,7 @@ extension ModifyDBInstanceInputBody: Swift.Decodable {
         case applyImmediately = "ApplyImmediately"
         case autoMinorVersionUpgrade = "AutoMinorVersionUpgrade"
         case caCertificateIdentifier = "CACertificateIdentifier"
+        case certificateRotationRestart = "CertificateRotationRestart"
         case copyTagsToSnapshot = "CopyTagsToSnapshot"
         case dbInstanceClass = "DBInstanceClass"
         case dbInstanceIdentifier = "DBInstanceIdentifier"
@@ -12416,6 +12537,8 @@ extension ModifyDBInstanceInputBody: Swift.Decodable {
         enablePerformanceInsights = enablePerformanceInsightsDecoded
         let performanceInsightsKMSKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .performanceInsightsKMSKeyId)
         performanceInsightsKMSKeyId = performanceInsightsKMSKeyIdDecoded
+        let certificateRotationRestartDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .certificateRotationRestart)
+        certificateRotationRestart = certificateRotationRestartDecoded
     }
 }
 

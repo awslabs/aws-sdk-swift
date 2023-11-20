@@ -472,14 +472,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<CopyProductInput, CopyProductOutput, CopyProductOutputError>(id: "copyProduct")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CopyProductOutput> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.idempotencyToken == nil {
-                copiedInput.idempotencyToken = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CopyProductInput, CopyProductOutput, CopyProductOutputError>(keyPath: \.idempotencyToken))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CopyProductInput, CopyProductOutput, CopyProductOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CopyProductInput, CopyProductOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
@@ -528,14 +521,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<CreateConstraintInput, CreateConstraintOutput, CreateConstraintOutputError>(id: "createConstraint")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateConstraintOutput> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.idempotencyToken == nil {
-                copiedInput.idempotencyToken = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateConstraintInput, CreateConstraintOutput, CreateConstraintOutputError>(keyPath: \.idempotencyToken))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateConstraintInput, CreateConstraintOutput, CreateConstraintOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateConstraintInput, CreateConstraintOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
@@ -583,14 +569,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<CreatePortfolioInput, CreatePortfolioOutput, CreatePortfolioOutputError>(id: "createPortfolio")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreatePortfolioOutput> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.idempotencyToken == nil {
-                copiedInput.idempotencyToken = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreatePortfolioInput, CreatePortfolioOutput, CreatePortfolioOutputError>(keyPath: \.idempotencyToken))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreatePortfolioInput, CreatePortfolioOutput, CreatePortfolioOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreatePortfolioInput, CreatePortfolioOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
@@ -687,14 +666,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<CreateProductInput, CreateProductOutput, CreateProductOutputError>(id: "createProduct")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateProductOutput> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.idempotencyToken == nil {
-                copiedInput.idempotencyToken = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateProductInput, CreateProductOutput, CreateProductOutputError>(keyPath: \.idempotencyToken))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateProductInput, CreateProductOutput, CreateProductOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateProductInput, CreateProductOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
@@ -742,14 +714,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<CreateProvisionedProductPlanInput, CreateProvisionedProductPlanOutput, CreateProvisionedProductPlanOutputError>(id: "createProvisionedProductPlan")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateProvisionedProductPlanOutput> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.idempotencyToken == nil {
-                copiedInput.idempotencyToken = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateProvisionedProductPlanInput, CreateProvisionedProductPlanOutput, CreateProvisionedProductPlanOutputError>(keyPath: \.idempotencyToken))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateProvisionedProductPlanInput, CreateProvisionedProductPlanOutput, CreateProvisionedProductPlanOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateProvisionedProductPlanInput, CreateProvisionedProductPlanOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
@@ -797,14 +762,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<CreateProvisioningArtifactInput, CreateProvisioningArtifactOutput, CreateProvisioningArtifactOutputError>(id: "createProvisioningArtifact")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateProvisioningArtifactOutput> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.idempotencyToken == nil {
-                copiedInput.idempotencyToken = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateProvisioningArtifactInput, CreateProvisioningArtifactOutput, CreateProvisioningArtifactOutputError>(keyPath: \.idempotencyToken))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateProvisioningArtifactInput, CreateProvisioningArtifactOutput, CreateProvisioningArtifactOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateProvisioningArtifactInput, CreateProvisioningArtifactOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
@@ -851,14 +809,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<CreateServiceActionInput, CreateServiceActionOutput, CreateServiceActionOutputError>(id: "createServiceAction")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateServiceActionOutput> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.idempotencyToken == nil {
-                copiedInput.idempotencyToken = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateServiceActionInput, CreateServiceActionOutput, CreateServiceActionOutputError>(keyPath: \.idempotencyToken))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateServiceActionInput, CreateServiceActionOutput, CreateServiceActionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateServiceActionInput, CreateServiceActionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
@@ -2384,14 +2335,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<ExecuteProvisionedProductPlanInput, ExecuteProvisionedProductPlanOutput, ExecuteProvisionedProductPlanOutputError>(id: "executeProvisionedProductPlan")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<ExecuteProvisionedProductPlanOutput> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.idempotencyToken == nil {
-                copiedInput.idempotencyToken = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<ExecuteProvisionedProductPlanInput, ExecuteProvisionedProductPlanOutput, ExecuteProvisionedProductPlanOutputError>(keyPath: \.idempotencyToken))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ExecuteProvisionedProductPlanInput, ExecuteProvisionedProductPlanOutput, ExecuteProvisionedProductPlanOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ExecuteProvisionedProductPlanInput, ExecuteProvisionedProductPlanOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
@@ -2439,14 +2383,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<ExecuteProvisionedProductServiceActionInput, ExecuteProvisionedProductServiceActionOutput, ExecuteProvisionedProductServiceActionOutputError>(id: "executeProvisionedProductServiceAction")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<ExecuteProvisionedProductServiceActionOutput> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.executeToken == nil {
-                copiedInput.executeToken = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<ExecuteProvisionedProductServiceActionInput, ExecuteProvisionedProductServiceActionOutput, ExecuteProvisionedProductServiceActionOutputError>(keyPath: \.executeToken))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ExecuteProvisionedProductServiceActionInput, ExecuteProvisionedProductServiceActionOutput, ExecuteProvisionedProductServiceActionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ExecuteProvisionedProductServiceActionInput, ExecuteProvisionedProductServiceActionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
@@ -2587,14 +2524,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<ImportAsProvisionedProductInput, ImportAsProvisionedProductOutput, ImportAsProvisionedProductOutputError>(id: "importAsProvisionedProduct")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<ImportAsProvisionedProductOutput> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.idempotencyToken == nil {
-                copiedInput.idempotencyToken = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<ImportAsProvisionedProductInput, ImportAsProvisionedProductOutput, ImportAsProvisionedProductOutputError>(keyPath: \.idempotencyToken))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ImportAsProvisionedProductInput, ImportAsProvisionedProductOutput, ImportAsProvisionedProductOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ImportAsProvisionedProductInput, ImportAsProvisionedProductOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
@@ -3468,14 +3398,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<NotifyProvisionProductEngineWorkflowResultInput, NotifyProvisionProductEngineWorkflowResultOutput, NotifyProvisionProductEngineWorkflowResultOutputError>(id: "notifyProvisionProductEngineWorkflowResult")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<NotifyProvisionProductEngineWorkflowResultOutput> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.idempotencyToken == nil {
-                copiedInput.idempotencyToken = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<NotifyProvisionProductEngineWorkflowResultInput, NotifyProvisionProductEngineWorkflowResultOutput, NotifyProvisionProductEngineWorkflowResultOutputError>(keyPath: \.idempotencyToken))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<NotifyProvisionProductEngineWorkflowResultInput, NotifyProvisionProductEngineWorkflowResultOutput, NotifyProvisionProductEngineWorkflowResultOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<NotifyProvisionProductEngineWorkflowResultInput, NotifyProvisionProductEngineWorkflowResultOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
@@ -3522,14 +3445,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<NotifyTerminateProvisionedProductEngineWorkflowResultInput, NotifyTerminateProvisionedProductEngineWorkflowResultOutput, NotifyTerminateProvisionedProductEngineWorkflowResultOutputError>(id: "notifyTerminateProvisionedProductEngineWorkflowResult")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<NotifyTerminateProvisionedProductEngineWorkflowResultOutput> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.idempotencyToken == nil {
-                copiedInput.idempotencyToken = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<NotifyTerminateProvisionedProductEngineWorkflowResultInput, NotifyTerminateProvisionedProductEngineWorkflowResultOutput, NotifyTerminateProvisionedProductEngineWorkflowResultOutputError>(keyPath: \.idempotencyToken))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<NotifyTerminateProvisionedProductEngineWorkflowResultInput, NotifyTerminateProvisionedProductEngineWorkflowResultOutput, NotifyTerminateProvisionedProductEngineWorkflowResultOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<NotifyTerminateProvisionedProductEngineWorkflowResultInput, NotifyTerminateProvisionedProductEngineWorkflowResultOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
@@ -3576,14 +3492,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<NotifyUpdateProvisionedProductEngineWorkflowResultInput, NotifyUpdateProvisionedProductEngineWorkflowResultOutput, NotifyUpdateProvisionedProductEngineWorkflowResultOutputError>(id: "notifyUpdateProvisionedProductEngineWorkflowResult")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<NotifyUpdateProvisionedProductEngineWorkflowResultOutput> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.idempotencyToken == nil {
-                copiedInput.idempotencyToken = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<NotifyUpdateProvisionedProductEngineWorkflowResultInput, NotifyUpdateProvisionedProductEngineWorkflowResultOutput, NotifyUpdateProvisionedProductEngineWorkflowResultOutputError>(keyPath: \.idempotencyToken))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<NotifyUpdateProvisionedProductEngineWorkflowResultInput, NotifyUpdateProvisionedProductEngineWorkflowResultOutput, NotifyUpdateProvisionedProductEngineWorkflowResultOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<NotifyUpdateProvisionedProductEngineWorkflowResultInput, NotifyUpdateProvisionedProductEngineWorkflowResultOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
@@ -3631,14 +3540,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<ProvisionProductInput, ProvisionProductOutput, ProvisionProductOutputError>(id: "provisionProduct")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<ProvisionProductOutput> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.provisionToken == nil {
-                copiedInput.provisionToken = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<ProvisionProductInput, ProvisionProductOutput, ProvisionProductOutputError>(keyPath: \.provisionToken))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ProvisionProductInput, ProvisionProductOutput, ProvisionProductOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ProvisionProductInput, ProvisionProductOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
@@ -3910,14 +3812,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<TerminateProvisionedProductInput, TerminateProvisionedProductOutput, TerminateProvisionedProductOutputError>(id: "terminateProvisionedProduct")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<TerminateProvisionedProductOutput> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.terminateToken == nil {
-                copiedInput.terminateToken = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<TerminateProvisionedProductInput, TerminateProvisionedProductOutput, TerminateProvisionedProductOutputError>(keyPath: \.terminateToken))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TerminateProvisionedProductInput, TerminateProvisionedProductOutput, TerminateProvisionedProductOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TerminateProvisionedProductInput, TerminateProvisionedProductOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
@@ -4153,14 +4048,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<UpdateProvisionedProductInput, UpdateProvisionedProductOutput, UpdateProvisionedProductOutputError>(id: "updateProvisionedProduct")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<UpdateProvisionedProductOutput> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.updateToken == nil {
-                copiedInput.updateToken = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<UpdateProvisionedProductInput, UpdateProvisionedProductOutput, UpdateProvisionedProductOutputError>(keyPath: \.updateToken))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateProvisionedProductInput, UpdateProvisionedProductOutput, UpdateProvisionedProductOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateProvisionedProductInput, UpdateProvisionedProductOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
@@ -4208,14 +4096,7 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<UpdateProvisionedProductPropertiesInput, UpdateProvisionedProductPropertiesOutput, UpdateProvisionedProductPropertiesOutputError>(id: "updateProvisionedProductProperties")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<UpdateProvisionedProductPropertiesOutput> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.idempotencyToken == nil {
-                copiedInput.idempotencyToken = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<UpdateProvisionedProductPropertiesInput, UpdateProvisionedProductPropertiesOutput, UpdateProvisionedProductPropertiesOutputError>(keyPath: \.idempotencyToken))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateProvisionedProductPropertiesInput, UpdateProvisionedProductPropertiesOutput, UpdateProvisionedProductPropertiesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateProvisionedProductPropertiesInput, UpdateProvisionedProductPropertiesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)

@@ -499,6 +499,8 @@ extension ConnectClientTypes.AgentStatus: Swift.Codable {
         case agentStatusId = "AgentStatusId"
         case description = "Description"
         case displayOrder = "DisplayOrder"
+        case lastModifiedRegion = "LastModifiedRegion"
+        case lastModifiedTime = "LastModifiedTime"
         case name = "Name"
         case state = "State"
         case tags = "Tags"
@@ -518,6 +520,12 @@ extension ConnectClientTypes.AgentStatus: Swift.Codable {
         }
         if let displayOrder = self.displayOrder {
             try encodeContainer.encode(displayOrder, forKey: .displayOrder)
+        }
+        if let lastModifiedRegion = self.lastModifiedRegion {
+            try encodeContainer.encode(lastModifiedRegion, forKey: .lastModifiedRegion)
+        }
+        if let lastModifiedTime = self.lastModifiedTime {
+            try encodeContainer.encodeTimestamp(lastModifiedTime, format: .epochSeconds, forKey: .lastModifiedTime)
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
@@ -563,6 +571,10 @@ extension ConnectClientTypes.AgentStatus: Swift.Codable {
             }
         }
         tags = tagsDecoded0
+        let lastModifiedTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedTime)
+        lastModifiedTime = lastModifiedTimeDecoded
+        let lastModifiedRegionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastModifiedRegion)
+        lastModifiedRegion = lastModifiedRegionDecoded
     }
 }
 
@@ -577,6 +589,10 @@ extension ConnectClientTypes {
         public var description: Swift.String?
         /// The display order of the agent status.
         public var displayOrder: Swift.Int?
+        /// The Amazon Web Services Region where this resource was last modified.
+        public var lastModifiedRegion: Swift.String?
+        /// The timestamp when this resource was last modified.
+        public var lastModifiedTime: ClientRuntime.Date?
         /// The name of the agent status.
         public var name: Swift.String?
         /// The state of the agent status.
@@ -591,6 +607,8 @@ extension ConnectClientTypes {
             agentStatusId: Swift.String? = nil,
             description: Swift.String? = nil,
             displayOrder: Swift.Int? = nil,
+            lastModifiedRegion: Swift.String? = nil,
+            lastModifiedTime: ClientRuntime.Date? = nil,
             name: Swift.String? = nil,
             state: ConnectClientTypes.AgentStatusState? = nil,
             tags: [Swift.String:Swift.String]? = nil,
@@ -601,6 +619,8 @@ extension ConnectClientTypes {
             self.agentStatusId = agentStatusId
             self.description = description
             self.displayOrder = displayOrder
+            self.lastModifiedRegion = lastModifiedRegion
+            self.lastModifiedTime = lastModifiedTime
             self.name = name
             self.state = state
             self.tags = tags
@@ -701,6 +721,8 @@ extension ConnectClientTypes.AgentStatusSummary: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "Arn"
         case id = "Id"
+        case lastModifiedRegion = "LastModifiedRegion"
+        case lastModifiedTime = "LastModifiedTime"
         case name = "Name"
         case type = "Type"
     }
@@ -712,6 +734,12 @@ extension ConnectClientTypes.AgentStatusSummary: Swift.Codable {
         }
         if let id = self.id {
             try encodeContainer.encode(id, forKey: .id)
+        }
+        if let lastModifiedRegion = self.lastModifiedRegion {
+            try encodeContainer.encode(lastModifiedRegion, forKey: .lastModifiedRegion)
+        }
+        if let lastModifiedTime = self.lastModifiedTime {
+            try encodeContainer.encodeTimestamp(lastModifiedTime, format: .epochSeconds, forKey: .lastModifiedTime)
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
@@ -731,6 +759,10 @@ extension ConnectClientTypes.AgentStatusSummary: Swift.Codable {
         name = nameDecoded
         let typeDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.AgentStatusType.self, forKey: .type)
         type = typeDecoded
+        let lastModifiedTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedTime)
+        lastModifiedTime = lastModifiedTimeDecoded
+        let lastModifiedRegionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastModifiedRegion)
+        lastModifiedRegion = lastModifiedRegionDecoded
     }
 }
 
@@ -741,6 +773,10 @@ extension ConnectClientTypes {
         public var arn: Swift.String?
         /// The identifier for an agent status.
         public var id: Swift.String?
+        /// The Amazon Web Services Region where this resource was last modified.
+        public var lastModifiedRegion: Swift.String?
+        /// The timestamp when this resource was last modified.
+        public var lastModifiedTime: ClientRuntime.Date?
         /// The name of the agent status.
         public var name: Swift.String?
         /// The type of the agent status.
@@ -749,12 +785,16 @@ extension ConnectClientTypes {
         public init(
             arn: Swift.String? = nil,
             id: Swift.String? = nil,
+            lastModifiedRegion: Swift.String? = nil,
+            lastModifiedTime: ClientRuntime.Date? = nil,
             name: Swift.String? = nil,
             type: ConnectClientTypes.AgentStatusType? = nil
         )
         {
             self.arn = arn
             self.id = id
+            self.lastModifiedRegion = lastModifiedRegion
+            self.lastModifiedTime = lastModifiedTime
             self.name = name
             self.type = type
         }
@@ -880,7 +920,7 @@ extension ConnectClientTypes.Application: Swift.Codable {
 }
 
 extension ConnectClientTypes {
-    /// This API is in preview release for Amazon Connect and is subject to change. A third party application's metadata.
+    /// This API is in preview release for Amazon Connect and is subject to change. A third-party application's metadata.
     public struct Application: Swift.Equatable {
         /// The permissions that the agent is granted on the application. Only the ACCESS permission is supported.
         public var applicationPermissions: [Swift.String]?
@@ -2135,6 +2175,315 @@ extension ConnectClientTypes {
 
 }
 
+extension BatchGetFlowAssociationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case resourceIds = "ResourceIds"
+        case resourceType = "ResourceType"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let resourceIds = resourceIds {
+            var resourceIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceIds)
+            for arn0 in resourceIds {
+                try resourceIdsContainer.encode(arn0)
+            }
+        }
+        if let resourceType = self.resourceType {
+            try encodeContainer.encode(resourceType.rawValue, forKey: .resourceType)
+        }
+    }
+}
+
+extension BatchGetFlowAssociationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let instanceId = instanceId else {
+            return nil
+        }
+        return "/flow-associations-batch/\(instanceId.urlPercentEncoding())"
+    }
+}
+
+public struct BatchGetFlowAssociationInput: Swift.Equatable {
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// A list of resource identifiers to retrieve flow associations.
+    /// This member is required.
+    public var resourceIds: [Swift.String]?
+    /// The type of resource association.
+    public var resourceType: ConnectClientTypes.ListFlowAssociationResourceType?
+
+    public init(
+        instanceId: Swift.String? = nil,
+        resourceIds: [Swift.String]? = nil,
+        resourceType: ConnectClientTypes.ListFlowAssociationResourceType? = nil
+    )
+    {
+        self.instanceId = instanceId
+        self.resourceIds = resourceIds
+        self.resourceType = resourceType
+    }
+}
+
+struct BatchGetFlowAssociationInputBody: Swift.Equatable {
+    let resourceIds: [Swift.String]?
+    let resourceType: ConnectClientTypes.ListFlowAssociationResourceType?
+}
+
+extension BatchGetFlowAssociationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case resourceIds = "ResourceIds"
+        case resourceType = "ResourceType"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourceIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .resourceIds)
+        var resourceIdsDecoded0:[Swift.String]? = nil
+        if let resourceIdsContainer = resourceIdsContainer {
+            resourceIdsDecoded0 = [Swift.String]()
+            for string0 in resourceIdsContainer {
+                if let string0 = string0 {
+                    resourceIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        resourceIds = resourceIdsDecoded0
+        let resourceTypeDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.ListFlowAssociationResourceType.self, forKey: .resourceType)
+        resourceType = resourceTypeDecoded
+    }
+}
+
+extension BatchGetFlowAssociationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: BatchGetFlowAssociationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.flowAssociationSummaryList = output.flowAssociationSummaryList
+        } else {
+            self.flowAssociationSummaryList = nil
+        }
+    }
+}
+
+public struct BatchGetFlowAssociationOutput: Swift.Equatable {
+    /// Information about flow associations.
+    public var flowAssociationSummaryList: [ConnectClientTypes.FlowAssociationSummary]?
+
+    public init(
+        flowAssociationSummaryList: [ConnectClientTypes.FlowAssociationSummary]? = nil
+    )
+    {
+        self.flowAssociationSummaryList = flowAssociationSummaryList
+    }
+}
+
+struct BatchGetFlowAssociationOutputBody: Swift.Equatable {
+    let flowAssociationSummaryList: [ConnectClientTypes.FlowAssociationSummary]?
+}
+
+extension BatchGetFlowAssociationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case flowAssociationSummaryList = "FlowAssociationSummaryList"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let flowAssociationSummaryListContainer = try containerValues.decodeIfPresent([ConnectClientTypes.FlowAssociationSummary?].self, forKey: .flowAssociationSummaryList)
+        var flowAssociationSummaryListDecoded0:[ConnectClientTypes.FlowAssociationSummary]? = nil
+        if let flowAssociationSummaryListContainer = flowAssociationSummaryListContainer {
+            flowAssociationSummaryListDecoded0 = [ConnectClientTypes.FlowAssociationSummary]()
+            for structure0 in flowAssociationSummaryListContainer {
+                if let structure0 = structure0 {
+                    flowAssociationSummaryListDecoded0?.append(structure0)
+                }
+            }
+        }
+        flowAssociationSummaryList = flowAssociationSummaryListDecoded0
+    }
+}
+
+enum BatchGetFlowAssociationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension BatchPutContactInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken = "ClientToken"
+        case contactDataRequestList = "ContactDataRequestList"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let contactDataRequestList = contactDataRequestList {
+            var contactDataRequestListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .contactDataRequestList)
+            for contactdatarequest0 in contactDataRequestList {
+                try contactDataRequestListContainer.encode(contactdatarequest0)
+            }
+        }
+    }
+}
+
+extension BatchPutContactInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let instanceId = instanceId else {
+            return nil
+        }
+        return "/contact/batch/\(instanceId.urlPercentEncoding())"
+    }
+}
+
+public struct BatchPutContactInput: Swift.Equatable {
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
+    public var clientToken: Swift.String?
+    /// List of individual contact requests.
+    /// This member is required.
+    public var contactDataRequestList: [ConnectClientTypes.ContactDataRequest]?
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        contactDataRequestList: [ConnectClientTypes.ContactDataRequest]? = nil,
+        instanceId: Swift.String? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.contactDataRequestList = contactDataRequestList
+        self.instanceId = instanceId
+    }
+}
+
+struct BatchPutContactInputBody: Swift.Equatable {
+    let clientToken: Swift.String?
+    let contactDataRequestList: [ConnectClientTypes.ContactDataRequest]?
+}
+
+extension BatchPutContactInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken = "ClientToken"
+        case contactDataRequestList = "ContactDataRequestList"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
+        let contactDataRequestListContainer = try containerValues.decodeIfPresent([ConnectClientTypes.ContactDataRequest?].self, forKey: .contactDataRequestList)
+        var contactDataRequestListDecoded0:[ConnectClientTypes.ContactDataRequest]? = nil
+        if let contactDataRequestListContainer = contactDataRequestListContainer {
+            contactDataRequestListDecoded0 = [ConnectClientTypes.ContactDataRequest]()
+            for structure0 in contactDataRequestListContainer {
+                if let structure0 = structure0 {
+                    contactDataRequestListDecoded0?.append(structure0)
+                }
+            }
+        }
+        contactDataRequestList = contactDataRequestListDecoded0
+    }
+}
+
+extension BatchPutContactOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: BatchPutContactOutputBody = try responseDecoder.decode(responseBody: data)
+            self.failedRequestList = output.failedRequestList
+            self.successfulRequestList = output.successfulRequestList
+        } else {
+            self.failedRequestList = nil
+            self.successfulRequestList = nil
+        }
+    }
+}
+
+public struct BatchPutContactOutput: Swift.Equatable {
+    /// List of requests for which contact creation failed.
+    public var failedRequestList: [ConnectClientTypes.FailedRequest]?
+    /// List of requests for which contact was successfully created.
+    public var successfulRequestList: [ConnectClientTypes.SuccessfulRequest]?
+
+    public init(
+        failedRequestList: [ConnectClientTypes.FailedRequest]? = nil,
+        successfulRequestList: [ConnectClientTypes.SuccessfulRequest]? = nil
+    )
+    {
+        self.failedRequestList = failedRequestList
+        self.successfulRequestList = successfulRequestList
+    }
+}
+
+struct BatchPutContactOutputBody: Swift.Equatable {
+    let successfulRequestList: [ConnectClientTypes.SuccessfulRequest]?
+    let failedRequestList: [ConnectClientTypes.FailedRequest]?
+}
+
+extension BatchPutContactOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case failedRequestList = "FailedRequestList"
+        case successfulRequestList = "SuccessfulRequestList"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let successfulRequestListContainer = try containerValues.decodeIfPresent([ConnectClientTypes.SuccessfulRequest?].self, forKey: .successfulRequestList)
+        var successfulRequestListDecoded0:[ConnectClientTypes.SuccessfulRequest]? = nil
+        if let successfulRequestListContainer = successfulRequestListContainer {
+            successfulRequestListDecoded0 = [ConnectClientTypes.SuccessfulRequest]()
+            for structure0 in successfulRequestListContainer {
+                if let structure0 = structure0 {
+                    successfulRequestListDecoded0?.append(structure0)
+                }
+            }
+        }
+        successfulRequestList = successfulRequestListDecoded0
+        let failedRequestListContainer = try containerValues.decodeIfPresent([ConnectClientTypes.FailedRequest?].self, forKey: .failedRequestList)
+        var failedRequestListDecoded0:[ConnectClientTypes.FailedRequest]? = nil
+        if let failedRequestListContainer = failedRequestListContainer {
+            failedRequestListDecoded0 = [ConnectClientTypes.FailedRequest]()
+            for structure0 in failedRequestListContainer {
+                if let structure0 = structure0 {
+                    failedRequestListDecoded0?.append(structure0)
+                }
+            }
+        }
+        failedRequestList = failedRequestListDecoded0
+    }
+}
+
+enum BatchPutContactOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "IdempotencyException": return try await IdempotencyException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension ConnectClientTypes {
     public enum BehaviorType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case routeAnyChannel
@@ -2165,6 +2514,41 @@ extension ConnectClientTypes {
             self = BehaviorType(rawValue: rawValue) ?? BehaviorType.sdkUnknown(rawValue)
         }
     }
+}
+
+extension ConnectClientTypes.Campaign: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case campaignId = "CampaignId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let campaignId = self.campaignId {
+            try encodeContainer.encode(campaignId, forKey: .campaignId)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let campaignIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .campaignId)
+        campaignId = campaignIdDecoded
+    }
+}
+
+extension ConnectClientTypes {
+    /// Information associated with a campaign.
+    public struct Campaign: Swift.Equatable {
+        /// A unique identifier for a campaign.
+        public var campaignId: Swift.String?
+
+        public init(
+            campaignId: Swift.String? = nil
+        )
+        {
+            self.campaignId = campaignId
+        }
+    }
+
 }
 
 extension ConnectClientTypes {
@@ -2342,6 +2726,7 @@ extension ConnectClientTypes {
 extension ClaimPhoneNumberInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientToken = "ClientToken"
+        case instanceId = "InstanceId"
         case phoneNumber = "PhoneNumber"
         case phoneNumberDescription = "PhoneNumberDescription"
         case tags = "Tags"
@@ -2352,6 +2737,9 @@ extension ClaimPhoneNumberInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let clientToken = self.clientToken {
             try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let instanceId = self.instanceId {
+            try encodeContainer.encode(instanceId, forKey: .instanceId)
         }
         if let phoneNumber = self.phoneNumber {
             try encodeContainer.encode(phoneNumber, forKey: .phoneNumber)
@@ -2380,6 +2768,8 @@ extension ClaimPhoneNumberInput: ClientRuntime.URLPathProvider {
 public struct ClaimPhoneNumberInput: Swift.Equatable {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/). Pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
     public var clientToken: Swift.String?
+    /// The identifier of the Amazon Connect instance that phone numbers are claimed to. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance. You must enter InstanceId or TargetArn.
+    public var instanceId: Swift.String?
     /// The phone number you want to claim. Phone numbers are formatted [+] [country code] [subscriber number including area code].
     /// This member is required.
     public var phoneNumber: Swift.String?
@@ -2387,12 +2777,12 @@ public struct ClaimPhoneNumberInput: Swift.Equatable {
     public var phoneNumberDescription: Swift.String?
     /// The tags used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
     public var tags: [Swift.String:Swift.String]?
-    /// The Amazon Resource Name (ARN) for Amazon Connect instances or traffic distribution groups that phone numbers are claimed to.
-    /// This member is required.
+    /// The Amazon Resource Name (ARN) for Amazon Connect instances or traffic distribution groups that phone number inbound traffic is routed through. You must enter InstanceId or TargetArn.
     public var targetArn: Swift.String?
 
     public init(
         clientToken: Swift.String? = nil,
+        instanceId: Swift.String? = nil,
         phoneNumber: Swift.String? = nil,
         phoneNumberDescription: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil,
@@ -2400,6 +2790,7 @@ public struct ClaimPhoneNumberInput: Swift.Equatable {
     )
     {
         self.clientToken = clientToken
+        self.instanceId = instanceId
         self.phoneNumber = phoneNumber
         self.phoneNumberDescription = phoneNumberDescription
         self.tags = tags
@@ -2409,6 +2800,7 @@ public struct ClaimPhoneNumberInput: Swift.Equatable {
 
 struct ClaimPhoneNumberInputBody: Swift.Equatable {
     let targetArn: Swift.String?
+    let instanceId: Swift.String?
     let phoneNumber: Swift.String?
     let phoneNumberDescription: Swift.String?
     let tags: [Swift.String:Swift.String]?
@@ -2418,6 +2810,7 @@ struct ClaimPhoneNumberInputBody: Swift.Equatable {
 extension ClaimPhoneNumberInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientToken = "ClientToken"
+        case instanceId = "InstanceId"
         case phoneNumber = "PhoneNumber"
         case phoneNumberDescription = "PhoneNumberDescription"
         case tags = "Tags"
@@ -2428,6 +2821,8 @@ extension ClaimPhoneNumberInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let targetArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .targetArn)
         targetArn = targetArnDecoded
+        let instanceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceId)
+        instanceId = instanceIdDecoded
         let phoneNumberDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .phoneNumber)
         phoneNumber = phoneNumberDecoded
         let phoneNumberDescriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .phoneNumberDescription)
@@ -2516,6 +2911,7 @@ enum ClaimPhoneNumberOutputError: ClientRuntime.HttpResponseErrorBinding {
 
 extension ConnectClientTypes.ClaimedPhoneNumberSummary: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case instanceId = "InstanceId"
         case phoneNumber = "PhoneNumber"
         case phoneNumberArn = "PhoneNumberArn"
         case phoneNumberCountryCode = "PhoneNumberCountryCode"
@@ -2529,6 +2925,9 @@ extension ConnectClientTypes.ClaimedPhoneNumberSummary: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let instanceId = self.instanceId {
+            try encodeContainer.encode(instanceId, forKey: .instanceId)
+        }
         if let phoneNumber = self.phoneNumber {
             try encodeContainer.encode(phoneNumber, forKey: .phoneNumber)
         }
@@ -2577,6 +2976,8 @@ extension ConnectClientTypes.ClaimedPhoneNumberSummary: Swift.Codable {
         phoneNumberDescription = phoneNumberDescriptionDecoded
         let targetArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .targetArn)
         targetArn = targetArnDecoded
+        let instanceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceId)
+        instanceId = instanceIdDecoded
         let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
         var tagsDecoded0: [Swift.String:Swift.String]? = nil
         if let tagsContainer = tagsContainer {
@@ -2596,6 +2997,8 @@ extension ConnectClientTypes.ClaimedPhoneNumberSummary: Swift.Codable {
 extension ConnectClientTypes {
     /// Information about a phone number that has been claimed to your Amazon Connect instance or traffic distribution group.
     public struct ClaimedPhoneNumberSummary: Swift.Equatable {
+        /// The identifier of the Amazon Connect instance that phone numbers are claimed to. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+        public var instanceId: Swift.String?
         /// The phone number. Phone numbers are formatted [+] [country code] [subscriber number including area code].
         public var phoneNumber: Swift.String?
         /// The Amazon Resource Name (ARN) of the phone number.
@@ -2621,10 +3024,11 @@ extension ConnectClientTypes {
         public var phoneNumberType: ConnectClientTypes.PhoneNumberType?
         /// The tags used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
         public var tags: [Swift.String:Swift.String]?
-        /// The Amazon Resource Name (ARN) for Amazon Connect instances or traffic distribution groups that phone numbers are claimed to.
+        /// The Amazon Resource Name (ARN) for Amazon Connect instances or traffic distribution groups that phone number inbound traffic is routed through.
         public var targetArn: Swift.String?
 
         public init(
+            instanceId: Swift.String? = nil,
             phoneNumber: Swift.String? = nil,
             phoneNumberArn: Swift.String? = nil,
             phoneNumberCountryCode: ConnectClientTypes.PhoneNumberCountryCode? = nil,
@@ -2636,6 +3040,7 @@ extension ConnectClientTypes {
             targetArn: Swift.String? = nil
         )
         {
+            self.instanceId = instanceId
             self.phoneNumber = phoneNumber
             self.phoneNumberArn = phoneNumberArn
             self.phoneNumberCountryCode = phoneNumberCountryCode
@@ -2859,6 +3264,103 @@ extension ConnectClientTypes {
             self.relatedContactId = relatedContactId
             self.scheduledTimestamp = scheduledTimestamp
             self.wisdomInfo = wisdomInfo
+        }
+    }
+
+}
+
+extension ConnectClientTypes.ContactDataRequest: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case attributes = "Attributes"
+        case campaign = "Campaign"
+        case customerEndpoint = "CustomerEndpoint"
+        case queueId = "QueueId"
+        case requestIdentifier = "RequestIdentifier"
+        case systemEndpoint = "SystemEndpoint"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let attributes = attributes {
+            var attributesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .attributes)
+            for (dictKey0, attributes0) in attributes {
+                try attributesContainer.encode(attributes0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let campaign = self.campaign {
+            try encodeContainer.encode(campaign, forKey: .campaign)
+        }
+        if let customerEndpoint = self.customerEndpoint {
+            try encodeContainer.encode(customerEndpoint, forKey: .customerEndpoint)
+        }
+        if let queueId = self.queueId {
+            try encodeContainer.encode(queueId, forKey: .queueId)
+        }
+        if let requestIdentifier = self.requestIdentifier {
+            try encodeContainer.encode(requestIdentifier, forKey: .requestIdentifier)
+        }
+        if let systemEndpoint = self.systemEndpoint {
+            try encodeContainer.encode(systemEndpoint, forKey: .systemEndpoint)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let systemEndpointDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.Endpoint.self, forKey: .systemEndpoint)
+        systemEndpoint = systemEndpointDecoded
+        let customerEndpointDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.Endpoint.self, forKey: .customerEndpoint)
+        customerEndpoint = customerEndpointDecoded
+        let requestIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requestIdentifier)
+        requestIdentifier = requestIdentifierDecoded
+        let queueIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .queueId)
+        queueId = queueIdDecoded
+        let attributesContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .attributes)
+        var attributesDecoded0: [Swift.String:Swift.String]? = nil
+        if let attributesContainer = attributesContainer {
+            attributesDecoded0 = [Swift.String:Swift.String]()
+            for (key0, attributevalue0) in attributesContainer {
+                if let attributevalue0 = attributevalue0 {
+                    attributesDecoded0?[key0] = attributevalue0
+                }
+            }
+        }
+        attributes = attributesDecoded0
+        let campaignDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.Campaign.self, forKey: .campaign)
+        campaign = campaignDecoded
+    }
+}
+
+extension ConnectClientTypes {
+    /// Request object with information to create a contact.
+    public struct ContactDataRequest: Swift.Equatable {
+        /// List of attributes to be stored in a contact.
+        public var attributes: [Swift.String:Swift.String]?
+        /// Structure to store information associated with a campaign.
+        public var campaign: ConnectClientTypes.Campaign?
+        /// Endpoint of the customer for which contact will be initiated.
+        public var customerEndpoint: ConnectClientTypes.Endpoint?
+        /// The identifier of the queue associated with the Amazon Connect instance in which contacts that are created will be queued.
+        public var queueId: Swift.String?
+        /// Identifier to uniquely identify individual requests in the batch.
+        public var requestIdentifier: Swift.String?
+        /// Endpoint associated with the Amazon Connect instance from which outbound contact will be initiated for the campaign.
+        public var systemEndpoint: ConnectClientTypes.Endpoint?
+
+        public init(
+            attributes: [Swift.String:Swift.String]? = nil,
+            campaign: ConnectClientTypes.Campaign? = nil,
+            customerEndpoint: ConnectClientTypes.Endpoint? = nil,
+            queueId: Swift.String? = nil,
+            requestIdentifier: Swift.String? = nil,
+            systemEndpoint: ConnectClientTypes.Endpoint? = nil
+        )
+        {
+            self.attributes = attributes
+            self.campaign = campaign
+            self.customerEndpoint = customerEndpoint
+            self.queueId = queueId
+            self.requestIdentifier = requestIdentifier
+            self.systemEndpoint = systemEndpoint
         }
     }
 
@@ -5210,6 +5712,194 @@ enum CreateParticipantOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension CreatePersistentContactAssociationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken = "ClientToken"
+        case rehydrationType = "RehydrationType"
+        case sourceContactId = "SourceContactId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let rehydrationType = self.rehydrationType {
+            try encodeContainer.encode(rehydrationType.rawValue, forKey: .rehydrationType)
+        }
+        if let sourceContactId = self.sourceContactId {
+            try encodeContainer.encode(sourceContactId, forKey: .sourceContactId)
+        }
+    }
+}
+
+extension CreatePersistentContactAssociationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let instanceId = instanceId else {
+            return nil
+        }
+        guard let initialContactId = initialContactId else {
+            return nil
+        }
+        return "/contact/persistent-contact-association/\(instanceId.urlPercentEncoding())/\(initialContactId.urlPercentEncoding())"
+    }
+}
+
+public struct CreatePersistentContactAssociationInput: Swift.Equatable {
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
+    public var clientToken: Swift.String?
+    /// This is the contactId of the current contact that the CreatePersistentContactAssociation API is being called from.
+    /// This member is required.
+    public var initialContactId: Swift.String?
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The contactId chosen for rehydration depends on the type chosen.
+    ///
+    /// * ENTIRE_PAST_SESSION: Rehydrates a chat from the most recently terminated past chat contact of the specified past ended chat session. To use this type, provide the initialContactId of the past ended chat session in the sourceContactId field. In this type, Amazon Connect determines what the most recent chat contact on the past ended chat session and uses it to start a persistent chat.
+    ///
+    /// * FROM_SEGMENT: Rehydrates a chat from the specified past chat contact provided in the sourceContactId field.
+    ///
+    ///
+    /// The actual contactId used for rehydration is provided in the response of this API. To illustrate how to use rehydration type, consider the following example: A customer starts a chat session. Agent a1 accepts the chat and a conversation starts between the customer and Agent a1. This first contact creates a contact ID C1. Agent a1 then transfers the chat to Agent a2. This creates another contact ID C2. At this point Agent a2 ends the chat. The customer is forwarded to the disconnect flow for a post chat survey that creates another contact ID C3. After the chat survey, the chat session ends. Later, the customer returns and wants to resume their past chat session. At this point, the customer can have following use cases:
+    ///
+    /// * Use Case 1: The customer wants to continue the past chat session but they want to hide the post chat survey. For this they will use the following configuration:
+    ///
+    /// * Configuration
+    ///
+    /// * SourceContactId = "C2"
+    ///
+    /// * RehydrationType = "FROM_SEGMENT"
+    ///
+    ///
+    ///
+    ///
+    /// * Expected behavior
+    ///
+    /// * This starts a persistent chat session from the specified past ended contact (C2). Transcripts of past chat sessions C2 and C1 are accessible in the current persistent chat session. Note that chat segment C3 is dropped from the persistent chat session.
+    ///
+    ///
+    ///
+    ///
+    ///
+    ///
+    ///
+    /// * Use Case 2: The customer wants to continue the past chat session and see the transcript of the entire past engagement, including the post chat survey. For this they will use the following configuration:
+    ///
+    /// * Configuration
+    ///
+    /// * SourceContactId = "C1"
+    ///
+    /// * RehydrationType = "ENTIRE_PAST_SESSION"
+    ///
+    ///
+    ///
+    ///
+    /// * Expected behavior
+    ///
+    /// * This starts a persistent chat session from the most recently ended chat contact (C3). Transcripts of past chat sessions C3, C2 and C1 are accessible in the current persistent chat session.
+    /// This member is required.
+    public var rehydrationType: ConnectClientTypes.RehydrationType?
+    /// The contactId from which a persistent chat session must be started.
+    /// This member is required.
+    public var sourceContactId: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        initialContactId: Swift.String? = nil,
+        instanceId: Swift.String? = nil,
+        rehydrationType: ConnectClientTypes.RehydrationType? = nil,
+        sourceContactId: Swift.String? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.initialContactId = initialContactId
+        self.instanceId = instanceId
+        self.rehydrationType = rehydrationType
+        self.sourceContactId = sourceContactId
+    }
+}
+
+struct CreatePersistentContactAssociationInputBody: Swift.Equatable {
+    let rehydrationType: ConnectClientTypes.RehydrationType?
+    let sourceContactId: Swift.String?
+    let clientToken: Swift.String?
+}
+
+extension CreatePersistentContactAssociationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken = "ClientToken"
+        case rehydrationType = "RehydrationType"
+        case sourceContactId = "SourceContactId"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let rehydrationTypeDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.RehydrationType.self, forKey: .rehydrationType)
+        rehydrationType = rehydrationTypeDecoded
+        let sourceContactIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceContactId)
+        sourceContactId = sourceContactIdDecoded
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
+    }
+}
+
+extension CreatePersistentContactAssociationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreatePersistentContactAssociationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.continuedFromContactId = output.continuedFromContactId
+        } else {
+            self.continuedFromContactId = nil
+        }
+    }
+}
+
+public struct CreatePersistentContactAssociationOutput: Swift.Equatable {
+    /// The contactId from which a persistent chat session is started. This field is populated only for persistent chat.
+    public var continuedFromContactId: Swift.String?
+
+    public init(
+        continuedFromContactId: Swift.String? = nil
+    )
+    {
+        self.continuedFromContactId = continuedFromContactId
+    }
+}
+
+struct CreatePersistentContactAssociationOutputBody: Swift.Equatable {
+    let continuedFromContactId: Swift.String?
+}
+
+extension CreatePersistentContactAssociationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case continuedFromContactId = "ContinuedFromContactId"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let continuedFromContactIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .continuedFromContactId)
+        continuedFromContactId = continuedFromContactIdDecoded
+    }
+}
+
+enum CreatePersistentContactAssociationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension CreatePromptInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case description = "Description"
@@ -5256,7 +5946,7 @@ public struct CreatePromptInput: Swift.Equatable {
     /// The name of the prompt.
     /// This member is required.
     public var name: Swift.String?
-    /// The URI for the S3 bucket where the prompt is stored.
+    /// The URI for the S3 bucket where the prompt is stored. You can provide S3 pre-signed URLs returned by the [GetPromptFile](https://docs.aws.amazon.com/connect/latest/APIReference/API_GetPromptFile.html) API instead of providing S3 URIs.
     /// This member is required.
     public var s3Uri: Swift.String?
     /// The tags used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
@@ -6272,7 +6962,7 @@ extension CreateSecurityProfileInput: ClientRuntime.URLPathProvider {
 public struct CreateSecurityProfileInput: Swift.Equatable {
     /// The list of tags that a security profile uses to restrict access to resources in Amazon Connect.
     public var allowedAccessControlTags: [Swift.String:Swift.String]?
-    /// This API is in preview release for Amazon Connect and is subject to change. A list of third party applications that the security profile will give access to.
+    /// This API is in preview release for Amazon Connect and is subject to change. A list of third-party applications that the security profile will give access to.
     public var applications: [ConnectClientTypes.Application]?
     /// The description of the security profile.
     public var description: Swift.String?
@@ -13157,6 +13847,41 @@ enum DisassociateTrafficDistributionGroupUserOutputError: ClientRuntime.HttpResp
     }
 }
 
+extension ConnectClientTypes.DisconnectReason: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case code = "Code"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let code = self.code {
+            try encodeContainer.encode(code, forKey: .code)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let codeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .code)
+        code = codeDecoded
+    }
+}
+
+extension ConnectClientTypes {
+    /// Contains details about why a contact was disconnected. Only Amazon Connect outbound campaigns can provide this field.
+    public struct DisconnectReason: Swift.Equatable {
+        /// A code that indicates how the contact was terminated.
+        public var code: Swift.String?
+
+        public init(
+            code: Swift.String? = nil
+        )
+        {
+            self.code = code
+        }
+    }
+
+}
+
 extension DismissUserContactInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case contactId = "ContactId"
@@ -13466,6 +14191,86 @@ extension ConnectClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = EncryptionType(rawValue: rawValue) ?? EncryptionType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ConnectClientTypes.Endpoint: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case address = "Address"
+        case type = "Type"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let address = self.address {
+            try encodeContainer.encode(address, forKey: .address)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let typeDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.EndpointType.self, forKey: .type)
+        type = typeDecoded
+        let addressDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .address)
+        address = addressDecoded
+    }
+}
+
+extension ConnectClientTypes {
+    /// Information about the endpoint.
+    public struct Endpoint: Swift.Equatable {
+        /// Address of the endpoint.
+        public var address: Swift.String?
+        /// Type of the endpoint.
+        public var type: ConnectClientTypes.EndpointType?
+
+        public init(
+            address: Swift.String? = nil,
+            type: ConnectClientTypes.EndpointType? = nil
+        )
+        {
+            self.address = address
+            self.type = type
+        }
+    }
+
+}
+
+extension ConnectClientTypes {
+    public enum EndpointType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case contactFlow
+        case telephoneNumber
+        case voip
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EndpointType] {
+            return [
+                .contactFlow,
+                .telephoneNumber,
+                .voip,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .contactFlow: return "CONTACT_FLOW"
+            case .telephoneNumber: return "TELEPHONE_NUMBER"
+            case .voip: return "VOIP"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = EndpointType(rawValue: rawValue) ?? EndpointType.sdkUnknown(rawValue)
         }
     }
 }
@@ -15670,6 +16475,117 @@ extension ConnectClientTypes {
     }
 }
 
+extension ConnectClientTypes.FailedRequest: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case failureReasonCode = "FailureReasonCode"
+        case failureReasonMessage = "FailureReasonMessage"
+        case requestIdentifier = "RequestIdentifier"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let failureReasonCode = self.failureReasonCode {
+            try encodeContainer.encode(failureReasonCode.rawValue, forKey: .failureReasonCode)
+        }
+        if let failureReasonMessage = self.failureReasonMessage {
+            try encodeContainer.encode(failureReasonMessage, forKey: .failureReasonMessage)
+        }
+        if let requestIdentifier = self.requestIdentifier {
+            try encodeContainer.encode(requestIdentifier, forKey: .requestIdentifier)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let requestIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requestIdentifier)
+        requestIdentifier = requestIdentifierDecoded
+        let failureReasonCodeDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.FailureReasonCode.self, forKey: .failureReasonCode)
+        failureReasonCode = failureReasonCodeDecoded
+        let failureReasonMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .failureReasonMessage)
+        failureReasonMessage = failureReasonMessageDecoded
+    }
+}
+
+extension ConnectClientTypes {
+    /// Request for which contact failed to be generated.
+    public struct FailedRequest: Swift.Equatable {
+        /// Reason code for the failure.
+        public var failureReasonCode: ConnectClientTypes.FailureReasonCode?
+        /// Why the request to create a contact failed.
+        public var failureReasonMessage: Swift.String?
+        /// Request identifier provided in the API call in the ContactDataRequest to create a contact.
+        public var requestIdentifier: Swift.String?
+
+        public init(
+            failureReasonCode: ConnectClientTypes.FailureReasonCode? = nil,
+            failureReasonMessage: Swift.String? = nil,
+            requestIdentifier: Swift.String? = nil
+        )
+        {
+            self.failureReasonCode = failureReasonCode
+            self.failureReasonMessage = failureReasonMessage
+            self.requestIdentifier = requestIdentifier
+        }
+    }
+
+}
+
+extension ConnectClientTypes {
+    public enum FailureReasonCode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case idempotencyException
+        case internalError
+        case invalidAttributeKey
+        case invalidCustomerEndpoint
+        case invalidQueue
+        case invalidSystemEndpoint
+        case missingCampaign
+        case missingCustomerEndpoint
+        case missingQueueIdAndSystemEndpoint
+        case requestThrottled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FailureReasonCode] {
+            return [
+                .idempotencyException,
+                .internalError,
+                .invalidAttributeKey,
+                .invalidCustomerEndpoint,
+                .invalidQueue,
+                .invalidSystemEndpoint,
+                .missingCampaign,
+                .missingCustomerEndpoint,
+                .missingQueueIdAndSystemEndpoint,
+                .requestThrottled,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .idempotencyException: return "IDEMPOTENCY_EXCEPTION"
+            case .internalError: return "INTERNAL_ERROR"
+            case .invalidAttributeKey: return "INVALID_ATTRIBUTE_KEY"
+            case .invalidCustomerEndpoint: return "INVALID_CUSTOMER_ENDPOINT"
+            case .invalidQueue: return "INVALID_QUEUE"
+            case .invalidSystemEndpoint: return "INVALID_SYSTEM_ENDPOINT"
+            case .missingCampaign: return "MISSING_CAMPAIGN"
+            case .missingCustomerEndpoint: return "MISSING_CUSTOMER_ENDPOINT"
+            case .missingQueueIdAndSystemEndpoint: return "MISSING_QUEUE_ID_AND_SYSTEM_ENDPOINT"
+            case .requestThrottled: return "REQUEST_THROTTLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = FailureReasonCode(rawValue: rawValue) ?? FailureReasonCode.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension ConnectClientTypes.FilterV2: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case filterKey = "FilterKey"
@@ -15813,6 +16729,61 @@ extension ConnectClientTypes {
             self.channels = channels
             self.queues = queues
             self.routingProfiles = routingProfiles
+        }
+    }
+
+}
+
+extension ConnectClientTypes.FlowAssociationSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case flowId = "FlowId"
+        case resourceId = "ResourceId"
+        case resourceType = "ResourceType"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let flowId = self.flowId {
+            try encodeContainer.encode(flowId, forKey: .flowId)
+        }
+        if let resourceId = self.resourceId {
+            try encodeContainer.encode(resourceId, forKey: .resourceId)
+        }
+        if let resourceType = self.resourceType {
+            try encodeContainer.encode(resourceType.rawValue, forKey: .resourceType)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceId)
+        resourceId = resourceIdDecoded
+        let flowIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .flowId)
+        flowId = flowIdDecoded
+        let resourceTypeDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.ListFlowAssociationResourceType.self, forKey: .resourceType)
+        resourceType = resourceTypeDecoded
+    }
+}
+
+extension ConnectClientTypes {
+    /// Information about flow associations.
+    public struct FlowAssociationSummary: Swift.Equatable {
+        /// The identifier of the flow.
+        public var flowId: Swift.String?
+        /// The identifier of the resource.
+        public var resourceId: Swift.String?
+        /// The type of resource association.
+        public var resourceType: ConnectClientTypes.ListFlowAssociationResourceType?
+
+        public init(
+            flowId: Swift.String? = nil,
+            resourceId: Swift.String? = nil,
+            resourceType: ConnectClientTypes.ListFlowAssociationResourceType? = nil
+        )
+        {
+            self.flowId = flowId
+            self.resourceId = resourceId
+            self.resourceType = resourceType
         }
     }
 
@@ -16817,7 +17788,7 @@ public struct GetMetricDataV2Input: Swift.Equatable {
     public var interval: ConnectClientTypes.IntervalDetails?
     /// The maximum number of results to return per page.
     public var maxResults: Swift.Int?
-    /// The metrics to retrieve. Specify the name, groupings, and filters for each metric. The following historical metrics are available. For a description of each metric, see [Historical metrics definitions](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html) in the Amazon Connect Administrator's Guide. ABANDONMENT_RATE Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy AGENT_ADHERENT_TIME This metric is available only in Amazon Web Services Regions where [Forecasting, capacity planning, and scheduling](https://docs.aws.amazon.com/connect/latest/adminguide/regions.html#optimization_region) is available. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy AGENT_NON_RESPONSE Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy AGENT_NON_RESPONSE_WITHOUT_CUSTOMER_ABANDONS Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy Data for this metric is available starting from October 1, 2023 0:00:00 GMT. AGENT_OCCUPANCY Unit: Percentage Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy AGENT_SCHEDULE_ADHERENCE This metric is available only in Amazon Web Services Regions where [Forecasting, capacity planning, and scheduling](https://docs.aws.amazon.com/connect/latest/adminguide/regions.html#optimization_region) is available. Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy AGENT_SCHEDULED_TIME This metric is available only in Amazon Web Services Regions where [Forecasting, capacity planning, and scheduling](https://docs.aws.amazon.com/connect/latest/adminguide/regions.html#optimization_region) is available. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy AVG_ABANDON_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy AVG_AFTER_CONTACT_WORK_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature Feature is a valid filter but not a valid grouping. AVG_AGENT_CONNECTING_TIME Unit: Seconds Valid metric filter key: INITIATION_METHOD. For now, this metric only supports the following as INITIATION_METHOD: INBOUND | OUTBOUND | CALLBACK | API Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy The Negate key in Metric Level Filters is not applicable for this metric. AVG_CONTACT_DURATION Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature Feature is a valid filter but not a valid grouping. AVG_CONVERSATION_DURATION Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy AVG_GREETING_TIME_AGENT This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy AVG_HANDLE_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature Feature is a valid filter but not a valid grouping. AVG_HOLD_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature Feature is a valid filter but not a valid grouping. AVG_HOLD_TIME_ALL_CONTACTS Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy AVG_HOLDS Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature Feature is a valid filter but not a valid grouping. AVG_INTERACTION_AND_HOLD_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy AVG_INTERACTION_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Feature Feature is a valid filter but not a valid grouping. AVG_INTERRUPTIONS_AGENT This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy AVG_INTERRUPTION_TIME_AGENT This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy AVG_NON_TALK_TIME This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy AVG_QUEUE_ANSWER_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Feature Feature is a valid filter but not a valid grouping. AVG_RESOLUTION_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile AVG_TALK_TIME This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy AVG_TALK_TIME_AGENT This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy AVG_TALK_TIME_CUSTOMER This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy CONTACTS_ABANDONED Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy CONTACTS_CREATED Unit: Count Valid metric filter key: INITIATION_METHOD Valid groupings and filters: Queue, Channel, Routing Profile, Feature Feature is a valid filter but not a valid grouping. CONTACTS_HANDLED Unit: Count Valid metric filter key: INITIATION_METHOD, DISCONNECT_REASON Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature Feature is a valid filter but not a valid grouping. CONTACTS_HOLD_ABANDONS Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy CONTACTS_QUEUED Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy CONTACTS_RESOLVED_IN_X Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile Threshold: For ThresholdValue enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter LT (for "Less than"). CONTACTS_TRANSFERRED_OUT Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature Feature is a valid filter but not a valid grouping. CONTACTS_TRANSFERRED_OUT_BY_AGENT Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy CONTACTS_TRANSFERRED_OUT_FROM_QUEUE Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy MAX_QUEUED_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy SERVICE_LEVEL You can include up to 20 SERVICE_LEVEL metrics in a request. Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter LT (for "Less than"). SUM_CONTACTS_ANSWERED_IN_X Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter LT (for "Less than"). SUM_CONTACTS_ABANDONED_IN_X Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter LT (for "Less than"). SUM_CONTACTS_DISCONNECTED Valid metric filter key: DISCONNECT_REASON Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile SUM_RETRY_CALLBACK_ATTEMPTS Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile
+    /// The metrics to retrieve. Specify the name, groupings, and filters for each metric. The following historical metrics are available. For a description of each metric, see [Historical metrics definitions](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html) in the Amazon Connect Administrator's Guide. ABANDONMENT_RATE Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy AGENT_ADHERENT_TIME This metric is available only in Amazon Web Services Regions where [Forecasting, capacity planning, and scheduling](https://docs.aws.amazon.com/connect/latest/adminguide/regions.html#optimization_region) is available. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy AGENT_NON_RESPONSE Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy AGENT_NON_RESPONSE_WITHOUT_CUSTOMER_ABANDONS Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy Data for this metric is available starting from October 1, 2023 0:00:00 GMT. AGENT_OCCUPANCY Unit: Percentage Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy AGENT_SCHEDULE_ADHERENCE This metric is available only in Amazon Web Services Regions where [Forecasting, capacity planning, and scheduling](https://docs.aws.amazon.com/connect/latest/adminguide/regions.html#optimization_region) is available. Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy AGENT_SCHEDULED_TIME This metric is available only in Amazon Web Services Regions where [Forecasting, capacity planning, and scheduling](https://docs.aws.amazon.com/connect/latest/adminguide/regions.html#optimization_region) is available. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy AVG_ABANDON_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy AVG_AFTER_CONTACT_WORK_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature Feature is a valid filter but not a valid grouping. AVG_AGENT_CONNECTING_TIME Unit: Seconds Valid metric filter key: INITIATION_METHOD. For now, this metric only supports the following as INITIATION_METHOD: INBOUND | OUTBOUND | CALLBACK | API Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy The Negate key in Metric Level Filters is not applicable for this metric. AVG_CONTACT_DURATION Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature Feature is a valid filter but not a valid grouping. AVG_CONVERSATION_DURATION Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy AVG_GREETING_TIME_AGENT This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy AVG_HANDLE_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature Feature is a valid filter but not a valid grouping. AVG_HOLD_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature Feature is a valid filter but not a valid grouping. AVG_HOLD_TIME_ALL_CONTACTS Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy AVG_HOLDS Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature Feature is a valid filter but not a valid grouping. AVG_INTERACTION_AND_HOLD_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy AVG_INTERACTION_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Feature Feature is a valid filter but not a valid grouping. AVG_INTERRUPTIONS_AGENT This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy AVG_INTERRUPTION_TIME_AGENT This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy AVG_NON_TALK_TIME This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy AVG_QUEUE_ANSWER_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Feature Feature is a valid filter but not a valid grouping. AVG_RESOLUTION_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile AVG_TALK_TIME This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy AVG_TALK_TIME_AGENT This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy AVG_TALK_TIME_CUSTOMER This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy CONTACTS_ABANDONED Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy CONTACTS_CREATED Unit: Count Valid metric filter key: INITIATION_METHOD Valid groupings and filters: Queue, Channel, Routing Profile, Feature Feature is a valid filter but not a valid grouping. CONTACTS_HANDLED Unit: Count Valid metric filter key: INITIATION_METHOD, DISCONNECT_REASON Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature Feature is a valid filter but not a valid grouping. CONTACTS_HOLD_ABANDONS Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy CONTACTS_QUEUED Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy CONTACTS_RESOLVED_IN_X Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile Threshold: For ThresholdValue enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter LT (for "Less than"). CONTACTS_TRANSFERRED_OUT Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature Feature is a valid filter but not a valid grouping. CONTACTS_TRANSFERRED_OUT_BY_AGENT Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy CONTACTS_TRANSFERRED_OUT_FROM_QUEUE Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy MAX_QUEUED_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy PERCENT_NON_TALK_TIME This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy PERCENT_TALK_TIME This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy PERCENT_TALK_TIME_AGENT This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy PERCENT_TALK_TIME_CUSTOMER This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy SERVICE_LEVEL You can include up to 20 SERVICE_LEVEL metrics in a request. Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter LT (for "Less than"). SUM_CONTACTS_ANSWERED_IN_X Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter LT (for "Less than"). SUM_CONTACTS_ABANDONED_IN_X Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter LT (for "Less than"). SUM_CONTACTS_DISCONNECTED Valid metric filter key: DISCONNECT_REASON Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile SUM_RETRY_CALLBACK_ATTEMPTS Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile
     /// This member is required.
     public var metrics: [ConnectClientTypes.MetricV2]?
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
@@ -17046,31 +18017,47 @@ extension GetPromptFileOutput: ClientRuntime.HttpResponseBinding {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetPromptFileOutputBody = try responseDecoder.decode(responseBody: data)
+            self.lastModifiedRegion = output.lastModifiedRegion
+            self.lastModifiedTime = output.lastModifiedTime
             self.promptPresignedUrl = output.promptPresignedUrl
         } else {
+            self.lastModifiedRegion = nil
+            self.lastModifiedTime = nil
             self.promptPresignedUrl = nil
         }
     }
 }
 
 public struct GetPromptFileOutput: Swift.Equatable {
+    /// The Amazon Web Services Region where this resource was last modified.
+    public var lastModifiedRegion: Swift.String?
+    /// The timestamp when this resource was last modified.
+    public var lastModifiedTime: ClientRuntime.Date?
     /// A generated URL to the prompt that can be given to an unauthorized user so they can access the prompt in S3.
     public var promptPresignedUrl: Swift.String?
 
     public init(
+        lastModifiedRegion: Swift.String? = nil,
+        lastModifiedTime: ClientRuntime.Date? = nil,
         promptPresignedUrl: Swift.String? = nil
     )
     {
+        self.lastModifiedRegion = lastModifiedRegion
+        self.lastModifiedTime = lastModifiedTime
         self.promptPresignedUrl = promptPresignedUrl
     }
 }
 
 struct GetPromptFileOutputBody: Swift.Equatable {
     let promptPresignedUrl: Swift.String?
+    let lastModifiedTime: ClientRuntime.Date?
+    let lastModifiedRegion: Swift.String?
 }
 
 extension GetPromptFileOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case lastModifiedRegion = "LastModifiedRegion"
+        case lastModifiedTime = "LastModifiedTime"
         case promptPresignedUrl = "PromptPresignedUrl"
     }
 
@@ -17078,6 +18065,10 @@ extension GetPromptFileOutputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let promptPresignedUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .promptPresignedUrl)
         promptPresignedUrl = promptPresignedUrlDecoded
+        let lastModifiedTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedTime)
+        lastModifiedTime = lastModifiedTimeDecoded
+        let lastModifiedRegionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastModifiedRegion)
+        lastModifiedRegion = lastModifiedRegionDecoded
     }
 }
 
@@ -17514,6 +18505,8 @@ extension ConnectClientTypes.HierarchyGroup: Swift.Codable {
         case arn = "Arn"
         case hierarchyPath = "HierarchyPath"
         case id = "Id"
+        case lastModifiedRegion = "LastModifiedRegion"
+        case lastModifiedTime = "LastModifiedTime"
         case levelId = "LevelId"
         case name = "Name"
         case tags = "Tags"
@@ -17529,6 +18522,12 @@ extension ConnectClientTypes.HierarchyGroup: Swift.Codable {
         }
         if let id = self.id {
             try encodeContainer.encode(id, forKey: .id)
+        }
+        if let lastModifiedRegion = self.lastModifiedRegion {
+            try encodeContainer.encode(lastModifiedRegion, forKey: .lastModifiedRegion)
+        }
+        if let lastModifiedTime = self.lastModifiedTime {
+            try encodeContainer.encodeTimestamp(lastModifiedTime, format: .epochSeconds, forKey: .lastModifiedTime)
         }
         if let levelId = self.levelId {
             try encodeContainer.encode(levelId, forKey: .levelId)
@@ -17567,6 +18566,10 @@ extension ConnectClientTypes.HierarchyGroup: Swift.Codable {
             }
         }
         tags = tagsDecoded0
+        let lastModifiedTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedTime)
+        lastModifiedTime = lastModifiedTimeDecoded
+        let lastModifiedRegionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastModifiedRegion)
+        lastModifiedRegion = lastModifiedRegionDecoded
     }
 }
 
@@ -17579,6 +18582,10 @@ extension ConnectClientTypes {
         public var hierarchyPath: ConnectClientTypes.HierarchyPath?
         /// The identifier of the hierarchy group.
         public var id: Swift.String?
+        /// The Amazon Web Services Region where this resource was last modified.
+        public var lastModifiedRegion: Swift.String?
+        /// The timestamp when this resource was last modified.
+        public var lastModifiedTime: ClientRuntime.Date?
         /// The identifier of the level in the hierarchy group.
         public var levelId: Swift.String?
         /// The name of the hierarchy group.
@@ -17590,6 +18597,8 @@ extension ConnectClientTypes {
             arn: Swift.String? = nil,
             hierarchyPath: ConnectClientTypes.HierarchyPath? = nil,
             id: Swift.String? = nil,
+            lastModifiedRegion: Swift.String? = nil,
+            lastModifiedTime: ClientRuntime.Date? = nil,
             levelId: Swift.String? = nil,
             name: Swift.String? = nil,
             tags: [Swift.String:Swift.String]? = nil
@@ -17598,6 +18607,8 @@ extension ConnectClientTypes {
             self.arn = arn
             self.hierarchyPath = hierarchyPath
             self.id = id
+            self.lastModifiedRegion = lastModifiedRegion
+            self.lastModifiedTime = lastModifiedTime
             self.levelId = levelId
             self.name = name
             self.tags = tags
@@ -17687,6 +18698,8 @@ extension ConnectClientTypes.HierarchyGroupSummary: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "Arn"
         case id = "Id"
+        case lastModifiedRegion = "LastModifiedRegion"
+        case lastModifiedTime = "LastModifiedTime"
         case name = "Name"
     }
 
@@ -17697,6 +18710,12 @@ extension ConnectClientTypes.HierarchyGroupSummary: Swift.Codable {
         }
         if let id = self.id {
             try encodeContainer.encode(id, forKey: .id)
+        }
+        if let lastModifiedRegion = self.lastModifiedRegion {
+            try encodeContainer.encode(lastModifiedRegion, forKey: .lastModifiedRegion)
+        }
+        if let lastModifiedTime = self.lastModifiedTime {
+            try encodeContainer.encodeTimestamp(lastModifiedTime, format: .epochSeconds, forKey: .lastModifiedTime)
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
@@ -17711,6 +18730,10 @@ extension ConnectClientTypes.HierarchyGroupSummary: Swift.Codable {
         arn = arnDecoded
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
+        let lastModifiedTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedTime)
+        lastModifiedTime = lastModifiedTimeDecoded
+        let lastModifiedRegionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastModifiedRegion)
+        lastModifiedRegion = lastModifiedRegionDecoded
     }
 }
 
@@ -17721,17 +18744,25 @@ extension ConnectClientTypes {
         public var arn: Swift.String?
         /// The identifier of the hierarchy group.
         public var id: Swift.String?
+        /// The Amazon Web Services Region where this resource was last modified.
+        public var lastModifiedRegion: Swift.String?
+        /// The timestamp when this resource was last modified.
+        public var lastModifiedTime: ClientRuntime.Date?
         /// The name of the hierarchy group.
         public var name: Swift.String?
 
         public init(
             arn: Swift.String? = nil,
             id: Swift.String? = nil,
+            lastModifiedRegion: Swift.String? = nil,
+            lastModifiedTime: ClientRuntime.Date? = nil,
             name: Swift.String? = nil
         )
         {
             self.arn = arn
             self.id = id
+            self.lastModifiedRegion = lastModifiedRegion
+            self.lastModifiedTime = lastModifiedTime
             self.name = name
         }
     }
@@ -17787,6 +18818,8 @@ extension ConnectClientTypes.HierarchyLevel: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "Arn"
         case id = "Id"
+        case lastModifiedRegion = "LastModifiedRegion"
+        case lastModifiedTime = "LastModifiedTime"
         case name = "Name"
     }
 
@@ -17797,6 +18830,12 @@ extension ConnectClientTypes.HierarchyLevel: Swift.Codable {
         }
         if let id = self.id {
             try encodeContainer.encode(id, forKey: .id)
+        }
+        if let lastModifiedRegion = self.lastModifiedRegion {
+            try encodeContainer.encode(lastModifiedRegion, forKey: .lastModifiedRegion)
+        }
+        if let lastModifiedTime = self.lastModifiedTime {
+            try encodeContainer.encodeTimestamp(lastModifiedTime, format: .epochSeconds, forKey: .lastModifiedTime)
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
@@ -17811,6 +18850,10 @@ extension ConnectClientTypes.HierarchyLevel: Swift.Codable {
         arn = arnDecoded
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
+        let lastModifiedTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedTime)
+        lastModifiedTime = lastModifiedTimeDecoded
+        let lastModifiedRegionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastModifiedRegion)
+        lastModifiedRegion = lastModifiedRegionDecoded
     }
 }
 
@@ -17821,17 +18864,25 @@ extension ConnectClientTypes {
         public var arn: Swift.String?
         /// The identifier of the hierarchy level.
         public var id: Swift.String?
+        /// The Amazon Web Services Region where this resource was last modified.
+        public var lastModifiedRegion: Swift.String?
+        /// The timestamp when this resource was last modified.
+        public var lastModifiedTime: ClientRuntime.Date?
         /// The name of the hierarchy level.
         public var name: Swift.String?
 
         public init(
             arn: Swift.String? = nil,
             id: Swift.String? = nil,
+            lastModifiedRegion: Swift.String? = nil,
+            lastModifiedTime: ClientRuntime.Date? = nil,
             name: Swift.String? = nil
         )
         {
             self.arn = arn
             self.id = id
+            self.lastModifiedRegion = lastModifiedRegion
+            self.lastModifiedTime = lastModifiedTime
             self.name = name
         }
     }
@@ -18449,6 +19500,8 @@ extension ConnectClientTypes.HoursOfOperation: Swift.Codable {
         case description = "Description"
         case hoursOfOperationArn = "HoursOfOperationArn"
         case hoursOfOperationId = "HoursOfOperationId"
+        case lastModifiedRegion = "LastModifiedRegion"
+        case lastModifiedTime = "LastModifiedTime"
         case name = "Name"
         case tags = "Tags"
         case timeZone = "TimeZone"
@@ -18470,6 +19523,12 @@ extension ConnectClientTypes.HoursOfOperation: Swift.Codable {
         }
         if let hoursOfOperationId = self.hoursOfOperationId {
             try encodeContainer.encode(hoursOfOperationId, forKey: .hoursOfOperationId)
+        }
+        if let lastModifiedRegion = self.lastModifiedRegion {
+            try encodeContainer.encode(lastModifiedRegion, forKey: .lastModifiedRegion)
+        }
+        if let lastModifiedTime = self.lastModifiedTime {
+            try encodeContainer.encodeTimestamp(lastModifiedTime, format: .epochSeconds, forKey: .lastModifiedTime)
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
@@ -18519,6 +19578,10 @@ extension ConnectClientTypes.HoursOfOperation: Swift.Codable {
             }
         }
         tags = tagsDecoded0
+        let lastModifiedTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedTime)
+        lastModifiedTime = lastModifiedTimeDecoded
+        let lastModifiedRegionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastModifiedRegion)
+        lastModifiedRegion = lastModifiedRegionDecoded
     }
 }
 
@@ -18533,6 +19596,10 @@ extension ConnectClientTypes {
         public var hoursOfOperationArn: Swift.String?
         /// The identifier for the hours of operation.
         public var hoursOfOperationId: Swift.String?
+        /// The Amazon Web Services Region where this resource was last modified.
+        public var lastModifiedRegion: Swift.String?
+        /// The timestamp when this resource was last modified.
+        public var lastModifiedTime: ClientRuntime.Date?
         /// The name for the hours of operation.
         public var name: Swift.String?
         /// The tags used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
@@ -18545,6 +19612,8 @@ extension ConnectClientTypes {
             description: Swift.String? = nil,
             hoursOfOperationArn: Swift.String? = nil,
             hoursOfOperationId: Swift.String? = nil,
+            lastModifiedRegion: Swift.String? = nil,
+            lastModifiedTime: ClientRuntime.Date? = nil,
             name: Swift.String? = nil,
             tags: [Swift.String:Swift.String]? = nil,
             timeZone: Swift.String? = nil
@@ -18554,6 +19623,8 @@ extension ConnectClientTypes {
             self.description = description
             self.hoursOfOperationArn = hoursOfOperationArn
             self.hoursOfOperationId = hoursOfOperationId
+            self.lastModifiedRegion = lastModifiedRegion
+            self.lastModifiedTime = lastModifiedTime
             self.name = name
             self.tags = tags
             self.timeZone = timeZone
@@ -18789,6 +19860,8 @@ extension ConnectClientTypes.HoursOfOperationSummary: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "Arn"
         case id = "Id"
+        case lastModifiedRegion = "LastModifiedRegion"
+        case lastModifiedTime = "LastModifiedTime"
         case name = "Name"
     }
 
@@ -18799,6 +19872,12 @@ extension ConnectClientTypes.HoursOfOperationSummary: Swift.Codable {
         }
         if let id = self.id {
             try encodeContainer.encode(id, forKey: .id)
+        }
+        if let lastModifiedRegion = self.lastModifiedRegion {
+            try encodeContainer.encode(lastModifiedRegion, forKey: .lastModifiedRegion)
+        }
+        if let lastModifiedTime = self.lastModifiedTime {
+            try encodeContainer.encodeTimestamp(lastModifiedTime, format: .epochSeconds, forKey: .lastModifiedTime)
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
@@ -18813,6 +19892,10 @@ extension ConnectClientTypes.HoursOfOperationSummary: Swift.Codable {
         arn = arnDecoded
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
+        let lastModifiedTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedTime)
+        lastModifiedTime = lastModifiedTimeDecoded
+        let lastModifiedRegionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastModifiedRegion)
+        lastModifiedRegion = lastModifiedRegionDecoded
     }
 }
 
@@ -18823,17 +19906,25 @@ extension ConnectClientTypes {
         public var arn: Swift.String?
         /// The identifier of the hours of operation.
         public var id: Swift.String?
+        /// The Amazon Web Services Region where this resource was last modified.
+        public var lastModifiedRegion: Swift.String?
+        /// The timestamp when this resource was last modified.
+        public var lastModifiedTime: ClientRuntime.Date?
         /// The name of the hours of operation.
         public var name: Swift.String?
 
         public init(
             arn: Swift.String? = nil,
             id: Swift.String? = nil,
+            lastModifiedRegion: Swift.String? = nil,
+            lastModifiedTime: ClientRuntime.Date? = nil,
             name: Swift.String? = nil
         )
         {
             self.arn = arn
             self.id = id
+            self.lastModifiedRegion = lastModifiedRegion
+            self.lastModifiedTime = lastModifiedTime
             self.name = name
         }
     }
@@ -21796,6 +22887,38 @@ enum ListEvaluationFormsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension ConnectClientTypes {
+    public enum ListFlowAssociationResourceType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case smsPhoneNumber
+        case voicePhoneNumber
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ListFlowAssociationResourceType] {
+            return [
+                .smsPhoneNumber,
+                .voicePhoneNumber,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .smsPhoneNumber: return "SMS_PHONE_NUMBER"
+            case .voicePhoneNumber: return "VOICE_PHONE_NUMBER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ListFlowAssociationResourceType(rawValue: rawValue) ?? ListFlowAssociationResourceType.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension ListHoursOfOperationsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -22865,6 +23988,7 @@ enum ListPhoneNumbersOutputError: ClientRuntime.HttpResponseErrorBinding {
 
 extension ConnectClientTypes.ListPhoneNumbersSummary: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case instanceId = "InstanceId"
         case phoneNumber = "PhoneNumber"
         case phoneNumberArn = "PhoneNumberArn"
         case phoneNumberCountryCode = "PhoneNumberCountryCode"
@@ -22875,6 +23999,9 @@ extension ConnectClientTypes.ListPhoneNumbersSummary: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let instanceId = self.instanceId {
+            try encodeContainer.encode(instanceId, forKey: .instanceId)
+        }
         if let phoneNumber = self.phoneNumber {
             try encodeContainer.encode(phoneNumber, forKey: .phoneNumber)
         }
@@ -22909,12 +24036,16 @@ extension ConnectClientTypes.ListPhoneNumbersSummary: Swift.Codable {
         phoneNumberType = phoneNumberTypeDecoded
         let targetArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .targetArn)
         targetArn = targetArnDecoded
+        let instanceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceId)
+        instanceId = instanceIdDecoded
     }
 }
 
 extension ConnectClientTypes {
     /// Information about phone numbers that have been claimed to your Amazon Connect instance or traffic distribution group.
     public struct ListPhoneNumbersSummary: Swift.Equatable {
+        /// The identifier of the Amazon Connect instance that phone numbers are claimed to. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+        public var instanceId: Swift.String?
         /// The phone number. Phone numbers are formatted [+] [country code] [subscriber number including area code].
         public var phoneNumber: Swift.String?
         /// The Amazon Resource Name (ARN) of the phone number.
@@ -22925,10 +24056,11 @@ extension ConnectClientTypes {
         public var phoneNumberId: Swift.String?
         /// The type of phone number.
         public var phoneNumberType: ConnectClientTypes.PhoneNumberType?
-        /// The Amazon Resource Name (ARN) for Amazon Connect instances or traffic distribution groups that phone numbers are claimed to.
+        /// The Amazon Resource Name (ARN) for Amazon Connect instances or traffic distribution groups that phone number inbound traffic is routed through.
         public var targetArn: Swift.String?
 
         public init(
+            instanceId: Swift.String? = nil,
             phoneNumber: Swift.String? = nil,
             phoneNumberArn: Swift.String? = nil,
             phoneNumberCountryCode: ConnectClientTypes.PhoneNumberCountryCode? = nil,
@@ -22937,6 +24069,7 @@ extension ConnectClientTypes {
             targetArn: Swift.String? = nil
         )
         {
+            self.instanceId = instanceId
             self.phoneNumber = phoneNumber
             self.phoneNumberArn = phoneNumberArn
             self.phoneNumberCountryCode = phoneNumberCountryCode
@@ -22950,6 +24083,7 @@ extension ConnectClientTypes {
 
 extension ListPhoneNumbersV2Input: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case instanceId = "InstanceId"
         case maxResults = "MaxResults"
         case nextToken = "NextToken"
         case phoneNumberCountryCodes = "PhoneNumberCountryCodes"
@@ -22960,6 +24094,9 @@ extension ListPhoneNumbersV2Input: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let instanceId = self.instanceId {
+            try encodeContainer.encode(instanceId, forKey: .instanceId)
+        }
         if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
@@ -22994,6 +24131,8 @@ extension ListPhoneNumbersV2Input: ClientRuntime.URLPathProvider {
 }
 
 public struct ListPhoneNumbersV2Input: Swift.Equatable {
+    /// The identifier of the Amazon Connect instance that phone numbers are claimed to. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance. If both TargetArn and InstanceId are not provided, this API lists numbers claimed to all the Amazon Connect instances belonging to your account in the same AWS Region as the request.
+    public var instanceId: Swift.String?
     /// The maximum number of results to return per page.
     public var maxResults: Swift.Int?
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
@@ -23004,10 +24143,11 @@ public struct ListPhoneNumbersV2Input: Swift.Equatable {
     public var phoneNumberPrefix: Swift.String?
     /// The type of phone number.
     public var phoneNumberTypes: [ConnectClientTypes.PhoneNumberType]?
-    /// The Amazon Resource Name (ARN) for Amazon Connect instances or traffic distribution groups that phone numbers are claimed to. If TargetArn input is not provided, this API lists numbers claimed to all the Amazon Connect instances belonging to your account in the same Amazon Web Services Region as the request.
+    /// The Amazon Resource Name (ARN) for Amazon Connect instances or traffic distribution groups that phone number inbound traffic is routed through. If both TargetArn and InstanceId input are not provided, this API lists numbers claimed to all the Amazon Connect instances belonging to your account in the same Amazon Web Services Region as the request.
     public var targetArn: Swift.String?
 
     public init(
+        instanceId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         phoneNumberCountryCodes: [ConnectClientTypes.PhoneNumberCountryCode]? = nil,
@@ -23016,6 +24156,7 @@ public struct ListPhoneNumbersV2Input: Swift.Equatable {
         targetArn: Swift.String? = nil
     )
     {
+        self.instanceId = instanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.phoneNumberCountryCodes = phoneNumberCountryCodes
@@ -23027,6 +24168,7 @@ public struct ListPhoneNumbersV2Input: Swift.Equatable {
 
 struct ListPhoneNumbersV2InputBody: Swift.Equatable {
     let targetArn: Swift.String?
+    let instanceId: Swift.String?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
     let phoneNumberCountryCodes: [ConnectClientTypes.PhoneNumberCountryCode]?
@@ -23036,6 +24178,7 @@ struct ListPhoneNumbersV2InputBody: Swift.Equatable {
 
 extension ListPhoneNumbersV2InputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case instanceId = "InstanceId"
         case maxResults = "MaxResults"
         case nextToken = "NextToken"
         case phoneNumberCountryCodes = "PhoneNumberCountryCodes"
@@ -23048,6 +24191,8 @@ extension ListPhoneNumbersV2InputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let targetArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .targetArn)
         targetArn = targetArnDecoded
+        let instanceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceId)
+        instanceId = instanceIdDecoded
         let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
@@ -23352,9 +24497,13 @@ extension ListQueueQuickConnectsOutput: ClientRuntime.HttpResponseBinding {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListQueueQuickConnectsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.lastModifiedRegion = output.lastModifiedRegion
+            self.lastModifiedTime = output.lastModifiedTime
             self.nextToken = output.nextToken
             self.quickConnectSummaryList = output.quickConnectSummaryList
         } else {
+            self.lastModifiedRegion = nil
+            self.lastModifiedTime = nil
             self.nextToken = nil
             self.quickConnectSummaryList = nil
         }
@@ -23362,16 +24511,24 @@ extension ListQueueQuickConnectsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListQueueQuickConnectsOutput: Swift.Equatable {
+    /// The Amazon Web Services Region where this resource was last modified.
+    public var lastModifiedRegion: Swift.String?
+    /// The timestamp when this resource was last modified.
+    public var lastModifiedTime: ClientRuntime.Date?
     /// If there are additional results, this is the token for the next set of results.
     public var nextToken: Swift.String?
     /// Information about the quick connects.
     public var quickConnectSummaryList: [ConnectClientTypes.QuickConnectSummary]?
 
     public init(
+        lastModifiedRegion: Swift.String? = nil,
+        lastModifiedTime: ClientRuntime.Date? = nil,
         nextToken: Swift.String? = nil,
         quickConnectSummaryList: [ConnectClientTypes.QuickConnectSummary]? = nil
     )
     {
+        self.lastModifiedRegion = lastModifiedRegion
+        self.lastModifiedTime = lastModifiedTime
         self.nextToken = nextToken
         self.quickConnectSummaryList = quickConnectSummaryList
     }
@@ -23380,10 +24537,14 @@ public struct ListQueueQuickConnectsOutput: Swift.Equatable {
 struct ListQueueQuickConnectsOutputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let quickConnectSummaryList: [ConnectClientTypes.QuickConnectSummary]?
+    let lastModifiedTime: ClientRuntime.Date?
+    let lastModifiedRegion: Swift.String?
 }
 
 extension ListQueueQuickConnectsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case lastModifiedRegion = "LastModifiedRegion"
+        case lastModifiedTime = "LastModifiedTime"
         case nextToken = "NextToken"
         case quickConnectSummaryList = "QuickConnectSummaryList"
     }
@@ -23403,6 +24564,10 @@ extension ListQueueQuickConnectsOutputBody: Swift.Decodable {
             }
         }
         quickConnectSummaryList = quickConnectSummaryListDecoded0
+        let lastModifiedTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedTime)
+        lastModifiedTime = lastModifiedTimeDecoded
+        let lastModifiedRegionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastModifiedRegion)
+        lastModifiedRegion = lastModifiedRegionDecoded
     }
 }
 
@@ -23770,9 +24935,13 @@ extension ListRoutingProfileQueuesOutput: ClientRuntime.HttpResponseBinding {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListRoutingProfileQueuesOutputBody = try responseDecoder.decode(responseBody: data)
+            self.lastModifiedRegion = output.lastModifiedRegion
+            self.lastModifiedTime = output.lastModifiedTime
             self.nextToken = output.nextToken
             self.routingProfileQueueConfigSummaryList = output.routingProfileQueueConfigSummaryList
         } else {
+            self.lastModifiedRegion = nil
+            self.lastModifiedTime = nil
             self.nextToken = nil
             self.routingProfileQueueConfigSummaryList = nil
         }
@@ -23780,16 +24949,24 @@ extension ListRoutingProfileQueuesOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListRoutingProfileQueuesOutput: Swift.Equatable {
+    /// The Amazon Web Services Region where this resource was last modified.
+    public var lastModifiedRegion: Swift.String?
+    /// The timestamp when this resource was last modified.
+    public var lastModifiedTime: ClientRuntime.Date?
     /// If there are additional results, this is the token for the next set of results.
     public var nextToken: Swift.String?
     /// Information about the routing profiles.
     public var routingProfileQueueConfigSummaryList: [ConnectClientTypes.RoutingProfileQueueConfigSummary]?
 
     public init(
+        lastModifiedRegion: Swift.String? = nil,
+        lastModifiedTime: ClientRuntime.Date? = nil,
         nextToken: Swift.String? = nil,
         routingProfileQueueConfigSummaryList: [ConnectClientTypes.RoutingProfileQueueConfigSummary]? = nil
     )
     {
+        self.lastModifiedRegion = lastModifiedRegion
+        self.lastModifiedTime = lastModifiedTime
         self.nextToken = nextToken
         self.routingProfileQueueConfigSummaryList = routingProfileQueueConfigSummaryList
     }
@@ -23798,10 +24975,14 @@ public struct ListRoutingProfileQueuesOutput: Swift.Equatable {
 struct ListRoutingProfileQueuesOutputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let routingProfileQueueConfigSummaryList: [ConnectClientTypes.RoutingProfileQueueConfigSummary]?
+    let lastModifiedTime: ClientRuntime.Date?
+    let lastModifiedRegion: Swift.String?
 }
 
 extension ListRoutingProfileQueuesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case lastModifiedRegion = "LastModifiedRegion"
+        case lastModifiedTime = "LastModifiedTime"
         case nextToken = "NextToken"
         case routingProfileQueueConfigSummaryList = "RoutingProfileQueueConfigSummaryList"
     }
@@ -23821,6 +25002,10 @@ extension ListRoutingProfileQueuesOutputBody: Swift.Decodable {
             }
         }
         routingProfileQueueConfigSummaryList = routingProfileQueueConfigSummaryListDecoded0
+        let lastModifiedTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedTime)
+        lastModifiedTime = lastModifiedTimeDecoded
+        let lastModifiedRegionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastModifiedRegion)
+        lastModifiedRegion = lastModifiedRegionDecoded
     }
 }
 
@@ -24276,14 +25461,14 @@ extension ListSecurityProfileApplicationsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListSecurityProfileApplicationsInput: Swift.Equatable {
-    /// The instance identifier.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page.
     public var maxResults: Swift.Int?
-    /// The token for the next set of results. The next set of results can be retrieved by using the token value returned in the previous response when making the next request.
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     public var nextToken: Swift.String?
-    /// The security profile identifier.
+    /// The identifier for the security profle.
     /// This member is required.
     public var securityProfileId: Swift.String?
 
@@ -24316,26 +25501,38 @@ extension ListSecurityProfileApplicationsOutput: ClientRuntime.HttpResponseBindi
             let responseDecoder = decoder {
             let output: ListSecurityProfileApplicationsOutputBody = try responseDecoder.decode(responseBody: data)
             self.applications = output.applications
+            self.lastModifiedRegion = output.lastModifiedRegion
+            self.lastModifiedTime = output.lastModifiedTime
             self.nextToken = output.nextToken
         } else {
             self.applications = nil
+            self.lastModifiedRegion = nil
+            self.lastModifiedTime = nil
             self.nextToken = nil
         }
     }
 }
 
 public struct ListSecurityProfileApplicationsOutput: Swift.Equatable {
-    /// This API is in preview release for Amazon Connect and is subject to change. A list of the third party application's metadata.
+    /// This API is in preview release for Amazon Connect and is subject to change. A list of the third-party application's metadata.
     public var applications: [ConnectClientTypes.Application]?
-    /// The token for the next set of results. The next set of results can be retrieved by using the token value returned in the previous response when making the next request.
+    /// The Amazon Web Services Region where this resource was last modified.
+    public var lastModifiedRegion: Swift.String?
+    /// The timestamp when this resource was last modified.
+    public var lastModifiedTime: ClientRuntime.Date?
+    /// If there are additional results, this is the token for the next set of results.
     public var nextToken: Swift.String?
 
     public init(
         applications: [ConnectClientTypes.Application]? = nil,
+        lastModifiedRegion: Swift.String? = nil,
+        lastModifiedTime: ClientRuntime.Date? = nil,
         nextToken: Swift.String? = nil
     )
     {
         self.applications = applications
+        self.lastModifiedRegion = lastModifiedRegion
+        self.lastModifiedTime = lastModifiedTime
         self.nextToken = nextToken
     }
 }
@@ -24343,11 +25540,15 @@ public struct ListSecurityProfileApplicationsOutput: Swift.Equatable {
 struct ListSecurityProfileApplicationsOutputBody: Swift.Equatable {
     let applications: [ConnectClientTypes.Application]?
     let nextToken: Swift.String?
+    let lastModifiedTime: ClientRuntime.Date?
+    let lastModifiedRegion: Swift.String?
 }
 
 extension ListSecurityProfileApplicationsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case applications = "Applications"
+        case lastModifiedRegion = "LastModifiedRegion"
+        case lastModifiedTime = "LastModifiedTime"
         case nextToken = "NextToken"
     }
 
@@ -24366,6 +25567,10 @@ extension ListSecurityProfileApplicationsOutputBody: Swift.Decodable {
         applications = applicationsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+        let lastModifiedTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedTime)
+        lastModifiedTime = lastModifiedTimeDecoded
+        let lastModifiedRegionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastModifiedRegion)
+        lastModifiedRegion = lastModifiedRegionDecoded
     }
 }
 
@@ -24453,9 +25658,13 @@ extension ListSecurityProfilePermissionsOutput: ClientRuntime.HttpResponseBindin
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: ListSecurityProfilePermissionsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.lastModifiedRegion = output.lastModifiedRegion
+            self.lastModifiedTime = output.lastModifiedTime
             self.nextToken = output.nextToken
             self.permissions = output.permissions
         } else {
+            self.lastModifiedRegion = nil
+            self.lastModifiedTime = nil
             self.nextToken = nil
             self.permissions = nil
         }
@@ -24463,16 +25672,24 @@ extension ListSecurityProfilePermissionsOutput: ClientRuntime.HttpResponseBindin
 }
 
 public struct ListSecurityProfilePermissionsOutput: Swift.Equatable {
+    /// The Amazon Web Services Region where this resource was last modified.
+    public var lastModifiedRegion: Swift.String?
+    /// The timestamp when this resource was last modified.
+    public var lastModifiedTime: ClientRuntime.Date?
     /// If there are additional results, this is the token for the next set of results.
     public var nextToken: Swift.String?
     /// The permissions granted to the security profile. For a complete list of valid permissions, see [List of security profile permissions](https://docs.aws.amazon.com/connect/latest/adminguide/security-profile-list.html).
     public var permissions: [Swift.String]?
 
     public init(
+        lastModifiedRegion: Swift.String? = nil,
+        lastModifiedTime: ClientRuntime.Date? = nil,
         nextToken: Swift.String? = nil,
         permissions: [Swift.String]? = nil
     )
     {
+        self.lastModifiedRegion = lastModifiedRegion
+        self.lastModifiedTime = lastModifiedTime
         self.nextToken = nextToken
         self.permissions = permissions
     }
@@ -24481,10 +25698,14 @@ public struct ListSecurityProfilePermissionsOutput: Swift.Equatable {
 struct ListSecurityProfilePermissionsOutputBody: Swift.Equatable {
     let permissions: [Swift.String]?
     let nextToken: Swift.String?
+    let lastModifiedTime: ClientRuntime.Date?
+    let lastModifiedRegion: Swift.String?
 }
 
 extension ListSecurityProfilePermissionsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case lastModifiedRegion = "LastModifiedRegion"
+        case lastModifiedTime = "LastModifiedTime"
         case nextToken = "NextToken"
         case permissions = "Permissions"
     }
@@ -24504,6 +25725,10 @@ extension ListSecurityProfilePermissionsOutputBody: Swift.Decodable {
         permissions = permissionsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+        let lastModifiedTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedTime)
+        lastModifiedTime = lastModifiedTimeDecoded
+        let lastModifiedRegionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastModifiedRegion)
+        lastModifiedRegion = lastModifiedRegionDecoded
     }
 }
 
@@ -28281,6 +29506,8 @@ extension ConnectClientTypes {
 extension ConnectClientTypes.Prompt: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case description = "Description"
+        case lastModifiedRegion = "LastModifiedRegion"
+        case lastModifiedTime = "LastModifiedTime"
         case name = "Name"
         case promptARN = "PromptARN"
         case promptId = "PromptId"
@@ -28291,6 +29518,12 @@ extension ConnectClientTypes.Prompt: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
+        }
+        if let lastModifiedRegion = self.lastModifiedRegion {
+            try encodeContainer.encode(lastModifiedRegion, forKey: .lastModifiedRegion)
+        }
+        if let lastModifiedTime = self.lastModifiedTime {
+            try encodeContainer.encodeTimestamp(lastModifiedTime, format: .epochSeconds, forKey: .lastModifiedTime)
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
@@ -28330,6 +29563,10 @@ extension ConnectClientTypes.Prompt: Swift.Codable {
             }
         }
         tags = tagsDecoded0
+        let lastModifiedTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedTime)
+        lastModifiedTime = lastModifiedTimeDecoded
+        let lastModifiedRegionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastModifiedRegion)
+        lastModifiedRegion = lastModifiedRegionDecoded
     }
 }
 
@@ -28338,6 +29575,10 @@ extension ConnectClientTypes {
     public struct Prompt: Swift.Equatable {
         /// The description of the prompt.
         public var description: Swift.String?
+        /// The Amazon Web Services Region where this resource was last modified.
+        public var lastModifiedRegion: Swift.String?
+        /// The timestamp when this resource was last modified.
+        public var lastModifiedTime: ClientRuntime.Date?
         /// The name of the prompt.
         public var name: Swift.String?
         /// The Amazon Resource Name (ARN) of the prompt.
@@ -28349,6 +29590,8 @@ extension ConnectClientTypes {
 
         public init(
             description: Swift.String? = nil,
+            lastModifiedRegion: Swift.String? = nil,
+            lastModifiedTime: ClientRuntime.Date? = nil,
             name: Swift.String? = nil,
             promptARN: Swift.String? = nil,
             promptId: Swift.String? = nil,
@@ -28356,6 +29599,8 @@ extension ConnectClientTypes {
         )
         {
             self.description = description
+            self.lastModifiedRegion = lastModifiedRegion
+            self.lastModifiedTime = lastModifiedTime
             self.name = name
             self.promptARN = promptARN
             self.promptId = promptId
@@ -28487,6 +29732,8 @@ extension ConnectClientTypes.PromptSummary: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "Arn"
         case id = "Id"
+        case lastModifiedRegion = "LastModifiedRegion"
+        case lastModifiedTime = "LastModifiedTime"
         case name = "Name"
     }
 
@@ -28497,6 +29744,12 @@ extension ConnectClientTypes.PromptSummary: Swift.Codable {
         }
         if let id = self.id {
             try encodeContainer.encode(id, forKey: .id)
+        }
+        if let lastModifiedRegion = self.lastModifiedRegion {
+            try encodeContainer.encode(lastModifiedRegion, forKey: .lastModifiedRegion)
+        }
+        if let lastModifiedTime = self.lastModifiedTime {
+            try encodeContainer.encodeTimestamp(lastModifiedTime, format: .epochSeconds, forKey: .lastModifiedTime)
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
@@ -28511,6 +29764,10 @@ extension ConnectClientTypes.PromptSummary: Swift.Codable {
         arn = arnDecoded
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
+        let lastModifiedTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedTime)
+        lastModifiedTime = lastModifiedTimeDecoded
+        let lastModifiedRegionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastModifiedRegion)
+        lastModifiedRegion = lastModifiedRegionDecoded
     }
 }
 
@@ -28521,17 +29778,25 @@ extension ConnectClientTypes {
         public var arn: Swift.String?
         /// The identifier of the prompt.
         public var id: Swift.String?
+        /// The Amazon Web Services Region where this resource was last modified.
+        public var lastModifiedRegion: Swift.String?
+        /// The timestamp when this resource was last modified.
+        public var lastModifiedTime: ClientRuntime.Date?
         /// The name of the prompt.
         public var name: Swift.String?
 
         public init(
             arn: Swift.String? = nil,
             id: Swift.String? = nil,
+            lastModifiedRegion: Swift.String? = nil,
+            lastModifiedTime: ClientRuntime.Date? = nil,
             name: Swift.String? = nil
         )
         {
             self.arn = arn
             self.id = id
+            self.lastModifiedRegion = lastModifiedRegion
+            self.lastModifiedTime = lastModifiedTime
             self.name = name
         }
     }
@@ -28808,6 +30073,8 @@ extension ConnectClientTypes.Queue: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case description = "Description"
         case hoursOfOperationId = "HoursOfOperationId"
+        case lastModifiedRegion = "LastModifiedRegion"
+        case lastModifiedTime = "LastModifiedTime"
         case maxContacts = "MaxContacts"
         case name = "Name"
         case outboundCallerConfig = "OutboundCallerConfig"
@@ -28824,6 +30091,12 @@ extension ConnectClientTypes.Queue: Swift.Codable {
         }
         if let hoursOfOperationId = self.hoursOfOperationId {
             try encodeContainer.encode(hoursOfOperationId, forKey: .hoursOfOperationId)
+        }
+        if let lastModifiedRegion = self.lastModifiedRegion {
+            try encodeContainer.encode(lastModifiedRegion, forKey: .lastModifiedRegion)
+        }
+        if let lastModifiedTime = self.lastModifiedTime {
+            try encodeContainer.encodeTimestamp(lastModifiedTime, format: .epochSeconds, forKey: .lastModifiedTime)
         }
         if let maxContacts = self.maxContacts {
             try encodeContainer.encode(maxContacts, forKey: .maxContacts)
@@ -28880,6 +30153,10 @@ extension ConnectClientTypes.Queue: Swift.Codable {
             }
         }
         tags = tagsDecoded0
+        let lastModifiedTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedTime)
+        lastModifiedTime = lastModifiedTimeDecoded
+        let lastModifiedRegionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastModifiedRegion)
+        lastModifiedRegion = lastModifiedRegionDecoded
     }
 }
 
@@ -28890,6 +30167,10 @@ extension ConnectClientTypes {
         public var description: Swift.String?
         /// The identifier for the hours of operation.
         public var hoursOfOperationId: Swift.String?
+        /// The Amazon Web Services Region where this resource was last modified.
+        public var lastModifiedRegion: Swift.String?
+        /// The timestamp when this resource was last modified.
+        public var lastModifiedTime: ClientRuntime.Date?
         /// The maximum number of contacts that can be in the queue before it is considered full.
         public var maxContacts: Swift.Int?
         /// The name of the queue.
@@ -28908,6 +30189,8 @@ extension ConnectClientTypes {
         public init(
             description: Swift.String? = nil,
             hoursOfOperationId: Swift.String? = nil,
+            lastModifiedRegion: Swift.String? = nil,
+            lastModifiedTime: ClientRuntime.Date? = nil,
             maxContacts: Swift.Int? = nil,
             name: Swift.String? = nil,
             outboundCallerConfig: ConnectClientTypes.OutboundCallerConfig? = nil,
@@ -28919,6 +30202,8 @@ extension ConnectClientTypes {
         {
             self.description = description
             self.hoursOfOperationId = hoursOfOperationId
+            self.lastModifiedRegion = lastModifiedRegion
+            self.lastModifiedTime = lastModifiedTime
             self.maxContacts = maxContacts
             self.name = name
             self.outboundCallerConfig = outboundCallerConfig
@@ -29232,6 +30517,8 @@ extension ConnectClientTypes.QueueSummary: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "Arn"
         case id = "Id"
+        case lastModifiedRegion = "LastModifiedRegion"
+        case lastModifiedTime = "LastModifiedTime"
         case name = "Name"
         case queueType = "QueueType"
     }
@@ -29243,6 +30530,12 @@ extension ConnectClientTypes.QueueSummary: Swift.Codable {
         }
         if let id = self.id {
             try encodeContainer.encode(id, forKey: .id)
+        }
+        if let lastModifiedRegion = self.lastModifiedRegion {
+            try encodeContainer.encode(lastModifiedRegion, forKey: .lastModifiedRegion)
+        }
+        if let lastModifiedTime = self.lastModifiedTime {
+            try encodeContainer.encodeTimestamp(lastModifiedTime, format: .epochSeconds, forKey: .lastModifiedTime)
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
@@ -29262,6 +30555,10 @@ extension ConnectClientTypes.QueueSummary: Swift.Codable {
         name = nameDecoded
         let queueTypeDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.QueueType.self, forKey: .queueType)
         queueType = queueTypeDecoded
+        let lastModifiedTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedTime)
+        lastModifiedTime = lastModifiedTimeDecoded
+        let lastModifiedRegionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastModifiedRegion)
+        lastModifiedRegion = lastModifiedRegionDecoded
     }
 }
 
@@ -29272,6 +30569,10 @@ extension ConnectClientTypes {
         public var arn: Swift.String?
         /// The identifier of the queue.
         public var id: Swift.String?
+        /// The Amazon Web Services Region where this resource was last modified.
+        public var lastModifiedRegion: Swift.String?
+        /// The timestamp when this resource was last modified.
+        public var lastModifiedTime: ClientRuntime.Date?
         /// The name of the queue.
         public var name: Swift.String?
         /// The type of queue.
@@ -29280,12 +30581,16 @@ extension ConnectClientTypes {
         public init(
             arn: Swift.String? = nil,
             id: Swift.String? = nil,
+            lastModifiedRegion: Swift.String? = nil,
+            lastModifiedTime: ClientRuntime.Date? = nil,
             name: Swift.String? = nil,
             queueType: ConnectClientTypes.QueueType? = nil
         )
         {
             self.arn = arn
             self.id = id
+            self.lastModifiedRegion = lastModifiedRegion
+            self.lastModifiedTime = lastModifiedTime
             self.name = name
             self.queueType = queueType
         }
@@ -29328,6 +30633,8 @@ extension ConnectClientTypes {
 extension ConnectClientTypes.QuickConnect: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case description = "Description"
+        case lastModifiedRegion = "LastModifiedRegion"
+        case lastModifiedTime = "LastModifiedTime"
         case name = "Name"
         case quickConnectARN = "QuickConnectARN"
         case quickConnectConfig = "QuickConnectConfig"
@@ -29339,6 +30646,12 @@ extension ConnectClientTypes.QuickConnect: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
+        }
+        if let lastModifiedRegion = self.lastModifiedRegion {
+            try encodeContainer.encode(lastModifiedRegion, forKey: .lastModifiedRegion)
+        }
+        if let lastModifiedTime = self.lastModifiedTime {
+            try encodeContainer.encodeTimestamp(lastModifiedTime, format: .epochSeconds, forKey: .lastModifiedTime)
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
@@ -29383,6 +30696,10 @@ extension ConnectClientTypes.QuickConnect: Swift.Codable {
             }
         }
         tags = tagsDecoded0
+        let lastModifiedTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedTime)
+        lastModifiedTime = lastModifiedTimeDecoded
+        let lastModifiedRegionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastModifiedRegion)
+        lastModifiedRegion = lastModifiedRegionDecoded
     }
 }
 
@@ -29391,6 +30708,10 @@ extension ConnectClientTypes {
     public struct QuickConnect: Swift.Equatable {
         /// The description.
         public var description: Swift.String?
+        /// The Amazon Web Services Region where this resource was last modified.
+        public var lastModifiedRegion: Swift.String?
+        /// The timestamp when this resource was last modified.
+        public var lastModifiedTime: ClientRuntime.Date?
         /// The name of the quick connect.
         public var name: Swift.String?
         /// The Amazon Resource Name (ARN) of the quick connect.
@@ -29404,6 +30725,8 @@ extension ConnectClientTypes {
 
         public init(
             description: Swift.String? = nil,
+            lastModifiedRegion: Swift.String? = nil,
+            lastModifiedTime: ClientRuntime.Date? = nil,
             name: Swift.String? = nil,
             quickConnectARN: Swift.String? = nil,
             quickConnectConfig: ConnectClientTypes.QuickConnectConfig? = nil,
@@ -29412,6 +30735,8 @@ extension ConnectClientTypes {
         )
         {
             self.description = description
+            self.lastModifiedRegion = lastModifiedRegion
+            self.lastModifiedTime = lastModifiedTime
             self.name = name
             self.quickConnectARN = quickConnectARN
             self.quickConnectConfig = quickConnectConfig
@@ -29610,6 +30935,8 @@ extension ConnectClientTypes.QuickConnectSummary: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "Arn"
         case id = "Id"
+        case lastModifiedRegion = "LastModifiedRegion"
+        case lastModifiedTime = "LastModifiedTime"
         case name = "Name"
         case quickConnectType = "QuickConnectType"
     }
@@ -29621,6 +30948,12 @@ extension ConnectClientTypes.QuickConnectSummary: Swift.Codable {
         }
         if let id = self.id {
             try encodeContainer.encode(id, forKey: .id)
+        }
+        if let lastModifiedRegion = self.lastModifiedRegion {
+            try encodeContainer.encode(lastModifiedRegion, forKey: .lastModifiedRegion)
+        }
+        if let lastModifiedTime = self.lastModifiedTime {
+            try encodeContainer.encodeTimestamp(lastModifiedTime, format: .epochSeconds, forKey: .lastModifiedTime)
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
@@ -29640,6 +30973,10 @@ extension ConnectClientTypes.QuickConnectSummary: Swift.Codable {
         name = nameDecoded
         let quickConnectTypeDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.QuickConnectType.self, forKey: .quickConnectType)
         quickConnectType = quickConnectTypeDecoded
+        let lastModifiedTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedTime)
+        lastModifiedTime = lastModifiedTimeDecoded
+        let lastModifiedRegionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastModifiedRegion)
+        lastModifiedRegion = lastModifiedRegionDecoded
     }
 }
 
@@ -29650,6 +30987,10 @@ extension ConnectClientTypes {
         public var arn: Swift.String?
         /// The identifier for the quick connect.
         public var id: Swift.String?
+        /// The Amazon Web Services Region where this resource was last modified.
+        public var lastModifiedRegion: Swift.String?
+        /// The timestamp when this resource was last modified.
+        public var lastModifiedTime: ClientRuntime.Date?
         /// The name of the quick connect.
         public var name: Swift.String?
         /// The type of quick connect. In the Amazon Connect console, when you create a quick connect, you are prompted to assign one of the following types: Agent (USER), External (PHONE_NUMBER), or Queue (QUEUE).
@@ -29658,12 +30999,16 @@ extension ConnectClientTypes {
         public init(
             arn: Swift.String? = nil,
             id: Swift.String? = nil,
+            lastModifiedRegion: Swift.String? = nil,
+            lastModifiedTime: ClientRuntime.Date? = nil,
             name: Swift.String? = nil,
             quickConnectType: ConnectClientTypes.QuickConnectType? = nil
         )
         {
             self.arn = arn
             self.id = id
+            self.lastModifiedRegion = lastModifiedRegion
+            self.lastModifiedTime = lastModifiedTime
             self.name = name
             self.quickConnectType = quickConnectType
         }
@@ -30673,6 +32018,9 @@ extension ConnectClientTypes.RoutingProfile: Swift.Codable {
         case defaultOutboundQueueId = "DefaultOutboundQueueId"
         case description = "Description"
         case instanceId = "InstanceId"
+        case isDefault = "IsDefault"
+        case lastModifiedRegion = "LastModifiedRegion"
+        case lastModifiedTime = "LastModifiedTime"
         case mediaConcurrencies = "MediaConcurrencies"
         case name = "Name"
         case numberOfAssociatedQueues = "NumberOfAssociatedQueues"
@@ -30695,6 +32043,15 @@ extension ConnectClientTypes.RoutingProfile: Swift.Codable {
         }
         if let instanceId = self.instanceId {
             try encodeContainer.encode(instanceId, forKey: .instanceId)
+        }
+        if isDefault != false {
+            try encodeContainer.encode(isDefault, forKey: .isDefault)
+        }
+        if let lastModifiedRegion = self.lastModifiedRegion {
+            try encodeContainer.encode(lastModifiedRegion, forKey: .lastModifiedRegion)
+        }
+        if let lastModifiedTime = self.lastModifiedTime {
+            try encodeContainer.encodeTimestamp(lastModifiedTime, format: .epochSeconds, forKey: .lastModifiedTime)
         }
         if let mediaConcurrencies = mediaConcurrencies {
             var mediaConcurrenciesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .mediaConcurrencies)
@@ -30767,6 +32124,12 @@ extension ConnectClientTypes.RoutingProfile: Swift.Codable {
         numberOfAssociatedUsers = numberOfAssociatedUsersDecoded
         let agentAvailabilityTimerDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.AgentAvailabilityTimer.self, forKey: .agentAvailabilityTimer)
         agentAvailabilityTimer = agentAvailabilityTimerDecoded
+        let lastModifiedTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedTime)
+        lastModifiedTime = lastModifiedTimeDecoded
+        let lastModifiedRegionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastModifiedRegion)
+        lastModifiedRegion = lastModifiedRegionDecoded
+        let isDefaultDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isDefault) ?? false
+        isDefault = isDefaultDecoded
     }
 }
 
@@ -30781,6 +32144,12 @@ extension ConnectClientTypes {
         public var description: Swift.String?
         /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
         public var instanceId: Swift.String?
+        /// Whether this a default routing profile.
+        public var isDefault: Swift.Bool
+        /// The Amazon Web Services Region where this resource was last modified.
+        public var lastModifiedRegion: Swift.String?
+        /// The timestamp when this resource was last modified.
+        public var lastModifiedTime: ClientRuntime.Date?
         /// The channels agents can handle in the Contact Control Panel (CCP) for this routing profile.
         public var mediaConcurrencies: [ConnectClientTypes.MediaConcurrency]?
         /// The name of the routing profile.
@@ -30801,6 +32170,9 @@ extension ConnectClientTypes {
             defaultOutboundQueueId: Swift.String? = nil,
             description: Swift.String? = nil,
             instanceId: Swift.String? = nil,
+            isDefault: Swift.Bool = false,
+            lastModifiedRegion: Swift.String? = nil,
+            lastModifiedTime: ClientRuntime.Date? = nil,
             mediaConcurrencies: [ConnectClientTypes.MediaConcurrency]? = nil,
             name: Swift.String? = nil,
             numberOfAssociatedQueues: Swift.Int? = nil,
@@ -30814,6 +32186,9 @@ extension ConnectClientTypes {
             self.defaultOutboundQueueId = defaultOutboundQueueId
             self.description = description
             self.instanceId = instanceId
+            self.isDefault = isDefault
+            self.lastModifiedRegion = lastModifiedRegion
+            self.lastModifiedTime = lastModifiedTime
             self.mediaConcurrencies = mediaConcurrencies
             self.name = name
             self.numberOfAssociatedQueues = numberOfAssociatedQueues
@@ -31189,6 +32564,8 @@ extension ConnectClientTypes.RoutingProfileSummary: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "Arn"
         case id = "Id"
+        case lastModifiedRegion = "LastModifiedRegion"
+        case lastModifiedTime = "LastModifiedTime"
         case name = "Name"
     }
 
@@ -31199,6 +32576,12 @@ extension ConnectClientTypes.RoutingProfileSummary: Swift.Codable {
         }
         if let id = self.id {
             try encodeContainer.encode(id, forKey: .id)
+        }
+        if let lastModifiedRegion = self.lastModifiedRegion {
+            try encodeContainer.encode(lastModifiedRegion, forKey: .lastModifiedRegion)
+        }
+        if let lastModifiedTime = self.lastModifiedTime {
+            try encodeContainer.encodeTimestamp(lastModifiedTime, format: .epochSeconds, forKey: .lastModifiedTime)
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
@@ -31213,6 +32596,10 @@ extension ConnectClientTypes.RoutingProfileSummary: Swift.Codable {
         arn = arnDecoded
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
+        let lastModifiedTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedTime)
+        lastModifiedTime = lastModifiedTimeDecoded
+        let lastModifiedRegionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastModifiedRegion)
+        lastModifiedRegion = lastModifiedRegionDecoded
     }
 }
 
@@ -31223,17 +32610,25 @@ extension ConnectClientTypes {
         public var arn: Swift.String?
         /// The identifier of the routing profile.
         public var id: Swift.String?
+        /// The Amazon Web Services Region where this resource was last modified.
+        public var lastModifiedRegion: Swift.String?
+        /// The timestamp when this resource was last modified.
+        public var lastModifiedTime: ClientRuntime.Date?
         /// The name of the routing profile.
         public var name: Swift.String?
 
         public init(
             arn: Swift.String? = nil,
             id: Swift.String? = nil,
+            lastModifiedRegion: Swift.String? = nil,
+            lastModifiedTime: ClientRuntime.Date? = nil,
             name: Swift.String? = nil
         )
         {
             self.arn = arn
             self.id = id
+            self.lastModifiedRegion = lastModifiedRegion
+            self.lastModifiedTime = lastModifiedTime
             self.name = name
         }
     }
@@ -31747,6 +33142,7 @@ extension ConnectClientTypes {
 
 extension SearchAvailablePhoneNumbersInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case instanceId = "InstanceId"
         case maxResults = "MaxResults"
         case nextToken = "NextToken"
         case phoneNumberCountryCode = "PhoneNumberCountryCode"
@@ -31757,6 +33153,9 @@ extension SearchAvailablePhoneNumbersInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let instanceId = self.instanceId {
+            try encodeContainer.encode(instanceId, forKey: .instanceId)
+        }
         if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
@@ -31785,6 +33184,8 @@ extension SearchAvailablePhoneNumbersInput: ClientRuntime.URLPathProvider {
 }
 
 public struct SearchAvailablePhoneNumbersInput: Swift.Equatable {
+    /// The identifier of the Amazon Connect instance that phone numbers are claimed to. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance. You must enter InstanceId or TargetArn.
+    public var instanceId: Swift.String?
     /// The maximum number of results to return per page.
     public var maxResults: Swift.Int?
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
@@ -31797,11 +33198,11 @@ public struct SearchAvailablePhoneNumbersInput: Swift.Equatable {
     /// The type of phone number.
     /// This member is required.
     public var phoneNumberType: ConnectClientTypes.PhoneNumberType?
-    /// The Amazon Resource Name (ARN) for Amazon Connect instances or traffic distribution groups that phone numbers are claimed to.
-    /// This member is required.
+    /// The Amazon Resource Name (ARN) for Amazon Connect instances or traffic distribution groups that phone number inbound traffic is routed through. You must enter InstanceId or TargetArn.
     public var targetArn: Swift.String?
 
     public init(
+        instanceId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         phoneNumberCountryCode: ConnectClientTypes.PhoneNumberCountryCode? = nil,
@@ -31810,6 +33211,7 @@ public struct SearchAvailablePhoneNumbersInput: Swift.Equatable {
         targetArn: Swift.String? = nil
     )
     {
+        self.instanceId = instanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.phoneNumberCountryCode = phoneNumberCountryCode
@@ -31821,6 +33223,7 @@ public struct SearchAvailablePhoneNumbersInput: Swift.Equatable {
 
 struct SearchAvailablePhoneNumbersInputBody: Swift.Equatable {
     let targetArn: Swift.String?
+    let instanceId: Swift.String?
     let phoneNumberCountryCode: ConnectClientTypes.PhoneNumberCountryCode?
     let phoneNumberType: ConnectClientTypes.PhoneNumberType?
     let phoneNumberPrefix: Swift.String?
@@ -31830,6 +33233,7 @@ struct SearchAvailablePhoneNumbersInputBody: Swift.Equatable {
 
 extension SearchAvailablePhoneNumbersInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case instanceId = "InstanceId"
         case maxResults = "MaxResults"
         case nextToken = "NextToken"
         case phoneNumberCountryCode = "PhoneNumberCountryCode"
@@ -31842,6 +33246,8 @@ extension SearchAvailablePhoneNumbersInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let targetArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .targetArn)
         targetArn = targetArnDecoded
+        let instanceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceId)
+        instanceId = instanceIdDecoded
         let phoneNumberCountryCodeDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.PhoneNumberCountryCode.self, forKey: .phoneNumberCountryCode)
         phoneNumberCountryCode = phoneNumberCountryCodeDecoded
         let phoneNumberTypeDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.PhoneNumberType.self, forKey: .phoneNumberType)
@@ -33636,6 +35042,8 @@ extension ConnectClientTypes.SecurityProfile: Swift.Codable {
         case arn = "Arn"
         case description = "Description"
         case id = "Id"
+        case lastModifiedRegion = "LastModifiedRegion"
+        case lastModifiedTime = "LastModifiedTime"
         case organizationResourceId = "OrganizationResourceId"
         case securityProfileName = "SecurityProfileName"
         case tagRestrictedResources = "TagRestrictedResources"
@@ -33658,6 +35066,12 @@ extension ConnectClientTypes.SecurityProfile: Swift.Codable {
         }
         if let id = self.id {
             try encodeContainer.encode(id, forKey: .id)
+        }
+        if let lastModifiedRegion = self.lastModifiedRegion {
+            try encodeContainer.encode(lastModifiedRegion, forKey: .lastModifiedRegion)
+        }
+        if let lastModifiedTime = self.lastModifiedTime {
+            try encodeContainer.encodeTimestamp(lastModifiedTime, format: .epochSeconds, forKey: .lastModifiedTime)
         }
         if let organizationResourceId = self.organizationResourceId {
             try encodeContainer.encode(organizationResourceId, forKey: .organizationResourceId)
@@ -33724,6 +35138,10 @@ extension ConnectClientTypes.SecurityProfile: Swift.Codable {
             }
         }
         tagRestrictedResources = tagRestrictedResourcesDecoded0
+        let lastModifiedTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedTime)
+        lastModifiedTime = lastModifiedTimeDecoded
+        let lastModifiedRegionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastModifiedRegion)
+        lastModifiedRegion = lastModifiedRegionDecoded
     }
 }
 
@@ -33738,6 +35156,10 @@ extension ConnectClientTypes {
         public var description: Swift.String?
         /// The identifier for the security profile.
         public var id: Swift.String?
+        /// The Amazon Web Services Region where this resource was last modified.
+        public var lastModifiedRegion: Swift.String?
+        /// The timestamp when this resource was last modified.
+        public var lastModifiedTime: ClientRuntime.Date?
         /// The organization resource identifier for the security profile.
         public var organizationResourceId: Swift.String?
         /// The name for the security profile.
@@ -33752,6 +35174,8 @@ extension ConnectClientTypes {
             arn: Swift.String? = nil,
             description: Swift.String? = nil,
             id: Swift.String? = nil,
+            lastModifiedRegion: Swift.String? = nil,
+            lastModifiedTime: ClientRuntime.Date? = nil,
             organizationResourceId: Swift.String? = nil,
             securityProfileName: Swift.String? = nil,
             tagRestrictedResources: [Swift.String]? = nil,
@@ -33762,6 +35186,8 @@ extension ConnectClientTypes {
             self.arn = arn
             self.description = description
             self.id = id
+            self.lastModifiedRegion = lastModifiedRegion
+            self.lastModifiedTime = lastModifiedTime
             self.organizationResourceId = organizationResourceId
             self.securityProfileName = securityProfileName
             self.tagRestrictedResources = tagRestrictedResources
@@ -33951,6 +35377,8 @@ extension ConnectClientTypes.SecurityProfileSummary: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "Arn"
         case id = "Id"
+        case lastModifiedRegion = "LastModifiedRegion"
+        case lastModifiedTime = "LastModifiedTime"
         case name = "Name"
     }
 
@@ -33961,6 +35389,12 @@ extension ConnectClientTypes.SecurityProfileSummary: Swift.Codable {
         }
         if let id = self.id {
             try encodeContainer.encode(id, forKey: .id)
+        }
+        if let lastModifiedRegion = self.lastModifiedRegion {
+            try encodeContainer.encode(lastModifiedRegion, forKey: .lastModifiedRegion)
+        }
+        if let lastModifiedTime = self.lastModifiedTime {
+            try encodeContainer.encodeTimestamp(lastModifiedTime, format: .epochSeconds, forKey: .lastModifiedTime)
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
@@ -33975,6 +35409,10 @@ extension ConnectClientTypes.SecurityProfileSummary: Swift.Codable {
         arn = arnDecoded
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
+        let lastModifiedTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedTime)
+        lastModifiedTime = lastModifiedTimeDecoded
+        let lastModifiedRegionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastModifiedRegion)
+        lastModifiedRegion = lastModifiedRegionDecoded
     }
 }
 
@@ -33985,17 +35423,25 @@ extension ConnectClientTypes {
         public var arn: Swift.String?
         /// The identifier of the security profile.
         public var id: Swift.String?
+        /// The Amazon Web Services Region where this resource was last modified.
+        public var lastModifiedRegion: Swift.String?
+        /// The timestamp when this resource was last modified.
+        public var lastModifiedTime: ClientRuntime.Date?
         /// The name of the security profile.
         public var name: Swift.String?
 
         public init(
             arn: Swift.String? = nil,
             id: Swift.String? = nil,
+            lastModifiedRegion: Swift.String? = nil,
+            lastModifiedTime: ClientRuntime.Date? = nil,
             name: Swift.String? = nil
         )
         {
             self.arn = arn
             self.id = id
+            self.lastModifiedRegion = lastModifiedRegion
+            self.lastModifiedTime = lastModifiedTime
             self.name = name
         }
     }
@@ -35620,6 +37066,7 @@ extension ConnectClientTypes {
 extension StopContactInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case contactId = "ContactId"
+        case disconnectReason = "DisconnectReason"
         case instanceId = "InstanceId"
     }
 
@@ -35627,6 +37074,9 @@ extension StopContactInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let contactId = self.contactId {
             try encodeContainer.encode(contactId, forKey: .contactId)
+        }
+        if let disconnectReason = self.disconnectReason {
+            try encodeContainer.encode(disconnectReason, forKey: .disconnectReason)
         }
         if let instanceId = self.instanceId {
             try encodeContainer.encode(instanceId, forKey: .instanceId)
@@ -35644,16 +37094,20 @@ public struct StopContactInput: Swift.Equatable {
     /// The ID of the contact.
     /// This member is required.
     public var contactId: Swift.String?
+    /// The reason a contact can be disconnected. Only Amazon Connect outbound campaigns can provide this field.
+    public var disconnectReason: ConnectClientTypes.DisconnectReason?
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
 
     public init(
         contactId: Swift.String? = nil,
+        disconnectReason: ConnectClientTypes.DisconnectReason? = nil,
         instanceId: Swift.String? = nil
     )
     {
         self.contactId = contactId
+        self.disconnectReason = disconnectReason
         self.instanceId = instanceId
     }
 }
@@ -35661,11 +37115,13 @@ public struct StopContactInput: Swift.Equatable {
 struct StopContactInputBody: Swift.Equatable {
     let contactId: Swift.String?
     let instanceId: Swift.String?
+    let disconnectReason: ConnectClientTypes.DisconnectReason?
 }
 
 extension StopContactInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case contactId = "ContactId"
+        case disconnectReason = "DisconnectReason"
         case instanceId = "InstanceId"
     }
 
@@ -35675,6 +37131,8 @@ extension StopContactInputBody: Swift.Decodable {
         contactId = contactIdDecoded
         let instanceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceId)
         instanceId = instanceIdDecoded
+        let disconnectReasonDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.DisconnectReason.self, forKey: .disconnectReason)
+        disconnectReason = disconnectReasonDecoded
     }
 }
 
@@ -36235,6 +37693,51 @@ enum SubmitContactEvaluationOutputError: ClientRuntime.HttpResponseErrorBinding 
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
+}
+
+extension ConnectClientTypes.SuccessfulRequest: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case contactId = "ContactId"
+        case requestIdentifier = "RequestIdentifier"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let contactId = self.contactId {
+            try encodeContainer.encode(contactId, forKey: .contactId)
+        }
+        if let requestIdentifier = self.requestIdentifier {
+            try encodeContainer.encode(requestIdentifier, forKey: .requestIdentifier)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let requestIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requestIdentifier)
+        requestIdentifier = requestIdentifierDecoded
+        let contactIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .contactId)
+        contactId = contactIdDecoded
+    }
+}
+
+extension ConnectClientTypes {
+    /// Request for which contact was successfully created.
+    public struct SuccessfulRequest: Swift.Equatable {
+        /// The contactId of the contact that was created successfully.
+        public var contactId: Swift.String?
+        /// Request identifier provided in the API call in the ContactDataRequest to create a contact.
+        public var requestIdentifier: Swift.String?
+
+        public init(
+            contactId: Swift.String? = nil,
+            requestIdentifier: Swift.String? = nil
+        )
+        {
+            self.contactId = contactId
+            self.requestIdentifier = requestIdentifier
+        }
+    }
+
 }
 
 extension SuspendContactRecordingInput: Swift.Encodable {
@@ -37510,7 +39013,7 @@ extension ConnectClientTypes {
         public var id: Swift.String?
         /// The Amazon Resource Name (ARN).
         public var instanceArn: Swift.String?
-        /// Whether this is the default traffic distribution group created during instance replication. The default traffic distribution group cannot be deleted by the DeleteTrafficDistributionGroup API. The default traffic distribution group is deleted as part of the process for deleting a replica. The SignInConfig distribution is available only on the default TrafficDistributionGroup. If you call UpdateTrafficDistribution with a modified SignInConfig and a non-default TrafficDistributionGroup, an InvalidRequestException is returned.
+        /// Whether this is the default traffic distribution group created during instance replication. The default traffic distribution group cannot be deleted by the DeleteTrafficDistributionGroup API. The default traffic distribution group is deleted as part of the process for deleting a replica. The SignInConfig distribution is available only on a default TrafficDistributionGroup (see the IsDefault parameter in the [TrafficDistributionGroup](https://docs.aws.amazon.com/connect/latest/APIReference/API_TrafficDistributionGroup.html) data type). If you call UpdateTrafficDistribution with a modified SignInConfig and a non-default TrafficDistributionGroup, an InvalidRequestException is returned.
         public var isDefault: Swift.Bool
         /// The name of the traffic distribution group.
         public var name: Swift.String?
@@ -39893,6 +41396,7 @@ enum UpdateParticipantRoleConfigOutputError: ClientRuntime.HttpResponseErrorBind
 extension UpdatePhoneNumberInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientToken = "ClientToken"
+        case instanceId = "InstanceId"
         case targetArn = "TargetArn"
     }
 
@@ -39900,6 +41404,9 @@ extension UpdatePhoneNumberInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let clientToken = self.clientToken {
             try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let instanceId = self.instanceId {
+            try encodeContainer.encode(instanceId, forKey: .instanceId)
         }
         if let targetArn = self.targetArn {
             try encodeContainer.encode(targetArn, forKey: .targetArn)
@@ -39919,20 +41426,23 @@ extension UpdatePhoneNumberInput: ClientRuntime.URLPathProvider {
 public struct UpdatePhoneNumberInput: Swift.Equatable {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
     public var clientToken: Swift.String?
+    /// The identifier of the Amazon Connect instance that phone numbers are claimed to. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance. You must enter InstanceId or TargetArn.
+    public var instanceId: Swift.String?
     /// A unique identifier for the phone number.
     /// This member is required.
     public var phoneNumberId: Swift.String?
-    /// The Amazon Resource Name (ARN) for Amazon Connect instances or traffic distribution groups that phone numbers are claimed to.
-    /// This member is required.
+    /// The Amazon Resource Name (ARN) for Amazon Connect instances or traffic distribution groups that phone number inbound traffic is routed through. You must enter InstanceId or TargetArn.
     public var targetArn: Swift.String?
 
     public init(
         clientToken: Swift.String? = nil,
+        instanceId: Swift.String? = nil,
         phoneNumberId: Swift.String? = nil,
         targetArn: Swift.String? = nil
     )
     {
         self.clientToken = clientToken
+        self.instanceId = instanceId
         self.phoneNumberId = phoneNumberId
         self.targetArn = targetArn
     }
@@ -39940,12 +41450,14 @@ public struct UpdatePhoneNumberInput: Swift.Equatable {
 
 struct UpdatePhoneNumberInputBody: Swift.Equatable {
     let targetArn: Swift.String?
+    let instanceId: Swift.String?
     let clientToken: Swift.String?
 }
 
 extension UpdatePhoneNumberInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientToken = "ClientToken"
+        case instanceId = "InstanceId"
         case targetArn = "TargetArn"
     }
 
@@ -39953,6 +41465,8 @@ extension UpdatePhoneNumberInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let targetArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .targetArn)
         targetArn = targetArnDecoded
+        let instanceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceId)
+        instanceId = instanceIdDecoded
         let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
         clientToken = clientTokenDecoded
     }
@@ -40164,7 +41678,7 @@ public struct UpdatePromptInput: Swift.Equatable {
     /// A unique identifier for the prompt.
     /// This member is required.
     public var promptId: Swift.String?
-    /// The URI for the S3 bucket where the prompt is stored.
+    /// The URI for the S3 bucket where the prompt is stored. You can provide S3 pre-signed URLs returned by the [GetPromptFile](https://docs.aws.amazon.com/connect/latest/APIReference/API_GetPromptFile.html) API instead of providing S3 URIs.
     public var s3Uri: Swift.String?
 
     public init(
@@ -41595,7 +43109,7 @@ extension UpdateSecurityProfileInput: ClientRuntime.URLPathProvider {
 public struct UpdateSecurityProfileInput: Swift.Equatable {
     /// The list of tags that a security profile uses to restrict access to resources in Amazon Connect.
     public var allowedAccessControlTags: [Swift.String:Swift.String]?
-    /// This API is in preview release for Amazon Connect and is subject to change. A list of the third party application's metadata.
+    /// This API is in preview release for Amazon Connect and is subject to change. A list of the third-party application's metadata.
     public var applications: [ConnectClientTypes.Application]?
     /// The description of the security profile.
     public var description: Swift.String?
@@ -43159,6 +44673,8 @@ extension ConnectClientTypes.User: Swift.Codable {
         case hierarchyGroupId = "HierarchyGroupId"
         case id = "Id"
         case identityInfo = "IdentityInfo"
+        case lastModifiedRegion = "LastModifiedRegion"
+        case lastModifiedTime = "LastModifiedTime"
         case phoneConfig = "PhoneConfig"
         case routingProfileId = "RoutingProfileId"
         case securityProfileIds = "SecurityProfileIds"
@@ -43182,6 +44698,12 @@ extension ConnectClientTypes.User: Swift.Codable {
         }
         if let identityInfo = self.identityInfo {
             try encodeContainer.encode(identityInfo, forKey: .identityInfo)
+        }
+        if let lastModifiedRegion = self.lastModifiedRegion {
+            try encodeContainer.encode(lastModifiedRegion, forKey: .lastModifiedRegion)
+        }
+        if let lastModifiedTime = self.lastModifiedTime {
+            try encodeContainer.encodeTimestamp(lastModifiedTime, format: .epochSeconds, forKey: .lastModifiedTime)
         }
         if let phoneConfig = self.phoneConfig {
             try encodeContainer.encode(phoneConfig, forKey: .phoneConfig)
@@ -43246,6 +44768,10 @@ extension ConnectClientTypes.User: Swift.Codable {
             }
         }
         tags = tagsDecoded0
+        let lastModifiedTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedTime)
+        lastModifiedTime = lastModifiedTimeDecoded
+        let lastModifiedRegionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastModifiedRegion)
+        lastModifiedRegion = lastModifiedRegionDecoded
     }
 }
 
@@ -43262,6 +44788,10 @@ extension ConnectClientTypes {
         public var id: Swift.String?
         /// Information about the user identity.
         public var identityInfo: ConnectClientTypes.UserIdentityInfo?
+        /// The Amazon Web Services Region where this resource was last modified.
+        public var lastModifiedRegion: Swift.String?
+        /// The timestamp when this resource was last modified.
+        public var lastModifiedTime: ClientRuntime.Date?
         /// Information about the phone configuration for the user.
         public var phoneConfig: ConnectClientTypes.UserPhoneConfig?
         /// The identifier of the routing profile for the user.
@@ -43279,6 +44809,8 @@ extension ConnectClientTypes {
             hierarchyGroupId: Swift.String? = nil,
             id: Swift.String? = nil,
             identityInfo: ConnectClientTypes.UserIdentityInfo? = nil,
+            lastModifiedRegion: Swift.String? = nil,
+            lastModifiedTime: ClientRuntime.Date? = nil,
             phoneConfig: ConnectClientTypes.UserPhoneConfig? = nil,
             routingProfileId: Swift.String? = nil,
             securityProfileIds: [Swift.String]? = nil,
@@ -43291,6 +44823,8 @@ extension ConnectClientTypes {
             self.hierarchyGroupId = hierarchyGroupId
             self.id = id
             self.identityInfo = identityInfo
+            self.lastModifiedRegion = lastModifiedRegion
+            self.lastModifiedTime = lastModifiedTime
             self.phoneConfig = phoneConfig
             self.routingProfileId = routingProfileId
             self.securityProfileIds = securityProfileIds
@@ -44201,6 +45735,8 @@ extension ConnectClientTypes.UserSummary: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "Arn"
         case id = "Id"
+        case lastModifiedRegion = "LastModifiedRegion"
+        case lastModifiedTime = "LastModifiedTime"
         case username = "Username"
     }
 
@@ -44211,6 +45747,12 @@ extension ConnectClientTypes.UserSummary: Swift.Codable {
         }
         if let id = self.id {
             try encodeContainer.encode(id, forKey: .id)
+        }
+        if let lastModifiedRegion = self.lastModifiedRegion {
+            try encodeContainer.encode(lastModifiedRegion, forKey: .lastModifiedRegion)
+        }
+        if let lastModifiedTime = self.lastModifiedTime {
+            try encodeContainer.encodeTimestamp(lastModifiedTime, format: .epochSeconds, forKey: .lastModifiedTime)
         }
         if let username = self.username {
             try encodeContainer.encode(username, forKey: .username)
@@ -44225,6 +45767,10 @@ extension ConnectClientTypes.UserSummary: Swift.Codable {
         arn = arnDecoded
         let usernameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .username)
         username = usernameDecoded
+        let lastModifiedTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedTime)
+        lastModifiedTime = lastModifiedTimeDecoded
+        let lastModifiedRegionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastModifiedRegion)
+        lastModifiedRegion = lastModifiedRegionDecoded
     }
 }
 
@@ -44235,17 +45781,25 @@ extension ConnectClientTypes {
         public var arn: Swift.String?
         /// The identifier of the user account.
         public var id: Swift.String?
+        /// The Amazon Web Services Region where this resource was last modified.
+        public var lastModifiedRegion: Swift.String?
+        /// The timestamp when this resource was last modified.
+        public var lastModifiedTime: ClientRuntime.Date?
         /// The Amazon Connect user name of the user account.
         public var username: Swift.String?
 
         public init(
             arn: Swift.String? = nil,
             id: Swift.String? = nil,
+            lastModifiedRegion: Swift.String? = nil,
+            lastModifiedTime: ClientRuntime.Date? = nil,
             username: Swift.String? = nil
         )
         {
             self.arn = arn
             self.id = id
+            self.lastModifiedRegion = lastModifiedRegion
+            self.lastModifiedTime = lastModifiedTime
             self.username = username
         }
     }

@@ -105,7 +105,9 @@ extension WisdomClientTypes {
         ///
         /// * For [ Zendesk](https://developer.zendesk.com/api-reference/help_center/help-center-api/articles/), your AppIntegrations DataIntegration must have an ObjectConfiguration if objectFields is not provided, including at least id, title, updated_at, and draft as source fields.
         ///
-        /// * For [ SharePoint](https://learn.microsoft.com/en-us/sharepoint/dev/sp-add-ins/sharepoint-net-server-csom-jsom-and-rest-api-index), your AppIntegrations DataIntegration must have a FileConfiguration, including only file extensions that are among docx, pdf, html, htm, and txt.
+        /// * For [SharePoint](https://learn.microsoft.com/en-us/sharepoint/dev/sp-add-ins/sharepoint-net-server-csom-jsom-and-rest-api-index), your AppIntegrations DataIntegration must have a FileConfiguration, including only file extensions that are among docx, pdf, html, htm, and txt.
+        ///
+        /// * For [Amazon S3](https://aws.amazon.com/s3/), the ObjectConfiguration and FileConfiguration of your AppIntegrations DataIntegration must be null. The SourceURI of your DataIntegration must use the following format: s3://your_s3_bucket_name. The bucket policy of the corresponding S3 bucket must allow the Amazon Web Services principal app-integrations.amazonaws.com to perform s3:ListBucket, s3:GetObject, and s3:GetBucketLocation against the bucket.
         /// This member is required.
         public var appIntegrationArn: Swift.String?
         /// The fields from the source that are made available to your agents in Wisdom. Optional if ObjectConfiguration is included in the provided DataIntegration.
@@ -527,7 +529,7 @@ extension WisdomClientTypes {
         /// The name.
         /// This member is required.
         public var name: Swift.String?
-        /// The KMS key used for encryption.
+        /// The configuration information for the customer managed key used for encryption. This KMS key must have a policy that allows kms:CreateGrant and kms:DescribeKey permissions to the IAM identity using the key to invoke Wisdom. To use Wisdom with chat, the key policy must also allow kms:Decrypt, kms:GenerateDataKey*, and kms:DescribeKey permissions to the connect.amazonaws.com service principal. For more information about setting up a customer managed key for Wisdom, see [Enable Amazon Connect Wisdom for your instance](https://docs.aws.amazon.com/connect/latest/adminguide/enable-wisdom.html).
         public var serverSideEncryptionConfiguration: WisdomClientTypes.ServerSideEncryptionConfiguration?
         /// The status of the assistant.
         /// This member is required.
@@ -738,7 +740,7 @@ extension WisdomClientTypes {
         /// The name of the assistant.
         /// This member is required.
         public var name: Swift.String?
-        /// The KMS key used for encryption.
+        /// The configuration information for the customer managed key used for encryption. This KMS key must have a policy that allows kms:CreateGrant and kms:DescribeKey permissions to the IAM identity using the key to invoke Wisdom. To use Wisdom with chat, the key policy must also allow kms:Decrypt, kms:GenerateDataKey*, and kms:DescribeKey permissions to the connect.amazonaws.com service principal. For more information about setting up a customer managed key for Wisdom, see [Enable Amazon Connect Wisdom for your instance](https://docs.aws.amazon.com/connect/latest/adminguide/enable-wisdom.html).
         public var serverSideEncryptionConfiguration: WisdomClientTypes.ServerSideEncryptionConfiguration?
         /// The status of the assistant.
         /// This member is required.
@@ -1585,7 +1587,7 @@ public struct CreateAssistantInput: Swift.Equatable {
     /// The name of the assistant.
     /// This member is required.
     public var name: Swift.String?
-    /// The KMS key used for encryption.
+    /// The configuration information for the customer managed key used for encryption. The customer managed key must have a policy that allows kms:CreateGrant and  kms:DescribeKey permissions to the IAM identity using the key to invoke Wisdom. To use Wisdom with chat, the key policy must also allow kms:Decrypt, kms:GenerateDataKey*, and kms:DescribeKey permissions to the connect.amazonaws.com service principal. For more information about setting up a customer managed key for Wisdom, see [Enable Amazon Connect Wisdom for your instance](https://docs.aws.amazon.com/connect/latest/adminguide/enable-wisdom.html).
     public var serverSideEncryptionConfiguration: WisdomClientTypes.ServerSideEncryptionConfiguration?
     /// The tags used to organize, track, or control access for this resource.
     public var tags: [Swift.String:Swift.String]?
@@ -1981,7 +1983,7 @@ public struct CreateKnowledgeBaseInput: Swift.Equatable {
     public var name: Swift.String?
     /// Information about how to render the content.
     public var renderingConfiguration: WisdomClientTypes.RenderingConfiguration?
-    /// The KMS key used for encryption.
+    /// The configuration information for the customer managed key used for encryption. This KMS key must have a policy that allows kms:CreateGrant and kms:DescribeKey permissions to the IAM identity using the key to invoke Wisdom. For more information about setting up a customer managed key for Wisdom, see [Enable Amazon Connect Wisdom for your instance](https://docs.aws.amazon.com/connect/latest/adminguide/enable-wisdom.html).
     public var serverSideEncryptionConfiguration: WisdomClientTypes.ServerSideEncryptionConfiguration?
     /// The source of the knowledge base content. Only set this argument for EXTERNAL knowledge bases.
     public var sourceConfiguration: WisdomClientTypes.SourceConfiguration?
@@ -3625,7 +3627,7 @@ extension WisdomClientTypes {
         public var name: Swift.String?
         /// Information about how to render the content.
         public var renderingConfiguration: WisdomClientTypes.RenderingConfiguration?
-        /// The KMS key used for encryption.
+        /// The configuration information for the customer managed key used for encryption. This KMS key must have a policy that allows kms:CreateGrant and kms:DescribeKey permissions to the IAM identity using the key to invoke Wisdom. For more information about setting up a customer managed key for Wisdom, see [Enable Amazon Connect Wisdom for your instance](https://docs.aws.amazon.com/connect/latest/adminguide/enable-wisdom.html).
         public var serverSideEncryptionConfiguration: WisdomClientTypes.ServerSideEncryptionConfiguration?
         /// Source configuration information about the knowledge base.
         public var sourceConfiguration: WisdomClientTypes.SourceConfiguration?
@@ -3813,7 +3815,7 @@ extension WisdomClientTypes {
         public var name: Swift.String?
         /// Information about how to render the content.
         public var renderingConfiguration: WisdomClientTypes.RenderingConfiguration?
-        /// The KMS key used for encryption.
+        /// The configuration information for the customer managed key used for encryption. This KMS key must have a policy that allows kms:CreateGrant and kms:DescribeKey permissions to the IAM identity using the key to invoke Wisdom. For more information about setting up a customer managed key for Wisdom, see [Enable Amazon Connect Wisdom for your instance](https://docs.aws.amazon.com/connect/latest/adminguide/enable-wisdom.html).
         public var serverSideEncryptionConfiguration: WisdomClientTypes.ServerSideEncryptionConfiguration?
         /// Configuration information about the external data source.
         public var sourceConfiguration: WisdomClientTypes.SourceConfiguration?
@@ -5861,9 +5863,9 @@ extension WisdomClientTypes.ServerSideEncryptionConfiguration: Swift.Codable {
 }
 
 extension WisdomClientTypes {
-    /// The KMS key used for encryption.
+    /// The configuration information for the customer managed key used for encryption.
     public struct ServerSideEncryptionConfiguration: Swift.Equatable {
-        /// The KMS key. For information about valid ID values, see [Key identifiers (KeyId)](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id).
+        /// The customer managed key used for encryption. For more information about setting up a customer managed key for Wisdom, see [Enable Amazon Connect Wisdom for your instance](https://docs.aws.amazon.com/connect/latest/adminguide/enable-wisdom.html). For information about valid ID values, see [Key identifiers (KeyId)](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id).
         public var kmsKeyId: Swift.String?
 
         public init(

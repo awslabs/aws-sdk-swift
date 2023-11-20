@@ -315,6 +315,7 @@ extension ApplicationInsightsClientTypes {
 extension ApplicationInsightsClientTypes.ApplicationInfo: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accountId = "AccountId"
+        case attachMissingPermission = "AttachMissingPermission"
         case autoConfigEnabled = "AutoConfigEnabled"
         case cweMonitorEnabled = "CWEMonitorEnabled"
         case discoveryType = "DiscoveryType"
@@ -329,6 +330,9 @@ extension ApplicationInsightsClientTypes.ApplicationInfo: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let accountId = self.accountId {
             try encodeContainer.encode(accountId, forKey: .accountId)
+        }
+        if let attachMissingPermission = self.attachMissingPermission {
+            try encodeContainer.encode(attachMissingPermission, forKey: .attachMissingPermission)
         }
         if let autoConfigEnabled = self.autoConfigEnabled {
             try encodeContainer.encode(autoConfigEnabled, forKey: .autoConfigEnabled)
@@ -376,6 +380,8 @@ extension ApplicationInsightsClientTypes.ApplicationInfo: Swift.Codable {
         autoConfigEnabled = autoConfigEnabledDecoded
         let discoveryTypeDecoded = try containerValues.decodeIfPresent(ApplicationInsightsClientTypes.DiscoveryType.self, forKey: .discoveryType)
         discoveryType = discoveryTypeDecoded
+        let attachMissingPermissionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .attachMissingPermission)
+        attachMissingPermission = attachMissingPermissionDecoded
     }
 }
 
@@ -384,6 +390,8 @@ extension ApplicationInsightsClientTypes {
     public struct ApplicationInfo: Swift.Equatable {
         /// The AWS account ID for the owner of the application.
         public var accountId: Swift.String?
+        /// If set to true, the managed policies for SSM and CW will be attached to the instance roles if they are missing.
+        public var attachMissingPermission: Swift.Bool?
         /// Indicates whether auto-configuration is turned on for this application.
         public var autoConfigEnabled: Swift.Bool?
         /// Indicates whether Application Insights can listen to CloudWatch events for the application resources, such as instance terminated, failed deployment, and others.
@@ -407,6 +415,7 @@ extension ApplicationInsightsClientTypes {
 
         public init(
             accountId: Swift.String? = nil,
+            attachMissingPermission: Swift.Bool? = nil,
             autoConfigEnabled: Swift.Bool? = nil,
             cweMonitorEnabled: Swift.Bool? = nil,
             discoveryType: ApplicationInsightsClientTypes.DiscoveryType? = nil,
@@ -418,6 +427,7 @@ extension ApplicationInsightsClientTypes {
         )
         {
             self.accountId = accountId
+            self.attachMissingPermission = attachMissingPermission
             self.autoConfigEnabled = autoConfigEnabled
             self.cweMonitorEnabled = cweMonitorEnabled
             self.discoveryType = discoveryType
@@ -704,6 +714,7 @@ extension ApplicationInsightsClientTypes {
 
 extension CreateApplicationInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case attachMissingPermission = "AttachMissingPermission"
         case autoConfigEnabled = "AutoConfigEnabled"
         case autoCreate = "AutoCreate"
         case cweMonitorEnabled = "CWEMonitorEnabled"
@@ -716,6 +727,9 @@ extension CreateApplicationInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let attachMissingPermission = self.attachMissingPermission {
+            try encodeContainer.encode(attachMissingPermission, forKey: .attachMissingPermission)
+        }
         if let autoConfigEnabled = self.autoConfigEnabled {
             try encodeContainer.encode(autoConfigEnabled, forKey: .autoConfigEnabled)
         }
@@ -753,6 +767,8 @@ extension CreateApplicationInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateApplicationInput: Swift.Equatable {
+    /// If set to true, the managed policies for SSM and CW will be attached to the instance roles if they are missing.
+    public var attachMissingPermission: Swift.Bool?
     /// Indicates whether Application Insights automatically configures unmonitored resources in the resource group.
     public var autoConfigEnabled: Swift.Bool?
     /// Configures all of the resources in the resource group by applying the recommended configurations.
@@ -771,6 +787,7 @@ public struct CreateApplicationInput: Swift.Equatable {
     public var tags: [ApplicationInsightsClientTypes.Tag]?
 
     public init(
+        attachMissingPermission: Swift.Bool? = nil,
         autoConfigEnabled: Swift.Bool? = nil,
         autoCreate: Swift.Bool? = nil,
         cweMonitorEnabled: Swift.Bool? = nil,
@@ -781,6 +798,7 @@ public struct CreateApplicationInput: Swift.Equatable {
         tags: [ApplicationInsightsClientTypes.Tag]? = nil
     )
     {
+        self.attachMissingPermission = attachMissingPermission
         self.autoConfigEnabled = autoConfigEnabled
         self.autoCreate = autoCreate
         self.cweMonitorEnabled = cweMonitorEnabled
@@ -801,10 +819,12 @@ struct CreateApplicationInputBody: Swift.Equatable {
     let autoConfigEnabled: Swift.Bool?
     let autoCreate: Swift.Bool?
     let groupingType: ApplicationInsightsClientTypes.GroupingType?
+    let attachMissingPermission: Swift.Bool?
 }
 
 extension CreateApplicationInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case attachMissingPermission = "AttachMissingPermission"
         case autoConfigEnabled = "AutoConfigEnabled"
         case autoCreate = "AutoCreate"
         case cweMonitorEnabled = "CWEMonitorEnabled"
@@ -842,6 +862,8 @@ extension CreateApplicationInputBody: Swift.Decodable {
         autoCreate = autoCreateDecoded
         let groupingTypeDecoded = try containerValues.decodeIfPresent(ApplicationInsightsClientTypes.GroupingType.self, forKey: .groupingType)
         groupingType = groupingTypeDecoded
+        let attachMissingPermissionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .attachMissingPermission)
+        attachMissingPermission = attachMissingPermissionDecoded
     }
 }
 
@@ -1694,6 +1716,7 @@ extension DescribeComponentConfigurationRecommendationInput: Swift.Encodable {
         case recommendationType = "RecommendationType"
         case resourceGroupName = "ResourceGroupName"
         case tier = "Tier"
+        case workloadName = "WorkloadName"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -1709,6 +1732,9 @@ extension DescribeComponentConfigurationRecommendationInput: Swift.Encodable {
         }
         if let tier = self.tier {
             try encodeContainer.encode(tier.rawValue, forKey: .tier)
+        }
+        if let workloadName = self.workloadName {
+            try encodeContainer.encode(workloadName, forKey: .workloadName)
         }
     }
 }
@@ -1731,18 +1757,22 @@ public struct DescribeComponentConfigurationRecommendationInput: Swift.Equatable
     /// The tier of the application component.
     /// This member is required.
     public var tier: ApplicationInsightsClientTypes.Tier?
+    /// The name of the workload.
+    public var workloadName: Swift.String?
 
     public init(
         componentName: Swift.String? = nil,
         recommendationType: ApplicationInsightsClientTypes.RecommendationType? = nil,
         resourceGroupName: Swift.String? = nil,
-        tier: ApplicationInsightsClientTypes.Tier? = nil
+        tier: ApplicationInsightsClientTypes.Tier? = nil,
+        workloadName: Swift.String? = nil
     )
     {
         self.componentName = componentName
         self.recommendationType = recommendationType
         self.resourceGroupName = resourceGroupName
         self.tier = tier
+        self.workloadName = workloadName
     }
 }
 
@@ -1750,6 +1780,7 @@ struct DescribeComponentConfigurationRecommendationInputBody: Swift.Equatable {
     let resourceGroupName: Swift.String?
     let componentName: Swift.String?
     let tier: ApplicationInsightsClientTypes.Tier?
+    let workloadName: Swift.String?
     let recommendationType: ApplicationInsightsClientTypes.RecommendationType?
 }
 
@@ -1759,6 +1790,7 @@ extension DescribeComponentConfigurationRecommendationInputBody: Swift.Decodable
         case recommendationType = "RecommendationType"
         case resourceGroupName = "ResourceGroupName"
         case tier = "Tier"
+        case workloadName = "WorkloadName"
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -1769,6 +1801,8 @@ extension DescribeComponentConfigurationRecommendationInputBody: Swift.Decodable
         componentName = componentNameDecoded
         let tierDecoded = try containerValues.decodeIfPresent(ApplicationInsightsClientTypes.Tier.self, forKey: .tier)
         tier = tierDecoded
+        let workloadNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workloadName)
+        workloadName = workloadNameDecoded
         let recommendationTypeDecoded = try containerValues.decodeIfPresent(ApplicationInsightsClientTypes.RecommendationType.self, forKey: .recommendationType)
         recommendationType = recommendationTypeDecoded
     }
@@ -5815,6 +5849,7 @@ enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
 
 extension UpdateApplicationInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case attachMissingPermission = "AttachMissingPermission"
         case autoConfigEnabled = "AutoConfigEnabled"
         case cweMonitorEnabled = "CWEMonitorEnabled"
         case opsCenterEnabled = "OpsCenterEnabled"
@@ -5825,6 +5860,9 @@ extension UpdateApplicationInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let attachMissingPermission = self.attachMissingPermission {
+            try encodeContainer.encode(attachMissingPermission, forKey: .attachMissingPermission)
+        }
         if let autoConfigEnabled = self.autoConfigEnabled {
             try encodeContainer.encode(autoConfigEnabled, forKey: .autoConfigEnabled)
         }
@@ -5853,6 +5891,8 @@ extension UpdateApplicationInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateApplicationInput: Swift.Equatable {
+    /// If set to true, the managed policies for SSM and CW will be attached to the instance roles if they are missing.
+    public var attachMissingPermission: Swift.Bool?
     /// Turns auto-configuration on or off.
     public var autoConfigEnabled: Swift.Bool?
     /// Indicates whether Application Insights can listen to CloudWatch events for the application resources, such as instance terminated, failed deployment, and others.
@@ -5868,6 +5908,7 @@ public struct UpdateApplicationInput: Swift.Equatable {
     public var resourceGroupName: Swift.String?
 
     public init(
+        attachMissingPermission: Swift.Bool? = nil,
         autoConfigEnabled: Swift.Bool? = nil,
         cweMonitorEnabled: Swift.Bool? = nil,
         opsCenterEnabled: Swift.Bool? = nil,
@@ -5876,6 +5917,7 @@ public struct UpdateApplicationInput: Swift.Equatable {
         resourceGroupName: Swift.String? = nil
     )
     {
+        self.attachMissingPermission = attachMissingPermission
         self.autoConfigEnabled = autoConfigEnabled
         self.cweMonitorEnabled = cweMonitorEnabled
         self.opsCenterEnabled = opsCenterEnabled
@@ -5892,10 +5934,12 @@ struct UpdateApplicationInputBody: Swift.Equatable {
     let opsItemSNSTopicArn: Swift.String?
     let removeSNSTopic: Swift.Bool?
     let autoConfigEnabled: Swift.Bool?
+    let attachMissingPermission: Swift.Bool?
 }
 
 extension UpdateApplicationInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case attachMissingPermission = "AttachMissingPermission"
         case autoConfigEnabled = "AutoConfigEnabled"
         case cweMonitorEnabled = "CWEMonitorEnabled"
         case opsCenterEnabled = "OpsCenterEnabled"
@@ -5918,6 +5962,8 @@ extension UpdateApplicationInputBody: Swift.Decodable {
         removeSNSTopic = removeSNSTopicDecoded
         let autoConfigEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoConfigEnabled)
         autoConfigEnabled = autoConfigEnabledDecoded
+        let attachMissingPermissionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .attachMissingPermission)
+        attachMissingPermission = attachMissingPermissionDecoded
     }
 }
 
@@ -6099,6 +6145,7 @@ enum UpdateComponentConfigurationOutputError: ClientRuntime.HttpResponseErrorBin
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceInUseException": return try await ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)

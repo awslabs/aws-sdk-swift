@@ -3670,7 +3670,7 @@ extension CostExplorerClientTypes.EC2InstanceDetails: Swift.Codable {
 }
 
 extension CostExplorerClientTypes {
-    /// Details about the Amazon EC2 instances that Amazon Web Services recommends that you purchase.
+    /// Details about the Amazon EC2 reservations that Amazon Web Services recommends that you purchase.
     public struct EC2InstanceDetails: Swift.Equatable {
         /// The Availability Zone of the recommended reservation.
         public var availabilityZone: Swift.String?
@@ -3992,7 +3992,7 @@ extension CostExplorerClientTypes.ESInstanceDetails: Swift.Codable {
 }
 
 extension CostExplorerClientTypes {
-    /// Details about the Amazon OpenSearch Service instances that Amazon Web Services recommends that you purchase.
+    /// Details about the Amazon OpenSearch Service reservations that Amazon Web Services recommends that you purchase.
     public struct ESInstanceDetails: Swift.Equatable {
         /// Determines whether the recommendation is for a current-generation instance.
         public var currentGeneration: Swift.Bool
@@ -4073,7 +4073,7 @@ extension CostExplorerClientTypes.ElastiCacheInstanceDetails: Swift.Codable {
 }
 
 extension CostExplorerClientTypes {
-    /// Details about the Amazon ElastiCache instances that Amazon Web Services recommends that you purchase.
+    /// Details about the Amazon ElastiCache reservations that Amazon Web Services recommends that you purchase.
     public struct ElastiCacheInstanceDetails: Swift.Equatable {
         /// Determines whether the recommendation is for a current generation instance.
         public var currentGeneration: Swift.Bool
@@ -9474,6 +9474,7 @@ extension CostExplorerClientTypes.InstanceDetails: Swift.Codable {
         case ec2InstanceDetails = "EC2InstanceDetails"
         case esInstanceDetails = "ESInstanceDetails"
         case elastiCacheInstanceDetails = "ElastiCacheInstanceDetails"
+        case memoryDBInstanceDetails = "MemoryDBInstanceDetails"
         case rdsInstanceDetails = "RDSInstanceDetails"
         case redshiftInstanceDetails = "RedshiftInstanceDetails"
     }
@@ -9488,6 +9489,9 @@ extension CostExplorerClientTypes.InstanceDetails: Swift.Codable {
         }
         if let elastiCacheInstanceDetails = self.elastiCacheInstanceDetails {
             try encodeContainer.encode(elastiCacheInstanceDetails, forKey: .elastiCacheInstanceDetails)
+        }
+        if let memoryDBInstanceDetails = self.memoryDBInstanceDetails {
+            try encodeContainer.encode(memoryDBInstanceDetails, forKey: .memoryDBInstanceDetails)
         }
         if let rdsInstanceDetails = self.rdsInstanceDetails {
             try encodeContainer.encode(rdsInstanceDetails, forKey: .rdsInstanceDetails)
@@ -9509,27 +9513,32 @@ extension CostExplorerClientTypes.InstanceDetails: Swift.Codable {
         elastiCacheInstanceDetails = elastiCacheInstanceDetailsDecoded
         let esInstanceDetailsDecoded = try containerValues.decodeIfPresent(CostExplorerClientTypes.ESInstanceDetails.self, forKey: .esInstanceDetails)
         esInstanceDetails = esInstanceDetailsDecoded
+        let memoryDBInstanceDetailsDecoded = try containerValues.decodeIfPresent(CostExplorerClientTypes.MemoryDBInstanceDetails.self, forKey: .memoryDBInstanceDetails)
+        memoryDBInstanceDetails = memoryDBInstanceDetailsDecoded
     }
 }
 
 extension CostExplorerClientTypes {
-    /// Details about the instances that Amazon Web Services recommends that you purchase.
+    /// Details about the reservations that Amazon Web Services recommends that you purchase.
     public struct InstanceDetails: Swift.Equatable {
-        /// The Amazon EC2 instances that Amazon Web Services recommends that you purchase.
+        /// The Amazon EC2 reservations that Amazon Web Services recommends that you purchase.
         public var ec2InstanceDetails: CostExplorerClientTypes.EC2InstanceDetails?
-        /// The ElastiCache instances that Amazon Web Services recommends that you purchase.
+        /// The ElastiCache reservations that Amazon Web Services recommends that you purchase.
         public var elastiCacheInstanceDetails: CostExplorerClientTypes.ElastiCacheInstanceDetails?
-        /// The Amazon OpenSearch Service instances that Amazon Web Services recommends that you purchase.
+        /// The Amazon OpenSearch Service reservations that Amazon Web Services recommends that you purchase.
         public var esInstanceDetails: CostExplorerClientTypes.ESInstanceDetails?
-        /// The Amazon RDS instances that Amazon Web Services recommends that you purchase.
+        /// The MemoryDB reservations that Amazon Web Services recommends that you purchase.
+        public var memoryDBInstanceDetails: CostExplorerClientTypes.MemoryDBInstanceDetails?
+        /// The Amazon RDS reservations that Amazon Web Services recommends that you purchase.
         public var rdsInstanceDetails: CostExplorerClientTypes.RDSInstanceDetails?
-        /// The Amazon Redshift instances that Amazon Web Services recommends that you purchase.
+        /// The Amazon Redshift reservations that Amazon Web Services recommends that you purchase.
         public var redshiftInstanceDetails: CostExplorerClientTypes.RedshiftInstanceDetails?
 
         public init(
             ec2InstanceDetails: CostExplorerClientTypes.EC2InstanceDetails? = nil,
             elastiCacheInstanceDetails: CostExplorerClientTypes.ElastiCacheInstanceDetails? = nil,
             esInstanceDetails: CostExplorerClientTypes.ESInstanceDetails? = nil,
+            memoryDBInstanceDetails: CostExplorerClientTypes.MemoryDBInstanceDetails? = nil,
             rdsInstanceDetails: CostExplorerClientTypes.RDSInstanceDetails? = nil,
             redshiftInstanceDetails: CostExplorerClientTypes.RedshiftInstanceDetails? = nil
         )
@@ -9537,6 +9546,7 @@ extension CostExplorerClientTypes {
             self.ec2InstanceDetails = ec2InstanceDetails
             self.elastiCacheInstanceDetails = elastiCacheInstanceDetails
             self.esInstanceDetails = esInstanceDetails
+            self.memoryDBInstanceDetails = memoryDBInstanceDetails
             self.rdsInstanceDetails = rdsInstanceDetails
             self.redshiftInstanceDetails = redshiftInstanceDetails
         }
@@ -10334,6 +10344,81 @@ extension CostExplorerClientTypes {
     }
 }
 
+extension CostExplorerClientTypes.MemoryDBInstanceDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case currentGeneration = "CurrentGeneration"
+        case family = "Family"
+        case nodeType = "NodeType"
+        case region = "Region"
+        case sizeFlexEligible = "SizeFlexEligible"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if currentGeneration != false {
+            try encodeContainer.encode(currentGeneration, forKey: .currentGeneration)
+        }
+        if let family = self.family {
+            try encodeContainer.encode(family, forKey: .family)
+        }
+        if let nodeType = self.nodeType {
+            try encodeContainer.encode(nodeType, forKey: .nodeType)
+        }
+        if let region = self.region {
+            try encodeContainer.encode(region, forKey: .region)
+        }
+        if sizeFlexEligible != false {
+            try encodeContainer.encode(sizeFlexEligible, forKey: .sizeFlexEligible)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let familyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .family)
+        family = familyDecoded
+        let nodeTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nodeType)
+        nodeType = nodeTypeDecoded
+        let regionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .region)
+        region = regionDecoded
+        let currentGenerationDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .currentGeneration) ?? false
+        currentGeneration = currentGenerationDecoded
+        let sizeFlexEligibleDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .sizeFlexEligible) ?? false
+        sizeFlexEligible = sizeFlexEligibleDecoded
+    }
+}
+
+extension CostExplorerClientTypes {
+    /// Details about the MemoryDB reservations that Amazon Web Services recommends that you purchase.
+    public struct MemoryDBInstanceDetails: Swift.Equatable {
+        /// Determines whether the recommendation is for a current generation instance.
+        public var currentGeneration: Swift.Bool
+        /// The instance family of the recommended reservation.
+        public var family: Swift.String?
+        /// The node type of the recommended reservation.
+        public var nodeType: Swift.String?
+        /// The Amazon Web Services Region of the recommended reservation.
+        public var region: Swift.String?
+        /// Determines whether the recommended reservation is size flexible.
+        public var sizeFlexEligible: Swift.Bool
+
+        public init(
+            currentGeneration: Swift.Bool = false,
+            family: Swift.String? = nil,
+            nodeType: Swift.String? = nil,
+            region: Swift.String? = nil,
+            sizeFlexEligible: Swift.Bool = false
+        )
+        {
+            self.currentGeneration = currentGeneration
+            self.family = family
+            self.nodeType = nodeType
+            self.region = region
+            self.sizeFlexEligible = sizeFlexEligible
+        }
+    }
+
+}
+
 extension CostExplorerClientTypes {
     public enum Metric: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case amortizedCost
@@ -10941,7 +11026,7 @@ extension CostExplorerClientTypes.RDSInstanceDetails: Swift.Codable {
 }
 
 extension CostExplorerClientTypes {
-    /// Details about the Amazon RDS instances that Amazon Web Services recommends that you purchase.
+    /// Details about the Amazon RDS reservations that Amazon Web Services recommends that you purchase.
     public struct RDSInstanceDetails: Swift.Equatable {
         /// Determines whether the recommendation is for a current-generation instance.
         public var currentGeneration: Swift.Bool
@@ -11466,7 +11551,7 @@ extension CostExplorerClientTypes.RedshiftInstanceDetails: Swift.Codable {
 }
 
 extension CostExplorerClientTypes {
-    /// Details about the Amazon Redshift instances that Amazon Web Services recommends that you purchase.
+    /// Details about the Amazon Redshift reservations that Amazon Web Services recommends that you purchase.
     public struct RedshiftInstanceDetails: Swift.Equatable {
         /// Determines whether the recommendation is for a current-generation instance.
         public var currentGeneration: Swift.Bool
@@ -12061,7 +12146,7 @@ extension CostExplorerClientTypes {
         public var estimatedMonthlySavingsPercentage: Swift.String?
         /// How much Amazon Web Services estimates that you might spend for all usage during the specified historical period if you had a reservation.
         public var estimatedReservationCostForLookbackPeriod: Swift.String?
-        /// Details about the instances that Amazon Web Services recommends that you purchase.
+        /// Details about the reservations that Amazon Web Services recommends that you purchase.
         public var instanceDetails: CostExplorerClientTypes.InstanceDetails?
         /// The maximum number of normalized units that you used in an hour during the historical period. Amazon Web Services uses this to calculate your recommended reservation purchases.
         public var maximumNormalizedUnitsUsedPerHour: Swift.String?

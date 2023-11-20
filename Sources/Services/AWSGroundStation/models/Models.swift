@@ -5439,6 +5439,7 @@ extension InvalidParameterExceptionBody: Swift.Decodable {
 extension GroundStationClientTypes.KmsKey: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case kmsaliasarn = "kmsAliasArn"
+        case kmsaliasname = "kmsAliasName"
         case kmskeyarn = "kmsKeyArn"
         case sdkUnknown
     }
@@ -5448,6 +5449,8 @@ extension GroundStationClientTypes.KmsKey: Swift.Codable {
         switch self {
             case let .kmsaliasarn(kmsaliasarn):
                 try container.encode(kmsaliasarn, forKey: .kmsaliasarn)
+            case let .kmsaliasname(kmsaliasname):
+                try container.encode(kmsaliasname, forKey: .kmsaliasname)
             case let .kmskeyarn(kmskeyarn):
                 try container.encode(kmskeyarn, forKey: .kmskeyarn)
             case let .sdkUnknown(sdkUnknown):
@@ -5467,6 +5470,11 @@ extension GroundStationClientTypes.KmsKey: Swift.Codable {
             self = .kmsaliasarn(kmsaliasarn)
             return
         }
+        let kmsaliasnameDecoded = try values.decodeIfPresent(Swift.String.self, forKey: .kmsaliasname)
+        if let kmsaliasname = kmsaliasnameDecoded {
+            self = .kmsaliasname(kmsaliasname)
+            return
+        }
         self = .sdkUnknown("")
     }
 }
@@ -5478,6 +5486,8 @@ extension GroundStationClientTypes {
         case kmskeyarn(Swift.String)
         /// KMS Alias Arn.
         case kmsaliasarn(Swift.String)
+        /// KMS Alias Name.
+        case kmsaliasname(Swift.String)
         case sdkUnknown(Swift.String)
     }
 

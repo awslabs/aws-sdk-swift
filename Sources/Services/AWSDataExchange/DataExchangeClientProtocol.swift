@@ -319,6 +319,22 @@ public protocol DataExchangeClientProtocol {
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request was invalid.
     func sendApiAsset(input: SendApiAssetInput) async throws -> SendApiAssetOutput
+    /// The type of event associated with the data set.
+    ///
+    /// - Parameter SendDataSetNotificationInput : [no documentation found]
+    ///
+    /// - Returns: `SendDataSetNotificationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to the resource is denied.
+    /// - `ConflictException` : The request couldn't be completed because it conflicted with the current state of the resource.
+    /// - `InternalServerException` : An exception occurred with the service.
+    /// - `ResourceNotFoundException` : The resource couldn't be found.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request was invalid.
+    func sendDataSetNotification(input: SendDataSetNotificationInput) async throws -> SendDataSetNotificationOutput
     /// This operation starts a job.
     ///
     /// - Parameter StartJobInput : [no documentation found]

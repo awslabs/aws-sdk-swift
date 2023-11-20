@@ -1100,6 +1100,7 @@ extension S3OutpostsClientTypes.Outpost: Swift.Codable {
         case outpostArn = "OutpostArn"
         case outpostId = "OutpostId"
         case ownerId = "OwnerId"
+        case s3OutpostArn = "S3OutpostArn"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -1116,12 +1117,17 @@ extension S3OutpostsClientTypes.Outpost: Swift.Codable {
         if let ownerId = self.ownerId {
             try encodeContainer.encode(ownerId, forKey: .ownerId)
         }
+        if let s3OutpostArn = self.s3OutpostArn {
+            try encodeContainer.encode(s3OutpostArn, forKey: .s3OutpostArn)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let outpostArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .outpostArn)
         outpostArn = outpostArnDecoded
+        let s3OutpostArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .s3OutpostArn)
+        s3OutpostArn = s3OutpostArnDecoded
         let outpostIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .outpostId)
         outpostId = outpostIdDecoded
         let ownerIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ownerId)
@@ -1142,18 +1148,22 @@ extension S3OutpostsClientTypes {
         public var outpostId: Swift.String?
         /// Returns the Amazon Web Services account ID of the outpost owner. Useful for comparing owned versus shared outposts.
         public var ownerId: Swift.String?
+        /// Specifies the unique S3 on Outposts ARN for use with Resource Access Manager (RAM).
+        public var s3OutpostArn: Swift.String?
 
         public init(
             capacityInBytes: Swift.Int = 0,
             outpostArn: Swift.String? = nil,
             outpostId: Swift.String? = nil,
-            ownerId: Swift.String? = nil
+            ownerId: Swift.String? = nil,
+            s3OutpostArn: Swift.String? = nil
         )
         {
             self.capacityInBytes = capacityInBytes
             self.outpostArn = outpostArn
             self.outpostId = outpostId
             self.ownerId = ownerId
+            self.s3OutpostArn = s3OutpostArn
         }
     }
 

@@ -300,14 +300,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<CreateAcceleratorInput, CreateAcceleratorOutput, CreateAcceleratorOutputError>(id: "createAccelerator")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateAcceleratorOutput> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.idempotencyToken == nil {
-                copiedInput.idempotencyToken = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateAcceleratorInput, CreateAcceleratorOutput, CreateAcceleratorOutputError>(keyPath: \.idempotencyToken))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateAcceleratorInput, CreateAcceleratorOutput, CreateAcceleratorOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateAcceleratorInput, CreateAcceleratorOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
@@ -322,6 +315,56 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAcceleratorOutput, CreateAcceleratorOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAcceleratorOutput, CreateAcceleratorOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateAcceleratorOutput, CreateAcceleratorOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Create a cross-account attachment in Global Accelerator. You create a cross-account attachment to specify the principals who have permission to add to accelerators in their own account the resources in your account that you also list in the attachment. A principal can be an Amazon Web Services account number or the Amazon Resource Name (ARN) for an accelerator. For account numbers that are listed as principals, to add a resource listed in the attachment to an accelerator, you must sign in to an account specified as a principal. Then you can add the resources that are listed to any of your accelerators. If an accelerator ARN is listed in the cross-account attachment as a principal, anyone with permission to make updates to the accelerator can add as endpoints resources that are listed in the attachment.
+    ///
+    /// - Parameter CreateCrossAccountAttachmentInput : [no documentation found]
+    ///
+    /// - Returns: `CreateCrossAccountAttachmentOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have access permission.
+    /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
+    /// - `InvalidArgumentException` : An argument that you specified is invalid.
+    /// - `LimitExceededException` : Processing your request would cause you to exceed an Global Accelerator limit.
+    /// - `TransactionInProgressException` : There's already a transaction in progress. Another transaction can't be processed.
+    public func createCrossAccountAttachment(input: CreateCrossAccountAttachmentInput) async throws -> CreateCrossAccountAttachmentOutput
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createCrossAccountAttachment")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "globalaccelerator")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<CreateCrossAccountAttachmentInput, CreateCrossAccountAttachmentOutput, CreateCrossAccountAttachmentOutputError>(id: "createCrossAccountAttachment")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateCrossAccountAttachmentInput, CreateCrossAccountAttachmentOutput, CreateCrossAccountAttachmentOutputError>(keyPath: \.idempotencyToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateCrossAccountAttachmentInput, CreateCrossAccountAttachmentOutput, CreateCrossAccountAttachmentOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateCrossAccountAttachmentInput, CreateCrossAccountAttachmentOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateCrossAccountAttachmentOutput, CreateCrossAccountAttachmentOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateCrossAccountAttachmentInput, CreateCrossAccountAttachmentOutput>(xAmzTarget: "GlobalAccelerator_V20180706.CreateCrossAccountAttachment"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateCrossAccountAttachmentInput, CreateCrossAccountAttachmentOutput>(xmlName: "CreateCrossAccountAttachmentRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateCrossAccountAttachmentInput, CreateCrossAccountAttachmentOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateCrossAccountAttachmentOutput, CreateCrossAccountAttachmentOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateCrossAccountAttachmentOutput, CreateCrossAccountAttachmentOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateCrossAccountAttachmentOutput, CreateCrossAccountAttachmentOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateCrossAccountAttachmentOutput, CreateCrossAccountAttachmentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -356,14 +399,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<CreateCustomRoutingAcceleratorInput, CreateCustomRoutingAcceleratorOutput, CreateCustomRoutingAcceleratorOutputError>(id: "createCustomRoutingAccelerator")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateCustomRoutingAcceleratorOutput> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.idempotencyToken == nil {
-                copiedInput.idempotencyToken = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateCustomRoutingAcceleratorInput, CreateCustomRoutingAcceleratorOutput, CreateCustomRoutingAcceleratorOutputError>(keyPath: \.idempotencyToken))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateCustomRoutingAcceleratorInput, CreateCustomRoutingAcceleratorOutput, CreateCustomRoutingAcceleratorOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateCustomRoutingAcceleratorInput, CreateCustomRoutingAcceleratorOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
@@ -416,14 +452,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<CreateCustomRoutingEndpointGroupInput, CreateCustomRoutingEndpointGroupOutput, CreateCustomRoutingEndpointGroupOutputError>(id: "createCustomRoutingEndpointGroup")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateCustomRoutingEndpointGroupOutput> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.idempotencyToken == nil {
-                copiedInput.idempotencyToken = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateCustomRoutingEndpointGroupInput, CreateCustomRoutingEndpointGroupOutput, CreateCustomRoutingEndpointGroupOutputError>(keyPath: \.idempotencyToken))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateCustomRoutingEndpointGroupInput, CreateCustomRoutingEndpointGroupOutput, CreateCustomRoutingEndpointGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateCustomRoutingEndpointGroupInput, CreateCustomRoutingEndpointGroupOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
@@ -473,14 +502,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<CreateCustomRoutingListenerInput, CreateCustomRoutingListenerOutput, CreateCustomRoutingListenerOutputError>(id: "createCustomRoutingListener")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateCustomRoutingListenerOutput> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.idempotencyToken == nil {
-                copiedInput.idempotencyToken = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateCustomRoutingListenerInput, CreateCustomRoutingListenerOutput, CreateCustomRoutingListenerOutputError>(keyPath: \.idempotencyToken))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateCustomRoutingListenerInput, CreateCustomRoutingListenerOutput, CreateCustomRoutingListenerOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateCustomRoutingListenerInput, CreateCustomRoutingListenerOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
@@ -532,14 +554,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<CreateEndpointGroupInput, CreateEndpointGroupOutput, CreateEndpointGroupOutputError>(id: "createEndpointGroup")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateEndpointGroupOutput> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.idempotencyToken == nil {
-                copiedInput.idempotencyToken = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateEndpointGroupInput, CreateEndpointGroupOutput, CreateEndpointGroupOutputError>(keyPath: \.idempotencyToken))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateEndpointGroupInput, CreateEndpointGroupOutput, CreateEndpointGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateEndpointGroupInput, CreateEndpointGroupOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
@@ -589,14 +604,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<CreateListenerInput, CreateListenerOutput, CreateListenerOutputError>(id: "createListener")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateListenerOutput> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.idempotencyToken == nil {
-                copiedInput.idempotencyToken = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateListenerInput, CreateListenerOutput, CreateListenerOutputError>(keyPath: \.idempotencyToken))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateListenerInput, CreateListenerOutput, CreateListenerOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateListenerInput, CreateListenerOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
@@ -660,6 +668,62 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAcceleratorOutput, DeleteAcceleratorOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAcceleratorOutput, DeleteAcceleratorOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteAcceleratorOutput, DeleteAcceleratorOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Delete a cross-account attachment. When you delete an attachment, Global Accelerator revokes the permission to use the resources in the attachment from all principals in the list of principals. Global Accelerator revokes the permission for specific resources by doing the following:
+    ///
+    /// * If the principal is an account ID, Global Accelerator reviews every accelerator in the account and removes cross-account endpoints from all accelerators.
+    ///
+    /// * If the principal is an accelerator, Global Accelerator reviews just that accelerator and removes cross-account endpoints from it.
+    ///
+    ///
+    /// If there are overlapping permissions provided by multiple cross-account attachments, Global Accelerator only removes endpoints if there are no current cross-account attachments that provide access permission. For example, if you delete a cross-account attachment that lists an accelerator as a principal, but another cross-account attachment includes the account ID that owns that accelerator, endpoints will not be removed from the accelerator.
+    ///
+    /// - Parameter DeleteCrossAccountAttachmentInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteCrossAccountAttachmentOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have access permission.
+    /// - `AttachmentNotFoundException` : No cross-account attachment was found.
+    /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
+    /// - `InvalidArgumentException` : An argument that you specified is invalid.
+    /// - `TransactionInProgressException` : There's already a transaction in progress. Another transaction can't be processed.
+    public func deleteCrossAccountAttachment(input: DeleteCrossAccountAttachmentInput) async throws -> DeleteCrossAccountAttachmentOutput
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteCrossAccountAttachment")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "globalaccelerator")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<DeleteCrossAccountAttachmentInput, DeleteCrossAccountAttachmentOutput, DeleteCrossAccountAttachmentOutputError>(id: "deleteCrossAccountAttachment")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteCrossAccountAttachmentInput, DeleteCrossAccountAttachmentOutput, DeleteCrossAccountAttachmentOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteCrossAccountAttachmentInput, DeleteCrossAccountAttachmentOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteCrossAccountAttachmentOutput, DeleteCrossAccountAttachmentOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteCrossAccountAttachmentInput, DeleteCrossAccountAttachmentOutput>(xAmzTarget: "GlobalAccelerator_V20180706.DeleteCrossAccountAttachment"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteCrossAccountAttachmentInput, DeleteCrossAccountAttachmentOutput>(xmlName: "DeleteCrossAccountAttachmentRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteCrossAccountAttachmentInput, DeleteCrossAccountAttachmentOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteCrossAccountAttachmentOutput, DeleteCrossAccountAttachmentOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteCrossAccountAttachmentOutput, DeleteCrossAccountAttachmentOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteCrossAccountAttachmentOutput, DeleteCrossAccountAttachmentOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteCrossAccountAttachmentOutput, DeleteCrossAccountAttachmentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1093,6 +1157,54 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
         return result
     }
 
+    /// Gets configuration information about a cross-account attachment.
+    ///
+    /// - Parameter DescribeCrossAccountAttachmentInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeCrossAccountAttachmentOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have access permission.
+    /// - `AttachmentNotFoundException` : No cross-account attachment was found.
+    /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
+    /// - `InvalidArgumentException` : An argument that you specified is invalid.
+    public func describeCrossAccountAttachment(input: DescribeCrossAccountAttachmentInput) async throws -> DescribeCrossAccountAttachmentOutput
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeCrossAccountAttachment")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "globalaccelerator")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<DescribeCrossAccountAttachmentInput, DescribeCrossAccountAttachmentOutput, DescribeCrossAccountAttachmentOutputError>(id: "describeCrossAccountAttachment")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeCrossAccountAttachmentInput, DescribeCrossAccountAttachmentOutput, DescribeCrossAccountAttachmentOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeCrossAccountAttachmentInput, DescribeCrossAccountAttachmentOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeCrossAccountAttachmentOutput, DescribeCrossAccountAttachmentOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeCrossAccountAttachmentInput, DescribeCrossAccountAttachmentOutput>(xAmzTarget: "GlobalAccelerator_V20180706.DescribeCrossAccountAttachment"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeCrossAccountAttachmentInput, DescribeCrossAccountAttachmentOutput>(xmlName: "DescribeCrossAccountAttachmentRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeCrossAccountAttachmentInput, DescribeCrossAccountAttachmentOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeCrossAccountAttachmentOutput, DescribeCrossAccountAttachmentOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeCrossAccountAttachmentOutput, DescribeCrossAccountAttachmentOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeCrossAccountAttachmentOutput, DescribeCrossAccountAttachmentOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeCrossAccountAttachmentOutput, DescribeCrossAccountAttachmentOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Describe a custom routing accelerator.
     ///
     /// - Parameter DescribeCustomRoutingAcceleratorInput : [no documentation found]
@@ -1466,6 +1578,149 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListByoipCidrsOutput, ListByoipCidrsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListByoipCidrsOutput, ListByoipCidrsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListByoipCidrsOutput, ListByoipCidrsOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// List the cross-account attachments that have been created in Global Accelerator.
+    ///
+    /// - Parameter ListCrossAccountAttachmentsInput : [no documentation found]
+    ///
+    /// - Returns: `ListCrossAccountAttachmentsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have access permission.
+    /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
+    /// - `InvalidArgumentException` : An argument that you specified is invalid.
+    /// - `InvalidNextTokenException` : There isn't another item to return.
+    public func listCrossAccountAttachments(input: ListCrossAccountAttachmentsInput) async throws -> ListCrossAccountAttachmentsOutput
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listCrossAccountAttachments")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "globalaccelerator")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<ListCrossAccountAttachmentsInput, ListCrossAccountAttachmentsOutput, ListCrossAccountAttachmentsOutputError>(id: "listCrossAccountAttachments")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListCrossAccountAttachmentsInput, ListCrossAccountAttachmentsOutput, ListCrossAccountAttachmentsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListCrossAccountAttachmentsInput, ListCrossAccountAttachmentsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListCrossAccountAttachmentsOutput, ListCrossAccountAttachmentsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListCrossAccountAttachmentsInput, ListCrossAccountAttachmentsOutput>(xAmzTarget: "GlobalAccelerator_V20180706.ListCrossAccountAttachments"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListCrossAccountAttachmentsInput, ListCrossAccountAttachmentsOutput>(xmlName: "ListCrossAccountAttachmentsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListCrossAccountAttachmentsInput, ListCrossAccountAttachmentsOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListCrossAccountAttachmentsOutput, ListCrossAccountAttachmentsOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListCrossAccountAttachmentsOutput, ListCrossAccountAttachmentsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListCrossAccountAttachmentsOutput, ListCrossAccountAttachmentsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListCrossAccountAttachmentsOutput, ListCrossAccountAttachmentsOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// List the accounts that have cross-account endpoints.
+    ///
+    /// - Parameter ListCrossAccountResourceAccountsInput : [no documentation found]
+    ///
+    /// - Returns: `ListCrossAccountResourceAccountsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have access permission.
+    /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
+    public func listCrossAccountResourceAccounts(input: ListCrossAccountResourceAccountsInput) async throws -> ListCrossAccountResourceAccountsOutput
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listCrossAccountResourceAccounts")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "globalaccelerator")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<ListCrossAccountResourceAccountsInput, ListCrossAccountResourceAccountsOutput, ListCrossAccountResourceAccountsOutputError>(id: "listCrossAccountResourceAccounts")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListCrossAccountResourceAccountsInput, ListCrossAccountResourceAccountsOutput, ListCrossAccountResourceAccountsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListCrossAccountResourceAccountsInput, ListCrossAccountResourceAccountsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListCrossAccountResourceAccountsOutput, ListCrossAccountResourceAccountsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListCrossAccountResourceAccountsInput, ListCrossAccountResourceAccountsOutput>(xAmzTarget: "GlobalAccelerator_V20180706.ListCrossAccountResourceAccounts"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListCrossAccountResourceAccountsInput, ListCrossAccountResourceAccountsOutput>(xmlName: "ListCrossAccountResourceAccountsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListCrossAccountResourceAccountsInput, ListCrossAccountResourceAccountsOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListCrossAccountResourceAccountsOutput, ListCrossAccountResourceAccountsOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListCrossAccountResourceAccountsOutput, ListCrossAccountResourceAccountsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListCrossAccountResourceAccountsOutput, ListCrossAccountResourceAccountsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListCrossAccountResourceAccountsOutput, ListCrossAccountResourceAccountsOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// List the cross-account endpoints available to add to an accelerator.
+    ///
+    /// - Parameter ListCrossAccountResourcesInput : [no documentation found]
+    ///
+    /// - Returns: `ListCrossAccountResourcesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AcceleratorNotFoundException` : The accelerator that you specified doesn't exist.
+    /// - `AccessDeniedException` : You don't have access permission.
+    /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
+    /// - `InvalidArgumentException` : An argument that you specified is invalid.
+    /// - `InvalidNextTokenException` : There isn't another item to return.
+    public func listCrossAccountResources(input: ListCrossAccountResourcesInput) async throws -> ListCrossAccountResourcesOutput
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listCrossAccountResources")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "globalaccelerator")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<ListCrossAccountResourcesInput, ListCrossAccountResourcesOutput, ListCrossAccountResourcesOutputError>(id: "listCrossAccountResources")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListCrossAccountResourcesInput, ListCrossAccountResourcesOutput, ListCrossAccountResourcesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListCrossAccountResourcesInput, ListCrossAccountResourcesOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListCrossAccountResourcesOutput, ListCrossAccountResourcesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListCrossAccountResourcesInput, ListCrossAccountResourcesOutput>(xAmzTarget: "GlobalAccelerator_V20180706.ListCrossAccountResources"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListCrossAccountResourcesInput, ListCrossAccountResourcesOutput>(xmlName: "ListCrossAccountResourcesRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListCrossAccountResourcesInput, ListCrossAccountResourcesOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListCrossAccountResourcesOutput, ListCrossAccountResourcesOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListCrossAccountResourcesOutput, ListCrossAccountResourcesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListCrossAccountResourcesOutput, ListCrossAccountResourcesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListCrossAccountResourcesOutput, ListCrossAccountResourcesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2202,6 +2457,63 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateAcceleratorAttributesOutput, UpdateAcceleratorAttributesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateAcceleratorAttributesOutput, UpdateAcceleratorAttributesOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateAcceleratorAttributesOutput, UpdateAcceleratorAttributesOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Update a cross-account attachment to add or remove principals or resources. When you update an attachment to remove a principal (account ID or accelerator) or a resource, Global Accelerator revokes the permission for specific resources by doing the following:
+    ///
+    /// * If the principal is an account ID, Global Accelerator reviews every accelerator in the account and removes cross-account endpoints from all accelerators.
+    ///
+    /// * If the principal is an accelerator, Global Accelerator reviews just that accelerator and removes cross-account endpoints from it.
+    ///
+    ///
+    /// If there are overlapping permissions provided by multiple cross-account attachments, Global Accelerator only removes endpoints if there are no current cross-account attachments that provide access permission. For example, if you delete a cross-account attachment that lists an accelerator as a principal, but another cross-account attachment includes the account ID that owns that accelerator, endpoints will not be removed from the accelerator.
+    ///
+    /// - Parameter UpdateCrossAccountAttachmentInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateCrossAccountAttachmentOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have access permission.
+    /// - `AttachmentNotFoundException` : No cross-account attachment was found.
+    /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
+    /// - `InvalidArgumentException` : An argument that you specified is invalid.
+    /// - `LimitExceededException` : Processing your request would cause you to exceed an Global Accelerator limit.
+    /// - `TransactionInProgressException` : There's already a transaction in progress. Another transaction can't be processed.
+    public func updateCrossAccountAttachment(input: UpdateCrossAccountAttachmentInput) async throws -> UpdateCrossAccountAttachmentOutput
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateCrossAccountAttachment")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "globalaccelerator")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<UpdateCrossAccountAttachmentInput, UpdateCrossAccountAttachmentOutput, UpdateCrossAccountAttachmentOutputError>(id: "updateCrossAccountAttachment")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateCrossAccountAttachmentInput, UpdateCrossAccountAttachmentOutput, UpdateCrossAccountAttachmentOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateCrossAccountAttachmentInput, UpdateCrossAccountAttachmentOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateCrossAccountAttachmentOutput, UpdateCrossAccountAttachmentOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateCrossAccountAttachmentInput, UpdateCrossAccountAttachmentOutput>(xAmzTarget: "GlobalAccelerator_V20180706.UpdateCrossAccountAttachment"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateCrossAccountAttachmentInput, UpdateCrossAccountAttachmentOutput>(xmlName: "UpdateCrossAccountAttachmentRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateCrossAccountAttachmentInput, UpdateCrossAccountAttachmentOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateCrossAccountAttachmentOutput, UpdateCrossAccountAttachmentOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateCrossAccountAttachmentOutput, UpdateCrossAccountAttachmentOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateCrossAccountAttachmentOutput, UpdateCrossAccountAttachmentOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateCrossAccountAttachmentOutput, UpdateCrossAccountAttachmentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

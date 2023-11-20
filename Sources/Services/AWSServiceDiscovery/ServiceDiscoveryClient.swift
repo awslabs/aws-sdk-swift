@@ -98,14 +98,7 @@ extension ServiceDiscoveryClient: ServiceDiscoveryClientProtocol {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<CreateHttpNamespaceInput, CreateHttpNamespaceOutput, CreateHttpNamespaceOutputError>(id: "createHttpNamespace")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateHttpNamespaceOutput> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.creatorRequestId == nil {
-                copiedInput.creatorRequestId = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateHttpNamespaceInput, CreateHttpNamespaceOutput, CreateHttpNamespaceOutputError>(keyPath: \.creatorRequestId))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateHttpNamespaceInput, CreateHttpNamespaceOutput, CreateHttpNamespaceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateHttpNamespaceInput, CreateHttpNamespaceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
@@ -155,14 +148,7 @@ extension ServiceDiscoveryClient: ServiceDiscoveryClientProtocol {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<CreatePrivateDnsNamespaceInput, CreatePrivateDnsNamespaceOutput, CreatePrivateDnsNamespaceOutputError>(id: "createPrivateDnsNamespace")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreatePrivateDnsNamespaceOutput> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.creatorRequestId == nil {
-                copiedInput.creatorRequestId = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreatePrivateDnsNamespaceInput, CreatePrivateDnsNamespaceOutput, CreatePrivateDnsNamespaceOutputError>(keyPath: \.creatorRequestId))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreatePrivateDnsNamespaceInput, CreatePrivateDnsNamespaceOutput, CreatePrivateDnsNamespaceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreatePrivateDnsNamespaceInput, CreatePrivateDnsNamespaceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
@@ -212,14 +198,7 @@ extension ServiceDiscoveryClient: ServiceDiscoveryClientProtocol {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<CreatePublicDnsNamespaceInput, CreatePublicDnsNamespaceOutput, CreatePublicDnsNamespaceOutputError>(id: "createPublicDnsNamespace")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreatePublicDnsNamespaceOutput> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.creatorRequestId == nil {
-                copiedInput.creatorRequestId = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreatePublicDnsNamespaceInput, CreatePublicDnsNamespaceOutput, CreatePublicDnsNamespaceOutputError>(keyPath: \.creatorRequestId))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreatePublicDnsNamespaceInput, CreatePublicDnsNamespaceOutput, CreatePublicDnsNamespaceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreatePublicDnsNamespaceInput, CreatePublicDnsNamespaceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
@@ -289,14 +268,7 @@ extension ServiceDiscoveryClient: ServiceDiscoveryClientProtocol {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<CreateServiceInput, CreateServiceOutput, CreateServiceOutputError>(id: "createService")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateServiceOutput> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.creatorRequestId == nil {
-                copiedInput.creatorRequestId = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateServiceInput, CreateServiceOutput, CreateServiceOutputError>(keyPath: \.creatorRequestId))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateServiceInput, CreateServiceOutput, CreateServiceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateServiceInput, CreateServiceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
@@ -1063,14 +1035,7 @@ extension ServiceDiscoveryClient: ServiceDiscoveryClientProtocol {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<RegisterInstanceInput, RegisterInstanceOutput, RegisterInstanceOutputError>(id: "registerInstance")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<RegisterInstanceOutput> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.creatorRequestId == nil {
-                copiedInput.creatorRequestId = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<RegisterInstanceInput, RegisterInstanceOutput, RegisterInstanceOutputError>(keyPath: \.creatorRequestId))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RegisterInstanceInput, RegisterInstanceOutput, RegisterInstanceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RegisterInstanceInput, RegisterInstanceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
@@ -1212,14 +1177,7 @@ extension ServiceDiscoveryClient: ServiceDiscoveryClientProtocol {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<UpdateHttpNamespaceInput, UpdateHttpNamespaceOutput, UpdateHttpNamespaceOutputError>(id: "updateHttpNamespace")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<UpdateHttpNamespaceOutput> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.updaterRequestId == nil {
-                copiedInput.updaterRequestId = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<UpdateHttpNamespaceInput, UpdateHttpNamespaceOutput, UpdateHttpNamespaceOutputError>(keyPath: \.updaterRequestId))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateHttpNamespaceInput, UpdateHttpNamespaceOutput, UpdateHttpNamespaceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateHttpNamespaceInput, UpdateHttpNamespaceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
@@ -1316,14 +1274,7 @@ extension ServiceDiscoveryClient: ServiceDiscoveryClientProtocol {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<UpdatePrivateDnsNamespaceInput, UpdatePrivateDnsNamespaceOutput, UpdatePrivateDnsNamespaceOutputError>(id: "updatePrivateDnsNamespace")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<UpdatePrivateDnsNamespaceOutput> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.updaterRequestId == nil {
-                copiedInput.updaterRequestId = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<UpdatePrivateDnsNamespaceInput, UpdatePrivateDnsNamespaceOutput, UpdatePrivateDnsNamespaceOutputError>(keyPath: \.updaterRequestId))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdatePrivateDnsNamespaceInput, UpdatePrivateDnsNamespaceOutput, UpdatePrivateDnsNamespaceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdatePrivateDnsNamespaceInput, UpdatePrivateDnsNamespaceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
@@ -1372,14 +1323,7 @@ extension ServiceDiscoveryClient: ServiceDiscoveryClientProtocol {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<UpdatePublicDnsNamespaceInput, UpdatePublicDnsNamespaceOutput, UpdatePublicDnsNamespaceOutputError>(id: "updatePublicDnsNamespace")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<UpdatePublicDnsNamespaceOutput> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.updaterRequestId == nil {
-                copiedInput.updaterRequestId = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<UpdatePublicDnsNamespaceInput, UpdatePublicDnsNamespaceOutput, UpdatePublicDnsNamespaceOutputError>(keyPath: \.updaterRequestId))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdatePublicDnsNamespaceInput, UpdatePublicDnsNamespaceOutput, UpdatePublicDnsNamespaceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdatePublicDnsNamespaceInput, UpdatePublicDnsNamespaceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)

@@ -516,6 +516,7 @@ enum AddPartnerOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ClusterNotFound": return try await ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "PartnerNotFound": return try await PartnerNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "UnauthorizedPartnerIntegration": return try await UnauthorizedPartnerIntegrationFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "UnsupportedOperation": return try await UnsupportedOperationFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
@@ -2999,6 +3000,7 @@ extension RedshiftClientTypes.Cluster: Swift.Codable {
         case expectedNextSnapshotScheduleTimeStatus = "ExpectedNextSnapshotScheduleTimeStatus"
         case hsmStatus = "HsmStatus"
         case iamRoles = "IamRoles"
+        case ipAddressType = "IpAddressType"
         case kmsKeyId = "KmsKeyId"
         case maintenanceTrackName = "MaintenanceTrackName"
         case manualSnapshotRetentionPeriod = "ManualSnapshotRetentionPeriod"
@@ -3006,6 +3008,8 @@ extension RedshiftClientTypes.Cluster: Swift.Codable {
         case masterPasswordSecretKmsKeyId = "MasterPasswordSecretKmsKeyId"
         case masterUsername = "MasterUsername"
         case modifyStatus = "ModifyStatus"
+        case multiAZ = "MultiAZ"
+        case multiAZSecondary = "MultiAZSecondary"
         case nextMaintenanceWindowStartTime = "NextMaintenanceWindowStartTime"
         case nodeType = "NodeType"
         case numberOfNodes = "NumberOfNodes"
@@ -3173,6 +3177,9 @@ extension RedshiftClientTypes.Cluster: Swift.Codable {
                 try iamRolesContainer.encode("", forKey: ClientRuntime.Key(""))
             }
         }
+        if let ipAddressType = ipAddressType {
+            try container.encode(ipAddressType, forKey: ClientRuntime.Key("IpAddressType"))
+        }
         if let kmsKeyId = kmsKeyId {
             try container.encode(kmsKeyId, forKey: ClientRuntime.Key("KmsKeyId"))
         }
@@ -3193,6 +3200,12 @@ extension RedshiftClientTypes.Cluster: Swift.Codable {
         }
         if let modifyStatus = modifyStatus {
             try container.encode(modifyStatus, forKey: ClientRuntime.Key("ModifyStatus"))
+        }
+        if let multiAZ = multiAZ {
+            try container.encode(multiAZ, forKey: ClientRuntime.Key("MultiAZ"))
+        }
+        if let multiAZSecondary = multiAZSecondary {
+            try container.encode(multiAZSecondary, forKey: ClientRuntime.Key("MultiAZSecondary"))
         }
         if let nextMaintenanceWindowStartTime = nextMaintenanceWindowStartTime {
             try container.encodeTimestamp(nextMaintenanceWindowStartTime, format: .dateTime, forKey: ClientRuntime.Key("NextMaintenanceWindowStartTime"))
@@ -3523,6 +3536,12 @@ extension RedshiftClientTypes.Cluster: Swift.Codable {
         masterPasswordSecretArn = masterPasswordSecretArnDecoded
         let masterPasswordSecretKmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .masterPasswordSecretKmsKeyId)
         masterPasswordSecretKmsKeyId = masterPasswordSecretKmsKeyIdDecoded
+        let ipAddressTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ipAddressType)
+        ipAddressType = ipAddressTypeDecoded
+        let multiAZDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .multiAZ)
+        multiAZ = multiAZDecoded
+        let multiAZSecondaryDecoded = try containerValues.decodeIfPresent(RedshiftClientTypes.SecondaryClusterInfo.self, forKey: .multiAZSecondary)
+        multiAZSecondary = multiAZSecondaryDecoded
     }
 }
 
@@ -3651,6 +3670,8 @@ extension RedshiftClientTypes {
         public var hsmStatus: RedshiftClientTypes.HsmStatus?
         /// A list of Identity and Access Management (IAM) roles that can be used by the cluster to access other Amazon Web Services services.
         public var iamRoles: [RedshiftClientTypes.ClusterIamRole]?
+        /// The IP address type for the cluster. Possible values are ipv4 and dualstack.
+        public var ipAddressType: Swift.String?
         /// The Key Management Service (KMS) key ID of the encryption key used to encrypt data in the cluster.
         public var kmsKeyId: Swift.String?
         /// The name of the maintenance track for the cluster.
@@ -3665,6 +3686,10 @@ extension RedshiftClientTypes {
         public var masterUsername: Swift.String?
         /// The status of a modify operation, if any, initiated for the cluster.
         public var modifyStatus: Swift.String?
+        /// A boolean value that, if true, indicates that the cluster is deployed in two Availability Zones.
+        public var multiAZ: Swift.String?
+        /// The secondary compute unit of a cluster, if Multi-AZ deployment is turned on.
+        public var multiAZSecondary: RedshiftClientTypes.SecondaryClusterInfo?
         /// The date and time in UTC when system maintenance can begin.
         public var nextMaintenanceWindowStartTime: ClientRuntime.Date?
         /// The node type for the nodes in the cluster.
@@ -3737,6 +3762,7 @@ extension RedshiftClientTypes {
             expectedNextSnapshotScheduleTimeStatus: Swift.String? = nil,
             hsmStatus: RedshiftClientTypes.HsmStatus? = nil,
             iamRoles: [RedshiftClientTypes.ClusterIamRole]? = nil,
+            ipAddressType: Swift.String? = nil,
             kmsKeyId: Swift.String? = nil,
             maintenanceTrackName: Swift.String? = nil,
             manualSnapshotRetentionPeriod: Swift.Int? = nil,
@@ -3744,6 +3770,8 @@ extension RedshiftClientTypes {
             masterPasswordSecretKmsKeyId: Swift.String? = nil,
             masterUsername: Swift.String? = nil,
             modifyStatus: Swift.String? = nil,
+            multiAZ: Swift.String? = nil,
+            multiAZSecondary: RedshiftClientTypes.SecondaryClusterInfo? = nil,
             nextMaintenanceWindowStartTime: ClientRuntime.Date? = nil,
             nodeType: Swift.String? = nil,
             numberOfNodes: Swift.Int? = nil,
@@ -3796,6 +3824,7 @@ extension RedshiftClientTypes {
             self.expectedNextSnapshotScheduleTimeStatus = expectedNextSnapshotScheduleTimeStatus
             self.hsmStatus = hsmStatus
             self.iamRoles = iamRoles
+            self.ipAddressType = ipAddressType
             self.kmsKeyId = kmsKeyId
             self.maintenanceTrackName = maintenanceTrackName
             self.manualSnapshotRetentionPeriod = manualSnapshotRetentionPeriod
@@ -3803,6 +3832,8 @@ extension RedshiftClientTypes {
             self.masterPasswordSecretKmsKeyId = masterPasswordSecretKmsKeyId
             self.masterUsername = masterUsername
             self.modifyStatus = modifyStatus
+            self.multiAZ = multiAZ
+            self.multiAZSecondary = multiAZSecondary
             self.nextMaintenanceWindowStartTime = nextMaintenanceWindowStartTime
             self.nodeType = nodeType
             self.numberOfNodes = numberOfNodes
@@ -5278,6 +5309,7 @@ extension RedshiftClientTypes.ClusterSubnetGroup: Swift.Codable {
         case description = "Description"
         case subnetGroupStatus = "SubnetGroupStatus"
         case subnets = "Subnets"
+        case supportedClusterIpAddressTypes = "SupportedClusterIpAddressTypes"
         case tags = "Tags"
         case vpcId = "VpcId"
     }
@@ -5303,6 +5335,18 @@ extension RedshiftClientTypes.ClusterSubnetGroup: Swift.Codable {
             else {
                 var subnetsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Subnets"))
                 try subnetsContainer.encode("", forKey: ClientRuntime.Key(""))
+            }
+        }
+        if let supportedClusterIpAddressTypes = supportedClusterIpAddressTypes {
+            if !supportedClusterIpAddressTypes.isEmpty {
+                var supportedClusterIpAddressTypesContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("SupportedClusterIpAddressTypes"))
+                for (index0, string0) in supportedClusterIpAddressTypes.enumerated() {
+                    try supportedClusterIpAddressTypesContainer.encode(string0, forKey: ClientRuntime.Key("item.\(index0.advanced(by: 1))"))
+                }
+            }
+            else {
+                var supportedClusterIpAddressTypesContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("SupportedClusterIpAddressTypes"))
+                try supportedClusterIpAddressTypesContainer.encode("", forKey: ClientRuntime.Key(""))
             }
         }
         if let tags = tags {
@@ -5370,6 +5414,25 @@ extension RedshiftClientTypes.ClusterSubnetGroup: Swift.Codable {
         } else {
             tags = nil
         }
+        if containerValues.contains(.supportedClusterIpAddressTypes) {
+            struct KeyVal0{struct item{}}
+            let supportedClusterIpAddressTypesWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.item>.CodingKeys.self, forKey: .supportedClusterIpAddressTypes)
+            if let supportedClusterIpAddressTypesWrappedContainer = supportedClusterIpAddressTypesWrappedContainer {
+                let supportedClusterIpAddressTypesContainer = try supportedClusterIpAddressTypesWrappedContainer.decodeIfPresent([Swift.String].self, forKey: .member)
+                var supportedClusterIpAddressTypesBuffer:[Swift.String]? = nil
+                if let supportedClusterIpAddressTypesContainer = supportedClusterIpAddressTypesContainer {
+                    supportedClusterIpAddressTypesBuffer = [Swift.String]()
+                    for stringContainer0 in supportedClusterIpAddressTypesContainer {
+                        supportedClusterIpAddressTypesBuffer?.append(stringContainer0)
+                    }
+                }
+                supportedClusterIpAddressTypes = supportedClusterIpAddressTypesBuffer
+            } else {
+                supportedClusterIpAddressTypes = []
+            }
+        } else {
+            supportedClusterIpAddressTypes = nil
+        }
     }
 }
 
@@ -5384,6 +5447,8 @@ extension RedshiftClientTypes {
         public var subnetGroupStatus: Swift.String?
         /// A list of the VPC [Subnet] elements.
         public var subnets: [RedshiftClientTypes.Subnet]?
+        /// The IP address types supported by this cluster subnet group. Possible values are ipv4 and dualstack.
+        public var supportedClusterIpAddressTypes: [Swift.String]?
         /// The list of tags for the cluster subnet group.
         public var tags: [RedshiftClientTypes.Tag]?
         /// The VPC ID of the cluster subnet group.
@@ -5394,6 +5459,7 @@ extension RedshiftClientTypes {
             description: Swift.String? = nil,
             subnetGroupStatus: Swift.String? = nil,
             subnets: [RedshiftClientTypes.Subnet]? = nil,
+            supportedClusterIpAddressTypes: [Swift.String]? = nil,
             tags: [RedshiftClientTypes.Tag]? = nil,
             vpcId: Swift.String? = nil
         )
@@ -5402,6 +5468,7 @@ extension RedshiftClientTypes {
             self.description = description
             self.subnetGroupStatus = subnetGroupStatus
             self.subnets = subnets
+            self.supportedClusterIpAddressTypes = supportedClusterIpAddressTypes
             self.tags = tags
             self.vpcId = vpcId
         }
@@ -5680,6 +5747,60 @@ extension RedshiftClientTypes {
 
 }
 
+extension ConflictPolicyUpdateFault {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: AWSClientRuntime.ErrorResponseContainer<ConflictPolicyUpdateFaultBody> = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.error.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// There is a conflict while updating the resource policy.
+public struct ConflictPolicyUpdateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConflictPolicyUpdateFault" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct ConflictPolicyUpdateFaultBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension ConflictPolicyUpdateFaultBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
 extension CopyClusterSnapshotInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
@@ -5820,6 +5941,7 @@ enum CopyClusterSnapshotOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
+            case "ClusterNotFound": return try await ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "ClusterSnapshotAlreadyExists": return try await ClusterSnapshotAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "ClusterSnapshotNotFound": return try await ClusterSnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "ClusterSnapshotQuotaExceeded": return try await ClusterSnapshotQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -6007,7 +6129,7 @@ enum CreateAuthenticationProfileOutputError: ClientRuntime.HttpResponseErrorBind
 
 extension CreateClusterInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateClusterInput(additionalInfo: \(Swift.String(describing: additionalInfo)), allowVersionUpgrade: \(Swift.String(describing: allowVersionUpgrade)), aquaConfigurationStatus: \(Swift.String(describing: aquaConfigurationStatus)), automatedSnapshotRetentionPeriod: \(Swift.String(describing: automatedSnapshotRetentionPeriod)), availabilityZone: \(Swift.String(describing: availabilityZone)), availabilityZoneRelocation: \(Swift.String(describing: availabilityZoneRelocation)), clusterIdentifier: \(Swift.String(describing: clusterIdentifier)), clusterParameterGroupName: \(Swift.String(describing: clusterParameterGroupName)), clusterSecurityGroups: \(Swift.String(describing: clusterSecurityGroups)), clusterSubnetGroupName: \(Swift.String(describing: clusterSubnetGroupName)), clusterType: \(Swift.String(describing: clusterType)), clusterVersion: \(Swift.String(describing: clusterVersion)), dbName: \(Swift.String(describing: dbName)), defaultIamRoleArn: \(Swift.String(describing: defaultIamRoleArn)), elasticIp: \(Swift.String(describing: elasticIp)), encrypted: \(Swift.String(describing: encrypted)), enhancedVpcRouting: \(Swift.String(describing: enhancedVpcRouting)), hsmClientCertificateIdentifier: \(Swift.String(describing: hsmClientCertificateIdentifier)), hsmConfigurationIdentifier: \(Swift.String(describing: hsmConfigurationIdentifier)), iamRoles: \(Swift.String(describing: iamRoles)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), loadSampleData: \(Swift.String(describing: loadSampleData)), maintenanceTrackName: \(Swift.String(describing: maintenanceTrackName)), manageMasterPassword: \(Swift.String(describing: manageMasterPassword)), manualSnapshotRetentionPeriod: \(Swift.String(describing: manualSnapshotRetentionPeriod)), masterPasswordSecretKmsKeyId: \(Swift.String(describing: masterPasswordSecretKmsKeyId)), masterUsername: \(Swift.String(describing: masterUsername)), nodeType: \(Swift.String(describing: nodeType)), numberOfNodes: \(Swift.String(describing: numberOfNodes)), port: \(Swift.String(describing: port)), preferredMaintenanceWindow: \(Swift.String(describing: preferredMaintenanceWindow)), publiclyAccessible: \(Swift.String(describing: publiclyAccessible)), snapshotScheduleIdentifier: \(Swift.String(describing: snapshotScheduleIdentifier)), tags: \(Swift.String(describing: tags)), vpcSecurityGroupIds: \(Swift.String(describing: vpcSecurityGroupIds)), masterUserPassword: \"CONTENT_REDACTED\")"}
+        "CreateClusterInput(additionalInfo: \(Swift.String(describing: additionalInfo)), allowVersionUpgrade: \(Swift.String(describing: allowVersionUpgrade)), aquaConfigurationStatus: \(Swift.String(describing: aquaConfigurationStatus)), automatedSnapshotRetentionPeriod: \(Swift.String(describing: automatedSnapshotRetentionPeriod)), availabilityZone: \(Swift.String(describing: availabilityZone)), availabilityZoneRelocation: \(Swift.String(describing: availabilityZoneRelocation)), clusterIdentifier: \(Swift.String(describing: clusterIdentifier)), clusterParameterGroupName: \(Swift.String(describing: clusterParameterGroupName)), clusterSecurityGroups: \(Swift.String(describing: clusterSecurityGroups)), clusterSubnetGroupName: \(Swift.String(describing: clusterSubnetGroupName)), clusterType: \(Swift.String(describing: clusterType)), clusterVersion: \(Swift.String(describing: clusterVersion)), dbName: \(Swift.String(describing: dbName)), defaultIamRoleArn: \(Swift.String(describing: defaultIamRoleArn)), elasticIp: \(Swift.String(describing: elasticIp)), encrypted: \(Swift.String(describing: encrypted)), enhancedVpcRouting: \(Swift.String(describing: enhancedVpcRouting)), hsmClientCertificateIdentifier: \(Swift.String(describing: hsmClientCertificateIdentifier)), hsmConfigurationIdentifier: \(Swift.String(describing: hsmConfigurationIdentifier)), iamRoles: \(Swift.String(describing: iamRoles)), ipAddressType: \(Swift.String(describing: ipAddressType)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), loadSampleData: \(Swift.String(describing: loadSampleData)), maintenanceTrackName: \(Swift.String(describing: maintenanceTrackName)), manageMasterPassword: \(Swift.String(describing: manageMasterPassword)), manualSnapshotRetentionPeriod: \(Swift.String(describing: manualSnapshotRetentionPeriod)), masterPasswordSecretKmsKeyId: \(Swift.String(describing: masterPasswordSecretKmsKeyId)), masterUsername: \(Swift.String(describing: masterUsername)), multiAZ: \(Swift.String(describing: multiAZ)), nodeType: \(Swift.String(describing: nodeType)), numberOfNodes: \(Swift.String(describing: numberOfNodes)), port: \(Swift.String(describing: port)), preferredMaintenanceWindow: \(Swift.String(describing: preferredMaintenanceWindow)), publiclyAccessible: \(Swift.String(describing: publiclyAccessible)), snapshotScheduleIdentifier: \(Swift.String(describing: snapshotScheduleIdentifier)), tags: \(Swift.String(describing: tags)), vpcSecurityGroupIds: \(Swift.String(describing: vpcSecurityGroupIds)), masterUserPassword: \"CONTENT_REDACTED\")"}
 }
 
 extension CreateClusterInput: Swift.Encodable {
@@ -6091,6 +6213,9 @@ extension CreateClusterInput: Swift.Encodable {
                 try iamRolesContainer.encode("", forKey: ClientRuntime.Key(""))
             }
         }
+        if let ipAddressType = ipAddressType {
+            try container.encode(ipAddressType, forKey: ClientRuntime.Key("IpAddressType"))
+        }
         if let kmsKeyId = kmsKeyId {
             try container.encode(kmsKeyId, forKey: ClientRuntime.Key("KmsKeyId"))
         }
@@ -6114,6 +6239,9 @@ extension CreateClusterInput: Swift.Encodable {
         }
         if let masterUsername = masterUsername {
             try container.encode(masterUsername, forKey: ClientRuntime.Key("MasterUsername"))
+        }
+        if let multiAZ = multiAZ {
+            try container.encode(multiAZ, forKey: ClientRuntime.Key("MultiAZ"))
         }
         if let nodeType = nodeType {
             try container.encode(nodeType, forKey: ClientRuntime.Key("NodeType"))
@@ -6243,6 +6371,8 @@ public struct CreateClusterInput: Swift.Equatable {
     public var hsmConfigurationIdentifier: Swift.String?
     /// A list of Identity and Access Management (IAM) roles that can be used by the cluster to access other Amazon Web Services services. You must supply the IAM roles in their Amazon Resource Name (ARN) format. The maximum number of IAM roles that you can associate is subject to a quota. For more information, go to [Quotas and limits](https://docs.aws.amazon.com/redshift/latest/mgmt/amazon-redshift-limits.html) in the Amazon Redshift Cluster Management Guide.
     public var iamRoles: [Swift.String]?
+    /// The IP address types that the cluster supports. Possible values are ipv4 and dualstack.
+    public var ipAddressType: Swift.String?
     /// The Key Management Service (KMS) key ID of the encryption key that you want to use to encrypt data in the cluster.
     public var kmsKeyId: Swift.String?
     /// A flag that specifies whether to load sample data once the cluster is created.
@@ -6280,6 +6410,8 @@ public struct CreateClusterInput: Swift.Equatable {
     /// * Cannot be a reserved word. A list of reserved words can be found in [Reserved Words](https://docs.aws.amazon.com/redshift/latest/dg/r_pg_keywords.html) in the Amazon Redshift Database Developer Guide.
     /// This member is required.
     public var masterUsername: Swift.String?
+    /// If true, Amazon Redshift will deploy the cluster in two Availability Zones (AZ).
+    public var multiAZ: Swift.Bool?
     /// The node type to be provisioned for the cluster. For information about node types, go to [ Working with Clusters](https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html#how-many-nodes) in the Amazon Redshift Cluster Management Guide. Valid Values: ds2.xlarge | ds2.8xlarge | dc1.large | dc1.8xlarge | dc2.large | dc2.8xlarge | ra3.xlplus | ra3.4xlarge | ra3.16xlarge
     /// This member is required.
     public var nodeType: Swift.String?
@@ -6319,6 +6451,7 @@ public struct CreateClusterInput: Swift.Equatable {
         hsmClientCertificateIdentifier: Swift.String? = nil,
         hsmConfigurationIdentifier: Swift.String? = nil,
         iamRoles: [Swift.String]? = nil,
+        ipAddressType: Swift.String? = nil,
         kmsKeyId: Swift.String? = nil,
         loadSampleData: Swift.String? = nil,
         maintenanceTrackName: Swift.String? = nil,
@@ -6327,6 +6460,7 @@ public struct CreateClusterInput: Swift.Equatable {
         masterPasswordSecretKmsKeyId: Swift.String? = nil,
         masterUserPassword: Swift.String? = nil,
         masterUsername: Swift.String? = nil,
+        multiAZ: Swift.Bool? = nil,
         nodeType: Swift.String? = nil,
         numberOfNodes: Swift.Int? = nil,
         port: Swift.Int? = nil,
@@ -6357,6 +6491,7 @@ public struct CreateClusterInput: Swift.Equatable {
         self.hsmClientCertificateIdentifier = hsmClientCertificateIdentifier
         self.hsmConfigurationIdentifier = hsmConfigurationIdentifier
         self.iamRoles = iamRoles
+        self.ipAddressType = ipAddressType
         self.kmsKeyId = kmsKeyId
         self.loadSampleData = loadSampleData
         self.maintenanceTrackName = maintenanceTrackName
@@ -6365,6 +6500,7 @@ public struct CreateClusterInput: Swift.Equatable {
         self.masterPasswordSecretKmsKeyId = masterPasswordSecretKmsKeyId
         self.masterUserPassword = masterUserPassword
         self.masterUsername = masterUsername
+        self.multiAZ = multiAZ
         self.nodeType = nodeType
         self.numberOfNodes = numberOfNodes
         self.port = port
@@ -6413,6 +6549,8 @@ struct CreateClusterInputBody: Swift.Equatable {
     let loadSampleData: Swift.String?
     let manageMasterPassword: Swift.Bool?
     let masterPasswordSecretKmsKeyId: Swift.String?
+    let ipAddressType: Swift.String?
+    let multiAZ: Swift.Bool?
 }
 
 extension CreateClusterInputBody: Swift.Decodable {
@@ -6437,6 +6575,7 @@ extension CreateClusterInputBody: Swift.Decodable {
         case hsmClientCertificateIdentifier = "HsmClientCertificateIdentifier"
         case hsmConfigurationIdentifier = "HsmConfigurationIdentifier"
         case iamRoles = "IamRoles"
+        case ipAddressType = "IpAddressType"
         case kmsKeyId = "KmsKeyId"
         case loadSampleData = "LoadSampleData"
         case maintenanceTrackName = "MaintenanceTrackName"
@@ -6445,6 +6584,7 @@ extension CreateClusterInputBody: Swift.Decodable {
         case masterPasswordSecretKmsKeyId = "MasterPasswordSecretKmsKeyId"
         case masterUserPassword = "MasterUserPassword"
         case masterUsername = "MasterUsername"
+        case multiAZ = "MultiAZ"
         case nodeType = "NodeType"
         case numberOfNodes = "NumberOfNodes"
         case port = "Port"
@@ -6597,6 +6737,10 @@ extension CreateClusterInputBody: Swift.Decodable {
         manageMasterPassword = manageMasterPasswordDecoded
         let masterPasswordSecretKmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .masterPasswordSecretKmsKeyId)
         masterPasswordSecretKmsKeyId = masterPasswordSecretKmsKeyIdDecoded
+        let ipAddressTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ipAddressType)
+        ipAddressType = ipAddressTypeDecoded
+        let multiAZDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .multiAZ)
+        multiAZ = multiAZDecoded
     }
 }
 
@@ -6661,12 +6805,14 @@ enum CreateClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "InvalidSubnet": return try await InvalidSubnet(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "InvalidTagFault": return try await InvalidTagFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "InvalidVPCNetworkStateFault": return try await InvalidVPCNetworkStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "Ipv6CidrBlockNotFoundFault": return try await Ipv6CidrBlockNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "LimitExceededFault": return try await LimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "NumberOfNodesPerClusterLimitExceeded": return try await NumberOfNodesPerClusterLimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "NumberOfNodesQuotaExceeded": return try await NumberOfNodesQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "SnapshotScheduleNotFound": return try await SnapshotScheduleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "TagLimitExceededFault": return try await TagLimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "UnauthorizedOperation": return try await UnauthorizedOperation(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "UnsupportedOperation": return try await UnsupportedOperationFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
@@ -8695,12 +8841,14 @@ enum CreateScheduledActionOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
+            case "ClusterNotFound": return try await ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "InvalidScheduledAction": return try await InvalidScheduledActionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "InvalidSchedule": return try await InvalidScheduleFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "ScheduledActionAlreadyExists": return try await ScheduledActionAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "ScheduledActionQuotaExceeded": return try await ScheduledActionQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "ScheduledActionTypeUnsupported": return try await ScheduledActionTypeUnsupportedFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "UnauthorizedOperation": return try await UnauthorizedOperation(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "UnsupportedOperation": return try await UnsupportedOperationFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
@@ -11624,6 +11772,74 @@ enum DeletePartnerOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ClusterNotFound": return try await ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "PartnerNotFound": return try await PartnerNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "UnauthorizedPartnerIntegration": return try await UnauthorizedPartnerIntegrationFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "UnsupportedOperation": return try await UnsupportedOperationFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
+extension DeleteResourcePolicyInput: Swift.Encodable {
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let resourceArn = resourceArn {
+            try container.encode(resourceArn, forKey: ClientRuntime.Key("ResourceArn"))
+        }
+        try container.encode("DeleteResourcePolicy", forKey:ClientRuntime.Key("Action"))
+        try container.encode("2012-12-01", forKey:ClientRuntime.Key("Version"))
+    }
+}
+
+extension DeleteResourcePolicyInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DeleteResourcePolicyInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the resource of which its resource policy is deleted.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+
+    public init(
+        resourceArn: Swift.String? = nil
+    )
+    {
+        self.resourceArn = resourceArn
+    }
+}
+
+struct DeleteResourcePolicyInputBody: Swift.Equatable {
+    let resourceArn: Swift.String?
+}
+
+extension DeleteResourcePolicyInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case resourceArn = "ResourceArn"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
+        resourceArn = resourceArnDecoded
+    }
+}
+
+extension DeleteResourcePolicyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteResourcePolicyOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteResourcePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ResourceNotFoundFault": return try await ResourceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "UnsupportedOperation": return try await UnsupportedOperationFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
@@ -16279,6 +16495,164 @@ enum DescribeHsmConfigurationsOutputError: ClientRuntime.HttpResponseErrorBindin
     }
 }
 
+extension DescribeInboundIntegrationsInput: Swift.Encodable {
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let integrationArn = integrationArn {
+            try container.encode(integrationArn, forKey: ClientRuntime.Key("IntegrationArn"))
+        }
+        if let marker = marker {
+            try container.encode(marker, forKey: ClientRuntime.Key("Marker"))
+        }
+        if let maxRecords = maxRecords {
+            try container.encode(maxRecords, forKey: ClientRuntime.Key("MaxRecords"))
+        }
+        if let targetArn = targetArn {
+            try container.encode(targetArn, forKey: ClientRuntime.Key("TargetArn"))
+        }
+        try container.encode("DescribeInboundIntegrations", forKey:ClientRuntime.Key("Action"))
+        try container.encode("2012-12-01", forKey:ClientRuntime.Key("Version"))
+    }
+}
+
+extension DescribeInboundIntegrationsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeInboundIntegrationsInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the inbound integration.
+    public var integrationArn: Swift.String?
+    /// An optional parameter that specifies the starting point to return a set of response records. When the results of a [DescribeInboundIntegrations] request exceed the value specified in MaxRecords, Amazon Web Services returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request.
+    public var marker: Swift.String?
+    /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value. Default: 100 Constraints: minimum 20, maximum 100.
+    public var maxRecords: Swift.Int?
+    /// The Amazon Resource Name (ARN) of the target of an inbound integration.
+    public var targetArn: Swift.String?
+
+    public init(
+        integrationArn: Swift.String? = nil,
+        marker: Swift.String? = nil,
+        maxRecords: Swift.Int? = nil,
+        targetArn: Swift.String? = nil
+    )
+    {
+        self.integrationArn = integrationArn
+        self.marker = marker
+        self.maxRecords = maxRecords
+        self.targetArn = targetArn
+    }
+}
+
+struct DescribeInboundIntegrationsInputBody: Swift.Equatable {
+    let integrationArn: Swift.String?
+    let targetArn: Swift.String?
+    let maxRecords: Swift.Int?
+    let marker: Swift.String?
+}
+
+extension DescribeInboundIntegrationsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case integrationArn = "IntegrationArn"
+        case marker = "Marker"
+        case maxRecords = "MaxRecords"
+        case targetArn = "TargetArn"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let integrationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .integrationArn)
+        integrationArn = integrationArnDecoded
+        let targetArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .targetArn)
+        targetArn = targetArnDecoded
+        let maxRecordsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxRecords)
+        maxRecords = maxRecordsDecoded
+        let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
+        marker = markerDecoded
+    }
+}
+
+extension DescribeInboundIntegrationsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeInboundIntegrationsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.inboundIntegrations = output.inboundIntegrations
+            self.marker = output.marker
+        } else {
+            self.inboundIntegrations = nil
+            self.marker = nil
+        }
+    }
+}
+
+public struct DescribeInboundIntegrationsOutput: Swift.Equatable {
+    /// A list of [InboundIntegration] instances.
+    public var inboundIntegrations: [RedshiftClientTypes.InboundIntegration]?
+    /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request.
+    public var marker: Swift.String?
+
+    public init(
+        inboundIntegrations: [RedshiftClientTypes.InboundIntegration]? = nil,
+        marker: Swift.String? = nil
+    )
+    {
+        self.inboundIntegrations = inboundIntegrations
+        self.marker = marker
+    }
+}
+
+struct DescribeInboundIntegrationsOutputBody: Swift.Equatable {
+    let marker: Swift.String?
+    let inboundIntegrations: [RedshiftClientTypes.InboundIntegration]?
+}
+
+extension DescribeInboundIntegrationsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case inboundIntegrations = "InboundIntegrations"
+        case marker = "Marker"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeInboundIntegrationsResult"))
+        let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
+        marker = markerDecoded
+        if containerValues.contains(.inboundIntegrations) {
+            struct KeyVal0{struct InboundIntegration{}}
+            let inboundIntegrationsWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.InboundIntegration>.CodingKeys.self, forKey: .inboundIntegrations)
+            if let inboundIntegrationsWrappedContainer = inboundIntegrationsWrappedContainer {
+                let inboundIntegrationsContainer = try inboundIntegrationsWrappedContainer.decodeIfPresent([RedshiftClientTypes.InboundIntegration].self, forKey: .member)
+                var inboundIntegrationsBuffer:[RedshiftClientTypes.InboundIntegration]? = nil
+                if let inboundIntegrationsContainer = inboundIntegrationsContainer {
+                    inboundIntegrationsBuffer = [RedshiftClientTypes.InboundIntegration]()
+                    for structureContainer0 in inboundIntegrationsContainer {
+                        inboundIntegrationsBuffer?.append(structureContainer0)
+                    }
+                }
+                inboundIntegrations = inboundIntegrationsBuffer
+            } else {
+                inboundIntegrations = []
+            }
+        } else {
+            inboundIntegrations = nil
+        }
+    }
+}
+
+enum DescribeInboundIntegrationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "IntegrationNotFoundFault": return try await IntegrationNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidNamespaceFault": return try await InvalidNamespaceFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "UnsupportedOperation": return try await UnsupportedOperationFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
 extension DescribeLoggingStatusInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
@@ -16460,6 +16834,7 @@ enum DescribeLoggingStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ClusterNotFound": return try await ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "UnsupportedOperation": return try await UnsupportedOperationFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
@@ -16997,6 +17372,7 @@ enum DescribePartnersOutputError: ClientRuntime.HttpResponseErrorBinding {
         switch restXMLError.errorCode {
             case "ClusterNotFound": return try await ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "UnauthorizedPartnerIntegration": return try await UnauthorizedPartnerIntegrationFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "UnsupportedOperation": return try await UnsupportedOperationFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
@@ -17753,6 +18129,7 @@ enum DescribeResizeOutputError: ClientRuntime.HttpResponseErrorBinding {
         switch restXMLError.errorCode {
             case "ClusterNotFound": return try await ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "ResizeNotFound": return try await ResizeNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "UnsupportedOperation": return try await UnsupportedOperationFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
@@ -19354,6 +19731,7 @@ enum DisableLoggingOutputError: ClientRuntime.HttpResponseErrorBinding {
         switch restXMLError.errorCode {
             case "ClusterNotFound": return try await ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "InvalidClusterState": return try await InvalidClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "UnsupportedOperation": return try await UnsupportedOperationFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
@@ -19455,6 +19833,7 @@ enum DisableSnapshotCopyOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "InvalidClusterState": return try await InvalidClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "SnapshotCopyAlreadyDisabledFault": return try await SnapshotCopyAlreadyDisabledFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "UnauthorizedOperation": return try await UnauthorizedOperation(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "UnsupportedOperation": return try await UnsupportedOperationFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
@@ -20058,6 +20437,7 @@ enum EnableLoggingOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "InvalidClusterState": return try await InvalidClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "InvalidS3BucketNameFault": return try await InvalidS3BucketNameFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "InvalidS3KeyPrefixFault": return try await InvalidS3KeyPrefixFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "UnsupportedOperation": return try await UnsupportedOperationFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
@@ -21521,6 +21901,106 @@ extension EventSubscriptionQuotaExceededFaultBody: Swift.Decodable {
     }
 }
 
+extension FailoverPrimaryComputeInput: Swift.Encodable {
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let clusterIdentifier = clusterIdentifier {
+            try container.encode(clusterIdentifier, forKey: ClientRuntime.Key("ClusterIdentifier"))
+        }
+        try container.encode("FailoverPrimaryCompute", forKey:ClientRuntime.Key("Action"))
+        try container.encode("2012-12-01", forKey:ClientRuntime.Key("Version"))
+    }
+}
+
+extension FailoverPrimaryComputeInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct FailoverPrimaryComputeInput: Swift.Equatable {
+    /// The unique identifier of the cluster for which the primary compute unit will be failed over to another Availability Zone.
+    /// This member is required.
+    public var clusterIdentifier: Swift.String?
+
+    public init(
+        clusterIdentifier: Swift.String? = nil
+    )
+    {
+        self.clusterIdentifier = clusterIdentifier
+    }
+}
+
+struct FailoverPrimaryComputeInputBody: Swift.Equatable {
+    let clusterIdentifier: Swift.String?
+}
+
+extension FailoverPrimaryComputeInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clusterIdentifier = "ClusterIdentifier"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let clusterIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clusterIdentifier)
+        clusterIdentifier = clusterIdentifierDecoded
+    }
+}
+
+extension FailoverPrimaryComputeOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: FailoverPrimaryComputeOutputBody = try responseDecoder.decode(responseBody: data)
+            self.cluster = output.cluster
+        } else {
+            self.cluster = nil
+        }
+    }
+}
+
+public struct FailoverPrimaryComputeOutput: Swift.Equatable {
+    /// Describes a cluster.
+    public var cluster: RedshiftClientTypes.Cluster?
+
+    public init(
+        cluster: RedshiftClientTypes.Cluster? = nil
+    )
+    {
+        self.cluster = cluster
+    }
+}
+
+struct FailoverPrimaryComputeOutputBody: Swift.Equatable {
+    let cluster: RedshiftClientTypes.Cluster?
+}
+
+extension FailoverPrimaryComputeOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case cluster = "Cluster"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("FailoverPrimaryComputeResult"))
+        let clusterDecoded = try containerValues.decodeIfPresent(RedshiftClientTypes.Cluster.self, forKey: .cluster)
+        cluster = clusterDecoded
+    }
+}
+
+enum FailoverPrimaryComputeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ClusterNotFound": return try await ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidClusterState": return try await InvalidClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "UnauthorizedOperation": return try await UnauthorizedOperation(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "UnsupportedOperation": return try await UnsupportedOperationFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
 extension GetClusterCredentialsInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
@@ -22260,6 +22740,105 @@ enum GetReservedNodeExchangeOfferingsOutputError: ClientRuntime.HttpResponseErro
     }
 }
 
+extension GetResourcePolicyInput: Swift.Encodable {
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let resourceArn = resourceArn {
+            try container.encode(resourceArn, forKey: ClientRuntime.Key("ResourceArn"))
+        }
+        try container.encode("GetResourcePolicy", forKey:ClientRuntime.Key("Action"))
+        try container.encode("2012-12-01", forKey:ClientRuntime.Key("Version"))
+    }
+}
+
+extension GetResourcePolicyInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct GetResourcePolicyInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the resource of which its resource policy is fetched.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+
+    public init(
+        resourceArn: Swift.String? = nil
+    )
+    {
+        self.resourceArn = resourceArn
+    }
+}
+
+struct GetResourcePolicyInputBody: Swift.Equatable {
+    let resourceArn: Swift.String?
+}
+
+extension GetResourcePolicyInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case resourceArn = "ResourceArn"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
+        resourceArn = resourceArnDecoded
+    }
+}
+
+extension GetResourcePolicyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetResourcePolicyOutputBody = try responseDecoder.decode(responseBody: data)
+            self.resourcePolicy = output.resourcePolicy
+        } else {
+            self.resourcePolicy = nil
+        }
+    }
+}
+
+public struct GetResourcePolicyOutput: Swift.Equatable {
+    /// The content of the resource policy.
+    public var resourcePolicy: RedshiftClientTypes.ResourcePolicy?
+
+    public init(
+        resourcePolicy: RedshiftClientTypes.ResourcePolicy? = nil
+    )
+    {
+        self.resourcePolicy = resourcePolicy
+    }
+}
+
+struct GetResourcePolicyOutputBody: Swift.Equatable {
+    let resourcePolicy: RedshiftClientTypes.ResourcePolicy?
+}
+
+extension GetResourcePolicyOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case resourcePolicy = "ResourcePolicy"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("GetResourcePolicyResult"))
+        let resourcePolicyDecoded = try containerValues.decodeIfPresent(RedshiftClientTypes.ResourcePolicy.self, forKey: .resourcePolicy)
+        resourcePolicy = resourcePolicyDecoded
+    }
+}
+
+enum GetResourcePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidPolicyFault": return try await InvalidPolicyFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ResourceNotFoundFault": return try await ResourceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "UnsupportedOperation": return try await UnsupportedOperationFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
 extension RedshiftClientTypes.HsmClientCertificate: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case hsmClientCertificateIdentifier = "HsmClientCertificateIdentifier"
@@ -22956,6 +23535,117 @@ extension InProgressTableRestoreQuotaExceededFaultBody: Swift.Decodable {
     }
 }
 
+extension RedshiftClientTypes.InboundIntegration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case createTime = "CreateTime"
+        case errors = "Errors"
+        case integrationArn = "IntegrationArn"
+        case sourceArn = "SourceArn"
+        case status = "Status"
+        case targetArn = "TargetArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let createTime = createTime {
+            try container.encodeTimestamp(createTime, format: .dateTime, forKey: ClientRuntime.Key("CreateTime"))
+        }
+        if let errors = errors {
+            if !errors.isEmpty {
+                var errorsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Errors"))
+                for (index0, integrationerror0) in errors.enumerated() {
+                    try errorsContainer.encode(integrationerror0, forKey: ClientRuntime.Key("IntegrationError.\(index0.advanced(by: 1))"))
+                }
+            }
+            else {
+                var errorsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Errors"))
+                try errorsContainer.encode("", forKey: ClientRuntime.Key(""))
+            }
+        }
+        if let integrationArn = integrationArn {
+            try container.encode(integrationArn, forKey: ClientRuntime.Key("IntegrationArn"))
+        }
+        if let sourceArn = sourceArn {
+            try container.encode(sourceArn, forKey: ClientRuntime.Key("SourceArn"))
+        }
+        if let status = status {
+            try container.encode(status, forKey: ClientRuntime.Key("Status"))
+        }
+        if let targetArn = targetArn {
+            try container.encode(targetArn, forKey: ClientRuntime.Key("TargetArn"))
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let integrationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .integrationArn)
+        integrationArn = integrationArnDecoded
+        let sourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceArn)
+        sourceArn = sourceArnDecoded
+        let targetArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .targetArn)
+        targetArn = targetArnDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(RedshiftClientTypes.ZeroETLIntegrationStatus.self, forKey: .status)
+        status = statusDecoded
+        if containerValues.contains(.errors) {
+            struct KeyVal0{struct IntegrationError{}}
+            let errorsWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.IntegrationError>.CodingKeys.self, forKey: .errors)
+            if let errorsWrappedContainer = errorsWrappedContainer {
+                let errorsContainer = try errorsWrappedContainer.decodeIfPresent([RedshiftClientTypes.IntegrationError].self, forKey: .member)
+                var errorsBuffer:[RedshiftClientTypes.IntegrationError]? = nil
+                if let errorsContainer = errorsContainer {
+                    errorsBuffer = [RedshiftClientTypes.IntegrationError]()
+                    for structureContainer0 in errorsContainer {
+                        errorsBuffer?.append(structureContainer0)
+                    }
+                }
+                errors = errorsBuffer
+            } else {
+                errors = []
+            }
+        } else {
+            errors = nil
+        }
+        let createTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .createTime)
+        createTime = createTimeDecoded
+    }
+}
+
+extension RedshiftClientTypes {
+    /// The content of an inbound integration.
+    public struct InboundIntegration: Swift.Equatable {
+        /// The creation time of an inbound integration.
+        public var createTime: ClientRuntime.Date?
+        /// The outstanding errors of an inbound integration. Each item is an "IntegrationError". This is null if there is no error.
+        public var errors: [RedshiftClientTypes.IntegrationError]?
+        /// The Amazon Resource Name (ARN) of an inbound integration.
+        public var integrationArn: Swift.String?
+        /// The Amazon Resource Name (ARN) of the source of an inbound integration.
+        public var sourceArn: Swift.String?
+        /// The status of an inbound integration.
+        public var status: RedshiftClientTypes.ZeroETLIntegrationStatus?
+        /// The Amazon Resource Name (ARN) of the target of an inbound integration.
+        public var targetArn: Swift.String?
+
+        public init(
+            createTime: ClientRuntime.Date? = nil,
+            errors: [RedshiftClientTypes.IntegrationError]? = nil,
+            integrationArn: Swift.String? = nil,
+            sourceArn: Swift.String? = nil,
+            status: RedshiftClientTypes.ZeroETLIntegrationStatus? = nil,
+            targetArn: Swift.String? = nil
+        )
+        {
+            self.createTime = createTime
+            self.errors = errors
+            self.integrationArn = integrationArn
+            self.sourceArn = sourceArn
+            self.status = status
+            self.targetArn = targetArn
+        }
+    }
+
+}
+
 extension IncompatibleOrderableOptions {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
@@ -23107,6 +23797,106 @@ struct InsufficientS3BucketPolicyFaultBody: Swift.Equatable {
 }
 
 extension InsufficientS3BucketPolicyFaultBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension RedshiftClientTypes.IntegrationError: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case errorCode = "ErrorCode"
+        case errorMessage = "ErrorMessage"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let errorCode = errorCode {
+            try container.encode(errorCode, forKey: ClientRuntime.Key("ErrorCode"))
+        }
+        if let errorMessage = errorMessage {
+            try container.encode(errorMessage, forKey: ClientRuntime.Key("ErrorMessage"))
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let errorCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorCode)
+        errorCode = errorCodeDecoded
+        let errorMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorMessage)
+        errorMessage = errorMessageDecoded
+    }
+}
+
+extension RedshiftClientTypes {
+    /// The error of an inbound integration.
+    public struct IntegrationError: Swift.Equatable {
+        /// The error code of an inbound integration error.
+        /// This member is required.
+        public var errorCode: Swift.String?
+        /// The error message of an inbound integration error.
+        public var errorMessage: Swift.String?
+
+        public init(
+            errorCode: Swift.String? = nil,
+            errorMessage: Swift.String? = nil
+        )
+        {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+        }
+    }
+
+}
+
+extension IntegrationNotFoundFault {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: AWSClientRuntime.ErrorResponseContainer<IntegrationNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.error.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// The integration can't be found.
+public struct IntegrationNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "IntegrationNotFoundFault" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct IntegrationNotFoundFaultBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension IntegrationNotFoundFaultBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case message
     }
@@ -23982,6 +24772,60 @@ extension InvalidNamespaceFaultBody: Swift.Decodable {
     }
 }
 
+extension InvalidPolicyFault {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: AWSClientRuntime.ErrorResponseContainer<InvalidPolicyFaultBody> = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.error.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// The resource policy isn't valid.
+public struct InvalidPolicyFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidPolicyFault" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct InvalidPolicyFaultBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension InvalidPolicyFaultBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
 extension InvalidReservedNodeStateFault {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
@@ -24738,6 +25582,60 @@ extension InvalidVPCNetworkStateFaultBody: Swift.Decodable {
     }
 }
 
+extension Ipv6CidrBlockNotFoundFault {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: AWSClientRuntime.ErrorResponseContainer<Ipv6CidrBlockNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.error.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// There are no subnets in your VPC with associated IPv6 CIDR blocks. To use dual-stack mode, associate an IPv6 CIDR block with each subnet in your VPC.
+public struct Ipv6CidrBlockNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "Ipv6CidrBlockNotFoundFault" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct Ipv6CidrBlockNotFoundFaultBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension Ipv6CidrBlockNotFoundFaultBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
 extension LimitExceededFault {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
@@ -25274,6 +26172,7 @@ enum ModifyClusterDbRevisionOutputError: ClientRuntime.HttpResponseErrorBinding 
             case "ClusterNotFound": return try await ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "ClusterOnLatestRevision": return try await ClusterOnLatestRevisionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "InvalidClusterState": return try await InvalidClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "UnsupportedOperation": return try await UnsupportedOperationFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
@@ -25465,7 +26364,7 @@ enum ModifyClusterIamRolesOutputError: ClientRuntime.HttpResponseErrorBinding {
 
 extension ModifyClusterInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ModifyClusterInput(allowVersionUpgrade: \(Swift.String(describing: allowVersionUpgrade)), automatedSnapshotRetentionPeriod: \(Swift.String(describing: automatedSnapshotRetentionPeriod)), availabilityZone: \(Swift.String(describing: availabilityZone)), availabilityZoneRelocation: \(Swift.String(describing: availabilityZoneRelocation)), clusterIdentifier: \(Swift.String(describing: clusterIdentifier)), clusterParameterGroupName: \(Swift.String(describing: clusterParameterGroupName)), clusterSecurityGroups: \(Swift.String(describing: clusterSecurityGroups)), clusterType: \(Swift.String(describing: clusterType)), clusterVersion: \(Swift.String(describing: clusterVersion)), elasticIp: \(Swift.String(describing: elasticIp)), encrypted: \(Swift.String(describing: encrypted)), enhancedVpcRouting: \(Swift.String(describing: enhancedVpcRouting)), hsmClientCertificateIdentifier: \(Swift.String(describing: hsmClientCertificateIdentifier)), hsmConfigurationIdentifier: \(Swift.String(describing: hsmConfigurationIdentifier)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), maintenanceTrackName: \(Swift.String(describing: maintenanceTrackName)), manageMasterPassword: \(Swift.String(describing: manageMasterPassword)), manualSnapshotRetentionPeriod: \(Swift.String(describing: manualSnapshotRetentionPeriod)), masterPasswordSecretKmsKeyId: \(Swift.String(describing: masterPasswordSecretKmsKeyId)), newClusterIdentifier: \(Swift.String(describing: newClusterIdentifier)), nodeType: \(Swift.String(describing: nodeType)), numberOfNodes: \(Swift.String(describing: numberOfNodes)), port: \(Swift.String(describing: port)), preferredMaintenanceWindow: \(Swift.String(describing: preferredMaintenanceWindow)), publiclyAccessible: \(Swift.String(describing: publiclyAccessible)), vpcSecurityGroupIds: \(Swift.String(describing: vpcSecurityGroupIds)), masterUserPassword: \"CONTENT_REDACTED\")"}
+        "ModifyClusterInput(allowVersionUpgrade: \(Swift.String(describing: allowVersionUpgrade)), automatedSnapshotRetentionPeriod: \(Swift.String(describing: automatedSnapshotRetentionPeriod)), availabilityZone: \(Swift.String(describing: availabilityZone)), availabilityZoneRelocation: \(Swift.String(describing: availabilityZoneRelocation)), clusterIdentifier: \(Swift.String(describing: clusterIdentifier)), clusterParameterGroupName: \(Swift.String(describing: clusterParameterGroupName)), clusterSecurityGroups: \(Swift.String(describing: clusterSecurityGroups)), clusterType: \(Swift.String(describing: clusterType)), clusterVersion: \(Swift.String(describing: clusterVersion)), elasticIp: \(Swift.String(describing: elasticIp)), encrypted: \(Swift.String(describing: encrypted)), enhancedVpcRouting: \(Swift.String(describing: enhancedVpcRouting)), hsmClientCertificateIdentifier: \(Swift.String(describing: hsmClientCertificateIdentifier)), hsmConfigurationIdentifier: \(Swift.String(describing: hsmConfigurationIdentifier)), ipAddressType: \(Swift.String(describing: ipAddressType)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), maintenanceTrackName: \(Swift.String(describing: maintenanceTrackName)), manageMasterPassword: \(Swift.String(describing: manageMasterPassword)), manualSnapshotRetentionPeriod: \(Swift.String(describing: manualSnapshotRetentionPeriod)), masterPasswordSecretKmsKeyId: \(Swift.String(describing: masterPasswordSecretKmsKeyId)), multiAZ: \(Swift.String(describing: multiAZ)), newClusterIdentifier: \(Swift.String(describing: newClusterIdentifier)), nodeType: \(Swift.String(describing: nodeType)), numberOfNodes: \(Swift.String(describing: numberOfNodes)), port: \(Swift.String(describing: port)), preferredMaintenanceWindow: \(Swift.String(describing: preferredMaintenanceWindow)), publiclyAccessible: \(Swift.String(describing: publiclyAccessible)), vpcSecurityGroupIds: \(Swift.String(describing: vpcSecurityGroupIds)), masterUserPassword: \"CONTENT_REDACTED\")"}
 }
 
 extension ModifyClusterInput: Swift.Encodable {
@@ -25522,6 +26421,9 @@ extension ModifyClusterInput: Swift.Encodable {
         if let hsmConfigurationIdentifier = hsmConfigurationIdentifier {
             try container.encode(hsmConfigurationIdentifier, forKey: ClientRuntime.Key("HsmConfigurationIdentifier"))
         }
+        if let ipAddressType = ipAddressType {
+            try container.encode(ipAddressType, forKey: ClientRuntime.Key("IpAddressType"))
+        }
         if let kmsKeyId = kmsKeyId {
             try container.encode(kmsKeyId, forKey: ClientRuntime.Key("KmsKeyId"))
         }
@@ -25539,6 +26441,9 @@ extension ModifyClusterInput: Swift.Encodable {
         }
         if let masterUserPassword = masterUserPassword {
             try container.encode(masterUserPassword, forKey: ClientRuntime.Key("MasterUserPassword"))
+        }
+        if let multiAZ = multiAZ {
+            try container.encode(multiAZ, forKey: ClientRuntime.Key("MultiAZ"))
         }
         if let newClusterIdentifier = newClusterIdentifier {
             try container.encode(newClusterIdentifier, forKey: ClientRuntime.Key("NewClusterIdentifier"))
@@ -25618,6 +26523,8 @@ public struct ModifyClusterInput: Swift.Equatable {
     public var hsmClientCertificateIdentifier: Swift.String?
     /// Specifies the name of the HSM configuration that contains the information the Amazon Redshift cluster can use to retrieve and store keys in an HSM.
     public var hsmConfigurationIdentifier: Swift.String?
+    /// The IP address types that the cluster supports. Possible values are ipv4 and dualstack.
+    public var ipAddressType: Swift.String?
     /// The Key Management Service (KMS) key ID of the encryption key that you want to use to encrypt data in the cluster.
     public var kmsKeyId: Swift.String?
     /// The name for the maintenance track that you want to assign for the cluster. This name change is asynchronous. The new track name stays in the PendingModifiedValues for the cluster until the next maintenance window. When the maintenance track changes, the cluster is switched to the latest cluster release available for the maintenance track. At this point, the maintenance track name is applied.
@@ -25640,6 +26547,8 @@ public struct ModifyClusterInput: Swift.Equatable {
     ///
     /// * Can be any printable ASCII character (ASCII code 33-126) except ' (single quote), " (double quote), \, /, or @.
     public var masterUserPassword: Swift.String?
+    /// If true and the cluster is currently only deployed in a single Availability Zone, the cluster will be modified to be deployed in two Availability Zones.
+    public var multiAZ: Swift.Bool?
     /// The new identifier for the cluster. Constraints:
     ///
     /// * Must contain from 1 to 63 alphanumeric characters or hyphens.
@@ -25683,12 +26592,14 @@ public struct ModifyClusterInput: Swift.Equatable {
         enhancedVpcRouting: Swift.Bool? = nil,
         hsmClientCertificateIdentifier: Swift.String? = nil,
         hsmConfigurationIdentifier: Swift.String? = nil,
+        ipAddressType: Swift.String? = nil,
         kmsKeyId: Swift.String? = nil,
         maintenanceTrackName: Swift.String? = nil,
         manageMasterPassword: Swift.Bool? = nil,
         manualSnapshotRetentionPeriod: Swift.Int? = nil,
         masterPasswordSecretKmsKeyId: Swift.String? = nil,
         masterUserPassword: Swift.String? = nil,
+        multiAZ: Swift.Bool? = nil,
         newClusterIdentifier: Swift.String? = nil,
         nodeType: Swift.String? = nil,
         numberOfNodes: Swift.Int? = nil,
@@ -25712,12 +26623,14 @@ public struct ModifyClusterInput: Swift.Equatable {
         self.enhancedVpcRouting = enhancedVpcRouting
         self.hsmClientCertificateIdentifier = hsmClientCertificateIdentifier
         self.hsmConfigurationIdentifier = hsmConfigurationIdentifier
+        self.ipAddressType = ipAddressType
         self.kmsKeyId = kmsKeyId
         self.maintenanceTrackName = maintenanceTrackName
         self.manageMasterPassword = manageMasterPassword
         self.manualSnapshotRetentionPeriod = manualSnapshotRetentionPeriod
         self.masterPasswordSecretKmsKeyId = masterPasswordSecretKmsKeyId
         self.masterUserPassword = masterUserPassword
+        self.multiAZ = multiAZ
         self.newClusterIdentifier = newClusterIdentifier
         self.nodeType = nodeType
         self.numberOfNodes = numberOfNodes
@@ -25756,6 +26669,8 @@ struct ModifyClusterInputBody: Swift.Equatable {
     let port: Swift.Int?
     let manageMasterPassword: Swift.Bool?
     let masterPasswordSecretKmsKeyId: Swift.String?
+    let ipAddressType: Swift.String?
+    let multiAZ: Swift.Bool?
 }
 
 extension ModifyClusterInputBody: Swift.Decodable {
@@ -25774,12 +26689,14 @@ extension ModifyClusterInputBody: Swift.Decodable {
         case enhancedVpcRouting = "EnhancedVpcRouting"
         case hsmClientCertificateIdentifier = "HsmClientCertificateIdentifier"
         case hsmConfigurationIdentifier = "HsmConfigurationIdentifier"
+        case ipAddressType = "IpAddressType"
         case kmsKeyId = "KmsKeyId"
         case maintenanceTrackName = "MaintenanceTrackName"
         case manageMasterPassword = "ManageMasterPassword"
         case manualSnapshotRetentionPeriod = "ManualSnapshotRetentionPeriod"
         case masterPasswordSecretKmsKeyId = "MasterPasswordSecretKmsKeyId"
         case masterUserPassword = "MasterUserPassword"
+        case multiAZ = "MultiAZ"
         case newClusterIdentifier = "NewClusterIdentifier"
         case nodeType = "NodeType"
         case numberOfNodes = "NumberOfNodes"
@@ -25879,6 +26796,10 @@ extension ModifyClusterInputBody: Swift.Decodable {
         manageMasterPassword = manageMasterPasswordDecoded
         let masterPasswordSecretKmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .masterPasswordSecretKmsKeyId)
         masterPasswordSecretKmsKeyId = masterPasswordSecretKmsKeyIdDecoded
+        let ipAddressTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ipAddressType)
+        ipAddressType = ipAddressTypeDecoded
+        let multiAZDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .multiAZ)
+        multiAZ = multiAZDecoded
     }
 }
 
@@ -26094,6 +27015,7 @@ enum ModifyClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "InvalidClusterTrack": return try await InvalidClusterTrackFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "InvalidElasticIpFault": return try await InvalidElasticIpFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "InvalidRetentionPeriodFault": return try await InvalidRetentionPeriodFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "Ipv6CidrBlockNotFoundFault": return try await Ipv6CidrBlockNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "LimitExceededFault": return try await LimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "NumberOfNodesPerClusterLimitExceeded": return try await NumberOfNodesPerClusterLimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "NumberOfNodesQuotaExceeded": return try await NumberOfNodesQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -27505,11 +28427,13 @@ enum ModifyScheduledActionOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
+            case "ClusterNotFound": return try await ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "InvalidScheduledAction": return try await InvalidScheduledActionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "InvalidSchedule": return try await InvalidScheduleFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "ScheduledActionNotFound": return try await ScheduledActionNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "ScheduledActionTypeUnsupported": return try await ScheduledActionTypeUnsupportedFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "UnauthorizedOperation": return try await UnauthorizedOperation(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "UnsupportedOperation": return try await UnsupportedOperationFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
@@ -28124,6 +29048,7 @@ enum ModifyUsageLimitOutputError: ClientRuntime.HttpResponseErrorBinding {
 extension RedshiftClientTypes.NetworkInterface: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case availabilityZone = "AvailabilityZone"
+        case ipv6Address = "Ipv6Address"
         case networkInterfaceId = "NetworkInterfaceId"
         case privateIpAddress = "PrivateIpAddress"
         case subnetId = "SubnetId"
@@ -28133,6 +29058,9 @@ extension RedshiftClientTypes.NetworkInterface: Swift.Codable {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
         if let availabilityZone = availabilityZone {
             try container.encode(availabilityZone, forKey: ClientRuntime.Key("AvailabilityZone"))
+        }
+        if let ipv6Address = ipv6Address {
+            try container.encode(ipv6Address, forKey: ClientRuntime.Key("Ipv6Address"))
         }
         if let networkInterfaceId = networkInterfaceId {
             try container.encode(networkInterfaceId, forKey: ClientRuntime.Key("NetworkInterfaceId"))
@@ -28155,6 +29083,8 @@ extension RedshiftClientTypes.NetworkInterface: Swift.Codable {
         privateIpAddress = privateIpAddressDecoded
         let availabilityZoneDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .availabilityZone)
         availabilityZone = availabilityZoneDecoded
+        let ipv6AddressDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ipv6Address)
+        ipv6Address = ipv6AddressDecoded
     }
 }
 
@@ -28163,6 +29093,8 @@ extension RedshiftClientTypes {
     public struct NetworkInterface: Swift.Equatable {
         /// The Availability Zone.
         public var availabilityZone: Swift.String?
+        /// The IPv6 address of the network interface within the subnet.
+        public var ipv6Address: Swift.String?
         /// The network interface identifier.
         public var networkInterfaceId: Swift.String?
         /// The IPv4 address of the network interface within the subnet.
@@ -28172,12 +29104,14 @@ extension RedshiftClientTypes {
 
         public init(
             availabilityZone: Swift.String? = nil,
+            ipv6Address: Swift.String? = nil,
             networkInterfaceId: Swift.String? = nil,
             privateIpAddress: Swift.String? = nil,
             subnetId: Swift.String? = nil
         )
         {
             self.availabilityZone = availabilityZone
+            self.ipv6Address = ipv6Address
             self.networkInterfaceId = networkInterfaceId
             self.privateIpAddress = privateIpAddress
             self.subnetId = subnetId
@@ -29070,6 +30004,7 @@ enum PauseClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
         switch restXMLError.errorCode {
             case "ClusterNotFound": return try await ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "InvalidClusterState": return try await InvalidClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "UnsupportedOperation": return try await UnsupportedOperationFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
@@ -29321,6 +30256,118 @@ enum PurchaseReservedNodeOfferingOutputError: ClientRuntime.HttpResponseErrorBin
             case "ReservedNodeAlreadyExists": return try await ReservedNodeAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "ReservedNodeOfferingNotFound": return try await ReservedNodeOfferingNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "ReservedNodeQuotaExceeded": return try await ReservedNodeQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "UnsupportedOperation": return try await UnsupportedOperationFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
+extension PutResourcePolicyInput: Swift.Encodable {
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let policy = policy {
+            try container.encode(policy, forKey: ClientRuntime.Key("Policy"))
+        }
+        if let resourceArn = resourceArn {
+            try container.encode(resourceArn, forKey: ClientRuntime.Key("ResourceArn"))
+        }
+        try container.encode("PutResourcePolicy", forKey:ClientRuntime.Key("Action"))
+        try container.encode("2012-12-01", forKey:ClientRuntime.Key("Version"))
+    }
+}
+
+extension PutResourcePolicyInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct PutResourcePolicyInput: Swift.Equatable {
+    /// The content of the resource policy being updated.
+    /// This member is required.
+    public var policy: Swift.String?
+    /// The Amazon Resource Name (ARN) of the resource of which its resource policy is updated.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+
+    public init(
+        policy: Swift.String? = nil,
+        resourceArn: Swift.String? = nil
+    )
+    {
+        self.policy = policy
+        self.resourceArn = resourceArn
+    }
+}
+
+struct PutResourcePolicyInputBody: Swift.Equatable {
+    let resourceArn: Swift.String?
+    let policy: Swift.String?
+}
+
+extension PutResourcePolicyInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case policy = "Policy"
+        case resourceArn = "ResourceArn"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
+        resourceArn = resourceArnDecoded
+        let policyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policy)
+        policy = policyDecoded
+    }
+}
+
+extension PutResourcePolicyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: PutResourcePolicyOutputBody = try responseDecoder.decode(responseBody: data)
+            self.resourcePolicy = output.resourcePolicy
+        } else {
+            self.resourcePolicy = nil
+        }
+    }
+}
+
+public struct PutResourcePolicyOutput: Swift.Equatable {
+    /// The content of the updated resource policy.
+    public var resourcePolicy: RedshiftClientTypes.ResourcePolicy?
+
+    public init(
+        resourcePolicy: RedshiftClientTypes.ResourcePolicy? = nil
+    )
+    {
+        self.resourcePolicy = resourcePolicy
+    }
+}
+
+struct PutResourcePolicyOutputBody: Swift.Equatable {
+    let resourcePolicy: RedshiftClientTypes.ResourcePolicy?
+}
+
+extension PutResourcePolicyOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case resourcePolicy = "ResourcePolicy"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("PutResourcePolicyResult"))
+        let resourcePolicyDecoded = try containerValues.decodeIfPresent(RedshiftClientTypes.ResourcePolicy.self, forKey: .resourcePolicy)
+        resourcePolicy = resourcePolicyDecoded
+    }
+}
+
+enum PutResourcePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ConflictPolicyUpdateFault": return try await ConflictPolicyUpdateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidPolicyFault": return try await InvalidPolicyFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ResourceNotFoundFault": return try await ResourceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "UnsupportedOperation": return try await UnsupportedOperationFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
@@ -31144,6 +32191,51 @@ extension ResourceNotFoundFaultBody: Swift.Decodable {
     }
 }
 
+extension RedshiftClientTypes.ResourcePolicy: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case policy = "Policy"
+        case resourceArn = "ResourceArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let policy = policy {
+            try container.encode(policy, forKey: ClientRuntime.Key("Policy"))
+        }
+        if let resourceArn = resourceArn {
+            try container.encode(resourceArn, forKey: ClientRuntime.Key("ResourceArn"))
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
+        resourceArn = resourceArnDecoded
+        let policyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policy)
+        policy = policyDecoded
+    }
+}
+
+extension RedshiftClientTypes {
+    /// The policy that is attached to a resource.
+    public struct ResourcePolicy: Swift.Equatable {
+        /// The content of a resource policy.
+        public var policy: Swift.String?
+        /// The resources that a policy is attached to.
+        public var resourceArn: Swift.String?
+
+        public init(
+            policy: Swift.String? = nil,
+            resourceArn: Swift.String? = nil
+        )
+        {
+            self.policy = policy
+            self.resourceArn = resourceArn
+        }
+    }
+
+}
+
 extension RestoreFromClusterSnapshotInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
@@ -31216,6 +32308,9 @@ extension RestoreFromClusterSnapshotInput: Swift.Encodable {
                 try iamRolesContainer.encode("", forKey: ClientRuntime.Key(""))
             }
         }
+        if let ipAddressType = ipAddressType {
+            try container.encode(ipAddressType, forKey: ClientRuntime.Key("IpAddressType"))
+        }
         if let kmsKeyId = kmsKeyId {
             try container.encode(kmsKeyId, forKey: ClientRuntime.Key("KmsKeyId"))
         }
@@ -31230,6 +32325,9 @@ extension RestoreFromClusterSnapshotInput: Swift.Encodable {
         }
         if let masterPasswordSecretKmsKeyId = masterPasswordSecretKmsKeyId {
             try container.encode(masterPasswordSecretKmsKeyId, forKey: ClientRuntime.Key("MasterPasswordSecretKmsKeyId"))
+        }
+        if let multiAZ = multiAZ {
+            try container.encode(multiAZ, forKey: ClientRuntime.Key("MultiAZ"))
         }
         if let nodeType = nodeType {
             try container.encode(nodeType, forKey: ClientRuntime.Key("NodeType"))
@@ -31343,6 +32441,8 @@ public struct RestoreFromClusterSnapshotInput: Swift.Equatable {
     public var hsmConfigurationIdentifier: Swift.String?
     /// A list of Identity and Access Management (IAM) roles that can be used by the cluster to access other Amazon Web Services services. You must supply the IAM roles in their Amazon Resource Name (ARN) format. The maximum number of IAM roles that you can associate is subject to a quota. For more information, go to [Quotas and limits](https://docs.aws.amazon.com/redshift/latest/mgmt/amazon-redshift-limits.html) in the Amazon Redshift Cluster Management Guide.
     public var iamRoles: [Swift.String]?
+    /// The IP address type for the cluster. Possible values are ipv4 and dualstack.
+    public var ipAddressType: Swift.String?
     /// The Key Management Service (KMS) key ID of the encryption key that encrypts data in the cluster restored from a shared snapshot. You can also provide the key ID when you restore from an unencrypted snapshot to an encrypted cluster in the same account. Additionally, you can specify a new KMS key ID when you restore from an encrypted snapshot in the same account in order to change it. In that case, the restored cluster is encrypted with the new KMS key ID.
     public var kmsKeyId: Swift.String?
     /// The name of the maintenance track for the restored cluster. When you take a snapshot, the snapshot inherits the MaintenanceTrack value from the cluster. The snapshot might be on a different track than the cluster that was the source for the snapshot. For example, suppose that you take a snapshot of a cluster that is on the current track and then change the cluster to be on the trailing track. In this case, the snapshot and the source cluster are on different tracks.
@@ -31353,6 +32453,8 @@ public struct RestoreFromClusterSnapshotInput: Swift.Equatable {
     public var manualSnapshotRetentionPeriod: Swift.Int?
     /// The ID of the Key Management Service (KMS) key used to encrypt and store the cluster's admin credentials secret. You can only use this parameter if ManageMasterPassword is true.
     public var masterPasswordSecretKmsKeyId: Swift.String?
+    /// If true, the snapshot will be restored to a cluster deployed in two Availability Zones.
+    public var multiAZ: Swift.Bool?
     /// The node type that the restored cluster will be provisioned with. Default: The node type of the cluster from which the snapshot was taken. You can modify this if you are using any DS node type. In that case, you can choose to restore into another DS node type of the same size. For example, you can restore ds1.8xlarge into ds2.8xlarge, or ds1.xlarge into ds2.xlarge. If you have a DC instance type, you must restore into that same instance type and size. In other words, you can only restore a dc1.large instance type into another dc1.large instance type or dc2.large instance type. You can't restore dc1.8xlarge to dc2.8xlarge. First restore to a dc1.8xlarge cluster, then resize to a dc2.8large cluster. For more information about node types, see [ About Clusters and Nodes](https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html#rs-about-clusters-and-nodes) in the Amazon Redshift Cluster Management Guide.
     public var nodeType: Swift.String?
     /// The number of nodes specified when provisioning the restored cluster.
@@ -31398,11 +32500,13 @@ public struct RestoreFromClusterSnapshotInput: Swift.Equatable {
         hsmClientCertificateIdentifier: Swift.String? = nil,
         hsmConfigurationIdentifier: Swift.String? = nil,
         iamRoles: [Swift.String]? = nil,
+        ipAddressType: Swift.String? = nil,
         kmsKeyId: Swift.String? = nil,
         maintenanceTrackName: Swift.String? = nil,
         manageMasterPassword: Swift.Bool? = nil,
         manualSnapshotRetentionPeriod: Swift.Int? = nil,
         masterPasswordSecretKmsKeyId: Swift.String? = nil,
+        multiAZ: Swift.Bool? = nil,
         nodeType: Swift.String? = nil,
         numberOfNodes: Swift.Int? = nil,
         ownerAccount: Swift.String? = nil,
@@ -31435,11 +32539,13 @@ public struct RestoreFromClusterSnapshotInput: Swift.Equatable {
         self.hsmClientCertificateIdentifier = hsmClientCertificateIdentifier
         self.hsmConfigurationIdentifier = hsmConfigurationIdentifier
         self.iamRoles = iamRoles
+        self.ipAddressType = ipAddressType
         self.kmsKeyId = kmsKeyId
         self.maintenanceTrackName = maintenanceTrackName
         self.manageMasterPassword = manageMasterPassword
         self.manualSnapshotRetentionPeriod = manualSnapshotRetentionPeriod
         self.masterPasswordSecretKmsKeyId = masterPasswordSecretKmsKeyId
+        self.multiAZ = multiAZ
         self.nodeType = nodeType
         self.numberOfNodes = numberOfNodes
         self.ownerAccount = ownerAccount
@@ -31492,6 +32598,8 @@ struct RestoreFromClusterSnapshotInputBody: Swift.Equatable {
     let encrypted: Swift.Bool?
     let manageMasterPassword: Swift.Bool?
     let masterPasswordSecretKmsKeyId: Swift.String?
+    let ipAddressType: Swift.String?
+    let multiAZ: Swift.Bool?
 }
 
 extension RestoreFromClusterSnapshotInputBody: Swift.Decodable {
@@ -31513,11 +32621,13 @@ extension RestoreFromClusterSnapshotInputBody: Swift.Decodable {
         case hsmClientCertificateIdentifier = "HsmClientCertificateIdentifier"
         case hsmConfigurationIdentifier = "HsmConfigurationIdentifier"
         case iamRoles = "IamRoles"
+        case ipAddressType = "IpAddressType"
         case kmsKeyId = "KmsKeyId"
         case maintenanceTrackName = "MaintenanceTrackName"
         case manageMasterPassword = "ManageMasterPassword"
         case manualSnapshotRetentionPeriod = "ManualSnapshotRetentionPeriod"
         case masterPasswordSecretKmsKeyId = "MasterPasswordSecretKmsKeyId"
+        case multiAZ = "MultiAZ"
         case nodeType = "NodeType"
         case numberOfNodes = "NumberOfNodes"
         case ownerAccount = "OwnerAccount"
@@ -31656,6 +32766,10 @@ extension RestoreFromClusterSnapshotInputBody: Swift.Decodable {
         manageMasterPassword = manageMasterPasswordDecoded
         let masterPasswordSecretKmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .masterPasswordSecretKmsKeyId)
         masterPasswordSecretKmsKeyId = masterPasswordSecretKmsKeyIdDecoded
+        let ipAddressTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ipAddressType)
+        ipAddressType = ipAddressTypeDecoded
+        let multiAZDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .multiAZ)
+        multiAZ = multiAZDecoded
     }
 }
 
@@ -31725,6 +32839,7 @@ enum RestoreFromClusterSnapshotOutputError: ClientRuntime.HttpResponseErrorBindi
             case "InvalidSubnet": return try await InvalidSubnet(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "InvalidTagFault": return try await InvalidTagFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "InvalidVPCNetworkStateFault": return try await InvalidVPCNetworkStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "Ipv6CidrBlockNotFoundFault": return try await Ipv6CidrBlockNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "LimitExceededFault": return try await LimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "NumberOfNodesPerClusterLimitExceeded": return try await NumberOfNodesPerClusterLimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "NumberOfNodesQuotaExceeded": return try await NumberOfNodesQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -32153,6 +33268,7 @@ enum ResumeClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ClusterNotFound": return try await ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "InsufficientClusterCapacity": return try await InsufficientClusterCapacityFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "InvalidClusterState": return try await InvalidClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "UnsupportedOperation": return try await UnsupportedOperationFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
@@ -32834,6 +33950,7 @@ enum RotateEncryptionKeyOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ClusterNotFound": return try await ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "DependentServiceRequestThrottlingFault": return try await DependentServiceRequestThrottlingFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "InvalidClusterState": return try await InvalidClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "UnsupportedOperation": return try await UnsupportedOperationFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
@@ -33672,6 +34789,77 @@ extension RedshiftClientTypes {
             self = ScheduledActionTypeValues(rawValue: rawValue) ?? ScheduledActionTypeValues.sdkUnknown(rawValue)
         }
     }
+}
+
+extension RedshiftClientTypes.SecondaryClusterInfo: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case availabilityZone = "AvailabilityZone"
+        case clusterNodes = "ClusterNodes"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let availabilityZone = availabilityZone {
+            try container.encode(availabilityZone, forKey: ClientRuntime.Key("AvailabilityZone"))
+        }
+        if let clusterNodes = clusterNodes {
+            if !clusterNodes.isEmpty {
+                var clusterNodesContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("ClusterNodes"))
+                for (index0, clusternode0) in clusterNodes.enumerated() {
+                    try clusterNodesContainer.encode(clusternode0, forKey: ClientRuntime.Key("member.\(index0.advanced(by: 1))"))
+                }
+            }
+            else {
+                var clusterNodesContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("ClusterNodes"))
+                try clusterNodesContainer.encode("", forKey: ClientRuntime.Key(""))
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let availabilityZoneDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .availabilityZone)
+        availabilityZone = availabilityZoneDecoded
+        if containerValues.contains(.clusterNodes) {
+            struct KeyVal0{struct member{}}
+            let clusterNodesWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.member>.CodingKeys.self, forKey: .clusterNodes)
+            if let clusterNodesWrappedContainer = clusterNodesWrappedContainer {
+                let clusterNodesContainer = try clusterNodesWrappedContainer.decodeIfPresent([RedshiftClientTypes.ClusterNode].self, forKey: .member)
+                var clusterNodesBuffer:[RedshiftClientTypes.ClusterNode]? = nil
+                if let clusterNodesContainer = clusterNodesContainer {
+                    clusterNodesBuffer = [RedshiftClientTypes.ClusterNode]()
+                    for structureContainer0 in clusterNodesContainer {
+                        clusterNodesBuffer?.append(structureContainer0)
+                    }
+                }
+                clusterNodes = clusterNodesBuffer
+            } else {
+                clusterNodes = []
+            }
+        } else {
+            clusterNodes = nil
+        }
+    }
+}
+
+extension RedshiftClientTypes {
+    /// The AvailabilityZone and ClusterNodes information of the secondary compute unit.
+    public struct SecondaryClusterInfo: Swift.Equatable {
+        /// The name of the Availability Zone in which the secondary compute unit of the cluster is located.
+        public var availabilityZone: Swift.String?
+        /// The nodes in the secondary compute unit.
+        public var clusterNodes: [RedshiftClientTypes.ClusterNode]?
+
+        public init(
+            availabilityZone: Swift.String? = nil,
+            clusterNodes: [RedshiftClientTypes.ClusterNode]? = nil
+        )
+        {
+            self.availabilityZone = availabilityZone
+            self.clusterNodes = clusterNodes
+        }
+    }
+
 }
 
 extension RedshiftClientTypes.Snapshot: Swift.Codable {
@@ -36607,6 +37795,7 @@ enum UpdatePartnerStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ClusterNotFound": return try await ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "PartnerNotFound": return try await PartnerNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "UnauthorizedPartnerIntegration": return try await UnauthorizedPartnerIntegrationFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "UnsupportedOperation": return try await UnsupportedOperationFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
@@ -37199,4 +38388,51 @@ extension RedshiftClientTypes {
         }
     }
 
+}
+
+extension RedshiftClientTypes {
+    public enum ZeroETLIntegrationStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case active
+        case creating
+        case deleting
+        case failed
+        case modifying
+        case needsAttention
+        case syncing
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ZeroETLIntegrationStatus] {
+            return [
+                .active,
+                .creating,
+                .deleting,
+                .failed,
+                .modifying,
+                .needsAttention,
+                .syncing,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "active"
+            case .creating: return "creating"
+            case .deleting: return "deleting"
+            case .failed: return "failed"
+            case .modifying: return "modifying"
+            case .needsAttention: return "needs_attention"
+            case .syncing: return "syncing"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ZeroETLIntegrationStatus(rawValue: rawValue) ?? ZeroETLIntegrationStatus.sdkUnknown(rawValue)
+        }
+    }
 }

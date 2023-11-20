@@ -100,14 +100,7 @@ extension Route53ResolverClient: Route53ResolverClientProtocol {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<AssociateFirewallRuleGroupInput, AssociateFirewallRuleGroupOutput, AssociateFirewallRuleGroupOutputError>(id: "associateFirewallRuleGroup")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<AssociateFirewallRuleGroupOutput> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.creatorRequestId == nil {
-                copiedInput.creatorRequestId = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<AssociateFirewallRuleGroupInput, AssociateFirewallRuleGroupOutput, AssociateFirewallRuleGroupOutputError>(keyPath: \.creatorRequestId))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateFirewallRuleGroupInput, AssociateFirewallRuleGroupOutput, AssociateFirewallRuleGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateFirewallRuleGroupInput, AssociateFirewallRuleGroupOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
@@ -312,14 +305,7 @@ extension Route53ResolverClient: Route53ResolverClientProtocol {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<CreateFirewallDomainListInput, CreateFirewallDomainListOutput, CreateFirewallDomainListOutputError>(id: "createFirewallDomainList")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateFirewallDomainListOutput> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.creatorRequestId == nil {
-                copiedInput.creatorRequestId = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateFirewallDomainListInput, CreateFirewallDomainListOutput, CreateFirewallDomainListOutputError>(keyPath: \.creatorRequestId))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateFirewallDomainListInput, CreateFirewallDomainListOutput, CreateFirewallDomainListOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateFirewallDomainListInput, CreateFirewallDomainListOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
@@ -370,14 +356,7 @@ extension Route53ResolverClient: Route53ResolverClientProtocol {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<CreateFirewallRuleInput, CreateFirewallRuleOutput, CreateFirewallRuleOutputError>(id: "createFirewallRule")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateFirewallRuleOutput> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.creatorRequestId == nil {
-                copiedInput.creatorRequestId = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateFirewallRuleInput, CreateFirewallRuleOutput, CreateFirewallRuleOutputError>(keyPath: \.creatorRequestId))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateFirewallRuleInput, CreateFirewallRuleOutput, CreateFirewallRuleOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateFirewallRuleInput, CreateFirewallRuleOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
@@ -427,14 +406,7 @@ extension Route53ResolverClient: Route53ResolverClientProtocol {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<CreateFirewallRuleGroupInput, CreateFirewallRuleGroupOutput, CreateFirewallRuleGroupOutputError>(id: "createFirewallRuleGroup")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateFirewallRuleGroupOutput> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.creatorRequestId == nil {
-                copiedInput.creatorRequestId = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateFirewallRuleGroupInput, CreateFirewallRuleGroupOutput, CreateFirewallRuleGroupOutputError>(keyPath: \.creatorRequestId))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateFirewallRuleGroupInput, CreateFirewallRuleGroupOutput, CreateFirewallRuleGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateFirewallRuleGroupInput, CreateFirewallRuleGroupOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
@@ -592,14 +564,7 @@ extension Route53ResolverClient: Route53ResolverClientProtocol {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<CreateResolverQueryLogConfigInput, CreateResolverQueryLogConfigOutput, CreateResolverQueryLogConfigOutputError>(id: "createResolverQueryLogConfig")
-        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateResolverQueryLogConfigOutput> in
-            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
-            var copiedInput = input
-            if input.creatorRequestId == nil {
-                copiedInput.creatorRequestId = idempotencyTokenGenerator.generateToken()
-            }
-            return try await next.handle(context: context, input: copiedInput)
-        }
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateResolverQueryLogConfigInput, CreateResolverQueryLogConfigOutput, CreateResolverQueryLogConfigOutputError>(keyPath: \.creatorRequestId))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateResolverQueryLogConfigInput, CreateResolverQueryLogConfigOutput, CreateResolverQueryLogConfigOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateResolverQueryLogConfigInput, CreateResolverQueryLogConfigOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)

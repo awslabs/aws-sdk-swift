@@ -212,7 +212,7 @@ extension AmplifyClient: AmplifyClientProtocol {
         return result
     }
 
-    /// Creates a deployment for a manually deployed Amplify app. Manually deployed apps are not connected to a repository.
+    /// Creates a deployment for a manually deployed Amplify app. Manually deployed apps are not connected to a repository. The maximum duration between the CreateDeployment call and the StartDeployment call cannot exceed 8 hours. If the duration exceeds 8 hours, the StartDeployment call and the associated Job will fail.
     ///
     /// - Parameter CreateDeploymentInput : The request structure for the create a new deployment request.
     ///
@@ -674,7 +674,7 @@ extension AmplifyClient: AmplifyClientProtocol {
         return result
     }
 
-    /// Returns an existing Amplify app by appID.
+    /// Returns an existing Amplify app specified by an app ID.
     ///
     /// - Parameter GetAppInput : The request structure for the get app request.
     ///
@@ -1339,7 +1339,7 @@ extension AmplifyClient: AmplifyClientProtocol {
         return result
     }
 
-    /// Starts a deployment for a manually deployed app. Manually deployed apps are not connected to a repository.
+    /// Starts a deployment for a manually deployed app. Manually deployed apps are not connected to a repository. The maximum duration between the CreateDeployment call and the StartDeployment call cannot exceed 8 hours. If the duration exceeds 8 hours, the StartDeployment call and the associated Job will fail.
     ///
     /// - Parameter StartDeploymentInput : The request structure for the start a deployment request.
     ///

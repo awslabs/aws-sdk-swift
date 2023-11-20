@@ -9,7 +9,7 @@ import ClientRuntime
 /// * For other scenarios, you might choose a custom routing accelerator. With a custom routing accelerator, you can use application logic to directly map one or more users to a specific endpoint among many endpoints.
 ///
 ///
-/// Global Accelerator is a global service that supports endpoints in multiple Amazon Web Services Regions but you must specify the US West (Oregon) Region to create, update, or otherwise work with accelerators. That is, for example, specify --region us-west-2 on Amazon Web Services CLI commands. By default, Global Accelerator provides you with static IP addresses that you associate with your accelerator. The static IP addresses are anycast from the Amazon Web Services edge network. For IPv4, Global Accelerator provides two static IPv4 addresses. For dual-stack, Global Accelerator provides a total of four addresses: two static IPv4 addresses and two static IPv6 addresses. With a standard accelerator for IPv4, instead of using the addresses that Global Accelerator provides, you can configure these entry points to be IPv4 addresses from your own IP address ranges that you bring toGlobal Accelerator (BYOIP). For a standard accelerator, they distribute incoming application traffic across multiple endpoint resources in multiple Amazon Web Services Regions , which increases the availability of your applications. Endpoints for standard accelerators can be Network Load Balancers, Application Load Balancers, Amazon EC2 instances, or Elastic IP addresses that are located in one Amazon Web Services Region or multiple Amazon Web Services Regions. For custom routing accelerators, you map traffic that arrives to the static IP addresses to specific Amazon EC2 servers in endpoints that are virtual private cloud (VPC) subnets. The static IP addresses remain assigned to your accelerator for as long as it exists, even if you disable the accelerator and it no longer accepts or routes traffic. However, when you delete an accelerator, you lose the static IP addresses that are assigned to it, so you can no longer route traffic by using them. You can use IAM policies like tag-based permissions with Global Accelerator to limit the users who have permissions to delete an accelerator. For more information, see [Tag-based policies](https://docs.aws.amazon.com/global-accelerator/latest/dg/access-control-manage-access-tag-policies.html). For standard accelerators, Global Accelerator uses the Amazon Web Services global network to route traffic to the optimal regional endpoint based on health, client location, and policies that you configure. The service reacts instantly to changes in health or configuration to ensure that internet traffic from clients is always directed to healthy endpoints. For more information about understanding and using Global Accelerator, see the [Global Accelerator Developer Guide](https://docs.aws.amazon.com/global-accelerator/latest/dg/what-is-global-accelerator.html).
+/// Global Accelerator is a global service that supports endpoints in multiple Amazon Web Services Regions but you must specify the US West (Oregon) Region to create, update, or otherwise work with accelerators. That is, for example, specify --region us-west-2 on Amazon Web Services CLI commands. By default, Global Accelerator provides you with static IP addresses that you associate with your accelerator. The static IP addresses are anycast from the Amazon Web Services edge network. For IPv4, Global Accelerator provides two static IPv4 addresses. For dual-stack, Global Accelerator provides a total of four addresses: two static IPv4 addresses and two static IPv6 addresses. With a standard accelerator for IPv4, instead of using the addresses that Global Accelerator provides, you can configure these entry points to be IPv4 addresses from your own IP address ranges that you bring to Global Accelerator (BYOIP). For a standard accelerator, they distribute incoming application traffic across multiple endpoint resources in multiple Amazon Web Services Regions , which increases the availability of your applications. Endpoints for standard accelerators can be Network Load Balancers, Application Load Balancers, Amazon EC2 instances, or Elastic IP addresses that are located in one Amazon Web Services Region or multiple Amazon Web Services Regions. For custom routing accelerators, you map traffic that arrives to the static IP addresses to specific Amazon EC2 servers in endpoints that are virtual private cloud (VPC) subnets. The static IP addresses remain assigned to your accelerator for as long as it exists, even if you disable the accelerator and it no longer accepts or routes traffic. However, when you delete an accelerator, you lose the static IP addresses that are assigned to it, so you can no longer route traffic by using them. You can use IAM policies like tag-based permissions with Global Accelerator to limit the users who have permissions to delete an accelerator. For more information, see [Tag-based policies](https://docs.aws.amazon.com/global-accelerator/latest/dg/access-control-manage-access-tag-policies.html). For standard accelerators, Global Accelerator uses the Amazon Web Services global network to route traffic to the optimal regional endpoint based on health, client location, and policies that you configure. The service reacts instantly to changes in health or configuration to ensure that internet traffic from clients is always directed to healthy endpoints. For more information about understanding and using Global Accelerator, see the [Global Accelerator Developer Guide](https://docs.aws.amazon.com/global-accelerator/latest/dg/what-is-global-accelerator.html).
 public protocol GlobalAcceleratorClientProtocol {
     /// Associate a virtual private cloud (VPC) subnet endpoint with your custom routing accelerator. The listener port range must be large enough to support the number of IP addresses that can be specified in your subnet. The number of ports required is: subnet size times the number of ports per destination EC2 instances. For example, a subnet defined as /24 requires a listener port range of at least 255 ports. Note: You must have enough remaining listener ports available to map to the subnet ports, or the call will fail with a LimitExceededException. By default, all destinations in a subnet in a custom routing accelerator cannot receive traffic. To enable all destinations to receive traffic, or to specify individual port mappings that can receive traffic, see the [ AllowCustomRoutingTraffic](https://docs.aws.amazon.com/global-accelerator/latest/api/API_AllowCustomRoutingTraffic.html) operation.
     ///
@@ -92,6 +92,21 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     /// - `LimitExceededException` : Processing your request would cause you to exceed an Global Accelerator limit.
     func createAccelerator(input: CreateAcceleratorInput) async throws -> CreateAcceleratorOutput
+    /// Create a cross-account attachment in Global Accelerator. You create a cross-account attachment to specify the principals who have permission to add to accelerators in their own account the resources in your account that you also list in the attachment. A principal can be an Amazon Web Services account number or the Amazon Resource Name (ARN) for an accelerator. For account numbers that are listed as principals, to add a resource listed in the attachment to an accelerator, you must sign in to an account specified as a principal. Then you can add the resources that are listed to any of your accelerators. If an accelerator ARN is listed in the cross-account attachment as a principal, anyone with permission to make updates to the accelerator can add as endpoints resources that are listed in the attachment.
+    ///
+    /// - Parameter CreateCrossAccountAttachmentInput : [no documentation found]
+    ///
+    /// - Returns: `CreateCrossAccountAttachmentOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have access permission.
+    /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
+    /// - `InvalidArgumentException` : An argument that you specified is invalid.
+    /// - `LimitExceededException` : Processing your request would cause you to exceed an Global Accelerator limit.
+    /// - `TransactionInProgressException` : There's already a transaction in progress. Another transaction can't be processed.
+    func createCrossAccountAttachment(input: CreateCrossAccountAttachmentInput) async throws -> CreateCrossAccountAttachmentOutput
     /// Create a custom routing accelerator. A custom routing accelerator directs traffic to one of possibly thousands of Amazon EC2 instance destinations running in a single or multiple virtual private clouds (VPC) subnet endpoints. Be aware that, by default, all destination EC2 instances in a VPC subnet endpoint cannot receive traffic. To enable all destinations to receive traffic, or to specify individual port mappings that can receive traffic, see the [ AllowCustomRoutingTraffic](https://docs.aws.amazon.com/global-accelerator/latest/api/API_AllowCustomRoutingTraffic.html) operation. Global Accelerator is a global service that supports endpoints in multiple Amazon Web Services Regions but you must specify the US West (Oregon) Region to create, update, or otherwise work with accelerators. That is, for example, specify --region us-west-2 on Amazon Web Services CLI commands.
     ///
     /// - Parameter CreateCustomRoutingAcceleratorInput : [no documentation found]
@@ -186,6 +201,28 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     func deleteAccelerator(input: DeleteAcceleratorInput) async throws -> DeleteAcceleratorOutput
+    /// Delete a cross-account attachment. When you delete an attachment, Global Accelerator revokes the permission to use the resources in the attachment from all principals in the list of principals. Global Accelerator revokes the permission for specific resources by doing the following:
+    ///
+    /// * If the principal is an account ID, Global Accelerator reviews every accelerator in the account and removes cross-account endpoints from all accelerators.
+    ///
+    /// * If the principal is an accelerator, Global Accelerator reviews just that accelerator and removes cross-account endpoints from it.
+    ///
+    ///
+    /// If there are overlapping permissions provided by multiple cross-account attachments, Global Accelerator only removes endpoints if there are no current cross-account attachments that provide access permission. For example, if you delete a cross-account attachment that lists an accelerator as a principal, but another cross-account attachment includes the account ID that owns that accelerator, endpoints will not be removed from the accelerator.
+    ///
+    /// - Parameter DeleteCrossAccountAttachmentInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteCrossAccountAttachmentOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have access permission.
+    /// - `AttachmentNotFoundException` : No cross-account attachment was found.
+    /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
+    /// - `InvalidArgumentException` : An argument that you specified is invalid.
+    /// - `TransactionInProgressException` : There's already a transaction in progress. Another transaction can't be processed.
+    func deleteCrossAccountAttachment(input: DeleteCrossAccountAttachmentInput) async throws -> DeleteCrossAccountAttachmentOutput
     /// Delete a custom routing accelerator. Before you can delete an accelerator, you must disable it and remove all dependent resources (listeners and endpoint groups). To disable the accelerator, update the accelerator to set Enabled to false. When you create a custom routing accelerator, by default, Global Accelerator provides you with a set of two static IP addresses. The IP addresses are assigned to your accelerator for as long as it exists, even if you disable the accelerator and it no longer accepts or routes traffic. However, when you delete an accelerator, you lose the static IP addresses that are assigned to the accelerator, so you can no longer route traffic by using them. As a best practice, ensure that you have permissions in place to avoid inadvertently deleting accelerators. You can use IAM policies with Global Accelerator to limit the users who have permissions to delete an accelerator. For more information, see [Identity and access management](https://docs.aws.amazon.com/global-accelerator/latest/dg/auth-and-access-control.html) in the Global Accelerator Developer Guide.
     ///
     /// - Parameter DeleteCustomRoutingAcceleratorInput : [no documentation found]
@@ -309,6 +346,20 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     func describeAcceleratorAttributes(input: DescribeAcceleratorAttributesInput) async throws -> DescribeAcceleratorAttributesOutput
+    /// Gets configuration information about a cross-account attachment.
+    ///
+    /// - Parameter DescribeCrossAccountAttachmentInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeCrossAccountAttachmentOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have access permission.
+    /// - `AttachmentNotFoundException` : No cross-account attachment was found.
+    /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
+    /// - `InvalidArgumentException` : An argument that you specified is invalid.
+    func describeCrossAccountAttachment(input: DescribeCrossAccountAttachmentInput) async throws -> DescribeCrossAccountAttachmentOutput
     /// Describe a custom routing accelerator.
     ///
     /// - Parameter DescribeCustomRoutingAcceleratorInput : [no documentation found]
@@ -414,6 +465,47 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     /// - `InvalidNextTokenException` : There isn't another item to return.
     func listByoipCidrs(input: ListByoipCidrsInput) async throws -> ListByoipCidrsOutput
+    /// List the cross-account attachments that have been created in Global Accelerator.
+    ///
+    /// - Parameter ListCrossAccountAttachmentsInput : [no documentation found]
+    ///
+    /// - Returns: `ListCrossAccountAttachmentsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have access permission.
+    /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
+    /// - `InvalidArgumentException` : An argument that you specified is invalid.
+    /// - `InvalidNextTokenException` : There isn't another item to return.
+    func listCrossAccountAttachments(input: ListCrossAccountAttachmentsInput) async throws -> ListCrossAccountAttachmentsOutput
+    /// List the accounts that have cross-account endpoints.
+    ///
+    /// - Parameter ListCrossAccountResourceAccountsInput : [no documentation found]
+    ///
+    /// - Returns: `ListCrossAccountResourceAccountsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have access permission.
+    /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
+    func listCrossAccountResourceAccounts(input: ListCrossAccountResourceAccountsInput) async throws -> ListCrossAccountResourceAccountsOutput
+    /// List the cross-account endpoints available to add to an accelerator.
+    ///
+    /// - Parameter ListCrossAccountResourcesInput : [no documentation found]
+    ///
+    /// - Returns: `ListCrossAccountResourcesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AcceleratorNotFoundException` : The accelerator that you specified doesn't exist.
+    /// - `AccessDeniedException` : You don't have access permission.
+    /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
+    /// - `InvalidArgumentException` : An argument that you specified is invalid.
+    /// - `InvalidNextTokenException` : There isn't another item to return.
+    func listCrossAccountResources(input: ListCrossAccountResourcesInput) async throws -> ListCrossAccountResourcesOutput
     /// List the custom routing accelerators for an Amazon Web Services account.
     ///
     /// - Parameter ListCustomRoutingAcceleratorsInput : [no documentation found]
@@ -640,6 +732,29 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     func updateAcceleratorAttributes(input: UpdateAcceleratorAttributesInput) async throws -> UpdateAcceleratorAttributesOutput
+    /// Update a cross-account attachment to add or remove principals or resources. When you update an attachment to remove a principal (account ID or accelerator) or a resource, Global Accelerator revokes the permission for specific resources by doing the following:
+    ///
+    /// * If the principal is an account ID, Global Accelerator reviews every accelerator in the account and removes cross-account endpoints from all accelerators.
+    ///
+    /// * If the principal is an accelerator, Global Accelerator reviews just that accelerator and removes cross-account endpoints from it.
+    ///
+    ///
+    /// If there are overlapping permissions provided by multiple cross-account attachments, Global Accelerator only removes endpoints if there are no current cross-account attachments that provide access permission. For example, if you delete a cross-account attachment that lists an accelerator as a principal, but another cross-account attachment includes the account ID that owns that accelerator, endpoints will not be removed from the accelerator.
+    ///
+    /// - Parameter UpdateCrossAccountAttachmentInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateCrossAccountAttachmentOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have access permission.
+    /// - `AttachmentNotFoundException` : No cross-account attachment was found.
+    /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
+    /// - `InvalidArgumentException` : An argument that you specified is invalid.
+    /// - `LimitExceededException` : Processing your request would cause you to exceed an Global Accelerator limit.
+    /// - `TransactionInProgressException` : There's already a transaction in progress. Another transaction can't be processed.
+    func updateCrossAccountAttachment(input: UpdateCrossAccountAttachmentInput) async throws -> UpdateCrossAccountAttachmentOutput
     /// Update a custom routing accelerator.
     ///
     /// - Parameter UpdateCustomRoutingAcceleratorInput : [no documentation found]

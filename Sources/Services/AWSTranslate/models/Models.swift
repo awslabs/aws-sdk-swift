@@ -59,6 +59,35 @@ extension TranslateClientTypes {
 
 }
 
+extension TranslateClientTypes {
+    public enum Brevity: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case on
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Brevity] {
+            return [
+                .on,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .on: return "ON"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = Brevity(rawValue: rawValue) ?? Brevity.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension ConcurrentModificationException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -2677,10 +2706,8 @@ extension TranslateClientTypes {
     /// Specifies the format and S3 location of the parallel data input file.
     public struct ParallelDataConfig: Swift.Equatable {
         /// The format of the parallel data input file.
-        /// This member is required.
         public var format: TranslateClientTypes.ParallelDataFormat?
         /// The URI of the Amazon S3 folder that contains the parallel data input file. The folder must be in the same Region as the API endpoint you are calling.
-        /// This member is required.
         public var s3Uri: Swift.String?
 
         public init(
@@ -3245,7 +3272,13 @@ public struct StartTextTranslationJobInput: Swift.Equatable {
     public var outputDataConfig: TranslateClientTypes.OutputDataConfig?
     /// The name of a parallel data resource to add to the translation job. This resource consists of examples that show how you want segments of text to be translated. If you specify multiple target languages for the job, the parallel data file must include translations for all the target languages. When you add parallel data to a translation job, you create an Active Custom Translation job. This parameter accepts only one parallel data resource. Active Custom Translation jobs are priced at a higher rate than other jobs that don't use parallel data. For more information, see [Amazon Translate pricing](http://aws.amazon.com/translate/pricing/). For a list of available parallel data resources, use the [ListParallelData] operation. For more information, see [ Customizing your translations with parallel data](https://docs.aws.amazon.com/translate/latest/dg/customizing-translations-parallel-data.html).
     public var parallelDataNames: [Swift.String]?
-    /// Settings to configure your translation output, including the option to set the formality level of the output text and the option to mask profane words and phrases.
+    /// Settings to configure your translation output. You can configure the following options:
+    ///
+    /// * Brevity: not supported.
+    ///
+    /// * Formality: sets the formality level of the output text.
+    ///
+    /// * Profanity: masks profane words and phrases in your translation output.
     public var settings: TranslateClientTypes.TranslationSettings?
     /// The language code of the input language. Specify the language if all input documents share the same language. If you don't know the language of the source files, or your input documents contains different source languages, select auto. Amazon Translate auto detects the source language for each input document. For a list of supported language codes, see [Supported languages](https://docs.aws.amazon.com/translate/latest/dg/what-is-languages.html).
     /// This member is required.
@@ -4555,9 +4588,15 @@ public struct TranslateDocumentInput: Swift.Equatable {
     /// The content and content type for the document to be translated. The document size must not exceed 100 KB.
     /// This member is required.
     public var document: TranslateClientTypes.Document?
-    /// Settings to configure your translation output, including the option to set the formality level of the output text and the option to mask profane words and phrases.
+    /// Settings to configure your translation output. You can configure the following options:
+    ///
+    /// * Brevity: not supported.
+    ///
+    /// * Formality: sets the formality level of the output text.
+    ///
+    /// * Profanity: masks profane words and phrases in your translation output.
     public var settings: TranslateClientTypes.TranslationSettings?
-    /// The language code for the language of the source text. Do not use auto, because TranslateDocument does not support language auto-detection. For a list of supported language codes, see [Supported languages](https://docs.aws.amazon.com/translate/latest/dg/what-is-languages.html).
+    /// The language code for the language of the source text. For a list of supported language codes, see [Supported languages](https://docs.aws.amazon.com/translate/latest/dg/what-is-languages.html). To have Amazon Translate determine the source language of your text, you can specify auto in the SourceLanguageCode field. If you specify auto, Amazon Translate will call [Amazon Comprehend](https://docs.aws.amazon.com/comprehend/latest/dg/comprehend-general.html) to determine the source language. If you specify auto, you must send the TranslateDocument request in a region that supports Amazon Comprehend. Otherwise, the request returns an error indicating that autodetect is not supported.
     /// This member is required.
     public var sourceLanguageCode: Swift.String?
     /// The language code requested for the translated document. For a list of supported language codes, see [Supported languages](https://docs.aws.amazon.com/translate/latest/dg/what-is-languages.html).
@@ -4644,7 +4683,13 @@ extension TranslateDocumentOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct TranslateDocumentOutput: Swift.Equatable {
-    /// Settings to configure your translation output, including the option to set the formality level of the output text and the option to mask profane words and phrases.
+    /// Settings to configure your translation output. You can configure the following options:
+    ///
+    /// * Brevity: reduces the length of the translation output for most translations. Available for TranslateText only.
+    ///
+    /// * Formality: sets the formality level of the translation output.
+    ///
+    /// * Profanity: masks profane words and phrases in the translation output.
     public var appliedSettings: TranslateClientTypes.TranslationSettings?
     /// The names of the custom terminologies applied to the input text by Amazon Translate to produce the translated text document.
     public var appliedTerminologies: [TranslateClientTypes.AppliedTerminology]?
@@ -4771,7 +4816,13 @@ extension TranslateTextInput: ClientRuntime.URLPathProvider {
 }
 
 public struct TranslateTextInput: Swift.Equatable {
-    /// Settings to configure your translation output, including the option to set the formality level of the output text and the option to mask profane words and phrases.
+    /// Settings to configure your translation output. You can configure the following options:
+    ///
+    /// * Brevity: reduces the length of the translated output for most translations.
+    ///
+    /// * Formality: sets the formality level of the output text.
+    ///
+    /// * Profanity: masks profane words and phrases in your translation output.
     public var settings: TranslateClientTypes.TranslationSettings?
     /// The language code for the language of the source text. For a list of language codes, see [Supported languages](https://docs.aws.amazon.com/translate/latest/dg/what-is-languages.html). To have Amazon Translate determine the source language of your text, you can specify auto in the SourceLanguageCode field. If you specify auto, Amazon Translate will call [Amazon Comprehend](https://docs.aws.amazon.com/comprehend/latest/dg/comprehend-general.html) to determine the source language. If you specify auto, you must send the TranslateText request in a region that supports Amazon Comprehend. Otherwise, the request returns an error indicating that autodetect is not supported.
     /// This member is required.
@@ -4995,12 +5046,16 @@ extension TranslateClientTypes {
 
 extension TranslateClientTypes.TranslationSettings: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case brevity = "Brevity"
         case formality = "Formality"
         case profanity = "Profanity"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let brevity = self.brevity {
+            try encodeContainer.encode(brevity.rawValue, forKey: .brevity)
+        }
         if let formality = self.formality {
             try encodeContainer.encode(formality.rawValue, forKey: .formality)
         }
@@ -5015,22 +5070,34 @@ extension TranslateClientTypes.TranslationSettings: Swift.Codable {
         formality = formalityDecoded
         let profanityDecoded = try containerValues.decodeIfPresent(TranslateClientTypes.Profanity.self, forKey: .profanity)
         profanity = profanityDecoded
+        let brevityDecoded = try containerValues.decodeIfPresent(TranslateClientTypes.Brevity.self, forKey: .brevity)
+        brevity = brevityDecoded
     }
 }
 
 extension TranslateClientTypes {
-    /// Settings to configure your translation output, including the option to set the formality level of the output text and the option to mask profane words and phrases.
+    /// Settings to configure your translation output. You can configure the following options:
+    ///
+    /// * Brevity: reduces the length of the translation output for most translations. Available for TranslateText only.
+    ///
+    /// * Formality: sets the formality level of the translation output.
+    ///
+    /// * Profanity: masks profane words and phrases in the translation output.
     public struct TranslationSettings: Swift.Equatable {
-        /// You can optionally specify the desired level of formality for translations to supported target languages. The formality setting controls the level of formal language usage (also known as [register](https://en.wikipedia.org/wiki/Register_(sociolinguistics))) in the translation output. You can set the value to informal or formal. If you don't specify a value for formality, or if the target language doesn't support formality, the translation will ignore the formality setting. If you specify multiple target languages for the job, translate ignores the formality setting for any unsupported target language. For a list of target languages that support formality, see [Supported languages](https://docs.aws.amazon.com/translate/latest/dg/customizing-translations-formality.html#customizing-translations-formality-languages) in the Amazon Translate Developer Guide.
+        /// When you turn on brevity, Amazon Translate reduces the length of the translation output for most translations (when compared with the same translation with brevity turned off). By default, brevity is turned off. If you turn on brevity for a translation request with an unsupported language pair, the translation proceeds with the brevity setting turned off. For the language pairs that brevity supports, see [Using brevity](https://docs.aws.amazon.com/translate/latest/dg/customizing-translations-brevity) in the Amazon Translate Developer Guide.
+        public var brevity: TranslateClientTypes.Brevity?
+        /// You can specify the desired level of formality for translations to supported target languages. The formality setting controls the level of formal language usage (also known as [register](https://en.wikipedia.org/wiki/Register_(sociolinguistics))) in the translation output. You can set the value to informal or formal. If you don't specify a value for formality, or if the target language doesn't support formality, the translation will ignore the formality setting. If you specify multiple target languages for the job, translate ignores the formality setting for any unsupported target language. For a list of target languages that support formality, see [Supported languages](https://docs.aws.amazon.com/translate/latest/dg/customizing-translations-formality.html#customizing-translations-formality-languages) in the Amazon Translate Developer Guide.
         public var formality: TranslateClientTypes.Formality?
-        /// Enable the profanity setting if you want Amazon Translate to mask profane words and phrases in your translation output. To mask profane words and phrases, Amazon Translate replaces them with the grawlix string “?$#@$“. This 5-character sequence is used for each profane word or phrase, regardless of the length or number of words. Amazon Translate doesn't detect profanity in all of its supported languages. For languages that don't support profanity detection, see [Unsupported languages](https://docs.aws.amazon.com/translate/latest/dg/customizing-translations-profanity.html#customizing-translations-profanity-languages) in the Amazon Translate Developer Guide. If you specify multiple target languages for the job, all the target languages must support profanity masking. If any of the target languages don't support profanity masking, the translation job won't mask profanity for any target language.
+        /// You can enable the profanity setting if you want to mask profane words and phrases in your translation output. To mask profane words and phrases, Amazon Translate replaces them with the grawlix string “?$#@$“. This 5-character sequence is used for each profane word or phrase, regardless of the length or number of words. Amazon Translate doesn't detect profanity in all of its supported languages. For languages that don't support profanity detection, see [Unsupported languages](https://docs.aws.amazon.com/translate/latest/dg/customizing-translations-profanity.html#customizing-translations-profanity-languages) in the Amazon Translate Developer Guide. If you specify multiple target languages for the job, all the target languages must support profanity masking. If any of the target languages don't support profanity masking, the translation job won't mask profanity for any target language.
         public var profanity: TranslateClientTypes.Profanity?
 
         public init(
+            brevity: TranslateClientTypes.Brevity? = nil,
             formality: TranslateClientTypes.Formality? = nil,
             profanity: TranslateClientTypes.Profanity? = nil
         )
         {
+            self.brevity = brevity
             self.formality = formality
             self.profanity = profanity
         }

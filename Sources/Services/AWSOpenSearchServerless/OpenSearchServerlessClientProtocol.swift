@@ -16,6 +16,30 @@ public protocol OpenSearchServerlessClientProtocol {
     /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
     /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
     func batchGetCollection(input: BatchGetCollectionInput) async throws -> BatchGetCollectionOutput
+    /// Returns a list of successful and failed retrievals for the OpenSearch Serverless indexes. For more information, see [Viewing data lifecycle policies](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-lifecycle.html#serverless-lifecycle-list).
+    ///
+    /// - Parameter BatchGetEffectiveLifecyclePolicyInput : [no documentation found]
+    ///
+    /// - Returns: `BatchGetEffectiveLifecyclePolicyOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
+    /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
+    func batchGetEffectiveLifecyclePolicy(input: BatchGetEffectiveLifecyclePolicyInput) async throws -> BatchGetEffectiveLifecyclePolicyOutput
+    /// Returns one or more configured OpenSearch Serverless lifecycle policies. For more information, see [Viewing data lifecycle policies](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-lifecycle.html#serverless-lifecycle-list).
+    ///
+    /// - Parameter BatchGetLifecyclePolicyInput : [no documentation found]
+    ///
+    /// - Returns: `BatchGetLifecyclePolicyOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
+    /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
+    func batchGetLifecyclePolicy(input: BatchGetLifecyclePolicyInput) async throws -> BatchGetLifecyclePolicyOutput
     /// Returns attributes for one or more VPC endpoints associated with the current account. For more information, see [Access Amazon OpenSearch Serverless using an interface endpoint](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-vpc.html).
     ///
     /// - Parameter BatchGetVpcEndpointInput : [no documentation found]
@@ -57,6 +81,20 @@ public protocol OpenSearchServerlessClientProtocol {
     /// - `ServiceQuotaExceededException` : Thrown when you attempt to create more resources than the service allows based on service quotas.
     /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
     func createCollection(input: CreateCollectionInput) async throws -> CreateCollectionOutput
+    /// Creates a lifecyle policy to be applied to OpenSearch Serverless indexes. Lifecycle policies define the number of days or hours to retain the data on an OpenSearch Serverless index. For more information, see [Creating data lifecycle policies](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-lifecycle.html#serverless-lifecycle-create).
+    ///
+    /// - Parameter CreateLifecyclePolicyInput : [no documentation found]
+    ///
+    /// - Returns: `CreateLifecyclePolicyOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : When creating a resource, thrown when a resource with the same name already exists or is being created. When deleting a resource, thrown when the resource is not in the ACTIVE or FAILED state.
+    /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
+    /// - `ServiceQuotaExceededException` : Thrown when you attempt to create more resources than the service allows based on service quotas.
+    /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
+    func createLifecyclePolicy(input: CreateLifecyclePolicyInput) async throws -> CreateLifecyclePolicyOutput
     /// Specifies a security configuration for OpenSearch Serverless. For more information, see [SAML authentication for Amazon OpenSearch Serverless](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-saml.html).
     ///
     /// - Parameter CreateSecurityConfigInput : [no documentation found]
@@ -127,6 +165,20 @@ public protocol OpenSearchServerlessClientProtocol {
     /// - `ResourceNotFoundException` : Thrown when accessing or deleting a resource that does not exist.
     /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
     func deleteCollection(input: DeleteCollectionInput) async throws -> DeleteCollectionOutput
+    /// Deletes an OpenSearch Serverless lifecycle policy. For more information, see [Deleting data lifecycle policies](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-lifecycle.html#serverless-lifecycle-delete).
+    ///
+    /// - Parameter DeleteLifecyclePolicyInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteLifecyclePolicyOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : When creating a resource, thrown when a resource with the same name already exists or is being created. When deleting a resource, thrown when the resource is not in the ACTIVE or FAILED state.
+    /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
+    /// - `ResourceNotFoundException` : Thrown when accessing or deleting a resource that does not exist.
+    /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
+    func deleteLifecyclePolicy(input: DeleteLifecyclePolicyInput) async throws -> DeleteLifecyclePolicyOutput
     /// Deletes a security configuration for OpenSearch Serverless. For more information, see [SAML authentication for Amazon OpenSearch Serverless](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-saml.html).
     ///
     /// - Parameter DeleteSecurityConfigInput : [no documentation found]
@@ -255,6 +307,18 @@ public protocol OpenSearchServerlessClientProtocol {
     /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
     /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
     func listCollections(input: ListCollectionsInput) async throws -> ListCollectionsOutput
+    /// Returns a list of OpenSearch Serverless lifecycle policies. For more information, see [Viewing data lifecycle policies](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-lifecycle.html#serverless-lifecycle-list).
+    ///
+    /// - Parameter ListLifecyclePoliciesInput : [no documentation found]
+    ///
+    /// - Returns: `ListLifecyclePoliciesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
+    /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
+    func listLifecyclePolicies(input: ListLifecyclePoliciesInput) async throws -> ListLifecyclePoliciesOutput
     /// Returns information about configured OpenSearch Serverless security configurations. For more information, see [SAML authentication for Amazon OpenSearch Serverless](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-saml.html).
     ///
     /// - Parameter ListSecurityConfigsInput : [no documentation found]
@@ -372,6 +436,21 @@ public protocol OpenSearchServerlessClientProtocol {
     /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
     /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
     func updateCollection(input: UpdateCollectionInput) async throws -> UpdateCollectionOutput
+    /// Updates an OpenSearch Serverless access policy. For more information, see [Updating data lifecycle policies](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-lifecycle.html#serverless-lifecycle-update).
+    ///
+    /// - Parameter UpdateLifecyclePolicyInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateLifecyclePolicyOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : When creating a resource, thrown when a resource with the same name already exists or is being created. When deleting a resource, thrown when the resource is not in the ACTIVE or FAILED state.
+    /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
+    /// - `ResourceNotFoundException` : Thrown when accessing or deleting a resource that does not exist.
+    /// - `ServiceQuotaExceededException` : Thrown when you attempt to create more resources than the service allows based on service quotas.
+    /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
+    func updateLifecyclePolicy(input: UpdateLifecyclePolicyInput) async throws -> UpdateLifecyclePolicyOutput
     /// Updates a security configuration for OpenSearch Serverless. For more information, see [SAML authentication for Amazon OpenSearch Serverless](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-saml.html).
     ///
     /// - Parameter UpdateSecurityConfigInput : [no documentation found]

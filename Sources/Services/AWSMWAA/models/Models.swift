@@ -271,7 +271,7 @@ extension CreateEnvironmentInput: ClientRuntime.URLPathProvider {
 public struct CreateEnvironmentInput: Swift.Equatable {
     /// A list of key-value pairs containing the Apache Airflow configuration options you want to attach to your environment. For more information, see [Apache Airflow configuration options](https://docs.aws.amazon.com/mwaa/latest/userguide/configuring-env-variables.html).
     public var airflowConfigurationOptions: [Swift.String:Swift.String]?
-    /// The Apache Airflow version for your environment. If no value is specified, it defaults to the latest version. Valid values: 1.10.12, 2.0.2, 2.2.2, 2.4.3, and 2.5.1. For more information, see [Apache Airflow versions on Amazon Managed Workflows for Apache Airflow (MWAA)](https://docs.aws.amazon.com/mwaa/latest/userguide/airflow-versions.html).
+    /// The Apache Airflow version for your environment. If no value is specified, it defaults to the latest version. For more information, see [Apache Airflow versions on Amazon Managed Workflows for Apache Airflow (MWAA)](https://docs.aws.amazon.com/mwaa/latest/userguide/airflow-versions.html). Valid values: 1.10.12, 2.0.2, 2.2.2, 2.4.3, 2.5.1, 2.6.3, 2.7.2.
     public var airflowVersion: Swift.String?
     /// The relative path to the DAGs folder on your Amazon S3 bucket. For example, dags. For more information, see [Adding or updating DAGs](https://docs.aws.amazon.com/mwaa/latest/userguide/configuring-dag-folder.html).
     /// This member is required.
@@ -720,6 +720,7 @@ extension MWAAClientTypes.Dimension: Swift.Codable {
 
 extension MWAAClientTypes {
     /// Internal only. Represents the dimensions of a metric. To learn more about the metrics published to Amazon CloudWatch, see [Amazon MWAA performance metrics in Amazon CloudWatch](https://docs.aws.amazon.com/mwaa/latest/userguide/cw-metrics.html).
+    @available(*, deprecated, message: "This type is for internal use and not meant for public use. Data set for this type will be ignored.")
     public struct Dimension: Swift.Equatable {
         /// Internal only. The name of the dimension.
         /// This member is required.
@@ -955,7 +956,7 @@ extension MWAAClientTypes {
     public struct Environment: Swift.Equatable {
         /// A list of key-value pairs containing the Apache Airflow configuration options attached to your environment. For more information, see [Apache Airflow configuration options](https://docs.aws.amazon.com/mwaa/latest/userguide/configuring-env-variables.html).
         public var airflowConfigurationOptions: [Swift.String:Swift.String]?
-        /// The Apache Airflow version on your environment. Valid values: 1.10.12, 2.0.2, 2.2.2, 2.4.3, and 2.5.1.
+        /// The Apache Airflow version on your environment. Valid values: 1.10.12, 2.0.2, 2.2.2, 2.4.3, 2.5.1, 2.6.3, 2.7.2.
         public var airflowVersion: Swift.String?
         /// The Amazon Resource Name (ARN) of the Amazon MWAA environment.
         public var arn: Swift.String?
@@ -1824,13 +1825,16 @@ extension MWAAClientTypes.MetricDatum: Swift.Codable {
 
 extension MWAAClientTypes {
     /// Internal only. Collects Apache Airflow metrics. To learn more about the metrics published to Amazon CloudWatch, see [Amazon MWAA performance metrics in Amazon CloudWatch](https://docs.aws.amazon.com/mwaa/latest/userguide/cw-metrics.html).
+    @available(*, deprecated, message: "This type is for internal use and not meant for public use. Data set for this type will be ignored.")
     public struct MetricDatum: Swift.Equatable {
         /// Internal only. The dimensions associated with the metric.
+        @available(*, deprecated, message: "This type is for internal use and not meant for public use. Data set for this type will be ignored.")
         public var dimensions: [MWAAClientTypes.Dimension]?
         /// Internal only. The name of the metric.
         /// This member is required.
         public var metricName: Swift.String?
         /// Internal only. The statistical values for the metric.
+        @available(*, deprecated, message: "This type is for internal use and not meant for public use. Data set for this type will be ignored.")
         public var statisticValues: MWAAClientTypes.StatisticSet?
         /// Internal only. The time the metric data was received.
         /// This member is required.
@@ -2056,12 +2060,14 @@ extension PublishMetricsInput: ClientRuntime.URLPathProvider {
     }
 }
 
+@available(*, deprecated, message: "This type is for internal use and not meant for public use. Data set for this type will be ignored.")
 public struct PublishMetricsInput: Swift.Equatable {
     /// Internal only. The name of the environment.
     /// This member is required.
     public var environmentName: Swift.String?
     /// Internal only. Publishes metrics to Amazon CloudWatch. To learn more about the metrics published to Amazon CloudWatch, see [Amazon MWAA performance metrics in Amazon CloudWatch](https://docs.aws.amazon.com/mwaa/latest/userguide/cw-metrics.html).
     /// This member is required.
+    @available(*, deprecated, message: "This type is for internal use and not meant for public use. Data set for this type will be ignored.")
     public var metricData: [MWAAClientTypes.MetricDatum]?
 
     public init(
@@ -2104,6 +2110,7 @@ extension PublishMetricsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
+@available(*, deprecated, message: "This type is for internal use and not meant for public use. Data set for this type will be ignored.")
 public struct PublishMetricsOutput: Swift.Equatable {
 
     public init() { }
@@ -2215,6 +2222,7 @@ extension MWAAClientTypes.StatisticSet: Swift.Codable {
 
 extension MWAAClientTypes {
     /// Internal only. Represents a set of statistics that describe a specific metric. To learn more about the metrics published to Amazon CloudWatch, see [Amazon MWAA performance metrics in Amazon CloudWatch](https://docs.aws.amazon.com/mwaa/latest/userguide/cw-metrics.html).
+    @available(*, deprecated, message: "This type is for internal use and not meant for public use. Data set for this type will be ignored.")
     public struct StatisticSet: Swift.Equatable {
         /// Internal only. The maximum value of the sample set.
         public var maximum: Swift.Double?
@@ -2620,7 +2628,7 @@ extension UpdateEnvironmentInput: ClientRuntime.URLPathProvider {
 public struct UpdateEnvironmentInput: Swift.Equatable {
     /// A list of key-value pairs containing the Apache Airflow configuration options you want to attach to your environment. For more information, see [Apache Airflow configuration options](https://docs.aws.amazon.com/mwaa/latest/userguide/configuring-env-variables.html).
     public var airflowConfigurationOptions: [Swift.String:Swift.String]?
-    /// The Apache Airflow version for your environment. To upgrade your environment, specify a newer version of Apache Airflow supported by Amazon MWAA. Before you upgrade an environment, make sure your requirements, DAGs, plugins, and other resources used in your workflows are compatible with the new Apache Airflow version. For more information about updating your resources, see [Upgrading an Amazon MWAA environment](https://docs.aws.amazon.com/mwaa/latest/userguide/upgrading-environment.html). Valid values: 1.10.12, 2.0.2, 2.2.2, 2.4.3, and 2.5.1.
+    /// The Apache Airflow version for your environment. To upgrade your environment, specify a newer version of Apache Airflow supported by Amazon MWAA. Before you upgrade an environment, make sure your requirements, DAGs, plugins, and other resources used in your workflows are compatible with the new Apache Airflow version. For more information about updating your resources, see [Upgrading an Amazon MWAA environment](https://docs.aws.amazon.com/mwaa/latest/userguide/upgrading-environment.html). Valid values: 1.10.12, 2.0.2, 2.2.2, 2.4.3, 2.5.1, 2.6.3, 2.7.2.
     public var airflowVersion: Swift.String?
     /// The relative path to the DAGs folder on your Amazon S3 bucket. For example, dags. For more information, see [Adding or updating DAGs](https://docs.aws.amazon.com/mwaa/latest/userguide/configuring-dag-folder.html).
     public var dagS3Path: Swift.String?

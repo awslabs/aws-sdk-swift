@@ -509,6 +509,53 @@ extension MigrationHubStrategyClient: MigrationHubStrategyClientProtocol {
         return result
     }
 
+    /// Retrieves a list of all the servers fetched from customer vCenter using Strategy Recommendation Collector.
+    ///
+    /// - Parameter ListAnalyzableServersInput : Represents input for ListAnalyzableServers operation.
+    ///
+    /// - Returns: `ListAnalyzableServersOutput` : Represents output for ListAnalyzableServers operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The user does not have permission to perform the action. Check the AWS Identity and Access Management (IAM) policy associated with this user.
+    /// - `InternalServerException` : The server experienced an internal error. Try again.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request body isn't valid.
+    public func listAnalyzableServers(input: ListAnalyzableServersInput) async throws -> ListAnalyzableServersOutput
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listAnalyzableServers")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "migrationhub-strategy")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<ListAnalyzableServersInput, ListAnalyzableServersOutput, ListAnalyzableServersOutputError>(id: "listAnalyzableServers")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAnalyzableServersInput, ListAnalyzableServersOutput, ListAnalyzableServersOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAnalyzableServersInput, ListAnalyzableServersOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAnalyzableServersOutput, ListAnalyzableServersOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListAnalyzableServersInput, ListAnalyzableServersOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListAnalyzableServersInput, ListAnalyzableServersOutput>(xmlName: "ListAnalyzableServersRequest"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAnalyzableServersOutput, ListAnalyzableServersOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAnalyzableServersOutput, ListAnalyzableServersOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAnalyzableServersOutput, ListAnalyzableServersOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAnalyzableServersOutput, ListAnalyzableServersOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Retrieves a list of all the application components (processes).
     ///
     /// - Parameter ListApplicationComponentsInput : [no documentation found]

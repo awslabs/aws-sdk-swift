@@ -619,6 +619,7 @@ enum AddTagsToResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "DBProxyNotFoundFault": return try await DBProxyNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "DBProxyTargetGroupNotFoundFault": return try await DBProxyTargetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "DBSnapshotNotFound": return try await DBSnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "IntegrationNotFoundFault": return try await IntegrationNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
@@ -2606,6 +2607,7 @@ extension RDSClientTypes.ClusterPendingModifiedValues: Swift.Codable {
         case iops = "Iops"
         case masterUserPassword = "MasterUserPassword"
         case pendingCloudwatchLogsExports = "PendingCloudwatchLogsExports"
+        case rdsCustomClusterConfiguration = "RdsCustomClusterConfiguration"
         case storageType = "StorageType"
     }
 
@@ -2635,6 +2637,9 @@ extension RDSClientTypes.ClusterPendingModifiedValues: Swift.Codable {
         if let pendingCloudwatchLogsExports = pendingCloudwatchLogsExports {
             try container.encode(pendingCloudwatchLogsExports, forKey: ClientRuntime.Key("PendingCloudwatchLogsExports"))
         }
+        if let rdsCustomClusterConfiguration = rdsCustomClusterConfiguration {
+            try container.encode(rdsCustomClusterConfiguration, forKey: ClientRuntime.Key("RdsCustomClusterConfiguration"))
+        }
         if let storageType = storageType {
             try container.encode(storageType, forKey: ClientRuntime.Key("StorageType"))
         }
@@ -2656,6 +2661,8 @@ extension RDSClientTypes.ClusterPendingModifiedValues: Swift.Codable {
         backupRetentionPeriod = backupRetentionPeriodDecoded
         let allocatedStorageDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .allocatedStorage)
         allocatedStorage = allocatedStorageDecoded
+        let rdsCustomClusterConfigurationDecoded = try containerValues.decodeIfPresent(RDSClientTypes.RdsCustomClusterConfiguration.self, forKey: .rdsCustomClusterConfiguration)
+        rdsCustomClusterConfiguration = rdsCustomClusterConfigurationDecoded
         let iopsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .iops)
         iops = iopsDecoded
         let storageTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .storageType)
@@ -2682,6 +2689,8 @@ extension RDSClientTypes {
         public var masterUserPassword: Swift.String?
         /// A list of the log types whose configuration is still pending. In other words, these log types are in the process of being activated or deactivated.
         public var pendingCloudwatchLogsExports: RDSClientTypes.PendingCloudwatchLogsExports?
+        /// Reserved for future use.
+        public var rdsCustomClusterConfiguration: RDSClientTypes.RdsCustomClusterConfiguration?
         /// The storage type for the DB cluster.
         public var storageType: Swift.String?
 
@@ -2694,6 +2703,7 @@ extension RDSClientTypes {
             iops: Swift.Int? = nil,
             masterUserPassword: Swift.String? = nil,
             pendingCloudwatchLogsExports: RDSClientTypes.PendingCloudwatchLogsExports? = nil,
+            rdsCustomClusterConfiguration: RDSClientTypes.RdsCustomClusterConfiguration? = nil,
             storageType: Swift.String? = nil
         )
         {
@@ -2705,6 +2715,7 @@ extension RDSClientTypes {
             self.iops = iops
             self.masterUserPassword = masterUserPassword
             self.pendingCloudwatchLogsExports = pendingCloudwatchLogsExports
+            self.rdsCustomClusterConfiguration = rdsCustomClusterConfiguration
             self.storageType = storageType
         }
     }
@@ -4376,6 +4387,7 @@ extension CreateCustomDBEngineVersionOutput: ClientRuntime.HttpResponseBinding {
             self.supportsBabelfish = output.supportsBabelfish
             self.supportsCertificateRotationWithoutRestart = output.supportsCertificateRotationWithoutRestart
             self.supportsGlobalDatabases = output.supportsGlobalDatabases
+            self.supportsIntegrations = output.supportsIntegrations
             self.supportsLocalWriteForwarding = output.supportsLocalWriteForwarding
             self.supportsLogExportsToCloudwatchLogs = output.supportsLogExportsToCloudwatchLogs
             self.supportsParallelQuery = output.supportsParallelQuery
@@ -4409,6 +4421,7 @@ extension CreateCustomDBEngineVersionOutput: ClientRuntime.HttpResponseBinding {
             self.supportsBabelfish = nil
             self.supportsCertificateRotationWithoutRestart = nil
             self.supportsGlobalDatabases = nil
+            self.supportsIntegrations = nil
             self.supportsLocalWriteForwarding = nil
             self.supportsLogExportsToCloudwatchLogs = nil
             self.supportsParallelQuery = nil
@@ -4473,6 +4486,8 @@ public struct CreateCustomDBEngineVersionOutput: Swift.Equatable {
     public var supportsCertificateRotationWithoutRestart: Swift.Bool?
     /// Indicates whether you can use Aurora global databases with a specific DB engine version.
     public var supportsGlobalDatabases: Swift.Bool?
+    /// Indicates whether the DB engine version supports Aurora zero-ETL integrations with Amazon Redshift.
+    public var supportsIntegrations: Swift.Bool?
     /// Indicates whether the DB engine version supports forwarding write operations from reader DB instances to the writer DB instance in the DB cluster. By default, write operations aren't allowed on reader DB instances. Valid for: Aurora DB clusters only
     public var supportsLocalWriteForwarding: Swift.Bool?
     /// Indicates whether the engine version supports exporting the log types specified by ExportableLogTypes to CloudWatch Logs.
@@ -4513,6 +4528,7 @@ public struct CreateCustomDBEngineVersionOutput: Swift.Equatable {
         supportsBabelfish: Swift.Bool? = nil,
         supportsCertificateRotationWithoutRestart: Swift.Bool? = nil,
         supportsGlobalDatabases: Swift.Bool? = nil,
+        supportsIntegrations: Swift.Bool? = nil,
         supportsLocalWriteForwarding: Swift.Bool? = nil,
         supportsLogExportsToCloudwatchLogs: Swift.Bool? = nil,
         supportsParallelQuery: Swift.Bool? = nil,
@@ -4547,6 +4563,7 @@ public struct CreateCustomDBEngineVersionOutput: Swift.Equatable {
         self.supportsBabelfish = supportsBabelfish
         self.supportsCertificateRotationWithoutRestart = supportsCertificateRotationWithoutRestart
         self.supportsGlobalDatabases = supportsGlobalDatabases
+        self.supportsIntegrations = supportsIntegrations
         self.supportsLocalWriteForwarding = supportsLocalWriteForwarding
         self.supportsLogExportsToCloudwatchLogs = supportsLogExportsToCloudwatchLogs
         self.supportsParallelQuery = supportsParallelQuery
@@ -4589,6 +4606,7 @@ struct CreateCustomDBEngineVersionOutputBody: Swift.Equatable {
     let supportsCertificateRotationWithoutRestart: Swift.Bool?
     let supportedCACertificateIdentifiers: [Swift.String]?
     let supportsLocalWriteForwarding: Swift.Bool?
+    let supportsIntegrations: Swift.Bool?
 }
 
 extension CreateCustomDBEngineVersionOutputBody: Swift.Decodable {
@@ -4619,6 +4637,7 @@ extension CreateCustomDBEngineVersionOutputBody: Swift.Decodable {
         case supportsBabelfish = "SupportsBabelfish"
         case supportsCertificateRotationWithoutRestart = "SupportsCertificateRotationWithoutRestart"
         case supportsGlobalDatabases = "SupportsGlobalDatabases"
+        case supportsIntegrations = "SupportsIntegrations"
         case supportsLocalWriteForwarding = "SupportsLocalWriteForwarding"
         case supportsLogExportsToCloudwatchLogs = "SupportsLogExportsToCloudwatchLogs"
         case supportsParallelQuery = "SupportsParallelQuery"
@@ -4847,6 +4866,8 @@ extension CreateCustomDBEngineVersionOutputBody: Swift.Decodable {
         }
         let supportsLocalWriteForwardingDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsLocalWriteForwarding)
         supportsLocalWriteForwarding = supportsLocalWriteForwardingDecoded
+        let supportsIntegrationsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsIntegrations)
+        supportsIntegrations = supportsIntegrationsDecoded
     }
 }
 
@@ -5387,6 +5408,9 @@ extension CreateDBClusterInput: Swift.Encodable {
         if let publiclyAccessible = publiclyAccessible {
             try container.encode(publiclyAccessible, forKey: ClientRuntime.Key("PubliclyAccessible"))
         }
+        if let rdsCustomClusterConfiguration = rdsCustomClusterConfiguration {
+            try container.encode(rdsCustomClusterConfiguration, forKey: ClientRuntime.Key("RdsCustomClusterConfiguration"))
+        }
         if let replicationSourceIdentifier = replicationSourceIdentifier {
             try container.encode(replicationSourceIdentifier, forKey: ClientRuntime.Key("ReplicationSourceIdentifier"))
         }
@@ -5650,6 +5674,8 @@ public struct CreateDBClusterInput: Swift.Equatable {
     ///
     /// * If the subnets are part of a VPC that has an internet gateway attached to it, the DB cluster is public.
     public var publiclyAccessible: Swift.Bool?
+    /// Reserved for future use.
+    public var rdsCustomClusterConfiguration: RDSClientTypes.RdsCustomClusterConfiguration?
     /// The Amazon Resource Name (ARN) of the source DB instance or DB cluster if this DB cluster is created as a read replica. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
     public var replicationSourceIdentifier: Swift.String?
     /// For DB clusters in serverless DB engine mode, the scaling properties of the DB cluster. Valid for Cluster Type: Aurora DB clusters only
@@ -5723,6 +5749,7 @@ public struct CreateDBClusterInput: Swift.Equatable {
         preferredBackupWindow: Swift.String? = nil,
         preferredMaintenanceWindow: Swift.String? = nil,
         publiclyAccessible: Swift.Bool? = nil,
+        rdsCustomClusterConfiguration: RDSClientTypes.RdsCustomClusterConfiguration? = nil,
         replicationSourceIdentifier: Swift.String? = nil,
         scalingConfiguration: RDSClientTypes.ScalingConfiguration? = nil,
         serverlessV2ScalingConfiguration: RDSClientTypes.ServerlessV2ScalingConfiguration? = nil,
@@ -5775,6 +5802,7 @@ public struct CreateDBClusterInput: Swift.Equatable {
         self.preferredBackupWindow = preferredBackupWindow
         self.preferredMaintenanceWindow = preferredMaintenanceWindow
         self.publiclyAccessible = publiclyAccessible
+        self.rdsCustomClusterConfiguration = rdsCustomClusterConfiguration
         self.replicationSourceIdentifier = replicationSourceIdentifier
         self.scalingConfiguration = scalingConfiguration
         self.serverlessV2ScalingConfiguration = serverlessV2ScalingConfiguration
@@ -5812,6 +5840,7 @@ struct CreateDBClusterInputBody: Swift.Equatable {
     let enableCloudwatchLogsExports: [Swift.String]?
     let engineMode: Swift.String?
     let scalingConfiguration: RDSClientTypes.ScalingConfiguration?
+    let rdsCustomClusterConfiguration: RDSClientTypes.RdsCustomClusterConfiguration?
     let deletionProtection: Swift.Bool?
     let globalClusterIdentifier: Swift.String?
     let enableHttpEndpoint: Swift.Bool?
@@ -5883,6 +5912,7 @@ extension CreateDBClusterInputBody: Swift.Decodable {
         case preferredBackupWindow = "PreferredBackupWindow"
         case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
         case publiclyAccessible = "PubliclyAccessible"
+        case rdsCustomClusterConfiguration = "RdsCustomClusterConfiguration"
         case replicationSourceIdentifier = "ReplicationSourceIdentifier"
         case scalingConfiguration = "ScalingConfiguration"
         case serverlessV2ScalingConfiguration = "ServerlessV2ScalingConfiguration"
@@ -6014,6 +6044,8 @@ extension CreateDBClusterInputBody: Swift.Decodable {
         engineMode = engineModeDecoded
         let scalingConfigurationDecoded = try containerValues.decodeIfPresent(RDSClientTypes.ScalingConfiguration.self, forKey: .scalingConfiguration)
         scalingConfiguration = scalingConfigurationDecoded
+        let rdsCustomClusterConfigurationDecoded = try containerValues.decodeIfPresent(RDSClientTypes.RdsCustomClusterConfiguration.self, forKey: .rdsCustomClusterConfiguration)
+        rdsCustomClusterConfiguration = rdsCustomClusterConfigurationDecoded
         let deletionProtectionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deletionProtection)
         deletionProtection = deletionProtectionDecoded
         let globalClusterIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .globalClusterIdentifier)
@@ -10285,6 +10317,359 @@ enum CreateGlobalClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension CreateIntegrationInput: Swift.Encodable {
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let additionalEncryptionContext = additionalEncryptionContext {
+            var additionalEncryptionContextContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("AdditionalEncryptionContext"))
+            for (index0, element0) in additionalEncryptionContext.sorted(by: { $0.key < $1.key }).enumerated() {
+                let stringKey0 = element0.key
+                let stringValue0 = element0.value
+                var entryContainer0 = additionalEncryptionContextContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("entry.\(index0.advanced(by: 1))"))
+                var keyContainer0 = entryContainer0.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("key"))
+                try keyContainer0.encode(stringKey0, forKey: ClientRuntime.Key(""))
+                var valueContainer0 = entryContainer0.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("value"))
+                try valueContainer0.encode(stringValue0, forKey: ClientRuntime.Key(""))
+            }
+        }
+        if let integrationName = integrationName {
+            try container.encode(integrationName, forKey: ClientRuntime.Key("IntegrationName"))
+        }
+        if let kmsKeyId = kmsKeyId {
+            try container.encode(kmsKeyId, forKey: ClientRuntime.Key("KMSKeyId"))
+        }
+        if let sourceArn = sourceArn {
+            try container.encode(sourceArn, forKey: ClientRuntime.Key("SourceArn"))
+        }
+        if let tags = tags {
+            if !tags.isEmpty {
+                var tagsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Tags"))
+                for (index0, tag0) in tags.enumerated() {
+                    try tagsContainer.encode(tag0, forKey: ClientRuntime.Key("Tag.\(index0.advanced(by: 1))"))
+                }
+            }
+            else {
+                var tagsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Tags"))
+                try tagsContainer.encode("", forKey: ClientRuntime.Key(""))
+            }
+        }
+        if let targetArn = targetArn {
+            try container.encode(targetArn, forKey: ClientRuntime.Key("TargetArn"))
+        }
+        try container.encode("CreateIntegration", forKey:ClientRuntime.Key("Action"))
+        try container.encode("2014-10-31", forKey:ClientRuntime.Key("Version"))
+    }
+}
+
+extension CreateIntegrationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct CreateIntegrationInput: Swift.Equatable {
+    /// An optional set of non-secret key–value pairs that contains additional contextual information about the data. For more information, see [Encryption context](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#encrypt_context) in the Amazon Web Services Key Management Service Developer Guide. You can only include this parameter if you specify the KMSKeyId parameter.
+    public var additionalEncryptionContext: [Swift.String:Swift.String]?
+    /// The name of the integration.
+    /// This member is required.
+    public var integrationName: Swift.String?
+    /// The Amazon Web Services Key Management System (Amazon Web Services KMS) key identifier for the key to use to encrypt the integration. If you don't specify an encryption key, Aurora uses a default Amazon Web Services owned key.
+    public var kmsKeyId: Swift.String?
+    /// The Amazon Resource Name (ARN) of the Aurora DB cluster to use as the source for replication.
+    /// This member is required.
+    public var sourceArn: Swift.String?
+    /// A list of tags. For more information, see [Tagging Amazon RDS Resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide.
+    public var tags: [RDSClientTypes.Tag]?
+    /// The ARN of the Redshift data warehouse to use as the target for replication.
+    /// This member is required.
+    public var targetArn: Swift.String?
+
+    public init(
+        additionalEncryptionContext: [Swift.String:Swift.String]? = nil,
+        integrationName: Swift.String? = nil,
+        kmsKeyId: Swift.String? = nil,
+        sourceArn: Swift.String? = nil,
+        tags: [RDSClientTypes.Tag]? = nil,
+        targetArn: Swift.String? = nil
+    )
+    {
+        self.additionalEncryptionContext = additionalEncryptionContext
+        self.integrationName = integrationName
+        self.kmsKeyId = kmsKeyId
+        self.sourceArn = sourceArn
+        self.tags = tags
+        self.targetArn = targetArn
+    }
+}
+
+struct CreateIntegrationInputBody: Swift.Equatable {
+    let sourceArn: Swift.String?
+    let targetArn: Swift.String?
+    let integrationName: Swift.String?
+    let kmsKeyId: Swift.String?
+    let additionalEncryptionContext: [Swift.String:Swift.String]?
+    let tags: [RDSClientTypes.Tag]?
+}
+
+extension CreateIntegrationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case additionalEncryptionContext = "AdditionalEncryptionContext"
+        case integrationName = "IntegrationName"
+        case kmsKeyId = "KMSKeyId"
+        case sourceArn = "SourceArn"
+        case tags = "Tags"
+        case targetArn = "TargetArn"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceArn)
+        sourceArn = sourceArnDecoded
+        let targetArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .targetArn)
+        targetArn = targetArnDecoded
+        let integrationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .integrationName)
+        integrationName = integrationNameDecoded
+        let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
+        kmsKeyId = kmsKeyIdDecoded
+        if containerValues.contains(.additionalEncryptionContext) {
+            struct KeyVal0{struct key{}; struct value{}}
+            let additionalEncryptionContextWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: ClientRuntime.MapEntry<Swift.String, Swift.String, KeyVal0.key, KeyVal0.value>.CodingKeys.self, forKey: .additionalEncryptionContext)
+            if let additionalEncryptionContextWrappedContainer = additionalEncryptionContextWrappedContainer {
+                let additionalEncryptionContextContainer = try additionalEncryptionContextWrappedContainer.decodeIfPresent([ClientRuntime.MapKeyValue<Swift.String, Swift.String, KeyVal0.key, KeyVal0.value>].self, forKey: .entry)
+                var additionalEncryptionContextBuffer: [Swift.String:Swift.String]? = nil
+                if let additionalEncryptionContextContainer = additionalEncryptionContextContainer {
+                    additionalEncryptionContextBuffer = [Swift.String:Swift.String]()
+                    for stringContainer0 in additionalEncryptionContextContainer {
+                        additionalEncryptionContextBuffer?[stringContainer0.key] = stringContainer0.value
+                    }
+                }
+                additionalEncryptionContext = additionalEncryptionContextBuffer
+            } else {
+                additionalEncryptionContext = [:]
+            }
+        } else {
+            additionalEncryptionContext = nil
+        }
+        if containerValues.contains(.tags) {
+            struct KeyVal0{struct Tag{}}
+            let tagsWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.Tag>.CodingKeys.self, forKey: .tags)
+            if let tagsWrappedContainer = tagsWrappedContainer {
+                let tagsContainer = try tagsWrappedContainer.decodeIfPresent([RDSClientTypes.Tag].self, forKey: .member)
+                var tagsBuffer:[RDSClientTypes.Tag]? = nil
+                if let tagsContainer = tagsContainer {
+                    tagsBuffer = [RDSClientTypes.Tag]()
+                    for structureContainer0 in tagsContainer {
+                        tagsBuffer?.append(structureContainer0)
+                    }
+                }
+                tags = tagsBuffer
+            } else {
+                tags = []
+            }
+        } else {
+            tags = nil
+        }
+    }
+}
+
+extension CreateIntegrationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateIntegrationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.additionalEncryptionContext = output.additionalEncryptionContext
+            self.createTime = output.createTime
+            self.errors = output.errors
+            self.integrationArn = output.integrationArn
+            self.integrationName = output.integrationName
+            self.kmsKeyId = output.kmsKeyId
+            self.sourceArn = output.sourceArn
+            self.status = output.status
+            self.tags = output.tags
+            self.targetArn = output.targetArn
+        } else {
+            self.additionalEncryptionContext = nil
+            self.createTime = nil
+            self.errors = nil
+            self.integrationArn = nil
+            self.integrationName = nil
+            self.kmsKeyId = nil
+            self.sourceArn = nil
+            self.status = nil
+            self.tags = nil
+            self.targetArn = nil
+        }
+    }
+}
+
+/// An Aurora zero-ETL integration with Amazon Redshift. For more information, see [Working with Amazon Aurora zero-ETL integrations with Amazon Redshift](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/zero-etl.html) in the Amazon Aurora User Guide.
+public struct CreateIntegrationOutput: Swift.Equatable {
+    /// The encryption context for the integration. For more information, see [Encryption context](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#encrypt_context) in the Amazon Web Services Key Management Service Developer Guide.
+    public var additionalEncryptionContext: [Swift.String:Swift.String]?
+    /// The time when the integration was created, in Universal Coordinated Time (UTC).
+    public var createTime: ClientRuntime.Date?
+    /// Any errors associated with the integration.
+    public var errors: [RDSClientTypes.IntegrationError]?
+    /// The ARN of the integration.
+    public var integrationArn: Swift.String?
+    /// The name of the integration.
+    public var integrationName: Swift.String?
+    /// The Amazon Web Services Key Management System (Amazon Web Services KMS) key identifier for the key used to to encrypt the integration.
+    public var kmsKeyId: Swift.String?
+    /// The Amazon Resource Name (ARN) of the Aurora DB cluster used as the source for replication.
+    public var sourceArn: Swift.String?
+    /// The current status of the integration.
+    public var status: RDSClientTypes.IntegrationStatus?
+    /// A list of tags. For more information, see [Tagging Amazon RDS Resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide.
+    public var tags: [RDSClientTypes.Tag]?
+    /// The ARN of the Redshift data warehouse used as the target for replication.
+    public var targetArn: Swift.String?
+
+    public init(
+        additionalEncryptionContext: [Swift.String:Swift.String]? = nil,
+        createTime: ClientRuntime.Date? = nil,
+        errors: [RDSClientTypes.IntegrationError]? = nil,
+        integrationArn: Swift.String? = nil,
+        integrationName: Swift.String? = nil,
+        kmsKeyId: Swift.String? = nil,
+        sourceArn: Swift.String? = nil,
+        status: RDSClientTypes.IntegrationStatus? = nil,
+        tags: [RDSClientTypes.Tag]? = nil,
+        targetArn: Swift.String? = nil
+    )
+    {
+        self.additionalEncryptionContext = additionalEncryptionContext
+        self.createTime = createTime
+        self.errors = errors
+        self.integrationArn = integrationArn
+        self.integrationName = integrationName
+        self.kmsKeyId = kmsKeyId
+        self.sourceArn = sourceArn
+        self.status = status
+        self.tags = tags
+        self.targetArn = targetArn
+    }
+}
+
+struct CreateIntegrationOutputBody: Swift.Equatable {
+    let sourceArn: Swift.String?
+    let targetArn: Swift.String?
+    let integrationName: Swift.String?
+    let integrationArn: Swift.String?
+    let kmsKeyId: Swift.String?
+    let additionalEncryptionContext: [Swift.String:Swift.String]?
+    let status: RDSClientTypes.IntegrationStatus?
+    let tags: [RDSClientTypes.Tag]?
+    let createTime: ClientRuntime.Date?
+    let errors: [RDSClientTypes.IntegrationError]?
+}
+
+extension CreateIntegrationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case additionalEncryptionContext = "AdditionalEncryptionContext"
+        case createTime = "CreateTime"
+        case errors = "Errors"
+        case integrationArn = "IntegrationArn"
+        case integrationName = "IntegrationName"
+        case kmsKeyId = "KMSKeyId"
+        case sourceArn = "SourceArn"
+        case status = "Status"
+        case tags = "Tags"
+        case targetArn = "TargetArn"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CreateIntegrationResult"))
+        let sourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceArn)
+        sourceArn = sourceArnDecoded
+        let targetArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .targetArn)
+        targetArn = targetArnDecoded
+        let integrationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .integrationName)
+        integrationName = integrationNameDecoded
+        let integrationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .integrationArn)
+        integrationArn = integrationArnDecoded
+        let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
+        kmsKeyId = kmsKeyIdDecoded
+        if containerValues.contains(.additionalEncryptionContext) {
+            struct KeyVal0{struct key{}; struct value{}}
+            let additionalEncryptionContextWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: ClientRuntime.MapEntry<Swift.String, Swift.String, KeyVal0.key, KeyVal0.value>.CodingKeys.self, forKey: .additionalEncryptionContext)
+            if let additionalEncryptionContextWrappedContainer = additionalEncryptionContextWrappedContainer {
+                let additionalEncryptionContextContainer = try additionalEncryptionContextWrappedContainer.decodeIfPresent([ClientRuntime.MapKeyValue<Swift.String, Swift.String, KeyVal0.key, KeyVal0.value>].self, forKey: .entry)
+                var additionalEncryptionContextBuffer: [Swift.String:Swift.String]? = nil
+                if let additionalEncryptionContextContainer = additionalEncryptionContextContainer {
+                    additionalEncryptionContextBuffer = [Swift.String:Swift.String]()
+                    for stringContainer0 in additionalEncryptionContextContainer {
+                        additionalEncryptionContextBuffer?[stringContainer0.key] = stringContainer0.value
+                    }
+                }
+                additionalEncryptionContext = additionalEncryptionContextBuffer
+            } else {
+                additionalEncryptionContext = [:]
+            }
+        } else {
+            additionalEncryptionContext = nil
+        }
+        let statusDecoded = try containerValues.decodeIfPresent(RDSClientTypes.IntegrationStatus.self, forKey: .status)
+        status = statusDecoded
+        if containerValues.contains(.tags) {
+            struct KeyVal0{struct Tag{}}
+            let tagsWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.Tag>.CodingKeys.self, forKey: .tags)
+            if let tagsWrappedContainer = tagsWrappedContainer {
+                let tagsContainer = try tagsWrappedContainer.decodeIfPresent([RDSClientTypes.Tag].self, forKey: .member)
+                var tagsBuffer:[RDSClientTypes.Tag]? = nil
+                if let tagsContainer = tagsContainer {
+                    tagsBuffer = [RDSClientTypes.Tag]()
+                    for structureContainer0 in tagsContainer {
+                        tagsBuffer?.append(structureContainer0)
+                    }
+                }
+                tags = tagsBuffer
+            } else {
+                tags = []
+            }
+        } else {
+            tags = nil
+        }
+        let createTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .createTime)
+        createTime = createTimeDecoded
+        if containerValues.contains(.errors) {
+            struct KeyVal0{struct IntegrationError{}}
+            let errorsWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.IntegrationError>.CodingKeys.self, forKey: .errors)
+            if let errorsWrappedContainer = errorsWrappedContainer {
+                let errorsContainer = try errorsWrappedContainer.decodeIfPresent([RDSClientTypes.IntegrationError].self, forKey: .member)
+                var errorsBuffer:[RDSClientTypes.IntegrationError]? = nil
+                if let errorsContainer = errorsContainer {
+                    errorsBuffer = [RDSClientTypes.IntegrationError]()
+                    for structureContainer0 in errorsContainer {
+                        errorsBuffer?.append(structureContainer0)
+                    }
+                }
+                errors = errorsBuffer
+            } else {
+                errors = []
+            }
+        } else {
+            errors = nil
+        }
+    }
+}
+
+enum CreateIntegrationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBClusterNotFoundFault": return try await DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "DBInstanceNotFound": return try await DBInstanceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "IntegrationAlreadyExistsFault": return try await IntegrationAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "IntegrationConflictOperationFault": return try await IntegrationConflictOperationFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "IntegrationQuotaExceededFault": return try await IntegrationQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "KMSKeyNotAccessibleFault": return try await KMSKeyNotAccessibleFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
 extension CreateOptionGroupInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
@@ -10850,6 +11235,7 @@ extension RDSClientTypes.DBCluster: Swift.Codable {
         case preferredBackupWindow = "PreferredBackupWindow"
         case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
         case publiclyAccessible = "PubliclyAccessible"
+        case rdsCustomClusterConfiguration = "RdsCustomClusterConfiguration"
         case readReplicaIdentifiers = "ReadReplicaIdentifiers"
         case readerEndpoint = "ReaderEndpoint"
         case replicationSourceIdentifier = "ReplicationSourceIdentifier"
@@ -11118,6 +11504,9 @@ extension RDSClientTypes.DBCluster: Swift.Codable {
         }
         if let publiclyAccessible = publiclyAccessible {
             try container.encode(publiclyAccessible, forKey: ClientRuntime.Key("PubliclyAccessible"))
+        }
+        if let rdsCustomClusterConfiguration = rdsCustomClusterConfiguration {
+            try container.encode(rdsCustomClusterConfiguration, forKey: ClientRuntime.Key("RdsCustomClusterConfiguration"))
         }
         if let readReplicaIdentifiers = readReplicaIdentifiers {
             if !readReplicaIdentifiers.isEmpty {
@@ -11404,6 +11793,8 @@ extension RDSClientTypes.DBCluster: Swift.Codable {
         engineMode = engineModeDecoded
         let scalingConfigurationInfoDecoded = try containerValues.decodeIfPresent(RDSClientTypes.ScalingConfigurationInfo.self, forKey: .scalingConfigurationInfo)
         scalingConfigurationInfo = scalingConfigurationInfoDecoded
+        let rdsCustomClusterConfigurationDecoded = try containerValues.decodeIfPresent(RDSClientTypes.RdsCustomClusterConfiguration.self, forKey: .rdsCustomClusterConfiguration)
+        rdsCustomClusterConfiguration = rdsCustomClusterConfigurationDecoded
         let deletionProtectionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deletionProtection)
         deletionProtection = deletionProtectionDecoded
         let httpEndpointEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .httpEndpointEnabled)
@@ -11641,6 +12032,8 @@ extension RDSClientTypes {
         public var preferredMaintenanceWindow: Swift.String?
         /// Indicates whether the DB cluster is publicly accessible. When the DB cluster is publicly accessible, its Domain Name System (DNS) endpoint resolves to the private IP address from within the DB cluster's virtual private cloud (VPC). It resolves to the public IP address from outside of the DB cluster's VPC. Access to the DB cluster is ultimately controlled by the security group it uses. That public access isn't permitted if the security group assigned to the DB cluster doesn't permit it. When the DB cluster isn't publicly accessible, it is an internal DB cluster with a DNS name that resolves to a private IP address. For more information, see [CreateDBCluster]. This setting is only for non-Aurora Multi-AZ DB clusters.
         public var publiclyAccessible: Swift.Bool?
+        /// Reserved for future use.
+        public var rdsCustomClusterConfiguration: RDSClientTypes.RdsCustomClusterConfiguration?
         /// Contains one or more identifiers of the read replicas associated with this DB cluster.
         public var readReplicaIdentifiers: [Swift.String]?
         /// The reader endpoint for the DB cluster. The reader endpoint for a DB cluster load-balances connections across the Aurora Replicas that are available in a DB cluster. As clients request new connections to the reader endpoint, Aurora distributes the connection requests among the Aurora Replicas in the DB cluster. This functionality can help balance your read workload across multiple Aurora Replicas in your DB cluster. If a failover occurs, and the Aurora Replica that you are connected to is promoted to be the primary instance, your connection is dropped. To continue sending your read workload to other Aurora Replicas in the cluster, you can then reconnect to the reader endpoint.
@@ -11727,6 +12120,7 @@ extension RDSClientTypes {
             preferredBackupWindow: Swift.String? = nil,
             preferredMaintenanceWindow: Swift.String? = nil,
             publiclyAccessible: Swift.Bool? = nil,
+            rdsCustomClusterConfiguration: RDSClientTypes.RdsCustomClusterConfiguration? = nil,
             readReplicaIdentifiers: [Swift.String]? = nil,
             readerEndpoint: Swift.String? = nil,
             replicationSourceIdentifier: Swift.String? = nil,
@@ -11803,6 +12197,7 @@ extension RDSClientTypes {
             self.preferredBackupWindow = preferredBackupWindow
             self.preferredMaintenanceWindow = preferredMaintenanceWindow
             self.publiclyAccessible = publiclyAccessible
+            self.rdsCustomClusterConfiguration = rdsCustomClusterConfiguration
             self.readReplicaIdentifiers = readReplicaIdentifiers
             self.readerEndpoint = readerEndpoint
             self.replicationSourceIdentifier = replicationSourceIdentifier
@@ -13941,6 +14336,7 @@ extension RDSClientTypes.DBEngineVersion: Swift.Codable {
         case supportsBabelfish = "SupportsBabelfish"
         case supportsCertificateRotationWithoutRestart = "SupportsCertificateRotationWithoutRestart"
         case supportsGlobalDatabases = "SupportsGlobalDatabases"
+        case supportsIntegrations = "SupportsIntegrations"
         case supportsLocalWriteForwarding = "SupportsLocalWriteForwarding"
         case supportsLogExportsToCloudwatchLogs = "SupportsLogExportsToCloudwatchLogs"
         case supportsParallelQuery = "SupportsParallelQuery"
@@ -14091,6 +14487,9 @@ extension RDSClientTypes.DBEngineVersion: Swift.Codable {
         }
         if let supportsGlobalDatabases = supportsGlobalDatabases {
             try container.encode(supportsGlobalDatabases, forKey: ClientRuntime.Key("SupportsGlobalDatabases"))
+        }
+        if let supportsIntegrations = supportsIntegrations {
+            try container.encode(supportsIntegrations, forKey: ClientRuntime.Key("SupportsIntegrations"))
         }
         if let supportsLocalWriteForwarding = supportsLocalWriteForwarding {
             try container.encode(supportsLocalWriteForwarding, forKey: ClientRuntime.Key("SupportsLocalWriteForwarding"))
@@ -14349,6 +14748,8 @@ extension RDSClientTypes.DBEngineVersion: Swift.Codable {
         }
         let supportsLocalWriteForwardingDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsLocalWriteForwarding)
         supportsLocalWriteForwarding = supportsLocalWriteForwardingDecoded
+        let supportsIntegrationsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsIntegrations)
+        supportsIntegrations = supportsIntegrationsDecoded
     }
 }
 
@@ -14407,6 +14808,8 @@ extension RDSClientTypes {
         public var supportsCertificateRotationWithoutRestart: Swift.Bool?
         /// Indicates whether you can use Aurora global databases with a specific DB engine version.
         public var supportsGlobalDatabases: Swift.Bool?
+        /// Indicates whether the DB engine version supports Aurora zero-ETL integrations with Amazon Redshift.
+        public var supportsIntegrations: Swift.Bool?
         /// Indicates whether the DB engine version supports forwarding write operations from reader DB instances to the writer DB instance in the DB cluster. By default, write operations aren't allowed on reader DB instances. Valid for: Aurora DB clusters only
         public var supportsLocalWriteForwarding: Swift.Bool?
         /// Indicates whether the engine version supports exporting the log types specified by ExportableLogTypes to CloudWatch Logs.
@@ -14447,6 +14850,7 @@ extension RDSClientTypes {
             supportsBabelfish: Swift.Bool? = nil,
             supportsCertificateRotationWithoutRestart: Swift.Bool? = nil,
             supportsGlobalDatabases: Swift.Bool? = nil,
+            supportsIntegrations: Swift.Bool? = nil,
             supportsLocalWriteForwarding: Swift.Bool? = nil,
             supportsLogExportsToCloudwatchLogs: Swift.Bool? = nil,
             supportsParallelQuery: Swift.Bool? = nil,
@@ -14481,6 +14885,7 @@ extension RDSClientTypes {
             self.supportsBabelfish = supportsBabelfish
             self.supportsCertificateRotationWithoutRestart = supportsCertificateRotationWithoutRestart
             self.supportsGlobalDatabases = supportsGlobalDatabases
+            self.supportsIntegrations = supportsIntegrations
             self.supportsLocalWriteForwarding = supportsLocalWriteForwarding
             self.supportsLogExportsToCloudwatchLogs = supportsLogExportsToCloudwatchLogs
             self.supportsParallelQuery = supportsParallelQuery
@@ -20037,6 +20442,7 @@ extension DeleteCustomDBEngineVersionOutput: ClientRuntime.HttpResponseBinding {
             self.supportsBabelfish = output.supportsBabelfish
             self.supportsCertificateRotationWithoutRestart = output.supportsCertificateRotationWithoutRestart
             self.supportsGlobalDatabases = output.supportsGlobalDatabases
+            self.supportsIntegrations = output.supportsIntegrations
             self.supportsLocalWriteForwarding = output.supportsLocalWriteForwarding
             self.supportsLogExportsToCloudwatchLogs = output.supportsLogExportsToCloudwatchLogs
             self.supportsParallelQuery = output.supportsParallelQuery
@@ -20070,6 +20476,7 @@ extension DeleteCustomDBEngineVersionOutput: ClientRuntime.HttpResponseBinding {
             self.supportsBabelfish = nil
             self.supportsCertificateRotationWithoutRestart = nil
             self.supportsGlobalDatabases = nil
+            self.supportsIntegrations = nil
             self.supportsLocalWriteForwarding = nil
             self.supportsLogExportsToCloudwatchLogs = nil
             self.supportsParallelQuery = nil
@@ -20134,6 +20541,8 @@ public struct DeleteCustomDBEngineVersionOutput: Swift.Equatable {
     public var supportsCertificateRotationWithoutRestart: Swift.Bool?
     /// Indicates whether you can use Aurora global databases with a specific DB engine version.
     public var supportsGlobalDatabases: Swift.Bool?
+    /// Indicates whether the DB engine version supports Aurora zero-ETL integrations with Amazon Redshift.
+    public var supportsIntegrations: Swift.Bool?
     /// Indicates whether the DB engine version supports forwarding write operations from reader DB instances to the writer DB instance in the DB cluster. By default, write operations aren't allowed on reader DB instances. Valid for: Aurora DB clusters only
     public var supportsLocalWriteForwarding: Swift.Bool?
     /// Indicates whether the engine version supports exporting the log types specified by ExportableLogTypes to CloudWatch Logs.
@@ -20174,6 +20583,7 @@ public struct DeleteCustomDBEngineVersionOutput: Swift.Equatable {
         supportsBabelfish: Swift.Bool? = nil,
         supportsCertificateRotationWithoutRestart: Swift.Bool? = nil,
         supportsGlobalDatabases: Swift.Bool? = nil,
+        supportsIntegrations: Swift.Bool? = nil,
         supportsLocalWriteForwarding: Swift.Bool? = nil,
         supportsLogExportsToCloudwatchLogs: Swift.Bool? = nil,
         supportsParallelQuery: Swift.Bool? = nil,
@@ -20208,6 +20618,7 @@ public struct DeleteCustomDBEngineVersionOutput: Swift.Equatable {
         self.supportsBabelfish = supportsBabelfish
         self.supportsCertificateRotationWithoutRestart = supportsCertificateRotationWithoutRestart
         self.supportsGlobalDatabases = supportsGlobalDatabases
+        self.supportsIntegrations = supportsIntegrations
         self.supportsLocalWriteForwarding = supportsLocalWriteForwarding
         self.supportsLogExportsToCloudwatchLogs = supportsLogExportsToCloudwatchLogs
         self.supportsParallelQuery = supportsParallelQuery
@@ -20250,6 +20661,7 @@ struct DeleteCustomDBEngineVersionOutputBody: Swift.Equatable {
     let supportsCertificateRotationWithoutRestart: Swift.Bool?
     let supportedCACertificateIdentifiers: [Swift.String]?
     let supportsLocalWriteForwarding: Swift.Bool?
+    let supportsIntegrations: Swift.Bool?
 }
 
 extension DeleteCustomDBEngineVersionOutputBody: Swift.Decodable {
@@ -20280,6 +20692,7 @@ extension DeleteCustomDBEngineVersionOutputBody: Swift.Decodable {
         case supportsBabelfish = "SupportsBabelfish"
         case supportsCertificateRotationWithoutRestart = "SupportsCertificateRotationWithoutRestart"
         case supportsGlobalDatabases = "SupportsGlobalDatabases"
+        case supportsIntegrations = "SupportsIntegrations"
         case supportsLocalWriteForwarding = "SupportsLocalWriteForwarding"
         case supportsLogExportsToCloudwatchLogs = "SupportsLogExportsToCloudwatchLogs"
         case supportsParallelQuery = "SupportsParallelQuery"
@@ -20508,6 +20921,8 @@ extension DeleteCustomDBEngineVersionOutputBody: Swift.Decodable {
         }
         let supportsLocalWriteForwardingDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsLocalWriteForwarding)
         supportsLocalWriteForwarding = supportsLocalWriteForwardingDecoded
+        let supportsIntegrationsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsIntegrations)
+        supportsIntegrations = supportsIntegrationsDecoded
     }
 }
 
@@ -22133,6 +22548,247 @@ enum DeleteGlobalClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
         switch restXMLError.errorCode {
             case "GlobalClusterNotFoundFault": return try await GlobalClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "InvalidGlobalClusterStateFault": return try await InvalidGlobalClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
+extension DeleteIntegrationInput: Swift.Encodable {
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let integrationIdentifier = integrationIdentifier {
+            try container.encode(integrationIdentifier, forKey: ClientRuntime.Key("IntegrationIdentifier"))
+        }
+        try container.encode("DeleteIntegration", forKey:ClientRuntime.Key("Action"))
+        try container.encode("2014-10-31", forKey:ClientRuntime.Key("Version"))
+    }
+}
+
+extension DeleteIntegrationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DeleteIntegrationInput: Swift.Equatable {
+    /// The unique identifier of the integration.
+    /// This member is required.
+    public var integrationIdentifier: Swift.String?
+
+    public init(
+        integrationIdentifier: Swift.String? = nil
+    )
+    {
+        self.integrationIdentifier = integrationIdentifier
+    }
+}
+
+struct DeleteIntegrationInputBody: Swift.Equatable {
+    let integrationIdentifier: Swift.String?
+}
+
+extension DeleteIntegrationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case integrationIdentifier = "IntegrationIdentifier"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let integrationIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .integrationIdentifier)
+        integrationIdentifier = integrationIdentifierDecoded
+    }
+}
+
+extension DeleteIntegrationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DeleteIntegrationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.additionalEncryptionContext = output.additionalEncryptionContext
+            self.createTime = output.createTime
+            self.errors = output.errors
+            self.integrationArn = output.integrationArn
+            self.integrationName = output.integrationName
+            self.kmsKeyId = output.kmsKeyId
+            self.sourceArn = output.sourceArn
+            self.status = output.status
+            self.tags = output.tags
+            self.targetArn = output.targetArn
+        } else {
+            self.additionalEncryptionContext = nil
+            self.createTime = nil
+            self.errors = nil
+            self.integrationArn = nil
+            self.integrationName = nil
+            self.kmsKeyId = nil
+            self.sourceArn = nil
+            self.status = nil
+            self.tags = nil
+            self.targetArn = nil
+        }
+    }
+}
+
+/// An Aurora zero-ETL integration with Amazon Redshift. For more information, see [Working with Amazon Aurora zero-ETL integrations with Amazon Redshift](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/zero-etl.html) in the Amazon Aurora User Guide.
+public struct DeleteIntegrationOutput: Swift.Equatable {
+    /// The encryption context for the integration. For more information, see [Encryption context](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#encrypt_context) in the Amazon Web Services Key Management Service Developer Guide.
+    public var additionalEncryptionContext: [Swift.String:Swift.String]?
+    /// The time when the integration was created, in Universal Coordinated Time (UTC).
+    public var createTime: ClientRuntime.Date?
+    /// Any errors associated with the integration.
+    public var errors: [RDSClientTypes.IntegrationError]?
+    /// The ARN of the integration.
+    public var integrationArn: Swift.String?
+    /// The name of the integration.
+    public var integrationName: Swift.String?
+    /// The Amazon Web Services Key Management System (Amazon Web Services KMS) key identifier for the key used to to encrypt the integration.
+    public var kmsKeyId: Swift.String?
+    /// The Amazon Resource Name (ARN) of the Aurora DB cluster used as the source for replication.
+    public var sourceArn: Swift.String?
+    /// The current status of the integration.
+    public var status: RDSClientTypes.IntegrationStatus?
+    /// A list of tags. For more information, see [Tagging Amazon RDS Resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide.
+    public var tags: [RDSClientTypes.Tag]?
+    /// The ARN of the Redshift data warehouse used as the target for replication.
+    public var targetArn: Swift.String?
+
+    public init(
+        additionalEncryptionContext: [Swift.String:Swift.String]? = nil,
+        createTime: ClientRuntime.Date? = nil,
+        errors: [RDSClientTypes.IntegrationError]? = nil,
+        integrationArn: Swift.String? = nil,
+        integrationName: Swift.String? = nil,
+        kmsKeyId: Swift.String? = nil,
+        sourceArn: Swift.String? = nil,
+        status: RDSClientTypes.IntegrationStatus? = nil,
+        tags: [RDSClientTypes.Tag]? = nil,
+        targetArn: Swift.String? = nil
+    )
+    {
+        self.additionalEncryptionContext = additionalEncryptionContext
+        self.createTime = createTime
+        self.errors = errors
+        self.integrationArn = integrationArn
+        self.integrationName = integrationName
+        self.kmsKeyId = kmsKeyId
+        self.sourceArn = sourceArn
+        self.status = status
+        self.tags = tags
+        self.targetArn = targetArn
+    }
+}
+
+struct DeleteIntegrationOutputBody: Swift.Equatable {
+    let sourceArn: Swift.String?
+    let targetArn: Swift.String?
+    let integrationName: Swift.String?
+    let integrationArn: Swift.String?
+    let kmsKeyId: Swift.String?
+    let additionalEncryptionContext: [Swift.String:Swift.String]?
+    let status: RDSClientTypes.IntegrationStatus?
+    let tags: [RDSClientTypes.Tag]?
+    let createTime: ClientRuntime.Date?
+    let errors: [RDSClientTypes.IntegrationError]?
+}
+
+extension DeleteIntegrationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case additionalEncryptionContext = "AdditionalEncryptionContext"
+        case createTime = "CreateTime"
+        case errors = "Errors"
+        case integrationArn = "IntegrationArn"
+        case integrationName = "IntegrationName"
+        case kmsKeyId = "KMSKeyId"
+        case sourceArn = "SourceArn"
+        case status = "Status"
+        case tags = "Tags"
+        case targetArn = "TargetArn"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DeleteIntegrationResult"))
+        let sourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceArn)
+        sourceArn = sourceArnDecoded
+        let targetArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .targetArn)
+        targetArn = targetArnDecoded
+        let integrationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .integrationName)
+        integrationName = integrationNameDecoded
+        let integrationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .integrationArn)
+        integrationArn = integrationArnDecoded
+        let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
+        kmsKeyId = kmsKeyIdDecoded
+        if containerValues.contains(.additionalEncryptionContext) {
+            struct KeyVal0{struct key{}; struct value{}}
+            let additionalEncryptionContextWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: ClientRuntime.MapEntry<Swift.String, Swift.String, KeyVal0.key, KeyVal0.value>.CodingKeys.self, forKey: .additionalEncryptionContext)
+            if let additionalEncryptionContextWrappedContainer = additionalEncryptionContextWrappedContainer {
+                let additionalEncryptionContextContainer = try additionalEncryptionContextWrappedContainer.decodeIfPresent([ClientRuntime.MapKeyValue<Swift.String, Swift.String, KeyVal0.key, KeyVal0.value>].self, forKey: .entry)
+                var additionalEncryptionContextBuffer: [Swift.String:Swift.String]? = nil
+                if let additionalEncryptionContextContainer = additionalEncryptionContextContainer {
+                    additionalEncryptionContextBuffer = [Swift.String:Swift.String]()
+                    for stringContainer0 in additionalEncryptionContextContainer {
+                        additionalEncryptionContextBuffer?[stringContainer0.key] = stringContainer0.value
+                    }
+                }
+                additionalEncryptionContext = additionalEncryptionContextBuffer
+            } else {
+                additionalEncryptionContext = [:]
+            }
+        } else {
+            additionalEncryptionContext = nil
+        }
+        let statusDecoded = try containerValues.decodeIfPresent(RDSClientTypes.IntegrationStatus.self, forKey: .status)
+        status = statusDecoded
+        if containerValues.contains(.tags) {
+            struct KeyVal0{struct Tag{}}
+            let tagsWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.Tag>.CodingKeys.self, forKey: .tags)
+            if let tagsWrappedContainer = tagsWrappedContainer {
+                let tagsContainer = try tagsWrappedContainer.decodeIfPresent([RDSClientTypes.Tag].self, forKey: .member)
+                var tagsBuffer:[RDSClientTypes.Tag]? = nil
+                if let tagsContainer = tagsContainer {
+                    tagsBuffer = [RDSClientTypes.Tag]()
+                    for structureContainer0 in tagsContainer {
+                        tagsBuffer?.append(structureContainer0)
+                    }
+                }
+                tags = tagsBuffer
+            } else {
+                tags = []
+            }
+        } else {
+            tags = nil
+        }
+        let createTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .createTime)
+        createTime = createTimeDecoded
+        if containerValues.contains(.errors) {
+            struct KeyVal0{struct IntegrationError{}}
+            let errorsWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.IntegrationError>.CodingKeys.self, forKey: .errors)
+            if let errorsWrappedContainer = errorsWrappedContainer {
+                let errorsContainer = try errorsWrappedContainer.decodeIfPresent([RDSClientTypes.IntegrationError].self, forKey: .member)
+                var errorsBuffer:[RDSClientTypes.IntegrationError]? = nil
+                if let errorsContainer = errorsContainer {
+                    errorsBuffer = [RDSClientTypes.IntegrationError]()
+                    for structureContainer0 in errorsContainer {
+                        errorsBuffer?.append(structureContainer0)
+                    }
+                }
+                errors = errorsBuffer
+            } else {
+                errors = []
+            }
+        } else {
+            errors = nil
+        }
+    }
+}
+
+enum DeleteIntegrationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "IntegrationConflictOperationFault": return try await IntegrationConflictOperationFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "IntegrationNotFoundFault": return try await IntegrationNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidIntegrationStateFault": return try await InvalidIntegrationStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
@@ -28740,6 +29396,188 @@ enum DescribeGlobalClustersOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension DescribeIntegrationsInput: Swift.Encodable {
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let filters = filters {
+            if !filters.isEmpty {
+                var filtersContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Filters"))
+                for (index0, filter0) in filters.enumerated() {
+                    try filtersContainer.encode(filter0, forKey: ClientRuntime.Key("Filter.\(index0.advanced(by: 1))"))
+                }
+            }
+            else {
+                var filtersContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Filters"))
+                try filtersContainer.encode("", forKey: ClientRuntime.Key(""))
+            }
+        }
+        if let integrationIdentifier = integrationIdentifier {
+            try container.encode(integrationIdentifier, forKey: ClientRuntime.Key("IntegrationIdentifier"))
+        }
+        if let marker = marker {
+            try container.encode(marker, forKey: ClientRuntime.Key("Marker"))
+        }
+        if let maxRecords = maxRecords {
+            try container.encode(maxRecords, forKey: ClientRuntime.Key("MaxRecords"))
+        }
+        try container.encode("DescribeIntegrations", forKey:ClientRuntime.Key("Action"))
+        try container.encode("2014-10-31", forKey:ClientRuntime.Key("Version"))
+    }
+}
+
+extension DescribeIntegrationsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeIntegrationsInput: Swift.Equatable {
+    /// A filter that specifies one or more resources to return.
+    public var filters: [RDSClientTypes.Filter]?
+    /// The unique identifier of the integration.
+    public var integrationIdentifier: Swift.String?
+    /// An optional pagination token provided by a previous DescribeIntegrations request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+    public var marker: Swift.String?
+    /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that you can retrieve the remaining results. Default: 100 Constraints: Minimum 20, maximum 100.
+    public var maxRecords: Swift.Int?
+
+    public init(
+        filters: [RDSClientTypes.Filter]? = nil,
+        integrationIdentifier: Swift.String? = nil,
+        marker: Swift.String? = nil,
+        maxRecords: Swift.Int? = nil
+    )
+    {
+        self.filters = filters
+        self.integrationIdentifier = integrationIdentifier
+        self.marker = marker
+        self.maxRecords = maxRecords
+    }
+}
+
+struct DescribeIntegrationsInputBody: Swift.Equatable {
+    let integrationIdentifier: Swift.String?
+    let filters: [RDSClientTypes.Filter]?
+    let maxRecords: Swift.Int?
+    let marker: Swift.String?
+}
+
+extension DescribeIntegrationsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filters = "Filters"
+        case integrationIdentifier = "IntegrationIdentifier"
+        case marker = "Marker"
+        case maxRecords = "MaxRecords"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let integrationIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .integrationIdentifier)
+        integrationIdentifier = integrationIdentifierDecoded
+        if containerValues.contains(.filters) {
+            struct KeyVal0{struct Filter{}}
+            let filtersWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.Filter>.CodingKeys.self, forKey: .filters)
+            if let filtersWrappedContainer = filtersWrappedContainer {
+                let filtersContainer = try filtersWrappedContainer.decodeIfPresent([RDSClientTypes.Filter].self, forKey: .member)
+                var filtersBuffer:[RDSClientTypes.Filter]? = nil
+                if let filtersContainer = filtersContainer {
+                    filtersBuffer = [RDSClientTypes.Filter]()
+                    for structureContainer0 in filtersContainer {
+                        filtersBuffer?.append(structureContainer0)
+                    }
+                }
+                filters = filtersBuffer
+            } else {
+                filters = []
+            }
+        } else {
+            filters = nil
+        }
+        let maxRecordsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxRecords)
+        maxRecords = maxRecordsDecoded
+        let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
+        marker = markerDecoded
+    }
+}
+
+extension DescribeIntegrationsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeIntegrationsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.integrations = output.integrations
+            self.marker = output.marker
+        } else {
+            self.integrations = nil
+            self.marker = nil
+        }
+    }
+}
+
+public struct DescribeIntegrationsOutput: Swift.Equatable {
+    /// A list of integrations.
+    public var integrations: [RDSClientTypes.Integration]?
+    /// A pagination token that can be used in a later DescribeIntegrations request.
+    public var marker: Swift.String?
+
+    public init(
+        integrations: [RDSClientTypes.Integration]? = nil,
+        marker: Swift.String? = nil
+    )
+    {
+        self.integrations = integrations
+        self.marker = marker
+    }
+}
+
+struct DescribeIntegrationsOutputBody: Swift.Equatable {
+    let marker: Swift.String?
+    let integrations: [RDSClientTypes.Integration]?
+}
+
+extension DescribeIntegrationsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case integrations = "Integrations"
+        case marker = "Marker"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeIntegrationsResult"))
+        let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
+        marker = markerDecoded
+        if containerValues.contains(.integrations) {
+            struct KeyVal0{struct Integration{}}
+            let integrationsWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.Integration>.CodingKeys.self, forKey: .integrations)
+            if let integrationsWrappedContainer = integrationsWrappedContainer {
+                let integrationsContainer = try integrationsWrappedContainer.decodeIfPresent([RDSClientTypes.Integration].self, forKey: .member)
+                var integrationsBuffer:[RDSClientTypes.Integration]? = nil
+                if let integrationsContainer = integrationsContainer {
+                    integrationsBuffer = [RDSClientTypes.Integration]()
+                    for structureContainer0 in integrationsContainer {
+                        integrationsBuffer?.append(structureContainer0)
+                    }
+                }
+                integrations = integrationsBuffer
+            } else {
+                integrations = []
+            }
+        } else {
+            integrations = nil
+        }
+    }
+}
+
+enum DescribeIntegrationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "IntegrationNotFoundFault": return try await IntegrationNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
 extension DescribeOptionGroupOptionsInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
@@ -33253,6 +34091,518 @@ extension InsufficientStorageClusterCapacityFaultBody: Swift.Decodable {
     }
 }
 
+extension RDSClientTypes.Integration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case additionalEncryptionContext = "AdditionalEncryptionContext"
+        case createTime = "CreateTime"
+        case errors = "Errors"
+        case integrationArn = "IntegrationArn"
+        case integrationName = "IntegrationName"
+        case kmsKeyId = "KMSKeyId"
+        case sourceArn = "SourceArn"
+        case status = "Status"
+        case tags = "Tags"
+        case targetArn = "TargetArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let additionalEncryptionContext = additionalEncryptionContext {
+            var additionalEncryptionContextContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("AdditionalEncryptionContext"))
+            for (index0, element0) in additionalEncryptionContext.sorted(by: { $0.key < $1.key }).enumerated() {
+                let stringKey0 = element0.key
+                let stringValue0 = element0.value
+                var entryContainer0 = additionalEncryptionContextContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("entry.\(index0.advanced(by: 1))"))
+                var keyContainer0 = entryContainer0.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("key"))
+                try keyContainer0.encode(stringKey0, forKey: ClientRuntime.Key(""))
+                var valueContainer0 = entryContainer0.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("value"))
+                try valueContainer0.encode(stringValue0, forKey: ClientRuntime.Key(""))
+            }
+        }
+        if let createTime = createTime {
+            try container.encodeTimestamp(createTime, format: .dateTime, forKey: ClientRuntime.Key("CreateTime"))
+        }
+        if let errors = errors {
+            if !errors.isEmpty {
+                var errorsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Errors"))
+                for (index0, integrationerror0) in errors.enumerated() {
+                    try errorsContainer.encode(integrationerror0, forKey: ClientRuntime.Key("IntegrationError.\(index0.advanced(by: 1))"))
+                }
+            }
+            else {
+                var errorsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Errors"))
+                try errorsContainer.encode("", forKey: ClientRuntime.Key(""))
+            }
+        }
+        if let integrationArn = integrationArn {
+            try container.encode(integrationArn, forKey: ClientRuntime.Key("IntegrationArn"))
+        }
+        if let integrationName = integrationName {
+            try container.encode(integrationName, forKey: ClientRuntime.Key("IntegrationName"))
+        }
+        if let kmsKeyId = kmsKeyId {
+            try container.encode(kmsKeyId, forKey: ClientRuntime.Key("KMSKeyId"))
+        }
+        if let sourceArn = sourceArn {
+            try container.encode(sourceArn, forKey: ClientRuntime.Key("SourceArn"))
+        }
+        if let status = status {
+            try container.encode(status, forKey: ClientRuntime.Key("Status"))
+        }
+        if let tags = tags {
+            if !tags.isEmpty {
+                var tagsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Tags"))
+                for (index0, tag0) in tags.enumerated() {
+                    try tagsContainer.encode(tag0, forKey: ClientRuntime.Key("Tag.\(index0.advanced(by: 1))"))
+                }
+            }
+            else {
+                var tagsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Tags"))
+                try tagsContainer.encode("", forKey: ClientRuntime.Key(""))
+            }
+        }
+        if let targetArn = targetArn {
+            try container.encode(targetArn, forKey: ClientRuntime.Key("TargetArn"))
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceArn)
+        sourceArn = sourceArnDecoded
+        let targetArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .targetArn)
+        targetArn = targetArnDecoded
+        let integrationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .integrationName)
+        integrationName = integrationNameDecoded
+        let integrationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .integrationArn)
+        integrationArn = integrationArnDecoded
+        let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
+        kmsKeyId = kmsKeyIdDecoded
+        if containerValues.contains(.additionalEncryptionContext) {
+            struct KeyVal0{struct key{}; struct value{}}
+            let additionalEncryptionContextWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: ClientRuntime.MapEntry<Swift.String, Swift.String, KeyVal0.key, KeyVal0.value>.CodingKeys.self, forKey: .additionalEncryptionContext)
+            if let additionalEncryptionContextWrappedContainer = additionalEncryptionContextWrappedContainer {
+                let additionalEncryptionContextContainer = try additionalEncryptionContextWrappedContainer.decodeIfPresent([ClientRuntime.MapKeyValue<Swift.String, Swift.String, KeyVal0.key, KeyVal0.value>].self, forKey: .entry)
+                var additionalEncryptionContextBuffer: [Swift.String:Swift.String]? = nil
+                if let additionalEncryptionContextContainer = additionalEncryptionContextContainer {
+                    additionalEncryptionContextBuffer = [Swift.String:Swift.String]()
+                    for stringContainer0 in additionalEncryptionContextContainer {
+                        additionalEncryptionContextBuffer?[stringContainer0.key] = stringContainer0.value
+                    }
+                }
+                additionalEncryptionContext = additionalEncryptionContextBuffer
+            } else {
+                additionalEncryptionContext = [:]
+            }
+        } else {
+            additionalEncryptionContext = nil
+        }
+        let statusDecoded = try containerValues.decodeIfPresent(RDSClientTypes.IntegrationStatus.self, forKey: .status)
+        status = statusDecoded
+        if containerValues.contains(.tags) {
+            struct KeyVal0{struct Tag{}}
+            let tagsWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.Tag>.CodingKeys.self, forKey: .tags)
+            if let tagsWrappedContainer = tagsWrappedContainer {
+                let tagsContainer = try tagsWrappedContainer.decodeIfPresent([RDSClientTypes.Tag].self, forKey: .member)
+                var tagsBuffer:[RDSClientTypes.Tag]? = nil
+                if let tagsContainer = tagsContainer {
+                    tagsBuffer = [RDSClientTypes.Tag]()
+                    for structureContainer0 in tagsContainer {
+                        tagsBuffer?.append(structureContainer0)
+                    }
+                }
+                tags = tagsBuffer
+            } else {
+                tags = []
+            }
+        } else {
+            tags = nil
+        }
+        let createTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .createTime)
+        createTime = createTimeDecoded
+        if containerValues.contains(.errors) {
+            struct KeyVal0{struct IntegrationError{}}
+            let errorsWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.IntegrationError>.CodingKeys.self, forKey: .errors)
+            if let errorsWrappedContainer = errorsWrappedContainer {
+                let errorsContainer = try errorsWrappedContainer.decodeIfPresent([RDSClientTypes.IntegrationError].self, forKey: .member)
+                var errorsBuffer:[RDSClientTypes.IntegrationError]? = nil
+                if let errorsContainer = errorsContainer {
+                    errorsBuffer = [RDSClientTypes.IntegrationError]()
+                    for structureContainer0 in errorsContainer {
+                        errorsBuffer?.append(structureContainer0)
+                    }
+                }
+                errors = errorsBuffer
+            } else {
+                errors = []
+            }
+        } else {
+            errors = nil
+        }
+    }
+}
+
+extension RDSClientTypes {
+    /// An Aurora zero-ETL integration with Amazon Redshift. For more information, see [Working with Amazon Aurora zero-ETL integrations with Amazon Redshift](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/zero-etl.html) in the Amazon Aurora User Guide.
+    public struct Integration: Swift.Equatable {
+        /// The encryption context for the integration. For more information, see [Encryption context](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#encrypt_context) in the Amazon Web Services Key Management Service Developer Guide.
+        public var additionalEncryptionContext: [Swift.String:Swift.String]?
+        /// The time when the integration was created, in Universal Coordinated Time (UTC).
+        public var createTime: ClientRuntime.Date?
+        /// Any errors associated with the integration.
+        public var errors: [RDSClientTypes.IntegrationError]?
+        /// The ARN of the integration.
+        public var integrationArn: Swift.String?
+        /// The name of the integration.
+        public var integrationName: Swift.String?
+        /// The Amazon Web Services Key Management System (Amazon Web Services KMS) key identifier for the key used to to encrypt the integration.
+        public var kmsKeyId: Swift.String?
+        /// The Amazon Resource Name (ARN) of the Aurora DB cluster used as the source for replication.
+        public var sourceArn: Swift.String?
+        /// The current status of the integration.
+        public var status: RDSClientTypes.IntegrationStatus?
+        /// A list of tags. For more information, see [Tagging Amazon RDS Resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide.
+        public var tags: [RDSClientTypes.Tag]?
+        /// The ARN of the Redshift data warehouse used as the target for replication.
+        public var targetArn: Swift.String?
+
+        public init(
+            additionalEncryptionContext: [Swift.String:Swift.String]? = nil,
+            createTime: ClientRuntime.Date? = nil,
+            errors: [RDSClientTypes.IntegrationError]? = nil,
+            integrationArn: Swift.String? = nil,
+            integrationName: Swift.String? = nil,
+            kmsKeyId: Swift.String? = nil,
+            sourceArn: Swift.String? = nil,
+            status: RDSClientTypes.IntegrationStatus? = nil,
+            tags: [RDSClientTypes.Tag]? = nil,
+            targetArn: Swift.String? = nil
+        )
+        {
+            self.additionalEncryptionContext = additionalEncryptionContext
+            self.createTime = createTime
+            self.errors = errors
+            self.integrationArn = integrationArn
+            self.integrationName = integrationName
+            self.kmsKeyId = kmsKeyId
+            self.sourceArn = sourceArn
+            self.status = status
+            self.tags = tags
+            self.targetArn = targetArn
+        }
+    }
+
+}
+
+extension IntegrationAlreadyExistsFault {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: AWSClientRuntime.ErrorResponseContainer<IntegrationAlreadyExistsFaultBody> = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.error.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// The integration you are trying to create already exists.
+public struct IntegrationAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "IntegrationAlreadyExistsFault" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct IntegrationAlreadyExistsFaultBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension IntegrationAlreadyExistsFaultBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension IntegrationConflictOperationFault {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: AWSClientRuntime.ErrorResponseContainer<IntegrationConflictOperationFaultBody> = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.error.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// A conflicting conditional operation is currently in progress against this resource. Typically occurs when there are multiple requests being made to the same resource at the same time, and these requests conflict with each other.
+public struct IntegrationConflictOperationFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "IntegrationConflictOperationFault" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct IntegrationConflictOperationFaultBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension IntegrationConflictOperationFaultBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension RDSClientTypes.IntegrationError: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case errorCode = "ErrorCode"
+        case errorMessage = "ErrorMessage"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let errorCode = errorCode {
+            try container.encode(errorCode, forKey: ClientRuntime.Key("ErrorCode"))
+        }
+        if let errorMessage = errorMessage {
+            try container.encode(errorMessage, forKey: ClientRuntime.Key("ErrorMessage"))
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let errorCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorCode)
+        errorCode = errorCodeDecoded
+        let errorMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorMessage)
+        errorMessage = errorMessageDecoded
+    }
+}
+
+extension RDSClientTypes {
+    /// An error associated with a zero-ETL integration with Amazon Redshift.
+    public struct IntegrationError: Swift.Equatable {
+        /// The error code associated with the integration.
+        /// This member is required.
+        public var errorCode: Swift.String?
+        /// A message explaining the error.
+        public var errorMessage: Swift.String?
+
+        public init(
+            errorCode: Swift.String? = nil,
+            errorMessage: Swift.String? = nil
+        )
+        {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+        }
+    }
+
+}
+
+extension IntegrationNotFoundFault {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: AWSClientRuntime.ErrorResponseContainer<IntegrationNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.error.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// The specified integration could not be found.
+public struct IntegrationNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "IntegrationNotFoundFault" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct IntegrationNotFoundFaultBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension IntegrationNotFoundFaultBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension IntegrationQuotaExceededFault {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: AWSClientRuntime.ErrorResponseContainer<IntegrationQuotaExceededFaultBody> = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.error.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// You can't crate any more zero-ETL integrations because the quota has been reached.
+public struct IntegrationQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "IntegrationQuotaExceededFault" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct IntegrationQuotaExceededFaultBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension IntegrationQuotaExceededFaultBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension RDSClientTypes {
+    public enum IntegrationStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case active
+        case creating
+        case deleting
+        case failed
+        case modifying
+        case needsAttention
+        case syncing
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IntegrationStatus] {
+            return [
+                .active,
+                .creating,
+                .deleting,
+                .failed,
+                .modifying,
+                .needsAttention,
+                .syncing,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "active"
+            case .creating: return "creating"
+            case .deleting: return "deleting"
+            case .failed: return "failed"
+            case .modifying: return "modifying"
+            case .needsAttention: return "needs_attention"
+            case .syncing: return "syncing"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = IntegrationStatus(rawValue: rawValue) ?? IntegrationStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension InvalidBlueGreenDeploymentStateFault {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
@@ -34441,6 +35791,60 @@ extension InvalidGlobalClusterStateFaultBody: Swift.Decodable {
     }
 }
 
+extension InvalidIntegrationStateFault {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: AWSClientRuntime.ErrorResponseContainer<InvalidIntegrationStateFaultBody> = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.error.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// The integration is in an invalid state and can't perform the requested operation.
+public struct InvalidIntegrationStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidIntegrationStateFault" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct InvalidIntegrationStateFaultBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension InvalidIntegrationStateFaultBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
 extension InvalidOptionGroupStateFault {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
@@ -34918,6 +36322,7 @@ enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "DBProxyNotFoundFault": return try await DBProxyNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "DBProxyTargetGroupNotFoundFault": return try await DBProxyTargetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "DBSnapshotNotFound": return try await DBSnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "IntegrationNotFoundFault": return try await IntegrationNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
@@ -35627,6 +37032,7 @@ extension ModifyCustomDBEngineVersionOutput: ClientRuntime.HttpResponseBinding {
             self.supportsBabelfish = output.supportsBabelfish
             self.supportsCertificateRotationWithoutRestart = output.supportsCertificateRotationWithoutRestart
             self.supportsGlobalDatabases = output.supportsGlobalDatabases
+            self.supportsIntegrations = output.supportsIntegrations
             self.supportsLocalWriteForwarding = output.supportsLocalWriteForwarding
             self.supportsLogExportsToCloudwatchLogs = output.supportsLogExportsToCloudwatchLogs
             self.supportsParallelQuery = output.supportsParallelQuery
@@ -35660,6 +37066,7 @@ extension ModifyCustomDBEngineVersionOutput: ClientRuntime.HttpResponseBinding {
             self.supportsBabelfish = nil
             self.supportsCertificateRotationWithoutRestart = nil
             self.supportsGlobalDatabases = nil
+            self.supportsIntegrations = nil
             self.supportsLocalWriteForwarding = nil
             self.supportsLogExportsToCloudwatchLogs = nil
             self.supportsParallelQuery = nil
@@ -35724,6 +37131,8 @@ public struct ModifyCustomDBEngineVersionOutput: Swift.Equatable {
     public var supportsCertificateRotationWithoutRestart: Swift.Bool?
     /// Indicates whether you can use Aurora global databases with a specific DB engine version.
     public var supportsGlobalDatabases: Swift.Bool?
+    /// Indicates whether the DB engine version supports Aurora zero-ETL integrations with Amazon Redshift.
+    public var supportsIntegrations: Swift.Bool?
     /// Indicates whether the DB engine version supports forwarding write operations from reader DB instances to the writer DB instance in the DB cluster. By default, write operations aren't allowed on reader DB instances. Valid for: Aurora DB clusters only
     public var supportsLocalWriteForwarding: Swift.Bool?
     /// Indicates whether the engine version supports exporting the log types specified by ExportableLogTypes to CloudWatch Logs.
@@ -35764,6 +37173,7 @@ public struct ModifyCustomDBEngineVersionOutput: Swift.Equatable {
         supportsBabelfish: Swift.Bool? = nil,
         supportsCertificateRotationWithoutRestart: Swift.Bool? = nil,
         supportsGlobalDatabases: Swift.Bool? = nil,
+        supportsIntegrations: Swift.Bool? = nil,
         supportsLocalWriteForwarding: Swift.Bool? = nil,
         supportsLogExportsToCloudwatchLogs: Swift.Bool? = nil,
         supportsParallelQuery: Swift.Bool? = nil,
@@ -35798,6 +37208,7 @@ public struct ModifyCustomDBEngineVersionOutput: Swift.Equatable {
         self.supportsBabelfish = supportsBabelfish
         self.supportsCertificateRotationWithoutRestart = supportsCertificateRotationWithoutRestart
         self.supportsGlobalDatabases = supportsGlobalDatabases
+        self.supportsIntegrations = supportsIntegrations
         self.supportsLocalWriteForwarding = supportsLocalWriteForwarding
         self.supportsLogExportsToCloudwatchLogs = supportsLogExportsToCloudwatchLogs
         self.supportsParallelQuery = supportsParallelQuery
@@ -35840,6 +37251,7 @@ struct ModifyCustomDBEngineVersionOutputBody: Swift.Equatable {
     let supportsCertificateRotationWithoutRestart: Swift.Bool?
     let supportedCACertificateIdentifiers: [Swift.String]?
     let supportsLocalWriteForwarding: Swift.Bool?
+    let supportsIntegrations: Swift.Bool?
 }
 
 extension ModifyCustomDBEngineVersionOutputBody: Swift.Decodable {
@@ -35870,6 +37282,7 @@ extension ModifyCustomDBEngineVersionOutputBody: Swift.Decodable {
         case supportsBabelfish = "SupportsBabelfish"
         case supportsCertificateRotationWithoutRestart = "SupportsCertificateRotationWithoutRestart"
         case supportsGlobalDatabases = "SupportsGlobalDatabases"
+        case supportsIntegrations = "SupportsIntegrations"
         case supportsLocalWriteForwarding = "SupportsLocalWriteForwarding"
         case supportsLogExportsToCloudwatchLogs = "SupportsLogExportsToCloudwatchLogs"
         case supportsParallelQuery = "SupportsParallelQuery"
@@ -36098,6 +37511,8 @@ extension ModifyCustomDBEngineVersionOutputBody: Swift.Decodable {
         }
         let supportsLocalWriteForwardingDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsLocalWriteForwarding)
         supportsLocalWriteForwarding = supportsLocalWriteForwardingDecoded
+        let supportsIntegrationsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsIntegrations)
+        supportsIntegrations = supportsIntegrationsDecoded
     }
 }
 
@@ -43296,6 +44711,51 @@ extension RDSClientTypes {
 
 }
 
+extension RDSClientTypes.RdsCustomClusterConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case interconnectSubnetId = "InterconnectSubnetId"
+        case transitGatewayMulticastDomainId = "TransitGatewayMulticastDomainId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let interconnectSubnetId = interconnectSubnetId {
+            try container.encode(interconnectSubnetId, forKey: ClientRuntime.Key("InterconnectSubnetId"))
+        }
+        if let transitGatewayMulticastDomainId = transitGatewayMulticastDomainId {
+            try container.encode(transitGatewayMulticastDomainId, forKey: ClientRuntime.Key("TransitGatewayMulticastDomainId"))
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let interconnectSubnetIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .interconnectSubnetId)
+        interconnectSubnetId = interconnectSubnetIdDecoded
+        let transitGatewayMulticastDomainIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .transitGatewayMulticastDomainId)
+        transitGatewayMulticastDomainId = transitGatewayMulticastDomainIdDecoded
+    }
+}
+
+extension RDSClientTypes {
+    /// Reserved for future use.
+    public struct RdsCustomClusterConfiguration: Swift.Equatable {
+        /// Reserved for future use.
+        public var interconnectSubnetId: Swift.String?
+        /// Reserved for future use.
+        public var transitGatewayMulticastDomainId: Swift.String?
+
+        public init(
+            interconnectSubnetId: Swift.String? = nil,
+            transitGatewayMulticastDomainId: Swift.String? = nil
+        )
+        {
+            self.interconnectSubnetId = interconnectSubnetId
+            self.transitGatewayMulticastDomainId = transitGatewayMulticastDomainId
+        }
+    }
+
+}
+
 extension RebootDBClusterInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
@@ -44269,6 +45729,7 @@ enum RemoveTagsFromResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "DBProxyNotFoundFault": return try await DBProxyNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "DBProxyTargetGroupNotFoundFault": return try await DBProxyTargetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "DBSnapshotNotFound": return try await DBSnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "IntegrationNotFoundFault": return try await IntegrationNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
@@ -46051,6 +47512,9 @@ extension RestoreDBClusterFromSnapshotInput: Swift.Encodable {
         if let publiclyAccessible = publiclyAccessible {
             try container.encode(publiclyAccessible, forKey: ClientRuntime.Key("PubliclyAccessible"))
         }
+        if let rdsCustomClusterConfiguration = rdsCustomClusterConfiguration {
+            try container.encode(rdsCustomClusterConfiguration, forKey: ClientRuntime.Key("RdsCustomClusterConfiguration"))
+        }
         if let scalingConfiguration = scalingConfiguration {
             try container.encode(scalingConfiguration, forKey: ClientRuntime.Key("ScalingConfiguration"))
         }
@@ -46199,6 +47663,8 @@ public struct RestoreDBClusterFromSnapshotInput: Swift.Equatable {
     ///
     /// Valid for: Aurora DB clusters and Multi-AZ DB clusters
     public var publiclyAccessible: Swift.Bool?
+    /// Reserved for future use.
+    public var rdsCustomClusterConfiguration: RDSClientTypes.RdsCustomClusterConfiguration?
     /// For DB clusters in serverless DB engine mode, the scaling properties of the DB cluster. Valid for: Aurora DB clusters only
     public var scalingConfiguration: RDSClientTypes.ScalingConfiguration?
     /// Contains the scaling configuration of an Aurora Serverless v2 DB cluster. For more information, see [Using Amazon Aurora Serverless v2](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-serverless-v2.html) in the Amazon Aurora User Guide.
@@ -46241,6 +47707,7 @@ public struct RestoreDBClusterFromSnapshotInput: Swift.Equatable {
         optionGroupName: Swift.String? = nil,
         port: Swift.Int? = nil,
         publiclyAccessible: Swift.Bool? = nil,
+        rdsCustomClusterConfiguration: RDSClientTypes.RdsCustomClusterConfiguration? = nil,
         scalingConfiguration: RDSClientTypes.ScalingConfiguration? = nil,
         serverlessV2ScalingConfiguration: RDSClientTypes.ServerlessV2ScalingConfiguration? = nil,
         snapshotIdentifier: Swift.String? = nil,
@@ -46271,6 +47738,7 @@ public struct RestoreDBClusterFromSnapshotInput: Swift.Equatable {
         self.optionGroupName = optionGroupName
         self.port = port
         self.publiclyAccessible = publiclyAccessible
+        self.rdsCustomClusterConfiguration = rdsCustomClusterConfiguration
         self.scalingConfiguration = scalingConfiguration
         self.serverlessV2ScalingConfiguration = serverlessV2ScalingConfiguration
         self.snapshotIdentifier = snapshotIdentifier
@@ -46309,6 +47777,7 @@ struct RestoreDBClusterFromSnapshotInputBody: Swift.Equatable {
     let publiclyAccessible: Swift.Bool?
     let serverlessV2ScalingConfiguration: RDSClientTypes.ServerlessV2ScalingConfiguration?
     let networkType: Swift.String?
+    let rdsCustomClusterConfiguration: RDSClientTypes.RdsCustomClusterConfiguration?
 }
 
 extension RestoreDBClusterFromSnapshotInputBody: Swift.Decodable {
@@ -46335,6 +47804,7 @@ extension RestoreDBClusterFromSnapshotInputBody: Swift.Decodable {
         case optionGroupName = "OptionGroupName"
         case port = "Port"
         case publiclyAccessible = "PubliclyAccessible"
+        case rdsCustomClusterConfiguration = "RdsCustomClusterConfiguration"
         case scalingConfiguration = "ScalingConfiguration"
         case serverlessV2ScalingConfiguration = "ServerlessV2ScalingConfiguration"
         case snapshotIdentifier = "SnapshotIdentifier"
@@ -46469,6 +47939,8 @@ extension RestoreDBClusterFromSnapshotInputBody: Swift.Decodable {
         serverlessV2ScalingConfiguration = serverlessV2ScalingConfigurationDecoded
         let networkTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .networkType)
         networkType = networkTypeDecoded
+        let rdsCustomClusterConfigurationDecoded = try containerValues.decodeIfPresent(RDSClientTypes.RdsCustomClusterConfiguration.self, forKey: .rdsCustomClusterConfiguration)
+        rdsCustomClusterConfiguration = rdsCustomClusterConfigurationDecoded
     }
 }
 
@@ -46606,6 +48078,9 @@ extension RestoreDBClusterToPointInTimeInput: Swift.Encodable {
         }
         if let publiclyAccessible = publiclyAccessible {
             try container.encode(publiclyAccessible, forKey: ClientRuntime.Key("PubliclyAccessible"))
+        }
+        if let rdsCustomClusterConfiguration = rdsCustomClusterConfiguration {
+            try container.encode(rdsCustomClusterConfiguration, forKey: ClientRuntime.Key("RdsCustomClusterConfiguration"))
         }
         if let restoreToTime = restoreToTime {
             try container.encodeTimestamp(restoreToTime, format: .dateTime, forKey: ClientRuntime.Key("RestoreToTime"))
@@ -46758,6 +48233,8 @@ public struct RestoreDBClusterToPointInTimeInput: Swift.Equatable {
     ///
     /// Valid for: Multi-AZ DB clusters only
     public var publiclyAccessible: Swift.Bool?
+    /// Reserved for future use.
+    public var rdsCustomClusterConfiguration: RDSClientTypes.RdsCustomClusterConfiguration?
     /// The date and time to restore the DB cluster to. Valid Values: Value must be a time in Universal Coordinated Time (UTC) format Constraints:
     ///
     /// * Must be before the latest restorable time for the DB instance
@@ -46821,6 +48298,7 @@ public struct RestoreDBClusterToPointInTimeInput: Swift.Equatable {
         optionGroupName: Swift.String? = nil,
         port: Swift.Int? = nil,
         publiclyAccessible: Swift.Bool? = nil,
+        rdsCustomClusterConfiguration: RDSClientTypes.RdsCustomClusterConfiguration? = nil,
         restoreToTime: ClientRuntime.Date? = nil,
         restoreType: Swift.String? = nil,
         scalingConfiguration: RDSClientTypes.ScalingConfiguration? = nil,
@@ -46851,6 +48329,7 @@ public struct RestoreDBClusterToPointInTimeInput: Swift.Equatable {
         self.optionGroupName = optionGroupName
         self.port = port
         self.publiclyAccessible = publiclyAccessible
+        self.rdsCustomClusterConfiguration = rdsCustomClusterConfiguration
         self.restoreToTime = restoreToTime
         self.restoreType = restoreType
         self.scalingConfiguration = scalingConfiguration
@@ -46893,6 +48372,7 @@ struct RestoreDBClusterToPointInTimeInputBody: Swift.Equatable {
     let serverlessV2ScalingConfiguration: RDSClientTypes.ServerlessV2ScalingConfiguration?
     let networkType: Swift.String?
     let sourceDbClusterResourceId: Swift.String?
+    let rdsCustomClusterConfiguration: RDSClientTypes.RdsCustomClusterConfiguration?
 }
 
 extension RestoreDBClusterToPointInTimeInputBody: Swift.Decodable {
@@ -46915,6 +48395,7 @@ extension RestoreDBClusterToPointInTimeInputBody: Swift.Decodable {
         case optionGroupName = "OptionGroupName"
         case port = "Port"
         case publiclyAccessible = "PubliclyAccessible"
+        case rdsCustomClusterConfiguration = "RdsCustomClusterConfiguration"
         case restoreToTime = "RestoreToTime"
         case restoreType = "RestoreType"
         case scalingConfiguration = "ScalingConfiguration"
@@ -47036,6 +48517,8 @@ extension RestoreDBClusterToPointInTimeInputBody: Swift.Decodable {
         networkType = networkTypeDecoded
         let sourceDbClusterResourceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceDbClusterResourceId)
         sourceDbClusterResourceId = sourceDbClusterResourceIdDecoded
+        let rdsCustomClusterConfigurationDecoded = try containerValues.decodeIfPresent(RDSClientTypes.RdsCustomClusterConfiguration.self, forKey: .rdsCustomClusterConfiguration)
+        rdsCustomClusterConfiguration = rdsCustomClusterConfigurationDecoded
     }
 }
 
@@ -53092,6 +54575,7 @@ extension RDSClientTypes.UpgradeTarget: Swift.Codable {
         case supportedEngineModes = "SupportedEngineModes"
         case supportsBabelfish = "SupportsBabelfish"
         case supportsGlobalDatabases = "SupportsGlobalDatabases"
+        case supportsIntegrations = "SupportsIntegrations"
         case supportsLocalWriteForwarding = "SupportsLocalWriteForwarding"
         case supportsParallelQuery = "SupportsParallelQuery"
     }
@@ -53130,6 +54614,9 @@ extension RDSClientTypes.UpgradeTarget: Swift.Codable {
         }
         if let supportsGlobalDatabases = supportsGlobalDatabases {
             try container.encode(supportsGlobalDatabases, forKey: ClientRuntime.Key("SupportsGlobalDatabases"))
+        }
+        if let supportsIntegrations = supportsIntegrations {
+            try container.encode(supportsIntegrations, forKey: ClientRuntime.Key("SupportsIntegrations"))
         }
         if let supportsLocalWriteForwarding = supportsLocalWriteForwarding {
             try container.encode(supportsLocalWriteForwarding, forKey: ClientRuntime.Key("SupportsLocalWriteForwarding"))
@@ -53178,6 +54665,8 @@ extension RDSClientTypes.UpgradeTarget: Swift.Codable {
         supportsBabelfish = supportsBabelfishDecoded
         let supportsLocalWriteForwardingDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsLocalWriteForwarding)
         supportsLocalWriteForwarding = supportsLocalWriteForwardingDecoded
+        let supportsIntegrationsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsIntegrations)
+        supportsIntegrations = supportsIntegrationsDecoded
     }
 }
 
@@ -53200,6 +54689,8 @@ extension RDSClientTypes {
         public var supportsBabelfish: Swift.Bool?
         /// Indicates whether you can use Aurora global databases with the target engine version.
         public var supportsGlobalDatabases: Swift.Bool?
+        /// Indicates whether the DB engine version supports Aurora zero-ETL integrations with Amazon Redshift.
+        public var supportsIntegrations: Swift.Bool?
         /// Indicates whether the target engine version supports forwarding write operations from reader DB instances to the writer DB instance in the DB cluster. By default, write operations aren't allowed on reader DB instances. Valid for: Aurora DB clusters only
         public var supportsLocalWriteForwarding: Swift.Bool?
         /// Indicates whether you can use Aurora parallel query with the target engine version.
@@ -53214,6 +54705,7 @@ extension RDSClientTypes {
             supportedEngineModes: [Swift.String]? = nil,
             supportsBabelfish: Swift.Bool? = nil,
             supportsGlobalDatabases: Swift.Bool? = nil,
+            supportsIntegrations: Swift.Bool? = nil,
             supportsLocalWriteForwarding: Swift.Bool? = nil,
             supportsParallelQuery: Swift.Bool? = nil
         )
@@ -53226,6 +54718,7 @@ extension RDSClientTypes {
             self.supportedEngineModes = supportedEngineModes
             self.supportsBabelfish = supportsBabelfish
             self.supportsGlobalDatabases = supportsGlobalDatabases
+            self.supportsIntegrations = supportsIntegrations
             self.supportsLocalWriteForwarding = supportsLocalWriteForwarding
             self.supportsParallelQuery = supportsParallelQuery
         }

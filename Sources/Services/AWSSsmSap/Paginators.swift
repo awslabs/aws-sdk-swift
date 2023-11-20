@@ -19,6 +19,7 @@ extension SsmSapClient {
 extension ListApplicationsInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> ListApplicationsInput {
         return ListApplicationsInput(
+            filters: self.filters,
             maxResults: self.maxResults,
             nextToken: token
         )}

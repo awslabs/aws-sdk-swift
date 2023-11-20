@@ -22200,6 +22200,7 @@ extension ResourceNotFoundExceptionBody: Swift.Decodable {
 extension ConfigClientTypes {
     public enum ResourceType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case acmpcacertificateauthority
+        case acmpcacertificateauthorityactivation
         case apsrulegroupsnamespace
         case accessanalyzeranalyzer
         case accountpublicaccessblock
@@ -22215,6 +22216,8 @@ extension ConfigClientTypes {
         case appconfighostedconfigurationversion
         case appflowflow
         case appintegrationseventintegration
+        case appmeshgatewayroute
+        case appmeshmesh
         case appmeshroute
         case appmeshvirtualgateway
         case appmeshvirtualnode
@@ -22264,7 +22267,9 @@ extension ConfigClientTypes {
         case codeguruprofilerprofilinggroup
         case codegurureviewerrepositoryassociation
         case conformancepackcompliance
+        case connectinstance
         case connectphonenumber
+        case connectquickconnect
         case customergateway
         case customerprofilesdomain
         case customerprofilesobjecttype
@@ -22294,10 +22299,12 @@ extension ConfigClientTypes {
         case distribution
         case domain
         case ec2capacityreservation
+        case ec2carriergateway
         case ec2clientvpnendpoint
         case ec2dhcpoptions
         case ec2ec2fleet
         case ec2ipam
+        case ec2ipampool
         case ec2ipamscope
         case ec2networkinsightspath
         case ec2prefixlist
@@ -22306,10 +22313,13 @@ extension ConfigClientTypes {
         case ec2trafficmirrorfilter
         case ec2trafficmirrorsession
         case ec2trafficmirrortarget
+        case ec2transitgatewayconnect
+        case ec2transitgatewaymulticastdomain
         case ecrpublicrepository
         case ecrpullthroughcacherule
         case ecrregistrypolicy
         case ecrrepository
+        case ecscapacityprovider
         case ecscluster
         case ecsservice
         case ecstaskdefinition
@@ -22364,6 +22374,7 @@ extension ConfigClientTypes {
         case guarddutythreatintelset
         case healthlakefhirdatastore
         case host
+        case iaminstanceprofile
         case iamsamlprovider
         case iamservercertificate
         case ipsetv2
@@ -22383,6 +22394,7 @@ extension ConfigClientTypes {
         case iotanalyticsdatastore
         case iotanalyticspipeline
         case iotauthorizer
+        case iotcacertificate
         case iotcustommetric
         case iotdimension
         case ioteventsalarmmodel
@@ -22404,10 +22416,12 @@ extension ConfigClientTypes {
         case iottwinmakercomponenttype
         case iottwinmakerentity
         case iottwinmakerscene
+        case iottwinmakersyncjob
         case iottwinmakerworkspace
         case iotwirelessfuotatask
         case iotwirelessmulticastgroup
         case iotwirelessserviceprofile
+        case kafkaconnectconnector
         case kendraindex
         case key
         case kinesisanalyticsv2application
@@ -22416,6 +22430,7 @@ extension ConfigClientTypes {
         case kinesisstreamconsumer
         case kinesisvideosignalingchannel
         case kinesisvideostream
+        case lambdacodesigningconfig
         case launchconfiguration
         case launchtemplate
         case lexbot
@@ -22448,6 +22463,7 @@ extension ConfigClientTypes {
         case networkfirewallrulegroup
         case networkinsightsaccessscopeanalysis
         case networkinterface
+        case networkmanagerconnectpeer
         case networkmanagercustomergatewayassociation
         case networkmanagerdevice
         case networkmanagerglobalnetwork
@@ -22492,6 +22508,7 @@ extension ConfigClientTypes {
         case resiliencehubapp
         case resiliencehubresiliencypolicy
         case resourcecompliance
+        case resourceexplorer2index
         case restapi
         case robomakerrobotapplication
         case robomakerrobotapplicationversion
@@ -22576,6 +22593,7 @@ extension ConfigClientTypes {
         public static var allCases: [ResourceType] {
             return [
                 .acmpcacertificateauthority,
+                .acmpcacertificateauthorityactivation,
                 .apsrulegroupsnamespace,
                 .accessanalyzeranalyzer,
                 .accountpublicaccessblock,
@@ -22591,6 +22609,8 @@ extension ConfigClientTypes {
                 .appconfighostedconfigurationversion,
                 .appflowflow,
                 .appintegrationseventintegration,
+                .appmeshgatewayroute,
+                .appmeshmesh,
                 .appmeshroute,
                 .appmeshvirtualgateway,
                 .appmeshvirtualnode,
@@ -22640,7 +22660,9 @@ extension ConfigClientTypes {
                 .codeguruprofilerprofilinggroup,
                 .codegurureviewerrepositoryassociation,
                 .conformancepackcompliance,
+                .connectinstance,
                 .connectphonenumber,
+                .connectquickconnect,
                 .customergateway,
                 .customerprofilesdomain,
                 .customerprofilesobjecttype,
@@ -22670,10 +22692,12 @@ extension ConfigClientTypes {
                 .distribution,
                 .domain,
                 .ec2capacityreservation,
+                .ec2carriergateway,
                 .ec2clientvpnendpoint,
                 .ec2dhcpoptions,
                 .ec2ec2fleet,
                 .ec2ipam,
+                .ec2ipampool,
                 .ec2ipamscope,
                 .ec2networkinsightspath,
                 .ec2prefixlist,
@@ -22682,10 +22706,13 @@ extension ConfigClientTypes {
                 .ec2trafficmirrorfilter,
                 .ec2trafficmirrorsession,
                 .ec2trafficmirrortarget,
+                .ec2transitgatewayconnect,
+                .ec2transitgatewaymulticastdomain,
                 .ecrpublicrepository,
                 .ecrpullthroughcacherule,
                 .ecrregistrypolicy,
                 .ecrrepository,
+                .ecscapacityprovider,
                 .ecscluster,
                 .ecsservice,
                 .ecstaskdefinition,
@@ -22740,6 +22767,7 @@ extension ConfigClientTypes {
                 .guarddutythreatintelset,
                 .healthlakefhirdatastore,
                 .host,
+                .iaminstanceprofile,
                 .iamsamlprovider,
                 .iamservercertificate,
                 .ipsetv2,
@@ -22759,6 +22787,7 @@ extension ConfigClientTypes {
                 .iotanalyticsdatastore,
                 .iotanalyticspipeline,
                 .iotauthorizer,
+                .iotcacertificate,
                 .iotcustommetric,
                 .iotdimension,
                 .ioteventsalarmmodel,
@@ -22780,10 +22809,12 @@ extension ConfigClientTypes {
                 .iottwinmakercomponenttype,
                 .iottwinmakerentity,
                 .iottwinmakerscene,
+                .iottwinmakersyncjob,
                 .iottwinmakerworkspace,
                 .iotwirelessfuotatask,
                 .iotwirelessmulticastgroup,
                 .iotwirelessserviceprofile,
+                .kafkaconnectconnector,
                 .kendraindex,
                 .key,
                 .kinesisanalyticsv2application,
@@ -22792,6 +22823,7 @@ extension ConfigClientTypes {
                 .kinesisstreamconsumer,
                 .kinesisvideosignalingchannel,
                 .kinesisvideostream,
+                .lambdacodesigningconfig,
                 .launchconfiguration,
                 .launchtemplate,
                 .lexbot,
@@ -22824,6 +22856,7 @@ extension ConfigClientTypes {
                 .networkfirewallrulegroup,
                 .networkinsightsaccessscopeanalysis,
                 .networkinterface,
+                .networkmanagerconnectpeer,
                 .networkmanagercustomergatewayassociation,
                 .networkmanagerdevice,
                 .networkmanagerglobalnetwork,
@@ -22868,6 +22901,7 @@ extension ConfigClientTypes {
                 .resiliencehubapp,
                 .resiliencehubresiliencypolicy,
                 .resourcecompliance,
+                .resourceexplorer2index,
                 .restapi,
                 .robomakerrobotapplication,
                 .robomakerrobotapplicationversion,
@@ -22957,6 +22991,7 @@ extension ConfigClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .acmpcacertificateauthority: return "AWS::ACMPCA::CertificateAuthority"
+            case .acmpcacertificateauthorityactivation: return "AWS::ACMPCA::CertificateAuthorityActivation"
             case .apsrulegroupsnamespace: return "AWS::APS::RuleGroupsNamespace"
             case .accessanalyzeranalyzer: return "AWS::AccessAnalyzer::Analyzer"
             case .accountpublicaccessblock: return "AWS::S3::AccountPublicAccessBlock"
@@ -22972,6 +23007,8 @@ extension ConfigClientTypes {
             case .appconfighostedconfigurationversion: return "AWS::AppConfig::HostedConfigurationVersion"
             case .appflowflow: return "AWS::AppFlow::Flow"
             case .appintegrationseventintegration: return "AWS::AppIntegrations::EventIntegration"
+            case .appmeshgatewayroute: return "AWS::AppMesh::GatewayRoute"
+            case .appmeshmesh: return "AWS::AppMesh::Mesh"
             case .appmeshroute: return "AWS::AppMesh::Route"
             case .appmeshvirtualgateway: return "AWS::AppMesh::VirtualGateway"
             case .appmeshvirtualnode: return "AWS::AppMesh::VirtualNode"
@@ -23021,7 +23058,9 @@ extension ConfigClientTypes {
             case .codeguruprofilerprofilinggroup: return "AWS::CodeGuruProfiler::ProfilingGroup"
             case .codegurureviewerrepositoryassociation: return "AWS::CodeGuruReviewer::RepositoryAssociation"
             case .conformancepackcompliance: return "AWS::Config::ConformancePackCompliance"
+            case .connectinstance: return "AWS::Connect::Instance"
             case .connectphonenumber: return "AWS::Connect::PhoneNumber"
+            case .connectquickconnect: return "AWS::Connect::QuickConnect"
             case .customergateway: return "AWS::EC2::CustomerGateway"
             case .customerprofilesdomain: return "AWS::CustomerProfiles::Domain"
             case .customerprofilesobjecttype: return "AWS::CustomerProfiles::ObjectType"
@@ -23051,10 +23090,12 @@ extension ConfigClientTypes {
             case .distribution: return "AWS::CloudFront::Distribution"
             case .domain: return "AWS::Elasticsearch::Domain"
             case .ec2capacityreservation: return "AWS::EC2::CapacityReservation"
+            case .ec2carriergateway: return "AWS::EC2::CarrierGateway"
             case .ec2clientvpnendpoint: return "AWS::EC2::ClientVpnEndpoint"
             case .ec2dhcpoptions: return "AWS::EC2::DHCPOptions"
             case .ec2ec2fleet: return "AWS::EC2::EC2Fleet"
             case .ec2ipam: return "AWS::EC2::IPAM"
+            case .ec2ipampool: return "AWS::EC2::IPAMPool"
             case .ec2ipamscope: return "AWS::EC2::IPAMScope"
             case .ec2networkinsightspath: return "AWS::EC2::NetworkInsightsPath"
             case .ec2prefixlist: return "AWS::EC2::PrefixList"
@@ -23063,10 +23104,13 @@ extension ConfigClientTypes {
             case .ec2trafficmirrorfilter: return "AWS::EC2::TrafficMirrorFilter"
             case .ec2trafficmirrorsession: return "AWS::EC2::TrafficMirrorSession"
             case .ec2trafficmirrortarget: return "AWS::EC2::TrafficMirrorTarget"
+            case .ec2transitgatewayconnect: return "AWS::EC2::TransitGatewayConnect"
+            case .ec2transitgatewaymulticastdomain: return "AWS::EC2::TransitGatewayMulticastDomain"
             case .ecrpublicrepository: return "AWS::ECR::PublicRepository"
             case .ecrpullthroughcacherule: return "AWS::ECR::PullThroughCacheRule"
             case .ecrregistrypolicy: return "AWS::ECR::RegistryPolicy"
             case .ecrrepository: return "AWS::ECR::Repository"
+            case .ecscapacityprovider: return "AWS::ECS::CapacityProvider"
             case .ecscluster: return "AWS::ECS::Cluster"
             case .ecsservice: return "AWS::ECS::Service"
             case .ecstaskdefinition: return "AWS::ECS::TaskDefinition"
@@ -23121,6 +23165,7 @@ extension ConfigClientTypes {
             case .guarddutythreatintelset: return "AWS::GuardDuty::ThreatIntelSet"
             case .healthlakefhirdatastore: return "AWS::HealthLake::FHIRDatastore"
             case .host: return "AWS::EC2::Host"
+            case .iaminstanceprofile: return "AWS::IAM::InstanceProfile"
             case .iamsamlprovider: return "AWS::IAM::SAMLProvider"
             case .iamservercertificate: return "AWS::IAM::ServerCertificate"
             case .ipsetv2: return "AWS::WAFv2::IPSet"
@@ -23140,6 +23185,7 @@ extension ConfigClientTypes {
             case .iotanalyticsdatastore: return "AWS::IoTAnalytics::Datastore"
             case .iotanalyticspipeline: return "AWS::IoTAnalytics::Pipeline"
             case .iotauthorizer: return "AWS::IoT::Authorizer"
+            case .iotcacertificate: return "AWS::IoT::CACertificate"
             case .iotcustommetric: return "AWS::IoT::CustomMetric"
             case .iotdimension: return "AWS::IoT::Dimension"
             case .ioteventsalarmmodel: return "AWS::IoTEvents::AlarmModel"
@@ -23161,10 +23207,12 @@ extension ConfigClientTypes {
             case .iottwinmakercomponenttype: return "AWS::IoTTwinMaker::ComponentType"
             case .iottwinmakerentity: return "AWS::IoTTwinMaker::Entity"
             case .iottwinmakerscene: return "AWS::IoTTwinMaker::Scene"
+            case .iottwinmakersyncjob: return "AWS::IoTTwinMaker::SyncJob"
             case .iottwinmakerworkspace: return "AWS::IoTTwinMaker::Workspace"
             case .iotwirelessfuotatask: return "AWS::IoTWireless::FuotaTask"
             case .iotwirelessmulticastgroup: return "AWS::IoTWireless::MulticastGroup"
             case .iotwirelessserviceprofile: return "AWS::IoTWireless::ServiceProfile"
+            case .kafkaconnectconnector: return "AWS::KafkaConnect::Connector"
             case .kendraindex: return "AWS::Kendra::Index"
             case .key: return "AWS::KMS::Key"
             case .kinesisanalyticsv2application: return "AWS::KinesisAnalyticsV2::Application"
@@ -23173,6 +23221,7 @@ extension ConfigClientTypes {
             case .kinesisstreamconsumer: return "AWS::Kinesis::StreamConsumer"
             case .kinesisvideosignalingchannel: return "AWS::KinesisVideo::SignalingChannel"
             case .kinesisvideostream: return "AWS::KinesisVideo::Stream"
+            case .lambdacodesigningconfig: return "AWS::Lambda::CodeSigningConfig"
             case .launchconfiguration: return "AWS::AutoScaling::LaunchConfiguration"
             case .launchtemplate: return "AWS::EC2::LaunchTemplate"
             case .lexbot: return "AWS::Lex::Bot"
@@ -23205,6 +23254,7 @@ extension ConfigClientTypes {
             case .networkfirewallrulegroup: return "AWS::NetworkFirewall::RuleGroup"
             case .networkinsightsaccessscopeanalysis: return "AWS::EC2::NetworkInsightsAccessScopeAnalysis"
             case .networkinterface: return "AWS::EC2::NetworkInterface"
+            case .networkmanagerconnectpeer: return "AWS::NetworkManager::ConnectPeer"
             case .networkmanagercustomergatewayassociation: return "AWS::NetworkManager::CustomerGatewayAssociation"
             case .networkmanagerdevice: return "AWS::NetworkManager::Device"
             case .networkmanagerglobalnetwork: return "AWS::NetworkManager::GlobalNetwork"
@@ -23249,6 +23299,7 @@ extension ConfigClientTypes {
             case .resiliencehubapp: return "AWS::ResilienceHub::App"
             case .resiliencehubresiliencypolicy: return "AWS::ResilienceHub::ResiliencyPolicy"
             case .resourcecompliance: return "AWS::Config::ResourceCompliance"
+            case .resourceexplorer2index: return "AWS::ResourceExplorer2::Index"
             case .restapi: return "AWS::ApiGateway::RestApi"
             case .robomakerrobotapplication: return "AWS::RoboMaker::RobotApplication"
             case .robomakerrobotapplicationversion: return "AWS::RoboMaker::RobotApplicationVersion"

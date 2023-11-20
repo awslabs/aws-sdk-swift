@@ -912,6 +912,7 @@ enum CreateChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
 extension MediaPackageV2ClientTypes.CreateHlsManifestConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case childManifestName = "ChildManifestName"
+        case filterConfiguration = "FilterConfiguration"
         case manifestName = "ManifestName"
         case manifestWindowSeconds = "ManifestWindowSeconds"
         case programDateTimeIntervalSeconds = "ProgramDateTimeIntervalSeconds"
@@ -922,6 +923,9 @@ extension MediaPackageV2ClientTypes.CreateHlsManifestConfiguration: Swift.Codabl
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let childManifestName = self.childManifestName {
             try encodeContainer.encode(childManifestName, forKey: .childManifestName)
+        }
+        if let filterConfiguration = self.filterConfiguration {
+            try encodeContainer.encode(filterConfiguration, forKey: .filterConfiguration)
         }
         if let manifestName = self.manifestName {
             try encodeContainer.encode(manifestName, forKey: .manifestName)
@@ -949,6 +953,8 @@ extension MediaPackageV2ClientTypes.CreateHlsManifestConfiguration: Swift.Codabl
         manifestWindowSeconds = manifestWindowSecondsDecoded
         let programDateTimeIntervalSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .programDateTimeIntervalSeconds)
         programDateTimeIntervalSeconds = programDateTimeIntervalSecondsDecoded
+        let filterConfigurationDecoded = try containerValues.decodeIfPresent(MediaPackageV2ClientTypes.FilterConfiguration.self, forKey: .filterConfiguration)
+        filterConfiguration = filterConfigurationDecoded
     }
 }
 
@@ -957,6 +963,8 @@ extension MediaPackageV2ClientTypes {
     public struct CreateHlsManifestConfiguration: Swift.Equatable {
         /// A short string that's appended to the endpoint URL. The child manifest name creates a unique path to this endpoint. If you don't enter a value, MediaPackage uses the default manifest name, index, with an added suffix to distinguish it from the manifest name. The manifestName on the HLSManifest object overrides the manifestName you provided on the originEndpoint object.
         public var childManifestName: Swift.String?
+        /// Filter configuration includes settings for manifest filtering, start and end times, and time delay that apply to all of your egress requests for this manifest.
+        public var filterConfiguration: MediaPackageV2ClientTypes.FilterConfiguration?
         /// A short short string that's appended to the endpoint URL. The manifest name creates a unique path to this endpoint. If you don't enter a value, MediaPackage uses the default manifest name, index. MediaPackage automatically inserts the format extension, such as .m3u8. You can't use the same manifest name if you use HLS manifest and low-latency HLS manifest. The manifestName on the HLSManifest object overrides the manifestName you provided on the originEndpoint object.
         /// This member is required.
         public var manifestName: Swift.String?
@@ -969,6 +977,7 @@ extension MediaPackageV2ClientTypes {
 
         public init(
             childManifestName: Swift.String? = nil,
+            filterConfiguration: MediaPackageV2ClientTypes.FilterConfiguration? = nil,
             manifestName: Swift.String? = nil,
             manifestWindowSeconds: Swift.Int? = nil,
             programDateTimeIntervalSeconds: Swift.Int? = nil,
@@ -976,6 +985,7 @@ extension MediaPackageV2ClientTypes {
         )
         {
             self.childManifestName = childManifestName
+            self.filterConfiguration = filterConfiguration
             self.manifestName = manifestName
             self.manifestWindowSeconds = manifestWindowSeconds
             self.programDateTimeIntervalSeconds = programDateTimeIntervalSeconds
@@ -988,6 +998,7 @@ extension MediaPackageV2ClientTypes {
 extension MediaPackageV2ClientTypes.CreateLowLatencyHlsManifestConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case childManifestName = "ChildManifestName"
+        case filterConfiguration = "FilterConfiguration"
         case manifestName = "ManifestName"
         case manifestWindowSeconds = "ManifestWindowSeconds"
         case programDateTimeIntervalSeconds = "ProgramDateTimeIntervalSeconds"
@@ -998,6 +1009,9 @@ extension MediaPackageV2ClientTypes.CreateLowLatencyHlsManifestConfiguration: Sw
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let childManifestName = self.childManifestName {
             try encodeContainer.encode(childManifestName, forKey: .childManifestName)
+        }
+        if let filterConfiguration = self.filterConfiguration {
+            try encodeContainer.encode(filterConfiguration, forKey: .filterConfiguration)
         }
         if let manifestName = self.manifestName {
             try encodeContainer.encode(manifestName, forKey: .manifestName)
@@ -1025,6 +1039,8 @@ extension MediaPackageV2ClientTypes.CreateLowLatencyHlsManifestConfiguration: Sw
         manifestWindowSeconds = manifestWindowSecondsDecoded
         let programDateTimeIntervalSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .programDateTimeIntervalSeconds)
         programDateTimeIntervalSeconds = programDateTimeIntervalSecondsDecoded
+        let filterConfigurationDecoded = try containerValues.decodeIfPresent(MediaPackageV2ClientTypes.FilterConfiguration.self, forKey: .filterConfiguration)
+        filterConfiguration = filterConfigurationDecoded
     }
 }
 
@@ -1033,6 +1049,8 @@ extension MediaPackageV2ClientTypes {
     public struct CreateLowLatencyHlsManifestConfiguration: Swift.Equatable {
         /// A short string that's appended to the endpoint URL. The child manifest name creates a unique path to this endpoint. If you don't enter a value, MediaPackage uses the default manifest name, index, with an added suffix to distinguish it from the manifest name. The manifestName on the HLSManifest object overrides the manifestName you provided on the originEndpoint object.
         public var childManifestName: Swift.String?
+        /// Filter configuration includes settings for manifest filtering, start and end times, and time delay that apply to all of your egress requests for this manifest.
+        public var filterConfiguration: MediaPackageV2ClientTypes.FilterConfiguration?
         /// A short short string that's appended to the endpoint URL. The manifest name creates a unique path to this endpoint. If you don't enter a value, MediaPackage uses the default manifest name, index. MediaPackage automatically inserts the format extension, such as .m3u8. You can't use the same manifest name if you use HLS manifest and low-latency HLS manifest. The manifestName on the HLSManifest object overrides the manifestName you provided on the originEndpoint object.
         /// This member is required.
         public var manifestName: Swift.String?
@@ -1045,6 +1063,7 @@ extension MediaPackageV2ClientTypes {
 
         public init(
             childManifestName: Swift.String? = nil,
+            filterConfiguration: MediaPackageV2ClientTypes.FilterConfiguration? = nil,
             manifestName: Swift.String? = nil,
             manifestWindowSeconds: Swift.Int? = nil,
             programDateTimeIntervalSeconds: Swift.Int? = nil,
@@ -1052,6 +1071,7 @@ extension MediaPackageV2ClientTypes {
         )
         {
             self.childManifestName = childManifestName
+            self.filterConfiguration = filterConfiguration
             self.manifestName = manifestName
             self.manifestWindowSeconds = manifestWindowSeconds
             self.programDateTimeIntervalSeconds = programDateTimeIntervalSeconds
@@ -2027,6 +2047,71 @@ extension MediaPackageV2ClientTypes {
 
 }
 
+extension MediaPackageV2ClientTypes.FilterConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case end = "End"
+        case manifestFilter = "ManifestFilter"
+        case start = "Start"
+        case timeDelaySeconds = "TimeDelaySeconds"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let end = self.end {
+            try encodeContainer.encodeTimestamp(end, format: .epochSeconds, forKey: .end)
+        }
+        if let manifestFilter = self.manifestFilter {
+            try encodeContainer.encode(manifestFilter, forKey: .manifestFilter)
+        }
+        if let start = self.start {
+            try encodeContainer.encodeTimestamp(start, format: .epochSeconds, forKey: .start)
+        }
+        if let timeDelaySeconds = self.timeDelaySeconds {
+            try encodeContainer.encode(timeDelaySeconds, forKey: .timeDelaySeconds)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let manifestFilterDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .manifestFilter)
+        manifestFilter = manifestFilterDecoded
+        let startDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .start)
+        start = startDecoded
+        let endDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .end)
+        end = endDecoded
+        let timeDelaySecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .timeDelaySeconds)
+        timeDelaySeconds = timeDelaySecondsDecoded
+    }
+}
+
+extension MediaPackageV2ClientTypes {
+    /// Filter configuration includes settings for manifest filtering, start and end times, and time delay that apply to all of your egress requests for this manifest.
+    public struct FilterConfiguration: Swift.Equatable {
+        /// Optionally specify the end time for all of your manifest egress requests. When you include end time, note that you cannot use end time query parameters for this manifest's endpoint URL.
+        public var end: ClientRuntime.Date?
+        /// Optionally specify one or more manifest filters for all of your manifest egress requests. When you include a manifest filter, note that you cannot use an identical manifest filter query parameter for this manifest's endpoint URL.
+        public var manifestFilter: Swift.String?
+        /// Optionally specify the start time for all of your manifest egress requests. When you include start time, note that you cannot use start time query parameters for this manifest's endpoint URL.
+        public var start: ClientRuntime.Date?
+        /// Optionally specify the time delay for all of your manifest egress requests. Enter a value that is smaller than your endpoint's startover window. When you include time delay, note that you cannot use time delay query parameters for this manifest's endpoint URL.
+        public var timeDelaySeconds: Swift.Int?
+
+        public init(
+            end: ClientRuntime.Date? = nil,
+            manifestFilter: Swift.String? = nil,
+            start: ClientRuntime.Date? = nil,
+            timeDelaySeconds: Swift.Int? = nil
+        )
+        {
+            self.end = end
+            self.manifestFilter = manifestFilter
+            self.start = start
+            self.timeDelaySeconds = timeDelaySeconds
+        }
+    }
+
+}
+
 extension GetChannelGroupInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let channelGroupName = channelGroupName else {
@@ -2494,6 +2579,7 @@ enum GetChannelPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
 extension MediaPackageV2ClientTypes.GetHlsManifestConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case childManifestName = "ChildManifestName"
+        case filterConfiguration = "FilterConfiguration"
         case manifestName = "ManifestName"
         case manifestWindowSeconds = "ManifestWindowSeconds"
         case programDateTimeIntervalSeconds = "ProgramDateTimeIntervalSeconds"
@@ -2505,6 +2591,9 @@ extension MediaPackageV2ClientTypes.GetHlsManifestConfiguration: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let childManifestName = self.childManifestName {
             try encodeContainer.encode(childManifestName, forKey: .childManifestName)
+        }
+        if let filterConfiguration = self.filterConfiguration {
+            try encodeContainer.encode(filterConfiguration, forKey: .filterConfiguration)
         }
         if let manifestName = self.manifestName {
             try encodeContainer.encode(manifestName, forKey: .manifestName)
@@ -2537,6 +2626,8 @@ extension MediaPackageV2ClientTypes.GetHlsManifestConfiguration: Swift.Codable {
         programDateTimeIntervalSeconds = programDateTimeIntervalSecondsDecoded
         let scteHlsDecoded = try containerValues.decodeIfPresent(MediaPackageV2ClientTypes.ScteHls.self, forKey: .scteHls)
         scteHls = scteHlsDecoded
+        let filterConfigurationDecoded = try containerValues.decodeIfPresent(MediaPackageV2ClientTypes.FilterConfiguration.self, forKey: .filterConfiguration)
+        filterConfiguration = filterConfigurationDecoded
     }
 }
 
@@ -2545,6 +2636,8 @@ extension MediaPackageV2ClientTypes {
     public struct GetHlsManifestConfiguration: Swift.Equatable {
         /// A short string that's appended to the endpoint URL. The child manifest name creates a unique path to this endpoint. If you don't enter a value, MediaPackage uses the default child manifest name, index_1. The manifestName on the HLSManifest object overrides the manifestName you provided on the originEndpoint object.
         public var childManifestName: Swift.String?
+        /// Filter configuration includes settings for manifest filtering, start and end times, and time delay that apply to all of your egress requests for this manifest.
+        public var filterConfiguration: MediaPackageV2ClientTypes.FilterConfiguration?
         /// A short short string that's appended to the endpoint URL. The manifest name creates a unique path to this endpoint. If you don't enter a value, MediaPackage uses the default manifest name, index. MediaPackage automatically inserts the format extension, such as .m3u8. You can't use the same manifest name if you use HLS manifest and low-latency HLS manifest. The manifestName on the HLSManifest object overrides the manifestName you provided on the originEndpoint object.
         /// This member is required.
         public var manifestName: Swift.String?
@@ -2560,6 +2653,7 @@ extension MediaPackageV2ClientTypes {
 
         public init(
             childManifestName: Swift.String? = nil,
+            filterConfiguration: MediaPackageV2ClientTypes.FilterConfiguration? = nil,
             manifestName: Swift.String? = nil,
             manifestWindowSeconds: Swift.Int? = nil,
             programDateTimeIntervalSeconds: Swift.Int? = nil,
@@ -2568,6 +2662,7 @@ extension MediaPackageV2ClientTypes {
         )
         {
             self.childManifestName = childManifestName
+            self.filterConfiguration = filterConfiguration
             self.manifestName = manifestName
             self.manifestWindowSeconds = manifestWindowSeconds
             self.programDateTimeIntervalSeconds = programDateTimeIntervalSeconds
@@ -2581,6 +2676,7 @@ extension MediaPackageV2ClientTypes {
 extension MediaPackageV2ClientTypes.GetLowLatencyHlsManifestConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case childManifestName = "ChildManifestName"
+        case filterConfiguration = "FilterConfiguration"
         case manifestName = "ManifestName"
         case manifestWindowSeconds = "ManifestWindowSeconds"
         case programDateTimeIntervalSeconds = "ProgramDateTimeIntervalSeconds"
@@ -2592,6 +2688,9 @@ extension MediaPackageV2ClientTypes.GetLowLatencyHlsManifestConfiguration: Swift
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let childManifestName = self.childManifestName {
             try encodeContainer.encode(childManifestName, forKey: .childManifestName)
+        }
+        if let filterConfiguration = self.filterConfiguration {
+            try encodeContainer.encode(filterConfiguration, forKey: .filterConfiguration)
         }
         if let manifestName = self.manifestName {
             try encodeContainer.encode(manifestName, forKey: .manifestName)
@@ -2624,6 +2723,8 @@ extension MediaPackageV2ClientTypes.GetLowLatencyHlsManifestConfiguration: Swift
         programDateTimeIntervalSeconds = programDateTimeIntervalSecondsDecoded
         let scteHlsDecoded = try containerValues.decodeIfPresent(MediaPackageV2ClientTypes.ScteHls.self, forKey: .scteHls)
         scteHls = scteHlsDecoded
+        let filterConfigurationDecoded = try containerValues.decodeIfPresent(MediaPackageV2ClientTypes.FilterConfiguration.self, forKey: .filterConfiguration)
+        filterConfiguration = filterConfigurationDecoded
     }
 }
 
@@ -2632,6 +2733,8 @@ extension MediaPackageV2ClientTypes {
     public struct GetLowLatencyHlsManifestConfiguration: Swift.Equatable {
         /// A short string that's appended to the endpoint URL. The child manifest name creates a unique path to this endpoint. If you don't enter a value, MediaPackage uses the default child manifest name, index_1. The manifestName on the HLSManifest object overrides the manifestName you provided on the originEndpoint object.
         public var childManifestName: Swift.String?
+        /// Filter configuration includes settings for manifest filtering, start and end times, and time delay that apply to all of your egress requests for this manifest.
+        public var filterConfiguration: MediaPackageV2ClientTypes.FilterConfiguration?
         /// A short short string that's appended to the endpoint URL. The manifest name creates a unique path to this endpoint. If you don't enter a value, MediaPackage uses the default manifest name, index. MediaPackage automatically inserts the format extension, such as .m3u8. You can't use the same manifest name if you use HLS manifest and low-latency HLS manifest. The manifestName on the HLSManifest object overrides the manifestName you provided on the originEndpoint object.
         /// This member is required.
         public var manifestName: Swift.String?
@@ -2647,6 +2750,7 @@ extension MediaPackageV2ClientTypes {
 
         public init(
             childManifestName: Swift.String? = nil,
+            filterConfiguration: MediaPackageV2ClientTypes.FilterConfiguration? = nil,
             manifestName: Swift.String? = nil,
             manifestWindowSeconds: Swift.Int? = nil,
             programDateTimeIntervalSeconds: Swift.Int? = nil,
@@ -2655,6 +2759,7 @@ extension MediaPackageV2ClientTypes {
         )
         {
             self.childManifestName = childManifestName
+            self.filterConfiguration = filterConfiguration
             self.manifestName = manifestName
             self.manifestWindowSeconds = manifestWindowSeconds
             self.programDateTimeIntervalSeconds = programDateTimeIntervalSeconds
@@ -3401,6 +3506,7 @@ enum ListChannelsOutputError: ClientRuntime.HttpResponseErrorBinding {
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
@@ -5756,10 +5862,13 @@ extension MediaPackageV2ClientTypes {
         case encryptionContractUnencrypted
         case encryptionContractWithoutAudioRenditionIncompatible
         case encryptionMethodContainerTypeMismatch
+        case endTimeEarlierThanStartTime
+        case invalidManifestFilter
         case invalidPaginationMaxResults
         case invalidPaginationToken
         case invalidPolicy
         case invalidRoleArn
+        case invalidTimeDelaySeconds
         case manifestNameCollision
         case memberDoesNotMatchPattern
         case memberInvalid
@@ -5794,10 +5903,13 @@ extension MediaPackageV2ClientTypes {
                 .encryptionContractUnencrypted,
                 .encryptionContractWithoutAudioRenditionIncompatible,
                 .encryptionMethodContainerTypeMismatch,
+                .endTimeEarlierThanStartTime,
+                .invalidManifestFilter,
                 .invalidPaginationMaxResults,
                 .invalidPaginationToken,
                 .invalidPolicy,
                 .invalidRoleArn,
+                .invalidTimeDelaySeconds,
                 .manifestNameCollision,
                 .memberDoesNotMatchPattern,
                 .memberInvalid,
@@ -5837,10 +5949,13 @@ extension MediaPackageV2ClientTypes {
             case .encryptionContractUnencrypted: return "ENCRYPTION_CONTRACT_UNENCRYPTED"
             case .encryptionContractWithoutAudioRenditionIncompatible: return "ENCRYPTION_CONTRACT_WITHOUT_AUDIO_RENDITION_INCOMPATIBLE"
             case .encryptionMethodContainerTypeMismatch: return "ENCRYPTION_METHOD_CONTAINER_TYPE_MISMATCH"
+            case .endTimeEarlierThanStartTime: return "END_TIME_EARLIER_THAN_START_TIME"
+            case .invalidManifestFilter: return "INVALID_MANIFEST_FILTER"
             case .invalidPaginationMaxResults: return "INVALID_PAGINATION_MAX_RESULTS"
             case .invalidPaginationToken: return "INVALID_PAGINATION_TOKEN"
             case .invalidPolicy: return "INVALID_POLICY"
             case .invalidRoleArn: return "INVALID_ROLE_ARN"
+            case .invalidTimeDelaySeconds: return "INVALID_TIME_DELAY_SECONDS"
             case .manifestNameCollision: return "MANIFEST_NAME_COLLISION"
             case .memberDoesNotMatchPattern: return "MEMBER_DOES_NOT_MATCH_PATTERN"
             case .memberInvalid: return "MEMBER_INVALID"

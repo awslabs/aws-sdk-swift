@@ -713,6 +713,7 @@ extension M2ClientTypes {
 extension M2ClientTypes.BatchJobIdentifier: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case filebatchjobidentifier = "fileBatchJobIdentifier"
+        case s3batchjobidentifier = "s3BatchJobIdentifier"
         case scriptbatchjobidentifier = "scriptBatchJobIdentifier"
         case sdkUnknown
     }
@@ -722,6 +723,8 @@ extension M2ClientTypes.BatchJobIdentifier: Swift.Codable {
         switch self {
             case let .filebatchjobidentifier(filebatchjobidentifier):
                 try container.encode(filebatchjobidentifier, forKey: .filebatchjobidentifier)
+            case let .s3batchjobidentifier(s3batchjobidentifier):
+                try container.encode(s3batchjobidentifier, forKey: .s3batchjobidentifier)
             case let .scriptbatchjobidentifier(scriptbatchjobidentifier):
                 try container.encode(scriptbatchjobidentifier, forKey: .scriptbatchjobidentifier)
             case let .sdkUnknown(sdkUnknown):
@@ -741,6 +744,11 @@ extension M2ClientTypes.BatchJobIdentifier: Swift.Codable {
             self = .scriptbatchjobidentifier(scriptbatchjobidentifier)
             return
         }
+        let s3batchjobidentifierDecoded = try values.decodeIfPresent(M2ClientTypes.S3BatchJobIdentifier.self, forKey: .s3batchjobidentifier)
+        if let s3batchjobidentifier = s3batchjobidentifierDecoded {
+            self = .s3batchjobidentifier(s3batchjobidentifier)
+            return
+        }
         self = .sdkUnknown("")
     }
 }
@@ -752,6 +760,8 @@ extension M2ClientTypes {
         case filebatchjobidentifier(M2ClientTypes.FileBatchJobIdentifier)
         /// A batch job identifier in which the batch job to run is identified by the script name.
         case scriptbatchjobidentifier(M2ClientTypes.ScriptBatchJobIdentifier)
+        /// Specifies an Amazon S3 location that identifies the batch jobs that you want to run. Use this identifier to run ad hoc batch jobs.
+        case s3batchjobidentifier(M2ClientTypes.S3BatchJobIdentifier)
         case sdkUnknown(Swift.String)
     }
 
@@ -1526,7 +1536,7 @@ public struct CreateEnvironmentInput: Swift.Equatable {
     /// The name of the runtime environment. Must be unique within the account.
     /// This member is required.
     public var name: Swift.String?
-    /// Configures the maintenance window you want for the runtime environment. If you do not provide a value, a random system-generated value will be assigned.
+    /// Configures the maintenance window that you want for the runtime environment. The maintenance window must have the format ddd:hh24:mi-ddd:hh24:mi and must be less than 24 hours. The following two examples are valid maintenance windows: sun:23:45-mon:00:15 or sat:01:00-sat:03:00. If you do not provide a value, a random system-generated value will be assigned.
     public var preferredMaintenanceWindow: Swift.String?
     /// Specifies whether the runtime environment is publicly accessible.
     public var publiclyAccessible: Swift.Bool
@@ -2001,6 +2011,7 @@ extension M2ClientTypes {
 extension M2ClientTypes.DataSetImportTask: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case status
+        case statusReason
         case summary
         case taskId
     }
@@ -2009,6 +2020,9 @@ extension M2ClientTypes.DataSetImportTask: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let status = self.status {
             try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+        if let statusReason = self.statusReason {
+            try encodeContainer.encode(statusReason, forKey: .statusReason)
         }
         if let summary = self.summary {
             try encodeContainer.encode(summary, forKey: .summary)
@@ -2026,6 +2040,8 @@ extension M2ClientTypes.DataSetImportTask: Swift.Codable {
         status = statusDecoded
         let summaryDecoded = try containerValues.decodeIfPresent(M2ClientTypes.DataSetImportSummary.self, forKey: .summary)
         summary = summaryDecoded
+        let statusReasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .statusReason)
+        statusReason = statusReasonDecoded
     }
 }
 
@@ -2035,6 +2051,8 @@ extension M2ClientTypes {
         /// The status of the data set import task.
         /// This member is required.
         public var status: M2ClientTypes.DataSetTaskLifecycle?
+        /// If dataset import failed, the failure reason will show here.
+        public var statusReason: Swift.String?
         /// A summary of the data set import task.
         /// This member is required.
         public var summary: M2ClientTypes.DataSetImportSummary?
@@ -2044,11 +2062,13 @@ extension M2ClientTypes {
 
         public init(
             status: M2ClientTypes.DataSetTaskLifecycle? = nil,
+            statusReason: Swift.String? = nil,
             summary: M2ClientTypes.DataSetImportSummary? = nil,
             taskId: Swift.String? = nil
         )
         {
             self.status = status
+            self.statusReason = statusReason
             self.summary = summary
             self.taskId = taskId
         }
@@ -2146,6 +2166,7 @@ extension M2ClientTypes {
     public enum DataSetTaskLifecycle: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case completed
         case creating
+        case failed
         case running
         case sdkUnknown(Swift.String)
 
@@ -2153,6 +2174,7 @@ extension M2ClientTypes {
             return [
                 .completed,
                 .creating,
+                .failed,
                 .running,
                 .sdkUnknown("")
             ]
@@ -2165,6 +2187,7 @@ extension M2ClientTypes {
             switch self {
             case .completed: return "Completed"
             case .creating: return "Creating"
+            case .failed: return "Failed"
             case .running: return "Running"
             case let .sdkUnknown(s): return s
             }
@@ -2595,6 +2618,7 @@ extension M2ClientTypes {
 extension M2ClientTypes {
     public enum DeploymentLifecycle: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case deploying
+        case deployUpdate
         case failed
         case succeeded
         case sdkUnknown(Swift.String)
@@ -2602,6 +2626,7 @@ extension M2ClientTypes {
         public static var allCases: [DeploymentLifecycle] {
             return [
                 .deploying,
+                .deployUpdate,
                 .failed,
                 .succeeded,
                 .sdkUnknown("")
@@ -2614,6 +2639,7 @@ extension M2ClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .deploying: return "Deploying"
+            case .deployUpdate: return "Updating Deployment"
             case .failed: return "Failed"
             case .succeeded: return "Succeeded"
             case let .sdkUnknown(s): return s
@@ -3006,6 +3032,62 @@ extension M2ClientTypes {
         }
     }
 
+}
+
+extension ExecutionTimeoutException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ExecutionTimeoutExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// Failed to connect to server, or didn’t receive response within expected time period.
+public struct ExecutionTimeoutException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ExecutionTimeoutException" }
+    public static var fault: ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { true }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct ExecutionTimeoutExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension ExecutionTimeoutExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
 }
 
 extension M2ClientTypes.ExternalLocation: Swift.Codable {
@@ -4017,6 +4099,7 @@ extension GetDataSetDetailsOutput: ClientRuntime.HttpResponseBinding {
             self.creationTime = output.creationTime
             self.dataSetName = output.dataSetName
             self.dataSetOrg = output.dataSetOrg
+            self.fileSize = output.fileSize
             self.lastReferencedTime = output.lastReferencedTime
             self.lastUpdatedTime = output.lastUpdatedTime
             self.location = output.location
@@ -4026,6 +4109,7 @@ extension GetDataSetDetailsOutput: ClientRuntime.HttpResponseBinding {
             self.creationTime = nil
             self.dataSetName = nil
             self.dataSetOrg = nil
+            self.fileSize = nil
             self.lastReferencedTime = nil
             self.lastUpdatedTime = nil
             self.location = nil
@@ -4044,6 +4128,8 @@ public struct GetDataSetDetailsOutput: Swift.Equatable {
     public var dataSetName: Swift.String?
     /// The type of data set. The only supported value is VSAM.
     public var dataSetOrg: M2ClientTypes.DatasetDetailOrgAttributes?
+    /// File size of the dataset.
+    public var fileSize: Swift.Int?
     /// The last time the data set was referenced.
     public var lastReferencedTime: ClientRuntime.Date?
     /// The last time the data set was updated.
@@ -4058,6 +4144,7 @@ public struct GetDataSetDetailsOutput: Swift.Equatable {
         creationTime: ClientRuntime.Date? = nil,
         dataSetName: Swift.String? = nil,
         dataSetOrg: M2ClientTypes.DatasetDetailOrgAttributes? = nil,
+        fileSize: Swift.Int? = nil,
         lastReferencedTime: ClientRuntime.Date? = nil,
         lastUpdatedTime: ClientRuntime.Date? = nil,
         location: Swift.String? = nil,
@@ -4068,6 +4155,7 @@ public struct GetDataSetDetailsOutput: Swift.Equatable {
         self.creationTime = creationTime
         self.dataSetName = dataSetName
         self.dataSetOrg = dataSetOrg
+        self.fileSize = fileSize
         self.lastReferencedTime = lastReferencedTime
         self.lastUpdatedTime = lastUpdatedTime
         self.location = location
@@ -4084,6 +4172,7 @@ struct GetDataSetDetailsOutputBody: Swift.Equatable {
     let creationTime: ClientRuntime.Date?
     let lastUpdatedTime: ClientRuntime.Date?
     let lastReferencedTime: ClientRuntime.Date?
+    let fileSize: Swift.Int?
 }
 
 extension GetDataSetDetailsOutputBody: Swift.Decodable {
@@ -4092,6 +4181,7 @@ extension GetDataSetDetailsOutputBody: Swift.Decodable {
         case creationTime
         case dataSetName
         case dataSetOrg
+        case fileSize
         case lastReferencedTime
         case lastUpdatedTime
         case location
@@ -4116,6 +4206,8 @@ extension GetDataSetDetailsOutputBody: Swift.Decodable {
         lastUpdatedTime = lastUpdatedTimeDecoded
         let lastReferencedTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastReferencedTime)
         lastReferencedTime = lastReferencedTimeDecoded
+        let fileSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .fileSize)
+        fileSize = fileSizeDecoded
     }
 }
 
@@ -4125,8 +4217,11 @@ enum GetDataSetDetailsOutputError: ClientRuntime.HttpResponseErrorBinding {
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ExecutionTimeoutException": return try await ExecutionTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
@@ -4496,7 +4591,7 @@ extension GetEnvironmentOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct GetEnvironmentOutput: Swift.Equatable {
-    /// The number of instances included in the runtime environment. A standalone runtime environment has a maxiumum of one instance. Currently, a high availability runtime environment has a maximum of two instances.
+    /// The number of instances included in the runtime environment. A standalone runtime environment has a maximum of one instance. Currently, a high availability runtime environment has a maximum of two instances.
     public var actualCapacity: Swift.Int?
     /// The timestamp when the runtime environment was created.
     /// This member is required.
@@ -4529,7 +4624,7 @@ public struct GetEnvironmentOutput: Swift.Equatable {
     public var name: Swift.String?
     /// Indicates the pending maintenance scheduled on this environment.
     public var pendingMaintenance: M2ClientTypes.PendingMaintenance?
-    /// Configures the maintenance window you want for the runtime environment. If you do not provide a value, a random system-generated value will be assigned.
+    /// The maintenance window for the runtime environment. If you don't provide a value for the maintenance window, the service assigns a random value.
     public var preferredMaintenanceWindow: Swift.String?
     /// Whether applications running in this runtime environment are publicly accessible.
     public var publiclyAccessible: Swift.Bool
@@ -4926,6 +5021,53 @@ extension InternalServerExceptionBody: Swift.Decodable {
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
     }
+}
+
+extension M2ClientTypes.JobIdentifier: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filename = "fileName"
+        case scriptname = "scriptName"
+        case sdkUnknown
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+            case let .filename(filename):
+                try container.encode(filename, forKey: .filename)
+            case let .scriptname(scriptname):
+                try container.encode(scriptname, forKey: .scriptname)
+            case let .sdkUnknown(sdkUnknown):
+                try container.encode(sdkUnknown, forKey: .sdkUnknown)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        let filenameDecoded = try values.decodeIfPresent(Swift.String.self, forKey: .filename)
+        if let filename = filenameDecoded {
+            self = .filename(filename)
+            return
+        }
+        let scriptnameDecoded = try values.decodeIfPresent(Swift.String.self, forKey: .scriptname)
+        if let scriptname = scriptnameDecoded {
+            self = .scriptname(scriptname)
+            return
+        }
+        self = .sdkUnknown("")
+    }
+}
+
+extension M2ClientTypes {
+    /// Identifies a specific batch job.
+    public enum JobIdentifier: Swift.Equatable {
+        /// The name of the file that contains the batch job definition.
+        case filename(Swift.String)
+        /// The name of the script that contains the batch job definition.
+        case scriptname(Swift.String)
+        case sdkUnknown(Swift.String)
+    }
+
 }
 
 extension ListApplicationVersionsInput: ClientRuntime.QueryItemProvider {
@@ -5658,6 +5800,10 @@ extension ListDataSetsInput: ClientRuntime.QueryItemProvider {
                 let prefixQueryItem = ClientRuntime.URLQueryItem(name: "prefix".urlPercentEncoding(), value: Swift.String(`prefix`).urlPercentEncoding())
                 items.append(prefixQueryItem)
             }
+            if let nameFilter = nameFilter {
+                let nameFilterQueryItem = ClientRuntime.URLQueryItem(name: "nameFilter".urlPercentEncoding(), value: Swift.String(nameFilter).urlPercentEncoding())
+                items.append(nameFilterQueryItem)
+            }
             return items
         }
     }
@@ -5678,6 +5824,8 @@ public struct ListDataSetsInput: Swift.Equatable {
     public var applicationId: Swift.String?
     /// The maximum number of objects to return.
     public var maxResults: Swift.Int?
+    /// Filter dataset name matching the specified pattern. Can use * and % as wild cards.
+    public var nameFilter: Swift.String?
     /// A pagination token returned from a previous call to this operation. This specifies the next item to return. To return to the beginning of the list, exclude this parameter.
     public var nextToken: Swift.String?
     /// The prefix of the data set name, which you can use to filter the list of data sets.
@@ -5686,12 +5834,14 @@ public struct ListDataSetsInput: Swift.Equatable {
     public init(
         applicationId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
+        nameFilter: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         `prefix`: Swift.String? = nil
     )
     {
         self.applicationId = applicationId
         self.maxResults = maxResults
+        self.nameFilter = nameFilter
         self.nextToken = nextToken
         self.`prefix` = `prefix`
     }
@@ -5772,8 +5922,11 @@ enum ListDataSetsOutputError: ClientRuntime.HttpResponseErrorBinding {
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ExecutionTimeoutException": return try await ExecutionTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
@@ -6804,6 +6957,63 @@ extension ResourceNotFoundExceptionBody: Swift.Decodable {
     }
 }
 
+extension M2ClientTypes.S3BatchJobIdentifier: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bucket
+        case identifier
+        case keyPrefix
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let bucket = self.bucket {
+            try encodeContainer.encode(bucket, forKey: .bucket)
+        }
+        if let identifier = self.identifier {
+            try encodeContainer.encode(identifier, forKey: .identifier)
+        }
+        if let keyPrefix = self.keyPrefix {
+            try encodeContainer.encode(keyPrefix, forKey: .keyPrefix)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let bucketDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bucket)
+        bucket = bucketDecoded
+        let keyPrefixDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .keyPrefix)
+        keyPrefix = keyPrefixDecoded
+        let identifierDecoded = try containerValues.decodeIfPresent(M2ClientTypes.JobIdentifier.self, forKey: .identifier)
+        identifier = identifierDecoded
+    }
+}
+
+extension M2ClientTypes {
+    /// A batch job identifier in which the batch jobs to run are identified by an Amazon S3 location.
+    public struct S3BatchJobIdentifier: Swift.Equatable {
+        /// The Amazon S3 bucket that contains the batch job definitions.
+        /// This member is required.
+        public var bucket: Swift.String?
+        /// Identifies the batch job definition. This identifier can also point to any batch job definition that already exists in the application or to one of the batch job definitions within the directory that is specified in keyPrefix.
+        /// This member is required.
+        public var identifier: M2ClientTypes.JobIdentifier?
+        /// The key prefix that specifies the path to the folder in the S3 bucket that has the batch job definitions.
+        public var keyPrefix: Swift.String?
+
+        public init(
+            bucket: Swift.String? = nil,
+            identifier: M2ClientTypes.JobIdentifier? = nil,
+            keyPrefix: Swift.String? = nil
+        )
+        {
+            self.bucket = bucket
+            self.identifier = identifier
+            self.keyPrefix = keyPrefix
+        }
+    }
+
+}
+
 extension M2ClientTypes.ScriptBatchJobDefinition: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case scriptName
@@ -6969,6 +7179,62 @@ extension ServiceQuotaExceededExceptionBody: Swift.Decodable {
         serviceCode = serviceCodeDecoded
         let quotaCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .quotaCode)
         quotaCode = quotaCodeDecoded
+    }
+}
+
+extension ServiceUnavailableException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ServiceUnavailableExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// Server cannot process the request at the moment.
+public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServiceUnavailableException" }
+    public static var fault: ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { true }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct ServiceUnavailableExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension ServiceUnavailableExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
     }
 }
 
@@ -7418,7 +7684,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     public struct Properties {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
-        /// The identifier of the throttled reuqest.
+        /// The identifier of the throttled request.
         public internal(set) var quotaCode: Swift.String? = nil
         /// The number of seconds to wait before retrying the request.
         public internal(set) var retryAfterSeconds: Swift.Int = 0
@@ -7693,6 +7959,7 @@ extension UpdateEnvironmentInput: Swift.Encodable {
         case applyDuringMaintenanceWindow
         case desiredCapacity
         case engineVersion
+        case forceUpdate
         case instanceType
         case preferredMaintenanceWindow
     }
@@ -7707,6 +7974,9 @@ extension UpdateEnvironmentInput: Swift.Encodable {
         }
         if let engineVersion = self.engineVersion {
             try encodeContainer.encode(engineVersion, forKey: .engineVersion)
+        }
+        if forceUpdate != false {
+            try encodeContainer.encode(forceUpdate, forKey: .forceUpdate)
         }
         if let instanceType = self.instanceType {
             try encodeContainer.encode(instanceType, forKey: .instanceType)
@@ -7736,9 +8006,11 @@ public struct UpdateEnvironmentInput: Swift.Equatable {
     /// The unique identifier of the runtime environment that you want to update.
     /// This member is required.
     public var environmentId: Swift.String?
+    /// Forces the updates on the environment. This option is needed if the applications in the environment are not stopped or if there are ongoing application-related activities in the environment. If you use this option, be aware that it could lead to data corruption in the applications, and that you might need to perform repair and recovery procedures for the applications. This option is not needed if the attribute being updated is preferredMaintenanceWindow.
+    public var forceUpdate: Swift.Bool
     /// The instance type for the runtime environment to update.
     public var instanceType: Swift.String?
-    /// Configures the maintenance window you want for the runtime environment. If you do not provide a value, a random system-generated value will be assigned.
+    /// Configures the maintenance window that you want for the runtime environment. The maintenance window must have the format ddd:hh24:mi-ddd:hh24:mi and must be less than 24 hours. The following two examples are valid maintenance windows: sun:23:45-mon:00:15 or sat:01:00-sat:03:00. If you do not provide a value, a random system-generated value will be assigned.
     public var preferredMaintenanceWindow: Swift.String?
 
     public init(
@@ -7746,6 +8018,7 @@ public struct UpdateEnvironmentInput: Swift.Equatable {
         desiredCapacity: Swift.Int? = nil,
         engineVersion: Swift.String? = nil,
         environmentId: Swift.String? = nil,
+        forceUpdate: Swift.Bool = false,
         instanceType: Swift.String? = nil,
         preferredMaintenanceWindow: Swift.String? = nil
     )
@@ -7754,6 +8027,7 @@ public struct UpdateEnvironmentInput: Swift.Equatable {
         self.desiredCapacity = desiredCapacity
         self.engineVersion = engineVersion
         self.environmentId = environmentId
+        self.forceUpdate = forceUpdate
         self.instanceType = instanceType
         self.preferredMaintenanceWindow = preferredMaintenanceWindow
     }
@@ -7765,6 +8039,7 @@ struct UpdateEnvironmentInputBody: Swift.Equatable {
     let engineVersion: Swift.String?
     let preferredMaintenanceWindow: Swift.String?
     let applyDuringMaintenanceWindow: Swift.Bool
+    let forceUpdate: Swift.Bool
 }
 
 extension UpdateEnvironmentInputBody: Swift.Decodable {
@@ -7772,6 +8047,7 @@ extension UpdateEnvironmentInputBody: Swift.Decodable {
         case applyDuringMaintenanceWindow
         case desiredCapacity
         case engineVersion
+        case forceUpdate
         case instanceType
         case preferredMaintenanceWindow
     }
@@ -7788,6 +8064,8 @@ extension UpdateEnvironmentInputBody: Swift.Decodable {
         preferredMaintenanceWindow = preferredMaintenanceWindowDecoded
         let applyDuringMaintenanceWindowDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .applyDuringMaintenanceWindow) ?? false
         applyDuringMaintenanceWindow = applyDuringMaintenanceWindowDecoded
+        let forceUpdateDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .forceUpdate) ?? false
+        forceUpdate = forceUpdateDecoded
     }
 }
 

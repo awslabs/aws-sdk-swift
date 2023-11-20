@@ -76,7 +76,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn’t perform the operation because of a system problem. Retry your request.
+    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn't perform the operation because of a system problem. Retry your request.
     /// - `InvalidOperationException` : The operation failed because it's not valid. For example, you might have tried to delete a rule group or firewall policy that's in use.
     /// - `InvalidRequestException` : The operation failed because of a problem with your request. Examples include:
     ///
@@ -133,7 +133,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InsufficientCapacityException` : Amazon Web Services doesn't currently have enough available capacity to fulfill your request. Try your request later.
-    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn’t perform the operation because of a system problem. Retry your request.
+    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn't perform the operation because of a system problem. Retry your request.
     /// - `InvalidOperationException` : The operation failed because it's not valid. For example, you might have tried to delete a rule group or firewall policy that's in use.
     /// - `InvalidRequestException` : The operation failed because of a problem with your request. Examples include:
     ///
@@ -190,7 +190,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InsufficientCapacityException` : Amazon Web Services doesn't currently have enough available capacity to fulfill your request. Try your request later.
-    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn’t perform the operation because of a system problem. Retry your request.
+    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn't perform the operation because of a system problem. Retry your request.
     /// - `InvalidOperationException` : The operation failed because it's not valid. For example, you might have tried to delete a rule group or firewall policy that's in use.
     /// - `InvalidRequestException` : The operation failed because of a problem with your request. Examples include:
     ///
@@ -246,7 +246,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InsufficientCapacityException` : Amazon Web Services doesn't currently have enough available capacity to fulfill your request. Try your request later.
-    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn’t perform the operation because of a system problem. Retry your request.
+    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn't perform the operation because of a system problem. Retry your request.
     /// - `InvalidRequestException` : The operation failed because of a problem with your request. Examples include:
     ///
     /// * You specified an unsupported parameter name or value.
@@ -301,7 +301,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InsufficientCapacityException` : Amazon Web Services doesn't currently have enough available capacity to fulfill your request. Try your request later.
-    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn’t perform the operation because of a system problem. Retry your request.
+    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn't perform the operation because of a system problem. Retry your request.
     /// - `InvalidRequestException` : The operation failed because of a problem with your request. Examples include:
     ///
     /// * You specified an unsupported parameter name or value.
@@ -346,7 +346,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
         return result
     }
 
-    /// Creates an Network Firewall TLS inspection configuration. A TLS inspection configuration contains the Certificate Manager certificate references that Network Firewall uses to decrypt and re-encrypt inbound traffic. After you create a TLS inspection configuration, you associate it with a new firewall policy. To update the settings for a TLS inspection configuration, use [UpdateTLSInspectionConfiguration]. To manage a TLS inspection configuration's tags, use the standard Amazon Web Services resource tagging operations, [ListTagsForResource], [TagResource], and [UntagResource]. To retrieve information about TLS inspection configurations, use [ListTLSInspectionConfigurations] and [DescribeTLSInspectionConfiguration]. For more information about TLS inspection configurations, see [Decrypting SSL/TLS traffic with TLS inspection configurations](https://docs.aws.amazon.com/network-firewall/latest/developerguide/tls-inspection.html) in the Network Firewall Developer Guide.
+    /// Creates an Network Firewall TLS inspection configuration. A TLS inspection configuration contains Certificate Manager certificate associations between and the scope configurations that Network Firewall uses to decrypt and re-encrypt traffic traveling through your firewall. After you create a TLS inspection configuration, you can associate it with a new firewall policy. To update the settings for a TLS inspection configuration, use [UpdateTLSInspectionConfiguration]. To manage a TLS inspection configuration's tags, use the standard Amazon Web Services resource tagging operations, [ListTagsForResource], [TagResource], and [UntagResource]. To retrieve information about TLS inspection configurations, use [ListTLSInspectionConfigurations] and [DescribeTLSInspectionConfiguration]. For more information about TLS inspection configurations, see [Inspecting SSL/TLS traffic with TLS inspection configurations](https://docs.aws.amazon.com/network-firewall/latest/developerguide/tls-inspection.html) in the Network Firewall Developer Guide.
     ///
     /// - Parameter CreateTLSInspectionConfigurationInput : [no documentation found]
     ///
@@ -356,7 +356,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InsufficientCapacityException` : Amazon Web Services doesn't currently have enough available capacity to fulfill your request. Try your request later.
-    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn’t perform the operation because of a system problem. Retry your request.
+    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn't perform the operation because of a system problem. Retry your request.
     /// - `InvalidRequestException` : The operation failed because of a problem with your request. Examples include:
     ///
     /// * You specified an unsupported parameter name or value.
@@ -410,7 +410,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn’t perform the operation because of a system problem. Retry your request.
+    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn't perform the operation because of a system problem. Retry your request.
     /// - `InvalidOperationException` : The operation failed because it's not valid. For example, you might have tried to delete a rule group or firewall policy that's in use.
     /// - `InvalidRequestException` : The operation failed because of a problem with your request. Examples include:
     ///
@@ -466,7 +466,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn’t perform the operation because of a system problem. Retry your request.
+    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn't perform the operation because of a system problem. Retry your request.
     /// - `InvalidOperationException` : The operation failed because it's not valid. For example, you might have tried to delete a rule group or firewall policy that's in use.
     /// - `InvalidRequestException` : The operation failed because of a problem with your request. Examples include:
     ///
@@ -522,7 +522,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn’t perform the operation because of a system problem. Retry your request.
+    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn't perform the operation because of a system problem. Retry your request.
     /// - `InvalidRequestException` : The operation failed because of a problem with your request. Examples include:
     ///
     /// * You specified an unsupported parameter name or value.
@@ -577,7 +577,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn’t perform the operation because of a system problem. Retry your request.
+    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn't perform the operation because of a system problem. Retry your request.
     /// - `InvalidOperationException` : The operation failed because it's not valid. For example, you might have tried to delete a rule group or firewall policy that's in use.
     /// - `InvalidRequestException` : The operation failed because of a problem with your request. Examples include:
     ///
@@ -633,7 +633,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn’t perform the operation because of a system problem. Retry your request.
+    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn't perform the operation because of a system problem. Retry your request.
     /// - `InvalidOperationException` : The operation failed because it's not valid. For example, you might have tried to delete a rule group or firewall policy that's in use.
     /// - `InvalidRequestException` : The operation failed because of a problem with your request. Examples include:
     ///
@@ -688,7 +688,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn’t perform the operation because of a system problem. Retry your request.
+    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn't perform the operation because of a system problem. Retry your request.
     /// - `InvalidRequestException` : The operation failed because of a problem with your request. Examples include:
     ///
     /// * You specified an unsupported parameter name or value.
@@ -742,7 +742,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn’t perform the operation because of a system problem. Retry your request.
+    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn't perform the operation because of a system problem. Retry your request.
     /// - `InvalidRequestException` : The operation failed because of a problem with your request. Examples include:
     ///
     /// * You specified an unsupported parameter name or value.
@@ -796,7 +796,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn’t perform the operation because of a system problem. Retry your request.
+    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn't perform the operation because of a system problem. Retry your request.
     /// - `InvalidRequestException` : The operation failed because of a problem with your request. Examples include:
     ///
     /// * You specified an unsupported parameter name or value.
@@ -850,7 +850,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn’t perform the operation because of a system problem. Retry your request.
+    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn't perform the operation because of a system problem. Retry your request.
     /// - `InvalidRequestException` : The operation failed because of a problem with your request. Examples include:
     ///
     /// * You specified an unsupported parameter name or value.
@@ -904,7 +904,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn’t perform the operation because of a system problem. Retry your request.
+    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn't perform the operation because of a system problem. Retry your request.
     /// - `InvalidRequestException` : The operation failed because of a problem with your request. Examples include:
     ///
     /// * You specified an unsupported parameter name or value.
@@ -958,7 +958,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn’t perform the operation because of a system problem. Retry your request.
+    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn't perform the operation because of a system problem. Retry your request.
     /// - `InvalidRequestException` : The operation failed because of a problem with your request. Examples include:
     ///
     /// * You specified an unsupported parameter name or value.
@@ -1012,7 +1012,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn’t perform the operation because of a system problem. Retry your request.
+    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn't perform the operation because of a system problem. Retry your request.
     /// - `InvalidRequestException` : The operation failed because of a problem with your request. Examples include:
     ///
     /// * You specified an unsupported parameter name or value.
@@ -1066,7 +1066,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn’t perform the operation because of a system problem. Retry your request.
+    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn't perform the operation because of a system problem. Retry your request.
     /// - `InvalidOperationException` : The operation failed because it's not valid. For example, you might have tried to delete a rule group or firewall policy that's in use.
     /// - `InvalidRequestException` : The operation failed because of a problem with your request. Examples include:
     ///
@@ -1122,7 +1122,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn’t perform the operation because of a system problem. Retry your request.
+    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn't perform the operation because of a system problem. Retry your request.
     /// - `InvalidRequestException` : The operation failed because of a problem with your request. Examples include:
     ///
     /// * You specified an unsupported parameter name or value.
@@ -1175,7 +1175,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn’t perform the operation because of a system problem. Retry your request.
+    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn't perform the operation because of a system problem. Retry your request.
     /// - `InvalidRequestException` : The operation failed because of a problem with your request. Examples include:
     ///
     /// * You specified an unsupported parameter name or value.
@@ -1228,7 +1228,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn’t perform the operation because of a system problem. Retry your request.
+    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn't perform the operation because of a system problem. Retry your request.
     /// - `InvalidRequestException` : The operation failed because of a problem with your request. Examples include:
     ///
     /// * You specified an unsupported parameter name or value.
@@ -1281,7 +1281,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn’t perform the operation because of a system problem. Retry your request.
+    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn't perform the operation because of a system problem. Retry your request.
     /// - `InvalidRequestException` : The operation failed because of a problem with your request. Examples include:
     ///
     /// * You specified an unsupported parameter name or value.
@@ -1334,7 +1334,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn’t perform the operation because of a system problem. Retry your request.
+    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn't perform the operation because of a system problem. Retry your request.
     /// - `InvalidRequestException` : The operation failed because of a problem with your request. Examples include:
     ///
     /// * You specified an unsupported parameter name or value.
@@ -1395,7 +1395,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn’t perform the operation because of a system problem. Retry your request.
+    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn't perform the operation because of a system problem. Retry your request.
     /// - `InvalidRequestException` : The operation failed because of a problem with your request. Examples include:
     ///
     /// * You specified an unsupported parameter name or value.
@@ -1450,7 +1450,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn’t perform the operation because of a system problem. Retry your request.
+    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn't perform the operation because of a system problem. Retry your request.
     /// - `InvalidRequestException` : The operation failed because of a problem with your request. Examples include:
     ///
     /// * You specified an unsupported parameter name or value.
@@ -1504,7 +1504,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn’t perform the operation because of a system problem. Retry your request.
+    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn't perform the operation because of a system problem. Retry your request.
     /// - `InvalidRequestException` : The operation failed because of a problem with your request. Examples include:
     ///
     /// * You specified an unsupported parameter name or value.
@@ -1558,7 +1558,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn’t perform the operation because of a system problem. Retry your request.
+    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn't perform the operation because of a system problem. Retry your request.
     /// - `InvalidRequestException` : The operation failed because of a problem with your request. Examples include:
     ///
     /// * You specified an unsupported parameter name or value.
@@ -1614,7 +1614,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn’t perform the operation because of a system problem. Retry your request.
+    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn't perform the operation because of a system problem. Retry your request.
     /// - `InvalidRequestException` : The operation failed because of a problem with your request. Examples include:
     ///
     /// * You specified an unsupported parameter name or value.
@@ -1669,7 +1669,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn’t perform the operation because of a system problem. Retry your request.
+    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn't perform the operation because of a system problem. Retry your request.
     /// - `InvalidRequestException` : The operation failed because of a problem with your request. Examples include:
     ///
     /// * You specified an unsupported parameter name or value.
@@ -1725,7 +1725,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn’t perform the operation because of a system problem. Retry your request.
+    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn't perform the operation because of a system problem. Retry your request.
     /// - `InvalidRequestException` : The operation failed because of a problem with your request. Examples include:
     ///
     /// * You specified an unsupported parameter name or value.
@@ -1780,7 +1780,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn’t perform the operation because of a system problem. Retry your request.
+    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn't perform the operation because of a system problem. Retry your request.
     /// - `InvalidRequestException` : The operation failed because of a problem with your request. Examples include:
     ///
     /// * You specified an unsupported parameter name or value.
@@ -1845,7 +1845,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn’t perform the operation because of a system problem. Retry your request.
+    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn't perform the operation because of a system problem. Retry your request.
     /// - `InvalidRequestException` : The operation failed because of a problem with your request. Examples include:
     ///
     /// * You specified an unsupported parameter name or value.
@@ -1901,7 +1901,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn’t perform the operation because of a system problem. Retry your request.
+    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn't perform the operation because of a system problem. Retry your request.
     /// - `InvalidRequestException` : The operation failed because of a problem with your request. Examples include:
     ///
     /// * You specified an unsupported parameter name or value.
@@ -1956,7 +1956,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn’t perform the operation because of a system problem. Retry your request.
+    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn't perform the operation because of a system problem. Retry your request.
     /// - `InvalidRequestException` : The operation failed because of a problem with your request. Examples include:
     ///
     /// * You specified an unsupported parameter name or value.
@@ -2003,7 +2003,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
         return result
     }
 
-    /// Updates the TLS inspection configuration settings for the specified TLS inspection configuration. You use a TLS inspection configuration by reference in one or more firewall policies. When you modify a TLS inspection configuration, you modify all firewall policies that use the TLS inspection configuration. To update a TLS inspection configuration, first call [DescribeTLSInspectionConfiguration] to retrieve the current [TLSInspectionConfiguration] object, update the object as needed, and then provide the updated object to this call.
+    /// Updates the TLS inspection configuration settings for the specified TLS inspection configuration. You use a TLS inspection configuration by referencing it in one or more firewall policies. When you modify a TLS inspection configuration, you modify all firewall policies that use the TLS inspection configuration. To update a TLS inspection configuration, first call [DescribeTLSInspectionConfiguration] to retrieve the current [TLSInspectionConfiguration] object, update the object as needed, and then provide the updated object to this call.
     ///
     /// - Parameter UpdateTLSInspectionConfigurationInput : [no documentation found]
     ///
@@ -2012,7 +2012,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn’t perform the operation because of a system problem. Retry your request.
+    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn't perform the operation because of a system problem. Retry your request.
     /// - `InvalidRequestException` : The operation failed because of a problem with your request. Examples include:
     ///
     /// * You specified an unsupported parameter name or value.

@@ -158,9 +158,12 @@ extension ListAppsInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> ListAppsInput {
         return ListAppsInput(
             appArn: self.appArn,
+            fromLastAssessmentTime: self.fromLastAssessmentTime,
             maxResults: self.maxResults,
             name: self.name,
-            nextToken: token
+            nextToken: token,
+            reverseOrder: self.reverseOrder,
+            toLastAssessmentTime: self.toLastAssessmentTime
         )}
 }
 extension ResiliencehubClient {
