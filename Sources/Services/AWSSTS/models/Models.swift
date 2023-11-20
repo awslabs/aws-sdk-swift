@@ -3,148 +3,51 @@ import AWSClientRuntime
 import ClientRuntime
 import typealias Foundation.TimeInterval
 
-extension AssumeRoleInput: Swift.Encodable {
+extension STSClientTypes.AssumedRoleUser: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn = "Arn"
+        case assumedRoleId = "AssumedRoleId"
+    }
+
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if let durationSeconds = durationSeconds {
-            try container.encode(durationSeconds, forKey: ClientRuntime.Key("DurationSeconds"))
+        if let arn = arn {
+            try container.encode(arn, forKey: ClientRuntime.Key("Arn"))
         }
-        if let externalId = externalId {
-            try container.encode(externalId, forKey: ClientRuntime.Key("ExternalId"))
+        if let assumedRoleId = assumedRoleId {
+            try container.encode(assumedRoleId, forKey: ClientRuntime.Key("AssumedRoleId"))
         }
-        if let policy = policy {
-            try container.encode(policy, forKey: ClientRuntime.Key("Policy"))
-        }
-        if let policyArns = policyArns {
-            if !policyArns.isEmpty {
-                var policyArnsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("PolicyArns"))
-                for (index0, policydescriptortype0) in policyArns.enumerated() {
-                    try policyArnsContainer.encode(policydescriptortype0, forKey: ClientRuntime.Key("member.\(index0.advanced(by: 1))"))
-                }
-            }
-            else {
-                var policyArnsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("PolicyArns"))
-                try policyArnsContainer.encode("", forKey: ClientRuntime.Key(""))
-            }
-        }
-        if let providedContexts = providedContexts {
-            if !providedContexts.isEmpty {
-                var providedContextsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("ProvidedContexts"))
-                for (index0, providedcontext0) in providedContexts.enumerated() {
-                    try providedContextsContainer.encode(providedcontext0, forKey: ClientRuntime.Key("member.\(index0.advanced(by: 1))"))
-                }
-            }
-            else {
-                var providedContextsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("ProvidedContexts"))
-                try providedContextsContainer.encode("", forKey: ClientRuntime.Key(""))
-            }
-        }
-        if let roleArn = roleArn {
-            try container.encode(roleArn, forKey: ClientRuntime.Key("RoleArn"))
-        }
-        if let roleSessionName = roleSessionName {
-            try container.encode(roleSessionName, forKey: ClientRuntime.Key("RoleSessionName"))
-        }
-        if let serialNumber = serialNumber {
-            try container.encode(serialNumber, forKey: ClientRuntime.Key("SerialNumber"))
-        }
-        if let sourceIdentity = sourceIdentity {
-            try container.encode(sourceIdentity, forKey: ClientRuntime.Key("SourceIdentity"))
-        }
-        if let tags = tags {
-            if !tags.isEmpty {
-                var tagsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Tags"))
-                for (index0, tag0) in tags.enumerated() {
-                    try tagsContainer.encode(tag0, forKey: ClientRuntime.Key("member.\(index0.advanced(by: 1))"))
-                }
-            }
-            else {
-                var tagsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Tags"))
-                try tagsContainer.encode("", forKey: ClientRuntime.Key(""))
-            }
-        }
-        if let tokenCode = tokenCode {
-            try container.encode(tokenCode, forKey: ClientRuntime.Key("TokenCode"))
-        }
-        if let transitiveTagKeys = transitiveTagKeys {
-            if !transitiveTagKeys.isEmpty {
-                var transitiveTagKeysContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("TransitiveTagKeys"))
-                for (index0, tagkeytype0) in transitiveTagKeys.enumerated() {
-                    try transitiveTagKeysContainer.encode(tagkeytype0, forKey: ClientRuntime.Key("member.\(index0.advanced(by: 1))"))
-                }
-            }
-            else {
-                var transitiveTagKeysContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("TransitiveTagKeys"))
-                try transitiveTagKeysContainer.encode("", forKey: ClientRuntime.Key(""))
-            }
-        }
-        try container.encode("AssumeRole", forKey:ClientRuntime.Key("Action"))
-        try container.encode("2011-06-15", forKey:ClientRuntime.Key("Version"))
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let assumedRoleIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .assumedRoleId)
+        assumedRoleId = assumedRoleIdDecoded
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
     }
 }
 
-extension AssumeRoleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
-    }
-}
+extension STSClientTypes {
+    /// The identifiers for the temporary security credentials that the operation returns.
+    public struct AssumedRoleUser: Swift.Equatable {
+        /// The ARN of the temporary security credentials that are returned from the [AssumeRole] action. For more information about ARNs and how to use them in policies, see [IAM Identifiers](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html) in the IAM User Guide.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// A unique identifier that contains the role ID and the role session name of the role that is being assumed. The role ID is generated by Amazon Web Services when the role is created.
+        /// This member is required.
+        public var assumedRoleId: Swift.String?
 
-public struct AssumeRoleInput: Swift.Equatable {
-    /// The duration, in seconds, of the role session. The value specified can range from 900 seconds (15 minutes) up to the maximum session duration set for the role. The maximum session duration setting can have a value from 1 hour to 12 hours. If you specify a value higher than this setting or the administrator setting (whichever is lower), the operation fails. For example, if you specify a session duration of 12 hours, but your administrator set the maximum session duration to 6 hours, your operation fails. Role chaining limits your Amazon Web Services CLI or Amazon Web Services API role session to a maximum of one hour. When you use the AssumeRole API operation to assume a role, you can specify the duration of your role session with the DurationSeconds parameter. You can specify a parameter value of up to 43200 seconds (12 hours), depending on the maximum session duration setting for your role. However, if you assume a role using role chaining and provide a DurationSeconds parameter value greater than one hour, the operation fails. To learn how to view the maximum value for your role, see [View the Maximum Session Duration Setting for a Role](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use.html#id_roles_use_view-role-max-session) in the IAM User Guide. By default, the value is set to 3600 seconds. The DurationSeconds parameter is separate from the duration of a console session that you might request using the returned credentials. The request to the federation endpoint for a console sign-in token takes a SessionDuration parameter that specifies the maximum length of the console session. For more information, see [Creating a URL that Enables Federated Users to Access the Amazon Web Services Management Console](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_enable-console-custom-url.html) in the IAM User Guide.
-    public var durationSeconds: Swift.Int?
-    /// A unique identifier that might be required when you assume a role in another account. If the administrator of the account to which the role belongs provided you with an external ID, then provide that value in the ExternalId parameter. This value can be any string, such as a passphrase or account number. A cross-account role is usually set up to trust everyone in an account. Therefore, the administrator of the trusting account might send an external ID to the administrator of the trusted account. That way, only someone with the ID can assume the role, rather than everyone in the account. For more information about the external ID, see [How to Use an External ID When Granting Access to Your Amazon Web Services Resources to a Third Party](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_create_for-user_externalid.html) in the IAM User Guide. The regex used to validate this parameter is a string of characters consisting of upper- and lower-case alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@:/-
-    public var externalId: Swift.String?
-    /// An IAM policy in JSON format that you want to use as an inline session policy. This parameter is optional. Passing policies to this operation returns new temporary credentials. The resulting session's permissions are the intersection of the role's identity-based policy and the session policies. You can use the role's temporary credentials in subsequent Amazon Web Services API calls to access resources in the account that owns the role. You cannot use session policies to grant more permissions than those allowed by the identity-based policy of the role that is being assumed. For more information, see [Session Policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html#policies_session) in the IAM User Guide. The plaintext that you use for both inline and managed session policies can't exceed 2,048 characters. The JSON policy characters can be any ASCII character from the space character to the end of the valid character list (\u0020 through \u00FF). It can also include the tab (\u0009), linefeed (\u000A), and carriage return (\u000D) characters. An Amazon Web Services conversion compresses the passed inline session policy, managed policy ARNs, and session tags into a packed binary format that has a separate limit. Your request can fail for this limit even if your plaintext meets the other requirements. The PackedPolicySize response element indicates by percentage how close the policies and tags for your request are to the upper size limit.
-    public var policy: Swift.String?
-    /// The Amazon Resource Names (ARNs) of the IAM managed policies that you want to use as managed session policies. The policies must exist in the same account as the role. This parameter is optional. You can provide up to 10 managed policy ARNs. However, the plaintext that you use for both inline and managed session policies can't exceed 2,048 characters. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference. An Amazon Web Services conversion compresses the passed inline session policy, managed policy ARNs, and session tags into a packed binary format that has a separate limit. Your request can fail for this limit even if your plaintext meets the other requirements. The PackedPolicySize response element indicates by percentage how close the policies and tags for your request are to the upper size limit. Passing policies to this operation returns new temporary credentials. The resulting session's permissions are the intersection of the role's identity-based policy and the session policies. You can use the role's temporary credentials in subsequent Amazon Web Services API calls to access resources in the account that owns the role. You cannot use session policies to grant more permissions than those allowed by the identity-based policy of the role that is being assumed. For more information, see [Session Policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html#policies_session) in the IAM User Guide.
-    public var policyArns: [STSClientTypes.PolicyDescriptorType]?
-    /// Reserved for future use.
-    public var providedContexts: [STSClientTypes.ProvidedContext]?
-    /// The Amazon Resource Name (ARN) of the role to assume.
-    /// This member is required.
-    public var roleArn: Swift.String?
-    /// An identifier for the assumed role session. Use the role session name to uniquely identify a session when the same role is assumed by different principals or for different reasons. In cross-account scenarios, the role session name is visible to, and can be logged by the account that owns the role. The role session name is also used in the ARN of the assumed role principal. This means that subsequent cross-account API requests that use the temporary security credentials will expose the role session name to the external account in their CloudTrail logs. The regex used to validate this parameter is a string of characters consisting of upper- and lower-case alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@-
-    /// This member is required.
-    public var roleSessionName: Swift.String?
-    /// The identification number of the MFA device that is associated with the user who is making the AssumeRole call. Specify this value if the trust policy of the role being assumed includes a condition that requires MFA authentication. The value is either the serial number for a hardware device (such as GAHT12345678) or an Amazon Resource Name (ARN) for a virtual device (such as arn:aws:iam::123456789012:mfa/user). The regex used to validate this parameter is a string of characters consisting of upper- and lower-case alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@-
-    public var serialNumber: Swift.String?
-    /// The source identity specified by the principal that is calling the AssumeRole operation. You can require users to specify a source identity when they assume a role. You do this by using the sts:SourceIdentity condition key in a role trust policy. You can use source identity information in CloudTrail logs to determine who took actions with a role. You can use the aws:SourceIdentity condition key to further control access to Amazon Web Services resources based on the value of source identity. For more information about using source identity, see [Monitor and control actions taken with assumed roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_control-access_monitor.html) in the IAM User Guide. The regex used to validate this parameter is a string of characters consisting of upper- and lower-case alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@-. You cannot use a value that begins with the text aws:. This prefix is reserved for Amazon Web Services internal use.
-    public var sourceIdentity: Swift.String?
-    /// A list of session tags that you want to pass. Each session tag consists of a key name and an associated value. For more information about session tags, see [Tagging Amazon Web Services STS Sessions](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_session-tags.html) in the IAM User Guide. This parameter is optional. You can pass up to 50 session tags. The plaintext session tag keys can’t exceed 128 characters, and the values can’t exceed 256 characters. For these and additional limits, see [IAM and STS Character Limits](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-limits.html#reference_iam-limits-entity-length) in the IAM User Guide. An Amazon Web Services conversion compresses the passed inline session policy, managed policy ARNs, and session tags into a packed binary format that has a separate limit. Your request can fail for this limit even if your plaintext meets the other requirements. The PackedPolicySize response element indicates by percentage how close the policies and tags for your request are to the upper size limit. You can pass a session tag with the same key as a tag that is already attached to the role. When you do, session tags override a role tag with the same key. Tag key–value pairs are not case sensitive, but case is preserved. This means that you cannot have separate Department and department tag keys. Assume that the role has the Department=Marketing tag and you pass the department=engineering session tag. Department and department are not saved as separate tags, and the session tag passed in the request takes precedence over the role tag. Additionally, if you used temporary credentials to perform this operation, the new session inherits any transitive session tags from the calling session. If you pass a session tag with the same key as an inherited tag, the operation fails. To view the inherited tags for a session, see the CloudTrail logs. For more information, see [Viewing Session Tags in CloudTrail](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_session-tags.html#id_session-tags_ctlogs) in the IAM User Guide.
-    public var tags: [STSClientTypes.Tag]?
-    /// The value provided by the MFA device, if the trust policy of the role being assumed requires MFA. (In other words, if the policy includes a condition that tests for MFA). If the role being assumed requires MFA and if the TokenCode value is missing or expired, the AssumeRole call returns an "access denied" error. The format for this parameter, as described by its regex pattern, is a sequence of six numeric digits.
-    public var tokenCode: Swift.String?
-    /// A list of keys for session tags that you want to set as transitive. If you set a tag key as transitive, the corresponding key and value passes to subsequent sessions in a role chain. For more information, see [Chaining Roles with Session Tags](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_session-tags.html#id_session-tags_role-chaining) in the IAM User Guide. This parameter is optional. When you set session tags as transitive, the session policy and session tags packed binary limit is not affected. If you choose not to specify a transitive tag key, then no tags are passed from this session to any subsequent sessions.
-    public var transitiveTagKeys: [Swift.String]?
-
-    public init(
-        durationSeconds: Swift.Int? = nil,
-        externalId: Swift.String? = nil,
-        policy: Swift.String? = nil,
-        policyArns: [STSClientTypes.PolicyDescriptorType]? = nil,
-        providedContexts: [STSClientTypes.ProvidedContext]? = nil,
-        roleArn: Swift.String? = nil,
-        roleSessionName: Swift.String? = nil,
-        serialNumber: Swift.String? = nil,
-        sourceIdentity: Swift.String? = nil,
-        tags: [STSClientTypes.Tag]? = nil,
-        tokenCode: Swift.String? = nil,
-        transitiveTagKeys: [Swift.String]? = nil
-    )
-    {
-        self.durationSeconds = durationSeconds
-        self.externalId = externalId
-        self.policy = policy
-        self.policyArns = policyArns
-        self.providedContexts = providedContexts
-        self.roleArn = roleArn
-        self.roleSessionName = roleSessionName
-        self.serialNumber = serialNumber
-        self.sourceIdentity = sourceIdentity
-        self.tags = tags
-        self.tokenCode = tokenCode
-        self.transitiveTagKeys = transitiveTagKeys
+        public init(
+            arn: Swift.String? = nil,
+            assumedRoleId: Swift.String? = nil
+        )
+        {
+            self.arn = arn
+            self.assumedRoleId = assumedRoleId
+        }
     }
+
 }
 
 struct AssumeRoleInputBody: Swift.Equatable {
@@ -275,46 +178,147 @@ extension AssumeRoleInputBody: Swift.Decodable {
     }
 }
 
-extension AssumeRoleOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: AssumeRoleOutputBody = try responseDecoder.decode(responseBody: data)
-            self.assumedRoleUser = output.assumedRoleUser
-            self.credentials = output.credentials
-            self.packedPolicySize = output.packedPolicySize
-            self.sourceIdentity = output.sourceIdentity
-        } else {
-            self.assumedRoleUser = nil
-            self.credentials = nil
-            self.packedPolicySize = nil
-            self.sourceIdentity = nil
+extension AssumeRoleInput: Swift.Encodable {
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let durationSeconds = durationSeconds {
+            try container.encode(durationSeconds, forKey: ClientRuntime.Key("DurationSeconds"))
         }
+        if let externalId = externalId {
+            try container.encode(externalId, forKey: ClientRuntime.Key("ExternalId"))
+        }
+        if let policy = policy {
+            try container.encode(policy, forKey: ClientRuntime.Key("Policy"))
+        }
+        if let policyArns = policyArns {
+            if !policyArns.isEmpty {
+                var policyArnsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("PolicyArns"))
+                for (index0, policydescriptortype0) in policyArns.enumerated() {
+                    try policyArnsContainer.encode(policydescriptortype0, forKey: ClientRuntime.Key("member.\(index0.advanced(by: 1))"))
+                }
+            }
+            else {
+                var policyArnsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("PolicyArns"))
+                try policyArnsContainer.encode("", forKey: ClientRuntime.Key(""))
+            }
+        }
+        if let providedContexts = providedContexts {
+            if !providedContexts.isEmpty {
+                var providedContextsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("ProvidedContexts"))
+                for (index0, providedcontext0) in providedContexts.enumerated() {
+                    try providedContextsContainer.encode(providedcontext0, forKey: ClientRuntime.Key("member.\(index0.advanced(by: 1))"))
+                }
+            }
+            else {
+                var providedContextsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("ProvidedContexts"))
+                try providedContextsContainer.encode("", forKey: ClientRuntime.Key(""))
+            }
+        }
+        if let roleArn = roleArn {
+            try container.encode(roleArn, forKey: ClientRuntime.Key("RoleArn"))
+        }
+        if let roleSessionName = roleSessionName {
+            try container.encode(roleSessionName, forKey: ClientRuntime.Key("RoleSessionName"))
+        }
+        if let serialNumber = serialNumber {
+            try container.encode(serialNumber, forKey: ClientRuntime.Key("SerialNumber"))
+        }
+        if let sourceIdentity = sourceIdentity {
+            try container.encode(sourceIdentity, forKey: ClientRuntime.Key("SourceIdentity"))
+        }
+        if let tags = tags {
+            if !tags.isEmpty {
+                var tagsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Tags"))
+                for (index0, tag0) in tags.enumerated() {
+                    try tagsContainer.encode(tag0, forKey: ClientRuntime.Key("member.\(index0.advanced(by: 1))"))
+                }
+            }
+            else {
+                var tagsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Tags"))
+                try tagsContainer.encode("", forKey: ClientRuntime.Key(""))
+            }
+        }
+        if let tokenCode = tokenCode {
+            try container.encode(tokenCode, forKey: ClientRuntime.Key("TokenCode"))
+        }
+        if let transitiveTagKeys = transitiveTagKeys {
+            if !transitiveTagKeys.isEmpty {
+                var transitiveTagKeysContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("TransitiveTagKeys"))
+                for (index0, tagkeytype0) in transitiveTagKeys.enumerated() {
+                    try transitiveTagKeysContainer.encode(tagkeytype0, forKey: ClientRuntime.Key("member.\(index0.advanced(by: 1))"))
+                }
+            }
+            else {
+                var transitiveTagKeysContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("TransitiveTagKeys"))
+                try transitiveTagKeysContainer.encode("", forKey: ClientRuntime.Key(""))
+            }
+        }
+        try container.encode("AssumeRole", forKey:ClientRuntime.Key("Action"))
+        try container.encode("2011-06-15", forKey:ClientRuntime.Key("Version"))
     }
 }
 
-/// Contains the response to a successful [AssumeRole] request, including temporary Amazon Web Services credentials that can be used to make Amazon Web Services requests.
-public struct AssumeRoleOutput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) and the assumed role ID, which are identifiers that you can use to refer to the resulting temporary security credentials. For example, you can reference these credentials as a principal in a resource-based policy by using the ARN or assumed role ID. The ARN and ID include the RoleSessionName that you specified when you called AssumeRole.
-    public var assumedRoleUser: STSClientTypes.AssumedRoleUser?
-    /// The temporary security credentials, which include an access key ID, a secret access key, and a security (or session) token. The size of the security token that STS API operations return is not fixed. We strongly recommend that you make no assumptions about the maximum size.
-    public var credentials: STSClientTypes.Credentials?
-    /// A percentage value that indicates the packed size of the session policies and session tags combined passed in the request. The request fails if the packed size is greater than 100 percent, which means the policies and tags exceeded the allowed space.
-    public var packedPolicySize: Swift.Int?
-    /// The source identity specified by the principal that is calling the AssumeRole operation. You can require users to specify a source identity when they assume a role. You do this by using the sts:SourceIdentity condition key in a role trust policy. You can use source identity information in CloudTrail logs to determine who took actions with a role. You can use the aws:SourceIdentity condition key to further control access to Amazon Web Services resources based on the value of source identity. For more information about using source identity, see [Monitor and control actions taken with assumed roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_control-access_monitor.html) in the IAM User Guide. The regex used to validate this parameter is a string of characters consisting of upper- and lower-case alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@-
+public struct AssumeRoleInput: Swift.Equatable {
+    /// The duration, in seconds, of the role session. The value specified can range from 900 seconds (15 minutes) up to the maximum session duration set for the role. The maximum session duration setting can have a value from 1 hour to 12 hours. If you specify a value higher than this setting or the administrator setting (whichever is lower), the operation fails. For example, if you specify a session duration of 12 hours, but your administrator set the maximum session duration to 6 hours, your operation fails. Role chaining limits your Amazon Web Services CLI or Amazon Web Services API role session to a maximum of one hour. When you use the AssumeRole API operation to assume a role, you can specify the duration of your role session with the DurationSeconds parameter. You can specify a parameter value of up to 43200 seconds (12 hours), depending on the maximum session duration setting for your role. However, if you assume a role using role chaining and provide a DurationSeconds parameter value greater than one hour, the operation fails. To learn how to view the maximum value for your role, see [View the Maximum Session Duration Setting for a Role](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use.html#id_roles_use_view-role-max-session) in the IAM User Guide. By default, the value is set to 3600 seconds. The DurationSeconds parameter is separate from the duration of a console session that you might request using the returned credentials. The request to the federation endpoint for a console sign-in token takes a SessionDuration parameter that specifies the maximum length of the console session. For more information, see [Creating a URL that Enables Federated Users to Access the Amazon Web Services Management Console](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_enable-console-custom-url.html) in the IAM User Guide.
+    public var durationSeconds: Swift.Int?
+    /// A unique identifier that might be required when you assume a role in another account. If the administrator of the account to which the role belongs provided you with an external ID, then provide that value in the ExternalId parameter. This value can be any string, such as a passphrase or account number. A cross-account role is usually set up to trust everyone in an account. Therefore, the administrator of the trusting account might send an external ID to the administrator of the trusted account. That way, only someone with the ID can assume the role, rather than everyone in the account. For more information about the external ID, see [How to Use an External ID When Granting Access to Your Amazon Web Services Resources to a Third Party](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_create_for-user_externalid.html) in the IAM User Guide. The regex used to validate this parameter is a string of characters consisting of upper- and lower-case alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@:/-
+    public var externalId: Swift.String?
+    /// An IAM policy in JSON format that you want to use as an inline session policy. This parameter is optional. Passing policies to this operation returns new temporary credentials. The resulting session's permissions are the intersection of the role's identity-based policy and the session policies. You can use the role's temporary credentials in subsequent Amazon Web Services API calls to access resources in the account that owns the role. You cannot use session policies to grant more permissions than those allowed by the identity-based policy of the role that is being assumed. For more information, see [Session Policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html#policies_session) in the IAM User Guide. The plaintext that you use for both inline and managed session policies can't exceed 2,048 characters. The JSON policy characters can be any ASCII character from the space character to the end of the valid character list (\u0020 through \u00FF). It can also include the tab (\u0009), linefeed (\u000A), and carriage return (\u000D) characters. An Amazon Web Services conversion compresses the passed inline session policy, managed policy ARNs, and session tags into a packed binary format that has a separate limit. Your request can fail for this limit even if your plaintext meets the other requirements. The PackedPolicySize response element indicates by percentage how close the policies and tags for your request are to the upper size limit.
+    public var policy: Swift.String?
+    /// The Amazon Resource Names (ARNs) of the IAM managed policies that you want to use as managed session policies. The policies must exist in the same account as the role. This parameter is optional. You can provide up to 10 managed policy ARNs. However, the plaintext that you use for both inline and managed session policies can't exceed 2,048 characters. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference. An Amazon Web Services conversion compresses the passed inline session policy, managed policy ARNs, and session tags into a packed binary format that has a separate limit. Your request can fail for this limit even if your plaintext meets the other requirements. The PackedPolicySize response element indicates by percentage how close the policies and tags for your request are to the upper size limit. Passing policies to this operation returns new temporary credentials. The resulting session's permissions are the intersection of the role's identity-based policy and the session policies. You can use the role's temporary credentials in subsequent Amazon Web Services API calls to access resources in the account that owns the role. You cannot use session policies to grant more permissions than those allowed by the identity-based policy of the role that is being assumed. For more information, see [Session Policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html#policies_session) in the IAM User Guide.
+    public var policyArns: [STSClientTypes.PolicyDescriptorType]?
+    /// Reserved for future use.
+    public var providedContexts: [STSClientTypes.ProvidedContext]?
+    /// The Amazon Resource Name (ARN) of the role to assume.
+    /// This member is required.
+    public var roleArn: Swift.String?
+    /// An identifier for the assumed role session. Use the role session name to uniquely identify a session when the same role is assumed by different principals or for different reasons. In cross-account scenarios, the role session name is visible to, and can be logged by the account that owns the role. The role session name is also used in the ARN of the assumed role principal. This means that subsequent cross-account API requests that use the temporary security credentials will expose the role session name to the external account in their CloudTrail logs. The regex used to validate this parameter is a string of characters consisting of upper- and lower-case alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@-
+    /// This member is required.
+    public var roleSessionName: Swift.String?
+    /// The identification number of the MFA device that is associated with the user who is making the AssumeRole call. Specify this value if the trust policy of the role being assumed includes a condition that requires MFA authentication. The value is either the serial number for a hardware device (such as GAHT12345678) or an Amazon Resource Name (ARN) for a virtual device (such as arn:aws:iam::123456789012:mfa/user). The regex used to validate this parameter is a string of characters consisting of upper- and lower-case alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@-
+    public var serialNumber: Swift.String?
+    /// The source identity specified by the principal that is calling the AssumeRole operation. You can require users to specify a source identity when they assume a role. You do this by using the sts:SourceIdentity condition key in a role trust policy. You can use source identity information in CloudTrail logs to determine who took actions with a role. You can use the aws:SourceIdentity condition key to further control access to Amazon Web Services resources based on the value of source identity. For more information about using source identity, see [Monitor and control actions taken with assumed roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_control-access_monitor.html) in the IAM User Guide. The regex used to validate this parameter is a string of characters consisting of upper- and lower-case alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@-. You cannot use a value that begins with the text aws:. This prefix is reserved for Amazon Web Services internal use.
     public var sourceIdentity: Swift.String?
+    /// A list of session tags that you want to pass. Each session tag consists of a key name and an associated value. For more information about session tags, see [Tagging Amazon Web Services STS Sessions](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_session-tags.html) in the IAM User Guide. This parameter is optional. You can pass up to 50 session tags. The plaintext session tag keys can’t exceed 128 characters, and the values can’t exceed 256 characters. For these and additional limits, see [IAM and STS Character Limits](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-limits.html#reference_iam-limits-entity-length) in the IAM User Guide. An Amazon Web Services conversion compresses the passed inline session policy, managed policy ARNs, and session tags into a packed binary format that has a separate limit. Your request can fail for this limit even if your plaintext meets the other requirements. The PackedPolicySize response element indicates by percentage how close the policies and tags for your request are to the upper size limit. You can pass a session tag with the same key as a tag that is already attached to the role. When you do, session tags override a role tag with the same key. Tag key–value pairs are not case sensitive, but case is preserved. This means that you cannot have separate Department and department tag keys. Assume that the role has the Department=Marketing tag and you pass the department=engineering session tag. Department and department are not saved as separate tags, and the session tag passed in the request takes precedence over the role tag. Additionally, if you used temporary credentials to perform this operation, the new session inherits any transitive session tags from the calling session. If you pass a session tag with the same key as an inherited tag, the operation fails. To view the inherited tags for a session, see the CloudTrail logs. For more information, see [Viewing Session Tags in CloudTrail](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_session-tags.html#id_session-tags_ctlogs) in the IAM User Guide.
+    public var tags: [STSClientTypes.Tag]?
+    /// The value provided by the MFA device, if the trust policy of the role being assumed requires MFA. (In other words, if the policy includes a condition that tests for MFA). If the role being assumed requires MFA and if the TokenCode value is missing or expired, the AssumeRole call returns an "access denied" error. The format for this parameter, as described by its regex pattern, is a sequence of six numeric digits.
+    public var tokenCode: Swift.String?
+    /// A list of keys for session tags that you want to set as transitive. If you set a tag key as transitive, the corresponding key and value passes to subsequent sessions in a role chain. For more information, see [Chaining Roles with Session Tags](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_session-tags.html#id_session-tags_role-chaining) in the IAM User Guide. This parameter is optional. When you set session tags as transitive, the session policy and session tags packed binary limit is not affected. If you choose not to specify a transitive tag key, then no tags are passed from this session to any subsequent sessions.
+    public var transitiveTagKeys: [Swift.String]?
 
     public init(
-        assumedRoleUser: STSClientTypes.AssumedRoleUser? = nil,
-        credentials: STSClientTypes.Credentials? = nil,
-        packedPolicySize: Swift.Int? = nil,
-        sourceIdentity: Swift.String? = nil
+        durationSeconds: Swift.Int? = nil,
+        externalId: Swift.String? = nil,
+        policy: Swift.String? = nil,
+        policyArns: [STSClientTypes.PolicyDescriptorType]? = nil,
+        providedContexts: [STSClientTypes.ProvidedContext]? = nil,
+        roleArn: Swift.String? = nil,
+        roleSessionName: Swift.String? = nil,
+        serialNumber: Swift.String? = nil,
+        sourceIdentity: Swift.String? = nil,
+        tags: [STSClientTypes.Tag]? = nil,
+        tokenCode: Swift.String? = nil,
+        transitiveTagKeys: [Swift.String]? = nil
     )
     {
-        self.assumedRoleUser = assumedRoleUser
-        self.credentials = credentials
-        self.packedPolicySize = packedPolicySize
+        self.durationSeconds = durationSeconds
+        self.externalId = externalId
+        self.policy = policy
+        self.policyArns = policyArns
+        self.providedContexts = providedContexts
+        self.roleArn = roleArn
+        self.roleSessionName = roleSessionName
+        self.serialNumber = serialNumber
         self.sourceIdentity = sourceIdentity
+        self.tags = tags
+        self.tokenCode = tokenCode
+        self.transitiveTagKeys = transitiveTagKeys
+    }
+}
+
+extension AssumeRoleInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
     }
 }
 
@@ -360,84 +364,46 @@ enum AssumeRoleOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension AssumeRoleWithSAMLInput: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "AssumeRoleWithSAMLInput(durationSeconds: \(Swift.String(describing: durationSeconds)), policy: \(Swift.String(describing: policy)), policyArns: \(Swift.String(describing: policyArns)), principalArn: \(Swift.String(describing: principalArn)), roleArn: \(Swift.String(describing: roleArn)), samlAssertion: \"CONTENT_REDACTED\")"}
-}
-
-extension AssumeRoleWithSAMLInput: Swift.Encodable {
-    public func encode(to encoder: Swift.Encoder) throws {
-        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if let durationSeconds = durationSeconds {
-            try container.encode(durationSeconds, forKey: ClientRuntime.Key("DurationSeconds"))
+extension AssumeRoleOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: AssumeRoleOutputBody = try responseDecoder.decode(responseBody: data)
+            self.assumedRoleUser = output.assumedRoleUser
+            self.credentials = output.credentials
+            self.packedPolicySize = output.packedPolicySize
+            self.sourceIdentity = output.sourceIdentity
+        } else {
+            self.assumedRoleUser = nil
+            self.credentials = nil
+            self.packedPolicySize = nil
+            self.sourceIdentity = nil
         }
-        if let policy = policy {
-            try container.encode(policy, forKey: ClientRuntime.Key("Policy"))
-        }
-        if let policyArns = policyArns {
-            if !policyArns.isEmpty {
-                var policyArnsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("PolicyArns"))
-                for (index0, policydescriptortype0) in policyArns.enumerated() {
-                    try policyArnsContainer.encode(policydescriptortype0, forKey: ClientRuntime.Key("member.\(index0.advanced(by: 1))"))
-                }
-            }
-            else {
-                var policyArnsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("PolicyArns"))
-                try policyArnsContainer.encode("", forKey: ClientRuntime.Key(""))
-            }
-        }
-        if let principalArn = principalArn {
-            try container.encode(principalArn, forKey: ClientRuntime.Key("PrincipalArn"))
-        }
-        if let roleArn = roleArn {
-            try container.encode(roleArn, forKey: ClientRuntime.Key("RoleArn"))
-        }
-        if let samlAssertion = samlAssertion {
-            try container.encode(samlAssertion, forKey: ClientRuntime.Key("SAMLAssertion"))
-        }
-        try container.encode("AssumeRoleWithSAML", forKey:ClientRuntime.Key("Action"))
-        try container.encode("2011-06-15", forKey:ClientRuntime.Key("Version"))
     }
 }
 
-extension AssumeRoleWithSAMLInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
-    }
-}
-
-public struct AssumeRoleWithSAMLInput: Swift.Equatable {
-    /// The duration, in seconds, of the role session. Your role session lasts for the duration that you specify for the DurationSeconds parameter, or until the time specified in the SAML authentication response's SessionNotOnOrAfter value, whichever is shorter. You can provide a DurationSeconds value from 900 seconds (15 minutes) up to the maximum session duration setting for the role. This setting can have a value from 1 hour to 12 hours. If you specify a value higher than this setting, the operation fails. For example, if you specify a session duration of 12 hours, but your administrator set the maximum session duration to 6 hours, your operation fails. To learn how to view the maximum value for your role, see [View the Maximum Session Duration Setting for a Role](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use.html#id_roles_use_view-role-max-session) in the IAM User Guide. By default, the value is set to 3600 seconds. The DurationSeconds parameter is separate from the duration of a console session that you might request using the returned credentials. The request to the federation endpoint for a console sign-in token takes a SessionDuration parameter that specifies the maximum length of the console session. For more information, see [Creating a URL that Enables Federated Users to Access the Amazon Web Services Management Console](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_enable-console-custom-url.html) in the IAM User Guide.
-    public var durationSeconds: Swift.Int?
-    /// An IAM policy in JSON format that you want to use as an inline session policy. This parameter is optional. Passing policies to this operation returns new temporary credentials. The resulting session's permissions are the intersection of the role's identity-based policy and the session policies. You can use the role's temporary credentials in subsequent Amazon Web Services API calls to access resources in the account that owns the role. You cannot use session policies to grant more permissions than those allowed by the identity-based policy of the role that is being assumed. For more information, see [Session Policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html#policies_session) in the IAM User Guide. The plaintext that you use for both inline and managed session policies can't exceed 2,048 characters. The JSON policy characters can be any ASCII character from the space character to the end of the valid character list (\u0020 through \u00FF). It can also include the tab (\u0009), linefeed (\u000A), and carriage return (\u000D) characters. An Amazon Web Services conversion compresses the passed inline session policy, managed policy ARNs, and session tags into a packed binary format that has a separate limit. Your request can fail for this limit even if your plaintext meets the other requirements. The PackedPolicySize response element indicates by percentage how close the policies and tags for your request are to the upper size limit.
-    public var policy: Swift.String?
-    /// The Amazon Resource Names (ARNs) of the IAM managed policies that you want to use as managed session policies. The policies must exist in the same account as the role. This parameter is optional. You can provide up to 10 managed policy ARNs. However, the plaintext that you use for both inline and managed session policies can't exceed 2,048 characters. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference. An Amazon Web Services conversion compresses the passed inline session policy, managed policy ARNs, and session tags into a packed binary format that has a separate limit. Your request can fail for this limit even if your plaintext meets the other requirements. The PackedPolicySize response element indicates by percentage how close the policies and tags for your request are to the upper size limit. Passing policies to this operation returns new temporary credentials. The resulting session's permissions are the intersection of the role's identity-based policy and the session policies. You can use the role's temporary credentials in subsequent Amazon Web Services API calls to access resources in the account that owns the role. You cannot use session policies to grant more permissions than those allowed by the identity-based policy of the role that is being assumed. For more information, see [Session Policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html#policies_session) in the IAM User Guide.
-    public var policyArns: [STSClientTypes.PolicyDescriptorType]?
-    /// The Amazon Resource Name (ARN) of the SAML provider in IAM that describes the IdP.
-    /// This member is required.
-    public var principalArn: Swift.String?
-    /// The Amazon Resource Name (ARN) of the role that the caller is assuming.
-    /// This member is required.
-    public var roleArn: Swift.String?
-    /// The base64 encoded SAML authentication response provided by the IdP. For more information, see [Configuring a Relying Party and Adding Claims](https://docs.aws.amazon.com/IAM/latest/UserGuide/create-role-saml-IdP-tasks.html) in the IAM User Guide.
-    /// This member is required.
-    public var samlAssertion: Swift.String?
+/// Contains the response to a successful [AssumeRole] request, including temporary Amazon Web Services credentials that can be used to make Amazon Web Services requests.
+public struct AssumeRoleOutput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) and the assumed role ID, which are identifiers that you can use to refer to the resulting temporary security credentials. For example, you can reference these credentials as a principal in a resource-based policy by using the ARN or assumed role ID. The ARN and ID include the RoleSessionName that you specified when you called AssumeRole.
+    public var assumedRoleUser: STSClientTypes.AssumedRoleUser?
+    /// The temporary security credentials, which include an access key ID, a secret access key, and a security (or session) token. The size of the security token that STS API operations return is not fixed. We strongly recommend that you make no assumptions about the maximum size.
+    public var credentials: STSClientTypes.Credentials?
+    /// A percentage value that indicates the packed size of the session policies and session tags combined passed in the request. The request fails if the packed size is greater than 100 percent, which means the policies and tags exceeded the allowed space.
+    public var packedPolicySize: Swift.Int?
+    /// The source identity specified by the principal that is calling the AssumeRole operation. You can require users to specify a source identity when they assume a role. You do this by using the sts:SourceIdentity condition key in a role trust policy. You can use source identity information in CloudTrail logs to determine who took actions with a role. You can use the aws:SourceIdentity condition key to further control access to Amazon Web Services resources based on the value of source identity. For more information about using source identity, see [Monitor and control actions taken with assumed roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_control-access_monitor.html) in the IAM User Guide. The regex used to validate this parameter is a string of characters consisting of upper- and lower-case alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@-
+    public var sourceIdentity: Swift.String?
 
     public init(
-        durationSeconds: Swift.Int? = nil,
-        policy: Swift.String? = nil,
-        policyArns: [STSClientTypes.PolicyDescriptorType]? = nil,
-        principalArn: Swift.String? = nil,
-        roleArn: Swift.String? = nil,
-        samlAssertion: Swift.String? = nil
+        assumedRoleUser: STSClientTypes.AssumedRoleUser? = nil,
+        credentials: STSClientTypes.Credentials? = nil,
+        packedPolicySize: Swift.Int? = nil,
+        sourceIdentity: Swift.String? = nil
     )
     {
-        self.durationSeconds = durationSeconds
-        self.policy = policy
-        self.policyArns = policyArns
-        self.principalArn = principalArn
-        self.roleArn = roleArn
-        self.samlAssertion = samlAssertion
+        self.assumedRoleUser = assumedRoleUser
+        self.credentials = credentials
+        self.packedPolicySize = packedPolicySize
+        self.sourceIdentity = sourceIdentity
     }
 }
 
@@ -491,6 +457,151 @@ extension AssumeRoleWithSAMLInputBody: Swift.Decodable {
         policy = policyDecoded
         let durationSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .durationSeconds)
         durationSeconds = durationSecondsDecoded
+    }
+}
+
+extension AssumeRoleWithSAMLInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "AssumeRoleWithSAMLInput(durationSeconds: \(Swift.String(describing: durationSeconds)), policy: \(Swift.String(describing: policy)), policyArns: \(Swift.String(describing: policyArns)), principalArn: \(Swift.String(describing: principalArn)), roleArn: \(Swift.String(describing: roleArn)), samlAssertion: \"CONTENT_REDACTED\")"}
+}
+
+extension AssumeRoleWithSAMLInput: Swift.Encodable {
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let durationSeconds = durationSeconds {
+            try container.encode(durationSeconds, forKey: ClientRuntime.Key("DurationSeconds"))
+        }
+        if let policy = policy {
+            try container.encode(policy, forKey: ClientRuntime.Key("Policy"))
+        }
+        if let policyArns = policyArns {
+            if !policyArns.isEmpty {
+                var policyArnsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("PolicyArns"))
+                for (index0, policydescriptortype0) in policyArns.enumerated() {
+                    try policyArnsContainer.encode(policydescriptortype0, forKey: ClientRuntime.Key("member.\(index0.advanced(by: 1))"))
+                }
+            }
+            else {
+                var policyArnsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("PolicyArns"))
+                try policyArnsContainer.encode("", forKey: ClientRuntime.Key(""))
+            }
+        }
+        if let principalArn = principalArn {
+            try container.encode(principalArn, forKey: ClientRuntime.Key("PrincipalArn"))
+        }
+        if let roleArn = roleArn {
+            try container.encode(roleArn, forKey: ClientRuntime.Key("RoleArn"))
+        }
+        if let samlAssertion = samlAssertion {
+            try container.encode(samlAssertion, forKey: ClientRuntime.Key("SAMLAssertion"))
+        }
+        try container.encode("AssumeRoleWithSAML", forKey:ClientRuntime.Key("Action"))
+        try container.encode("2011-06-15", forKey:ClientRuntime.Key("Version"))
+    }
+}
+
+public struct AssumeRoleWithSAMLInput: Swift.Equatable {
+    /// The duration, in seconds, of the role session. Your role session lasts for the duration that you specify for the DurationSeconds parameter, or until the time specified in the SAML authentication response's SessionNotOnOrAfter value, whichever is shorter. You can provide a DurationSeconds value from 900 seconds (15 minutes) up to the maximum session duration setting for the role. This setting can have a value from 1 hour to 12 hours. If you specify a value higher than this setting, the operation fails. For example, if you specify a session duration of 12 hours, but your administrator set the maximum session duration to 6 hours, your operation fails. To learn how to view the maximum value for your role, see [View the Maximum Session Duration Setting for a Role](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use.html#id_roles_use_view-role-max-session) in the IAM User Guide. By default, the value is set to 3600 seconds. The DurationSeconds parameter is separate from the duration of a console session that you might request using the returned credentials. The request to the federation endpoint for a console sign-in token takes a SessionDuration parameter that specifies the maximum length of the console session. For more information, see [Creating a URL that Enables Federated Users to Access the Amazon Web Services Management Console](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_enable-console-custom-url.html) in the IAM User Guide.
+    public var durationSeconds: Swift.Int?
+    /// An IAM policy in JSON format that you want to use as an inline session policy. This parameter is optional. Passing policies to this operation returns new temporary credentials. The resulting session's permissions are the intersection of the role's identity-based policy and the session policies. You can use the role's temporary credentials in subsequent Amazon Web Services API calls to access resources in the account that owns the role. You cannot use session policies to grant more permissions than those allowed by the identity-based policy of the role that is being assumed. For more information, see [Session Policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html#policies_session) in the IAM User Guide. The plaintext that you use for both inline and managed session policies can't exceed 2,048 characters. The JSON policy characters can be any ASCII character from the space character to the end of the valid character list (\u0020 through \u00FF). It can also include the tab (\u0009), linefeed (\u000A), and carriage return (\u000D) characters. An Amazon Web Services conversion compresses the passed inline session policy, managed policy ARNs, and session tags into a packed binary format that has a separate limit. Your request can fail for this limit even if your plaintext meets the other requirements. The PackedPolicySize response element indicates by percentage how close the policies and tags for your request are to the upper size limit.
+    public var policy: Swift.String?
+    /// The Amazon Resource Names (ARNs) of the IAM managed policies that you want to use as managed session policies. The policies must exist in the same account as the role. This parameter is optional. You can provide up to 10 managed policy ARNs. However, the plaintext that you use for both inline and managed session policies can't exceed 2,048 characters. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference. An Amazon Web Services conversion compresses the passed inline session policy, managed policy ARNs, and session tags into a packed binary format that has a separate limit. Your request can fail for this limit even if your plaintext meets the other requirements. The PackedPolicySize response element indicates by percentage how close the policies and tags for your request are to the upper size limit. Passing policies to this operation returns new temporary credentials. The resulting session's permissions are the intersection of the role's identity-based policy and the session policies. You can use the role's temporary credentials in subsequent Amazon Web Services API calls to access resources in the account that owns the role. You cannot use session policies to grant more permissions than those allowed by the identity-based policy of the role that is being assumed. For more information, see [Session Policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html#policies_session) in the IAM User Guide.
+    public var policyArns: [STSClientTypes.PolicyDescriptorType]?
+    /// The Amazon Resource Name (ARN) of the SAML provider in IAM that describes the IdP.
+    /// This member is required.
+    public var principalArn: Swift.String?
+    /// The Amazon Resource Name (ARN) of the role that the caller is assuming.
+    /// This member is required.
+    public var roleArn: Swift.String?
+    /// The base64 encoded SAML authentication response provided by the IdP. For more information, see [Configuring a Relying Party and Adding Claims](https://docs.aws.amazon.com/IAM/latest/UserGuide/create-role-saml-IdP-tasks.html) in the IAM User Guide.
+    /// This member is required.
+    public var samlAssertion: Swift.String?
+
+    public init(
+        durationSeconds: Swift.Int? = nil,
+        policy: Swift.String? = nil,
+        policyArns: [STSClientTypes.PolicyDescriptorType]? = nil,
+        principalArn: Swift.String? = nil,
+        roleArn: Swift.String? = nil,
+        samlAssertion: Swift.String? = nil
+    )
+    {
+        self.durationSeconds = durationSeconds
+        self.policy = policy
+        self.policyArns = policyArns
+        self.principalArn = principalArn
+        self.roleArn = roleArn
+        self.samlAssertion = samlAssertion
+    }
+}
+
+extension AssumeRoleWithSAMLInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+struct AssumeRoleWithSAMLOutputBody: Swift.Equatable {
+    let credentials: STSClientTypes.Credentials?
+    let assumedRoleUser: STSClientTypes.AssumedRoleUser?
+    let packedPolicySize: Swift.Int?
+    let subject: Swift.String?
+    let subjectType: Swift.String?
+    let issuer: Swift.String?
+    let audience: Swift.String?
+    let nameQualifier: Swift.String?
+    let sourceIdentity: Swift.String?
+}
+
+extension AssumeRoleWithSAMLOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case assumedRoleUser = "AssumedRoleUser"
+        case audience = "Audience"
+        case credentials = "Credentials"
+        case issuer = "Issuer"
+        case nameQualifier = "NameQualifier"
+        case packedPolicySize = "PackedPolicySize"
+        case sourceIdentity = "SourceIdentity"
+        case subject = "Subject"
+        case subjectType = "SubjectType"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("AssumeRoleWithSAMLResult"))
+        let credentialsDecoded = try containerValues.decodeIfPresent(STSClientTypes.Credentials.self, forKey: .credentials)
+        credentials = credentialsDecoded
+        let assumedRoleUserDecoded = try containerValues.decodeIfPresent(STSClientTypes.AssumedRoleUser.self, forKey: .assumedRoleUser)
+        assumedRoleUser = assumedRoleUserDecoded
+        let packedPolicySizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .packedPolicySize)
+        packedPolicySize = packedPolicySizeDecoded
+        let subjectDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subject)
+        subject = subjectDecoded
+        let subjectTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subjectType)
+        subjectType = subjectTypeDecoded
+        let issuerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .issuer)
+        issuer = issuerDecoded
+        let audienceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .audience)
+        audience = audienceDecoded
+        let nameQualifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nameQualifier)
+        nameQualifier = nameQualifierDecoded
+        let sourceIdentityDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceIdentity)
+        sourceIdentity = sourceIdentityDecoded
+    }
+}
+
+enum AssumeRoleWithSAMLOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ExpiredTokenException": return try await ExpiredTokenException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "IDPRejectedClaim": return try await IDPRejectedClaimException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidIdentityToken": return try await InvalidIdentityTokenException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "MalformedPolicyDocument": return try await MalformedPolicyDocumentException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "PackedPolicyTooLarge": return try await PackedPolicyTooLargeException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "RegionDisabledException": return try await RegionDisabledException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -576,158 +687,6 @@ public struct AssumeRoleWithSAMLOutput: Swift.Equatable {
     }
 }
 
-struct AssumeRoleWithSAMLOutputBody: Swift.Equatable {
-    let credentials: STSClientTypes.Credentials?
-    let assumedRoleUser: STSClientTypes.AssumedRoleUser?
-    let packedPolicySize: Swift.Int?
-    let subject: Swift.String?
-    let subjectType: Swift.String?
-    let issuer: Swift.String?
-    let audience: Swift.String?
-    let nameQualifier: Swift.String?
-    let sourceIdentity: Swift.String?
-}
-
-extension AssumeRoleWithSAMLOutputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case assumedRoleUser = "AssumedRoleUser"
-        case audience = "Audience"
-        case credentials = "Credentials"
-        case issuer = "Issuer"
-        case nameQualifier = "NameQualifier"
-        case packedPolicySize = "PackedPolicySize"
-        case sourceIdentity = "SourceIdentity"
-        case subject = "Subject"
-        case subjectType = "SubjectType"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
-        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("AssumeRoleWithSAMLResult"))
-        let credentialsDecoded = try containerValues.decodeIfPresent(STSClientTypes.Credentials.self, forKey: .credentials)
-        credentials = credentialsDecoded
-        let assumedRoleUserDecoded = try containerValues.decodeIfPresent(STSClientTypes.AssumedRoleUser.self, forKey: .assumedRoleUser)
-        assumedRoleUser = assumedRoleUserDecoded
-        let packedPolicySizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .packedPolicySize)
-        packedPolicySize = packedPolicySizeDecoded
-        let subjectDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subject)
-        subject = subjectDecoded
-        let subjectTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subjectType)
-        subjectType = subjectTypeDecoded
-        let issuerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .issuer)
-        issuer = issuerDecoded
-        let audienceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .audience)
-        audience = audienceDecoded
-        let nameQualifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nameQualifier)
-        nameQualifier = nameQualifierDecoded
-        let sourceIdentityDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceIdentity)
-        sourceIdentity = sourceIdentityDecoded
-    }
-}
-
-enum AssumeRoleWithSAMLOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "ExpiredTokenException": return try await ExpiredTokenException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "IDPRejectedClaim": return try await IDPRejectedClaimException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidIdentityToken": return try await InvalidIdentityTokenException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "MalformedPolicyDocument": return try await MalformedPolicyDocumentException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "PackedPolicyTooLarge": return try await PackedPolicyTooLargeException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "RegionDisabledException": return try await RegionDisabledException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension AssumeRoleWithWebIdentityInput: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "AssumeRoleWithWebIdentityInput(durationSeconds: \(Swift.String(describing: durationSeconds)), policy: \(Swift.String(describing: policy)), policyArns: \(Swift.String(describing: policyArns)), providerId: \(Swift.String(describing: providerId)), roleArn: \(Swift.String(describing: roleArn)), roleSessionName: \(Swift.String(describing: roleSessionName)), webIdentityToken: \"CONTENT_REDACTED\")"}
-}
-
-extension AssumeRoleWithWebIdentityInput: Swift.Encodable {
-    public func encode(to encoder: Swift.Encoder) throws {
-        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if let durationSeconds = durationSeconds {
-            try container.encode(durationSeconds, forKey: ClientRuntime.Key("DurationSeconds"))
-        }
-        if let policy = policy {
-            try container.encode(policy, forKey: ClientRuntime.Key("Policy"))
-        }
-        if let policyArns = policyArns {
-            if !policyArns.isEmpty {
-                var policyArnsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("PolicyArns"))
-                for (index0, policydescriptortype0) in policyArns.enumerated() {
-                    try policyArnsContainer.encode(policydescriptortype0, forKey: ClientRuntime.Key("member.\(index0.advanced(by: 1))"))
-                }
-            }
-            else {
-                var policyArnsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("PolicyArns"))
-                try policyArnsContainer.encode("", forKey: ClientRuntime.Key(""))
-            }
-        }
-        if let providerId = providerId {
-            try container.encode(providerId, forKey: ClientRuntime.Key("ProviderId"))
-        }
-        if let roleArn = roleArn {
-            try container.encode(roleArn, forKey: ClientRuntime.Key("RoleArn"))
-        }
-        if let roleSessionName = roleSessionName {
-            try container.encode(roleSessionName, forKey: ClientRuntime.Key("RoleSessionName"))
-        }
-        if let webIdentityToken = webIdentityToken {
-            try container.encode(webIdentityToken, forKey: ClientRuntime.Key("WebIdentityToken"))
-        }
-        try container.encode("AssumeRoleWithWebIdentity", forKey:ClientRuntime.Key("Action"))
-        try container.encode("2011-06-15", forKey:ClientRuntime.Key("Version"))
-    }
-}
-
-extension AssumeRoleWithWebIdentityInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
-    }
-}
-
-public struct AssumeRoleWithWebIdentityInput: Swift.Equatable {
-    /// The duration, in seconds, of the role session. The value can range from 900 seconds (15 minutes) up to the maximum session duration setting for the role. This setting can have a value from 1 hour to 12 hours. If you specify a value higher than this setting, the operation fails. For example, if you specify a session duration of 12 hours, but your administrator set the maximum session duration to 6 hours, your operation fails. To learn how to view the maximum value for your role, see [View the Maximum Session Duration Setting for a Role](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use.html#id_roles_use_view-role-max-session) in the IAM User Guide. By default, the value is set to 3600 seconds. The DurationSeconds parameter is separate from the duration of a console session that you might request using the returned credentials. The request to the federation endpoint for a console sign-in token takes a SessionDuration parameter that specifies the maximum length of the console session. For more information, see [Creating a URL that Enables Federated Users to Access the Amazon Web Services Management Console](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_enable-console-custom-url.html) in the IAM User Guide.
-    public var durationSeconds: Swift.Int?
-    /// An IAM policy in JSON format that you want to use as an inline session policy. This parameter is optional. Passing policies to this operation returns new temporary credentials. The resulting session's permissions are the intersection of the role's identity-based policy and the session policies. You can use the role's temporary credentials in subsequent Amazon Web Services API calls to access resources in the account that owns the role. You cannot use session policies to grant more permissions than those allowed by the identity-based policy of the role that is being assumed. For more information, see [Session Policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html#policies_session) in the IAM User Guide. The plaintext that you use for both inline and managed session policies can't exceed 2,048 characters. The JSON policy characters can be any ASCII character from the space character to the end of the valid character list (\u0020 through \u00FF). It can also include the tab (\u0009), linefeed (\u000A), and carriage return (\u000D) characters. An Amazon Web Services conversion compresses the passed inline session policy, managed policy ARNs, and session tags into a packed binary format that has a separate limit. Your request can fail for this limit even if your plaintext meets the other requirements. The PackedPolicySize response element indicates by percentage how close the policies and tags for your request are to the upper size limit.
-    public var policy: Swift.String?
-    /// The Amazon Resource Names (ARNs) of the IAM managed policies that you want to use as managed session policies. The policies must exist in the same account as the role. This parameter is optional. You can provide up to 10 managed policy ARNs. However, the plaintext that you use for both inline and managed session policies can't exceed 2,048 characters. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference. An Amazon Web Services conversion compresses the passed inline session policy, managed policy ARNs, and session tags into a packed binary format that has a separate limit. Your request can fail for this limit even if your plaintext meets the other requirements. The PackedPolicySize response element indicates by percentage how close the policies and tags for your request are to the upper size limit. Passing policies to this operation returns new temporary credentials. The resulting session's permissions are the intersection of the role's identity-based policy and the session policies. You can use the role's temporary credentials in subsequent Amazon Web Services API calls to access resources in the account that owns the role. You cannot use session policies to grant more permissions than those allowed by the identity-based policy of the role that is being assumed. For more information, see [Session Policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html#policies_session) in the IAM User Guide.
-    public var policyArns: [STSClientTypes.PolicyDescriptorType]?
-    /// The fully qualified host component of the domain name of the OAuth 2.0 identity provider. Do not specify this value for an OpenID Connect identity provider. Currently www.amazon.com and graph.facebook.com are the only supported identity providers for OAuth 2.0 access tokens. Do not include URL schemes and port numbers. Do not specify this value for OpenID Connect ID tokens.
-    public var providerId: Swift.String?
-    /// The Amazon Resource Name (ARN) of the role that the caller is assuming.
-    /// This member is required.
-    public var roleArn: Swift.String?
-    /// An identifier for the assumed role session. Typically, you pass the name or identifier that is associated with the user who is using your application. That way, the temporary security credentials that your application will use are associated with that user. This session name is included as part of the ARN and assumed role ID in the AssumedRoleUser response element. The regex used to validate this parameter is a string of characters consisting of upper- and lower-case alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@-
-    /// This member is required.
-    public var roleSessionName: Swift.String?
-    /// The OAuth 2.0 access token or OpenID Connect ID token that is provided by the identity provider. Your application must get this token by authenticating the user who is using your application with a web identity provider before the application makes an AssumeRoleWithWebIdentity call. Only tokens with RSA algorithms (RS256) are supported.
-    /// This member is required.
-    public var webIdentityToken: Swift.String?
-
-    public init(
-        durationSeconds: Swift.Int? = nil,
-        policy: Swift.String? = nil,
-        policyArns: [STSClientTypes.PolicyDescriptorType]? = nil,
-        providerId: Swift.String? = nil,
-        roleArn: Swift.String? = nil,
-        roleSessionName: Swift.String? = nil,
-        webIdentityToken: Swift.String? = nil
-    )
-    {
-        self.durationSeconds = durationSeconds
-        self.policy = policy
-        self.policyArns = policyArns
-        self.providerId = providerId
-        self.roleArn = roleArn
-        self.roleSessionName = roleSessionName
-        self.webIdentityToken = webIdentityToken
-    }
-}
-
 struct AssumeRoleWithWebIdentityInputBody: Swift.Equatable {
     let roleArn: Swift.String?
     let roleSessionName: Swift.String?
@@ -782,6 +741,151 @@ extension AssumeRoleWithWebIdentityInputBody: Swift.Decodable {
         policy = policyDecoded
         let durationSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .durationSeconds)
         durationSeconds = durationSecondsDecoded
+    }
+}
+
+extension AssumeRoleWithWebIdentityInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "AssumeRoleWithWebIdentityInput(durationSeconds: \(Swift.String(describing: durationSeconds)), policy: \(Swift.String(describing: policy)), policyArns: \(Swift.String(describing: policyArns)), providerId: \(Swift.String(describing: providerId)), roleArn: \(Swift.String(describing: roleArn)), roleSessionName: \(Swift.String(describing: roleSessionName)), webIdentityToken: \"CONTENT_REDACTED\")"}
+}
+
+extension AssumeRoleWithWebIdentityInput: Swift.Encodable {
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let durationSeconds = durationSeconds {
+            try container.encode(durationSeconds, forKey: ClientRuntime.Key("DurationSeconds"))
+        }
+        if let policy = policy {
+            try container.encode(policy, forKey: ClientRuntime.Key("Policy"))
+        }
+        if let policyArns = policyArns {
+            if !policyArns.isEmpty {
+                var policyArnsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("PolicyArns"))
+                for (index0, policydescriptortype0) in policyArns.enumerated() {
+                    try policyArnsContainer.encode(policydescriptortype0, forKey: ClientRuntime.Key("member.\(index0.advanced(by: 1))"))
+                }
+            }
+            else {
+                var policyArnsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("PolicyArns"))
+                try policyArnsContainer.encode("", forKey: ClientRuntime.Key(""))
+            }
+        }
+        if let providerId = providerId {
+            try container.encode(providerId, forKey: ClientRuntime.Key("ProviderId"))
+        }
+        if let roleArn = roleArn {
+            try container.encode(roleArn, forKey: ClientRuntime.Key("RoleArn"))
+        }
+        if let roleSessionName = roleSessionName {
+            try container.encode(roleSessionName, forKey: ClientRuntime.Key("RoleSessionName"))
+        }
+        if let webIdentityToken = webIdentityToken {
+            try container.encode(webIdentityToken, forKey: ClientRuntime.Key("WebIdentityToken"))
+        }
+        try container.encode("AssumeRoleWithWebIdentity", forKey:ClientRuntime.Key("Action"))
+        try container.encode("2011-06-15", forKey:ClientRuntime.Key("Version"))
+    }
+}
+
+public struct AssumeRoleWithWebIdentityInput: Swift.Equatable {
+    /// The duration, in seconds, of the role session. The value can range from 900 seconds (15 minutes) up to the maximum session duration setting for the role. This setting can have a value from 1 hour to 12 hours. If you specify a value higher than this setting, the operation fails. For example, if you specify a session duration of 12 hours, but your administrator set the maximum session duration to 6 hours, your operation fails. To learn how to view the maximum value for your role, see [View the Maximum Session Duration Setting for a Role](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use.html#id_roles_use_view-role-max-session) in the IAM User Guide. By default, the value is set to 3600 seconds. The DurationSeconds parameter is separate from the duration of a console session that you might request using the returned credentials. The request to the federation endpoint for a console sign-in token takes a SessionDuration parameter that specifies the maximum length of the console session. For more information, see [Creating a URL that Enables Federated Users to Access the Amazon Web Services Management Console](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_enable-console-custom-url.html) in the IAM User Guide.
+    public var durationSeconds: Swift.Int?
+    /// An IAM policy in JSON format that you want to use as an inline session policy. This parameter is optional. Passing policies to this operation returns new temporary credentials. The resulting session's permissions are the intersection of the role's identity-based policy and the session policies. You can use the role's temporary credentials in subsequent Amazon Web Services API calls to access resources in the account that owns the role. You cannot use session policies to grant more permissions than those allowed by the identity-based policy of the role that is being assumed. For more information, see [Session Policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html#policies_session) in the IAM User Guide. The plaintext that you use for both inline and managed session policies can't exceed 2,048 characters. The JSON policy characters can be any ASCII character from the space character to the end of the valid character list (\u0020 through \u00FF). It can also include the tab (\u0009), linefeed (\u000A), and carriage return (\u000D) characters. An Amazon Web Services conversion compresses the passed inline session policy, managed policy ARNs, and session tags into a packed binary format that has a separate limit. Your request can fail for this limit even if your plaintext meets the other requirements. The PackedPolicySize response element indicates by percentage how close the policies and tags for your request are to the upper size limit.
+    public var policy: Swift.String?
+    /// The Amazon Resource Names (ARNs) of the IAM managed policies that you want to use as managed session policies. The policies must exist in the same account as the role. This parameter is optional. You can provide up to 10 managed policy ARNs. However, the plaintext that you use for both inline and managed session policies can't exceed 2,048 characters. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference. An Amazon Web Services conversion compresses the passed inline session policy, managed policy ARNs, and session tags into a packed binary format that has a separate limit. Your request can fail for this limit even if your plaintext meets the other requirements. The PackedPolicySize response element indicates by percentage how close the policies and tags for your request are to the upper size limit. Passing policies to this operation returns new temporary credentials. The resulting session's permissions are the intersection of the role's identity-based policy and the session policies. You can use the role's temporary credentials in subsequent Amazon Web Services API calls to access resources in the account that owns the role. You cannot use session policies to grant more permissions than those allowed by the identity-based policy of the role that is being assumed. For more information, see [Session Policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html#policies_session) in the IAM User Guide.
+    public var policyArns: [STSClientTypes.PolicyDescriptorType]?
+    /// The fully qualified host component of the domain name of the OAuth 2.0 identity provider. Do not specify this value for an OpenID Connect identity provider. Currently www.amazon.com and graph.facebook.com are the only supported identity providers for OAuth 2.0 access tokens. Do not include URL schemes and port numbers. Do not specify this value for OpenID Connect ID tokens.
+    public var providerId: Swift.String?
+    /// The Amazon Resource Name (ARN) of the role that the caller is assuming.
+    /// This member is required.
+    public var roleArn: Swift.String?
+    /// An identifier for the assumed role session. Typically, you pass the name or identifier that is associated with the user who is using your application. That way, the temporary security credentials that your application will use are associated with that user. This session name is included as part of the ARN and assumed role ID in the AssumedRoleUser response element. The regex used to validate this parameter is a string of characters consisting of upper- and lower-case alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@-
+    /// This member is required.
+    public var roleSessionName: Swift.String?
+    /// The OAuth 2.0 access token or OpenID Connect ID token that is provided by the identity provider. Your application must get this token by authenticating the user who is using your application with a web identity provider before the application makes an AssumeRoleWithWebIdentity call. Only tokens with RSA algorithms (RS256) are supported.
+    /// This member is required.
+    public var webIdentityToken: Swift.String?
+
+    public init(
+        durationSeconds: Swift.Int? = nil,
+        policy: Swift.String? = nil,
+        policyArns: [STSClientTypes.PolicyDescriptorType]? = nil,
+        providerId: Swift.String? = nil,
+        roleArn: Swift.String? = nil,
+        roleSessionName: Swift.String? = nil,
+        webIdentityToken: Swift.String? = nil
+    )
+    {
+        self.durationSeconds = durationSeconds
+        self.policy = policy
+        self.policyArns = policyArns
+        self.providerId = providerId
+        self.roleArn = roleArn
+        self.roleSessionName = roleSessionName
+        self.webIdentityToken = webIdentityToken
+    }
+}
+
+extension AssumeRoleWithWebIdentityInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+struct AssumeRoleWithWebIdentityOutputBody: Swift.Equatable {
+    let credentials: STSClientTypes.Credentials?
+    let subjectFromWebIdentityToken: Swift.String?
+    let assumedRoleUser: STSClientTypes.AssumedRoleUser?
+    let packedPolicySize: Swift.Int?
+    let provider: Swift.String?
+    let audience: Swift.String?
+    let sourceIdentity: Swift.String?
+}
+
+extension AssumeRoleWithWebIdentityOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case assumedRoleUser = "AssumedRoleUser"
+        case audience = "Audience"
+        case credentials = "Credentials"
+        case packedPolicySize = "PackedPolicySize"
+        case provider = "Provider"
+        case sourceIdentity = "SourceIdentity"
+        case subjectFromWebIdentityToken = "SubjectFromWebIdentityToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("AssumeRoleWithWebIdentityResult"))
+        let credentialsDecoded = try containerValues.decodeIfPresent(STSClientTypes.Credentials.self, forKey: .credentials)
+        credentials = credentialsDecoded
+        let subjectFromWebIdentityTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subjectFromWebIdentityToken)
+        subjectFromWebIdentityToken = subjectFromWebIdentityTokenDecoded
+        let assumedRoleUserDecoded = try containerValues.decodeIfPresent(STSClientTypes.AssumedRoleUser.self, forKey: .assumedRoleUser)
+        assumedRoleUser = assumedRoleUserDecoded
+        let packedPolicySizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .packedPolicySize)
+        packedPolicySize = packedPolicySizeDecoded
+        let providerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .provider)
+        provider = providerDecoded
+        let audienceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .audience)
+        audience = audienceDecoded
+        let sourceIdentityDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceIdentity)
+        sourceIdentity = sourceIdentityDecoded
+    }
+}
+
+enum AssumeRoleWithWebIdentityOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ExpiredTokenException": return try await ExpiredTokenException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "IDPCommunicationError": return try await IDPCommunicationErrorException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "IDPRejectedClaim": return try await IDPRejectedClaimException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidIdentityToken": return try await InvalidIdentityTokenException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "MalformedPolicyDocument": return try await MalformedPolicyDocumentException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "PackedPolicyTooLarge": return try await PackedPolicyTooLargeException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "RegionDisabledException": return try await RegionDisabledException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -844,110 +948,6 @@ public struct AssumeRoleWithWebIdentityOutput: Swift.Equatable {
         self.sourceIdentity = sourceIdentity
         self.subjectFromWebIdentityToken = subjectFromWebIdentityToken
     }
-}
-
-struct AssumeRoleWithWebIdentityOutputBody: Swift.Equatable {
-    let credentials: STSClientTypes.Credentials?
-    let subjectFromWebIdentityToken: Swift.String?
-    let assumedRoleUser: STSClientTypes.AssumedRoleUser?
-    let packedPolicySize: Swift.Int?
-    let provider: Swift.String?
-    let audience: Swift.String?
-    let sourceIdentity: Swift.String?
-}
-
-extension AssumeRoleWithWebIdentityOutputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case assumedRoleUser = "AssumedRoleUser"
-        case audience = "Audience"
-        case credentials = "Credentials"
-        case packedPolicySize = "PackedPolicySize"
-        case provider = "Provider"
-        case sourceIdentity = "SourceIdentity"
-        case subjectFromWebIdentityToken = "SubjectFromWebIdentityToken"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
-        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("AssumeRoleWithWebIdentityResult"))
-        let credentialsDecoded = try containerValues.decodeIfPresent(STSClientTypes.Credentials.self, forKey: .credentials)
-        credentials = credentialsDecoded
-        let subjectFromWebIdentityTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subjectFromWebIdentityToken)
-        subjectFromWebIdentityToken = subjectFromWebIdentityTokenDecoded
-        let assumedRoleUserDecoded = try containerValues.decodeIfPresent(STSClientTypes.AssumedRoleUser.self, forKey: .assumedRoleUser)
-        assumedRoleUser = assumedRoleUserDecoded
-        let packedPolicySizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .packedPolicySize)
-        packedPolicySize = packedPolicySizeDecoded
-        let providerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .provider)
-        provider = providerDecoded
-        let audienceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .audience)
-        audience = audienceDecoded
-        let sourceIdentityDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceIdentity)
-        sourceIdentity = sourceIdentityDecoded
-    }
-}
-
-enum AssumeRoleWithWebIdentityOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "ExpiredTokenException": return try await ExpiredTokenException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "IDPCommunicationError": return try await IDPCommunicationErrorException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "IDPRejectedClaim": return try await IDPRejectedClaimException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidIdentityToken": return try await InvalidIdentityTokenException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "MalformedPolicyDocument": return try await MalformedPolicyDocumentException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "PackedPolicyTooLarge": return try await PackedPolicyTooLargeException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "RegionDisabledException": return try await RegionDisabledException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension STSClientTypes.AssumedRoleUser: Swift.Codable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case arn = "Arn"
-        case assumedRoleId = "AssumedRoleId"
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if let arn = arn {
-            try container.encode(arn, forKey: ClientRuntime.Key("Arn"))
-        }
-        if let assumedRoleId = assumedRoleId {
-            try container.encode(assumedRoleId, forKey: ClientRuntime.Key("AssumedRoleId"))
-        }
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let assumedRoleIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .assumedRoleId)
-        assumedRoleId = assumedRoleIdDecoded
-        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
-        arn = arnDecoded
-    }
-}
-
-extension STSClientTypes {
-    /// The identifiers for the temporary security credentials that the operation returns.
-    public struct AssumedRoleUser: Swift.Equatable {
-        /// The ARN of the temporary security credentials that are returned from the [AssumeRole] action. For more information about ARNs and how to use them in policies, see [IAM Identifiers](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html) in the IAM User Guide.
-        /// This member is required.
-        public var arn: Swift.String?
-        /// A unique identifier that contains the role ID and the role session name of the role that is being assumed. The role ID is generated by Amazon Web Services when the role is created.
-        /// This member is required.
-        public var assumedRoleId: Swift.String?
-
-        public init(
-            arn: Swift.String? = nil,
-            assumedRoleId: Swift.String? = nil
-        )
-        {
-            self.arn = arn
-            self.assumedRoleId = assumedRoleId
-        }
-    }
-
 }
 
 extension STSClientTypes.Credentials: Swift.Codable {
@@ -1024,6 +1024,22 @@ extension STSClientTypes {
 
 }
 
+struct DecodeAuthorizationMessageInputBody: Swift.Equatable {
+    let encodedMessage: Swift.String?
+}
+
+extension DecodeAuthorizationMessageInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case encodedMessage = "EncodedMessage"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let encodedMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .encodedMessage)
+        encodedMessage = encodedMessageDecoded
+    }
+}
+
 extension DecodeAuthorizationMessageInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
@@ -1032,12 +1048,6 @@ extension DecodeAuthorizationMessageInput: Swift.Encodable {
         }
         try container.encode("DecodeAuthorizationMessage", forKey:ClientRuntime.Key("Action"))
         try container.encode("2011-06-15", forKey:ClientRuntime.Key("Version"))
-    }
-}
-
-extension DecodeAuthorizationMessageInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
     }
 }
 
@@ -1054,19 +1064,36 @@ public struct DecodeAuthorizationMessageInput: Swift.Equatable {
     }
 }
 
-struct DecodeAuthorizationMessageInputBody: Swift.Equatable {
-    let encodedMessage: Swift.String?
+extension DecodeAuthorizationMessageInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
 }
 
-extension DecodeAuthorizationMessageInputBody: Swift.Decodable {
+struct DecodeAuthorizationMessageOutputBody: Swift.Equatable {
+    let decodedMessage: Swift.String?
+}
+
+extension DecodeAuthorizationMessageOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case encodedMessage = "EncodedMessage"
+        case decodedMessage = "DecodedMessage"
     }
 
     public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let encodedMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .encodedMessage)
-        encodedMessage = encodedMessageDecoded
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DecodeAuthorizationMessageResult"))
+        let decodedMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .decodedMessage)
+        decodedMessage = decodedMessageDecoded
+    }
+}
+
+enum DecodeAuthorizationMessageOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidAuthorizationMessageException": return try await InvalidAuthorizationMessageException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -1095,30 +1122,19 @@ public struct DecodeAuthorizationMessageOutput: Swift.Equatable {
     }
 }
 
-struct DecodeAuthorizationMessageOutputBody: Swift.Equatable {
-    let decodedMessage: Swift.String?
+struct ExpiredTokenExceptionBody: Swift.Equatable {
+    let message: Swift.String?
 }
 
-extension DecodeAuthorizationMessageOutputBody: Swift.Decodable {
+extension ExpiredTokenExceptionBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case decodedMessage = "DecodedMessage"
+        case message
     }
 
     public init(from decoder: Swift.Decoder) throws {
-        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
-        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DecodeAuthorizationMessageResult"))
-        let decodedMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .decodedMessage)
-        decodedMessage = decodedMessageDecoded
-    }
-}
-
-enum DecodeAuthorizationMessageOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "InvalidAuthorizationMessageException": return try await InvalidAuthorizationMessageException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
     }
 }
 
@@ -1157,22 +1173,6 @@ public struct ExpiredTokenException: ClientRuntime.ModeledError, AWSClientRuntim
     )
     {
         self.properties.message = message
-    }
-}
-
-struct ExpiredTokenExceptionBody: Swift.Equatable {
-    let message: Swift.String?
-}
-
-extension ExpiredTokenExceptionBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case message
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
-        message = messageDecoded
     }
 }
 
@@ -1223,36 +1223,6 @@ extension STSClientTypes {
 
 }
 
-extension GetAccessKeyInfoInput: Swift.Encodable {
-    public func encode(to encoder: Swift.Encoder) throws {
-        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if let accessKeyId = accessKeyId {
-            try container.encode(accessKeyId, forKey: ClientRuntime.Key("AccessKeyId"))
-        }
-        try container.encode("GetAccessKeyInfo", forKey:ClientRuntime.Key("Action"))
-        try container.encode("2011-06-15", forKey:ClientRuntime.Key("Version"))
-    }
-}
-
-extension GetAccessKeyInfoInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
-    }
-}
-
-public struct GetAccessKeyInfoInput: Swift.Equatable {
-    /// The identifier of an access key. This parameter allows (through its regex pattern) a string of characters that can consist of any upper- or lowercase letter or digit.
-    /// This member is required.
-    public var accessKeyId: Swift.String?
-
-    public init(
-        accessKeyId: Swift.String? = nil
-    )
-    {
-        self.accessKeyId = accessKeyId
-    }
-}
-
 struct GetAccessKeyInfoInputBody: Swift.Equatable {
     let accessKeyId: Swift.String?
 }
@@ -1269,27 +1239,33 @@ extension GetAccessKeyInfoInputBody: Swift.Decodable {
     }
 }
 
-extension GetAccessKeyInfoOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetAccessKeyInfoOutputBody = try responseDecoder.decode(responseBody: data)
-            self.account = output.account
-        } else {
-            self.account = nil
+extension GetAccessKeyInfoInput: Swift.Encodable {
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let accessKeyId = accessKeyId {
+            try container.encode(accessKeyId, forKey: ClientRuntime.Key("AccessKeyId"))
         }
+        try container.encode("GetAccessKeyInfo", forKey:ClientRuntime.Key("Action"))
+        try container.encode("2011-06-15", forKey:ClientRuntime.Key("Version"))
     }
 }
 
-public struct GetAccessKeyInfoOutput: Swift.Equatable {
-    /// The number used to identify the Amazon Web Services account.
-    public var account: Swift.String?
+public struct GetAccessKeyInfoInput: Swift.Equatable {
+    /// The identifier of an access key. This parameter allows (through its regex pattern) a string of characters that can consist of any upper- or lowercase letter or digit.
+    /// This member is required.
+    public var accessKeyId: Swift.String?
 
     public init(
-        account: Swift.String? = nil
+        accessKeyId: Swift.String? = nil
     )
     {
-        self.account = account
+        self.accessKeyId = accessKeyId
+    }
+}
+
+extension GetAccessKeyInfoInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
     }
 }
 
@@ -1316,6 +1292,30 @@ enum GetAccessKeyInfoOutputError: ClientRuntime.HttpResponseErrorBinding {
         switch restXMLError.errorCode {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
+    }
+}
+
+extension GetAccessKeyInfoOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetAccessKeyInfoOutputBody = try responseDecoder.decode(responseBody: data)
+            self.account = output.account
+        } else {
+            self.account = nil
+        }
+    }
+}
+
+public struct GetAccessKeyInfoOutput: Swift.Equatable {
+    /// The number used to identify the Amazon Web Services account.
+    public var account: Swift.String?
+
+    public init(
+        account: Swift.String? = nil
+    )
+    {
+        self.account = account
     }
 }
 
@@ -1369,51 +1369,14 @@ extension GetCallerIdentityInput {
     }
 }
 
-extension GetCallerIdentityInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
-    }
-}
-
 public struct GetCallerIdentityInput: Swift.Equatable {
 
     public init() { }
 }
 
-extension GetCallerIdentityOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetCallerIdentityOutputBody = try responseDecoder.decode(responseBody: data)
-            self.account = output.account
-            self.arn = output.arn
-            self.userId = output.userId
-        } else {
-            self.account = nil
-            self.arn = nil
-            self.userId = nil
-        }
-    }
-}
-
-/// Contains the response to a successful [GetCallerIdentity] request, including information about the entity making the request.
-public struct GetCallerIdentityOutput: Swift.Equatable {
-    /// The Amazon Web Services account ID number of the account that owns or contains the calling entity.
-    public var account: Swift.String?
-    /// The Amazon Web Services ARN associated with the calling entity.
-    public var arn: Swift.String?
-    /// The unique identifier of the calling entity. The exact value depends on the type of entity that is making the call. The values returned are those listed in the aws:userid column in the [Principal table](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_variables.html#principaltable) found on the Policy Variables reference page in the IAM User Guide.
-    public var userId: Swift.String?
-
-    public init(
-        account: Swift.String? = nil,
-        arn: Swift.String? = nil,
-        userId: Swift.String? = nil
-    )
-    {
-        self.account = account
-        self.arn = arn
-        self.userId = userId
+extension GetCallerIdentityInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
     }
 }
 
@@ -1451,79 +1414,40 @@ enum GetCallerIdentityOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetFederationTokenInput: Swift.Encodable {
-    public func encode(to encoder: Swift.Encoder) throws {
-        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if let durationSeconds = durationSeconds {
-            try container.encode(durationSeconds, forKey: ClientRuntime.Key("DurationSeconds"))
+extension GetCallerIdentityOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetCallerIdentityOutputBody = try responseDecoder.decode(responseBody: data)
+            self.account = output.account
+            self.arn = output.arn
+            self.userId = output.userId
+        } else {
+            self.account = nil
+            self.arn = nil
+            self.userId = nil
         }
-        if let name = name {
-            try container.encode(name, forKey: ClientRuntime.Key("Name"))
-        }
-        if let policy = policy {
-            try container.encode(policy, forKey: ClientRuntime.Key("Policy"))
-        }
-        if let policyArns = policyArns {
-            if !policyArns.isEmpty {
-                var policyArnsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("PolicyArns"))
-                for (index0, policydescriptortype0) in policyArns.enumerated() {
-                    try policyArnsContainer.encode(policydescriptortype0, forKey: ClientRuntime.Key("member.\(index0.advanced(by: 1))"))
-                }
-            }
-            else {
-                var policyArnsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("PolicyArns"))
-                try policyArnsContainer.encode("", forKey: ClientRuntime.Key(""))
-            }
-        }
-        if let tags = tags {
-            if !tags.isEmpty {
-                var tagsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Tags"))
-                for (index0, tag0) in tags.enumerated() {
-                    try tagsContainer.encode(tag0, forKey: ClientRuntime.Key("member.\(index0.advanced(by: 1))"))
-                }
-            }
-            else {
-                var tagsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Tags"))
-                try tagsContainer.encode("", forKey: ClientRuntime.Key(""))
-            }
-        }
-        try container.encode("GetFederationToken", forKey:ClientRuntime.Key("Action"))
-        try container.encode("2011-06-15", forKey:ClientRuntime.Key("Version"))
     }
 }
 
-extension GetFederationTokenInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
-    }
-}
-
-public struct GetFederationTokenInput: Swift.Equatable {
-    /// The duration, in seconds, that the session should last. Acceptable durations for federation sessions range from 900 seconds (15 minutes) to 129,600 seconds (36 hours), with 43,200 seconds (12 hours) as the default. Sessions obtained using root user credentials are restricted to a maximum of 3,600 seconds (one hour). If the specified duration is longer than one hour, the session obtained by using root user credentials defaults to one hour.
-    public var durationSeconds: Swift.Int?
-    /// The name of the federated user. The name is used as an identifier for the temporary security credentials (such as Bob). For example, you can reference the federated user name in a resource-based policy, such as in an Amazon S3 bucket policy. The regex used to validate this parameter is a string of characters consisting of upper- and lower-case alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@-
-    /// This member is required.
-    public var name: Swift.String?
-    /// An IAM policy in JSON format that you want to use as an inline session policy. You must pass an inline or managed [session policy](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html#policies_session) to this operation. You can pass a single JSON policy document to use as an inline session policy. You can also specify up to 10 managed policy Amazon Resource Names (ARNs) to use as managed session policies. This parameter is optional. However, if you do not pass any session policies, then the resulting federated user session has no permissions. When you pass session policies, the session permissions are the intersection of the IAM user policies and the session policies that you pass. This gives you a way to further restrict the permissions for a federated user. You cannot use session policies to grant more permissions than those that are defined in the permissions policy of the IAM user. For more information, see [Session Policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html#policies_session) in the IAM User Guide. The resulting credentials can be used to access a resource that has a resource-based policy. If that policy specifically references the federated user session in the Principal element of the policy, the session has the permissions allowed by the policy. These permissions are granted in addition to the permissions that are granted by the session policies. The plaintext that you use for both inline and managed session policies can't exceed 2,048 characters. The JSON policy characters can be any ASCII character from the space character to the end of the valid character list (\u0020 through \u00FF). It can also include the tab (\u0009), linefeed (\u000A), and carriage return (\u000D) characters. An Amazon Web Services conversion compresses the passed inline session policy, managed policy ARNs, and session tags into a packed binary format that has a separate limit. Your request can fail for this limit even if your plaintext meets the other requirements. The PackedPolicySize response element indicates by percentage how close the policies and tags for your request are to the upper size limit.
-    public var policy: Swift.String?
-    /// The Amazon Resource Names (ARNs) of the IAM managed policies that you want to use as a managed session policy. The policies must exist in the same account as the IAM user that is requesting federated access. You must pass an inline or managed [session policy](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html#policies_session) to this operation. You can pass a single JSON policy document to use as an inline session policy. You can also specify up to 10 managed policy Amazon Resource Names (ARNs) to use as managed session policies. The plaintext that you use for both inline and managed session policies can't exceed 2,048 characters. You can provide up to 10 managed policy ARNs. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference. This parameter is optional. However, if you do not pass any session policies, then the resulting federated user session has no permissions. When you pass session policies, the session permissions are the intersection of the IAM user policies and the session policies that you pass. This gives you a way to further restrict the permissions for a federated user. You cannot use session policies to grant more permissions than those that are defined in the permissions policy of the IAM user. For more information, see [Session Policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html#policies_session) in the IAM User Guide. The resulting credentials can be used to access a resource that has a resource-based policy. If that policy specifically references the federated user session in the Principal element of the policy, the session has the permissions allowed by the policy. These permissions are granted in addition to the permissions that are granted by the session policies. An Amazon Web Services conversion compresses the passed inline session policy, managed policy ARNs, and session tags into a packed binary format that has a separate limit. Your request can fail for this limit even if your plaintext meets the other requirements. The PackedPolicySize response element indicates by percentage how close the policies and tags for your request are to the upper size limit.
-    public var policyArns: [STSClientTypes.PolicyDescriptorType]?
-    /// A list of session tags. Each session tag consists of a key name and an associated value. For more information about session tags, see [Passing Session Tags in STS](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_session-tags.html) in the IAM User Guide. This parameter is optional. You can pass up to 50 session tags. The plaintext session tag keys can’t exceed 128 characters and the values can’t exceed 256 characters. For these and additional limits, see [IAM and STS Character Limits](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-limits.html#reference_iam-limits-entity-length) in the IAM User Guide. An Amazon Web Services conversion compresses the passed inline session policy, managed policy ARNs, and session tags into a packed binary format that has a separate limit. Your request can fail for this limit even if your plaintext meets the other requirements. The PackedPolicySize response element indicates by percentage how close the policies and tags for your request are to the upper size limit. You can pass a session tag with the same key as a tag that is already attached to the user you are federating. When you do, session tags override a user tag with the same key. Tag key–value pairs are not case sensitive, but case is preserved. This means that you cannot have separate Department and department tag keys. Assume that the role has the Department=Marketing tag and you pass the department=engineering session tag. Department and department are not saved as separate tags, and the session tag passed in the request takes precedence over the role tag.
-    public var tags: [STSClientTypes.Tag]?
+/// Contains the response to a successful [GetCallerIdentity] request, including information about the entity making the request.
+public struct GetCallerIdentityOutput: Swift.Equatable {
+    /// The Amazon Web Services account ID number of the account that owns or contains the calling entity.
+    public var account: Swift.String?
+    /// The Amazon Web Services ARN associated with the calling entity.
+    public var arn: Swift.String?
+    /// The unique identifier of the calling entity. The exact value depends on the type of entity that is making the call. The values returned are those listed in the aws:userid column in the [Principal table](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_variables.html#principaltable) found on the Policy Variables reference page in the IAM User Guide.
+    public var userId: Swift.String?
 
     public init(
-        durationSeconds: Swift.Int? = nil,
-        name: Swift.String? = nil,
-        policy: Swift.String? = nil,
-        policyArns: [STSClientTypes.PolicyDescriptorType]? = nil,
-        tags: [STSClientTypes.Tag]? = nil
+        account: Swift.String? = nil,
+        arn: Swift.String? = nil,
+        userId: Swift.String? = nil
     )
     {
-        self.durationSeconds = durationSeconds
-        self.name = name
-        self.policy = policy
-        self.policyArns = policyArns
-        self.tags = tags
+        self.account = account
+        self.arn = arn
+        self.userId = userId
     }
 }
 
@@ -1593,40 +1517,79 @@ extension GetFederationTokenInputBody: Swift.Decodable {
     }
 }
 
-extension GetFederationTokenOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetFederationTokenOutputBody = try responseDecoder.decode(responseBody: data)
-            self.credentials = output.credentials
-            self.federatedUser = output.federatedUser
-            self.packedPolicySize = output.packedPolicySize
-        } else {
-            self.credentials = nil
-            self.federatedUser = nil
-            self.packedPolicySize = nil
+extension GetFederationTokenInput: Swift.Encodable {
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let durationSeconds = durationSeconds {
+            try container.encode(durationSeconds, forKey: ClientRuntime.Key("DurationSeconds"))
         }
+        if let name = name {
+            try container.encode(name, forKey: ClientRuntime.Key("Name"))
+        }
+        if let policy = policy {
+            try container.encode(policy, forKey: ClientRuntime.Key("Policy"))
+        }
+        if let policyArns = policyArns {
+            if !policyArns.isEmpty {
+                var policyArnsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("PolicyArns"))
+                for (index0, policydescriptortype0) in policyArns.enumerated() {
+                    try policyArnsContainer.encode(policydescriptortype0, forKey: ClientRuntime.Key("member.\(index0.advanced(by: 1))"))
+                }
+            }
+            else {
+                var policyArnsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("PolicyArns"))
+                try policyArnsContainer.encode("", forKey: ClientRuntime.Key(""))
+            }
+        }
+        if let tags = tags {
+            if !tags.isEmpty {
+                var tagsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Tags"))
+                for (index0, tag0) in tags.enumerated() {
+                    try tagsContainer.encode(tag0, forKey: ClientRuntime.Key("member.\(index0.advanced(by: 1))"))
+                }
+            }
+            else {
+                var tagsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Tags"))
+                try tagsContainer.encode("", forKey: ClientRuntime.Key(""))
+            }
+        }
+        try container.encode("GetFederationToken", forKey:ClientRuntime.Key("Action"))
+        try container.encode("2011-06-15", forKey:ClientRuntime.Key("Version"))
     }
 }
 
-/// Contains the response to a successful [GetFederationToken] request, including temporary Amazon Web Services credentials that can be used to make Amazon Web Services requests.
-public struct GetFederationTokenOutput: Swift.Equatable {
-    /// The temporary security credentials, which include an access key ID, a secret access key, and a security (or session) token. The size of the security token that STS API operations return is not fixed. We strongly recommend that you make no assumptions about the maximum size.
-    public var credentials: STSClientTypes.Credentials?
-    /// Identifiers for the federated user associated with the credentials (such as arn:aws:sts::123456789012:federated-user/Bob or 123456789012:Bob). You can use the federated user's ARN in your resource-based policies, such as an Amazon S3 bucket policy.
-    public var federatedUser: STSClientTypes.FederatedUser?
-    /// A percentage value that indicates the packed size of the session policies and session tags combined passed in the request. The request fails if the packed size is greater than 100 percent, which means the policies and tags exceeded the allowed space.
-    public var packedPolicySize: Swift.Int?
+public struct GetFederationTokenInput: Swift.Equatable {
+    /// The duration, in seconds, that the session should last. Acceptable durations for federation sessions range from 900 seconds (15 minutes) to 129,600 seconds (36 hours), with 43,200 seconds (12 hours) as the default. Sessions obtained using root user credentials are restricted to a maximum of 3,600 seconds (one hour). If the specified duration is longer than one hour, the session obtained by using root user credentials defaults to one hour.
+    public var durationSeconds: Swift.Int?
+    /// The name of the federated user. The name is used as an identifier for the temporary security credentials (such as Bob). For example, you can reference the federated user name in a resource-based policy, such as in an Amazon S3 bucket policy. The regex used to validate this parameter is a string of characters consisting of upper- and lower-case alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@-
+    /// This member is required.
+    public var name: Swift.String?
+    /// An IAM policy in JSON format that you want to use as an inline session policy. You must pass an inline or managed [session policy](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html#policies_session) to this operation. You can pass a single JSON policy document to use as an inline session policy. You can also specify up to 10 managed policy Amazon Resource Names (ARNs) to use as managed session policies. This parameter is optional. However, if you do not pass any session policies, then the resulting federated user session has no permissions. When you pass session policies, the session permissions are the intersection of the IAM user policies and the session policies that you pass. This gives you a way to further restrict the permissions for a federated user. You cannot use session policies to grant more permissions than those that are defined in the permissions policy of the IAM user. For more information, see [Session Policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html#policies_session) in the IAM User Guide. The resulting credentials can be used to access a resource that has a resource-based policy. If that policy specifically references the federated user session in the Principal element of the policy, the session has the permissions allowed by the policy. These permissions are granted in addition to the permissions that are granted by the session policies. The plaintext that you use for both inline and managed session policies can't exceed 2,048 characters. The JSON policy characters can be any ASCII character from the space character to the end of the valid character list (\u0020 through \u00FF). It can also include the tab (\u0009), linefeed (\u000A), and carriage return (\u000D) characters. An Amazon Web Services conversion compresses the passed inline session policy, managed policy ARNs, and session tags into a packed binary format that has a separate limit. Your request can fail for this limit even if your plaintext meets the other requirements. The PackedPolicySize response element indicates by percentage how close the policies and tags for your request are to the upper size limit.
+    public var policy: Swift.String?
+    /// The Amazon Resource Names (ARNs) of the IAM managed policies that you want to use as a managed session policy. The policies must exist in the same account as the IAM user that is requesting federated access. You must pass an inline or managed [session policy](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html#policies_session) to this operation. You can pass a single JSON policy document to use as an inline session policy. You can also specify up to 10 managed policy Amazon Resource Names (ARNs) to use as managed session policies. The plaintext that you use for both inline and managed session policies can't exceed 2,048 characters. You can provide up to 10 managed policy ARNs. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference. This parameter is optional. However, if you do not pass any session policies, then the resulting federated user session has no permissions. When you pass session policies, the session permissions are the intersection of the IAM user policies and the session policies that you pass. This gives you a way to further restrict the permissions for a federated user. You cannot use session policies to grant more permissions than those that are defined in the permissions policy of the IAM user. For more information, see [Session Policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html#policies_session) in the IAM User Guide. The resulting credentials can be used to access a resource that has a resource-based policy. If that policy specifically references the federated user session in the Principal element of the policy, the session has the permissions allowed by the policy. These permissions are granted in addition to the permissions that are granted by the session policies. An Amazon Web Services conversion compresses the passed inline session policy, managed policy ARNs, and session tags into a packed binary format that has a separate limit. Your request can fail for this limit even if your plaintext meets the other requirements. The PackedPolicySize response element indicates by percentage how close the policies and tags for your request are to the upper size limit.
+    public var policyArns: [STSClientTypes.PolicyDescriptorType]?
+    /// A list of session tags. Each session tag consists of a key name and an associated value. For more information about session tags, see [Passing Session Tags in STS](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_session-tags.html) in the IAM User Guide. This parameter is optional. You can pass up to 50 session tags. The plaintext session tag keys can’t exceed 128 characters and the values can’t exceed 256 characters. For these and additional limits, see [IAM and STS Character Limits](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-limits.html#reference_iam-limits-entity-length) in the IAM User Guide. An Amazon Web Services conversion compresses the passed inline session policy, managed policy ARNs, and session tags into a packed binary format that has a separate limit. Your request can fail for this limit even if your plaintext meets the other requirements. The PackedPolicySize response element indicates by percentage how close the policies and tags for your request are to the upper size limit. You can pass a session tag with the same key as a tag that is already attached to the user you are federating. When you do, session tags override a user tag with the same key. Tag key–value pairs are not case sensitive, but case is preserved. This means that you cannot have separate Department and department tag keys. Assume that the role has the Department=Marketing tag and you pass the department=engineering session tag. Department and department are not saved as separate tags, and the session tag passed in the request takes precedence over the role tag.
+    public var tags: [STSClientTypes.Tag]?
 
     public init(
-        credentials: STSClientTypes.Credentials? = nil,
-        federatedUser: STSClientTypes.FederatedUser? = nil,
-        packedPolicySize: Swift.Int? = nil
+        durationSeconds: Swift.Int? = nil,
+        name: Swift.String? = nil,
+        policy: Swift.String? = nil,
+        policyArns: [STSClientTypes.PolicyDescriptorType]? = nil,
+        tags: [STSClientTypes.Tag]? = nil
     )
     {
-        self.credentials = credentials
-        self.federatedUser = federatedUser
-        self.packedPolicySize = packedPolicySize
+        self.durationSeconds = durationSeconds
+        self.name = name
+        self.policy = policy
+        self.policyArns = policyArns
+        self.tags = tags
+    }
+}
+
+extension GetFederationTokenInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
     }
 }
 
@@ -1667,46 +1630,40 @@ enum GetFederationTokenOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetSessionTokenInput: Swift.Encodable {
-    public func encode(to encoder: Swift.Encoder) throws {
-        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if let durationSeconds = durationSeconds {
-            try container.encode(durationSeconds, forKey: ClientRuntime.Key("DurationSeconds"))
+extension GetFederationTokenOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetFederationTokenOutputBody = try responseDecoder.decode(responseBody: data)
+            self.credentials = output.credentials
+            self.federatedUser = output.federatedUser
+            self.packedPolicySize = output.packedPolicySize
+        } else {
+            self.credentials = nil
+            self.federatedUser = nil
+            self.packedPolicySize = nil
         }
-        if let serialNumber = serialNumber {
-            try container.encode(serialNumber, forKey: ClientRuntime.Key("SerialNumber"))
-        }
-        if let tokenCode = tokenCode {
-            try container.encode(tokenCode, forKey: ClientRuntime.Key("TokenCode"))
-        }
-        try container.encode("GetSessionToken", forKey:ClientRuntime.Key("Action"))
-        try container.encode("2011-06-15", forKey:ClientRuntime.Key("Version"))
     }
 }
 
-extension GetSessionTokenInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
-    }
-}
-
-public struct GetSessionTokenInput: Swift.Equatable {
-    /// The duration, in seconds, that the credentials should remain valid. Acceptable durations for IAM user sessions range from 900 seconds (15 minutes) to 129,600 seconds (36 hours), with 43,200 seconds (12 hours) as the default. Sessions for Amazon Web Services account owners are restricted to a maximum of 3,600 seconds (one hour). If the duration is longer than one hour, the session for Amazon Web Services account owners defaults to one hour.
-    public var durationSeconds: Swift.Int?
-    /// The identification number of the MFA device that is associated with the IAM user who is making the GetSessionToken call. Specify this value if the IAM user has a policy that requires MFA authentication. The value is either the serial number for a hardware device (such as GAHT12345678) or an Amazon Resource Name (ARN) for a virtual device (such as arn:aws:iam::123456789012:mfa/user). You can find the device for an IAM user by going to the Amazon Web Services Management Console and viewing the user's security credentials. The regex used to validate this parameter is a string of characters consisting of upper- and lower-case alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@:/-
-    public var serialNumber: Swift.String?
-    /// The value provided by the MFA device, if MFA is required. If any policy requires the IAM user to submit an MFA code, specify this value. If MFA authentication is required, the user must provide a code when requesting a set of temporary security credentials. A user who fails to provide the code receives an "access denied" response when requesting resources that require MFA authentication. The format for this parameter, as described by its regex pattern, is a sequence of six numeric digits.
-    public var tokenCode: Swift.String?
+/// Contains the response to a successful [GetFederationToken] request, including temporary Amazon Web Services credentials that can be used to make Amazon Web Services requests.
+public struct GetFederationTokenOutput: Swift.Equatable {
+    /// The temporary security credentials, which include an access key ID, a secret access key, and a security (or session) token. The size of the security token that STS API operations return is not fixed. We strongly recommend that you make no assumptions about the maximum size.
+    public var credentials: STSClientTypes.Credentials?
+    /// Identifiers for the federated user associated with the credentials (such as arn:aws:sts::123456789012:federated-user/Bob or 123456789012:Bob). You can use the federated user's ARN in your resource-based policies, such as an Amazon S3 bucket policy.
+    public var federatedUser: STSClientTypes.FederatedUser?
+    /// A percentage value that indicates the packed size of the session policies and session tags combined passed in the request. The request fails if the packed size is greater than 100 percent, which means the policies and tags exceeded the allowed space.
+    public var packedPolicySize: Swift.Int?
 
     public init(
-        durationSeconds: Swift.Int? = nil,
-        serialNumber: Swift.String? = nil,
-        tokenCode: Swift.String? = nil
+        credentials: STSClientTypes.Credentials? = nil,
+        federatedUser: STSClientTypes.FederatedUser? = nil,
+        packedPolicySize: Swift.Int? = nil
     )
     {
-        self.durationSeconds = durationSeconds
-        self.serialNumber = serialNumber
-        self.tokenCode = tokenCode
+        self.credentials = credentials
+        self.federatedUser = federatedUser
+        self.packedPolicySize = packedPolicySize
     }
 }
 
@@ -1731,6 +1688,76 @@ extension GetSessionTokenInputBody: Swift.Decodable {
         serialNumber = serialNumberDecoded
         let tokenCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tokenCode)
         tokenCode = tokenCodeDecoded
+    }
+}
+
+extension GetSessionTokenInput: Swift.Encodable {
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let durationSeconds = durationSeconds {
+            try container.encode(durationSeconds, forKey: ClientRuntime.Key("DurationSeconds"))
+        }
+        if let serialNumber = serialNumber {
+            try container.encode(serialNumber, forKey: ClientRuntime.Key("SerialNumber"))
+        }
+        if let tokenCode = tokenCode {
+            try container.encode(tokenCode, forKey: ClientRuntime.Key("TokenCode"))
+        }
+        try container.encode("GetSessionToken", forKey:ClientRuntime.Key("Action"))
+        try container.encode("2011-06-15", forKey:ClientRuntime.Key("Version"))
+    }
+}
+
+public struct GetSessionTokenInput: Swift.Equatable {
+    /// The duration, in seconds, that the credentials should remain valid. Acceptable durations for IAM user sessions range from 900 seconds (15 minutes) to 129,600 seconds (36 hours), with 43,200 seconds (12 hours) as the default. Sessions for Amazon Web Services account owners are restricted to a maximum of 3,600 seconds (one hour). If the duration is longer than one hour, the session for Amazon Web Services account owners defaults to one hour.
+    public var durationSeconds: Swift.Int?
+    /// The identification number of the MFA device that is associated with the IAM user who is making the GetSessionToken call. Specify this value if the IAM user has a policy that requires MFA authentication. The value is either the serial number for a hardware device (such as GAHT12345678) or an Amazon Resource Name (ARN) for a virtual device (such as arn:aws:iam::123456789012:mfa/user). You can find the device for an IAM user by going to the Amazon Web Services Management Console and viewing the user's security credentials. The regex used to validate this parameter is a string of characters consisting of upper- and lower-case alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@:/-
+    public var serialNumber: Swift.String?
+    /// The value provided by the MFA device, if MFA is required. If any policy requires the IAM user to submit an MFA code, specify this value. If MFA authentication is required, the user must provide a code when requesting a set of temporary security credentials. A user who fails to provide the code receives an "access denied" response when requesting resources that require MFA authentication. The format for this parameter, as described by its regex pattern, is a sequence of six numeric digits.
+    public var tokenCode: Swift.String?
+
+    public init(
+        durationSeconds: Swift.Int? = nil,
+        serialNumber: Swift.String? = nil,
+        tokenCode: Swift.String? = nil
+    )
+    {
+        self.durationSeconds = durationSeconds
+        self.serialNumber = serialNumber
+        self.tokenCode = tokenCode
+    }
+}
+
+extension GetSessionTokenInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+struct GetSessionTokenOutputBody: Swift.Equatable {
+    let credentials: STSClientTypes.Credentials?
+}
+
+extension GetSessionTokenOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case credentials = "Credentials"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("GetSessionTokenResult"))
+        let credentialsDecoded = try containerValues.decodeIfPresent(STSClientTypes.Credentials.self, forKey: .credentials)
+        credentials = credentialsDecoded
+    }
+}
+
+enum GetSessionTokenOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "RegionDisabledException": return try await RegionDisabledException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -1759,30 +1786,19 @@ public struct GetSessionTokenOutput: Swift.Equatable {
     }
 }
 
-struct GetSessionTokenOutputBody: Swift.Equatable {
-    let credentials: STSClientTypes.Credentials?
+struct IDPCommunicationErrorExceptionBody: Swift.Equatable {
+    let message: Swift.String?
 }
 
-extension GetSessionTokenOutputBody: Swift.Decodable {
+extension IDPCommunicationErrorExceptionBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case credentials = "Credentials"
+        case message
     }
 
     public init(from decoder: Swift.Decoder) throws {
-        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
-        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("GetSessionTokenResult"))
-        let credentialsDecoded = try containerValues.decodeIfPresent(STSClientTypes.Credentials.self, forKey: .credentials)
-        credentials = credentialsDecoded
-    }
-}
-
-enum GetSessionTokenOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "RegionDisabledException": return try await RegionDisabledException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
     }
 }
 
@@ -1824,11 +1840,11 @@ public struct IDPCommunicationErrorException: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-struct IDPCommunicationErrorExceptionBody: Swift.Equatable {
+struct IDPRejectedClaimExceptionBody: Swift.Equatable {
     let message: Swift.String?
 }
 
-extension IDPCommunicationErrorExceptionBody: Swift.Decodable {
+extension IDPRejectedClaimExceptionBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case message
     }
@@ -1878,11 +1894,11 @@ public struct IDPRejectedClaimException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct IDPRejectedClaimExceptionBody: Swift.Equatable {
+struct InvalidAuthorizationMessageExceptionBody: Swift.Equatable {
     let message: Swift.String?
 }
 
-extension IDPRejectedClaimExceptionBody: Swift.Decodable {
+extension InvalidAuthorizationMessageExceptionBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case message
     }
@@ -1932,11 +1948,11 @@ public struct InvalidAuthorizationMessageException: ClientRuntime.ModeledError, 
     }
 }
 
-struct InvalidAuthorizationMessageExceptionBody: Swift.Equatable {
+struct InvalidIdentityTokenExceptionBody: Swift.Equatable {
     let message: Swift.String?
 }
 
-extension InvalidAuthorizationMessageExceptionBody: Swift.Decodable {
+extension InvalidIdentityTokenExceptionBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case message
     }
@@ -1986,11 +2002,11 @@ public struct InvalidIdentityTokenException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct InvalidIdentityTokenExceptionBody: Swift.Equatable {
+struct MalformedPolicyDocumentExceptionBody: Swift.Equatable {
     let message: Swift.String?
 }
 
-extension InvalidIdentityTokenExceptionBody: Swift.Decodable {
+extension MalformedPolicyDocumentExceptionBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case message
     }
@@ -2040,11 +2056,11 @@ public struct MalformedPolicyDocumentException: ClientRuntime.ModeledError, AWSC
     }
 }
 
-struct MalformedPolicyDocumentExceptionBody: Swift.Equatable {
+struct PackedPolicyTooLargeExceptionBody: Swift.Equatable {
     let message: Swift.String?
 }
 
-extension MalformedPolicyDocumentExceptionBody: Swift.Decodable {
+extension PackedPolicyTooLargeExceptionBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case message
     }
@@ -2091,22 +2107,6 @@ public struct PackedPolicyTooLargeException: ClientRuntime.ModeledError, AWSClie
     )
     {
         self.properties.message = message
-    }
-}
-
-struct PackedPolicyTooLargeExceptionBody: Swift.Equatable {
-    let message: Swift.String?
-}
-
-extension PackedPolicyTooLargeExceptionBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case message
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
-        message = messageDecoded
     }
 }
 
@@ -2190,6 +2190,22 @@ extension STSClientTypes {
 
 }
 
+struct RegionDisabledExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension RegionDisabledExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
 extension RegionDisabledException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
@@ -2225,22 +2241,6 @@ public struct RegionDisabledException: ClientRuntime.ModeledError, AWSClientRunt
     )
     {
         self.properties.message = message
-    }
-}
-
-struct RegionDisabledExceptionBody: Swift.Equatable {
-    let message: Swift.String?
-}
-
-extension RegionDisabledExceptionBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case message
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
-        message = messageDecoded
     }
 }
 

@@ -55,6 +55,15 @@ extension S3ClientTypes {
 
 }
 
+struct AbortMultipartUploadInputBody: Swift.Equatable {
+}
+
+extension AbortMultipartUploadInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
 extension AbortMultipartUploadInput: ClientRuntime.HeaderProvider {
     public var headers: ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
@@ -81,15 +90,6 @@ extension AbortMultipartUploadInput: ClientRuntime.QueryItemProvider {
             items.append(uploadIdQueryItem)
             return items
         }
-    }
-}
-
-extension AbortMultipartUploadInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let key = key else {
-            return nil
-        }
-        return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
@@ -124,12 +124,22 @@ public struct AbortMultipartUploadInput: Swift.Equatable {
     }
 }
 
-struct AbortMultipartUploadInputBody: Swift.Equatable {
+extension AbortMultipartUploadInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let key = key else {
+            return nil
+        }
+        return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
+    }
 }
 
-extension AbortMultipartUploadInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
+enum AbortMultipartUploadOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
+        switch restXMLError.errorCode {
+            case "NoSuchUpload": return try await NoSuchUpload(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -152,16 +162,6 @@ public struct AbortMultipartUploadOutput: Swift.Equatable {
     )
     {
         self.requestCharged = requestCharged
-    }
-}
-
-enum AbortMultipartUploadOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
-        switch restXMLError.errorCode {
-            case "NoSuchUpload": return try await NoSuchUpload(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
-        }
     }
 }
 
@@ -765,68 +765,6 @@ extension S3ClientTypes {
     }
 }
 
-extension S3ClientTypes.Bucket: Swift.Codable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case creationDate = "CreationDate"
-        case name = "Name"
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if encoder.codingPath.isEmpty {
-            try container.encode("http://s3.amazonaws.com/doc/2006-03-01/", forKey: ClientRuntime.Key("xmlns"))
-        }
-        if let creationDate = creationDate {
-            try container.encodeTimestamp(creationDate, format: .dateTime, forKey: ClientRuntime.Key("CreationDate"))
-        }
-        if let name = name {
-            try container.encode(name, forKey: ClientRuntime.Key("Name"))
-        }
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
-        name = nameDecoded
-        let creationDateDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .creationDate)
-        creationDate = creationDateDecoded
-    }
-}
-
-extension S3ClientTypes.Bucket: ClientRuntime.DynamicNodeEncoding {
-    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
-        let xmlNamespaceValues = [
-            "xmlns"
-        ]
-        if let key = key as? ClientRuntime.Key {
-            if xmlNamespaceValues.contains(key.stringValue) {
-                return .attribute
-            }
-        }
-        return .element
-    }
-}
-
-extension S3ClientTypes {
-    /// In terms of implementation, a Bucket is a resource. An Amazon S3 bucket name is globally unique, and the namespace is shared by all Amazon Web Services accounts.
-    public struct Bucket: Swift.Equatable {
-        /// Date the bucket was created. This date can change when making changes to your bucket, such as editing its bucket policy.
-        public var creationDate: ClientRuntime.Date?
-        /// The name of the bucket.
-        public var name: Swift.String?
-
-        public init(
-            creationDate: ClientRuntime.Date? = nil,
-            name: Swift.String? = nil
-        )
-        {
-            self.creationDate = creationDate
-            self.name = name
-        }
-    }
-
-}
-
 extension S3ClientTypes {
     public enum BucketAccelerateStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case enabled
@@ -940,6 +878,48 @@ extension S3ClientTypes {
             let rawValue = try container.decode(RawValue.self)
             self = BucketCannedACL(rawValue: rawValue) ?? BucketCannedACL.sdkUnknown(rawValue)
         }
+    }
+}
+
+extension S3ClientTypes.Bucket: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case creationDate = "CreationDate"
+        case name = "Name"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if encoder.codingPath.isEmpty {
+            try container.encode("http://s3.amazonaws.com/doc/2006-03-01/", forKey: ClientRuntime.Key("xmlns"))
+        }
+        if let creationDate = creationDate {
+            try container.encodeTimestamp(creationDate, format: .dateTime, forKey: ClientRuntime.Key("CreationDate"))
+        }
+        if let name = name {
+            try container.encode(name, forKey: ClientRuntime.Key("Name"))
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let creationDateDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .creationDate)
+        creationDate = creationDateDecoded
+    }
+}
+
+extension S3ClientTypes.Bucket: ClientRuntime.DynamicNodeEncoding {
+    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
+        let xmlNamespaceValues = [
+            "xmlns"
+        ]
+        if let key = key as? ClientRuntime.Key {
+            if xmlNamespaceValues.contains(key.stringValue) {
+                return .attribute
+            }
+        }
+        return .element
     }
 }
 
@@ -1218,6 +1198,26 @@ extension S3ClientTypes {
 }
 
 extension S3ClientTypes {
+    /// In terms of implementation, a Bucket is a resource. An Amazon S3 bucket name is globally unique, and the namespace is shared by all Amazon Web Services accounts.
+    public struct Bucket: Swift.Equatable {
+        /// Date the bucket was created. This date can change when making changes to your bucket, such as editing its bucket policy.
+        public var creationDate: ClientRuntime.Date?
+        /// The name of the bucket.
+        public var name: Swift.String?
+
+        public init(
+            creationDate: ClientRuntime.Date? = nil,
+            name: Swift.String? = nil
+        )
+        {
+            self.creationDate = creationDate
+            self.name = name
+        }
+    }
+
+}
+
+extension S3ClientTypes {
     public enum BucketVersioningStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case enabled
         case suspended
@@ -1247,6 +1247,1579 @@ extension S3ClientTypes {
             self = BucketVersioningStatus(rawValue: rawValue) ?? BucketVersioningStatus.sdkUnknown(rawValue)
         }
     }
+}
+
+extension S3ClientTypes {
+    public enum ChecksumAlgorithm: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case crc32
+        case crc32c
+        case sha1
+        case sha256
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ChecksumAlgorithm] {
+            return [
+                .crc32,
+                .crc32c,
+                .sha1,
+                .sha256,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .crc32: return "CRC32"
+            case .crc32c: return "CRC32C"
+            case .sha1: return "SHA1"
+            case .sha256: return "SHA256"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ChecksumAlgorithm(rawValue: rawValue) ?? ChecksumAlgorithm.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension S3ClientTypes.Checksum: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case checksumCRC32 = "ChecksumCRC32"
+        case checksumCRC32C = "ChecksumCRC32C"
+        case checksumSHA1 = "ChecksumSHA1"
+        case checksumSHA256 = "ChecksumSHA256"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if encoder.codingPath.isEmpty {
+            try container.encode("http://s3.amazonaws.com/doc/2006-03-01/", forKey: ClientRuntime.Key("xmlns"))
+        }
+        if let checksumCRC32 = checksumCRC32 {
+            try container.encode(checksumCRC32, forKey: ClientRuntime.Key("ChecksumCRC32"))
+        }
+        if let checksumCRC32C = checksumCRC32C {
+            try container.encode(checksumCRC32C, forKey: ClientRuntime.Key("ChecksumCRC32C"))
+        }
+        if let checksumSHA1 = checksumSHA1 {
+            try container.encode(checksumSHA1, forKey: ClientRuntime.Key("ChecksumSHA1"))
+        }
+        if let checksumSHA256 = checksumSHA256 {
+            try container.encode(checksumSHA256, forKey: ClientRuntime.Key("ChecksumSHA256"))
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let checksumCRC32Decoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .checksumCRC32)
+        checksumCRC32 = checksumCRC32Decoded
+        let checksumCRC32CDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .checksumCRC32C)
+        checksumCRC32C = checksumCRC32CDecoded
+        let checksumSHA1Decoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .checksumSHA1)
+        checksumSHA1 = checksumSHA1Decoded
+        let checksumSHA256Decoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .checksumSHA256)
+        checksumSHA256 = checksumSHA256Decoded
+    }
+}
+
+extension S3ClientTypes.Checksum: ClientRuntime.DynamicNodeEncoding {
+    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
+        let xmlNamespaceValues = [
+            "xmlns"
+        ]
+        if let key = key as? ClientRuntime.Key {
+            if xmlNamespaceValues.contains(key.stringValue) {
+                return .attribute
+            }
+        }
+        return .element
+    }
+}
+
+extension S3ClientTypes {
+    public enum ChecksumMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ChecksumMode] {
+            return [
+                .enabled,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ChecksumMode(rawValue: rawValue) ?? ChecksumMode.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension S3ClientTypes {
+    /// Contains all the possible checksum or digest values for an object.
+    public struct Checksum: Swift.Equatable {
+        /// The base64-encoded, 32-bit CRC32 checksum of the object. This will only be present if it was uploaded with the object. With multipart uploads, this may not be a checksum value of the object. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
+        public var checksumCRC32: Swift.String?
+        /// The base64-encoded, 32-bit CRC32C checksum of the object. This will only be present if it was uploaded with the object. With multipart uploads, this may not be a checksum value of the object. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
+        public var checksumCRC32C: Swift.String?
+        /// The base64-encoded, 160-bit SHA-1 digest of the object. This will only be present if it was uploaded with the object. With multipart uploads, this may not be a checksum value of the object. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
+        public var checksumSHA1: Swift.String?
+        /// The base64-encoded, 256-bit SHA-256 digest of the object. This will only be present if it was uploaded with the object. With multipart uploads, this may not be a checksum value of the object. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
+        public var checksumSHA256: Swift.String?
+
+        public init(
+            checksumCRC32: Swift.String? = nil,
+            checksumCRC32C: Swift.String? = nil,
+            checksumSHA1: Swift.String? = nil,
+            checksumSHA256: Swift.String? = nil
+        )
+        {
+            self.checksumCRC32 = checksumCRC32
+            self.checksumCRC32C = checksumCRC32C
+            self.checksumSHA1 = checksumSHA1
+            self.checksumSHA256 = checksumSHA256
+        }
+    }
+
+}
+
+extension S3ClientTypes.CommonPrefix: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case `prefix` = "Prefix"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if encoder.codingPath.isEmpty {
+            try container.encode("http://s3.amazonaws.com/doc/2006-03-01/", forKey: ClientRuntime.Key("xmlns"))
+        }
+        if let `prefix` = `prefix` {
+            try container.encode(`prefix`, forKey: ClientRuntime.Key("Prefix"))
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let prefixDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .prefix)
+        `prefix` = prefixDecoded
+    }
+}
+
+extension S3ClientTypes.CommonPrefix: ClientRuntime.DynamicNodeEncoding {
+    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
+        let xmlNamespaceValues = [
+            "xmlns"
+        ]
+        if let key = key as? ClientRuntime.Key {
+            if xmlNamespaceValues.contains(key.stringValue) {
+                return .attribute
+            }
+        }
+        return .element
+    }
+}
+
+extension S3ClientTypes {
+    /// Container for all (if there are any) keys between Prefix and the next occurrence of the string specified by a delimiter. CommonPrefixes lists keys that act like subdirectories in the directory specified by Prefix. For example, if the prefix is notes/ and the delimiter is a slash (/) as in notes/summer/july, the common prefix is notes/summer/.
+    public struct CommonPrefix: Swift.Equatable {
+        /// Container for the specified common prefix.
+        public var `prefix`: Swift.String?
+
+        public init(
+            `prefix`: Swift.String? = nil
+        )
+        {
+            self.`prefix` = `prefix`
+        }
+    }
+
+}
+
+extension S3ClientTypes.CompletedMultipartUpload: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case parts = "Part"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if encoder.codingPath.isEmpty {
+            try container.encode("http://s3.amazonaws.com/doc/2006-03-01/", forKey: ClientRuntime.Key("xmlns"))
+        }
+        if let parts = parts {
+            if parts.isEmpty {
+                var partsContainer = container.nestedUnkeyedContainer(forKey: ClientRuntime.Key("Part"))
+                try partsContainer.encodeNil()
+            } else {
+                for completedpart0 in parts {
+                    var partsContainer0 = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Part"))
+                    try partsContainer0.encode(completedpart0, forKey: ClientRuntime.Key(""))
+                }
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        if containerValues.contains(.parts) {
+            let partsWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CodingKeys.self, forKey: .parts)
+            if partsWrappedContainer != nil {
+                let partsContainer = try containerValues.decodeIfPresent([S3ClientTypes.CompletedPart].self, forKey: .parts)
+                var partsBuffer:[S3ClientTypes.CompletedPart]? = nil
+                if let partsContainer = partsContainer {
+                    partsBuffer = [S3ClientTypes.CompletedPart]()
+                    for structureContainer0 in partsContainer {
+                        partsBuffer?.append(structureContainer0)
+                    }
+                }
+                parts = partsBuffer
+            } else {
+                parts = []
+            }
+        } else {
+            parts = nil
+        }
+    }
+}
+
+extension S3ClientTypes.CompletedMultipartUpload: ClientRuntime.DynamicNodeEncoding {
+    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
+        let xmlNamespaceValues = [
+            "xmlns"
+        ]
+        if let key = key as? ClientRuntime.Key {
+            if xmlNamespaceValues.contains(key.stringValue) {
+                return .attribute
+            }
+        }
+        return .element
+    }
+}
+
+extension S3ClientTypes {
+    /// The container for the completed multipart upload details.
+    public struct CompletedMultipartUpload: Swift.Equatable {
+        /// Array of CompletedPart data types. If you do not supply a valid Part with your request, the service sends back an HTTP 400 response.
+        public var parts: [S3ClientTypes.CompletedPart]?
+
+        public init(
+            parts: [S3ClientTypes.CompletedPart]? = nil
+        )
+        {
+            self.parts = parts
+        }
+    }
+
+}
+
+extension S3ClientTypes.CompletedPart: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case checksumCRC32 = "ChecksumCRC32"
+        case checksumCRC32C = "ChecksumCRC32C"
+        case checksumSHA1 = "ChecksumSHA1"
+        case checksumSHA256 = "ChecksumSHA256"
+        case eTag = "ETag"
+        case partNumber = "PartNumber"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if encoder.codingPath.isEmpty {
+            try container.encode("http://s3.amazonaws.com/doc/2006-03-01/", forKey: ClientRuntime.Key("xmlns"))
+        }
+        if let checksumCRC32 = checksumCRC32 {
+            try container.encode(checksumCRC32, forKey: ClientRuntime.Key("ChecksumCRC32"))
+        }
+        if let checksumCRC32C = checksumCRC32C {
+            try container.encode(checksumCRC32C, forKey: ClientRuntime.Key("ChecksumCRC32C"))
+        }
+        if let checksumSHA1 = checksumSHA1 {
+            try container.encode(checksumSHA1, forKey: ClientRuntime.Key("ChecksumSHA1"))
+        }
+        if let checksumSHA256 = checksumSHA256 {
+            try container.encode(checksumSHA256, forKey: ClientRuntime.Key("ChecksumSHA256"))
+        }
+        if let eTag = eTag {
+            try container.encode(eTag, forKey: ClientRuntime.Key("ETag"))
+        }
+        if partNumber != 0 {
+            try container.encode(partNumber, forKey: ClientRuntime.Key("PartNumber"))
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let eTagDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eTag)
+        eTag = eTagDecoded
+        let checksumCRC32Decoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .checksumCRC32)
+        checksumCRC32 = checksumCRC32Decoded
+        let checksumCRC32CDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .checksumCRC32C)
+        checksumCRC32C = checksumCRC32CDecoded
+        let checksumSHA1Decoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .checksumSHA1)
+        checksumSHA1 = checksumSHA1Decoded
+        let checksumSHA256Decoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .checksumSHA256)
+        checksumSHA256 = checksumSHA256Decoded
+        let partNumberDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .partNumber) ?? 0
+        partNumber = partNumberDecoded
+    }
+}
+
+extension S3ClientTypes.CompletedPart: ClientRuntime.DynamicNodeEncoding {
+    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
+        let xmlNamespaceValues = [
+            "xmlns"
+        ]
+        if let key = key as? ClientRuntime.Key {
+            if xmlNamespaceValues.contains(key.stringValue) {
+                return .attribute
+            }
+        }
+        return .element
+    }
+}
+
+extension S3ClientTypes {
+    /// Details of the parts that were uploaded.
+    public struct CompletedPart: Swift.Equatable {
+        /// The base64-encoded, 32-bit CRC32 checksum of the object. This will only be present if it was uploaded with the object. With multipart uploads, this may not be a checksum value of the object. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
+        public var checksumCRC32: Swift.String?
+        /// The base64-encoded, 32-bit CRC32C checksum of the object. This will only be present if it was uploaded with the object. With multipart uploads, this may not be a checksum value of the object. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
+        public var checksumCRC32C: Swift.String?
+        /// The base64-encoded, 160-bit SHA-1 digest of the object. This will only be present if it was uploaded with the object. With multipart uploads, this may not be a checksum value of the object. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
+        public var checksumSHA1: Swift.String?
+        /// The base64-encoded, 256-bit SHA-256 digest of the object. This will only be present if it was uploaded with the object. With multipart uploads, this may not be a checksum value of the object. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
+        public var checksumSHA256: Swift.String?
+        /// Entity tag returned when the part was uploaded.
+        public var eTag: Swift.String?
+        /// Part number that identifies the part. This is a positive integer between 1 and 10,000.
+        public var partNumber: Swift.Int
+
+        public init(
+            checksumCRC32: Swift.String? = nil,
+            checksumCRC32C: Swift.String? = nil,
+            checksumSHA1: Swift.String? = nil,
+            checksumSHA256: Swift.String? = nil,
+            eTag: Swift.String? = nil,
+            partNumber: Swift.Int = 0
+        )
+        {
+            self.checksumCRC32 = checksumCRC32
+            self.checksumCRC32C = checksumCRC32C
+            self.checksumSHA1 = checksumSHA1
+            self.checksumSHA256 = checksumSHA256
+            self.eTag = eTag
+            self.partNumber = partNumber
+        }
+    }
+
+}
+
+struct CompleteMultipartUploadInputBody: Swift.Equatable {
+    let multipartUpload: S3ClientTypes.CompletedMultipartUpload?
+}
+
+extension CompleteMultipartUploadInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case multipartUpload = "CompleteMultipartUpload"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let multipartUploadDecoded = try containerValues.decodeIfPresent(S3ClientTypes.CompletedMultipartUpload.self, forKey: .multipartUpload)
+        multipartUpload = multipartUploadDecoded
+    }
+}
+
+public struct CompleteMultipartUploadInputBodyMiddleware: ClientRuntime.Middleware {
+    public let id: Swift.String = "CompleteMultipartUploadInputBodyMiddleware"
+
+    public init() {}
+
+    public func handle<H>(context: Context,
+                  input: ClientRuntime.SerializeStepInput<CompleteMultipartUploadInput>,
+                  next: H) async throws -> ClientRuntime.OperationOutput<CompleteMultipartUploadOutput>
+    where H: Handler,
+    Self.MInput == H.Input,
+    Self.MOutput == H.Output,
+    Self.Context == H.Context
+    {
+        do {
+            let encoder = context.getEncoder()
+            if let multipartUpload = input.operationInput.multipartUpload {
+                let xmlEncoder = encoder as! XMLEncoder
+                let multipartUploadData = try xmlEncoder.encode(multipartUpload, withRootKey: "CompleteMultipartUpload")
+                let multipartUploadBody = ClientRuntime.HttpBody.data(multipartUploadData)
+                input.builder.withBody(multipartUploadBody)
+            } else {
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let multipartUploadData = "{}".data(using: .utf8)!
+                    let multipartUploadBody = ClientRuntime.HttpBody.data(multipartUploadData)
+                    input.builder.withBody(multipartUploadBody)
+                }
+            }
+        } catch let err {
+            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
+        }
+        return try await next.handle(context: context, input: input)
+    }
+
+    public typealias MInput = ClientRuntime.SerializeStepInput<CompleteMultipartUploadInput>
+    public typealias MOutput = ClientRuntime.OperationOutput<CompleteMultipartUploadOutput>
+    public typealias Context = ClientRuntime.HttpContext
+}
+
+extension CompleteMultipartUploadInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CompleteMultipartUploadInput(bucket: \(Swift.String(describing: bucket)), checksumCRC32: \(Swift.String(describing: checksumCRC32)), checksumCRC32C: \(Swift.String(describing: checksumCRC32C)), checksumSHA1: \(Swift.String(describing: checksumSHA1)), checksumSHA256: \(Swift.String(describing: checksumSHA256)), expectedBucketOwner: \(Swift.String(describing: expectedBucketOwner)), key: \(Swift.String(describing: key)), multipartUpload: \(Swift.String(describing: multipartUpload)), requestPayer: \(Swift.String(describing: requestPayer)), sseCustomerAlgorithm: \(Swift.String(describing: sseCustomerAlgorithm)), sseCustomerKeyMD5: \(Swift.String(describing: sseCustomerKeyMD5)), uploadId: \(Swift.String(describing: uploadId)), sseCustomerKey: \"CONTENT_REDACTED\")"}
+}
+
+extension CompleteMultipartUploadInput: ClientRuntime.DynamicNodeEncoding {
+    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
+        let xmlNamespaceValues = [
+            "xmlns"
+        ]
+        if let key = key as? ClientRuntime.Key {
+            if xmlNamespaceValues.contains(key.stringValue) {
+                return .attribute
+            }
+        }
+        return .element
+    }
+}
+
+extension CompleteMultipartUploadInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case multipartUpload = "CompleteMultipartUpload"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if encoder.codingPath.isEmpty {
+            try container.encode("http://s3.amazonaws.com/doc/2006-03-01/", forKey: ClientRuntime.Key("xmlns"))
+        }
+        if let multipartUpload = multipartUpload {
+            try container.encode(multipartUpload, forKey: ClientRuntime.Key("CompleteMultipartUpload"))
+        }
+    }
+}
+
+extension CompleteMultipartUploadInput: ClientRuntime.HeaderProvider {
+    public var headers: ClientRuntime.Headers {
+        var items = ClientRuntime.Headers()
+        if let checksumCRC32 = checksumCRC32 {
+            items.add(Header(name: "x-amz-checksum-crc32", value: Swift.String(checksumCRC32)))
+        }
+        if let checksumCRC32C = checksumCRC32C {
+            items.add(Header(name: "x-amz-checksum-crc32c", value: Swift.String(checksumCRC32C)))
+        }
+        if let checksumSHA1 = checksumSHA1 {
+            items.add(Header(name: "x-amz-checksum-sha1", value: Swift.String(checksumSHA1)))
+        }
+        if let checksumSHA256 = checksumSHA256 {
+            items.add(Header(name: "x-amz-checksum-sha256", value: Swift.String(checksumSHA256)))
+        }
+        if let expectedBucketOwner = expectedBucketOwner {
+            items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
+        }
+        if let requestPayer = requestPayer {
+            items.add(Header(name: "x-amz-request-payer", value: Swift.String(requestPayer.rawValue)))
+        }
+        if let sseCustomerAlgorithm = sseCustomerAlgorithm {
+            items.add(Header(name: "x-amz-server-side-encryption-customer-algorithm", value: Swift.String(sseCustomerAlgorithm)))
+        }
+        if let sseCustomerKey = sseCustomerKey {
+            items.add(Header(name: "x-amz-server-side-encryption-customer-key", value: Swift.String(sseCustomerKey)))
+        }
+        if let sseCustomerKeyMD5 = sseCustomerKeyMD5 {
+            items.add(Header(name: "x-amz-server-side-encryption-customer-key-MD5", value: Swift.String(sseCustomerKeyMD5)))
+        }
+        return items
+    }
+}
+
+extension CompleteMultipartUploadInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "x-id", value: "CompleteMultipartUpload"))
+            guard let uploadId = uploadId else {
+                let message = "Creating a URL Query Item failed. uploadId is required and must not be nil."
+                throw ClientRuntime.ClientError.unknownError(message)
+            }
+            let uploadIdQueryItem = ClientRuntime.URLQueryItem(name: "uploadId".urlPercentEncoding(), value: Swift.String(uploadId).urlPercentEncoding())
+            items.append(uploadIdQueryItem)
+            return items
+        }
+    }
+}
+
+public struct CompleteMultipartUploadInput: Swift.Equatable {
+    /// Name of the bucket to which the multipart upload was initiated. When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html) in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see [What is S3 on Outposts?](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide.
+    /// This member is required.
+    public var bucket: Swift.String?
+    /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the base64-encoded, 32-bit CRC32 checksum of the object. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
+    public var checksumCRC32: Swift.String?
+    /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the base64-encoded, 32-bit CRC32C checksum of the object. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
+    public var checksumCRC32C: Swift.String?
+    /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the base64-encoded, 160-bit SHA-1 digest of the object. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
+    public var checksumSHA1: Swift.String?
+    /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the base64-encoded, 256-bit SHA-256 digest of the object. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
+    public var checksumSHA256: Swift.String?
+    /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
+    public var expectedBucketOwner: Swift.String?
+    /// Object key for which the multipart upload was initiated.
+    /// This member is required.
+    public var key: Swift.String?
+    /// The container for the multipart upload request information.
+    public var multipartUpload: S3ClientTypes.CompletedMultipartUpload?
+    /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests. If either the source or destination Amazon S3 bucket has Requester Pays enabled, the requester will pay for corresponding charges to copy the object. For information about downloading objects from Requester Pays buckets, see [Downloading Objects in Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html) in the Amazon S3 User Guide.
+    public var requestPayer: S3ClientTypes.RequestPayer?
+    /// The server-side encryption (SSE) algorithm used to encrypt the object. This parameter is needed only when the object was created using a checksum algorithm. For more information, see [Protecting data using SSE-C keys](https://docs.aws.amazon.com/AmazonS3/latest/dev/ServerSideEncryptionCustomerKeys.html) in the Amazon S3 User Guide.
+    public var sseCustomerAlgorithm: Swift.String?
+    /// The server-side encryption (SSE) customer managed key. This parameter is needed only when the object was created using a checksum algorithm. For more information, see [Protecting data using SSE-C keys](https://docs.aws.amazon.com/AmazonS3/latest/dev/ServerSideEncryptionCustomerKeys.html) in the Amazon S3 User Guide.
+    public var sseCustomerKey: Swift.String?
+    /// The MD5 server-side encryption (SSE) customer managed key. This parameter is needed only when the object was created using a checksum algorithm. For more information, see [Protecting data using SSE-C keys](https://docs.aws.amazon.com/AmazonS3/latest/dev/ServerSideEncryptionCustomerKeys.html) in the Amazon S3 User Guide.
+    public var sseCustomerKeyMD5: Swift.String?
+    /// ID for the initiated multipart upload.
+    /// This member is required.
+    public var uploadId: Swift.String?
+
+    public init(
+        bucket: Swift.String? = nil,
+        checksumCRC32: Swift.String? = nil,
+        checksumCRC32C: Swift.String? = nil,
+        checksumSHA1: Swift.String? = nil,
+        checksumSHA256: Swift.String? = nil,
+        expectedBucketOwner: Swift.String? = nil,
+        key: Swift.String? = nil,
+        multipartUpload: S3ClientTypes.CompletedMultipartUpload? = nil,
+        requestPayer: S3ClientTypes.RequestPayer? = nil,
+        sseCustomerAlgorithm: Swift.String? = nil,
+        sseCustomerKey: Swift.String? = nil,
+        sseCustomerKeyMD5: Swift.String? = nil,
+        uploadId: Swift.String? = nil
+    )
+    {
+        self.bucket = bucket
+        self.checksumCRC32 = checksumCRC32
+        self.checksumCRC32C = checksumCRC32C
+        self.checksumSHA1 = checksumSHA1
+        self.checksumSHA256 = checksumSHA256
+        self.expectedBucketOwner = expectedBucketOwner
+        self.key = key
+        self.multipartUpload = multipartUpload
+        self.requestPayer = requestPayer
+        self.sseCustomerAlgorithm = sseCustomerAlgorithm
+        self.sseCustomerKey = sseCustomerKey
+        self.sseCustomerKeyMD5 = sseCustomerKeyMD5
+        self.uploadId = uploadId
+    }
+}
+
+extension CompleteMultipartUploadInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let key = key else {
+            return nil
+        }
+        return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
+    }
+}
+
+struct CompleteMultipartUploadOutputBody: Swift.Equatable {
+    let location: Swift.String?
+    let bucket: Swift.String?
+    let key: Swift.String?
+    let eTag: Swift.String?
+    let checksumCRC32: Swift.String?
+    let checksumCRC32C: Swift.String?
+    let checksumSHA1: Swift.String?
+    let checksumSHA256: Swift.String?
+}
+
+extension CompleteMultipartUploadOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bucket = "Bucket"
+        case checksumCRC32 = "ChecksumCRC32"
+        case checksumCRC32C = "ChecksumCRC32C"
+        case checksumSHA1 = "ChecksumSHA1"
+        case checksumSHA256 = "ChecksumSHA256"
+        case eTag = "ETag"
+        case key = "Key"
+        case location = "Location"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let locationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .location)
+        location = locationDecoded
+        let bucketDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bucket)
+        bucket = bucketDecoded
+        let keyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .key)
+        key = keyDecoded
+        let eTagDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eTag)
+        eTag = eTagDecoded
+        let checksumCRC32Decoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .checksumCRC32)
+        checksumCRC32 = checksumCRC32Decoded
+        let checksumCRC32CDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .checksumCRC32C)
+        checksumCRC32C = checksumCRC32CDecoded
+        let checksumSHA1Decoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .checksumSHA1)
+        checksumSHA1 = checksumSHA1Decoded
+        let checksumSHA256Decoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .checksumSHA256)
+        checksumSHA256 = checksumSHA256Decoded
+    }
+}
+
+extension CompleteMultipartUploadOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CompleteMultipartUploadOutput(bucket: \(Swift.String(describing: bucket)), bucketKeyEnabled: \(Swift.String(describing: bucketKeyEnabled)), checksumCRC32: \(Swift.String(describing: checksumCRC32)), checksumCRC32C: \(Swift.String(describing: checksumCRC32C)), checksumSHA1: \(Swift.String(describing: checksumSHA1)), checksumSHA256: \(Swift.String(describing: checksumSHA256)), eTag: \(Swift.String(describing: eTag)), expiration: \(Swift.String(describing: expiration)), key: \(Swift.String(describing: key)), location: \(Swift.String(describing: location)), requestCharged: \(Swift.String(describing: requestCharged)), serverSideEncryption: \(Swift.String(describing: serverSideEncryption)), versionId: \(Swift.String(describing: versionId)), ssekmsKeyId: \"CONTENT_REDACTED\")"}
+}
+
+enum CompleteMultipartUploadOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
+extension CompleteMultipartUploadOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let bucketKeyEnabledHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-bucket-key-enabled") {
+            self.bucketKeyEnabled = Swift.Bool(bucketKeyEnabledHeaderValue) ?? false
+        } else {
+            self.bucketKeyEnabled = false
+        }
+        if let expirationHeaderValue = httpResponse.headers.value(for: "x-amz-expiration") {
+            self.expiration = expirationHeaderValue
+        } else {
+            self.expiration = nil
+        }
+        if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
+            self.requestCharged = S3ClientTypes.RequestCharged(rawValue: requestChargedHeaderValue)
+        } else {
+            self.requestCharged = nil
+        }
+        if let ssekmsKeyIdHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-aws-kms-key-id") {
+            self.ssekmsKeyId = ssekmsKeyIdHeaderValue
+        } else {
+            self.ssekmsKeyId = nil
+        }
+        if let serverSideEncryptionHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption") {
+            self.serverSideEncryption = S3ClientTypes.ServerSideEncryption(rawValue: serverSideEncryptionHeaderValue)
+        } else {
+            self.serverSideEncryption = nil
+        }
+        if let versionIdHeaderValue = httpResponse.headers.value(for: "x-amz-version-id") {
+            self.versionId = versionIdHeaderValue
+        } else {
+            self.versionId = nil
+        }
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CompleteMultipartUploadOutputBody = try responseDecoder.decode(responseBody: data)
+            self.bucket = output.bucket
+            self.checksumCRC32 = output.checksumCRC32
+            self.checksumCRC32C = output.checksumCRC32C
+            self.checksumSHA1 = output.checksumSHA1
+            self.checksumSHA256 = output.checksumSHA256
+            self.eTag = output.eTag
+            self.key = output.key
+            self.location = output.location
+        } else {
+            self.bucket = nil
+            self.checksumCRC32 = nil
+            self.checksumCRC32C = nil
+            self.checksumSHA1 = nil
+            self.checksumSHA256 = nil
+            self.eTag = nil
+            self.key = nil
+            self.location = nil
+        }
+    }
+}
+
+public struct CompleteMultipartUploadOutput: Swift.Equatable {
+    /// The name of the bucket that contains the newly created object. Does not return the access point ARN or access point alias if used. When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html) in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see [What is S3 on Outposts?](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide.
+    public var bucket: Swift.String?
+    /// Indicates whether the multipart upload uses an S3 Bucket Key for server-side encryption with Key Management Service (KMS) keys (SSE-KMS).
+    public var bucketKeyEnabled: Swift.Bool
+    /// The base64-encoded, 32-bit CRC32 checksum of the object. This will only be present if it was uploaded with the object. With multipart uploads, this may not be a checksum value of the object. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
+    public var checksumCRC32: Swift.String?
+    /// The base64-encoded, 32-bit CRC32C checksum of the object. This will only be present if it was uploaded with the object. With multipart uploads, this may not be a checksum value of the object. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
+    public var checksumCRC32C: Swift.String?
+    /// The base64-encoded, 160-bit SHA-1 digest of the object. This will only be present if it was uploaded with the object. With multipart uploads, this may not be a checksum value of the object. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
+    public var checksumSHA1: Swift.String?
+    /// The base64-encoded, 256-bit SHA-256 digest of the object. This will only be present if it was uploaded with the object. With multipart uploads, this may not be a checksum value of the object. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
+    public var checksumSHA256: Swift.String?
+    /// Entity tag that identifies the newly created object's data. Objects with different object data will have different entity tags. The entity tag is an opaque string. The entity tag may or may not be an MD5 digest of the object data. If the entity tag is not an MD5 digest of the object data, it will contain one or more nonhexadecimal characters and/or will consist of less than 32 or more than 32 hexadecimal digits. For more information about how the entity tag is calculated, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
+    public var eTag: Swift.String?
+    /// If the object expiration is configured, this will contain the expiration date (expiry-date) and rule ID (rule-id). The value of rule-id is URL-encoded.
+    public var expiration: Swift.String?
+    /// The object key of the newly created object.
+    public var key: Swift.String?
+    /// The URI that identifies the newly created object.
+    public var location: Swift.String?
+    /// If present, indicates that the requester was successfully charged for the request.
+    public var requestCharged: S3ClientTypes.RequestCharged?
+    /// The server-side encryption algorithm used when storing this object in Amazon S3 (for example, AES256, aws:kms).
+    public var serverSideEncryption: S3ClientTypes.ServerSideEncryption?
+    /// If present, specifies the ID of the Key Management Service (KMS) symmetric encryption customer managed key that was used for the object.
+    public var ssekmsKeyId: Swift.String?
+    /// Version ID of the newly created object, in case the bucket has versioning turned on.
+    public var versionId: Swift.String?
+
+    public init(
+        bucket: Swift.String? = nil,
+        bucketKeyEnabled: Swift.Bool = false,
+        checksumCRC32: Swift.String? = nil,
+        checksumCRC32C: Swift.String? = nil,
+        checksumSHA1: Swift.String? = nil,
+        checksumSHA256: Swift.String? = nil,
+        eTag: Swift.String? = nil,
+        expiration: Swift.String? = nil,
+        key: Swift.String? = nil,
+        location: Swift.String? = nil,
+        requestCharged: S3ClientTypes.RequestCharged? = nil,
+        serverSideEncryption: S3ClientTypes.ServerSideEncryption? = nil,
+        ssekmsKeyId: Swift.String? = nil,
+        versionId: Swift.String? = nil
+    )
+    {
+        self.bucket = bucket
+        self.bucketKeyEnabled = bucketKeyEnabled
+        self.checksumCRC32 = checksumCRC32
+        self.checksumCRC32C = checksumCRC32C
+        self.checksumSHA1 = checksumSHA1
+        self.checksumSHA256 = checksumSHA256
+        self.eTag = eTag
+        self.expiration = expiration
+        self.key = key
+        self.location = location
+        self.requestCharged = requestCharged
+        self.serverSideEncryption = serverSideEncryption
+        self.ssekmsKeyId = ssekmsKeyId
+        self.versionId = versionId
+    }
+}
+
+extension S3ClientTypes {
+    public enum CompressionType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case bzip2
+        case gzip
+        case `none`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CompressionType] {
+            return [
+                .bzip2,
+                .gzip,
+                .none,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .bzip2: return "BZIP2"
+            case .gzip: return "GZIP"
+            case .none: return "NONE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = CompressionType(rawValue: rawValue) ?? CompressionType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension S3ClientTypes.Condition: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case httpErrorCodeReturnedEquals = "HttpErrorCodeReturnedEquals"
+        case keyPrefixEquals = "KeyPrefixEquals"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if encoder.codingPath.isEmpty {
+            try container.encode("http://s3.amazonaws.com/doc/2006-03-01/", forKey: ClientRuntime.Key("xmlns"))
+        }
+        if let httpErrorCodeReturnedEquals = httpErrorCodeReturnedEquals {
+            try container.encode(httpErrorCodeReturnedEquals, forKey: ClientRuntime.Key("HttpErrorCodeReturnedEquals"))
+        }
+        if let keyPrefixEquals = keyPrefixEquals {
+            try container.encode(keyPrefixEquals, forKey: ClientRuntime.Key("KeyPrefixEquals"))
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let httpErrorCodeReturnedEqualsDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .httpErrorCodeReturnedEquals)
+        httpErrorCodeReturnedEquals = httpErrorCodeReturnedEqualsDecoded
+        let keyPrefixEqualsDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .keyPrefixEquals)
+        keyPrefixEquals = keyPrefixEqualsDecoded
+    }
+}
+
+extension S3ClientTypes.Condition: ClientRuntime.DynamicNodeEncoding {
+    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
+        let xmlNamespaceValues = [
+            "xmlns"
+        ]
+        if let key = key as? ClientRuntime.Key {
+            if xmlNamespaceValues.contains(key.stringValue) {
+                return .attribute
+            }
+        }
+        return .element
+    }
+}
+
+extension S3ClientTypes {
+    /// A container for describing a condition that must be met for the specified redirect to apply. For example, 1. If request is for pages in the /docs folder, redirect to the /documents folder. 2. If request results in HTTP error 4xx, redirect request to another host where you might process the error.
+    public struct Condition: Swift.Equatable {
+        /// The HTTP error code when the redirect is applied. In the event of an error, if the error code equals this value, then the specified redirect is applied. Required when parent element Condition is specified and sibling KeyPrefixEquals is not specified. If both are specified, then both must be true for the redirect to be applied.
+        public var httpErrorCodeReturnedEquals: Swift.String?
+        /// The object key name prefix when the redirect is applied. For example, to redirect requests for ExamplePage.html, the key prefix will be ExamplePage.html. To redirect request for all pages with the prefix docs/, the key prefix will be /docs, which identifies all objects in the docs/ folder. Required when the parent element Condition is specified and sibling HttpErrorCodeReturnedEquals is not specified. If both conditions are specified, both must be true for the redirect to be applied. Replacement must be made for object keys containing special characters (such as carriage returns) when using XML requests. For more information, see [ XML related object key constraints](https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-keys.html#object-key-xml-related-constraints).
+        public var keyPrefixEquals: Swift.String?
+
+        public init(
+            httpErrorCodeReturnedEquals: Swift.String? = nil,
+            keyPrefixEquals: Swift.String? = nil
+        )
+        {
+            self.httpErrorCodeReturnedEquals = httpErrorCodeReturnedEquals
+            self.keyPrefixEquals = keyPrefixEquals
+        }
+    }
+
+}
+
+extension S3ClientTypes.ContinuationEvent: Swift.Codable {
+
+    public func encode(to encoder: Swift.Encoder) throws {
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension S3ClientTypes {
+    ///
+    public struct ContinuationEvent: Swift.Equatable {
+
+        public init() { }
+    }
+
+}
+
+struct CopyObjectInputBody: Swift.Equatable {
+}
+
+extension CopyObjectInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension CopyObjectInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CopyObjectInput(acl: \(Swift.String(describing: acl)), bucket: \(Swift.String(describing: bucket)), bucketKeyEnabled: \(Swift.String(describing: bucketKeyEnabled)), cacheControl: \(Swift.String(describing: cacheControl)), checksumAlgorithm: \(Swift.String(describing: checksumAlgorithm)), contentDisposition: \(Swift.String(describing: contentDisposition)), contentEncoding: \(Swift.String(describing: contentEncoding)), contentLanguage: \(Swift.String(describing: contentLanguage)), contentType: \(Swift.String(describing: contentType)), copySource: \(Swift.String(describing: copySource)), copySourceIfMatch: \(Swift.String(describing: copySourceIfMatch)), copySourceIfModifiedSince: \(Swift.String(describing: copySourceIfModifiedSince)), copySourceIfNoneMatch: \(Swift.String(describing: copySourceIfNoneMatch)), copySourceIfUnmodifiedSince: \(Swift.String(describing: copySourceIfUnmodifiedSince)), copySourceSSECustomerAlgorithm: \(Swift.String(describing: copySourceSSECustomerAlgorithm)), copySourceSSECustomerKeyMD5: \(Swift.String(describing: copySourceSSECustomerKeyMD5)), expectedBucketOwner: \(Swift.String(describing: expectedBucketOwner)), expectedSourceBucketOwner: \(Swift.String(describing: expectedSourceBucketOwner)), expires: \(Swift.String(describing: expires)), grantFullControl: \(Swift.String(describing: grantFullControl)), grantRead: \(Swift.String(describing: grantRead)), grantReadACP: \(Swift.String(describing: grantReadACP)), grantWriteACP: \(Swift.String(describing: grantWriteACP)), key: \(Swift.String(describing: key)), metadata: \(Swift.String(describing: metadata)), metadataDirective: \(Swift.String(describing: metadataDirective)), objectLockLegalHoldStatus: \(Swift.String(describing: objectLockLegalHoldStatus)), objectLockMode: \(Swift.String(describing: objectLockMode)), objectLockRetainUntilDate: \(Swift.String(describing: objectLockRetainUntilDate)), requestPayer: \(Swift.String(describing: requestPayer)), sseCustomerAlgorithm: \(Swift.String(describing: sseCustomerAlgorithm)), sseCustomerKeyMD5: \(Swift.String(describing: sseCustomerKeyMD5)), serverSideEncryption: \(Swift.String(describing: serverSideEncryption)), storageClass: \(Swift.String(describing: storageClass)), tagging: \(Swift.String(describing: tagging)), taggingDirective: \(Swift.String(describing: taggingDirective)), websiteRedirectLocation: \(Swift.String(describing: websiteRedirectLocation)), copySourceSSECustomerKey: \"CONTENT_REDACTED\", sseCustomerKey: \"CONTENT_REDACTED\", ssekmsEncryptionContext: \"CONTENT_REDACTED\", ssekmsKeyId: \"CONTENT_REDACTED\")"}
+}
+
+extension CopyObjectInput: ClientRuntime.HeaderProvider {
+    public var headers: ClientRuntime.Headers {
+        var items = ClientRuntime.Headers()
+        if let acl = acl {
+            items.add(Header(name: "x-amz-acl", value: Swift.String(acl.rawValue)))
+        }
+        if let bucketKeyEnabled = bucketKeyEnabled {
+            items.add(Header(name: "x-amz-server-side-encryption-bucket-key-enabled", value: Swift.String(bucketKeyEnabled)))
+        }
+        if let cacheControl = cacheControl {
+            items.add(Header(name: "Cache-Control", value: Swift.String(cacheControl)))
+        }
+        if let checksumAlgorithm = checksumAlgorithm {
+            items.add(Header(name: "x-amz-checksum-algorithm", value: Swift.String(checksumAlgorithm.rawValue)))
+        }
+        if let contentDisposition = contentDisposition {
+            items.add(Header(name: "Content-Disposition", value: Swift.String(contentDisposition)))
+        }
+        if let contentEncoding = contentEncoding {
+            items.add(Header(name: "Content-Encoding", value: Swift.String(contentEncoding)))
+        }
+        if let contentLanguage = contentLanguage {
+            items.add(Header(name: "Content-Language", value: Swift.String(contentLanguage)))
+        }
+        if let contentType = contentType {
+            items.add(Header(name: "Content-Type", value: Swift.String(contentType)))
+        }
+        if let copySource = copySource {
+            items.add(Header(name: "x-amz-copy-source", value: Swift.String(copySource)))
+        }
+        if let copySourceIfMatch = copySourceIfMatch {
+            items.add(Header(name: "x-amz-copy-source-if-match", value: Swift.String(copySourceIfMatch)))
+        }
+        if let copySourceIfModifiedSince = copySourceIfModifiedSince {
+            items.add(Header(name: "x-amz-copy-source-if-modified-since", value: Swift.String(TimestampFormatter(format: .httpDate).string(from: copySourceIfModifiedSince))))
+        }
+        if let copySourceIfNoneMatch = copySourceIfNoneMatch {
+            items.add(Header(name: "x-amz-copy-source-if-none-match", value: Swift.String(copySourceIfNoneMatch)))
+        }
+        if let copySourceIfUnmodifiedSince = copySourceIfUnmodifiedSince {
+            items.add(Header(name: "x-amz-copy-source-if-unmodified-since", value: Swift.String(TimestampFormatter(format: .httpDate).string(from: copySourceIfUnmodifiedSince))))
+        }
+        if let copySourceSSECustomerAlgorithm = copySourceSSECustomerAlgorithm {
+            items.add(Header(name: "x-amz-copy-source-server-side-encryption-customer-algorithm", value: Swift.String(copySourceSSECustomerAlgorithm)))
+        }
+        if let copySourceSSECustomerKey = copySourceSSECustomerKey {
+            items.add(Header(name: "x-amz-copy-source-server-side-encryption-customer-key", value: Swift.String(copySourceSSECustomerKey)))
+        }
+        if let copySourceSSECustomerKeyMD5 = copySourceSSECustomerKeyMD5 {
+            items.add(Header(name: "x-amz-copy-source-server-side-encryption-customer-key-MD5", value: Swift.String(copySourceSSECustomerKeyMD5)))
+        }
+        if let expectedBucketOwner = expectedBucketOwner {
+            items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
+        }
+        if let expectedSourceBucketOwner = expectedSourceBucketOwner {
+            items.add(Header(name: "x-amz-source-expected-bucket-owner", value: Swift.String(expectedSourceBucketOwner)))
+        }
+        if let expires = expires {
+            items.add(Header(name: "Expires", value: Swift.String(TimestampFormatter(format: .httpDate).string(from: expires))))
+        }
+        if let grantFullControl = grantFullControl {
+            items.add(Header(name: "x-amz-grant-full-control", value: Swift.String(grantFullControl)))
+        }
+        if let grantRead = grantRead {
+            items.add(Header(name: "x-amz-grant-read", value: Swift.String(grantRead)))
+        }
+        if let grantReadACP = grantReadACP {
+            items.add(Header(name: "x-amz-grant-read-acp", value: Swift.String(grantReadACP)))
+        }
+        if let grantWriteACP = grantWriteACP {
+            items.add(Header(name: "x-amz-grant-write-acp", value: Swift.String(grantWriteACP)))
+        }
+        if let metadataDirective = metadataDirective {
+            items.add(Header(name: "x-amz-metadata-directive", value: Swift.String(metadataDirective.rawValue)))
+        }
+        if let objectLockLegalHoldStatus = objectLockLegalHoldStatus {
+            items.add(Header(name: "x-amz-object-lock-legal-hold", value: Swift.String(objectLockLegalHoldStatus.rawValue)))
+        }
+        if let objectLockMode = objectLockMode {
+            items.add(Header(name: "x-amz-object-lock-mode", value: Swift.String(objectLockMode.rawValue)))
+        }
+        if let objectLockRetainUntilDate = objectLockRetainUntilDate {
+            items.add(Header(name: "x-amz-object-lock-retain-until-date", value: Swift.String(TimestampFormatter(format: .dateTime).string(from: objectLockRetainUntilDate))))
+        }
+        if let requestPayer = requestPayer {
+            items.add(Header(name: "x-amz-request-payer", value: Swift.String(requestPayer.rawValue)))
+        }
+        if let sseCustomerAlgorithm = sseCustomerAlgorithm {
+            items.add(Header(name: "x-amz-server-side-encryption-customer-algorithm", value: Swift.String(sseCustomerAlgorithm)))
+        }
+        if let sseCustomerKey = sseCustomerKey {
+            items.add(Header(name: "x-amz-server-side-encryption-customer-key", value: Swift.String(sseCustomerKey)))
+        }
+        if let sseCustomerKeyMD5 = sseCustomerKeyMD5 {
+            items.add(Header(name: "x-amz-server-side-encryption-customer-key-MD5", value: Swift.String(sseCustomerKeyMD5)))
+        }
+        if let ssekmsEncryptionContext = ssekmsEncryptionContext {
+            items.add(Header(name: "x-amz-server-side-encryption-context", value: Swift.String(ssekmsEncryptionContext)))
+        }
+        if let ssekmsKeyId = ssekmsKeyId {
+            items.add(Header(name: "x-amz-server-side-encryption-aws-kms-key-id", value: Swift.String(ssekmsKeyId)))
+        }
+        if let serverSideEncryption = serverSideEncryption {
+            items.add(Header(name: "x-amz-server-side-encryption", value: Swift.String(serverSideEncryption.rawValue)))
+        }
+        if let storageClass = storageClass {
+            items.add(Header(name: "x-amz-storage-class", value: Swift.String(storageClass.rawValue)))
+        }
+        if let tagging = tagging {
+            items.add(Header(name: "x-amz-tagging", value: Swift.String(tagging)))
+        }
+        if let taggingDirective = taggingDirective {
+            items.add(Header(name: "x-amz-tagging-directive", value: Swift.String(taggingDirective.rawValue)))
+        }
+        if let websiteRedirectLocation = websiteRedirectLocation {
+            items.add(Header(name: "x-amz-website-redirect-location", value: Swift.String(websiteRedirectLocation)))
+        }
+        if let metadata = metadata {
+            for (prefixHeaderMapKey, prefixHeaderMapValue) in metadata {
+                items.add(Header(name: "x-amz-meta-\(prefixHeaderMapKey)", value: Swift.String(prefixHeaderMapValue)))
+            }
+        }
+        return items
+    }
+}
+
+extension CopyObjectInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "x-id", value: "CopyObject"))
+            return items
+        }
+    }
+}
+
+public struct CopyObjectInput: Swift.Equatable {
+    /// The canned ACL to apply to the object. This action is not supported by Amazon S3 on Outposts.
+    public var acl: S3ClientTypes.ObjectCannedACL?
+    /// The name of the destination bucket. When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html) in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see [What is S3 on Outposts?](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide.
+    /// This member is required.
+    public var bucket: Swift.String?
+    /// Specifies whether Amazon S3 should use an S3 Bucket Key for object encryption with server-side encryption using Key Management Service (KMS) keys (SSE-KMS). Setting this header to true causes Amazon S3 to use an S3 Bucket Key for object encryption with SSE-KMS. Specifying this header with a COPY action doesn’t affect bucket-level settings for S3 Bucket Key.
+    public var bucketKeyEnabled: Swift.Bool?
+    /// Specifies caching behavior along the request/reply chain.
+    public var cacheControl: Swift.String?
+    /// Indicates the algorithm you want Amazon S3 to use to create the checksum for the object. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
+    public var checksumAlgorithm: S3ClientTypes.ChecksumAlgorithm?
+    /// Specifies presentational information for the object.
+    public var contentDisposition: Swift.String?
+    /// Specifies what content encodings have been applied to the object and thus what decoding mechanisms must be applied to obtain the media-type referenced by the Content-Type header field.
+    public var contentEncoding: Swift.String?
+    /// The language the content is in.
+    public var contentLanguage: Swift.String?
+    /// A standard MIME type describing the format of the object data.
+    public var contentType: Swift.String?
+    /// Specifies the source object for the copy operation. You specify the value in one of two formats, depending on whether you want to access the source object through an [access point](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points.html):
+    ///
+    /// * For objects not accessed through an access point, specify the name of the source bucket and the key of the source object, separated by a slash (/). For example, to copy the object reports/january.pdf from the bucket awsexamplebucket, use awsexamplebucket/reports/january.pdf. The value must be URL-encoded.
+    ///
+    /// * For objects accessed through access points, specify the Amazon Resource Name (ARN) of the object as accessed through the access point, in the format arn:aws:s3:::accesspoint//object/. For example, to copy the object reports/january.pdf through access point my-access-point owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3:us-west-2:123456789012:accesspoint/my-access-point/object/reports/january.pdf. The value must be URL encoded. Amazon S3 supports copy operations using access points only when the source and destination buckets are in the same Amazon Web Services Region. Alternatively, for objects accessed through Amazon S3 on Outposts, specify the ARN of the object as accessed in the format arn:aws:s3-outposts:::outpost//object/. For example, to copy the object reports/january.pdf through outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/object/reports/january.pdf. The value must be URL-encoded.
+    ///
+    ///
+    /// To copy a specific version of an object, append ?versionId= to the value (for example, awsexamplebucket/reports/january.pdf?versionId=QUpfdndhfd8438MNFDN93jdnJFkdmqnh893). If you don't specify a version ID, Amazon S3 copies the latest version of the source object.
+    /// This member is required.
+    public var copySource: Swift.String?
+    /// Copies the object if its entity tag (ETag) matches the specified tag.
+    public var copySourceIfMatch: Swift.String?
+    /// Copies the object if it has been modified since the specified time.
+    public var copySourceIfModifiedSince: ClientRuntime.Date?
+    /// Copies the object if its entity tag (ETag) is different than the specified ETag.
+    public var copySourceIfNoneMatch: Swift.String?
+    /// Copies the object if it hasn't been modified since the specified time.
+    public var copySourceIfUnmodifiedSince: ClientRuntime.Date?
+    /// Specifies the algorithm to use when decrypting the source object (for example, AES256).
+    public var copySourceSSECustomerAlgorithm: Swift.String?
+    /// Specifies the customer-provided encryption key for Amazon S3 to use to decrypt the source object. The encryption key provided in this header must be one that was used when the source object was created.
+    public var copySourceSSECustomerKey: Swift.String?
+    /// Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure that the encryption key was transmitted without error.
+    public var copySourceSSECustomerKeyMD5: Swift.String?
+    /// The account ID of the expected destination bucket owner. If the destination bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
+    public var expectedBucketOwner: Swift.String?
+    /// The account ID of the expected source bucket owner. If the source bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
+    public var expectedSourceBucketOwner: Swift.String?
+    /// The date and time at which the object is no longer cacheable.
+    public var expires: ClientRuntime.Date?
+    /// Gives the grantee READ, READ_ACP, and WRITE_ACP permissions on the object. This action is not supported by Amazon S3 on Outposts.
+    public var grantFullControl: Swift.String?
+    /// Allows grantee to read the object data and its metadata. This action is not supported by Amazon S3 on Outposts.
+    public var grantRead: Swift.String?
+    /// Allows grantee to read the object ACL. This action is not supported by Amazon S3 on Outposts.
+    public var grantReadACP: Swift.String?
+    /// Allows grantee to write the ACL for the applicable object. This action is not supported by Amazon S3 on Outposts.
+    public var grantWriteACP: Swift.String?
+    /// The key of the destination object.
+    /// This member is required.
+    public var key: Swift.String?
+    /// A map of metadata to store with the object in S3.
+    public var metadata: [Swift.String:Swift.String]?
+    /// Specifies whether the metadata is copied from the source object or replaced with metadata provided in the request.
+    public var metadataDirective: S3ClientTypes.MetadataDirective?
+    /// Specifies whether you want to apply a legal hold to the copied object.
+    public var objectLockLegalHoldStatus: S3ClientTypes.ObjectLockLegalHoldStatus?
+    /// The Object Lock mode that you want to apply to the copied object.
+    public var objectLockMode: S3ClientTypes.ObjectLockMode?
+    /// The date and time when you want the copied object's Object Lock to expire.
+    public var objectLockRetainUntilDate: ClientRuntime.Date?
+    /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests. If either the source or destination Amazon S3 bucket has Requester Pays enabled, the requester will pay for corresponding charges to copy the object. For information about downloading objects from Requester Pays buckets, see [Downloading Objects in Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html) in the Amazon S3 User Guide.
+    public var requestPayer: S3ClientTypes.RequestPayer?
+    /// The server-side encryption algorithm used when storing this object in Amazon S3 (for example, AES256, aws:kms, aws:kms:dsse).
+    public var serverSideEncryption: S3ClientTypes.ServerSideEncryption?
+    /// Specifies the algorithm to use to when encrypting the object (for example, AES256).
+    public var sseCustomerAlgorithm: Swift.String?
+    /// Specifies the customer-provided encryption key for Amazon S3 to use in encrypting data. This value is used to store the object and then it is discarded; Amazon S3 does not store the encryption key. The key must be appropriate for use with the algorithm specified in the x-amz-server-side-encryption-customer-algorithm header.
+    public var sseCustomerKey: Swift.String?
+    /// Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure that the encryption key was transmitted without error.
+    public var sseCustomerKeyMD5: Swift.String?
+    /// Specifies the Amazon Web Services KMS Encryption Context to use for object encryption. The value of this header is a base64-encoded UTF-8 string holding JSON with the encryption context key-value pairs.
+    public var ssekmsEncryptionContext: Swift.String?
+    /// Specifies the KMS ID (Key ID, Key ARN, or Key Alias) to use for object encryption. All GET and PUT requests for an object protected by KMS will fail if they're not made via SSL or using SigV4. For information about configuring any of the officially supported Amazon Web Services SDKs and Amazon Web Services CLI, see [Specifying the Signature Version in Request Authentication](https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingAWSSDK.html#specify-signature-version) in the Amazon S3 User Guide.
+    public var ssekmsKeyId: Swift.String?
+    /// If the x-amz-storage-class header is not used, the copied object will be stored in the STANDARD Storage Class by default. The STANDARD storage class provides high durability and high availability. Depending on performance needs, you can specify a different Storage Class. Amazon S3 on Outposts only uses the OUTPOSTS Storage Class. For more information, see [Storage Classes](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage-class-intro.html) in the Amazon S3 User Guide.
+    public var storageClass: S3ClientTypes.StorageClass?
+    /// The tag-set for the object destination object this value must be used in conjunction with the TaggingDirective. The tag-set must be encoded as URL Query parameters.
+    public var tagging: Swift.String?
+    /// Specifies whether the object tag-set are copied from the source object or replaced with tag-set provided in the request.
+    public var taggingDirective: S3ClientTypes.TaggingDirective?
+    /// If the bucket is configured as a website, redirects requests for this object to another object in the same bucket or to an external URL. Amazon S3 stores the value of this header in the object metadata. This value is unique to each object and is not copied when using the x-amz-metadata-directive header. Instead, you may opt to provide this header in combination with the directive.
+    public var websiteRedirectLocation: Swift.String?
+
+    public init(
+        acl: S3ClientTypes.ObjectCannedACL? = nil,
+        bucket: Swift.String? = nil,
+        bucketKeyEnabled: Swift.Bool? = nil,
+        cacheControl: Swift.String? = nil,
+        checksumAlgorithm: S3ClientTypes.ChecksumAlgorithm? = nil,
+        contentDisposition: Swift.String? = nil,
+        contentEncoding: Swift.String? = nil,
+        contentLanguage: Swift.String? = nil,
+        contentType: Swift.String? = nil,
+        copySource: Swift.String? = nil,
+        copySourceIfMatch: Swift.String? = nil,
+        copySourceIfModifiedSince: ClientRuntime.Date? = nil,
+        copySourceIfNoneMatch: Swift.String? = nil,
+        copySourceIfUnmodifiedSince: ClientRuntime.Date? = nil,
+        copySourceSSECustomerAlgorithm: Swift.String? = nil,
+        copySourceSSECustomerKey: Swift.String? = nil,
+        copySourceSSECustomerKeyMD5: Swift.String? = nil,
+        expectedBucketOwner: Swift.String? = nil,
+        expectedSourceBucketOwner: Swift.String? = nil,
+        expires: ClientRuntime.Date? = nil,
+        grantFullControl: Swift.String? = nil,
+        grantRead: Swift.String? = nil,
+        grantReadACP: Swift.String? = nil,
+        grantWriteACP: Swift.String? = nil,
+        key: Swift.String? = nil,
+        metadata: [Swift.String:Swift.String]? = nil,
+        metadataDirective: S3ClientTypes.MetadataDirective? = nil,
+        objectLockLegalHoldStatus: S3ClientTypes.ObjectLockLegalHoldStatus? = nil,
+        objectLockMode: S3ClientTypes.ObjectLockMode? = nil,
+        objectLockRetainUntilDate: ClientRuntime.Date? = nil,
+        requestPayer: S3ClientTypes.RequestPayer? = nil,
+        serverSideEncryption: S3ClientTypes.ServerSideEncryption? = nil,
+        sseCustomerAlgorithm: Swift.String? = nil,
+        sseCustomerKey: Swift.String? = nil,
+        sseCustomerKeyMD5: Swift.String? = nil,
+        ssekmsEncryptionContext: Swift.String? = nil,
+        ssekmsKeyId: Swift.String? = nil,
+        storageClass: S3ClientTypes.StorageClass? = nil,
+        tagging: Swift.String? = nil,
+        taggingDirective: S3ClientTypes.TaggingDirective? = nil,
+        websiteRedirectLocation: Swift.String? = nil
+    )
+    {
+        self.acl = acl
+        self.bucket = bucket
+        self.bucketKeyEnabled = bucketKeyEnabled
+        self.cacheControl = cacheControl
+        self.checksumAlgorithm = checksumAlgorithm
+        self.contentDisposition = contentDisposition
+        self.contentEncoding = contentEncoding
+        self.contentLanguage = contentLanguage
+        self.contentType = contentType
+        self.copySource = copySource
+        self.copySourceIfMatch = copySourceIfMatch
+        self.copySourceIfModifiedSince = copySourceIfModifiedSince
+        self.copySourceIfNoneMatch = copySourceIfNoneMatch
+        self.copySourceIfUnmodifiedSince = copySourceIfUnmodifiedSince
+        self.copySourceSSECustomerAlgorithm = copySourceSSECustomerAlgorithm
+        self.copySourceSSECustomerKey = copySourceSSECustomerKey
+        self.copySourceSSECustomerKeyMD5 = copySourceSSECustomerKeyMD5
+        self.expectedBucketOwner = expectedBucketOwner
+        self.expectedSourceBucketOwner = expectedSourceBucketOwner
+        self.expires = expires
+        self.grantFullControl = grantFullControl
+        self.grantRead = grantRead
+        self.grantReadACP = grantReadACP
+        self.grantWriteACP = grantWriteACP
+        self.key = key
+        self.metadata = metadata
+        self.metadataDirective = metadataDirective
+        self.objectLockLegalHoldStatus = objectLockLegalHoldStatus
+        self.objectLockMode = objectLockMode
+        self.objectLockRetainUntilDate = objectLockRetainUntilDate
+        self.requestPayer = requestPayer
+        self.serverSideEncryption = serverSideEncryption
+        self.sseCustomerAlgorithm = sseCustomerAlgorithm
+        self.sseCustomerKey = sseCustomerKey
+        self.sseCustomerKeyMD5 = sseCustomerKeyMD5
+        self.ssekmsEncryptionContext = ssekmsEncryptionContext
+        self.ssekmsKeyId = ssekmsKeyId
+        self.storageClass = storageClass
+        self.tagging = tagging
+        self.taggingDirective = taggingDirective
+        self.websiteRedirectLocation = websiteRedirectLocation
+    }
+}
+
+extension CopyObjectInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let key = key else {
+            return nil
+        }
+        return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
+    }
+}
+
+struct CopyObjectOutputBody: Swift.Equatable {
+    let copyObjectResult: S3ClientTypes.CopyObjectResult?
+}
+
+extension CopyObjectOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case copyObjectResult = "CopyObjectResult"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let copyObjectResultDecoded = try containerValues.decodeIfPresent(S3ClientTypes.CopyObjectResult.self, forKey: .copyObjectResult)
+        copyObjectResult = copyObjectResultDecoded
+    }
+}
+
+extension CopyObjectOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CopyObjectOutput(bucketKeyEnabled: \(Swift.String(describing: bucketKeyEnabled)), copyObjectResult: \(Swift.String(describing: copyObjectResult)), copySourceVersionId: \(Swift.String(describing: copySourceVersionId)), expiration: \(Swift.String(describing: expiration)), requestCharged: \(Swift.String(describing: requestCharged)), sseCustomerAlgorithm: \(Swift.String(describing: sseCustomerAlgorithm)), sseCustomerKeyMD5: \(Swift.String(describing: sseCustomerKeyMD5)), serverSideEncryption: \(Swift.String(describing: serverSideEncryption)), versionId: \(Swift.String(describing: versionId)), ssekmsEncryptionContext: \"CONTENT_REDACTED\", ssekmsKeyId: \"CONTENT_REDACTED\")"}
+}
+
+enum CopyObjectOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
+        switch restXMLError.errorCode {
+            case "ObjectNotInActiveTierError": return try await ObjectNotInActiveTierError(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
+extension CopyObjectOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let bucketKeyEnabledHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-bucket-key-enabled") {
+            self.bucketKeyEnabled = Swift.Bool(bucketKeyEnabledHeaderValue) ?? false
+        } else {
+            self.bucketKeyEnabled = false
+        }
+        if let copySourceVersionIdHeaderValue = httpResponse.headers.value(for: "x-amz-copy-source-version-id") {
+            self.copySourceVersionId = copySourceVersionIdHeaderValue
+        } else {
+            self.copySourceVersionId = nil
+        }
+        if let expirationHeaderValue = httpResponse.headers.value(for: "x-amz-expiration") {
+            self.expiration = expirationHeaderValue
+        } else {
+            self.expiration = nil
+        }
+        if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
+            self.requestCharged = S3ClientTypes.RequestCharged(rawValue: requestChargedHeaderValue)
+        } else {
+            self.requestCharged = nil
+        }
+        if let sseCustomerAlgorithmHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-customer-algorithm") {
+            self.sseCustomerAlgorithm = sseCustomerAlgorithmHeaderValue
+        } else {
+            self.sseCustomerAlgorithm = nil
+        }
+        if let sseCustomerKeyMD5HeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-customer-key-MD5") {
+            self.sseCustomerKeyMD5 = sseCustomerKeyMD5HeaderValue
+        } else {
+            self.sseCustomerKeyMD5 = nil
+        }
+        if let ssekmsEncryptionContextHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-context") {
+            self.ssekmsEncryptionContext = ssekmsEncryptionContextHeaderValue
+        } else {
+            self.ssekmsEncryptionContext = nil
+        }
+        if let ssekmsKeyIdHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-aws-kms-key-id") {
+            self.ssekmsKeyId = ssekmsKeyIdHeaderValue
+        } else {
+            self.ssekmsKeyId = nil
+        }
+        if let serverSideEncryptionHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption") {
+            self.serverSideEncryption = S3ClientTypes.ServerSideEncryption(rawValue: serverSideEncryptionHeaderValue)
+        } else {
+            self.serverSideEncryption = nil
+        }
+        if let versionIdHeaderValue = httpResponse.headers.value(for: "x-amz-version-id") {
+            self.versionId = versionIdHeaderValue
+        } else {
+            self.versionId = nil
+        }
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: S3ClientTypes.CopyObjectResult = try responseDecoder.decode(responseBody: data)
+            self.copyObjectResult = output
+        } else {
+            self.copyObjectResult = nil
+        }
+    }
+}
+
+public struct CopyObjectOutput: Swift.Equatable {
+    /// Indicates whether the copied object uses an S3 Bucket Key for server-side encryption with Key Management Service (KMS) keys (SSE-KMS).
+    public var bucketKeyEnabled: Swift.Bool
+    /// Container for all response elements.
+    public var copyObjectResult: S3ClientTypes.CopyObjectResult?
+    /// Version of the copied object in the destination bucket.
+    public var copySourceVersionId: Swift.String?
+    /// If the object expiration is configured, the response includes this header.
+    public var expiration: Swift.String?
+    /// If present, indicates that the requester was successfully charged for the request.
+    public var requestCharged: S3ClientTypes.RequestCharged?
+    /// The server-side encryption algorithm used when storing this object in Amazon S3 (for example, AES256, aws:kms, aws:kms:dsse).
+    public var serverSideEncryption: S3ClientTypes.ServerSideEncryption?
+    /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header confirming the encryption algorithm used.
+    public var sseCustomerAlgorithm: Swift.String?
+    /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header to provide round-trip message integrity verification of the customer-provided encryption key.
+    public var sseCustomerKeyMD5: Swift.String?
+    /// If present, specifies the Amazon Web Services KMS Encryption Context to use for object encryption. The value of this header is a base64-encoded UTF-8 string holding JSON with the encryption context key-value pairs.
+    public var ssekmsEncryptionContext: Swift.String?
+    /// If present, specifies the ID of the Key Management Service (KMS) symmetric encryption customer managed key that was used for the object.
+    public var ssekmsKeyId: Swift.String?
+    /// Version ID of the newly created copy.
+    public var versionId: Swift.String?
+
+    public init(
+        bucketKeyEnabled: Swift.Bool = false,
+        copyObjectResult: S3ClientTypes.CopyObjectResult? = nil,
+        copySourceVersionId: Swift.String? = nil,
+        expiration: Swift.String? = nil,
+        requestCharged: S3ClientTypes.RequestCharged? = nil,
+        serverSideEncryption: S3ClientTypes.ServerSideEncryption? = nil,
+        sseCustomerAlgorithm: Swift.String? = nil,
+        sseCustomerKeyMD5: Swift.String? = nil,
+        ssekmsEncryptionContext: Swift.String? = nil,
+        ssekmsKeyId: Swift.String? = nil,
+        versionId: Swift.String? = nil
+    )
+    {
+        self.bucketKeyEnabled = bucketKeyEnabled
+        self.copyObjectResult = copyObjectResult
+        self.copySourceVersionId = copySourceVersionId
+        self.expiration = expiration
+        self.requestCharged = requestCharged
+        self.serverSideEncryption = serverSideEncryption
+        self.sseCustomerAlgorithm = sseCustomerAlgorithm
+        self.sseCustomerKeyMD5 = sseCustomerKeyMD5
+        self.ssekmsEncryptionContext = ssekmsEncryptionContext
+        self.ssekmsKeyId = ssekmsKeyId
+        self.versionId = versionId
+    }
+}
+
+extension S3ClientTypes.CopyObjectResult: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case checksumCRC32 = "ChecksumCRC32"
+        case checksumCRC32C = "ChecksumCRC32C"
+        case checksumSHA1 = "ChecksumSHA1"
+        case checksumSHA256 = "ChecksumSHA256"
+        case eTag = "ETag"
+        case lastModified = "LastModified"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if encoder.codingPath.isEmpty {
+            try container.encode("http://s3.amazonaws.com/doc/2006-03-01/", forKey: ClientRuntime.Key("xmlns"))
+        }
+        if let checksumCRC32 = checksumCRC32 {
+            try container.encode(checksumCRC32, forKey: ClientRuntime.Key("ChecksumCRC32"))
+        }
+        if let checksumCRC32C = checksumCRC32C {
+            try container.encode(checksumCRC32C, forKey: ClientRuntime.Key("ChecksumCRC32C"))
+        }
+        if let checksumSHA1 = checksumSHA1 {
+            try container.encode(checksumSHA1, forKey: ClientRuntime.Key("ChecksumSHA1"))
+        }
+        if let checksumSHA256 = checksumSHA256 {
+            try container.encode(checksumSHA256, forKey: ClientRuntime.Key("ChecksumSHA256"))
+        }
+        if let eTag = eTag {
+            try container.encode(eTag, forKey: ClientRuntime.Key("ETag"))
+        }
+        if let lastModified = lastModified {
+            try container.encodeTimestamp(lastModified, format: .dateTime, forKey: ClientRuntime.Key("LastModified"))
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let eTagDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eTag)
+        eTag = eTagDecoded
+        let lastModifiedDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .lastModified)
+        lastModified = lastModifiedDecoded
+        let checksumCRC32Decoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .checksumCRC32)
+        checksumCRC32 = checksumCRC32Decoded
+        let checksumCRC32CDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .checksumCRC32C)
+        checksumCRC32C = checksumCRC32CDecoded
+        let checksumSHA1Decoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .checksumSHA1)
+        checksumSHA1 = checksumSHA1Decoded
+        let checksumSHA256Decoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .checksumSHA256)
+        checksumSHA256 = checksumSHA256Decoded
+    }
+}
+
+extension S3ClientTypes.CopyObjectResult: ClientRuntime.DynamicNodeEncoding {
+    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
+        let xmlNamespaceValues = [
+            "xmlns"
+        ]
+        if let key = key as? ClientRuntime.Key {
+            if xmlNamespaceValues.contains(key.stringValue) {
+                return .attribute
+            }
+        }
+        return .element
+    }
+}
+
+extension S3ClientTypes {
+    /// Container for all response elements.
+    public struct CopyObjectResult: Swift.Equatable {
+        /// The base64-encoded, 32-bit CRC32 checksum of the object. This will only be present if it was uploaded with the object. With multipart uploads, this may not be a checksum value of the object. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
+        public var checksumCRC32: Swift.String?
+        /// The base64-encoded, 32-bit CRC32C checksum of the object. This will only be present if it was uploaded with the object. With multipart uploads, this may not be a checksum value of the object. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
+        public var checksumCRC32C: Swift.String?
+        /// The base64-encoded, 160-bit SHA-1 digest of the object. This will only be present if it was uploaded with the object. With multipart uploads, this may not be a checksum value of the object. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
+        public var checksumSHA1: Swift.String?
+        /// The base64-encoded, 256-bit SHA-256 digest of the object. This will only be present if it was uploaded with the object. With multipart uploads, this may not be a checksum value of the object. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
+        public var checksumSHA256: Swift.String?
+        /// Returns the ETag of the new object. The ETag reflects only changes to the contents of an object, not its metadata.
+        public var eTag: Swift.String?
+        /// Creation date of the object.
+        public var lastModified: ClientRuntime.Date?
+
+        public init(
+            checksumCRC32: Swift.String? = nil,
+            checksumCRC32C: Swift.String? = nil,
+            checksumSHA1: Swift.String? = nil,
+            checksumSHA256: Swift.String? = nil,
+            eTag: Swift.String? = nil,
+            lastModified: ClientRuntime.Date? = nil
+        )
+        {
+            self.checksumCRC32 = checksumCRC32
+            self.checksumCRC32C = checksumCRC32C
+            self.checksumSHA1 = checksumSHA1
+            self.checksumSHA256 = checksumSHA256
+            self.eTag = eTag
+            self.lastModified = lastModified
+        }
+    }
+
+}
+
+extension S3ClientTypes.CopyPartResult: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case checksumCRC32 = "ChecksumCRC32"
+        case checksumCRC32C = "ChecksumCRC32C"
+        case checksumSHA1 = "ChecksumSHA1"
+        case checksumSHA256 = "ChecksumSHA256"
+        case eTag = "ETag"
+        case lastModified = "LastModified"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if encoder.codingPath.isEmpty {
+            try container.encode("http://s3.amazonaws.com/doc/2006-03-01/", forKey: ClientRuntime.Key("xmlns"))
+        }
+        if let checksumCRC32 = checksumCRC32 {
+            try container.encode(checksumCRC32, forKey: ClientRuntime.Key("ChecksumCRC32"))
+        }
+        if let checksumCRC32C = checksumCRC32C {
+            try container.encode(checksumCRC32C, forKey: ClientRuntime.Key("ChecksumCRC32C"))
+        }
+        if let checksumSHA1 = checksumSHA1 {
+            try container.encode(checksumSHA1, forKey: ClientRuntime.Key("ChecksumSHA1"))
+        }
+        if let checksumSHA256 = checksumSHA256 {
+            try container.encode(checksumSHA256, forKey: ClientRuntime.Key("ChecksumSHA256"))
+        }
+        if let eTag = eTag {
+            try container.encode(eTag, forKey: ClientRuntime.Key("ETag"))
+        }
+        if let lastModified = lastModified {
+            try container.encodeTimestamp(lastModified, format: .dateTime, forKey: ClientRuntime.Key("LastModified"))
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let eTagDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eTag)
+        eTag = eTagDecoded
+        let lastModifiedDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .lastModified)
+        lastModified = lastModifiedDecoded
+        let checksumCRC32Decoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .checksumCRC32)
+        checksumCRC32 = checksumCRC32Decoded
+        let checksumCRC32CDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .checksumCRC32C)
+        checksumCRC32C = checksumCRC32CDecoded
+        let checksumSHA1Decoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .checksumSHA1)
+        checksumSHA1 = checksumSHA1Decoded
+        let checksumSHA256Decoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .checksumSHA256)
+        checksumSHA256 = checksumSHA256Decoded
+    }
+}
+
+extension S3ClientTypes.CopyPartResult: ClientRuntime.DynamicNodeEncoding {
+    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
+        let xmlNamespaceValues = [
+            "xmlns"
+        ]
+        if let key = key as? ClientRuntime.Key {
+            if xmlNamespaceValues.contains(key.stringValue) {
+                return .attribute
+            }
+        }
+        return .element
+    }
+}
+
+extension S3ClientTypes {
+    /// Container for all response elements.
+    public struct CopyPartResult: Swift.Equatable {
+        /// The base64-encoded, 32-bit CRC32 checksum of the object. This will only be present if it was uploaded with the object. With multipart uploads, this may not be a checksum value of the object. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
+        public var checksumCRC32: Swift.String?
+        /// The base64-encoded, 32-bit CRC32C checksum of the object. This will only be present if it was uploaded with the object. With multipart uploads, this may not be a checksum value of the object. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
+        public var checksumCRC32C: Swift.String?
+        /// The base64-encoded, 160-bit SHA-1 digest of the object. This will only be present if it was uploaded with the object. With multipart uploads, this may not be a checksum value of the object. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
+        public var checksumSHA1: Swift.String?
+        /// The base64-encoded, 256-bit SHA-256 digest of the object. This will only be present if it was uploaded with the object. With multipart uploads, this may not be a checksum value of the object. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
+        public var checksumSHA256: Swift.String?
+        /// Entity tag of the object.
+        public var eTag: Swift.String?
+        /// Date and time at which the object was uploaded.
+        public var lastModified: ClientRuntime.Date?
+
+        public init(
+            checksumCRC32: Swift.String? = nil,
+            checksumCRC32C: Swift.String? = nil,
+            checksumSHA1: Swift.String? = nil,
+            checksumSHA256: Swift.String? = nil,
+            eTag: Swift.String? = nil,
+            lastModified: ClientRuntime.Date? = nil
+        )
+        {
+            self.checksumCRC32 = checksumCRC32
+            self.checksumCRC32C = checksumCRC32C
+            self.checksumSHA1 = checksumSHA1
+            self.checksumSHA256 = checksumSHA256
+            self.eTag = eTag
+            self.lastModified = lastModified
+        }
+    }
+
 }
 
 extension S3ClientTypes.CORSConfiguration: Swift.Codable {
@@ -1526,6 +3099,683 @@ extension S3ClientTypes {
 
 }
 
+extension S3ClientTypes.CreateBucketConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case locationConstraint = "LocationConstraint"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if encoder.codingPath.isEmpty {
+            try container.encode("http://s3.amazonaws.com/doc/2006-03-01/", forKey: ClientRuntime.Key("xmlns"))
+        }
+        if let locationConstraint = locationConstraint {
+            try container.encode(locationConstraint, forKey: ClientRuntime.Key("LocationConstraint"))
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let locationConstraintDecoded = try containerValues.decodeIfPresent(S3ClientTypes.BucketLocationConstraint.self, forKey: .locationConstraint)
+        locationConstraint = locationConstraintDecoded
+    }
+}
+
+extension S3ClientTypes.CreateBucketConfiguration: ClientRuntime.DynamicNodeEncoding {
+    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
+        let xmlNamespaceValues = [
+            "xmlns"
+        ]
+        if let key = key as? ClientRuntime.Key {
+            if xmlNamespaceValues.contains(key.stringValue) {
+                return .attribute
+            }
+        }
+        return .element
+    }
+}
+
+extension S3ClientTypes {
+    /// The configuration information for the bucket.
+    public struct CreateBucketConfiguration: Swift.Equatable {
+        /// Specifies the Region where the bucket will be created. If you don't specify a Region, the bucket is created in the US East (N. Virginia) Region (us-east-1).
+        public var locationConstraint: S3ClientTypes.BucketLocationConstraint?
+
+        public init(
+            locationConstraint: S3ClientTypes.BucketLocationConstraint? = nil
+        )
+        {
+            self.locationConstraint = locationConstraint
+        }
+    }
+
+}
+
+struct CreateBucketInputBody: Swift.Equatable {
+    let createBucketConfiguration: S3ClientTypes.CreateBucketConfiguration?
+}
+
+extension CreateBucketInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case createBucketConfiguration = "CreateBucketConfiguration"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let createBucketConfigurationDecoded = try containerValues.decodeIfPresent(S3ClientTypes.CreateBucketConfiguration.self, forKey: .createBucketConfiguration)
+        createBucketConfiguration = createBucketConfigurationDecoded
+    }
+}
+
+public struct CreateBucketInputBodyMiddleware: ClientRuntime.Middleware {
+    public let id: Swift.String = "CreateBucketInputBodyMiddleware"
+
+    public init() {}
+
+    public func handle<H>(context: Context,
+                  input: ClientRuntime.SerializeStepInput<CreateBucketInput>,
+                  next: H) async throws -> ClientRuntime.OperationOutput<CreateBucketOutput>
+    where H: Handler,
+    Self.MInput == H.Input,
+    Self.MOutput == H.Output,
+    Self.Context == H.Context
+    {
+        do {
+            let encoder = context.getEncoder()
+            if let createBucketConfiguration = input.operationInput.createBucketConfiguration {
+                let xmlEncoder = encoder as! XMLEncoder
+                let createBucketConfigurationData = try xmlEncoder.encode(createBucketConfiguration, withRootKey: "CreateBucketConfiguration")
+                let createBucketConfigurationBody = ClientRuntime.HttpBody.data(createBucketConfigurationData)
+                input.builder.withBody(createBucketConfigurationBody)
+            } else {
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let createBucketConfigurationData = "{}".data(using: .utf8)!
+                    let createBucketConfigurationBody = ClientRuntime.HttpBody.data(createBucketConfigurationData)
+                    input.builder.withBody(createBucketConfigurationBody)
+                }
+            }
+        } catch let err {
+            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
+        }
+        return try await next.handle(context: context, input: input)
+    }
+
+    public typealias MInput = ClientRuntime.SerializeStepInput<CreateBucketInput>
+    public typealias MOutput = ClientRuntime.OperationOutput<CreateBucketOutput>
+    public typealias Context = ClientRuntime.HttpContext
+}
+
+extension CreateBucketInput: ClientRuntime.DynamicNodeEncoding {
+    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
+        let xmlNamespaceValues = [
+            "xmlns"
+        ]
+        if let key = key as? ClientRuntime.Key {
+            if xmlNamespaceValues.contains(key.stringValue) {
+                return .attribute
+            }
+        }
+        return .element
+    }
+}
+
+extension CreateBucketInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case createBucketConfiguration = "CreateBucketConfiguration"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if encoder.codingPath.isEmpty {
+            try container.encode("http://s3.amazonaws.com/doc/2006-03-01/", forKey: ClientRuntime.Key("xmlns"))
+        }
+        if let createBucketConfiguration = createBucketConfiguration {
+            try container.encode(createBucketConfiguration, forKey: ClientRuntime.Key("CreateBucketConfiguration"))
+        }
+    }
+}
+
+extension CreateBucketInput: ClientRuntime.HeaderProvider {
+    public var headers: ClientRuntime.Headers {
+        var items = ClientRuntime.Headers()
+        if let acl = acl {
+            items.add(Header(name: "x-amz-acl", value: Swift.String(acl.rawValue)))
+        }
+        if let grantFullControl = grantFullControl {
+            items.add(Header(name: "x-amz-grant-full-control", value: Swift.String(grantFullControl)))
+        }
+        if let grantRead = grantRead {
+            items.add(Header(name: "x-amz-grant-read", value: Swift.String(grantRead)))
+        }
+        if let grantReadACP = grantReadACP {
+            items.add(Header(name: "x-amz-grant-read-acp", value: Swift.String(grantReadACP)))
+        }
+        if let grantWrite = grantWrite {
+            items.add(Header(name: "x-amz-grant-write", value: Swift.String(grantWrite)))
+        }
+        if let grantWriteACP = grantWriteACP {
+            items.add(Header(name: "x-amz-grant-write-acp", value: Swift.String(grantWriteACP)))
+        }
+        if let objectLockEnabledForBucket = objectLockEnabledForBucket {
+            items.add(Header(name: "x-amz-bucket-object-lock-enabled", value: Swift.String(objectLockEnabledForBucket)))
+        }
+        if let objectOwnership = objectOwnership {
+            items.add(Header(name: "x-amz-object-ownership", value: Swift.String(objectOwnership.rawValue)))
+        }
+        return items
+    }
+}
+
+public struct CreateBucketInput: Swift.Equatable {
+    /// The canned ACL to apply to the bucket.
+    public var acl: S3ClientTypes.BucketCannedACL?
+    /// The name of the bucket to create.
+    /// This member is required.
+    public var bucket: Swift.String?
+    /// The configuration information for the bucket.
+    public var createBucketConfiguration: S3ClientTypes.CreateBucketConfiguration?
+    /// Allows grantee the read, write, read ACP, and write ACP permissions on the bucket.
+    public var grantFullControl: Swift.String?
+    /// Allows grantee to list the objects in the bucket.
+    public var grantRead: Swift.String?
+    /// Allows grantee to read the bucket ACL.
+    public var grantReadACP: Swift.String?
+    /// Allows grantee to create new objects in the bucket. For the bucket and object owners of existing objects, also allows deletions and overwrites of those objects.
+    public var grantWrite: Swift.String?
+    /// Allows grantee to write the ACL for the applicable bucket.
+    public var grantWriteACP: Swift.String?
+    /// Specifies whether you want S3 Object Lock to be enabled for the new bucket.
+    public var objectLockEnabledForBucket: Swift.Bool?
+    /// The container element for object ownership for a bucket's ownership controls. BucketOwnerPreferred - Objects uploaded to the bucket change ownership to the bucket owner if the objects are uploaded with the bucket-owner-full-control canned ACL. ObjectWriter - The uploading account will own the object if the object is uploaded with the bucket-owner-full-control canned ACL. BucketOwnerEnforced - Access control lists (ACLs) are disabled and no longer affect permissions. The bucket owner automatically owns and has full control over every object in the bucket. The bucket only accepts PUT requests that don't specify an ACL or bucket owner full control ACLs, such as the bucket-owner-full-control canned ACL or an equivalent form of this ACL expressed in the XML format.
+    public var objectOwnership: S3ClientTypes.ObjectOwnership?
+
+    public init(
+        acl: S3ClientTypes.BucketCannedACL? = nil,
+        bucket: Swift.String? = nil,
+        createBucketConfiguration: S3ClientTypes.CreateBucketConfiguration? = nil,
+        grantFullControl: Swift.String? = nil,
+        grantRead: Swift.String? = nil,
+        grantReadACP: Swift.String? = nil,
+        grantWrite: Swift.String? = nil,
+        grantWriteACP: Swift.String? = nil,
+        objectLockEnabledForBucket: Swift.Bool? = nil,
+        objectOwnership: S3ClientTypes.ObjectOwnership? = nil
+    )
+    {
+        self.acl = acl
+        self.bucket = bucket
+        self.createBucketConfiguration = createBucketConfiguration
+        self.grantFullControl = grantFullControl
+        self.grantRead = grantRead
+        self.grantReadACP = grantReadACP
+        self.grantWrite = grantWrite
+        self.grantWriteACP = grantWriteACP
+        self.objectLockEnabledForBucket = objectLockEnabledForBucket
+        self.objectOwnership = objectOwnership
+    }
+}
+
+extension CreateBucketInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+enum CreateBucketOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
+        switch restXMLError.errorCode {
+            case "BucketAlreadyExists": return try await BucketAlreadyExists(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2)
+            case "BucketAlreadyOwnedByYou": return try await BucketAlreadyOwnedByYou(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
+extension CreateBucketOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let locationHeaderValue = httpResponse.headers.value(for: "Location") {
+            self.location = locationHeaderValue
+        } else {
+            self.location = nil
+        }
+    }
+}
+
+public struct CreateBucketOutput: Swift.Equatable {
+    /// A forward slash followed by the name of the bucket.
+    public var location: Swift.String?
+
+    public init(
+        location: Swift.String? = nil
+    )
+    {
+        self.location = location
+    }
+}
+
+struct CreateMultipartUploadInputBody: Swift.Equatable {
+}
+
+extension CreateMultipartUploadInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension CreateMultipartUploadInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateMultipartUploadInput(acl: \(Swift.String(describing: acl)), bucket: \(Swift.String(describing: bucket)), bucketKeyEnabled: \(Swift.String(describing: bucketKeyEnabled)), cacheControl: \(Swift.String(describing: cacheControl)), checksumAlgorithm: \(Swift.String(describing: checksumAlgorithm)), contentDisposition: \(Swift.String(describing: contentDisposition)), contentEncoding: \(Swift.String(describing: contentEncoding)), contentLanguage: \(Swift.String(describing: contentLanguage)), contentType: \(Swift.String(describing: contentType)), expectedBucketOwner: \(Swift.String(describing: expectedBucketOwner)), expires: \(Swift.String(describing: expires)), grantFullControl: \(Swift.String(describing: grantFullControl)), grantRead: \(Swift.String(describing: grantRead)), grantReadACP: \(Swift.String(describing: grantReadACP)), grantWriteACP: \(Swift.String(describing: grantWriteACP)), key: \(Swift.String(describing: key)), metadata: \(Swift.String(describing: metadata)), objectLockLegalHoldStatus: \(Swift.String(describing: objectLockLegalHoldStatus)), objectLockMode: \(Swift.String(describing: objectLockMode)), objectLockRetainUntilDate: \(Swift.String(describing: objectLockRetainUntilDate)), requestPayer: \(Swift.String(describing: requestPayer)), sseCustomerAlgorithm: \(Swift.String(describing: sseCustomerAlgorithm)), sseCustomerKeyMD5: \(Swift.String(describing: sseCustomerKeyMD5)), serverSideEncryption: \(Swift.String(describing: serverSideEncryption)), storageClass: \(Swift.String(describing: storageClass)), tagging: \(Swift.String(describing: tagging)), websiteRedirectLocation: \(Swift.String(describing: websiteRedirectLocation)), sseCustomerKey: \"CONTENT_REDACTED\", ssekmsEncryptionContext: \"CONTENT_REDACTED\", ssekmsKeyId: \"CONTENT_REDACTED\")"}
+}
+
+extension CreateMultipartUploadInput: ClientRuntime.HeaderProvider {
+    public var headers: ClientRuntime.Headers {
+        var items = ClientRuntime.Headers()
+        if let acl = acl {
+            items.add(Header(name: "x-amz-acl", value: Swift.String(acl.rawValue)))
+        }
+        if let bucketKeyEnabled = bucketKeyEnabled {
+            items.add(Header(name: "x-amz-server-side-encryption-bucket-key-enabled", value: Swift.String(bucketKeyEnabled)))
+        }
+        if let cacheControl = cacheControl {
+            items.add(Header(name: "Cache-Control", value: Swift.String(cacheControl)))
+        }
+        if let checksumAlgorithm = checksumAlgorithm {
+            items.add(Header(name: "x-amz-checksum-algorithm", value: Swift.String(checksumAlgorithm.rawValue)))
+        }
+        if let contentDisposition = contentDisposition {
+            items.add(Header(name: "Content-Disposition", value: Swift.String(contentDisposition)))
+        }
+        if let contentEncoding = contentEncoding {
+            items.add(Header(name: "Content-Encoding", value: Swift.String(contentEncoding)))
+        }
+        if let contentLanguage = contentLanguage {
+            items.add(Header(name: "Content-Language", value: Swift.String(contentLanguage)))
+        }
+        if let contentType = contentType {
+            items.add(Header(name: "Content-Type", value: Swift.String(contentType)))
+        }
+        if let expectedBucketOwner = expectedBucketOwner {
+            items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
+        }
+        if let expires = expires {
+            items.add(Header(name: "Expires", value: Swift.String(TimestampFormatter(format: .httpDate).string(from: expires))))
+        }
+        if let grantFullControl = grantFullControl {
+            items.add(Header(name: "x-amz-grant-full-control", value: Swift.String(grantFullControl)))
+        }
+        if let grantRead = grantRead {
+            items.add(Header(name: "x-amz-grant-read", value: Swift.String(grantRead)))
+        }
+        if let grantReadACP = grantReadACP {
+            items.add(Header(name: "x-amz-grant-read-acp", value: Swift.String(grantReadACP)))
+        }
+        if let grantWriteACP = grantWriteACP {
+            items.add(Header(name: "x-amz-grant-write-acp", value: Swift.String(grantWriteACP)))
+        }
+        if let objectLockLegalHoldStatus = objectLockLegalHoldStatus {
+            items.add(Header(name: "x-amz-object-lock-legal-hold", value: Swift.String(objectLockLegalHoldStatus.rawValue)))
+        }
+        if let objectLockMode = objectLockMode {
+            items.add(Header(name: "x-amz-object-lock-mode", value: Swift.String(objectLockMode.rawValue)))
+        }
+        if let objectLockRetainUntilDate = objectLockRetainUntilDate {
+            items.add(Header(name: "x-amz-object-lock-retain-until-date", value: Swift.String(TimestampFormatter(format: .dateTime).string(from: objectLockRetainUntilDate))))
+        }
+        if let requestPayer = requestPayer {
+            items.add(Header(name: "x-amz-request-payer", value: Swift.String(requestPayer.rawValue)))
+        }
+        if let sseCustomerAlgorithm = sseCustomerAlgorithm {
+            items.add(Header(name: "x-amz-server-side-encryption-customer-algorithm", value: Swift.String(sseCustomerAlgorithm)))
+        }
+        if let sseCustomerKey = sseCustomerKey {
+            items.add(Header(name: "x-amz-server-side-encryption-customer-key", value: Swift.String(sseCustomerKey)))
+        }
+        if let sseCustomerKeyMD5 = sseCustomerKeyMD5 {
+            items.add(Header(name: "x-amz-server-side-encryption-customer-key-MD5", value: Swift.String(sseCustomerKeyMD5)))
+        }
+        if let ssekmsEncryptionContext = ssekmsEncryptionContext {
+            items.add(Header(name: "x-amz-server-side-encryption-context", value: Swift.String(ssekmsEncryptionContext)))
+        }
+        if let ssekmsKeyId = ssekmsKeyId {
+            items.add(Header(name: "x-amz-server-side-encryption-aws-kms-key-id", value: Swift.String(ssekmsKeyId)))
+        }
+        if let serverSideEncryption = serverSideEncryption {
+            items.add(Header(name: "x-amz-server-side-encryption", value: Swift.String(serverSideEncryption.rawValue)))
+        }
+        if let storageClass = storageClass {
+            items.add(Header(name: "x-amz-storage-class", value: Swift.String(storageClass.rawValue)))
+        }
+        if let tagging = tagging {
+            items.add(Header(name: "x-amz-tagging", value: Swift.String(tagging)))
+        }
+        if let websiteRedirectLocation = websiteRedirectLocation {
+            items.add(Header(name: "x-amz-website-redirect-location", value: Swift.String(websiteRedirectLocation)))
+        }
+        if let metadata = metadata {
+            for (prefixHeaderMapKey, prefixHeaderMapValue) in metadata {
+                items.add(Header(name: "x-amz-meta-\(prefixHeaderMapKey)", value: Swift.String(prefixHeaderMapValue)))
+            }
+        }
+        return items
+    }
+}
+
+extension CreateMultipartUploadInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "uploads", value: nil))
+            items.append(ClientRuntime.URLQueryItem(name: "x-id", value: "CreateMultipartUpload"))
+            return items
+        }
+    }
+}
+
+public struct CreateMultipartUploadInput: Swift.Equatable {
+    /// The canned ACL to apply to the object. This action is not supported by Amazon S3 on Outposts.
+    public var acl: S3ClientTypes.ObjectCannedACL?
+    /// The name of the bucket to which to initiate the upload When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html) in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see [What is S3 on Outposts?](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide.
+    /// This member is required.
+    public var bucket: Swift.String?
+    /// Specifies whether Amazon S3 should use an S3 Bucket Key for object encryption with server-side encryption using Key Management Service (KMS) keys (SSE-KMS). Setting this header to true causes Amazon S3 to use an S3 Bucket Key for object encryption with SSE-KMS. Specifying this header with an object action doesn’t affect bucket-level settings for S3 Bucket Key.
+    public var bucketKeyEnabled: Swift.Bool?
+    /// Specifies caching behavior along the request/reply chain.
+    public var cacheControl: Swift.String?
+    /// Indicates the algorithm you want Amazon S3 to use to create the checksum for the object. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
+    public var checksumAlgorithm: S3ClientTypes.ChecksumAlgorithm?
+    /// Specifies presentational information for the object.
+    public var contentDisposition: Swift.String?
+    /// Specifies what content encodings have been applied to the object and thus what decoding mechanisms must be applied to obtain the media-type referenced by the Content-Type header field.
+    public var contentEncoding: Swift.String?
+    /// The language the content is in.
+    public var contentLanguage: Swift.String?
+    /// A standard MIME type describing the format of the object data.
+    public var contentType: Swift.String?
+    /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
+    public var expectedBucketOwner: Swift.String?
+    /// The date and time at which the object is no longer cacheable.
+    public var expires: ClientRuntime.Date?
+    /// Gives the grantee READ, READ_ACP, and WRITE_ACP permissions on the object. This action is not supported by Amazon S3 on Outposts.
+    public var grantFullControl: Swift.String?
+    /// Allows grantee to read the object data and its metadata. This action is not supported by Amazon S3 on Outposts.
+    public var grantRead: Swift.String?
+    /// Allows grantee to read the object ACL. This action is not supported by Amazon S3 on Outposts.
+    public var grantReadACP: Swift.String?
+    /// Allows grantee to write the ACL for the applicable object. This action is not supported by Amazon S3 on Outposts.
+    public var grantWriteACP: Swift.String?
+    /// Object key for which the multipart upload is to be initiated.
+    /// This member is required.
+    public var key: Swift.String?
+    /// A map of metadata to store with the object in S3.
+    public var metadata: [Swift.String:Swift.String]?
+    /// Specifies whether you want to apply a legal hold to the uploaded object.
+    public var objectLockLegalHoldStatus: S3ClientTypes.ObjectLockLegalHoldStatus?
+    /// Specifies the Object Lock mode that you want to apply to the uploaded object.
+    public var objectLockMode: S3ClientTypes.ObjectLockMode?
+    /// Specifies the date and time when you want the Object Lock to expire.
+    public var objectLockRetainUntilDate: ClientRuntime.Date?
+    /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests. If either the source or destination Amazon S3 bucket has Requester Pays enabled, the requester will pay for corresponding charges to copy the object. For information about downloading objects from Requester Pays buckets, see [Downloading Objects in Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html) in the Amazon S3 User Guide.
+    public var requestPayer: S3ClientTypes.RequestPayer?
+    /// The server-side encryption algorithm used when storing this object in Amazon S3 (for example, AES256, aws:kms).
+    public var serverSideEncryption: S3ClientTypes.ServerSideEncryption?
+    /// Specifies the algorithm to use to when encrypting the object (for example, AES256).
+    public var sseCustomerAlgorithm: Swift.String?
+    /// Specifies the customer-provided encryption key for Amazon S3 to use in encrypting data. This value is used to store the object and then it is discarded; Amazon S3 does not store the encryption key. The key must be appropriate for use with the algorithm specified in the x-amz-server-side-encryption-customer-algorithm header.
+    public var sseCustomerKey: Swift.String?
+    /// Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure that the encryption key was transmitted without error.
+    public var sseCustomerKeyMD5: Swift.String?
+    /// Specifies the Amazon Web Services KMS Encryption Context to use for object encryption. The value of this header is a base64-encoded UTF-8 string holding JSON with the encryption context key-value pairs.
+    public var ssekmsEncryptionContext: Swift.String?
+    /// Specifies the ID (Key ID, Key ARN, or Key Alias) of the symmetric encryption customer managed key to use for object encryption. All GET and PUT requests for an object protected by KMS will fail if they're not made via SSL or using SigV4. For information about configuring any of the officially supported Amazon Web Services SDKs and Amazon Web Services CLI, see [Specifying the Signature Version in Request Authentication](https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingAWSSDK.html#specify-signature-version) in the Amazon S3 User Guide.
+    public var ssekmsKeyId: Swift.String?
+    /// By default, Amazon S3 uses the STANDARD Storage Class to store newly created objects. The STANDARD storage class provides high durability and high availability. Depending on performance needs, you can specify a different Storage Class. Amazon S3 on Outposts only uses the OUTPOSTS Storage Class. For more information, see [Storage Classes](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage-class-intro.html) in the Amazon S3 User Guide.
+    public var storageClass: S3ClientTypes.StorageClass?
+    /// The tag-set for the object. The tag-set must be encoded as URL Query parameters.
+    public var tagging: Swift.String?
+    /// If the bucket is configured as a website, redirects requests for this object to another object in the same bucket or to an external URL. Amazon S3 stores the value of this header in the object metadata.
+    public var websiteRedirectLocation: Swift.String?
+
+    public init(
+        acl: S3ClientTypes.ObjectCannedACL? = nil,
+        bucket: Swift.String? = nil,
+        bucketKeyEnabled: Swift.Bool? = nil,
+        cacheControl: Swift.String? = nil,
+        checksumAlgorithm: S3ClientTypes.ChecksumAlgorithm? = nil,
+        contentDisposition: Swift.String? = nil,
+        contentEncoding: Swift.String? = nil,
+        contentLanguage: Swift.String? = nil,
+        contentType: Swift.String? = nil,
+        expectedBucketOwner: Swift.String? = nil,
+        expires: ClientRuntime.Date? = nil,
+        grantFullControl: Swift.String? = nil,
+        grantRead: Swift.String? = nil,
+        grantReadACP: Swift.String? = nil,
+        grantWriteACP: Swift.String? = nil,
+        key: Swift.String? = nil,
+        metadata: [Swift.String:Swift.String]? = nil,
+        objectLockLegalHoldStatus: S3ClientTypes.ObjectLockLegalHoldStatus? = nil,
+        objectLockMode: S3ClientTypes.ObjectLockMode? = nil,
+        objectLockRetainUntilDate: ClientRuntime.Date? = nil,
+        requestPayer: S3ClientTypes.RequestPayer? = nil,
+        serverSideEncryption: S3ClientTypes.ServerSideEncryption? = nil,
+        sseCustomerAlgorithm: Swift.String? = nil,
+        sseCustomerKey: Swift.String? = nil,
+        sseCustomerKeyMD5: Swift.String? = nil,
+        ssekmsEncryptionContext: Swift.String? = nil,
+        ssekmsKeyId: Swift.String? = nil,
+        storageClass: S3ClientTypes.StorageClass? = nil,
+        tagging: Swift.String? = nil,
+        websiteRedirectLocation: Swift.String? = nil
+    )
+    {
+        self.acl = acl
+        self.bucket = bucket
+        self.bucketKeyEnabled = bucketKeyEnabled
+        self.cacheControl = cacheControl
+        self.checksumAlgorithm = checksumAlgorithm
+        self.contentDisposition = contentDisposition
+        self.contentEncoding = contentEncoding
+        self.contentLanguage = contentLanguage
+        self.contentType = contentType
+        self.expectedBucketOwner = expectedBucketOwner
+        self.expires = expires
+        self.grantFullControl = grantFullControl
+        self.grantRead = grantRead
+        self.grantReadACP = grantReadACP
+        self.grantWriteACP = grantWriteACP
+        self.key = key
+        self.metadata = metadata
+        self.objectLockLegalHoldStatus = objectLockLegalHoldStatus
+        self.objectLockMode = objectLockMode
+        self.objectLockRetainUntilDate = objectLockRetainUntilDate
+        self.requestPayer = requestPayer
+        self.serverSideEncryption = serverSideEncryption
+        self.sseCustomerAlgorithm = sseCustomerAlgorithm
+        self.sseCustomerKey = sseCustomerKey
+        self.sseCustomerKeyMD5 = sseCustomerKeyMD5
+        self.ssekmsEncryptionContext = ssekmsEncryptionContext
+        self.ssekmsKeyId = ssekmsKeyId
+        self.storageClass = storageClass
+        self.tagging = tagging
+        self.websiteRedirectLocation = websiteRedirectLocation
+    }
+}
+
+extension CreateMultipartUploadInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let key = key else {
+            return nil
+        }
+        return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
+    }
+}
+
+struct CreateMultipartUploadOutputBody: Swift.Equatable {
+    let bucket: Swift.String?
+    let key: Swift.String?
+    let uploadId: Swift.String?
+}
+
+extension CreateMultipartUploadOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bucket = "Bucket"
+        case key = "Key"
+        case uploadId = "UploadId"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let bucketDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bucket)
+        bucket = bucketDecoded
+        let keyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .key)
+        key = keyDecoded
+        let uploadIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .uploadId)
+        uploadId = uploadIdDecoded
+    }
+}
+
+extension CreateMultipartUploadOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateMultipartUploadOutput(abortDate: \(Swift.String(describing: abortDate)), abortRuleId: \(Swift.String(describing: abortRuleId)), bucket: \(Swift.String(describing: bucket)), bucketKeyEnabled: \(Swift.String(describing: bucketKeyEnabled)), checksumAlgorithm: \(Swift.String(describing: checksumAlgorithm)), key: \(Swift.String(describing: key)), requestCharged: \(Swift.String(describing: requestCharged)), sseCustomerAlgorithm: \(Swift.String(describing: sseCustomerAlgorithm)), sseCustomerKeyMD5: \(Swift.String(describing: sseCustomerKeyMD5)), serverSideEncryption: \(Swift.String(describing: serverSideEncryption)), uploadId: \(Swift.String(describing: uploadId)), ssekmsEncryptionContext: \"CONTENT_REDACTED\", ssekmsKeyId: \"CONTENT_REDACTED\")"}
+}
+
+enum CreateMultipartUploadOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
+extension CreateMultipartUploadOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let abortDateHeaderValue = httpResponse.headers.value(for: "x-amz-abort-date") {
+            self.abortDate = TimestampFormatter(format: .httpDate).date(from: abortDateHeaderValue)
+        } else {
+            self.abortDate = nil
+        }
+        if let abortRuleIdHeaderValue = httpResponse.headers.value(for: "x-amz-abort-rule-id") {
+            self.abortRuleId = abortRuleIdHeaderValue
+        } else {
+            self.abortRuleId = nil
+        }
+        if let bucketKeyEnabledHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-bucket-key-enabled") {
+            self.bucketKeyEnabled = Swift.Bool(bucketKeyEnabledHeaderValue) ?? false
+        } else {
+            self.bucketKeyEnabled = false
+        }
+        if let checksumAlgorithmHeaderValue = httpResponse.headers.value(for: "x-amz-checksum-algorithm") {
+            self.checksumAlgorithm = S3ClientTypes.ChecksumAlgorithm(rawValue: checksumAlgorithmHeaderValue)
+        } else {
+            self.checksumAlgorithm = nil
+        }
+        if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
+            self.requestCharged = S3ClientTypes.RequestCharged(rawValue: requestChargedHeaderValue)
+        } else {
+            self.requestCharged = nil
+        }
+        if let sseCustomerAlgorithmHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-customer-algorithm") {
+            self.sseCustomerAlgorithm = sseCustomerAlgorithmHeaderValue
+        } else {
+            self.sseCustomerAlgorithm = nil
+        }
+        if let sseCustomerKeyMD5HeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-customer-key-MD5") {
+            self.sseCustomerKeyMD5 = sseCustomerKeyMD5HeaderValue
+        } else {
+            self.sseCustomerKeyMD5 = nil
+        }
+        if let ssekmsEncryptionContextHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-context") {
+            self.ssekmsEncryptionContext = ssekmsEncryptionContextHeaderValue
+        } else {
+            self.ssekmsEncryptionContext = nil
+        }
+        if let ssekmsKeyIdHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-aws-kms-key-id") {
+            self.ssekmsKeyId = ssekmsKeyIdHeaderValue
+        } else {
+            self.ssekmsKeyId = nil
+        }
+        if let serverSideEncryptionHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption") {
+            self.serverSideEncryption = S3ClientTypes.ServerSideEncryption(rawValue: serverSideEncryptionHeaderValue)
+        } else {
+            self.serverSideEncryption = nil
+        }
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateMultipartUploadOutputBody = try responseDecoder.decode(responseBody: data)
+            self.bucket = output.bucket
+            self.key = output.key
+            self.uploadId = output.uploadId
+        } else {
+            self.bucket = nil
+            self.key = nil
+            self.uploadId = nil
+        }
+    }
+}
+
+public struct CreateMultipartUploadOutput: Swift.Equatable {
+    /// If the bucket has a lifecycle rule configured with an action to abort incomplete multipart uploads and the prefix in the lifecycle rule matches the object name in the request, the response includes this header. The header indicates when the initiated multipart upload becomes eligible for an abort operation. For more information, see [ Aborting Incomplete Multipart Uploads Using a Bucket Lifecycle Configuration](https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuoverview.html#mpu-abort-incomplete-mpu-lifecycle-config). The response also includes the x-amz-abort-rule-id header that provides the ID of the lifecycle configuration rule that defines this action.
+    public var abortDate: ClientRuntime.Date?
+    /// This header is returned along with the x-amz-abort-date header. It identifies the applicable lifecycle configuration rule that defines the action to abort incomplete multipart uploads.
+    public var abortRuleId: Swift.String?
+    /// The name of the bucket to which the multipart upload was initiated. Does not return the access point ARN or access point alias if used. When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html) in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see [What is S3 on Outposts?](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide.
+    public var bucket: Swift.String?
+    /// Indicates whether the multipart upload uses an S3 Bucket Key for server-side encryption with Key Management Service (KMS) keys (SSE-KMS).
+    public var bucketKeyEnabled: Swift.Bool
+    /// The algorithm that was used to create a checksum of the object.
+    public var checksumAlgorithm: S3ClientTypes.ChecksumAlgorithm?
+    /// Object key for which the multipart upload was initiated.
+    public var key: Swift.String?
+    /// If present, indicates that the requester was successfully charged for the request.
+    public var requestCharged: S3ClientTypes.RequestCharged?
+    /// The server-side encryption algorithm used when storing this object in Amazon S3 (for example, AES256, aws:kms).
+    public var serverSideEncryption: S3ClientTypes.ServerSideEncryption?
+    /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header confirming the encryption algorithm used.
+    public var sseCustomerAlgorithm: Swift.String?
+    /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header to provide round-trip message integrity verification of the customer-provided encryption key.
+    public var sseCustomerKeyMD5: Swift.String?
+    /// If present, specifies the Amazon Web Services KMS Encryption Context to use for object encryption. The value of this header is a base64-encoded UTF-8 string holding JSON with the encryption context key-value pairs.
+    public var ssekmsEncryptionContext: Swift.String?
+    /// If present, specifies the ID of the Key Management Service (KMS) symmetric encryption customer managed key that was used for the object.
+    public var ssekmsKeyId: Swift.String?
+    /// ID for the initiated multipart upload.
+    public var uploadId: Swift.String?
+
+    public init(
+        abortDate: ClientRuntime.Date? = nil,
+        abortRuleId: Swift.String? = nil,
+        bucket: Swift.String? = nil,
+        bucketKeyEnabled: Swift.Bool = false,
+        checksumAlgorithm: S3ClientTypes.ChecksumAlgorithm? = nil,
+        key: Swift.String? = nil,
+        requestCharged: S3ClientTypes.RequestCharged? = nil,
+        serverSideEncryption: S3ClientTypes.ServerSideEncryption? = nil,
+        sseCustomerAlgorithm: Swift.String? = nil,
+        sseCustomerKeyMD5: Swift.String? = nil,
+        ssekmsEncryptionContext: Swift.String? = nil,
+        ssekmsKeyId: Swift.String? = nil,
+        uploadId: Swift.String? = nil
+    )
+    {
+        self.abortDate = abortDate
+        self.abortRuleId = abortRuleId
+        self.bucket = bucket
+        self.bucketKeyEnabled = bucketKeyEnabled
+        self.checksumAlgorithm = checksumAlgorithm
+        self.key = key
+        self.requestCharged = requestCharged
+        self.serverSideEncryption = serverSideEncryption
+        self.sseCustomerAlgorithm = sseCustomerAlgorithm
+        self.sseCustomerKeyMD5 = sseCustomerKeyMD5
+        self.ssekmsEncryptionContext = ssekmsEncryptionContext
+        self.ssekmsKeyId = ssekmsKeyId
+        self.uploadId = uploadId
+    }
+}
+
 extension S3ClientTypes.CSVInput: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case allowQuotedRecordDelimiter = "AllowQuotedRecordDelimiter"
@@ -1740,2256 +3990,6 @@ extension S3ClientTypes {
 
 }
 
-extension S3ClientTypes.Checksum: Swift.Codable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case checksumCRC32 = "ChecksumCRC32"
-        case checksumCRC32C = "ChecksumCRC32C"
-        case checksumSHA1 = "ChecksumSHA1"
-        case checksumSHA256 = "ChecksumSHA256"
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if encoder.codingPath.isEmpty {
-            try container.encode("http://s3.amazonaws.com/doc/2006-03-01/", forKey: ClientRuntime.Key("xmlns"))
-        }
-        if let checksumCRC32 = checksumCRC32 {
-            try container.encode(checksumCRC32, forKey: ClientRuntime.Key("ChecksumCRC32"))
-        }
-        if let checksumCRC32C = checksumCRC32C {
-            try container.encode(checksumCRC32C, forKey: ClientRuntime.Key("ChecksumCRC32C"))
-        }
-        if let checksumSHA1 = checksumSHA1 {
-            try container.encode(checksumSHA1, forKey: ClientRuntime.Key("ChecksumSHA1"))
-        }
-        if let checksumSHA256 = checksumSHA256 {
-            try container.encode(checksumSHA256, forKey: ClientRuntime.Key("ChecksumSHA256"))
-        }
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let checksumCRC32Decoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .checksumCRC32)
-        checksumCRC32 = checksumCRC32Decoded
-        let checksumCRC32CDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .checksumCRC32C)
-        checksumCRC32C = checksumCRC32CDecoded
-        let checksumSHA1Decoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .checksumSHA1)
-        checksumSHA1 = checksumSHA1Decoded
-        let checksumSHA256Decoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .checksumSHA256)
-        checksumSHA256 = checksumSHA256Decoded
-    }
-}
-
-extension S3ClientTypes.Checksum: ClientRuntime.DynamicNodeEncoding {
-    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
-        let xmlNamespaceValues = [
-            "xmlns"
-        ]
-        if let key = key as? ClientRuntime.Key {
-            if xmlNamespaceValues.contains(key.stringValue) {
-                return .attribute
-            }
-        }
-        return .element
-    }
-}
-
-extension S3ClientTypes {
-    /// Contains all the possible checksum or digest values for an object.
-    public struct Checksum: Swift.Equatable {
-        /// The base64-encoded, 32-bit CRC32 checksum of the object. This will only be present if it was uploaded with the object. With multipart uploads, this may not be a checksum value of the object. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
-        public var checksumCRC32: Swift.String?
-        /// The base64-encoded, 32-bit CRC32C checksum of the object. This will only be present if it was uploaded with the object. With multipart uploads, this may not be a checksum value of the object. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
-        public var checksumCRC32C: Swift.String?
-        /// The base64-encoded, 160-bit SHA-1 digest of the object. This will only be present if it was uploaded with the object. With multipart uploads, this may not be a checksum value of the object. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
-        public var checksumSHA1: Swift.String?
-        /// The base64-encoded, 256-bit SHA-256 digest of the object. This will only be present if it was uploaded with the object. With multipart uploads, this may not be a checksum value of the object. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
-        public var checksumSHA256: Swift.String?
-
-        public init(
-            checksumCRC32: Swift.String? = nil,
-            checksumCRC32C: Swift.String? = nil,
-            checksumSHA1: Swift.String? = nil,
-            checksumSHA256: Swift.String? = nil
-        )
-        {
-            self.checksumCRC32 = checksumCRC32
-            self.checksumCRC32C = checksumCRC32C
-            self.checksumSHA1 = checksumSHA1
-            self.checksumSHA256 = checksumSHA256
-        }
-    }
-
-}
-
-extension S3ClientTypes {
-    public enum ChecksumAlgorithm: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
-        case crc32
-        case crc32c
-        case sha1
-        case sha256
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ChecksumAlgorithm] {
-            return [
-                .crc32,
-                .crc32c,
-                .sha1,
-                .sha256,
-                .sdkUnknown("")
-            ]
-        }
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-        public var rawValue: Swift.String {
-            switch self {
-            case .crc32: return "CRC32"
-            case .crc32c: return "CRC32C"
-            case .sha1: return "SHA1"
-            case .sha256: return "SHA256"
-            case let .sdkUnknown(s): return s
-            }
-        }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = ChecksumAlgorithm(rawValue: rawValue) ?? ChecksumAlgorithm.sdkUnknown(rawValue)
-        }
-    }
-}
-
-extension S3ClientTypes {
-    public enum ChecksumMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
-        case enabled
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ChecksumMode] {
-            return [
-                .enabled,
-                .sdkUnknown("")
-            ]
-        }
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-        public var rawValue: Swift.String {
-            switch self {
-            case .enabled: return "ENABLED"
-            case let .sdkUnknown(s): return s
-            }
-        }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = ChecksumMode(rawValue: rawValue) ?? ChecksumMode.sdkUnknown(rawValue)
-        }
-    }
-}
-
-extension S3ClientTypes.CommonPrefix: Swift.Codable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case `prefix` = "Prefix"
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if encoder.codingPath.isEmpty {
-            try container.encode("http://s3.amazonaws.com/doc/2006-03-01/", forKey: ClientRuntime.Key("xmlns"))
-        }
-        if let `prefix` = `prefix` {
-            try container.encode(`prefix`, forKey: ClientRuntime.Key("Prefix"))
-        }
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let prefixDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .prefix)
-        `prefix` = prefixDecoded
-    }
-}
-
-extension S3ClientTypes.CommonPrefix: ClientRuntime.DynamicNodeEncoding {
-    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
-        let xmlNamespaceValues = [
-            "xmlns"
-        ]
-        if let key = key as? ClientRuntime.Key {
-            if xmlNamespaceValues.contains(key.stringValue) {
-                return .attribute
-            }
-        }
-        return .element
-    }
-}
-
-extension S3ClientTypes {
-    /// Container for all (if there are any) keys between Prefix and the next occurrence of the string specified by a delimiter. CommonPrefixes lists keys that act like subdirectories in the directory specified by Prefix. For example, if the prefix is notes/ and the delimiter is a slash (/) as in notes/summer/july, the common prefix is notes/summer/.
-    public struct CommonPrefix: Swift.Equatable {
-        /// Container for the specified common prefix.
-        public var `prefix`: Swift.String?
-
-        public init(
-            `prefix`: Swift.String? = nil
-        )
-        {
-            self.`prefix` = `prefix`
-        }
-    }
-
-}
-
-public struct CompleteMultipartUploadInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "CompleteMultipartUploadInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<CompleteMultipartUploadInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<CompleteMultipartUploadOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        do {
-            let encoder = context.getEncoder()
-            if let multipartUpload = input.operationInput.multipartUpload {
-                let xmlEncoder = encoder as! XMLEncoder
-                let multipartUploadData = try xmlEncoder.encode(multipartUpload, withRootKey: "CompleteMultipartUpload")
-                let multipartUploadBody = ClientRuntime.HttpBody.data(multipartUploadData)
-                input.builder.withBody(multipartUploadBody)
-            } else {
-                if encoder is JSONEncoder {
-                    // Encode an empty body as an empty structure in JSON
-                    let multipartUploadData = "{}".data(using: .utf8)!
-                    let multipartUploadBody = ClientRuntime.HttpBody.data(multipartUploadData)
-                    input.builder.withBody(multipartUploadBody)
-                }
-            }
-        } catch let err {
-            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
-        }
-        return try await next.handle(context: context, input: input)
-    }
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<CompleteMultipartUploadInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<CompleteMultipartUploadOutput>
-    public typealias Context = ClientRuntime.HttpContext
-}
-
-extension CompleteMultipartUploadInput: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "CompleteMultipartUploadInput(bucket: \(Swift.String(describing: bucket)), checksumCRC32: \(Swift.String(describing: checksumCRC32)), checksumCRC32C: \(Swift.String(describing: checksumCRC32C)), checksumSHA1: \(Swift.String(describing: checksumSHA1)), checksumSHA256: \(Swift.String(describing: checksumSHA256)), expectedBucketOwner: \(Swift.String(describing: expectedBucketOwner)), key: \(Swift.String(describing: key)), multipartUpload: \(Swift.String(describing: multipartUpload)), requestPayer: \(Swift.String(describing: requestPayer)), sseCustomerAlgorithm: \(Swift.String(describing: sseCustomerAlgorithm)), sseCustomerKeyMD5: \(Swift.String(describing: sseCustomerKeyMD5)), uploadId: \(Swift.String(describing: uploadId)), sseCustomerKey: \"CONTENT_REDACTED\")"}
-}
-
-extension CompleteMultipartUploadInput: ClientRuntime.DynamicNodeEncoding {
-    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
-        let xmlNamespaceValues = [
-            "xmlns"
-        ]
-        if let key = key as? ClientRuntime.Key {
-            if xmlNamespaceValues.contains(key.stringValue) {
-                return .attribute
-            }
-        }
-        return .element
-    }
-}
-
-extension CompleteMultipartUploadInput: Swift.Encodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case multipartUpload = "CompleteMultipartUpload"
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if encoder.codingPath.isEmpty {
-            try container.encode("http://s3.amazonaws.com/doc/2006-03-01/", forKey: ClientRuntime.Key("xmlns"))
-        }
-        if let multipartUpload = multipartUpload {
-            try container.encode(multipartUpload, forKey: ClientRuntime.Key("CompleteMultipartUpload"))
-        }
-    }
-}
-
-extension CompleteMultipartUploadInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
-        if let checksumCRC32 = checksumCRC32 {
-            items.add(Header(name: "x-amz-checksum-crc32", value: Swift.String(checksumCRC32)))
-        }
-        if let checksumCRC32C = checksumCRC32C {
-            items.add(Header(name: "x-amz-checksum-crc32c", value: Swift.String(checksumCRC32C)))
-        }
-        if let checksumSHA1 = checksumSHA1 {
-            items.add(Header(name: "x-amz-checksum-sha1", value: Swift.String(checksumSHA1)))
-        }
-        if let checksumSHA256 = checksumSHA256 {
-            items.add(Header(name: "x-amz-checksum-sha256", value: Swift.String(checksumSHA256)))
-        }
-        if let expectedBucketOwner = expectedBucketOwner {
-            items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
-        }
-        if let requestPayer = requestPayer {
-            items.add(Header(name: "x-amz-request-payer", value: Swift.String(requestPayer.rawValue)))
-        }
-        if let sseCustomerAlgorithm = sseCustomerAlgorithm {
-            items.add(Header(name: "x-amz-server-side-encryption-customer-algorithm", value: Swift.String(sseCustomerAlgorithm)))
-        }
-        if let sseCustomerKey = sseCustomerKey {
-            items.add(Header(name: "x-amz-server-side-encryption-customer-key", value: Swift.String(sseCustomerKey)))
-        }
-        if let sseCustomerKeyMD5 = sseCustomerKeyMD5 {
-            items.add(Header(name: "x-amz-server-side-encryption-customer-key-MD5", value: Swift.String(sseCustomerKeyMD5)))
-        }
-        return items
-    }
-}
-
-extension CompleteMultipartUploadInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "x-id", value: "CompleteMultipartUpload"))
-            guard let uploadId = uploadId else {
-                let message = "Creating a URL Query Item failed. uploadId is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let uploadIdQueryItem = ClientRuntime.URLQueryItem(name: "uploadId".urlPercentEncoding(), value: Swift.String(uploadId).urlPercentEncoding())
-            items.append(uploadIdQueryItem)
-            return items
-        }
-    }
-}
-
-extension CompleteMultipartUploadInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let key = key else {
-            return nil
-        }
-        return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
-    }
-}
-
-public struct CompleteMultipartUploadInput: Swift.Equatable {
-    /// Name of the bucket to which the multipart upload was initiated. When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html) in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see [What is S3 on Outposts?](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide.
-    /// This member is required.
-    public var bucket: Swift.String?
-    /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the base64-encoded, 32-bit CRC32 checksum of the object. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
-    public var checksumCRC32: Swift.String?
-    /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the base64-encoded, 32-bit CRC32C checksum of the object. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
-    public var checksumCRC32C: Swift.String?
-    /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the base64-encoded, 160-bit SHA-1 digest of the object. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
-    public var checksumSHA1: Swift.String?
-    /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the base64-encoded, 256-bit SHA-256 digest of the object. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
-    public var checksumSHA256: Swift.String?
-    /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
-    public var expectedBucketOwner: Swift.String?
-    /// Object key for which the multipart upload was initiated.
-    /// This member is required.
-    public var key: Swift.String?
-    /// The container for the multipart upload request information.
-    public var multipartUpload: S3ClientTypes.CompletedMultipartUpload?
-    /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests. If either the source or destination Amazon S3 bucket has Requester Pays enabled, the requester will pay for corresponding charges to copy the object. For information about downloading objects from Requester Pays buckets, see [Downloading Objects in Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html) in the Amazon S3 User Guide.
-    public var requestPayer: S3ClientTypes.RequestPayer?
-    /// The server-side encryption (SSE) algorithm used to encrypt the object. This parameter is needed only when the object was created using a checksum algorithm. For more information, see [Protecting data using SSE-C keys](https://docs.aws.amazon.com/AmazonS3/latest/dev/ServerSideEncryptionCustomerKeys.html) in the Amazon S3 User Guide.
-    public var sseCustomerAlgorithm: Swift.String?
-    /// The server-side encryption (SSE) customer managed key. This parameter is needed only when the object was created using a checksum algorithm. For more information, see [Protecting data using SSE-C keys](https://docs.aws.amazon.com/AmazonS3/latest/dev/ServerSideEncryptionCustomerKeys.html) in the Amazon S3 User Guide.
-    public var sseCustomerKey: Swift.String?
-    /// The MD5 server-side encryption (SSE) customer managed key. This parameter is needed only when the object was created using a checksum algorithm. For more information, see [Protecting data using SSE-C keys](https://docs.aws.amazon.com/AmazonS3/latest/dev/ServerSideEncryptionCustomerKeys.html) in the Amazon S3 User Guide.
-    public var sseCustomerKeyMD5: Swift.String?
-    /// ID for the initiated multipart upload.
-    /// This member is required.
-    public var uploadId: Swift.String?
-
-    public init(
-        bucket: Swift.String? = nil,
-        checksumCRC32: Swift.String? = nil,
-        checksumCRC32C: Swift.String? = nil,
-        checksumSHA1: Swift.String? = nil,
-        checksumSHA256: Swift.String? = nil,
-        expectedBucketOwner: Swift.String? = nil,
-        key: Swift.String? = nil,
-        multipartUpload: S3ClientTypes.CompletedMultipartUpload? = nil,
-        requestPayer: S3ClientTypes.RequestPayer? = nil,
-        sseCustomerAlgorithm: Swift.String? = nil,
-        sseCustomerKey: Swift.String? = nil,
-        sseCustomerKeyMD5: Swift.String? = nil,
-        uploadId: Swift.String? = nil
-    )
-    {
-        self.bucket = bucket
-        self.checksumCRC32 = checksumCRC32
-        self.checksumCRC32C = checksumCRC32C
-        self.checksumSHA1 = checksumSHA1
-        self.checksumSHA256 = checksumSHA256
-        self.expectedBucketOwner = expectedBucketOwner
-        self.key = key
-        self.multipartUpload = multipartUpload
-        self.requestPayer = requestPayer
-        self.sseCustomerAlgorithm = sseCustomerAlgorithm
-        self.sseCustomerKey = sseCustomerKey
-        self.sseCustomerKeyMD5 = sseCustomerKeyMD5
-        self.uploadId = uploadId
-    }
-}
-
-struct CompleteMultipartUploadInputBody: Swift.Equatable {
-    let multipartUpload: S3ClientTypes.CompletedMultipartUpload?
-}
-
-extension CompleteMultipartUploadInputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case multipartUpload = "CompleteMultipartUpload"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let multipartUploadDecoded = try containerValues.decodeIfPresent(S3ClientTypes.CompletedMultipartUpload.self, forKey: .multipartUpload)
-        multipartUpload = multipartUploadDecoded
-    }
-}
-
-extension CompleteMultipartUploadOutput: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "CompleteMultipartUploadOutput(bucket: \(Swift.String(describing: bucket)), bucketKeyEnabled: \(Swift.String(describing: bucketKeyEnabled)), checksumCRC32: \(Swift.String(describing: checksumCRC32)), checksumCRC32C: \(Swift.String(describing: checksumCRC32C)), checksumSHA1: \(Swift.String(describing: checksumSHA1)), checksumSHA256: \(Swift.String(describing: checksumSHA256)), eTag: \(Swift.String(describing: eTag)), expiration: \(Swift.String(describing: expiration)), key: \(Swift.String(describing: key)), location: \(Swift.String(describing: location)), requestCharged: \(Swift.String(describing: requestCharged)), serverSideEncryption: \(Swift.String(describing: serverSideEncryption)), versionId: \(Swift.String(describing: versionId)), ssekmsKeyId: \"CONTENT_REDACTED\")"}
-}
-
-extension CompleteMultipartUploadOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let bucketKeyEnabledHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-bucket-key-enabled") {
-            self.bucketKeyEnabled = Swift.Bool(bucketKeyEnabledHeaderValue) ?? false
-        } else {
-            self.bucketKeyEnabled = false
-        }
-        if let expirationHeaderValue = httpResponse.headers.value(for: "x-amz-expiration") {
-            self.expiration = expirationHeaderValue
-        } else {
-            self.expiration = nil
-        }
-        if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
-            self.requestCharged = S3ClientTypes.RequestCharged(rawValue: requestChargedHeaderValue)
-        } else {
-            self.requestCharged = nil
-        }
-        if let ssekmsKeyIdHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-aws-kms-key-id") {
-            self.ssekmsKeyId = ssekmsKeyIdHeaderValue
-        } else {
-            self.ssekmsKeyId = nil
-        }
-        if let serverSideEncryptionHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption") {
-            self.serverSideEncryption = S3ClientTypes.ServerSideEncryption(rawValue: serverSideEncryptionHeaderValue)
-        } else {
-            self.serverSideEncryption = nil
-        }
-        if let versionIdHeaderValue = httpResponse.headers.value(for: "x-amz-version-id") {
-            self.versionId = versionIdHeaderValue
-        } else {
-            self.versionId = nil
-        }
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CompleteMultipartUploadOutputBody = try responseDecoder.decode(responseBody: data)
-            self.bucket = output.bucket
-            self.checksumCRC32 = output.checksumCRC32
-            self.checksumCRC32C = output.checksumCRC32C
-            self.checksumSHA1 = output.checksumSHA1
-            self.checksumSHA256 = output.checksumSHA256
-            self.eTag = output.eTag
-            self.key = output.key
-            self.location = output.location
-        } else {
-            self.bucket = nil
-            self.checksumCRC32 = nil
-            self.checksumCRC32C = nil
-            self.checksumSHA1 = nil
-            self.checksumSHA256 = nil
-            self.eTag = nil
-            self.key = nil
-            self.location = nil
-        }
-    }
-}
-
-public struct CompleteMultipartUploadOutput: Swift.Equatable {
-    /// The name of the bucket that contains the newly created object. Does not return the access point ARN or access point alias if used. When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html) in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see [What is S3 on Outposts?](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide.
-    public var bucket: Swift.String?
-    /// Indicates whether the multipart upload uses an S3 Bucket Key for server-side encryption with Key Management Service (KMS) keys (SSE-KMS).
-    public var bucketKeyEnabled: Swift.Bool
-    /// The base64-encoded, 32-bit CRC32 checksum of the object. This will only be present if it was uploaded with the object. With multipart uploads, this may not be a checksum value of the object. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
-    public var checksumCRC32: Swift.String?
-    /// The base64-encoded, 32-bit CRC32C checksum of the object. This will only be present if it was uploaded with the object. With multipart uploads, this may not be a checksum value of the object. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
-    public var checksumCRC32C: Swift.String?
-    /// The base64-encoded, 160-bit SHA-1 digest of the object. This will only be present if it was uploaded with the object. With multipart uploads, this may not be a checksum value of the object. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
-    public var checksumSHA1: Swift.String?
-    /// The base64-encoded, 256-bit SHA-256 digest of the object. This will only be present if it was uploaded with the object. With multipart uploads, this may not be a checksum value of the object. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
-    public var checksumSHA256: Swift.String?
-    /// Entity tag that identifies the newly created object's data. Objects with different object data will have different entity tags. The entity tag is an opaque string. The entity tag may or may not be an MD5 digest of the object data. If the entity tag is not an MD5 digest of the object data, it will contain one or more nonhexadecimal characters and/or will consist of less than 32 or more than 32 hexadecimal digits. For more information about how the entity tag is calculated, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
-    public var eTag: Swift.String?
-    /// If the object expiration is configured, this will contain the expiration date (expiry-date) and rule ID (rule-id). The value of rule-id is URL-encoded.
-    public var expiration: Swift.String?
-    /// The object key of the newly created object.
-    public var key: Swift.String?
-    /// The URI that identifies the newly created object.
-    public var location: Swift.String?
-    /// If present, indicates that the requester was successfully charged for the request.
-    public var requestCharged: S3ClientTypes.RequestCharged?
-    /// The server-side encryption algorithm used when storing this object in Amazon S3 (for example, AES256, aws:kms).
-    public var serverSideEncryption: S3ClientTypes.ServerSideEncryption?
-    /// If present, specifies the ID of the Key Management Service (KMS) symmetric encryption customer managed key that was used for the object.
-    public var ssekmsKeyId: Swift.String?
-    /// Version ID of the newly created object, in case the bucket has versioning turned on.
-    public var versionId: Swift.String?
-
-    public init(
-        bucket: Swift.String? = nil,
-        bucketKeyEnabled: Swift.Bool = false,
-        checksumCRC32: Swift.String? = nil,
-        checksumCRC32C: Swift.String? = nil,
-        checksumSHA1: Swift.String? = nil,
-        checksumSHA256: Swift.String? = nil,
-        eTag: Swift.String? = nil,
-        expiration: Swift.String? = nil,
-        key: Swift.String? = nil,
-        location: Swift.String? = nil,
-        requestCharged: S3ClientTypes.RequestCharged? = nil,
-        serverSideEncryption: S3ClientTypes.ServerSideEncryption? = nil,
-        ssekmsKeyId: Swift.String? = nil,
-        versionId: Swift.String? = nil
-    )
-    {
-        self.bucket = bucket
-        self.bucketKeyEnabled = bucketKeyEnabled
-        self.checksumCRC32 = checksumCRC32
-        self.checksumCRC32C = checksumCRC32C
-        self.checksumSHA1 = checksumSHA1
-        self.checksumSHA256 = checksumSHA256
-        self.eTag = eTag
-        self.expiration = expiration
-        self.key = key
-        self.location = location
-        self.requestCharged = requestCharged
-        self.serverSideEncryption = serverSideEncryption
-        self.ssekmsKeyId = ssekmsKeyId
-        self.versionId = versionId
-    }
-}
-
-struct CompleteMultipartUploadOutputBody: Swift.Equatable {
-    let location: Swift.String?
-    let bucket: Swift.String?
-    let key: Swift.String?
-    let eTag: Swift.String?
-    let checksumCRC32: Swift.String?
-    let checksumCRC32C: Swift.String?
-    let checksumSHA1: Swift.String?
-    let checksumSHA256: Swift.String?
-}
-
-extension CompleteMultipartUploadOutputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case bucket = "Bucket"
-        case checksumCRC32 = "ChecksumCRC32"
-        case checksumCRC32C = "ChecksumCRC32C"
-        case checksumSHA1 = "ChecksumSHA1"
-        case checksumSHA256 = "ChecksumSHA256"
-        case eTag = "ETag"
-        case key = "Key"
-        case location = "Location"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let locationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .location)
-        location = locationDecoded
-        let bucketDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bucket)
-        bucket = bucketDecoded
-        let keyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .key)
-        key = keyDecoded
-        let eTagDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eTag)
-        eTag = eTagDecoded
-        let checksumCRC32Decoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .checksumCRC32)
-        checksumCRC32 = checksumCRC32Decoded
-        let checksumCRC32CDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .checksumCRC32C)
-        checksumCRC32C = checksumCRC32CDecoded
-        let checksumSHA1Decoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .checksumSHA1)
-        checksumSHA1 = checksumSHA1Decoded
-        let checksumSHA256Decoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .checksumSHA256)
-        checksumSHA256 = checksumSHA256Decoded
-    }
-}
-
-enum CompleteMultipartUploadOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension S3ClientTypes.CompletedMultipartUpload: Swift.Codable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case parts = "Part"
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if encoder.codingPath.isEmpty {
-            try container.encode("http://s3.amazonaws.com/doc/2006-03-01/", forKey: ClientRuntime.Key("xmlns"))
-        }
-        if let parts = parts {
-            if parts.isEmpty {
-                var partsContainer = container.nestedUnkeyedContainer(forKey: ClientRuntime.Key("Part"))
-                try partsContainer.encodeNil()
-            } else {
-                for completedpart0 in parts {
-                    var partsContainer0 = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Part"))
-                    try partsContainer0.encode(completedpart0, forKey: ClientRuntime.Key(""))
-                }
-            }
-        }
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        if containerValues.contains(.parts) {
-            let partsWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CodingKeys.self, forKey: .parts)
-            if partsWrappedContainer != nil {
-                let partsContainer = try containerValues.decodeIfPresent([S3ClientTypes.CompletedPart].self, forKey: .parts)
-                var partsBuffer:[S3ClientTypes.CompletedPart]? = nil
-                if let partsContainer = partsContainer {
-                    partsBuffer = [S3ClientTypes.CompletedPart]()
-                    for structureContainer0 in partsContainer {
-                        partsBuffer?.append(structureContainer0)
-                    }
-                }
-                parts = partsBuffer
-            } else {
-                parts = []
-            }
-        } else {
-            parts = nil
-        }
-    }
-}
-
-extension S3ClientTypes.CompletedMultipartUpload: ClientRuntime.DynamicNodeEncoding {
-    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
-        let xmlNamespaceValues = [
-            "xmlns"
-        ]
-        if let key = key as? ClientRuntime.Key {
-            if xmlNamespaceValues.contains(key.stringValue) {
-                return .attribute
-            }
-        }
-        return .element
-    }
-}
-
-extension S3ClientTypes {
-    /// The container for the completed multipart upload details.
-    public struct CompletedMultipartUpload: Swift.Equatable {
-        /// Array of CompletedPart data types. If you do not supply a valid Part with your request, the service sends back an HTTP 400 response.
-        public var parts: [S3ClientTypes.CompletedPart]?
-
-        public init(
-            parts: [S3ClientTypes.CompletedPart]? = nil
-        )
-        {
-            self.parts = parts
-        }
-    }
-
-}
-
-extension S3ClientTypes.CompletedPart: Swift.Codable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case checksumCRC32 = "ChecksumCRC32"
-        case checksumCRC32C = "ChecksumCRC32C"
-        case checksumSHA1 = "ChecksumSHA1"
-        case checksumSHA256 = "ChecksumSHA256"
-        case eTag = "ETag"
-        case partNumber = "PartNumber"
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if encoder.codingPath.isEmpty {
-            try container.encode("http://s3.amazonaws.com/doc/2006-03-01/", forKey: ClientRuntime.Key("xmlns"))
-        }
-        if let checksumCRC32 = checksumCRC32 {
-            try container.encode(checksumCRC32, forKey: ClientRuntime.Key("ChecksumCRC32"))
-        }
-        if let checksumCRC32C = checksumCRC32C {
-            try container.encode(checksumCRC32C, forKey: ClientRuntime.Key("ChecksumCRC32C"))
-        }
-        if let checksumSHA1 = checksumSHA1 {
-            try container.encode(checksumSHA1, forKey: ClientRuntime.Key("ChecksumSHA1"))
-        }
-        if let checksumSHA256 = checksumSHA256 {
-            try container.encode(checksumSHA256, forKey: ClientRuntime.Key("ChecksumSHA256"))
-        }
-        if let eTag = eTag {
-            try container.encode(eTag, forKey: ClientRuntime.Key("ETag"))
-        }
-        if partNumber != 0 {
-            try container.encode(partNumber, forKey: ClientRuntime.Key("PartNumber"))
-        }
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let eTagDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eTag)
-        eTag = eTagDecoded
-        let checksumCRC32Decoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .checksumCRC32)
-        checksumCRC32 = checksumCRC32Decoded
-        let checksumCRC32CDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .checksumCRC32C)
-        checksumCRC32C = checksumCRC32CDecoded
-        let checksumSHA1Decoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .checksumSHA1)
-        checksumSHA1 = checksumSHA1Decoded
-        let checksumSHA256Decoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .checksumSHA256)
-        checksumSHA256 = checksumSHA256Decoded
-        let partNumberDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .partNumber) ?? 0
-        partNumber = partNumberDecoded
-    }
-}
-
-extension S3ClientTypes.CompletedPart: ClientRuntime.DynamicNodeEncoding {
-    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
-        let xmlNamespaceValues = [
-            "xmlns"
-        ]
-        if let key = key as? ClientRuntime.Key {
-            if xmlNamespaceValues.contains(key.stringValue) {
-                return .attribute
-            }
-        }
-        return .element
-    }
-}
-
-extension S3ClientTypes {
-    /// Details of the parts that were uploaded.
-    public struct CompletedPart: Swift.Equatable {
-        /// The base64-encoded, 32-bit CRC32 checksum of the object. This will only be present if it was uploaded with the object. With multipart uploads, this may not be a checksum value of the object. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
-        public var checksumCRC32: Swift.String?
-        /// The base64-encoded, 32-bit CRC32C checksum of the object. This will only be present if it was uploaded with the object. With multipart uploads, this may not be a checksum value of the object. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
-        public var checksumCRC32C: Swift.String?
-        /// The base64-encoded, 160-bit SHA-1 digest of the object. This will only be present if it was uploaded with the object. With multipart uploads, this may not be a checksum value of the object. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
-        public var checksumSHA1: Swift.String?
-        /// The base64-encoded, 256-bit SHA-256 digest of the object. This will only be present if it was uploaded with the object. With multipart uploads, this may not be a checksum value of the object. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
-        public var checksumSHA256: Swift.String?
-        /// Entity tag returned when the part was uploaded.
-        public var eTag: Swift.String?
-        /// Part number that identifies the part. This is a positive integer between 1 and 10,000.
-        public var partNumber: Swift.Int
-
-        public init(
-            checksumCRC32: Swift.String? = nil,
-            checksumCRC32C: Swift.String? = nil,
-            checksumSHA1: Swift.String? = nil,
-            checksumSHA256: Swift.String? = nil,
-            eTag: Swift.String? = nil,
-            partNumber: Swift.Int = 0
-        )
-        {
-            self.checksumCRC32 = checksumCRC32
-            self.checksumCRC32C = checksumCRC32C
-            self.checksumSHA1 = checksumSHA1
-            self.checksumSHA256 = checksumSHA256
-            self.eTag = eTag
-            self.partNumber = partNumber
-        }
-    }
-
-}
-
-extension S3ClientTypes {
-    public enum CompressionType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
-        case bzip2
-        case gzip
-        case `none`
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [CompressionType] {
-            return [
-                .bzip2,
-                .gzip,
-                .none,
-                .sdkUnknown("")
-            ]
-        }
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-        public var rawValue: Swift.String {
-            switch self {
-            case .bzip2: return "BZIP2"
-            case .gzip: return "GZIP"
-            case .none: return "NONE"
-            case let .sdkUnknown(s): return s
-            }
-        }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = CompressionType(rawValue: rawValue) ?? CompressionType.sdkUnknown(rawValue)
-        }
-    }
-}
-
-extension S3ClientTypes.Condition: Swift.Codable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case httpErrorCodeReturnedEquals = "HttpErrorCodeReturnedEquals"
-        case keyPrefixEquals = "KeyPrefixEquals"
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if encoder.codingPath.isEmpty {
-            try container.encode("http://s3.amazonaws.com/doc/2006-03-01/", forKey: ClientRuntime.Key("xmlns"))
-        }
-        if let httpErrorCodeReturnedEquals = httpErrorCodeReturnedEquals {
-            try container.encode(httpErrorCodeReturnedEquals, forKey: ClientRuntime.Key("HttpErrorCodeReturnedEquals"))
-        }
-        if let keyPrefixEquals = keyPrefixEquals {
-            try container.encode(keyPrefixEquals, forKey: ClientRuntime.Key("KeyPrefixEquals"))
-        }
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let httpErrorCodeReturnedEqualsDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .httpErrorCodeReturnedEquals)
-        httpErrorCodeReturnedEquals = httpErrorCodeReturnedEqualsDecoded
-        let keyPrefixEqualsDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .keyPrefixEquals)
-        keyPrefixEquals = keyPrefixEqualsDecoded
-    }
-}
-
-extension S3ClientTypes.Condition: ClientRuntime.DynamicNodeEncoding {
-    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
-        let xmlNamespaceValues = [
-            "xmlns"
-        ]
-        if let key = key as? ClientRuntime.Key {
-            if xmlNamespaceValues.contains(key.stringValue) {
-                return .attribute
-            }
-        }
-        return .element
-    }
-}
-
-extension S3ClientTypes {
-    /// A container for describing a condition that must be met for the specified redirect to apply. For example, 1. If request is for pages in the /docs folder, redirect to the /documents folder. 2. If request results in HTTP error 4xx, redirect request to another host where you might process the error.
-    public struct Condition: Swift.Equatable {
-        /// The HTTP error code when the redirect is applied. In the event of an error, if the error code equals this value, then the specified redirect is applied. Required when parent element Condition is specified and sibling KeyPrefixEquals is not specified. If both are specified, then both must be true for the redirect to be applied.
-        public var httpErrorCodeReturnedEquals: Swift.String?
-        /// The object key name prefix when the redirect is applied. For example, to redirect requests for ExamplePage.html, the key prefix will be ExamplePage.html. To redirect request for all pages with the prefix docs/, the key prefix will be /docs, which identifies all objects in the docs/ folder. Required when the parent element Condition is specified and sibling HttpErrorCodeReturnedEquals is not specified. If both conditions are specified, both must be true for the redirect to be applied. Replacement must be made for object keys containing special characters (such as carriage returns) when using XML requests. For more information, see [ XML related object key constraints](https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-keys.html#object-key-xml-related-constraints).
-        public var keyPrefixEquals: Swift.String?
-
-        public init(
-            httpErrorCodeReturnedEquals: Swift.String? = nil,
-            keyPrefixEquals: Swift.String? = nil
-        )
-        {
-            self.httpErrorCodeReturnedEquals = httpErrorCodeReturnedEquals
-            self.keyPrefixEquals = keyPrefixEquals
-        }
-    }
-
-}
-
-extension S3ClientTypes.ContinuationEvent: Swift.Codable {
-
-    public func encode(to encoder: Swift.Encoder) throws {
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-extension S3ClientTypes {
-    ///
-    public struct ContinuationEvent: Swift.Equatable {
-
-        public init() { }
-    }
-
-}
-
-extension CopyObjectInput: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "CopyObjectInput(acl: \(Swift.String(describing: acl)), bucket: \(Swift.String(describing: bucket)), bucketKeyEnabled: \(Swift.String(describing: bucketKeyEnabled)), cacheControl: \(Swift.String(describing: cacheControl)), checksumAlgorithm: \(Swift.String(describing: checksumAlgorithm)), contentDisposition: \(Swift.String(describing: contentDisposition)), contentEncoding: \(Swift.String(describing: contentEncoding)), contentLanguage: \(Swift.String(describing: contentLanguage)), contentType: \(Swift.String(describing: contentType)), copySource: \(Swift.String(describing: copySource)), copySourceIfMatch: \(Swift.String(describing: copySourceIfMatch)), copySourceIfModifiedSince: \(Swift.String(describing: copySourceIfModifiedSince)), copySourceIfNoneMatch: \(Swift.String(describing: copySourceIfNoneMatch)), copySourceIfUnmodifiedSince: \(Swift.String(describing: copySourceIfUnmodifiedSince)), copySourceSSECustomerAlgorithm: \(Swift.String(describing: copySourceSSECustomerAlgorithm)), copySourceSSECustomerKeyMD5: \(Swift.String(describing: copySourceSSECustomerKeyMD5)), expectedBucketOwner: \(Swift.String(describing: expectedBucketOwner)), expectedSourceBucketOwner: \(Swift.String(describing: expectedSourceBucketOwner)), expires: \(Swift.String(describing: expires)), grantFullControl: \(Swift.String(describing: grantFullControl)), grantRead: \(Swift.String(describing: grantRead)), grantReadACP: \(Swift.String(describing: grantReadACP)), grantWriteACP: \(Swift.String(describing: grantWriteACP)), key: \(Swift.String(describing: key)), metadata: \(Swift.String(describing: metadata)), metadataDirective: \(Swift.String(describing: metadataDirective)), objectLockLegalHoldStatus: \(Swift.String(describing: objectLockLegalHoldStatus)), objectLockMode: \(Swift.String(describing: objectLockMode)), objectLockRetainUntilDate: \(Swift.String(describing: objectLockRetainUntilDate)), requestPayer: \(Swift.String(describing: requestPayer)), sseCustomerAlgorithm: \(Swift.String(describing: sseCustomerAlgorithm)), sseCustomerKeyMD5: \(Swift.String(describing: sseCustomerKeyMD5)), serverSideEncryption: \(Swift.String(describing: serverSideEncryption)), storageClass: \(Swift.String(describing: storageClass)), tagging: \(Swift.String(describing: tagging)), taggingDirective: \(Swift.String(describing: taggingDirective)), websiteRedirectLocation: \(Swift.String(describing: websiteRedirectLocation)), copySourceSSECustomerKey: \"CONTENT_REDACTED\", sseCustomerKey: \"CONTENT_REDACTED\", ssekmsEncryptionContext: \"CONTENT_REDACTED\", ssekmsKeyId: \"CONTENT_REDACTED\")"}
-}
-
-extension CopyObjectInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
-        if let acl = acl {
-            items.add(Header(name: "x-amz-acl", value: Swift.String(acl.rawValue)))
-        }
-        if let bucketKeyEnabled = bucketKeyEnabled {
-            items.add(Header(name: "x-amz-server-side-encryption-bucket-key-enabled", value: Swift.String(bucketKeyEnabled)))
-        }
-        if let cacheControl = cacheControl {
-            items.add(Header(name: "Cache-Control", value: Swift.String(cacheControl)))
-        }
-        if let checksumAlgorithm = checksumAlgorithm {
-            items.add(Header(name: "x-amz-checksum-algorithm", value: Swift.String(checksumAlgorithm.rawValue)))
-        }
-        if let contentDisposition = contentDisposition {
-            items.add(Header(name: "Content-Disposition", value: Swift.String(contentDisposition)))
-        }
-        if let contentEncoding = contentEncoding {
-            items.add(Header(name: "Content-Encoding", value: Swift.String(contentEncoding)))
-        }
-        if let contentLanguage = contentLanguage {
-            items.add(Header(name: "Content-Language", value: Swift.String(contentLanguage)))
-        }
-        if let contentType = contentType {
-            items.add(Header(name: "Content-Type", value: Swift.String(contentType)))
-        }
-        if let copySource = copySource {
-            items.add(Header(name: "x-amz-copy-source", value: Swift.String(copySource)))
-        }
-        if let copySourceIfMatch = copySourceIfMatch {
-            items.add(Header(name: "x-amz-copy-source-if-match", value: Swift.String(copySourceIfMatch)))
-        }
-        if let copySourceIfModifiedSince = copySourceIfModifiedSince {
-            items.add(Header(name: "x-amz-copy-source-if-modified-since", value: Swift.String(TimestampFormatter(format: .httpDate).string(from: copySourceIfModifiedSince))))
-        }
-        if let copySourceIfNoneMatch = copySourceIfNoneMatch {
-            items.add(Header(name: "x-amz-copy-source-if-none-match", value: Swift.String(copySourceIfNoneMatch)))
-        }
-        if let copySourceIfUnmodifiedSince = copySourceIfUnmodifiedSince {
-            items.add(Header(name: "x-amz-copy-source-if-unmodified-since", value: Swift.String(TimestampFormatter(format: .httpDate).string(from: copySourceIfUnmodifiedSince))))
-        }
-        if let copySourceSSECustomerAlgorithm = copySourceSSECustomerAlgorithm {
-            items.add(Header(name: "x-amz-copy-source-server-side-encryption-customer-algorithm", value: Swift.String(copySourceSSECustomerAlgorithm)))
-        }
-        if let copySourceSSECustomerKey = copySourceSSECustomerKey {
-            items.add(Header(name: "x-amz-copy-source-server-side-encryption-customer-key", value: Swift.String(copySourceSSECustomerKey)))
-        }
-        if let copySourceSSECustomerKeyMD5 = copySourceSSECustomerKeyMD5 {
-            items.add(Header(name: "x-amz-copy-source-server-side-encryption-customer-key-MD5", value: Swift.String(copySourceSSECustomerKeyMD5)))
-        }
-        if let expectedBucketOwner = expectedBucketOwner {
-            items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
-        }
-        if let expectedSourceBucketOwner = expectedSourceBucketOwner {
-            items.add(Header(name: "x-amz-source-expected-bucket-owner", value: Swift.String(expectedSourceBucketOwner)))
-        }
-        if let expires = expires {
-            items.add(Header(name: "Expires", value: Swift.String(TimestampFormatter(format: .httpDate).string(from: expires))))
-        }
-        if let grantFullControl = grantFullControl {
-            items.add(Header(name: "x-amz-grant-full-control", value: Swift.String(grantFullControl)))
-        }
-        if let grantRead = grantRead {
-            items.add(Header(name: "x-amz-grant-read", value: Swift.String(grantRead)))
-        }
-        if let grantReadACP = grantReadACP {
-            items.add(Header(name: "x-amz-grant-read-acp", value: Swift.String(grantReadACP)))
-        }
-        if let grantWriteACP = grantWriteACP {
-            items.add(Header(name: "x-amz-grant-write-acp", value: Swift.String(grantWriteACP)))
-        }
-        if let metadataDirective = metadataDirective {
-            items.add(Header(name: "x-amz-metadata-directive", value: Swift.String(metadataDirective.rawValue)))
-        }
-        if let objectLockLegalHoldStatus = objectLockLegalHoldStatus {
-            items.add(Header(name: "x-amz-object-lock-legal-hold", value: Swift.String(objectLockLegalHoldStatus.rawValue)))
-        }
-        if let objectLockMode = objectLockMode {
-            items.add(Header(name: "x-amz-object-lock-mode", value: Swift.String(objectLockMode.rawValue)))
-        }
-        if let objectLockRetainUntilDate = objectLockRetainUntilDate {
-            items.add(Header(name: "x-amz-object-lock-retain-until-date", value: Swift.String(TimestampFormatter(format: .dateTime).string(from: objectLockRetainUntilDate))))
-        }
-        if let requestPayer = requestPayer {
-            items.add(Header(name: "x-amz-request-payer", value: Swift.String(requestPayer.rawValue)))
-        }
-        if let sseCustomerAlgorithm = sseCustomerAlgorithm {
-            items.add(Header(name: "x-amz-server-side-encryption-customer-algorithm", value: Swift.String(sseCustomerAlgorithm)))
-        }
-        if let sseCustomerKey = sseCustomerKey {
-            items.add(Header(name: "x-amz-server-side-encryption-customer-key", value: Swift.String(sseCustomerKey)))
-        }
-        if let sseCustomerKeyMD5 = sseCustomerKeyMD5 {
-            items.add(Header(name: "x-amz-server-side-encryption-customer-key-MD5", value: Swift.String(sseCustomerKeyMD5)))
-        }
-        if let ssekmsEncryptionContext = ssekmsEncryptionContext {
-            items.add(Header(name: "x-amz-server-side-encryption-context", value: Swift.String(ssekmsEncryptionContext)))
-        }
-        if let ssekmsKeyId = ssekmsKeyId {
-            items.add(Header(name: "x-amz-server-side-encryption-aws-kms-key-id", value: Swift.String(ssekmsKeyId)))
-        }
-        if let serverSideEncryption = serverSideEncryption {
-            items.add(Header(name: "x-amz-server-side-encryption", value: Swift.String(serverSideEncryption.rawValue)))
-        }
-        if let storageClass = storageClass {
-            items.add(Header(name: "x-amz-storage-class", value: Swift.String(storageClass.rawValue)))
-        }
-        if let tagging = tagging {
-            items.add(Header(name: "x-amz-tagging", value: Swift.String(tagging)))
-        }
-        if let taggingDirective = taggingDirective {
-            items.add(Header(name: "x-amz-tagging-directive", value: Swift.String(taggingDirective.rawValue)))
-        }
-        if let websiteRedirectLocation = websiteRedirectLocation {
-            items.add(Header(name: "x-amz-website-redirect-location", value: Swift.String(websiteRedirectLocation)))
-        }
-        if let metadata = metadata {
-            for (prefixHeaderMapKey, prefixHeaderMapValue) in metadata {
-                items.add(Header(name: "x-amz-meta-\(prefixHeaderMapKey)", value: Swift.String(prefixHeaderMapValue)))
-            }
-        }
-        return items
-    }
-}
-
-extension CopyObjectInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "x-id", value: "CopyObject"))
-            return items
-        }
-    }
-}
-
-extension CopyObjectInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let key = key else {
-            return nil
-        }
-        return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
-    }
-}
-
-public struct CopyObjectInput: Swift.Equatable {
-    /// The canned ACL to apply to the object. This action is not supported by Amazon S3 on Outposts.
-    public var acl: S3ClientTypes.ObjectCannedACL?
-    /// The name of the destination bucket. When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html) in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see [What is S3 on Outposts?](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide.
-    /// This member is required.
-    public var bucket: Swift.String?
-    /// Specifies whether Amazon S3 should use an S3 Bucket Key for object encryption with server-side encryption using Key Management Service (KMS) keys (SSE-KMS). Setting this header to true causes Amazon S3 to use an S3 Bucket Key for object encryption with SSE-KMS. Specifying this header with a COPY action doesn’t affect bucket-level settings for S3 Bucket Key.
-    public var bucketKeyEnabled: Swift.Bool?
-    /// Specifies caching behavior along the request/reply chain.
-    public var cacheControl: Swift.String?
-    /// Indicates the algorithm you want Amazon S3 to use to create the checksum for the object. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
-    public var checksumAlgorithm: S3ClientTypes.ChecksumAlgorithm?
-    /// Specifies presentational information for the object.
-    public var contentDisposition: Swift.String?
-    /// Specifies what content encodings have been applied to the object and thus what decoding mechanisms must be applied to obtain the media-type referenced by the Content-Type header field.
-    public var contentEncoding: Swift.String?
-    /// The language the content is in.
-    public var contentLanguage: Swift.String?
-    /// A standard MIME type describing the format of the object data.
-    public var contentType: Swift.String?
-    /// Specifies the source object for the copy operation. You specify the value in one of two formats, depending on whether you want to access the source object through an [access point](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points.html):
-    ///
-    /// * For objects not accessed through an access point, specify the name of the source bucket and the key of the source object, separated by a slash (/). For example, to copy the object reports/january.pdf from the bucket awsexamplebucket, use awsexamplebucket/reports/january.pdf. The value must be URL-encoded.
-    ///
-    /// * For objects accessed through access points, specify the Amazon Resource Name (ARN) of the object as accessed through the access point, in the format arn:aws:s3:::accesspoint//object/. For example, to copy the object reports/january.pdf through access point my-access-point owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3:us-west-2:123456789012:accesspoint/my-access-point/object/reports/january.pdf. The value must be URL encoded. Amazon S3 supports copy operations using access points only when the source and destination buckets are in the same Amazon Web Services Region. Alternatively, for objects accessed through Amazon S3 on Outposts, specify the ARN of the object as accessed in the format arn:aws:s3-outposts:::outpost//object/. For example, to copy the object reports/january.pdf through outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/object/reports/january.pdf. The value must be URL-encoded.
-    ///
-    ///
-    /// To copy a specific version of an object, append ?versionId= to the value (for example, awsexamplebucket/reports/january.pdf?versionId=QUpfdndhfd8438MNFDN93jdnJFkdmqnh893). If you don't specify a version ID, Amazon S3 copies the latest version of the source object.
-    /// This member is required.
-    public var copySource: Swift.String?
-    /// Copies the object if its entity tag (ETag) matches the specified tag.
-    public var copySourceIfMatch: Swift.String?
-    /// Copies the object if it has been modified since the specified time.
-    public var copySourceIfModifiedSince: ClientRuntime.Date?
-    /// Copies the object if its entity tag (ETag) is different than the specified ETag.
-    public var copySourceIfNoneMatch: Swift.String?
-    /// Copies the object if it hasn't been modified since the specified time.
-    public var copySourceIfUnmodifiedSince: ClientRuntime.Date?
-    /// Specifies the algorithm to use when decrypting the source object (for example, AES256).
-    public var copySourceSSECustomerAlgorithm: Swift.String?
-    /// Specifies the customer-provided encryption key for Amazon S3 to use to decrypt the source object. The encryption key provided in this header must be one that was used when the source object was created.
-    public var copySourceSSECustomerKey: Swift.String?
-    /// Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure that the encryption key was transmitted without error.
-    public var copySourceSSECustomerKeyMD5: Swift.String?
-    /// The account ID of the expected destination bucket owner. If the destination bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
-    public var expectedBucketOwner: Swift.String?
-    /// The account ID of the expected source bucket owner. If the source bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
-    public var expectedSourceBucketOwner: Swift.String?
-    /// The date and time at which the object is no longer cacheable.
-    public var expires: ClientRuntime.Date?
-    /// Gives the grantee READ, READ_ACP, and WRITE_ACP permissions on the object. This action is not supported by Amazon S3 on Outposts.
-    public var grantFullControl: Swift.String?
-    /// Allows grantee to read the object data and its metadata. This action is not supported by Amazon S3 on Outposts.
-    public var grantRead: Swift.String?
-    /// Allows grantee to read the object ACL. This action is not supported by Amazon S3 on Outposts.
-    public var grantReadACP: Swift.String?
-    /// Allows grantee to write the ACL for the applicable object. This action is not supported by Amazon S3 on Outposts.
-    public var grantWriteACP: Swift.String?
-    /// The key of the destination object.
-    /// This member is required.
-    public var key: Swift.String?
-    /// A map of metadata to store with the object in S3.
-    public var metadata: [Swift.String:Swift.String]?
-    /// Specifies whether the metadata is copied from the source object or replaced with metadata provided in the request.
-    public var metadataDirective: S3ClientTypes.MetadataDirective?
-    /// Specifies whether you want to apply a legal hold to the copied object.
-    public var objectLockLegalHoldStatus: S3ClientTypes.ObjectLockLegalHoldStatus?
-    /// The Object Lock mode that you want to apply to the copied object.
-    public var objectLockMode: S3ClientTypes.ObjectLockMode?
-    /// The date and time when you want the copied object's Object Lock to expire.
-    public var objectLockRetainUntilDate: ClientRuntime.Date?
-    /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests. If either the source or destination Amazon S3 bucket has Requester Pays enabled, the requester will pay for corresponding charges to copy the object. For information about downloading objects from Requester Pays buckets, see [Downloading Objects in Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html) in the Amazon S3 User Guide.
-    public var requestPayer: S3ClientTypes.RequestPayer?
-    /// The server-side encryption algorithm used when storing this object in Amazon S3 (for example, AES256, aws:kms, aws:kms:dsse).
-    public var serverSideEncryption: S3ClientTypes.ServerSideEncryption?
-    /// Specifies the algorithm to use to when encrypting the object (for example, AES256).
-    public var sseCustomerAlgorithm: Swift.String?
-    /// Specifies the customer-provided encryption key for Amazon S3 to use in encrypting data. This value is used to store the object and then it is discarded; Amazon S3 does not store the encryption key. The key must be appropriate for use with the algorithm specified in the x-amz-server-side-encryption-customer-algorithm header.
-    public var sseCustomerKey: Swift.String?
-    /// Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure that the encryption key was transmitted without error.
-    public var sseCustomerKeyMD5: Swift.String?
-    /// Specifies the Amazon Web Services KMS Encryption Context to use for object encryption. The value of this header is a base64-encoded UTF-8 string holding JSON with the encryption context key-value pairs.
-    public var ssekmsEncryptionContext: Swift.String?
-    /// Specifies the KMS ID (Key ID, Key ARN, or Key Alias) to use for object encryption. All GET and PUT requests for an object protected by KMS will fail if they're not made via SSL or using SigV4. For information about configuring any of the officially supported Amazon Web Services SDKs and Amazon Web Services CLI, see [Specifying the Signature Version in Request Authentication](https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingAWSSDK.html#specify-signature-version) in the Amazon S3 User Guide.
-    public var ssekmsKeyId: Swift.String?
-    /// If the x-amz-storage-class header is not used, the copied object will be stored in the STANDARD Storage Class by default. The STANDARD storage class provides high durability and high availability. Depending on performance needs, you can specify a different Storage Class. Amazon S3 on Outposts only uses the OUTPOSTS Storage Class. For more information, see [Storage Classes](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage-class-intro.html) in the Amazon S3 User Guide.
-    public var storageClass: S3ClientTypes.StorageClass?
-    /// The tag-set for the object destination object this value must be used in conjunction with the TaggingDirective. The tag-set must be encoded as URL Query parameters.
-    public var tagging: Swift.String?
-    /// Specifies whether the object tag-set are copied from the source object or replaced with tag-set provided in the request.
-    public var taggingDirective: S3ClientTypes.TaggingDirective?
-    /// If the bucket is configured as a website, redirects requests for this object to another object in the same bucket or to an external URL. Amazon S3 stores the value of this header in the object metadata. This value is unique to each object and is not copied when using the x-amz-metadata-directive header. Instead, you may opt to provide this header in combination with the directive.
-    public var websiteRedirectLocation: Swift.String?
-
-    public init(
-        acl: S3ClientTypes.ObjectCannedACL? = nil,
-        bucket: Swift.String? = nil,
-        bucketKeyEnabled: Swift.Bool? = nil,
-        cacheControl: Swift.String? = nil,
-        checksumAlgorithm: S3ClientTypes.ChecksumAlgorithm? = nil,
-        contentDisposition: Swift.String? = nil,
-        contentEncoding: Swift.String? = nil,
-        contentLanguage: Swift.String? = nil,
-        contentType: Swift.String? = nil,
-        copySource: Swift.String? = nil,
-        copySourceIfMatch: Swift.String? = nil,
-        copySourceIfModifiedSince: ClientRuntime.Date? = nil,
-        copySourceIfNoneMatch: Swift.String? = nil,
-        copySourceIfUnmodifiedSince: ClientRuntime.Date? = nil,
-        copySourceSSECustomerAlgorithm: Swift.String? = nil,
-        copySourceSSECustomerKey: Swift.String? = nil,
-        copySourceSSECustomerKeyMD5: Swift.String? = nil,
-        expectedBucketOwner: Swift.String? = nil,
-        expectedSourceBucketOwner: Swift.String? = nil,
-        expires: ClientRuntime.Date? = nil,
-        grantFullControl: Swift.String? = nil,
-        grantRead: Swift.String? = nil,
-        grantReadACP: Swift.String? = nil,
-        grantWriteACP: Swift.String? = nil,
-        key: Swift.String? = nil,
-        metadata: [Swift.String:Swift.String]? = nil,
-        metadataDirective: S3ClientTypes.MetadataDirective? = nil,
-        objectLockLegalHoldStatus: S3ClientTypes.ObjectLockLegalHoldStatus? = nil,
-        objectLockMode: S3ClientTypes.ObjectLockMode? = nil,
-        objectLockRetainUntilDate: ClientRuntime.Date? = nil,
-        requestPayer: S3ClientTypes.RequestPayer? = nil,
-        serverSideEncryption: S3ClientTypes.ServerSideEncryption? = nil,
-        sseCustomerAlgorithm: Swift.String? = nil,
-        sseCustomerKey: Swift.String? = nil,
-        sseCustomerKeyMD5: Swift.String? = nil,
-        ssekmsEncryptionContext: Swift.String? = nil,
-        ssekmsKeyId: Swift.String? = nil,
-        storageClass: S3ClientTypes.StorageClass? = nil,
-        tagging: Swift.String? = nil,
-        taggingDirective: S3ClientTypes.TaggingDirective? = nil,
-        websiteRedirectLocation: Swift.String? = nil
-    )
-    {
-        self.acl = acl
-        self.bucket = bucket
-        self.bucketKeyEnabled = bucketKeyEnabled
-        self.cacheControl = cacheControl
-        self.checksumAlgorithm = checksumAlgorithm
-        self.contentDisposition = contentDisposition
-        self.contentEncoding = contentEncoding
-        self.contentLanguage = contentLanguage
-        self.contentType = contentType
-        self.copySource = copySource
-        self.copySourceIfMatch = copySourceIfMatch
-        self.copySourceIfModifiedSince = copySourceIfModifiedSince
-        self.copySourceIfNoneMatch = copySourceIfNoneMatch
-        self.copySourceIfUnmodifiedSince = copySourceIfUnmodifiedSince
-        self.copySourceSSECustomerAlgorithm = copySourceSSECustomerAlgorithm
-        self.copySourceSSECustomerKey = copySourceSSECustomerKey
-        self.copySourceSSECustomerKeyMD5 = copySourceSSECustomerKeyMD5
-        self.expectedBucketOwner = expectedBucketOwner
-        self.expectedSourceBucketOwner = expectedSourceBucketOwner
-        self.expires = expires
-        self.grantFullControl = grantFullControl
-        self.grantRead = grantRead
-        self.grantReadACP = grantReadACP
-        self.grantWriteACP = grantWriteACP
-        self.key = key
-        self.metadata = metadata
-        self.metadataDirective = metadataDirective
-        self.objectLockLegalHoldStatus = objectLockLegalHoldStatus
-        self.objectLockMode = objectLockMode
-        self.objectLockRetainUntilDate = objectLockRetainUntilDate
-        self.requestPayer = requestPayer
-        self.serverSideEncryption = serverSideEncryption
-        self.sseCustomerAlgorithm = sseCustomerAlgorithm
-        self.sseCustomerKey = sseCustomerKey
-        self.sseCustomerKeyMD5 = sseCustomerKeyMD5
-        self.ssekmsEncryptionContext = ssekmsEncryptionContext
-        self.ssekmsKeyId = ssekmsKeyId
-        self.storageClass = storageClass
-        self.tagging = tagging
-        self.taggingDirective = taggingDirective
-        self.websiteRedirectLocation = websiteRedirectLocation
-    }
-}
-
-struct CopyObjectInputBody: Swift.Equatable {
-}
-
-extension CopyObjectInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-extension CopyObjectOutput: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "CopyObjectOutput(bucketKeyEnabled: \(Swift.String(describing: bucketKeyEnabled)), copyObjectResult: \(Swift.String(describing: copyObjectResult)), copySourceVersionId: \(Swift.String(describing: copySourceVersionId)), expiration: \(Swift.String(describing: expiration)), requestCharged: \(Swift.String(describing: requestCharged)), sseCustomerAlgorithm: \(Swift.String(describing: sseCustomerAlgorithm)), sseCustomerKeyMD5: \(Swift.String(describing: sseCustomerKeyMD5)), serverSideEncryption: \(Swift.String(describing: serverSideEncryption)), versionId: \(Swift.String(describing: versionId)), ssekmsEncryptionContext: \"CONTENT_REDACTED\", ssekmsKeyId: \"CONTENT_REDACTED\")"}
-}
-
-extension CopyObjectOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let bucketKeyEnabledHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-bucket-key-enabled") {
-            self.bucketKeyEnabled = Swift.Bool(bucketKeyEnabledHeaderValue) ?? false
-        } else {
-            self.bucketKeyEnabled = false
-        }
-        if let copySourceVersionIdHeaderValue = httpResponse.headers.value(for: "x-amz-copy-source-version-id") {
-            self.copySourceVersionId = copySourceVersionIdHeaderValue
-        } else {
-            self.copySourceVersionId = nil
-        }
-        if let expirationHeaderValue = httpResponse.headers.value(for: "x-amz-expiration") {
-            self.expiration = expirationHeaderValue
-        } else {
-            self.expiration = nil
-        }
-        if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
-            self.requestCharged = S3ClientTypes.RequestCharged(rawValue: requestChargedHeaderValue)
-        } else {
-            self.requestCharged = nil
-        }
-        if let sseCustomerAlgorithmHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-customer-algorithm") {
-            self.sseCustomerAlgorithm = sseCustomerAlgorithmHeaderValue
-        } else {
-            self.sseCustomerAlgorithm = nil
-        }
-        if let sseCustomerKeyMD5HeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-customer-key-MD5") {
-            self.sseCustomerKeyMD5 = sseCustomerKeyMD5HeaderValue
-        } else {
-            self.sseCustomerKeyMD5 = nil
-        }
-        if let ssekmsEncryptionContextHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-context") {
-            self.ssekmsEncryptionContext = ssekmsEncryptionContextHeaderValue
-        } else {
-            self.ssekmsEncryptionContext = nil
-        }
-        if let ssekmsKeyIdHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-aws-kms-key-id") {
-            self.ssekmsKeyId = ssekmsKeyIdHeaderValue
-        } else {
-            self.ssekmsKeyId = nil
-        }
-        if let serverSideEncryptionHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption") {
-            self.serverSideEncryption = S3ClientTypes.ServerSideEncryption(rawValue: serverSideEncryptionHeaderValue)
-        } else {
-            self.serverSideEncryption = nil
-        }
-        if let versionIdHeaderValue = httpResponse.headers.value(for: "x-amz-version-id") {
-            self.versionId = versionIdHeaderValue
-        } else {
-            self.versionId = nil
-        }
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: S3ClientTypes.CopyObjectResult = try responseDecoder.decode(responseBody: data)
-            self.copyObjectResult = output
-        } else {
-            self.copyObjectResult = nil
-        }
-    }
-}
-
-public struct CopyObjectOutput: Swift.Equatable {
-    /// Indicates whether the copied object uses an S3 Bucket Key for server-side encryption with Key Management Service (KMS) keys (SSE-KMS).
-    public var bucketKeyEnabled: Swift.Bool
-    /// Container for all response elements.
-    public var copyObjectResult: S3ClientTypes.CopyObjectResult?
-    /// Version of the copied object in the destination bucket.
-    public var copySourceVersionId: Swift.String?
-    /// If the object expiration is configured, the response includes this header.
-    public var expiration: Swift.String?
-    /// If present, indicates that the requester was successfully charged for the request.
-    public var requestCharged: S3ClientTypes.RequestCharged?
-    /// The server-side encryption algorithm used when storing this object in Amazon S3 (for example, AES256, aws:kms, aws:kms:dsse).
-    public var serverSideEncryption: S3ClientTypes.ServerSideEncryption?
-    /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header confirming the encryption algorithm used.
-    public var sseCustomerAlgorithm: Swift.String?
-    /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header to provide round-trip message integrity verification of the customer-provided encryption key.
-    public var sseCustomerKeyMD5: Swift.String?
-    /// If present, specifies the Amazon Web Services KMS Encryption Context to use for object encryption. The value of this header is a base64-encoded UTF-8 string holding JSON with the encryption context key-value pairs.
-    public var ssekmsEncryptionContext: Swift.String?
-    /// If present, specifies the ID of the Key Management Service (KMS) symmetric encryption customer managed key that was used for the object.
-    public var ssekmsKeyId: Swift.String?
-    /// Version ID of the newly created copy.
-    public var versionId: Swift.String?
-
-    public init(
-        bucketKeyEnabled: Swift.Bool = false,
-        copyObjectResult: S3ClientTypes.CopyObjectResult? = nil,
-        copySourceVersionId: Swift.String? = nil,
-        expiration: Swift.String? = nil,
-        requestCharged: S3ClientTypes.RequestCharged? = nil,
-        serverSideEncryption: S3ClientTypes.ServerSideEncryption? = nil,
-        sseCustomerAlgorithm: Swift.String? = nil,
-        sseCustomerKeyMD5: Swift.String? = nil,
-        ssekmsEncryptionContext: Swift.String? = nil,
-        ssekmsKeyId: Swift.String? = nil,
-        versionId: Swift.String? = nil
-    )
-    {
-        self.bucketKeyEnabled = bucketKeyEnabled
-        self.copyObjectResult = copyObjectResult
-        self.copySourceVersionId = copySourceVersionId
-        self.expiration = expiration
-        self.requestCharged = requestCharged
-        self.serverSideEncryption = serverSideEncryption
-        self.sseCustomerAlgorithm = sseCustomerAlgorithm
-        self.sseCustomerKeyMD5 = sseCustomerKeyMD5
-        self.ssekmsEncryptionContext = ssekmsEncryptionContext
-        self.ssekmsKeyId = ssekmsKeyId
-        self.versionId = versionId
-    }
-}
-
-struct CopyObjectOutputBody: Swift.Equatable {
-    let copyObjectResult: S3ClientTypes.CopyObjectResult?
-}
-
-extension CopyObjectOutputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case copyObjectResult = "CopyObjectResult"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let copyObjectResultDecoded = try containerValues.decodeIfPresent(S3ClientTypes.CopyObjectResult.self, forKey: .copyObjectResult)
-        copyObjectResult = copyObjectResultDecoded
-    }
-}
-
-enum CopyObjectOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
-        switch restXMLError.errorCode {
-            case "ObjectNotInActiveTierError": return try await ObjectNotInActiveTierError(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension S3ClientTypes.CopyObjectResult: Swift.Codable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case checksumCRC32 = "ChecksumCRC32"
-        case checksumCRC32C = "ChecksumCRC32C"
-        case checksumSHA1 = "ChecksumSHA1"
-        case checksumSHA256 = "ChecksumSHA256"
-        case eTag = "ETag"
-        case lastModified = "LastModified"
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if encoder.codingPath.isEmpty {
-            try container.encode("http://s3.amazonaws.com/doc/2006-03-01/", forKey: ClientRuntime.Key("xmlns"))
-        }
-        if let checksumCRC32 = checksumCRC32 {
-            try container.encode(checksumCRC32, forKey: ClientRuntime.Key("ChecksumCRC32"))
-        }
-        if let checksumCRC32C = checksumCRC32C {
-            try container.encode(checksumCRC32C, forKey: ClientRuntime.Key("ChecksumCRC32C"))
-        }
-        if let checksumSHA1 = checksumSHA1 {
-            try container.encode(checksumSHA1, forKey: ClientRuntime.Key("ChecksumSHA1"))
-        }
-        if let checksumSHA256 = checksumSHA256 {
-            try container.encode(checksumSHA256, forKey: ClientRuntime.Key("ChecksumSHA256"))
-        }
-        if let eTag = eTag {
-            try container.encode(eTag, forKey: ClientRuntime.Key("ETag"))
-        }
-        if let lastModified = lastModified {
-            try container.encodeTimestamp(lastModified, format: .dateTime, forKey: ClientRuntime.Key("LastModified"))
-        }
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let eTagDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eTag)
-        eTag = eTagDecoded
-        let lastModifiedDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .lastModified)
-        lastModified = lastModifiedDecoded
-        let checksumCRC32Decoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .checksumCRC32)
-        checksumCRC32 = checksumCRC32Decoded
-        let checksumCRC32CDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .checksumCRC32C)
-        checksumCRC32C = checksumCRC32CDecoded
-        let checksumSHA1Decoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .checksumSHA1)
-        checksumSHA1 = checksumSHA1Decoded
-        let checksumSHA256Decoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .checksumSHA256)
-        checksumSHA256 = checksumSHA256Decoded
-    }
-}
-
-extension S3ClientTypes.CopyObjectResult: ClientRuntime.DynamicNodeEncoding {
-    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
-        let xmlNamespaceValues = [
-            "xmlns"
-        ]
-        if let key = key as? ClientRuntime.Key {
-            if xmlNamespaceValues.contains(key.stringValue) {
-                return .attribute
-            }
-        }
-        return .element
-    }
-}
-
-extension S3ClientTypes {
-    /// Container for all response elements.
-    public struct CopyObjectResult: Swift.Equatable {
-        /// The base64-encoded, 32-bit CRC32 checksum of the object. This will only be present if it was uploaded with the object. With multipart uploads, this may not be a checksum value of the object. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
-        public var checksumCRC32: Swift.String?
-        /// The base64-encoded, 32-bit CRC32C checksum of the object. This will only be present if it was uploaded with the object. With multipart uploads, this may not be a checksum value of the object. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
-        public var checksumCRC32C: Swift.String?
-        /// The base64-encoded, 160-bit SHA-1 digest of the object. This will only be present if it was uploaded with the object. With multipart uploads, this may not be a checksum value of the object. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
-        public var checksumSHA1: Swift.String?
-        /// The base64-encoded, 256-bit SHA-256 digest of the object. This will only be present if it was uploaded with the object. With multipart uploads, this may not be a checksum value of the object. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
-        public var checksumSHA256: Swift.String?
-        /// Returns the ETag of the new object. The ETag reflects only changes to the contents of an object, not its metadata.
-        public var eTag: Swift.String?
-        /// Creation date of the object.
-        public var lastModified: ClientRuntime.Date?
-
-        public init(
-            checksumCRC32: Swift.String? = nil,
-            checksumCRC32C: Swift.String? = nil,
-            checksumSHA1: Swift.String? = nil,
-            checksumSHA256: Swift.String? = nil,
-            eTag: Swift.String? = nil,
-            lastModified: ClientRuntime.Date? = nil
-        )
-        {
-            self.checksumCRC32 = checksumCRC32
-            self.checksumCRC32C = checksumCRC32C
-            self.checksumSHA1 = checksumSHA1
-            self.checksumSHA256 = checksumSHA256
-            self.eTag = eTag
-            self.lastModified = lastModified
-        }
-    }
-
-}
-
-extension S3ClientTypes.CopyPartResult: Swift.Codable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case checksumCRC32 = "ChecksumCRC32"
-        case checksumCRC32C = "ChecksumCRC32C"
-        case checksumSHA1 = "ChecksumSHA1"
-        case checksumSHA256 = "ChecksumSHA256"
-        case eTag = "ETag"
-        case lastModified = "LastModified"
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if encoder.codingPath.isEmpty {
-            try container.encode("http://s3.amazonaws.com/doc/2006-03-01/", forKey: ClientRuntime.Key("xmlns"))
-        }
-        if let checksumCRC32 = checksumCRC32 {
-            try container.encode(checksumCRC32, forKey: ClientRuntime.Key("ChecksumCRC32"))
-        }
-        if let checksumCRC32C = checksumCRC32C {
-            try container.encode(checksumCRC32C, forKey: ClientRuntime.Key("ChecksumCRC32C"))
-        }
-        if let checksumSHA1 = checksumSHA1 {
-            try container.encode(checksumSHA1, forKey: ClientRuntime.Key("ChecksumSHA1"))
-        }
-        if let checksumSHA256 = checksumSHA256 {
-            try container.encode(checksumSHA256, forKey: ClientRuntime.Key("ChecksumSHA256"))
-        }
-        if let eTag = eTag {
-            try container.encode(eTag, forKey: ClientRuntime.Key("ETag"))
-        }
-        if let lastModified = lastModified {
-            try container.encodeTimestamp(lastModified, format: .dateTime, forKey: ClientRuntime.Key("LastModified"))
-        }
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let eTagDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eTag)
-        eTag = eTagDecoded
-        let lastModifiedDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .lastModified)
-        lastModified = lastModifiedDecoded
-        let checksumCRC32Decoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .checksumCRC32)
-        checksumCRC32 = checksumCRC32Decoded
-        let checksumCRC32CDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .checksumCRC32C)
-        checksumCRC32C = checksumCRC32CDecoded
-        let checksumSHA1Decoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .checksumSHA1)
-        checksumSHA1 = checksumSHA1Decoded
-        let checksumSHA256Decoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .checksumSHA256)
-        checksumSHA256 = checksumSHA256Decoded
-    }
-}
-
-extension S3ClientTypes.CopyPartResult: ClientRuntime.DynamicNodeEncoding {
-    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
-        let xmlNamespaceValues = [
-            "xmlns"
-        ]
-        if let key = key as? ClientRuntime.Key {
-            if xmlNamespaceValues.contains(key.stringValue) {
-                return .attribute
-            }
-        }
-        return .element
-    }
-}
-
-extension S3ClientTypes {
-    /// Container for all response elements.
-    public struct CopyPartResult: Swift.Equatable {
-        /// The base64-encoded, 32-bit CRC32 checksum of the object. This will only be present if it was uploaded with the object. With multipart uploads, this may not be a checksum value of the object. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
-        public var checksumCRC32: Swift.String?
-        /// The base64-encoded, 32-bit CRC32C checksum of the object. This will only be present if it was uploaded with the object. With multipart uploads, this may not be a checksum value of the object. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
-        public var checksumCRC32C: Swift.String?
-        /// The base64-encoded, 160-bit SHA-1 digest of the object. This will only be present if it was uploaded with the object. With multipart uploads, this may not be a checksum value of the object. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
-        public var checksumSHA1: Swift.String?
-        /// The base64-encoded, 256-bit SHA-256 digest of the object. This will only be present if it was uploaded with the object. With multipart uploads, this may not be a checksum value of the object. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
-        public var checksumSHA256: Swift.String?
-        /// Entity tag of the object.
-        public var eTag: Swift.String?
-        /// Date and time at which the object was uploaded.
-        public var lastModified: ClientRuntime.Date?
-
-        public init(
-            checksumCRC32: Swift.String? = nil,
-            checksumCRC32C: Swift.String? = nil,
-            checksumSHA1: Swift.String? = nil,
-            checksumSHA256: Swift.String? = nil,
-            eTag: Swift.String? = nil,
-            lastModified: ClientRuntime.Date? = nil
-        )
-        {
-            self.checksumCRC32 = checksumCRC32
-            self.checksumCRC32C = checksumCRC32C
-            self.checksumSHA1 = checksumSHA1
-            self.checksumSHA256 = checksumSHA256
-            self.eTag = eTag
-            self.lastModified = lastModified
-        }
-    }
-
-}
-
-extension S3ClientTypes.CreateBucketConfiguration: Swift.Codable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case locationConstraint = "LocationConstraint"
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if encoder.codingPath.isEmpty {
-            try container.encode("http://s3.amazonaws.com/doc/2006-03-01/", forKey: ClientRuntime.Key("xmlns"))
-        }
-        if let locationConstraint = locationConstraint {
-            try container.encode(locationConstraint, forKey: ClientRuntime.Key("LocationConstraint"))
-        }
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let locationConstraintDecoded = try containerValues.decodeIfPresent(S3ClientTypes.BucketLocationConstraint.self, forKey: .locationConstraint)
-        locationConstraint = locationConstraintDecoded
-    }
-}
-
-extension S3ClientTypes.CreateBucketConfiguration: ClientRuntime.DynamicNodeEncoding {
-    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
-        let xmlNamespaceValues = [
-            "xmlns"
-        ]
-        if let key = key as? ClientRuntime.Key {
-            if xmlNamespaceValues.contains(key.stringValue) {
-                return .attribute
-            }
-        }
-        return .element
-    }
-}
-
-extension S3ClientTypes {
-    /// The configuration information for the bucket.
-    public struct CreateBucketConfiguration: Swift.Equatable {
-        /// Specifies the Region where the bucket will be created. If you don't specify a Region, the bucket is created in the US East (N. Virginia) Region (us-east-1).
-        public var locationConstraint: S3ClientTypes.BucketLocationConstraint?
-
-        public init(
-            locationConstraint: S3ClientTypes.BucketLocationConstraint? = nil
-        )
-        {
-            self.locationConstraint = locationConstraint
-        }
-    }
-
-}
-
-public struct CreateBucketInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "CreateBucketInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<CreateBucketInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<CreateBucketOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        do {
-            let encoder = context.getEncoder()
-            if let createBucketConfiguration = input.operationInput.createBucketConfiguration {
-                let xmlEncoder = encoder as! XMLEncoder
-                let createBucketConfigurationData = try xmlEncoder.encode(createBucketConfiguration, withRootKey: "CreateBucketConfiguration")
-                let createBucketConfigurationBody = ClientRuntime.HttpBody.data(createBucketConfigurationData)
-                input.builder.withBody(createBucketConfigurationBody)
-            } else {
-                if encoder is JSONEncoder {
-                    // Encode an empty body as an empty structure in JSON
-                    let createBucketConfigurationData = "{}".data(using: .utf8)!
-                    let createBucketConfigurationBody = ClientRuntime.HttpBody.data(createBucketConfigurationData)
-                    input.builder.withBody(createBucketConfigurationBody)
-                }
-            }
-        } catch let err {
-            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
-        }
-        return try await next.handle(context: context, input: input)
-    }
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<CreateBucketInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<CreateBucketOutput>
-    public typealias Context = ClientRuntime.HttpContext
-}
-
-extension CreateBucketInput: ClientRuntime.DynamicNodeEncoding {
-    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
-        let xmlNamespaceValues = [
-            "xmlns"
-        ]
-        if let key = key as? ClientRuntime.Key {
-            if xmlNamespaceValues.contains(key.stringValue) {
-                return .attribute
-            }
-        }
-        return .element
-    }
-}
-
-extension CreateBucketInput: Swift.Encodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case createBucketConfiguration = "CreateBucketConfiguration"
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if encoder.codingPath.isEmpty {
-            try container.encode("http://s3.amazonaws.com/doc/2006-03-01/", forKey: ClientRuntime.Key("xmlns"))
-        }
-        if let createBucketConfiguration = createBucketConfiguration {
-            try container.encode(createBucketConfiguration, forKey: ClientRuntime.Key("CreateBucketConfiguration"))
-        }
-    }
-}
-
-extension CreateBucketInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
-        if let acl = acl {
-            items.add(Header(name: "x-amz-acl", value: Swift.String(acl.rawValue)))
-        }
-        if let grantFullControl = grantFullControl {
-            items.add(Header(name: "x-amz-grant-full-control", value: Swift.String(grantFullControl)))
-        }
-        if let grantRead = grantRead {
-            items.add(Header(name: "x-amz-grant-read", value: Swift.String(grantRead)))
-        }
-        if let grantReadACP = grantReadACP {
-            items.add(Header(name: "x-amz-grant-read-acp", value: Swift.String(grantReadACP)))
-        }
-        if let grantWrite = grantWrite {
-            items.add(Header(name: "x-amz-grant-write", value: Swift.String(grantWrite)))
-        }
-        if let grantWriteACP = grantWriteACP {
-            items.add(Header(name: "x-amz-grant-write-acp", value: Swift.String(grantWriteACP)))
-        }
-        if let objectLockEnabledForBucket = objectLockEnabledForBucket {
-            items.add(Header(name: "x-amz-bucket-object-lock-enabled", value: Swift.String(objectLockEnabledForBucket)))
-        }
-        if let objectOwnership = objectOwnership {
-            items.add(Header(name: "x-amz-object-ownership", value: Swift.String(objectOwnership.rawValue)))
-        }
-        return items
-    }
-}
-
-extension CreateBucketInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
-    }
-}
-
-public struct CreateBucketInput: Swift.Equatable {
-    /// The canned ACL to apply to the bucket.
-    public var acl: S3ClientTypes.BucketCannedACL?
-    /// The name of the bucket to create.
-    /// This member is required.
-    public var bucket: Swift.String?
-    /// The configuration information for the bucket.
-    public var createBucketConfiguration: S3ClientTypes.CreateBucketConfiguration?
-    /// Allows grantee the read, write, read ACP, and write ACP permissions on the bucket.
-    public var grantFullControl: Swift.String?
-    /// Allows grantee to list the objects in the bucket.
-    public var grantRead: Swift.String?
-    /// Allows grantee to read the bucket ACL.
-    public var grantReadACP: Swift.String?
-    /// Allows grantee to create new objects in the bucket. For the bucket and object owners of existing objects, also allows deletions and overwrites of those objects.
-    public var grantWrite: Swift.String?
-    /// Allows grantee to write the ACL for the applicable bucket.
-    public var grantWriteACP: Swift.String?
-    /// Specifies whether you want S3 Object Lock to be enabled for the new bucket.
-    public var objectLockEnabledForBucket: Swift.Bool?
-    /// The container element for object ownership for a bucket's ownership controls. BucketOwnerPreferred - Objects uploaded to the bucket change ownership to the bucket owner if the objects are uploaded with the bucket-owner-full-control canned ACL. ObjectWriter - The uploading account will own the object if the object is uploaded with the bucket-owner-full-control canned ACL. BucketOwnerEnforced - Access control lists (ACLs) are disabled and no longer affect permissions. The bucket owner automatically owns and has full control over every object in the bucket. The bucket only accepts PUT requests that don't specify an ACL or bucket owner full control ACLs, such as the bucket-owner-full-control canned ACL or an equivalent form of this ACL expressed in the XML format.
-    public var objectOwnership: S3ClientTypes.ObjectOwnership?
-
-    public init(
-        acl: S3ClientTypes.BucketCannedACL? = nil,
-        bucket: Swift.String? = nil,
-        createBucketConfiguration: S3ClientTypes.CreateBucketConfiguration? = nil,
-        grantFullControl: Swift.String? = nil,
-        grantRead: Swift.String? = nil,
-        grantReadACP: Swift.String? = nil,
-        grantWrite: Swift.String? = nil,
-        grantWriteACP: Swift.String? = nil,
-        objectLockEnabledForBucket: Swift.Bool? = nil,
-        objectOwnership: S3ClientTypes.ObjectOwnership? = nil
-    )
-    {
-        self.acl = acl
-        self.bucket = bucket
-        self.createBucketConfiguration = createBucketConfiguration
-        self.grantFullControl = grantFullControl
-        self.grantRead = grantRead
-        self.grantReadACP = grantReadACP
-        self.grantWrite = grantWrite
-        self.grantWriteACP = grantWriteACP
-        self.objectLockEnabledForBucket = objectLockEnabledForBucket
-        self.objectOwnership = objectOwnership
-    }
-}
-
-struct CreateBucketInputBody: Swift.Equatable {
-    let createBucketConfiguration: S3ClientTypes.CreateBucketConfiguration?
-}
-
-extension CreateBucketInputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case createBucketConfiguration = "CreateBucketConfiguration"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let createBucketConfigurationDecoded = try containerValues.decodeIfPresent(S3ClientTypes.CreateBucketConfiguration.self, forKey: .createBucketConfiguration)
-        createBucketConfiguration = createBucketConfigurationDecoded
-    }
-}
-
-extension CreateBucketOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let locationHeaderValue = httpResponse.headers.value(for: "Location") {
-            self.location = locationHeaderValue
-        } else {
-            self.location = nil
-        }
-    }
-}
-
-public struct CreateBucketOutput: Swift.Equatable {
-    /// A forward slash followed by the name of the bucket.
-    public var location: Swift.String?
-
-    public init(
-        location: Swift.String? = nil
-    )
-    {
-        self.location = location
-    }
-}
-
-enum CreateBucketOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
-        switch restXMLError.errorCode {
-            case "BucketAlreadyExists": return try await BucketAlreadyExists(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2)
-            case "BucketAlreadyOwnedByYou": return try await BucketAlreadyOwnedByYou(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension CreateMultipartUploadInput: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "CreateMultipartUploadInput(acl: \(Swift.String(describing: acl)), bucket: \(Swift.String(describing: bucket)), bucketKeyEnabled: \(Swift.String(describing: bucketKeyEnabled)), cacheControl: \(Swift.String(describing: cacheControl)), checksumAlgorithm: \(Swift.String(describing: checksumAlgorithm)), contentDisposition: \(Swift.String(describing: contentDisposition)), contentEncoding: \(Swift.String(describing: contentEncoding)), contentLanguage: \(Swift.String(describing: contentLanguage)), contentType: \(Swift.String(describing: contentType)), expectedBucketOwner: \(Swift.String(describing: expectedBucketOwner)), expires: \(Swift.String(describing: expires)), grantFullControl: \(Swift.String(describing: grantFullControl)), grantRead: \(Swift.String(describing: grantRead)), grantReadACP: \(Swift.String(describing: grantReadACP)), grantWriteACP: \(Swift.String(describing: grantWriteACP)), key: \(Swift.String(describing: key)), metadata: \(Swift.String(describing: metadata)), objectLockLegalHoldStatus: \(Swift.String(describing: objectLockLegalHoldStatus)), objectLockMode: \(Swift.String(describing: objectLockMode)), objectLockRetainUntilDate: \(Swift.String(describing: objectLockRetainUntilDate)), requestPayer: \(Swift.String(describing: requestPayer)), sseCustomerAlgorithm: \(Swift.String(describing: sseCustomerAlgorithm)), sseCustomerKeyMD5: \(Swift.String(describing: sseCustomerKeyMD5)), serverSideEncryption: \(Swift.String(describing: serverSideEncryption)), storageClass: \(Swift.String(describing: storageClass)), tagging: \(Swift.String(describing: tagging)), websiteRedirectLocation: \(Swift.String(describing: websiteRedirectLocation)), sseCustomerKey: \"CONTENT_REDACTED\", ssekmsEncryptionContext: \"CONTENT_REDACTED\", ssekmsKeyId: \"CONTENT_REDACTED\")"}
-}
-
-extension CreateMultipartUploadInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
-        if let acl = acl {
-            items.add(Header(name: "x-amz-acl", value: Swift.String(acl.rawValue)))
-        }
-        if let bucketKeyEnabled = bucketKeyEnabled {
-            items.add(Header(name: "x-amz-server-side-encryption-bucket-key-enabled", value: Swift.String(bucketKeyEnabled)))
-        }
-        if let cacheControl = cacheControl {
-            items.add(Header(name: "Cache-Control", value: Swift.String(cacheControl)))
-        }
-        if let checksumAlgorithm = checksumAlgorithm {
-            items.add(Header(name: "x-amz-checksum-algorithm", value: Swift.String(checksumAlgorithm.rawValue)))
-        }
-        if let contentDisposition = contentDisposition {
-            items.add(Header(name: "Content-Disposition", value: Swift.String(contentDisposition)))
-        }
-        if let contentEncoding = contentEncoding {
-            items.add(Header(name: "Content-Encoding", value: Swift.String(contentEncoding)))
-        }
-        if let contentLanguage = contentLanguage {
-            items.add(Header(name: "Content-Language", value: Swift.String(contentLanguage)))
-        }
-        if let contentType = contentType {
-            items.add(Header(name: "Content-Type", value: Swift.String(contentType)))
-        }
-        if let expectedBucketOwner = expectedBucketOwner {
-            items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
-        }
-        if let expires = expires {
-            items.add(Header(name: "Expires", value: Swift.String(TimestampFormatter(format: .httpDate).string(from: expires))))
-        }
-        if let grantFullControl = grantFullControl {
-            items.add(Header(name: "x-amz-grant-full-control", value: Swift.String(grantFullControl)))
-        }
-        if let grantRead = grantRead {
-            items.add(Header(name: "x-amz-grant-read", value: Swift.String(grantRead)))
-        }
-        if let grantReadACP = grantReadACP {
-            items.add(Header(name: "x-amz-grant-read-acp", value: Swift.String(grantReadACP)))
-        }
-        if let grantWriteACP = grantWriteACP {
-            items.add(Header(name: "x-amz-grant-write-acp", value: Swift.String(grantWriteACP)))
-        }
-        if let objectLockLegalHoldStatus = objectLockLegalHoldStatus {
-            items.add(Header(name: "x-amz-object-lock-legal-hold", value: Swift.String(objectLockLegalHoldStatus.rawValue)))
-        }
-        if let objectLockMode = objectLockMode {
-            items.add(Header(name: "x-amz-object-lock-mode", value: Swift.String(objectLockMode.rawValue)))
-        }
-        if let objectLockRetainUntilDate = objectLockRetainUntilDate {
-            items.add(Header(name: "x-amz-object-lock-retain-until-date", value: Swift.String(TimestampFormatter(format: .dateTime).string(from: objectLockRetainUntilDate))))
-        }
-        if let requestPayer = requestPayer {
-            items.add(Header(name: "x-amz-request-payer", value: Swift.String(requestPayer.rawValue)))
-        }
-        if let sseCustomerAlgorithm = sseCustomerAlgorithm {
-            items.add(Header(name: "x-amz-server-side-encryption-customer-algorithm", value: Swift.String(sseCustomerAlgorithm)))
-        }
-        if let sseCustomerKey = sseCustomerKey {
-            items.add(Header(name: "x-amz-server-side-encryption-customer-key", value: Swift.String(sseCustomerKey)))
-        }
-        if let sseCustomerKeyMD5 = sseCustomerKeyMD5 {
-            items.add(Header(name: "x-amz-server-side-encryption-customer-key-MD5", value: Swift.String(sseCustomerKeyMD5)))
-        }
-        if let ssekmsEncryptionContext = ssekmsEncryptionContext {
-            items.add(Header(name: "x-amz-server-side-encryption-context", value: Swift.String(ssekmsEncryptionContext)))
-        }
-        if let ssekmsKeyId = ssekmsKeyId {
-            items.add(Header(name: "x-amz-server-side-encryption-aws-kms-key-id", value: Swift.String(ssekmsKeyId)))
-        }
-        if let serverSideEncryption = serverSideEncryption {
-            items.add(Header(name: "x-amz-server-side-encryption", value: Swift.String(serverSideEncryption.rawValue)))
-        }
-        if let storageClass = storageClass {
-            items.add(Header(name: "x-amz-storage-class", value: Swift.String(storageClass.rawValue)))
-        }
-        if let tagging = tagging {
-            items.add(Header(name: "x-amz-tagging", value: Swift.String(tagging)))
-        }
-        if let websiteRedirectLocation = websiteRedirectLocation {
-            items.add(Header(name: "x-amz-website-redirect-location", value: Swift.String(websiteRedirectLocation)))
-        }
-        if let metadata = metadata {
-            for (prefixHeaderMapKey, prefixHeaderMapValue) in metadata {
-                items.add(Header(name: "x-amz-meta-\(prefixHeaderMapKey)", value: Swift.String(prefixHeaderMapValue)))
-            }
-        }
-        return items
-    }
-}
-
-extension CreateMultipartUploadInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "uploads", value: nil))
-            items.append(ClientRuntime.URLQueryItem(name: "x-id", value: "CreateMultipartUpload"))
-            return items
-        }
-    }
-}
-
-extension CreateMultipartUploadInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let key = key else {
-            return nil
-        }
-        return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
-    }
-}
-
-public struct CreateMultipartUploadInput: Swift.Equatable {
-    /// The canned ACL to apply to the object. This action is not supported by Amazon S3 on Outposts.
-    public var acl: S3ClientTypes.ObjectCannedACL?
-    /// The name of the bucket to which to initiate the upload When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html) in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see [What is S3 on Outposts?](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide.
-    /// This member is required.
-    public var bucket: Swift.String?
-    /// Specifies whether Amazon S3 should use an S3 Bucket Key for object encryption with server-side encryption using Key Management Service (KMS) keys (SSE-KMS). Setting this header to true causes Amazon S3 to use an S3 Bucket Key for object encryption with SSE-KMS. Specifying this header with an object action doesn’t affect bucket-level settings for S3 Bucket Key.
-    public var bucketKeyEnabled: Swift.Bool?
-    /// Specifies caching behavior along the request/reply chain.
-    public var cacheControl: Swift.String?
-    /// Indicates the algorithm you want Amazon S3 to use to create the checksum for the object. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
-    public var checksumAlgorithm: S3ClientTypes.ChecksumAlgorithm?
-    /// Specifies presentational information for the object.
-    public var contentDisposition: Swift.String?
-    /// Specifies what content encodings have been applied to the object and thus what decoding mechanisms must be applied to obtain the media-type referenced by the Content-Type header field.
-    public var contentEncoding: Swift.String?
-    /// The language the content is in.
-    public var contentLanguage: Swift.String?
-    /// A standard MIME type describing the format of the object data.
-    public var contentType: Swift.String?
-    /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
-    public var expectedBucketOwner: Swift.String?
-    /// The date and time at which the object is no longer cacheable.
-    public var expires: ClientRuntime.Date?
-    /// Gives the grantee READ, READ_ACP, and WRITE_ACP permissions on the object. This action is not supported by Amazon S3 on Outposts.
-    public var grantFullControl: Swift.String?
-    /// Allows grantee to read the object data and its metadata. This action is not supported by Amazon S3 on Outposts.
-    public var grantRead: Swift.String?
-    /// Allows grantee to read the object ACL. This action is not supported by Amazon S3 on Outposts.
-    public var grantReadACP: Swift.String?
-    /// Allows grantee to write the ACL for the applicable object. This action is not supported by Amazon S3 on Outposts.
-    public var grantWriteACP: Swift.String?
-    /// Object key for which the multipart upload is to be initiated.
-    /// This member is required.
-    public var key: Swift.String?
-    /// A map of metadata to store with the object in S3.
-    public var metadata: [Swift.String:Swift.String]?
-    /// Specifies whether you want to apply a legal hold to the uploaded object.
-    public var objectLockLegalHoldStatus: S3ClientTypes.ObjectLockLegalHoldStatus?
-    /// Specifies the Object Lock mode that you want to apply to the uploaded object.
-    public var objectLockMode: S3ClientTypes.ObjectLockMode?
-    /// Specifies the date and time when you want the Object Lock to expire.
-    public var objectLockRetainUntilDate: ClientRuntime.Date?
-    /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests. If either the source or destination Amazon S3 bucket has Requester Pays enabled, the requester will pay for corresponding charges to copy the object. For information about downloading objects from Requester Pays buckets, see [Downloading Objects in Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html) in the Amazon S3 User Guide.
-    public var requestPayer: S3ClientTypes.RequestPayer?
-    /// The server-side encryption algorithm used when storing this object in Amazon S3 (for example, AES256, aws:kms).
-    public var serverSideEncryption: S3ClientTypes.ServerSideEncryption?
-    /// Specifies the algorithm to use to when encrypting the object (for example, AES256).
-    public var sseCustomerAlgorithm: Swift.String?
-    /// Specifies the customer-provided encryption key for Amazon S3 to use in encrypting data. This value is used to store the object and then it is discarded; Amazon S3 does not store the encryption key. The key must be appropriate for use with the algorithm specified in the x-amz-server-side-encryption-customer-algorithm header.
-    public var sseCustomerKey: Swift.String?
-    /// Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure that the encryption key was transmitted without error.
-    public var sseCustomerKeyMD5: Swift.String?
-    /// Specifies the Amazon Web Services KMS Encryption Context to use for object encryption. The value of this header is a base64-encoded UTF-8 string holding JSON with the encryption context key-value pairs.
-    public var ssekmsEncryptionContext: Swift.String?
-    /// Specifies the ID (Key ID, Key ARN, or Key Alias) of the symmetric encryption customer managed key to use for object encryption. All GET and PUT requests for an object protected by KMS will fail if they're not made via SSL or using SigV4. For information about configuring any of the officially supported Amazon Web Services SDKs and Amazon Web Services CLI, see [Specifying the Signature Version in Request Authentication](https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingAWSSDK.html#specify-signature-version) in the Amazon S3 User Guide.
-    public var ssekmsKeyId: Swift.String?
-    /// By default, Amazon S3 uses the STANDARD Storage Class to store newly created objects. The STANDARD storage class provides high durability and high availability. Depending on performance needs, you can specify a different Storage Class. Amazon S3 on Outposts only uses the OUTPOSTS Storage Class. For more information, see [Storage Classes](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage-class-intro.html) in the Amazon S3 User Guide.
-    public var storageClass: S3ClientTypes.StorageClass?
-    /// The tag-set for the object. The tag-set must be encoded as URL Query parameters.
-    public var tagging: Swift.String?
-    /// If the bucket is configured as a website, redirects requests for this object to another object in the same bucket or to an external URL. Amazon S3 stores the value of this header in the object metadata.
-    public var websiteRedirectLocation: Swift.String?
-
-    public init(
-        acl: S3ClientTypes.ObjectCannedACL? = nil,
-        bucket: Swift.String? = nil,
-        bucketKeyEnabled: Swift.Bool? = nil,
-        cacheControl: Swift.String? = nil,
-        checksumAlgorithm: S3ClientTypes.ChecksumAlgorithm? = nil,
-        contentDisposition: Swift.String? = nil,
-        contentEncoding: Swift.String? = nil,
-        contentLanguage: Swift.String? = nil,
-        contentType: Swift.String? = nil,
-        expectedBucketOwner: Swift.String? = nil,
-        expires: ClientRuntime.Date? = nil,
-        grantFullControl: Swift.String? = nil,
-        grantRead: Swift.String? = nil,
-        grantReadACP: Swift.String? = nil,
-        grantWriteACP: Swift.String? = nil,
-        key: Swift.String? = nil,
-        metadata: [Swift.String:Swift.String]? = nil,
-        objectLockLegalHoldStatus: S3ClientTypes.ObjectLockLegalHoldStatus? = nil,
-        objectLockMode: S3ClientTypes.ObjectLockMode? = nil,
-        objectLockRetainUntilDate: ClientRuntime.Date? = nil,
-        requestPayer: S3ClientTypes.RequestPayer? = nil,
-        serverSideEncryption: S3ClientTypes.ServerSideEncryption? = nil,
-        sseCustomerAlgorithm: Swift.String? = nil,
-        sseCustomerKey: Swift.String? = nil,
-        sseCustomerKeyMD5: Swift.String? = nil,
-        ssekmsEncryptionContext: Swift.String? = nil,
-        ssekmsKeyId: Swift.String? = nil,
-        storageClass: S3ClientTypes.StorageClass? = nil,
-        tagging: Swift.String? = nil,
-        websiteRedirectLocation: Swift.String? = nil
-    )
-    {
-        self.acl = acl
-        self.bucket = bucket
-        self.bucketKeyEnabled = bucketKeyEnabled
-        self.cacheControl = cacheControl
-        self.checksumAlgorithm = checksumAlgorithm
-        self.contentDisposition = contentDisposition
-        self.contentEncoding = contentEncoding
-        self.contentLanguage = contentLanguage
-        self.contentType = contentType
-        self.expectedBucketOwner = expectedBucketOwner
-        self.expires = expires
-        self.grantFullControl = grantFullControl
-        self.grantRead = grantRead
-        self.grantReadACP = grantReadACP
-        self.grantWriteACP = grantWriteACP
-        self.key = key
-        self.metadata = metadata
-        self.objectLockLegalHoldStatus = objectLockLegalHoldStatus
-        self.objectLockMode = objectLockMode
-        self.objectLockRetainUntilDate = objectLockRetainUntilDate
-        self.requestPayer = requestPayer
-        self.serverSideEncryption = serverSideEncryption
-        self.sseCustomerAlgorithm = sseCustomerAlgorithm
-        self.sseCustomerKey = sseCustomerKey
-        self.sseCustomerKeyMD5 = sseCustomerKeyMD5
-        self.ssekmsEncryptionContext = ssekmsEncryptionContext
-        self.ssekmsKeyId = ssekmsKeyId
-        self.storageClass = storageClass
-        self.tagging = tagging
-        self.websiteRedirectLocation = websiteRedirectLocation
-    }
-}
-
-struct CreateMultipartUploadInputBody: Swift.Equatable {
-}
-
-extension CreateMultipartUploadInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-extension CreateMultipartUploadOutput: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "CreateMultipartUploadOutput(abortDate: \(Swift.String(describing: abortDate)), abortRuleId: \(Swift.String(describing: abortRuleId)), bucket: \(Swift.String(describing: bucket)), bucketKeyEnabled: \(Swift.String(describing: bucketKeyEnabled)), checksumAlgorithm: \(Swift.String(describing: checksumAlgorithm)), key: \(Swift.String(describing: key)), requestCharged: \(Swift.String(describing: requestCharged)), sseCustomerAlgorithm: \(Swift.String(describing: sseCustomerAlgorithm)), sseCustomerKeyMD5: \(Swift.String(describing: sseCustomerKeyMD5)), serverSideEncryption: \(Swift.String(describing: serverSideEncryption)), uploadId: \(Swift.String(describing: uploadId)), ssekmsEncryptionContext: \"CONTENT_REDACTED\", ssekmsKeyId: \"CONTENT_REDACTED\")"}
-}
-
-extension CreateMultipartUploadOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let abortDateHeaderValue = httpResponse.headers.value(for: "x-amz-abort-date") {
-            self.abortDate = TimestampFormatter(format: .httpDate).date(from: abortDateHeaderValue)
-        } else {
-            self.abortDate = nil
-        }
-        if let abortRuleIdHeaderValue = httpResponse.headers.value(for: "x-amz-abort-rule-id") {
-            self.abortRuleId = abortRuleIdHeaderValue
-        } else {
-            self.abortRuleId = nil
-        }
-        if let bucketKeyEnabledHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-bucket-key-enabled") {
-            self.bucketKeyEnabled = Swift.Bool(bucketKeyEnabledHeaderValue) ?? false
-        } else {
-            self.bucketKeyEnabled = false
-        }
-        if let checksumAlgorithmHeaderValue = httpResponse.headers.value(for: "x-amz-checksum-algorithm") {
-            self.checksumAlgorithm = S3ClientTypes.ChecksumAlgorithm(rawValue: checksumAlgorithmHeaderValue)
-        } else {
-            self.checksumAlgorithm = nil
-        }
-        if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
-            self.requestCharged = S3ClientTypes.RequestCharged(rawValue: requestChargedHeaderValue)
-        } else {
-            self.requestCharged = nil
-        }
-        if let sseCustomerAlgorithmHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-customer-algorithm") {
-            self.sseCustomerAlgorithm = sseCustomerAlgorithmHeaderValue
-        } else {
-            self.sseCustomerAlgorithm = nil
-        }
-        if let sseCustomerKeyMD5HeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-customer-key-MD5") {
-            self.sseCustomerKeyMD5 = sseCustomerKeyMD5HeaderValue
-        } else {
-            self.sseCustomerKeyMD5 = nil
-        }
-        if let ssekmsEncryptionContextHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-context") {
-            self.ssekmsEncryptionContext = ssekmsEncryptionContextHeaderValue
-        } else {
-            self.ssekmsEncryptionContext = nil
-        }
-        if let ssekmsKeyIdHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-aws-kms-key-id") {
-            self.ssekmsKeyId = ssekmsKeyIdHeaderValue
-        } else {
-            self.ssekmsKeyId = nil
-        }
-        if let serverSideEncryptionHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption") {
-            self.serverSideEncryption = S3ClientTypes.ServerSideEncryption(rawValue: serverSideEncryptionHeaderValue)
-        } else {
-            self.serverSideEncryption = nil
-        }
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateMultipartUploadOutputBody = try responseDecoder.decode(responseBody: data)
-            self.bucket = output.bucket
-            self.key = output.key
-            self.uploadId = output.uploadId
-        } else {
-            self.bucket = nil
-            self.key = nil
-            self.uploadId = nil
-        }
-    }
-}
-
-public struct CreateMultipartUploadOutput: Swift.Equatable {
-    /// If the bucket has a lifecycle rule configured with an action to abort incomplete multipart uploads and the prefix in the lifecycle rule matches the object name in the request, the response includes this header. The header indicates when the initiated multipart upload becomes eligible for an abort operation. For more information, see [ Aborting Incomplete Multipart Uploads Using a Bucket Lifecycle Configuration](https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuoverview.html#mpu-abort-incomplete-mpu-lifecycle-config). The response also includes the x-amz-abort-rule-id header that provides the ID of the lifecycle configuration rule that defines this action.
-    public var abortDate: ClientRuntime.Date?
-    /// This header is returned along with the x-amz-abort-date header. It identifies the applicable lifecycle configuration rule that defines the action to abort incomplete multipart uploads.
-    public var abortRuleId: Swift.String?
-    /// The name of the bucket to which the multipart upload was initiated. Does not return the access point ARN or access point alias if used. When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html) in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see [What is S3 on Outposts?](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide.
-    public var bucket: Swift.String?
-    /// Indicates whether the multipart upload uses an S3 Bucket Key for server-side encryption with Key Management Service (KMS) keys (SSE-KMS).
-    public var bucketKeyEnabled: Swift.Bool
-    /// The algorithm that was used to create a checksum of the object.
-    public var checksumAlgorithm: S3ClientTypes.ChecksumAlgorithm?
-    /// Object key for which the multipart upload was initiated.
-    public var key: Swift.String?
-    /// If present, indicates that the requester was successfully charged for the request.
-    public var requestCharged: S3ClientTypes.RequestCharged?
-    /// The server-side encryption algorithm used when storing this object in Amazon S3 (for example, AES256, aws:kms).
-    public var serverSideEncryption: S3ClientTypes.ServerSideEncryption?
-    /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header confirming the encryption algorithm used.
-    public var sseCustomerAlgorithm: Swift.String?
-    /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header to provide round-trip message integrity verification of the customer-provided encryption key.
-    public var sseCustomerKeyMD5: Swift.String?
-    /// If present, specifies the Amazon Web Services KMS Encryption Context to use for object encryption. The value of this header is a base64-encoded UTF-8 string holding JSON with the encryption context key-value pairs.
-    public var ssekmsEncryptionContext: Swift.String?
-    /// If present, specifies the ID of the Key Management Service (KMS) symmetric encryption customer managed key that was used for the object.
-    public var ssekmsKeyId: Swift.String?
-    /// ID for the initiated multipart upload.
-    public var uploadId: Swift.String?
-
-    public init(
-        abortDate: ClientRuntime.Date? = nil,
-        abortRuleId: Swift.String? = nil,
-        bucket: Swift.String? = nil,
-        bucketKeyEnabled: Swift.Bool = false,
-        checksumAlgorithm: S3ClientTypes.ChecksumAlgorithm? = nil,
-        key: Swift.String? = nil,
-        requestCharged: S3ClientTypes.RequestCharged? = nil,
-        serverSideEncryption: S3ClientTypes.ServerSideEncryption? = nil,
-        sseCustomerAlgorithm: Swift.String? = nil,
-        sseCustomerKeyMD5: Swift.String? = nil,
-        ssekmsEncryptionContext: Swift.String? = nil,
-        ssekmsKeyId: Swift.String? = nil,
-        uploadId: Swift.String? = nil
-    )
-    {
-        self.abortDate = abortDate
-        self.abortRuleId = abortRuleId
-        self.bucket = bucket
-        self.bucketKeyEnabled = bucketKeyEnabled
-        self.checksumAlgorithm = checksumAlgorithm
-        self.key = key
-        self.requestCharged = requestCharged
-        self.serverSideEncryption = serverSideEncryption
-        self.sseCustomerAlgorithm = sseCustomerAlgorithm
-        self.sseCustomerKeyMD5 = sseCustomerKeyMD5
-        self.ssekmsEncryptionContext = ssekmsEncryptionContext
-        self.ssekmsKeyId = ssekmsKeyId
-        self.uploadId = uploadId
-    }
-}
-
-struct CreateMultipartUploadOutputBody: Swift.Equatable {
-    let bucket: Swift.String?
-    let key: Swift.String?
-    let uploadId: Swift.String?
-}
-
-extension CreateMultipartUploadOutputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case bucket = "Bucket"
-        case key = "Key"
-        case uploadId = "UploadId"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let bucketDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bucket)
-        bucket = bucketDecoded
-        let keyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .key)
-        key = keyDecoded
-        let uploadIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .uploadId)
-        uploadId = uploadIdDecoded
-    }
-}
-
-enum CreateMultipartUploadOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
 extension S3ClientTypes.DefaultRetention: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case days = "Days"
@@ -4066,6 +4066,949 @@ extension S3ClientTypes {
 
 }
 
+struct DeleteBucketAnalyticsConfigurationInputBody: Swift.Equatable {
+}
+
+extension DeleteBucketAnalyticsConfigurationInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DeleteBucketAnalyticsConfigurationInput: ClientRuntime.HeaderProvider {
+    public var headers: ClientRuntime.Headers {
+        var items = ClientRuntime.Headers()
+        if let expectedBucketOwner = expectedBucketOwner {
+            items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
+        }
+        return items
+    }
+}
+
+extension DeleteBucketAnalyticsConfigurationInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "analytics", value: nil))
+            guard let id = id else {
+                let message = "Creating a URL Query Item failed. id is required and must not be nil."
+                throw ClientRuntime.ClientError.unknownError(message)
+            }
+            let idQueryItem = ClientRuntime.URLQueryItem(name: "id".urlPercentEncoding(), value: Swift.String(id).urlPercentEncoding())
+            items.append(idQueryItem)
+            return items
+        }
+    }
+}
+
+public struct DeleteBucketAnalyticsConfigurationInput: Swift.Equatable {
+    /// The name of the bucket from which an analytics configuration is deleted.
+    /// This member is required.
+    public var bucket: Swift.String?
+    /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
+    public var expectedBucketOwner: Swift.String?
+    /// The ID that identifies the analytics configuration.
+    /// This member is required.
+    public var id: Swift.String?
+
+    public init(
+        bucket: Swift.String? = nil,
+        expectedBucketOwner: Swift.String? = nil,
+        id: Swift.String? = nil
+    )
+    {
+        self.bucket = bucket
+        self.expectedBucketOwner = expectedBucketOwner
+        self.id = id
+    }
+}
+
+extension DeleteBucketAnalyticsConfigurationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+enum DeleteBucketAnalyticsConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
+extension DeleteBucketAnalyticsConfigurationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteBucketAnalyticsConfigurationOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+struct DeleteBucketCorsInputBody: Swift.Equatable {
+}
+
+extension DeleteBucketCorsInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DeleteBucketCorsInput: ClientRuntime.HeaderProvider {
+    public var headers: ClientRuntime.Headers {
+        var items = ClientRuntime.Headers()
+        if let expectedBucketOwner = expectedBucketOwner {
+            items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
+        }
+        return items
+    }
+}
+
+extension DeleteBucketCorsInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "cors", value: nil))
+            return items
+        }
+    }
+}
+
+public struct DeleteBucketCorsInput: Swift.Equatable {
+    /// Specifies the bucket whose cors configuration is being deleted.
+    /// This member is required.
+    public var bucket: Swift.String?
+    /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
+    public var expectedBucketOwner: Swift.String?
+
+    public init(
+        bucket: Swift.String? = nil,
+        expectedBucketOwner: Swift.String? = nil
+    )
+    {
+        self.bucket = bucket
+        self.expectedBucketOwner = expectedBucketOwner
+    }
+}
+
+extension DeleteBucketCorsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+enum DeleteBucketCorsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
+extension DeleteBucketCorsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteBucketCorsOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+struct DeleteBucketEncryptionInputBody: Swift.Equatable {
+}
+
+extension DeleteBucketEncryptionInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DeleteBucketEncryptionInput: ClientRuntime.HeaderProvider {
+    public var headers: ClientRuntime.Headers {
+        var items = ClientRuntime.Headers()
+        if let expectedBucketOwner = expectedBucketOwner {
+            items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
+        }
+        return items
+    }
+}
+
+extension DeleteBucketEncryptionInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "encryption", value: nil))
+            return items
+        }
+    }
+}
+
+public struct DeleteBucketEncryptionInput: Swift.Equatable {
+    /// The name of the bucket containing the server-side encryption configuration to delete.
+    /// This member is required.
+    public var bucket: Swift.String?
+    /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
+    public var expectedBucketOwner: Swift.String?
+
+    public init(
+        bucket: Swift.String? = nil,
+        expectedBucketOwner: Swift.String? = nil
+    )
+    {
+        self.bucket = bucket
+        self.expectedBucketOwner = expectedBucketOwner
+    }
+}
+
+extension DeleteBucketEncryptionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+enum DeleteBucketEncryptionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
+extension DeleteBucketEncryptionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteBucketEncryptionOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+struct DeleteBucketInputBody: Swift.Equatable {
+}
+
+extension DeleteBucketInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DeleteBucketInput: ClientRuntime.HeaderProvider {
+    public var headers: ClientRuntime.Headers {
+        var items = ClientRuntime.Headers()
+        if let expectedBucketOwner = expectedBucketOwner {
+            items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
+        }
+        return items
+    }
+}
+
+public struct DeleteBucketInput: Swift.Equatable {
+    /// Specifies the bucket being deleted.
+    /// This member is required.
+    public var bucket: Swift.String?
+    /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
+    public var expectedBucketOwner: Swift.String?
+
+    public init(
+        bucket: Swift.String? = nil,
+        expectedBucketOwner: Swift.String? = nil
+    )
+    {
+        self.bucket = bucket
+        self.expectedBucketOwner = expectedBucketOwner
+    }
+}
+
+extension DeleteBucketInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+struct DeleteBucketIntelligentTieringConfigurationInputBody: Swift.Equatable {
+}
+
+extension DeleteBucketIntelligentTieringConfigurationInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DeleteBucketIntelligentTieringConfigurationInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "intelligent-tiering", value: nil))
+            guard let id = id else {
+                let message = "Creating a URL Query Item failed. id is required and must not be nil."
+                throw ClientRuntime.ClientError.unknownError(message)
+            }
+            let idQueryItem = ClientRuntime.URLQueryItem(name: "id".urlPercentEncoding(), value: Swift.String(id).urlPercentEncoding())
+            items.append(idQueryItem)
+            return items
+        }
+    }
+}
+
+public struct DeleteBucketIntelligentTieringConfigurationInput: Swift.Equatable {
+    /// The name of the Amazon S3 bucket whose configuration you want to modify or retrieve.
+    /// This member is required.
+    public var bucket: Swift.String?
+    /// The ID used to identify the S3 Intelligent-Tiering configuration.
+    /// This member is required.
+    public var id: Swift.String?
+
+    public init(
+        bucket: Swift.String? = nil,
+        id: Swift.String? = nil
+    )
+    {
+        self.bucket = bucket
+        self.id = id
+    }
+}
+
+extension DeleteBucketIntelligentTieringConfigurationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+enum DeleteBucketIntelligentTieringConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
+extension DeleteBucketIntelligentTieringConfigurationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteBucketIntelligentTieringConfigurationOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+struct DeleteBucketInventoryConfigurationInputBody: Swift.Equatable {
+}
+
+extension DeleteBucketInventoryConfigurationInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DeleteBucketInventoryConfigurationInput: ClientRuntime.HeaderProvider {
+    public var headers: ClientRuntime.Headers {
+        var items = ClientRuntime.Headers()
+        if let expectedBucketOwner = expectedBucketOwner {
+            items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
+        }
+        return items
+    }
+}
+
+extension DeleteBucketInventoryConfigurationInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "inventory", value: nil))
+            guard let id = id else {
+                let message = "Creating a URL Query Item failed. id is required and must not be nil."
+                throw ClientRuntime.ClientError.unknownError(message)
+            }
+            let idQueryItem = ClientRuntime.URLQueryItem(name: "id".urlPercentEncoding(), value: Swift.String(id).urlPercentEncoding())
+            items.append(idQueryItem)
+            return items
+        }
+    }
+}
+
+public struct DeleteBucketInventoryConfigurationInput: Swift.Equatable {
+    /// The name of the bucket containing the inventory configuration to delete.
+    /// This member is required.
+    public var bucket: Swift.String?
+    /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
+    public var expectedBucketOwner: Swift.String?
+    /// The ID used to identify the inventory configuration.
+    /// This member is required.
+    public var id: Swift.String?
+
+    public init(
+        bucket: Swift.String? = nil,
+        expectedBucketOwner: Swift.String? = nil,
+        id: Swift.String? = nil
+    )
+    {
+        self.bucket = bucket
+        self.expectedBucketOwner = expectedBucketOwner
+        self.id = id
+    }
+}
+
+extension DeleteBucketInventoryConfigurationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+enum DeleteBucketInventoryConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
+extension DeleteBucketInventoryConfigurationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteBucketInventoryConfigurationOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+struct DeleteBucketLifecycleInputBody: Swift.Equatable {
+}
+
+extension DeleteBucketLifecycleInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DeleteBucketLifecycleInput: ClientRuntime.HeaderProvider {
+    public var headers: ClientRuntime.Headers {
+        var items = ClientRuntime.Headers()
+        if let expectedBucketOwner = expectedBucketOwner {
+            items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
+        }
+        return items
+    }
+}
+
+extension DeleteBucketLifecycleInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "lifecycle", value: nil))
+            return items
+        }
+    }
+}
+
+public struct DeleteBucketLifecycleInput: Swift.Equatable {
+    /// The bucket name of the lifecycle to delete.
+    /// This member is required.
+    public var bucket: Swift.String?
+    /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
+    public var expectedBucketOwner: Swift.String?
+
+    public init(
+        bucket: Swift.String? = nil,
+        expectedBucketOwner: Swift.String? = nil
+    )
+    {
+        self.bucket = bucket
+        self.expectedBucketOwner = expectedBucketOwner
+    }
+}
+
+extension DeleteBucketLifecycleInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+enum DeleteBucketLifecycleOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
+extension DeleteBucketLifecycleOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteBucketLifecycleOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+struct DeleteBucketMetricsConfigurationInputBody: Swift.Equatable {
+}
+
+extension DeleteBucketMetricsConfigurationInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DeleteBucketMetricsConfigurationInput: ClientRuntime.HeaderProvider {
+    public var headers: ClientRuntime.Headers {
+        var items = ClientRuntime.Headers()
+        if let expectedBucketOwner = expectedBucketOwner {
+            items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
+        }
+        return items
+    }
+}
+
+extension DeleteBucketMetricsConfigurationInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "metrics", value: nil))
+            guard let id = id else {
+                let message = "Creating a URL Query Item failed. id is required and must not be nil."
+                throw ClientRuntime.ClientError.unknownError(message)
+            }
+            let idQueryItem = ClientRuntime.URLQueryItem(name: "id".urlPercentEncoding(), value: Swift.String(id).urlPercentEncoding())
+            items.append(idQueryItem)
+            return items
+        }
+    }
+}
+
+public struct DeleteBucketMetricsConfigurationInput: Swift.Equatable {
+    /// The name of the bucket containing the metrics configuration to delete.
+    /// This member is required.
+    public var bucket: Swift.String?
+    /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
+    public var expectedBucketOwner: Swift.String?
+    /// The ID used to identify the metrics configuration. The ID has a 64 character limit and can only contain letters, numbers, periods, dashes, and underscores.
+    /// This member is required.
+    public var id: Swift.String?
+
+    public init(
+        bucket: Swift.String? = nil,
+        expectedBucketOwner: Swift.String? = nil,
+        id: Swift.String? = nil
+    )
+    {
+        self.bucket = bucket
+        self.expectedBucketOwner = expectedBucketOwner
+        self.id = id
+    }
+}
+
+extension DeleteBucketMetricsConfigurationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+enum DeleteBucketMetricsConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
+extension DeleteBucketMetricsConfigurationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteBucketMetricsConfigurationOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteBucketOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
+extension DeleteBucketOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteBucketOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+struct DeleteBucketOwnershipControlsInputBody: Swift.Equatable {
+}
+
+extension DeleteBucketOwnershipControlsInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DeleteBucketOwnershipControlsInput: ClientRuntime.HeaderProvider {
+    public var headers: ClientRuntime.Headers {
+        var items = ClientRuntime.Headers()
+        if let expectedBucketOwner = expectedBucketOwner {
+            items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
+        }
+        return items
+    }
+}
+
+extension DeleteBucketOwnershipControlsInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "ownershipControls", value: nil))
+            return items
+        }
+    }
+}
+
+public struct DeleteBucketOwnershipControlsInput: Swift.Equatable {
+    /// The Amazon S3 bucket whose OwnershipControls you want to delete.
+    /// This member is required.
+    public var bucket: Swift.String?
+    /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
+    public var expectedBucketOwner: Swift.String?
+
+    public init(
+        bucket: Swift.String? = nil,
+        expectedBucketOwner: Swift.String? = nil
+    )
+    {
+        self.bucket = bucket
+        self.expectedBucketOwner = expectedBucketOwner
+    }
+}
+
+extension DeleteBucketOwnershipControlsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+enum DeleteBucketOwnershipControlsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
+extension DeleteBucketOwnershipControlsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteBucketOwnershipControlsOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+struct DeleteBucketPolicyInputBody: Swift.Equatable {
+}
+
+extension DeleteBucketPolicyInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DeleteBucketPolicyInput: ClientRuntime.HeaderProvider {
+    public var headers: ClientRuntime.Headers {
+        var items = ClientRuntime.Headers()
+        if let expectedBucketOwner = expectedBucketOwner {
+            items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
+        }
+        return items
+    }
+}
+
+extension DeleteBucketPolicyInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "policy", value: nil))
+            return items
+        }
+    }
+}
+
+public struct DeleteBucketPolicyInput: Swift.Equatable {
+    /// The bucket name.
+    /// This member is required.
+    public var bucket: Swift.String?
+    /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
+    public var expectedBucketOwner: Swift.String?
+
+    public init(
+        bucket: Swift.String? = nil,
+        expectedBucketOwner: Swift.String? = nil
+    )
+    {
+        self.bucket = bucket
+        self.expectedBucketOwner = expectedBucketOwner
+    }
+}
+
+extension DeleteBucketPolicyInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+enum DeleteBucketPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
+extension DeleteBucketPolicyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteBucketPolicyOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+struct DeleteBucketReplicationInputBody: Swift.Equatable {
+}
+
+extension DeleteBucketReplicationInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DeleteBucketReplicationInput: ClientRuntime.HeaderProvider {
+    public var headers: ClientRuntime.Headers {
+        var items = ClientRuntime.Headers()
+        if let expectedBucketOwner = expectedBucketOwner {
+            items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
+        }
+        return items
+    }
+}
+
+extension DeleteBucketReplicationInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "replication", value: nil))
+            return items
+        }
+    }
+}
+
+public struct DeleteBucketReplicationInput: Swift.Equatable {
+    /// The bucket name.
+    /// This member is required.
+    public var bucket: Swift.String?
+    /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
+    public var expectedBucketOwner: Swift.String?
+
+    public init(
+        bucket: Swift.String? = nil,
+        expectedBucketOwner: Swift.String? = nil
+    )
+    {
+        self.bucket = bucket
+        self.expectedBucketOwner = expectedBucketOwner
+    }
+}
+
+extension DeleteBucketReplicationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+enum DeleteBucketReplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
+extension DeleteBucketReplicationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteBucketReplicationOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+struct DeleteBucketTaggingInputBody: Swift.Equatable {
+}
+
+extension DeleteBucketTaggingInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DeleteBucketTaggingInput: ClientRuntime.HeaderProvider {
+    public var headers: ClientRuntime.Headers {
+        var items = ClientRuntime.Headers()
+        if let expectedBucketOwner = expectedBucketOwner {
+            items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
+        }
+        return items
+    }
+}
+
+extension DeleteBucketTaggingInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "tagging", value: nil))
+            return items
+        }
+    }
+}
+
+public struct DeleteBucketTaggingInput: Swift.Equatable {
+    /// The bucket that has the tag set to be removed.
+    /// This member is required.
+    public var bucket: Swift.String?
+    /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
+    public var expectedBucketOwner: Swift.String?
+
+    public init(
+        bucket: Swift.String? = nil,
+        expectedBucketOwner: Swift.String? = nil
+    )
+    {
+        self.bucket = bucket
+        self.expectedBucketOwner = expectedBucketOwner
+    }
+}
+
+extension DeleteBucketTaggingInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+enum DeleteBucketTaggingOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
+extension DeleteBucketTaggingOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteBucketTaggingOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+struct DeleteBucketWebsiteInputBody: Swift.Equatable {
+}
+
+extension DeleteBucketWebsiteInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DeleteBucketWebsiteInput: ClientRuntime.HeaderProvider {
+    public var headers: ClientRuntime.Headers {
+        var items = ClientRuntime.Headers()
+        if let expectedBucketOwner = expectedBucketOwner {
+            items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
+        }
+        return items
+    }
+}
+
+extension DeleteBucketWebsiteInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "website", value: nil))
+            return items
+        }
+    }
+}
+
+public struct DeleteBucketWebsiteInput: Swift.Equatable {
+    /// The bucket name for which you want to remove the website configuration.
+    /// This member is required.
+    public var bucket: Swift.String?
+    /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
+    public var expectedBucketOwner: Swift.String?
+
+    public init(
+        bucket: Swift.String? = nil,
+        expectedBucketOwner: Swift.String? = nil
+    )
+    {
+        self.bucket = bucket
+        self.expectedBucketOwner = expectedBucketOwner
+    }
+}
+
+extension DeleteBucketWebsiteInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+enum DeleteBucketWebsiteOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
+extension DeleteBucketWebsiteOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteBucketWebsiteOutput: Swift.Equatable {
+
+    public init() { }
+}
+
 extension S3ClientTypes.Delete: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case objects = "Object"
@@ -4118,7 +5061,47 @@ extension S3ClientTypes.Delete: Swift.Codable {
     }
 }
 
-extension S3ClientTypes.Delete: ClientRuntime.DynamicNodeEncoding {
+extension S3ClientTypes.DeletedObject: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case deleteMarker = "DeleteMarker"
+        case deleteMarkerVersionId = "DeleteMarkerVersionId"
+        case key = "Key"
+        case versionId = "VersionId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if encoder.codingPath.isEmpty {
+            try container.encode("http://s3.amazonaws.com/doc/2006-03-01/", forKey: ClientRuntime.Key("xmlns"))
+        }
+        if deleteMarker != false {
+            try container.encode(deleteMarker, forKey: ClientRuntime.Key("DeleteMarker"))
+        }
+        if let deleteMarkerVersionId = deleteMarkerVersionId {
+            try container.encode(deleteMarkerVersionId, forKey: ClientRuntime.Key("DeleteMarkerVersionId"))
+        }
+        if let key = key {
+            try container.encode(key, forKey: ClientRuntime.Key("Key"))
+        }
+        if let versionId = versionId {
+            try container.encode(versionId, forKey: ClientRuntime.Key("VersionId"))
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let keyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .key)
+        key = keyDecoded
+        let versionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .versionId)
+        versionId = versionIdDecoded
+        let deleteMarkerDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deleteMarker) ?? false
+        deleteMarker = deleteMarkerDecoded
+        let deleteMarkerVersionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deleteMarkerVersionId)
+        deleteMarkerVersionId = deleteMarkerVersionIdDecoded
+    }
+}
+
+extension S3ClientTypes.DeletedObject: ClientRuntime.DynamicNodeEncoding {
     public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
         let xmlNamespaceValues = [
             "xmlns"
@@ -4133,966 +5116,44 @@ extension S3ClientTypes.Delete: ClientRuntime.DynamicNodeEncoding {
 }
 
 extension S3ClientTypes {
-    /// Container for the objects to delete.
-    public struct Delete: Swift.Equatable {
-        /// The object to delete.
-        /// This member is required.
-        public var objects: [S3ClientTypes.ObjectIdentifier]?
-        /// Element to enable quiet mode for the request. When you add this element, you must set its value to true.
-        public var quiet: Swift.Bool
+    /// Information about the deleted object.
+    public struct DeletedObject: Swift.Equatable {
+        /// Indicates whether the specified object version that was permanently deleted was (true) or was not (false) a delete marker before deletion. In a simple DELETE, this header indicates whether (true) or not (false) the current version of the object is a delete marker.
+        public var deleteMarker: Swift.Bool
+        /// The version ID of the delete marker created as a result of the DELETE operation. If you delete a specific object version, the value returned by this header is the version ID of the object version deleted.
+        public var deleteMarkerVersionId: Swift.String?
+        /// The name of the deleted object.
+        public var key: Swift.String?
+        /// The version ID of the deleted object.
+        public var versionId: Swift.String?
 
         public init(
-            objects: [S3ClientTypes.ObjectIdentifier]? = nil,
-            quiet: Swift.Bool = false
+            deleteMarker: Swift.Bool = false,
+            deleteMarkerVersionId: Swift.String? = nil,
+            key: Swift.String? = nil,
+            versionId: Swift.String? = nil
         )
         {
-            self.objects = objects
-            self.quiet = quiet
+            self.deleteMarker = deleteMarker
+            self.deleteMarkerVersionId = deleteMarkerVersionId
+            self.key = key
+            self.versionId = versionId
         }
     }
 
 }
 
-extension DeleteBucketAnalyticsConfigurationInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
-        if let expectedBucketOwner = expectedBucketOwner {
-            items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
-        }
-        return items
-    }
-}
-
-extension DeleteBucketAnalyticsConfigurationInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "analytics", value: nil))
-            guard let id = id else {
-                let message = "Creating a URL Query Item failed. id is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
+extension S3ClientTypes.Delete: ClientRuntime.DynamicNodeEncoding {
+    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
+        let xmlNamespaceValues = [
+            "xmlns"
+        ]
+        if let key = key as? ClientRuntime.Key {
+            if xmlNamespaceValues.contains(key.stringValue) {
+                return .attribute
             }
-            let idQueryItem = ClientRuntime.URLQueryItem(name: "id".urlPercentEncoding(), value: Swift.String(id).urlPercentEncoding())
-            items.append(idQueryItem)
-            return items
         }
-    }
-}
-
-extension DeleteBucketAnalyticsConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
-    }
-}
-
-public struct DeleteBucketAnalyticsConfigurationInput: Swift.Equatable {
-    /// The name of the bucket from which an analytics configuration is deleted.
-    /// This member is required.
-    public var bucket: Swift.String?
-    /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
-    public var expectedBucketOwner: Swift.String?
-    /// The ID that identifies the analytics configuration.
-    /// This member is required.
-    public var id: Swift.String?
-
-    public init(
-        bucket: Swift.String? = nil,
-        expectedBucketOwner: Swift.String? = nil,
-        id: Swift.String? = nil
-    )
-    {
-        self.bucket = bucket
-        self.expectedBucketOwner = expectedBucketOwner
-        self.id = id
-    }
-}
-
-struct DeleteBucketAnalyticsConfigurationInputBody: Swift.Equatable {
-}
-
-extension DeleteBucketAnalyticsConfigurationInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-extension DeleteBucketAnalyticsConfigurationOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteBucketAnalyticsConfigurationOutput: Swift.Equatable {
-
-    public init() { }
-}
-
-enum DeleteBucketAnalyticsConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DeleteBucketCorsInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
-        if let expectedBucketOwner = expectedBucketOwner {
-            items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
-        }
-        return items
-    }
-}
-
-extension DeleteBucketCorsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "cors", value: nil))
-            return items
-        }
-    }
-}
-
-extension DeleteBucketCorsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
-    }
-}
-
-public struct DeleteBucketCorsInput: Swift.Equatable {
-    /// Specifies the bucket whose cors configuration is being deleted.
-    /// This member is required.
-    public var bucket: Swift.String?
-    /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
-    public var expectedBucketOwner: Swift.String?
-
-    public init(
-        bucket: Swift.String? = nil,
-        expectedBucketOwner: Swift.String? = nil
-    )
-    {
-        self.bucket = bucket
-        self.expectedBucketOwner = expectedBucketOwner
-    }
-}
-
-struct DeleteBucketCorsInputBody: Swift.Equatable {
-}
-
-extension DeleteBucketCorsInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-extension DeleteBucketCorsOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteBucketCorsOutput: Swift.Equatable {
-
-    public init() { }
-}
-
-enum DeleteBucketCorsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DeleteBucketEncryptionInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
-        if let expectedBucketOwner = expectedBucketOwner {
-            items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
-        }
-        return items
-    }
-}
-
-extension DeleteBucketEncryptionInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "encryption", value: nil))
-            return items
-        }
-    }
-}
-
-extension DeleteBucketEncryptionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
-    }
-}
-
-public struct DeleteBucketEncryptionInput: Swift.Equatable {
-    /// The name of the bucket containing the server-side encryption configuration to delete.
-    /// This member is required.
-    public var bucket: Swift.String?
-    /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
-    public var expectedBucketOwner: Swift.String?
-
-    public init(
-        bucket: Swift.String? = nil,
-        expectedBucketOwner: Swift.String? = nil
-    )
-    {
-        self.bucket = bucket
-        self.expectedBucketOwner = expectedBucketOwner
-    }
-}
-
-struct DeleteBucketEncryptionInputBody: Swift.Equatable {
-}
-
-extension DeleteBucketEncryptionInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-extension DeleteBucketEncryptionOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteBucketEncryptionOutput: Swift.Equatable {
-
-    public init() { }
-}
-
-enum DeleteBucketEncryptionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DeleteBucketInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
-        if let expectedBucketOwner = expectedBucketOwner {
-            items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
-        }
-        return items
-    }
-}
-
-extension DeleteBucketInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
-    }
-}
-
-public struct DeleteBucketInput: Swift.Equatable {
-    /// Specifies the bucket being deleted.
-    /// This member is required.
-    public var bucket: Swift.String?
-    /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
-    public var expectedBucketOwner: Swift.String?
-
-    public init(
-        bucket: Swift.String? = nil,
-        expectedBucketOwner: Swift.String? = nil
-    )
-    {
-        self.bucket = bucket
-        self.expectedBucketOwner = expectedBucketOwner
-    }
-}
-
-struct DeleteBucketInputBody: Swift.Equatable {
-}
-
-extension DeleteBucketInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-extension DeleteBucketIntelligentTieringConfigurationInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "intelligent-tiering", value: nil))
-            guard let id = id else {
-                let message = "Creating a URL Query Item failed. id is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let idQueryItem = ClientRuntime.URLQueryItem(name: "id".urlPercentEncoding(), value: Swift.String(id).urlPercentEncoding())
-            items.append(idQueryItem)
-            return items
-        }
-    }
-}
-
-extension DeleteBucketIntelligentTieringConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
-    }
-}
-
-public struct DeleteBucketIntelligentTieringConfigurationInput: Swift.Equatable {
-    /// The name of the Amazon S3 bucket whose configuration you want to modify or retrieve.
-    /// This member is required.
-    public var bucket: Swift.String?
-    /// The ID used to identify the S3 Intelligent-Tiering configuration.
-    /// This member is required.
-    public var id: Swift.String?
-
-    public init(
-        bucket: Swift.String? = nil,
-        id: Swift.String? = nil
-    )
-    {
-        self.bucket = bucket
-        self.id = id
-    }
-}
-
-struct DeleteBucketIntelligentTieringConfigurationInputBody: Swift.Equatable {
-}
-
-extension DeleteBucketIntelligentTieringConfigurationInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-extension DeleteBucketIntelligentTieringConfigurationOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteBucketIntelligentTieringConfigurationOutput: Swift.Equatable {
-
-    public init() { }
-}
-
-enum DeleteBucketIntelligentTieringConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DeleteBucketInventoryConfigurationInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
-        if let expectedBucketOwner = expectedBucketOwner {
-            items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
-        }
-        return items
-    }
-}
-
-extension DeleteBucketInventoryConfigurationInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "inventory", value: nil))
-            guard let id = id else {
-                let message = "Creating a URL Query Item failed. id is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let idQueryItem = ClientRuntime.URLQueryItem(name: "id".urlPercentEncoding(), value: Swift.String(id).urlPercentEncoding())
-            items.append(idQueryItem)
-            return items
-        }
-    }
-}
-
-extension DeleteBucketInventoryConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
-    }
-}
-
-public struct DeleteBucketInventoryConfigurationInput: Swift.Equatable {
-    /// The name of the bucket containing the inventory configuration to delete.
-    /// This member is required.
-    public var bucket: Swift.String?
-    /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
-    public var expectedBucketOwner: Swift.String?
-    /// The ID used to identify the inventory configuration.
-    /// This member is required.
-    public var id: Swift.String?
-
-    public init(
-        bucket: Swift.String? = nil,
-        expectedBucketOwner: Swift.String? = nil,
-        id: Swift.String? = nil
-    )
-    {
-        self.bucket = bucket
-        self.expectedBucketOwner = expectedBucketOwner
-        self.id = id
-    }
-}
-
-struct DeleteBucketInventoryConfigurationInputBody: Swift.Equatable {
-}
-
-extension DeleteBucketInventoryConfigurationInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-extension DeleteBucketInventoryConfigurationOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteBucketInventoryConfigurationOutput: Swift.Equatable {
-
-    public init() { }
-}
-
-enum DeleteBucketInventoryConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DeleteBucketLifecycleInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
-        if let expectedBucketOwner = expectedBucketOwner {
-            items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
-        }
-        return items
-    }
-}
-
-extension DeleteBucketLifecycleInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "lifecycle", value: nil))
-            return items
-        }
-    }
-}
-
-extension DeleteBucketLifecycleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
-    }
-}
-
-public struct DeleteBucketLifecycleInput: Swift.Equatable {
-    /// The bucket name of the lifecycle to delete.
-    /// This member is required.
-    public var bucket: Swift.String?
-    /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
-    public var expectedBucketOwner: Swift.String?
-
-    public init(
-        bucket: Swift.String? = nil,
-        expectedBucketOwner: Swift.String? = nil
-    )
-    {
-        self.bucket = bucket
-        self.expectedBucketOwner = expectedBucketOwner
-    }
-}
-
-struct DeleteBucketLifecycleInputBody: Swift.Equatable {
-}
-
-extension DeleteBucketLifecycleInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-extension DeleteBucketLifecycleOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteBucketLifecycleOutput: Swift.Equatable {
-
-    public init() { }
-}
-
-enum DeleteBucketLifecycleOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DeleteBucketMetricsConfigurationInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
-        if let expectedBucketOwner = expectedBucketOwner {
-            items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
-        }
-        return items
-    }
-}
-
-extension DeleteBucketMetricsConfigurationInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "metrics", value: nil))
-            guard let id = id else {
-                let message = "Creating a URL Query Item failed. id is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let idQueryItem = ClientRuntime.URLQueryItem(name: "id".urlPercentEncoding(), value: Swift.String(id).urlPercentEncoding())
-            items.append(idQueryItem)
-            return items
-        }
-    }
-}
-
-extension DeleteBucketMetricsConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
-    }
-}
-
-public struct DeleteBucketMetricsConfigurationInput: Swift.Equatable {
-    /// The name of the bucket containing the metrics configuration to delete.
-    /// This member is required.
-    public var bucket: Swift.String?
-    /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
-    public var expectedBucketOwner: Swift.String?
-    /// The ID used to identify the metrics configuration. The ID has a 64 character limit and can only contain letters, numbers, periods, dashes, and underscores.
-    /// This member is required.
-    public var id: Swift.String?
-
-    public init(
-        bucket: Swift.String? = nil,
-        expectedBucketOwner: Swift.String? = nil,
-        id: Swift.String? = nil
-    )
-    {
-        self.bucket = bucket
-        self.expectedBucketOwner = expectedBucketOwner
-        self.id = id
-    }
-}
-
-struct DeleteBucketMetricsConfigurationInputBody: Swift.Equatable {
-}
-
-extension DeleteBucketMetricsConfigurationInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-extension DeleteBucketMetricsConfigurationOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteBucketMetricsConfigurationOutput: Swift.Equatable {
-
-    public init() { }
-}
-
-enum DeleteBucketMetricsConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DeleteBucketOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteBucketOutput: Swift.Equatable {
-
-    public init() { }
-}
-
-enum DeleteBucketOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DeleteBucketOwnershipControlsInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
-        if let expectedBucketOwner = expectedBucketOwner {
-            items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
-        }
-        return items
-    }
-}
-
-extension DeleteBucketOwnershipControlsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "ownershipControls", value: nil))
-            return items
-        }
-    }
-}
-
-extension DeleteBucketOwnershipControlsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
-    }
-}
-
-public struct DeleteBucketOwnershipControlsInput: Swift.Equatable {
-    /// The Amazon S3 bucket whose OwnershipControls you want to delete.
-    /// This member is required.
-    public var bucket: Swift.String?
-    /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
-    public var expectedBucketOwner: Swift.String?
-
-    public init(
-        bucket: Swift.String? = nil,
-        expectedBucketOwner: Swift.String? = nil
-    )
-    {
-        self.bucket = bucket
-        self.expectedBucketOwner = expectedBucketOwner
-    }
-}
-
-struct DeleteBucketOwnershipControlsInputBody: Swift.Equatable {
-}
-
-extension DeleteBucketOwnershipControlsInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-extension DeleteBucketOwnershipControlsOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteBucketOwnershipControlsOutput: Swift.Equatable {
-
-    public init() { }
-}
-
-enum DeleteBucketOwnershipControlsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DeleteBucketPolicyInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
-        if let expectedBucketOwner = expectedBucketOwner {
-            items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
-        }
-        return items
-    }
-}
-
-extension DeleteBucketPolicyInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "policy", value: nil))
-            return items
-        }
-    }
-}
-
-extension DeleteBucketPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
-    }
-}
-
-public struct DeleteBucketPolicyInput: Swift.Equatable {
-    /// The bucket name.
-    /// This member is required.
-    public var bucket: Swift.String?
-    /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
-    public var expectedBucketOwner: Swift.String?
-
-    public init(
-        bucket: Swift.String? = nil,
-        expectedBucketOwner: Swift.String? = nil
-    )
-    {
-        self.bucket = bucket
-        self.expectedBucketOwner = expectedBucketOwner
-    }
-}
-
-struct DeleteBucketPolicyInputBody: Swift.Equatable {
-}
-
-extension DeleteBucketPolicyInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-extension DeleteBucketPolicyOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteBucketPolicyOutput: Swift.Equatable {
-
-    public init() { }
-}
-
-enum DeleteBucketPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DeleteBucketReplicationInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
-        if let expectedBucketOwner = expectedBucketOwner {
-            items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
-        }
-        return items
-    }
-}
-
-extension DeleteBucketReplicationInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "replication", value: nil))
-            return items
-        }
-    }
-}
-
-extension DeleteBucketReplicationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
-    }
-}
-
-public struct DeleteBucketReplicationInput: Swift.Equatable {
-    /// The bucket name.
-    /// This member is required.
-    public var bucket: Swift.String?
-    /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
-    public var expectedBucketOwner: Swift.String?
-
-    public init(
-        bucket: Swift.String? = nil,
-        expectedBucketOwner: Swift.String? = nil
-    )
-    {
-        self.bucket = bucket
-        self.expectedBucketOwner = expectedBucketOwner
-    }
-}
-
-struct DeleteBucketReplicationInputBody: Swift.Equatable {
-}
-
-extension DeleteBucketReplicationInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-extension DeleteBucketReplicationOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteBucketReplicationOutput: Swift.Equatable {
-
-    public init() { }
-}
-
-enum DeleteBucketReplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DeleteBucketTaggingInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
-        if let expectedBucketOwner = expectedBucketOwner {
-            items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
-        }
-        return items
-    }
-}
-
-extension DeleteBucketTaggingInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "tagging", value: nil))
-            return items
-        }
-    }
-}
-
-extension DeleteBucketTaggingInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
-    }
-}
-
-public struct DeleteBucketTaggingInput: Swift.Equatable {
-    /// The bucket that has the tag set to be removed.
-    /// This member is required.
-    public var bucket: Swift.String?
-    /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
-    public var expectedBucketOwner: Swift.String?
-
-    public init(
-        bucket: Swift.String? = nil,
-        expectedBucketOwner: Swift.String? = nil
-    )
-    {
-        self.bucket = bucket
-        self.expectedBucketOwner = expectedBucketOwner
-    }
-}
-
-struct DeleteBucketTaggingInputBody: Swift.Equatable {
-}
-
-extension DeleteBucketTaggingInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-extension DeleteBucketTaggingOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteBucketTaggingOutput: Swift.Equatable {
-
-    public init() { }
-}
-
-enum DeleteBucketTaggingOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension DeleteBucketWebsiteInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
-        if let expectedBucketOwner = expectedBucketOwner {
-            items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
-        }
-        return items
-    }
-}
-
-extension DeleteBucketWebsiteInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "website", value: nil))
-            return items
-        }
-    }
-}
-
-extension DeleteBucketWebsiteInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
-    }
-}
-
-public struct DeleteBucketWebsiteInput: Swift.Equatable {
-    /// The bucket name for which you want to remove the website configuration.
-    /// This member is required.
-    public var bucket: Swift.String?
-    /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
-    public var expectedBucketOwner: Swift.String?
-
-    public init(
-        bucket: Swift.String? = nil,
-        expectedBucketOwner: Swift.String? = nil
-    )
-    {
-        self.bucket = bucket
-        self.expectedBucketOwner = expectedBucketOwner
-    }
-}
-
-struct DeleteBucketWebsiteInputBody: Swift.Equatable {
-}
-
-extension DeleteBucketWebsiteInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-extension DeleteBucketWebsiteOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteBucketWebsiteOutput: Swift.Equatable {
-
-    public init() { }
-}
-
-enum DeleteBucketWebsiteOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
-        }
+        return .element
     }
 }
 
@@ -5225,22 +5286,6 @@ extension S3ClientTypes.DeleteMarkerReplication: ClientRuntime.DynamicNodeEncodi
 }
 
 extension S3ClientTypes {
-    /// Specifies whether Amazon S3 replicates delete markers. If you specify a Filter in your replication configuration, you must also include a DeleteMarkerReplication element. If your Filter includes a Tag element, the DeleteMarkerReplicationStatus must be set to Disabled, because Amazon S3 does not support replicating delete markers for tag-based rules. For an example configuration, see [Basic Rule Configuration](https://docs.aws.amazon.com/AmazonS3/latest/dev/replication-add-config.html#replication-config-min-rule-config). For more information about delete marker replication, see [Basic Rule Configuration](https://docs.aws.amazon.com/AmazonS3/latest/dev/delete-marker-replication.html). If you are using an earlier version of the replication configuration, Amazon S3 handles replication of delete markers differently. For more information, see [Backward Compatibility](https://docs.aws.amazon.com/AmazonS3/latest/dev/replication-add-config.html#replication-backward-compat-considerations).
-    public struct DeleteMarkerReplication: Swift.Equatable {
-        /// Indicates whether to replicate delete markers. Indicates whether to replicate delete markers.
-        public var status: S3ClientTypes.DeleteMarkerReplicationStatus?
-
-        public init(
-            status: S3ClientTypes.DeleteMarkerReplicationStatus? = nil
-        )
-        {
-            self.status = status
-        }
-    }
-
-}
-
-extension S3ClientTypes {
     public enum DeleteMarkerReplicationStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case disabled
         case enabled
@@ -5269,6 +5314,31 @@ extension S3ClientTypes {
             let rawValue = try container.decode(RawValue.self)
             self = DeleteMarkerReplicationStatus(rawValue: rawValue) ?? DeleteMarkerReplicationStatus.sdkUnknown(rawValue)
         }
+    }
+}
+
+extension S3ClientTypes {
+    /// Specifies whether Amazon S3 replicates delete markers. If you specify a Filter in your replication configuration, you must also include a DeleteMarkerReplication element. If your Filter includes a Tag element, the DeleteMarkerReplicationStatus must be set to Disabled, because Amazon S3 does not support replicating delete markers for tag-based rules. For an example configuration, see [Basic Rule Configuration](https://docs.aws.amazon.com/AmazonS3/latest/dev/replication-add-config.html#replication-config-min-rule-config). For more information about delete marker replication, see [Basic Rule Configuration](https://docs.aws.amazon.com/AmazonS3/latest/dev/delete-marker-replication.html). If you are using an earlier version of the replication configuration, Amazon S3 handles replication of delete markers differently. For more information, see [Backward Compatibility](https://docs.aws.amazon.com/AmazonS3/latest/dev/replication-add-config.html#replication-backward-compat-considerations).
+    public struct DeleteMarkerReplication: Swift.Equatable {
+        /// Indicates whether to replicate delete markers. Indicates whether to replicate delete markers.
+        public var status: S3ClientTypes.DeleteMarkerReplicationStatus?
+
+        public init(
+            status: S3ClientTypes.DeleteMarkerReplicationStatus? = nil
+        )
+        {
+            self.status = status
+        }
+    }
+
+}
+
+struct DeleteObjectInputBody: Swift.Equatable {
+}
+
+extension DeleteObjectInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
@@ -5302,15 +5372,6 @@ extension DeleteObjectInput: ClientRuntime.QueryItemProvider {
             }
             return items
         }
-    }
-}
-
-extension DeleteObjectInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let key = key else {
-            return nil
-        }
-        return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
@@ -5352,12 +5413,21 @@ public struct DeleteObjectInput: Swift.Equatable {
     }
 }
 
-struct DeleteObjectInputBody: Swift.Equatable {
+extension DeleteObjectInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let key = key else {
+            return nil
+        }
+        return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
+    }
 }
 
-extension DeleteObjectInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
+enum DeleteObjectOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -5401,111 +5471,19 @@ public struct DeleteObjectOutput: Swift.Equatable {
     }
 }
 
-enum DeleteObjectOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
-        }
+struct DeleteObjectsInputBody: Swift.Equatable {
+    let delete: S3ClientTypes.Delete?
+}
+
+extension DeleteObjectsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case delete = "Delete"
     }
-}
-
-extension DeleteObjectTaggingInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
-        if let expectedBucketOwner = expectedBucketOwner {
-            items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
-        }
-        return items
-    }
-}
-
-extension DeleteObjectTaggingInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "tagging", value: nil))
-            if let versionId = versionId {
-                let versionIdQueryItem = ClientRuntime.URLQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
-                items.append(versionIdQueryItem)
-            }
-            return items
-        }
-    }
-}
-
-extension DeleteObjectTaggingInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let key = key else {
-            return nil
-        }
-        return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
-    }
-}
-
-public struct DeleteObjectTaggingInput: Swift.Equatable {
-    /// The bucket name containing the objects from which to remove the tags. When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html) in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see [What is S3 on Outposts?](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide.
-    /// This member is required.
-    public var bucket: Swift.String?
-    /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
-    public var expectedBucketOwner: Swift.String?
-    /// The key that identifies the object in the bucket from which to remove all tags.
-    /// This member is required.
-    public var key: Swift.String?
-    /// The versionId of the object that the tag-set will be removed from.
-    public var versionId: Swift.String?
-
-    public init(
-        bucket: Swift.String? = nil,
-        expectedBucketOwner: Swift.String? = nil,
-        key: Swift.String? = nil,
-        versionId: Swift.String? = nil
-    )
-    {
-        self.bucket = bucket
-        self.expectedBucketOwner = expectedBucketOwner
-        self.key = key
-        self.versionId = versionId
-    }
-}
-
-struct DeleteObjectTaggingInputBody: Swift.Equatable {
-}
-
-extension DeleteObjectTaggingInputBody: Swift.Decodable {
 
     public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-extension DeleteObjectTaggingOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let versionIdHeaderValue = httpResponse.headers.value(for: "x-amz-version-id") {
-            self.versionId = versionIdHeaderValue
-        } else {
-            self.versionId = nil
-        }
-    }
-}
-
-public struct DeleteObjectTaggingOutput: Swift.Equatable {
-    /// The versionId of the object the tag-set was removed from.
-    public var versionId: Swift.String?
-
-    public init(
-        versionId: Swift.String? = nil
-    )
-    {
-        self.versionId = versionId
-    }
-}
-
-enum DeleteObjectTaggingOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
-        }
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let deleteDecoded = try containerValues.decodeIfPresent(S3ClientTypes.Delete.self, forKey: .delete)
+        delete = deleteDecoded
     }
 }
 
@@ -5611,12 +5589,6 @@ extension DeleteObjectsInput: ClientRuntime.QueryItemProvider {
     }
 }
 
-extension DeleteObjectsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
-    }
-}
-
 public struct DeleteObjectsInput: Swift.Equatable {
     /// The bucket name containing the objects to delete. When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html) in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see [What is S3 on Outposts?](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide.
     /// This member is required.
@@ -5655,58 +5627,9 @@ public struct DeleteObjectsInput: Swift.Equatable {
     }
 }
 
-struct DeleteObjectsInputBody: Swift.Equatable {
-    let delete: S3ClientTypes.Delete?
-}
-
-extension DeleteObjectsInputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case delete = "Delete"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let deleteDecoded = try containerValues.decodeIfPresent(S3ClientTypes.Delete.self, forKey: .delete)
-        delete = deleteDecoded
-    }
-}
-
-extension DeleteObjectsOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
-            self.requestCharged = S3ClientTypes.RequestCharged(rawValue: requestChargedHeaderValue)
-        } else {
-            self.requestCharged = nil
-        }
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: DeleteObjectsOutputBody = try responseDecoder.decode(responseBody: data)
-            self.deleted = output.deleted
-            self.errors = output.errors
-        } else {
-            self.deleted = nil
-            self.errors = nil
-        }
-    }
-}
-
-public struct DeleteObjectsOutput: Swift.Equatable {
-    /// Container element for a successful delete. It identifies the object that was successfully deleted.
-    public var deleted: [S3ClientTypes.DeletedObject]?
-    /// Container for a failed delete action that describes the object that Amazon S3 attempted to delete and the error it encountered.
-    public var errors: [S3ClientTypes.Error]?
-    /// If present, indicates that the requester was successfully charged for the request.
-    public var requestCharged: S3ClientTypes.RequestCharged?
-
-    public init(
-        deleted: [S3ClientTypes.DeletedObject]? = nil,
-        errors: [S3ClientTypes.Error]? = nil,
-        requestCharged: S3ClientTypes.RequestCharged? = nil
-    )
-    {
-        self.deleted = deleted
-        self.errors = errors
-        self.requestCharged = requestCharged
+extension DeleteObjectsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
     }
 }
 
@@ -5771,6 +5694,153 @@ enum DeleteObjectsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension DeleteObjectsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
+            self.requestCharged = S3ClientTypes.RequestCharged(rawValue: requestChargedHeaderValue)
+        } else {
+            self.requestCharged = nil
+        }
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DeleteObjectsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.deleted = output.deleted
+            self.errors = output.errors
+        } else {
+            self.deleted = nil
+            self.errors = nil
+        }
+    }
+}
+
+public struct DeleteObjectsOutput: Swift.Equatable {
+    /// Container element for a successful delete. It identifies the object that was successfully deleted.
+    public var deleted: [S3ClientTypes.DeletedObject]?
+    /// Container for a failed delete action that describes the object that Amazon S3 attempted to delete and the error it encountered.
+    public var errors: [S3ClientTypes.Error]?
+    /// If present, indicates that the requester was successfully charged for the request.
+    public var requestCharged: S3ClientTypes.RequestCharged?
+
+    public init(
+        deleted: [S3ClientTypes.DeletedObject]? = nil,
+        errors: [S3ClientTypes.Error]? = nil,
+        requestCharged: S3ClientTypes.RequestCharged? = nil
+    )
+    {
+        self.deleted = deleted
+        self.errors = errors
+        self.requestCharged = requestCharged
+    }
+}
+
+struct DeleteObjectTaggingInputBody: Swift.Equatable {
+}
+
+extension DeleteObjectTaggingInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DeleteObjectTaggingInput: ClientRuntime.HeaderProvider {
+    public var headers: ClientRuntime.Headers {
+        var items = ClientRuntime.Headers()
+        if let expectedBucketOwner = expectedBucketOwner {
+            items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
+        }
+        return items
+    }
+}
+
+extension DeleteObjectTaggingInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "tagging", value: nil))
+            if let versionId = versionId {
+                let versionIdQueryItem = ClientRuntime.URLQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
+                items.append(versionIdQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+public struct DeleteObjectTaggingInput: Swift.Equatable {
+    /// The bucket name containing the objects from which to remove the tags. When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html) in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see [What is S3 on Outposts?](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide.
+    /// This member is required.
+    public var bucket: Swift.String?
+    /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
+    public var expectedBucketOwner: Swift.String?
+    /// The key that identifies the object in the bucket from which to remove all tags.
+    /// This member is required.
+    public var key: Swift.String?
+    /// The versionId of the object that the tag-set will be removed from.
+    public var versionId: Swift.String?
+
+    public init(
+        bucket: Swift.String? = nil,
+        expectedBucketOwner: Swift.String? = nil,
+        key: Swift.String? = nil,
+        versionId: Swift.String? = nil
+    )
+    {
+        self.bucket = bucket
+        self.expectedBucketOwner = expectedBucketOwner
+        self.key = key
+        self.versionId = versionId
+    }
+}
+
+extension DeleteObjectTaggingInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let key = key else {
+            return nil
+        }
+        return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
+    }
+}
+
+enum DeleteObjectTaggingOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
+extension DeleteObjectTaggingOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let versionIdHeaderValue = httpResponse.headers.value(for: "x-amz-version-id") {
+            self.versionId = versionIdHeaderValue
+        } else {
+            self.versionId = nil
+        }
+    }
+}
+
+public struct DeleteObjectTaggingOutput: Swift.Equatable {
+    /// The versionId of the object the tag-set was removed from.
+    public var versionId: Swift.String?
+
+    public init(
+        versionId: Swift.String? = nil
+    )
+    {
+        self.versionId = versionId
+    }
+}
+
+struct DeletePublicAccessBlockInputBody: Swift.Equatable {
+}
+
+extension DeletePublicAccessBlockInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
 extension DeletePublicAccessBlockInput: ClientRuntime.HeaderProvider {
     public var headers: ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
@@ -5791,12 +5861,6 @@ extension DeletePublicAccessBlockInput: ClientRuntime.QueryItemProvider {
     }
 }
 
-extension DeletePublicAccessBlockInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
-    }
-}
-
 public struct DeletePublicAccessBlockInput: Swift.Equatable {
     /// The Amazon S3 bucket whose PublicAccessBlock configuration you want to delete.
     /// This member is required.
@@ -5814,12 +5878,18 @@ public struct DeletePublicAccessBlockInput: Swift.Equatable {
     }
 }
 
-struct DeletePublicAccessBlockInputBody: Swift.Equatable {
+extension DeletePublicAccessBlockInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
 }
 
-extension DeletePublicAccessBlockInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
+enum DeletePublicAccessBlockOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -5833,92 +5903,22 @@ public struct DeletePublicAccessBlockOutput: Swift.Equatable {
     public init() { }
 }
 
-enum DeletePublicAccessBlockOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension S3ClientTypes.DeletedObject: Swift.Codable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case deleteMarker = "DeleteMarker"
-        case deleteMarkerVersionId = "DeleteMarkerVersionId"
-        case key = "Key"
-        case versionId = "VersionId"
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if encoder.codingPath.isEmpty {
-            try container.encode("http://s3.amazonaws.com/doc/2006-03-01/", forKey: ClientRuntime.Key("xmlns"))
-        }
-        if deleteMarker != false {
-            try container.encode(deleteMarker, forKey: ClientRuntime.Key("DeleteMarker"))
-        }
-        if let deleteMarkerVersionId = deleteMarkerVersionId {
-            try container.encode(deleteMarkerVersionId, forKey: ClientRuntime.Key("DeleteMarkerVersionId"))
-        }
-        if let key = key {
-            try container.encode(key, forKey: ClientRuntime.Key("Key"))
-        }
-        if let versionId = versionId {
-            try container.encode(versionId, forKey: ClientRuntime.Key("VersionId"))
-        }
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let keyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .key)
-        key = keyDecoded
-        let versionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .versionId)
-        versionId = versionIdDecoded
-        let deleteMarkerDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deleteMarker) ?? false
-        deleteMarker = deleteMarkerDecoded
-        let deleteMarkerVersionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deleteMarkerVersionId)
-        deleteMarkerVersionId = deleteMarkerVersionIdDecoded
-    }
-}
-
-extension S3ClientTypes.DeletedObject: ClientRuntime.DynamicNodeEncoding {
-    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
-        let xmlNamespaceValues = [
-            "xmlns"
-        ]
-        if let key = key as? ClientRuntime.Key {
-            if xmlNamespaceValues.contains(key.stringValue) {
-                return .attribute
-            }
-        }
-        return .element
-    }
-}
-
 extension S3ClientTypes {
-    /// Information about the deleted object.
-    public struct DeletedObject: Swift.Equatable {
-        /// Indicates whether the specified object version that was permanently deleted was (true) or was not (false) a delete marker before deletion. In a simple DELETE, this header indicates whether (true) or not (false) the current version of the object is a delete marker.
-        public var deleteMarker: Swift.Bool
-        /// The version ID of the delete marker created as a result of the DELETE operation. If you delete a specific object version, the value returned by this header is the version ID of the object version deleted.
-        public var deleteMarkerVersionId: Swift.String?
-        /// The name of the deleted object.
-        public var key: Swift.String?
-        /// The version ID of the deleted object.
-        public var versionId: Swift.String?
+    /// Container for the objects to delete.
+    public struct Delete: Swift.Equatable {
+        /// The object to delete.
+        /// This member is required.
+        public var objects: [S3ClientTypes.ObjectIdentifier]?
+        /// Element to enable quiet mode for the request. When you add this element, you must set its value to true.
+        public var quiet: Swift.Bool
 
         public init(
-            deleteMarker: Swift.Bool = false,
-            deleteMarkerVersionId: Swift.String? = nil,
-            key: Swift.String? = nil,
-            versionId: Swift.String? = nil
+            objects: [S3ClientTypes.ObjectIdentifier]? = nil,
+            quiet: Swift.Bool = false
         )
         {
-            self.deleteMarker = deleteMarker
-            self.deleteMarkerVersionId = deleteMarkerVersionId
-            self.key = key
-            self.versionId = versionId
+            self.objects = objects
+            self.quiet = quiet
         }
     }
 
@@ -6101,50 +6101,6 @@ extension S3ClientTypes.Encryption: Swift.Codable {
     }
 }
 
-extension S3ClientTypes.Encryption: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "Encryption(encryptionType: \(Swift.String(describing: encryptionType)), kmsContext: \(Swift.String(describing: kmsContext)), kmsKeyId: \"CONTENT_REDACTED\")"}
-}
-
-extension S3ClientTypes.Encryption: ClientRuntime.DynamicNodeEncoding {
-    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
-        let xmlNamespaceValues = [
-            "xmlns"
-        ]
-        if let key = key as? ClientRuntime.Key {
-            if xmlNamespaceValues.contains(key.stringValue) {
-                return .attribute
-            }
-        }
-        return .element
-    }
-}
-
-extension S3ClientTypes {
-    /// Contains the type of server-side encryption used.
-    public struct Encryption: Swift.Equatable {
-        /// The server-side encryption algorithm used when storing job results in Amazon S3 (for example, AES256, aws:kms).
-        /// This member is required.
-        public var encryptionType: S3ClientTypes.ServerSideEncryption?
-        /// If the encryption type is aws:kms, this optional value can be used to specify the encryption context for the restore results.
-        public var kmsContext: Swift.String?
-        /// If the encryption type is aws:kms, this optional value specifies the ID of the symmetric encryption customer managed key to use for encryption of job results. Amazon S3 only supports symmetric encryption KMS keys. For more information, see [Asymmetric keys in KMS](https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html) in the Amazon Web Services Key Management Service Developer Guide.
-        public var kmsKeyId: Swift.String?
-
-        public init(
-            encryptionType: S3ClientTypes.ServerSideEncryption? = nil,
-            kmsContext: Swift.String? = nil,
-            kmsKeyId: Swift.String? = nil
-        )
-        {
-            self.encryptionType = encryptionType
-            self.kmsContext = kmsContext
-            self.kmsKeyId = kmsKeyId
-        }
-    }
-
-}
-
 extension S3ClientTypes.EncryptionConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case replicaKmsKeyID = "ReplicaKmsKeyID"
@@ -6192,6 +6148,50 @@ extension S3ClientTypes {
         )
         {
             self.replicaKmsKeyID = replicaKmsKeyID
+        }
+    }
+
+}
+
+extension S3ClientTypes.Encryption: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "Encryption(encryptionType: \(Swift.String(describing: encryptionType)), kmsContext: \(Swift.String(describing: kmsContext)), kmsKeyId: \"CONTENT_REDACTED\")"}
+}
+
+extension S3ClientTypes.Encryption: ClientRuntime.DynamicNodeEncoding {
+    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
+        let xmlNamespaceValues = [
+            "xmlns"
+        ]
+        if let key = key as? ClientRuntime.Key {
+            if xmlNamespaceValues.contains(key.stringValue) {
+                return .attribute
+            }
+        }
+        return .element
+    }
+}
+
+extension S3ClientTypes {
+    /// Contains the type of server-side encryption used.
+    public struct Encryption: Swift.Equatable {
+        /// The server-side encryption algorithm used when storing job results in Amazon S3 (for example, AES256, aws:kms).
+        /// This member is required.
+        public var encryptionType: S3ClientTypes.ServerSideEncryption?
+        /// If the encryption type is aws:kms, this optional value can be used to specify the encryption context for the restore results.
+        public var kmsContext: Swift.String?
+        /// If the encryption type is aws:kms, this optional value specifies the ID of the symmetric encryption customer managed key to use for encryption of job results. Amazon S3 only supports symmetric encryption KMS keys. For more information, see [Asymmetric keys in KMS](https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html) in the Amazon Web Services Key Management Service Developer Guide.
+        public var kmsKeyId: Swift.String?
+
+        public init(
+            encryptionType: S3ClientTypes.ServerSideEncryption? = nil,
+            kmsContext: Swift.String? = nil,
+            kmsKeyId: Swift.String? = nil
+        )
+        {
+            self.encryptionType = encryptionType
+            self.kmsContext = kmsContext
+            self.kmsKeyId = kmsKeyId
         }
     }
 
@@ -6253,6 +6253,59 @@ extension S3ClientTypes.Error: Swift.Codable {
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
     }
+}
+
+extension S3ClientTypes.ErrorDocument: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case key = "Key"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if encoder.codingPath.isEmpty {
+            try container.encode("http://s3.amazonaws.com/doc/2006-03-01/", forKey: ClientRuntime.Key("xmlns"))
+        }
+        if let key = key {
+            try container.encode(key, forKey: ClientRuntime.Key("Key"))
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let keyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .key)
+        key = keyDecoded
+    }
+}
+
+extension S3ClientTypes.ErrorDocument: ClientRuntime.DynamicNodeEncoding {
+    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
+        let xmlNamespaceValues = [
+            "xmlns"
+        ]
+        if let key = key as? ClientRuntime.Key {
+            if xmlNamespaceValues.contains(key.stringValue) {
+                return .attribute
+            }
+        }
+        return .element
+    }
+}
+
+extension S3ClientTypes {
+    /// The error information.
+    public struct ErrorDocument: Swift.Equatable {
+        /// The object key name to use when a 4XX class error occurs. Replacement must be made for object keys containing special characters (such as carriage returns) when using XML requests. For more information, see [ XML related object key constraints](https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-keys.html#object-key-xml-related-constraints).
+        /// This member is required.
+        public var key: Swift.String?
+
+        public init(
+            key: Swift.String? = nil
+        )
+        {
+            self.key = key
+        }
+    }
+
 }
 
 extension S3ClientTypes.Error: ClientRuntime.DynamicNodeEncoding {
@@ -7350,55 +7403,20 @@ extension S3ClientTypes {
 
 }
 
-extension S3ClientTypes.ErrorDocument: Swift.Codable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case key = "Key"
-    }
+extension S3ClientTypes.EventBridgeConfiguration: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
-        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if encoder.codingPath.isEmpty {
-            try container.encode("http://s3.amazonaws.com/doc/2006-03-01/", forKey: ClientRuntime.Key("xmlns"))
-        }
-        if let key = key {
-            try container.encode(key, forKey: ClientRuntime.Key("Key"))
-        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let keyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .key)
-        key = keyDecoded
-    }
-}
-
-extension S3ClientTypes.ErrorDocument: ClientRuntime.DynamicNodeEncoding {
-    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
-        let xmlNamespaceValues = [
-            "xmlns"
-        ]
-        if let key = key as? ClientRuntime.Key {
-            if xmlNamespaceValues.contains(key.stringValue) {
-                return .attribute
-            }
-        }
-        return .element
     }
 }
 
 extension S3ClientTypes {
-    /// The error information.
-    public struct ErrorDocument: Swift.Equatable {
-        /// The object key name to use when a 4XX class error occurs. Replacement must be made for object keys containing special characters (such as carriage returns) when using XML requests. For more information, see [ XML related object key constraints](https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-keys.html#object-key-xml-related-constraints).
-        /// This member is required.
-        public var key: Swift.String?
+    /// A container for specifying the configuration for Amazon EventBridge.
+    public struct EventBridgeConfiguration: Swift.Equatable {
 
-        public init(
-            key: Swift.String? = nil
-        )
-        {
-            self.key = key
-        }
+        public init() { }
     }
 
 }
@@ -7511,24 +7529,6 @@ extension S3ClientTypes {
     }
 }
 
-extension S3ClientTypes.EventBridgeConfiguration: Swift.Codable {
-
-    public func encode(to encoder: Swift.Encoder) throws {
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-extension S3ClientTypes {
-    /// A container for specifying the configuration for Amazon EventBridge.
-    public struct EventBridgeConfiguration: Swift.Equatable {
-
-        public init() { }
-    }
-
-}
-
 extension S3ClientTypes.ExistingObjectReplication: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case status = "Status"
@@ -7566,23 +7566,6 @@ extension S3ClientTypes.ExistingObjectReplication: ClientRuntime.DynamicNodeEnco
 }
 
 extension S3ClientTypes {
-    /// Optional configuration to replicate existing source bucket objects. For more information, see [Replicating Existing Objects](https://docs.aws.amazon.com/AmazonS3/latest/dev/replication-what-is-isnot-replicated.html#existing-object-replication) in the Amazon S3 User Guide.
-    public struct ExistingObjectReplication: Swift.Equatable {
-        /// Specifies whether Amazon S3 replicates existing source bucket objects.
-        /// This member is required.
-        public var status: S3ClientTypes.ExistingObjectReplicationStatus?
-
-        public init(
-            status: S3ClientTypes.ExistingObjectReplicationStatus? = nil
-        )
-        {
-            self.status = status
-        }
-    }
-
-}
-
-extension S3ClientTypes {
     public enum ExistingObjectReplicationStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case disabled
         case enabled
@@ -7612,6 +7595,23 @@ extension S3ClientTypes {
             self = ExistingObjectReplicationStatus(rawValue: rawValue) ?? ExistingObjectReplicationStatus.sdkUnknown(rawValue)
         }
     }
+}
+
+extension S3ClientTypes {
+    /// Optional configuration to replicate existing source bucket objects. For more information, see [Replicating Existing Objects](https://docs.aws.amazon.com/AmazonS3/latest/dev/replication-what-is-isnot-replicated.html#existing-object-replication) in the Amazon S3 User Guide.
+    public struct ExistingObjectReplication: Swift.Equatable {
+        /// Specifies whether Amazon S3 replicates existing source bucket objects.
+        /// This member is required.
+        public var status: S3ClientTypes.ExistingObjectReplicationStatus?
+
+        public init(
+            status: S3ClientTypes.ExistingObjectReplicationStatus? = nil
+        )
+        {
+            self.status = status
+        }
+    }
+
 }
 
 extension S3ClientTypes {
@@ -7753,26 +7753,6 @@ extension S3ClientTypes.FilterRule: ClientRuntime.DynamicNodeEncoding {
 }
 
 extension S3ClientTypes {
-    /// Specifies the Amazon S3 object key name to filter on and whether to filter on the suffix or prefix of the key name.
-    public struct FilterRule: Swift.Equatable {
-        /// The object key name prefix or suffix identifying one or more objects to which the filtering rule applies. The maximum length is 1,024 characters. Overlapping prefixes and suffixes are not supported. For more information, see [Configuring Event Notifications](https://docs.aws.amazon.com/AmazonS3/latest/dev/NotificationHowTo.html) in the Amazon S3 User Guide.
-        public var name: S3ClientTypes.FilterRuleName?
-        /// The value that the filter searches for in object key names.
-        public var value: Swift.String?
-
-        public init(
-            name: S3ClientTypes.FilterRuleName? = nil,
-            value: Swift.String? = nil
-        )
-        {
-            self.name = name
-            self.value = value
-        }
-    }
-
-}
-
-extension S3ClientTypes {
     public enum FilterRuleName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case `prefix`
         case suffix
@@ -7804,6 +7784,35 @@ extension S3ClientTypes {
     }
 }
 
+extension S3ClientTypes {
+    /// Specifies the Amazon S3 object key name to filter on and whether to filter on the suffix or prefix of the key name.
+    public struct FilterRule: Swift.Equatable {
+        /// The object key name prefix or suffix identifying one or more objects to which the filtering rule applies. The maximum length is 1,024 characters. Overlapping prefixes and suffixes are not supported. For more information, see [Configuring Event Notifications](https://docs.aws.amazon.com/AmazonS3/latest/dev/NotificationHowTo.html) in the Amazon S3 User Guide.
+        public var name: S3ClientTypes.FilterRuleName?
+        /// The value that the filter searches for in object key names.
+        public var value: Swift.String?
+
+        public init(
+            name: S3ClientTypes.FilterRuleName? = nil,
+            value: Swift.String? = nil
+        )
+        {
+            self.name = name
+            self.value = value
+        }
+    }
+
+}
+
+struct GetBucketAccelerateConfigurationInputBody: Swift.Equatable {
+}
+
+extension GetBucketAccelerateConfigurationInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
 extension GetBucketAccelerateConfigurationInput: ClientRuntime.HeaderProvider {
     public var headers: ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
@@ -7824,12 +7833,6 @@ extension GetBucketAccelerateConfigurationInput: ClientRuntime.QueryItemProvider
             items.append(ClientRuntime.URLQueryItem(name: "accelerate", value: nil))
             return items
         }
-    }
-}
-
-extension GetBucketAccelerateConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
     }
 }
 
@@ -7854,12 +7857,34 @@ public struct GetBucketAccelerateConfigurationInput: Swift.Equatable {
     }
 }
 
-struct GetBucketAccelerateConfigurationInputBody: Swift.Equatable {
+extension GetBucketAccelerateConfigurationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
 }
 
-extension GetBucketAccelerateConfigurationInputBody: Swift.Decodable {
+struct GetBucketAccelerateConfigurationOutputBody: Swift.Equatable {
+    let status: S3ClientTypes.BucketAccelerateStatus?
+}
+
+extension GetBucketAccelerateConfigurationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case status = "Status"
+    }
 
     public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let statusDecoded = try containerValues.decodeIfPresent(S3ClientTypes.BucketAccelerateStatus.self, forKey: .status)
+        status = statusDecoded
+    }
+}
+
+enum GetBucketAccelerateConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -7896,28 +7921,12 @@ public struct GetBucketAccelerateConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct GetBucketAccelerateConfigurationOutputBody: Swift.Equatable {
-    let status: S3ClientTypes.BucketAccelerateStatus?
+struct GetBucketAclInputBody: Swift.Equatable {
 }
 
-extension GetBucketAccelerateConfigurationOutputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case status = "Status"
-    }
+extension GetBucketAclInputBody: Swift.Decodable {
 
     public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let statusDecoded = try containerValues.decodeIfPresent(S3ClientTypes.BucketAccelerateStatus.self, forKey: .status)
-        status = statusDecoded
-    }
-}
-
-enum GetBucketAccelerateConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
-        }
     }
 }
 
@@ -7941,12 +7950,6 @@ extension GetBucketAclInput: ClientRuntime.QueryItemProvider {
     }
 }
 
-extension GetBucketAclInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
-    }
-}
-
 public struct GetBucketAclInput: Swift.Equatable {
     /// Specifies the S3 bucket whose ACL is being requested. To use this API operation against an access point, provide the alias of the access point in place of the bucket name. To use this API operation against an Object Lambda access point, provide the alias of the Object Lambda access point in place of the bucket name. If the Object Lambda access point alias in a request is not valid, the error code InvalidAccessPointAliasError is returned. For more information about InvalidAccessPointAliasError, see [List of Error Codes](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#ErrorCodeList).
     /// This member is required.
@@ -7964,42 +7967,9 @@ public struct GetBucketAclInput: Swift.Equatable {
     }
 }
 
-struct GetBucketAclInputBody: Swift.Equatable {
-}
-
-extension GetBucketAclInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-extension GetBucketAclOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetBucketAclOutputBody = try responseDecoder.decode(responseBody: data)
-            self.grants = output.grants
-            self.owner = output.owner
-        } else {
-            self.grants = nil
-            self.owner = nil
-        }
-    }
-}
-
-public struct GetBucketAclOutput: Swift.Equatable {
-    /// A list of grants.
-    public var grants: [S3ClientTypes.Grant]?
-    /// Container for the bucket owner's display name and ID.
-    public var owner: S3ClientTypes.Owner?
-
-    public init(
-        grants: [S3ClientTypes.Grant]? = nil,
-        owner: S3ClientTypes.Owner? = nil
-    )
-    {
-        self.grants = grants
-        self.owner = owner
+extension GetBucketAclInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
     }
 }
 
@@ -8049,6 +8019,45 @@ enum GetBucketAclOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension GetBucketAclOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetBucketAclOutputBody = try responseDecoder.decode(responseBody: data)
+            self.grants = output.grants
+            self.owner = output.owner
+        } else {
+            self.grants = nil
+            self.owner = nil
+        }
+    }
+}
+
+public struct GetBucketAclOutput: Swift.Equatable {
+    /// A list of grants.
+    public var grants: [S3ClientTypes.Grant]?
+    /// Container for the bucket owner's display name and ID.
+    public var owner: S3ClientTypes.Owner?
+
+    public init(
+        grants: [S3ClientTypes.Grant]? = nil,
+        owner: S3ClientTypes.Owner? = nil
+    )
+    {
+        self.grants = grants
+        self.owner = owner
+    }
+}
+
+struct GetBucketAnalyticsConfigurationInputBody: Swift.Equatable {
+}
+
+extension GetBucketAnalyticsConfigurationInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
 extension GetBucketAnalyticsConfigurationInput: ClientRuntime.HeaderProvider {
     public var headers: ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
@@ -8076,12 +8085,6 @@ extension GetBucketAnalyticsConfigurationInput: ClientRuntime.QueryItemProvider 
     }
 }
 
-extension GetBucketAnalyticsConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
-    }
-}
-
 public struct GetBucketAnalyticsConfigurationInput: Swift.Equatable {
     /// The name of the bucket from which an analytics configuration is retrieved.
     /// This member is required.
@@ -8104,35 +8107,9 @@ public struct GetBucketAnalyticsConfigurationInput: Swift.Equatable {
     }
 }
 
-struct GetBucketAnalyticsConfigurationInputBody: Swift.Equatable {
-}
-
-extension GetBucketAnalyticsConfigurationInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-extension GetBucketAnalyticsConfigurationOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: S3ClientTypes.AnalyticsConfiguration = try responseDecoder.decode(responseBody: data)
-            self.analyticsConfiguration = output
-        } else {
-            self.analyticsConfiguration = nil
-        }
-    }
-}
-
-public struct GetBucketAnalyticsConfigurationOutput: Swift.Equatable {
-    /// The configuration and any analyses for the analytics filter.
-    public var analyticsConfiguration: S3ClientTypes.AnalyticsConfiguration?
-
-    public init(
-        analyticsConfiguration: S3ClientTypes.AnalyticsConfiguration? = nil
-    )
-    {
-        self.analyticsConfiguration = analyticsConfiguration
+extension GetBucketAnalyticsConfigurationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
     }
 }
 
@@ -8161,6 +8138,38 @@ enum GetBucketAnalyticsConfigurationOutputError: ClientRuntime.HttpResponseError
     }
 }
 
+extension GetBucketAnalyticsConfigurationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: S3ClientTypes.AnalyticsConfiguration = try responseDecoder.decode(responseBody: data)
+            self.analyticsConfiguration = output
+        } else {
+            self.analyticsConfiguration = nil
+        }
+    }
+}
+
+public struct GetBucketAnalyticsConfigurationOutput: Swift.Equatable {
+    /// The configuration and any analyses for the analytics filter.
+    public var analyticsConfiguration: S3ClientTypes.AnalyticsConfiguration?
+
+    public init(
+        analyticsConfiguration: S3ClientTypes.AnalyticsConfiguration? = nil
+    )
+    {
+        self.analyticsConfiguration = analyticsConfiguration
+    }
+}
+
+struct GetBucketCorsInputBody: Swift.Equatable {
+}
+
+extension GetBucketCorsInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
 extension GetBucketCorsInput: ClientRuntime.HeaderProvider {
     public var headers: ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
@@ -8181,12 +8190,6 @@ extension GetBucketCorsInput: ClientRuntime.QueryItemProvider {
     }
 }
 
-extension GetBucketCorsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
-    }
-}
-
 public struct GetBucketCorsInput: Swift.Equatable {
     /// The bucket name for which to get the cors configuration. To use this API operation against an access point, provide the alias of the access point in place of the bucket name. To use this API operation against an Object Lambda access point, provide the alias of the Object Lambda access point in place of the bucket name. If the Object Lambda access point alias in a request is not valid, the error code InvalidAccessPointAliasError is returned. For more information about InvalidAccessPointAliasError, see [List of Error Codes](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#ErrorCodeList).
     /// This member is required.
@@ -8204,36 +8207,9 @@ public struct GetBucketCorsInput: Swift.Equatable {
     }
 }
 
-struct GetBucketCorsInputBody: Swift.Equatable {
-}
-
-extension GetBucketCorsInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-extension GetBucketCorsOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetBucketCorsOutputBody = try responseDecoder.decode(responseBody: data)
-            self.corsRules = output.corsRules
-        } else {
-            self.corsRules = nil
-        }
-    }
-}
-
-public struct GetBucketCorsOutput: Swift.Equatable {
-    /// A set of origins and methods (cross-origin access that you want to allow). You can add up to 100 rules to the configuration.
-    public var corsRules: [S3ClientTypes.CORSRule]?
-
-    public init(
-        corsRules: [S3ClientTypes.CORSRule]? = nil
-    )
-    {
-        self.corsRules = corsRules
+extension GetBucketCorsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
     }
 }
 
@@ -8278,6 +8254,39 @@ enum GetBucketCorsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension GetBucketCorsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetBucketCorsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.corsRules = output.corsRules
+        } else {
+            self.corsRules = nil
+        }
+    }
+}
+
+public struct GetBucketCorsOutput: Swift.Equatable {
+    /// A set of origins and methods (cross-origin access that you want to allow). You can add up to 100 rules to the configuration.
+    public var corsRules: [S3ClientTypes.CORSRule]?
+
+    public init(
+        corsRules: [S3ClientTypes.CORSRule]? = nil
+    )
+    {
+        self.corsRules = corsRules
+    }
+}
+
+struct GetBucketEncryptionInputBody: Swift.Equatable {
+}
+
+extension GetBucketEncryptionInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
 extension GetBucketEncryptionInput: ClientRuntime.HeaderProvider {
     public var headers: ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
@@ -8298,12 +8307,6 @@ extension GetBucketEncryptionInput: ClientRuntime.QueryItemProvider {
     }
 }
 
-extension GetBucketEncryptionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
-    }
-}
-
 public struct GetBucketEncryptionInput: Swift.Equatable {
     /// The name of the bucket from which the server-side encryption configuration is retrieved.
     /// This member is required.
@@ -8321,35 +8324,9 @@ public struct GetBucketEncryptionInput: Swift.Equatable {
     }
 }
 
-struct GetBucketEncryptionInputBody: Swift.Equatable {
-}
-
-extension GetBucketEncryptionInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-extension GetBucketEncryptionOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: S3ClientTypes.ServerSideEncryptionConfiguration = try responseDecoder.decode(responseBody: data)
-            self.serverSideEncryptionConfiguration = output
-        } else {
-            self.serverSideEncryptionConfiguration = nil
-        }
-    }
-}
-
-public struct GetBucketEncryptionOutput: Swift.Equatable {
-    /// Specifies the default server-side-encryption configuration.
-    public var serverSideEncryptionConfiguration: S3ClientTypes.ServerSideEncryptionConfiguration?
-
-    public init(
-        serverSideEncryptionConfiguration: S3ClientTypes.ServerSideEncryptionConfiguration? = nil
-    )
-    {
-        self.serverSideEncryptionConfiguration = serverSideEncryptionConfiguration
+extension GetBucketEncryptionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
     }
 }
 
@@ -8378,6 +8355,38 @@ enum GetBucketEncryptionOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension GetBucketEncryptionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: S3ClientTypes.ServerSideEncryptionConfiguration = try responseDecoder.decode(responseBody: data)
+            self.serverSideEncryptionConfiguration = output
+        } else {
+            self.serverSideEncryptionConfiguration = nil
+        }
+    }
+}
+
+public struct GetBucketEncryptionOutput: Swift.Equatable {
+    /// Specifies the default server-side-encryption configuration.
+    public var serverSideEncryptionConfiguration: S3ClientTypes.ServerSideEncryptionConfiguration?
+
+    public init(
+        serverSideEncryptionConfiguration: S3ClientTypes.ServerSideEncryptionConfiguration? = nil
+    )
+    {
+        self.serverSideEncryptionConfiguration = serverSideEncryptionConfiguration
+    }
+}
+
+struct GetBucketIntelligentTieringConfigurationInputBody: Swift.Equatable {
+}
+
+extension GetBucketIntelligentTieringConfigurationInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
 extension GetBucketIntelligentTieringConfigurationInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -8392,12 +8401,6 @@ extension GetBucketIntelligentTieringConfigurationInput: ClientRuntime.QueryItem
             items.append(idQueryItem)
             return items
         }
-    }
-}
-
-extension GetBucketIntelligentTieringConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
     }
 }
 
@@ -8419,12 +8422,34 @@ public struct GetBucketIntelligentTieringConfigurationInput: Swift.Equatable {
     }
 }
 
-struct GetBucketIntelligentTieringConfigurationInputBody: Swift.Equatable {
+extension GetBucketIntelligentTieringConfigurationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
 }
 
-extension GetBucketIntelligentTieringConfigurationInputBody: Swift.Decodable {
+struct GetBucketIntelligentTieringConfigurationOutputBody: Swift.Equatable {
+    let intelligentTieringConfiguration: S3ClientTypes.IntelligentTieringConfiguration?
+}
+
+extension GetBucketIntelligentTieringConfigurationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case intelligentTieringConfiguration = "IntelligentTieringConfiguration"
+    }
 
     public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let intelligentTieringConfigurationDecoded = try containerValues.decodeIfPresent(S3ClientTypes.IntelligentTieringConfiguration.self, forKey: .intelligentTieringConfiguration)
+        intelligentTieringConfiguration = intelligentTieringConfigurationDecoded
+    }
+}
+
+enum GetBucketIntelligentTieringConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -8451,28 +8476,12 @@ public struct GetBucketIntelligentTieringConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct GetBucketIntelligentTieringConfigurationOutputBody: Swift.Equatable {
-    let intelligentTieringConfiguration: S3ClientTypes.IntelligentTieringConfiguration?
+struct GetBucketInventoryConfigurationInputBody: Swift.Equatable {
 }
 
-extension GetBucketIntelligentTieringConfigurationOutputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case intelligentTieringConfiguration = "IntelligentTieringConfiguration"
-    }
+extension GetBucketInventoryConfigurationInputBody: Swift.Decodable {
 
     public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let intelligentTieringConfigurationDecoded = try containerValues.decodeIfPresent(S3ClientTypes.IntelligentTieringConfiguration.self, forKey: .intelligentTieringConfiguration)
-        intelligentTieringConfiguration = intelligentTieringConfigurationDecoded
-    }
-}
-
-enum GetBucketIntelligentTieringConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
-        }
     }
 }
 
@@ -8503,12 +8512,6 @@ extension GetBucketInventoryConfigurationInput: ClientRuntime.QueryItemProvider 
     }
 }
 
-extension GetBucketInventoryConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
-    }
-}
-
 public struct GetBucketInventoryConfigurationInput: Swift.Equatable {
     /// The name of the bucket containing the inventory configuration to retrieve.
     /// This member is required.
@@ -8531,35 +8534,9 @@ public struct GetBucketInventoryConfigurationInput: Swift.Equatable {
     }
 }
 
-struct GetBucketInventoryConfigurationInputBody: Swift.Equatable {
-}
-
-extension GetBucketInventoryConfigurationInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-extension GetBucketInventoryConfigurationOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: S3ClientTypes.InventoryConfiguration = try responseDecoder.decode(responseBody: data)
-            self.inventoryConfiguration = output
-        } else {
-            self.inventoryConfiguration = nil
-        }
-    }
-}
-
-public struct GetBucketInventoryConfigurationOutput: Swift.Equatable {
-    /// Specifies the inventory configuration.
-    public var inventoryConfiguration: S3ClientTypes.InventoryConfiguration?
-
-    public init(
-        inventoryConfiguration: S3ClientTypes.InventoryConfiguration? = nil
-    )
-    {
-        self.inventoryConfiguration = inventoryConfiguration
+extension GetBucketInventoryConfigurationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
     }
 }
 
@@ -8588,6 +8565,38 @@ enum GetBucketInventoryConfigurationOutputError: ClientRuntime.HttpResponseError
     }
 }
 
+extension GetBucketInventoryConfigurationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: S3ClientTypes.InventoryConfiguration = try responseDecoder.decode(responseBody: data)
+            self.inventoryConfiguration = output
+        } else {
+            self.inventoryConfiguration = nil
+        }
+    }
+}
+
+public struct GetBucketInventoryConfigurationOutput: Swift.Equatable {
+    /// Specifies the inventory configuration.
+    public var inventoryConfiguration: S3ClientTypes.InventoryConfiguration?
+
+    public init(
+        inventoryConfiguration: S3ClientTypes.InventoryConfiguration? = nil
+    )
+    {
+        self.inventoryConfiguration = inventoryConfiguration
+    }
+}
+
+struct GetBucketLifecycleConfigurationInputBody: Swift.Equatable {
+}
+
+extension GetBucketLifecycleConfigurationInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
 extension GetBucketLifecycleConfigurationInput: ClientRuntime.HeaderProvider {
     public var headers: ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
@@ -8608,12 +8617,6 @@ extension GetBucketLifecycleConfigurationInput: ClientRuntime.QueryItemProvider 
     }
 }
 
-extension GetBucketLifecycleConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
-    }
-}
-
 public struct GetBucketLifecycleConfigurationInput: Swift.Equatable {
     /// The name of the bucket for which to get the lifecycle information.
     /// This member is required.
@@ -8631,36 +8634,9 @@ public struct GetBucketLifecycleConfigurationInput: Swift.Equatable {
     }
 }
 
-struct GetBucketLifecycleConfigurationInputBody: Swift.Equatable {
-}
-
-extension GetBucketLifecycleConfigurationInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-extension GetBucketLifecycleConfigurationOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetBucketLifecycleConfigurationOutputBody = try responseDecoder.decode(responseBody: data)
-            self.rules = output.rules
-        } else {
-            self.rules = nil
-        }
-    }
-}
-
-public struct GetBucketLifecycleConfigurationOutput: Swift.Equatable {
-    /// Container for a lifecycle rule.
-    public var rules: [S3ClientTypes.LifecycleRule]?
-
-    public init(
-        rules: [S3ClientTypes.LifecycleRule]? = nil
-    )
-    {
-        self.rules = rules
+extension GetBucketLifecycleConfigurationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
     }
 }
 
@@ -8705,6 +8681,39 @@ enum GetBucketLifecycleConfigurationOutputError: ClientRuntime.HttpResponseError
     }
 }
 
+extension GetBucketLifecycleConfigurationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetBucketLifecycleConfigurationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.rules = output.rules
+        } else {
+            self.rules = nil
+        }
+    }
+}
+
+public struct GetBucketLifecycleConfigurationOutput: Swift.Equatable {
+    /// Container for a lifecycle rule.
+    public var rules: [S3ClientTypes.LifecycleRule]?
+
+    public init(
+        rules: [S3ClientTypes.LifecycleRule]? = nil
+    )
+    {
+        self.rules = rules
+    }
+}
+
+struct GetBucketLocationInputBody: Swift.Equatable {
+}
+
+extension GetBucketLocationInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
 extension GetBucketLocationInput: ClientRuntime.HeaderProvider {
     public var headers: ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
@@ -8725,12 +8734,6 @@ extension GetBucketLocationInput: ClientRuntime.QueryItemProvider {
     }
 }
 
-extension GetBucketLocationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
-    }
-}
-
 public struct GetBucketLocationInput: Swift.Equatable {
     /// The name of the bucket for which to get the location. To use this API operation against an access point, provide the alias of the access point in place of the bucket name. To use this API operation against an Object Lambda access point, provide the alias of the Object Lambda access point in place of the bucket name. If the Object Lambda access point alias in a request is not valid, the error code InvalidAccessPointAliasError is returned. For more information about InvalidAccessPointAliasError, see [List of Error Codes](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#ErrorCodeList).
     /// This member is required.
@@ -8748,36 +8751,9 @@ public struct GetBucketLocationInput: Swift.Equatable {
     }
 }
 
-struct GetBucketLocationInputBody: Swift.Equatable {
-}
-
-extension GetBucketLocationInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-extension GetBucketLocationOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetBucketLocationOutputBody = try responseDecoder.decode(responseBody: data)
-            self.locationConstraint = output.locationConstraint
-        } else {
-            self.locationConstraint = nil
-        }
-    }
-}
-
-public struct GetBucketLocationOutput: Swift.Equatable {
-    /// Specifies the Region where the bucket resides. For a list of all the Amazon S3 supported location constraints by Region, see [Regions and Endpoints](https://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region). Buckets in Region us-east-1 have a LocationConstraint of null.
-    public var locationConstraint: S3ClientTypes.BucketLocationConstraint?
-
-    public init(
-        locationConstraint: S3ClientTypes.BucketLocationConstraint? = nil
-    )
-    {
-        self.locationConstraint = locationConstraint
+extension GetBucketLocationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
     }
 }
 
@@ -8806,6 +8782,39 @@ enum GetBucketLocationOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension GetBucketLocationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetBucketLocationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.locationConstraint = output.locationConstraint
+        } else {
+            self.locationConstraint = nil
+        }
+    }
+}
+
+public struct GetBucketLocationOutput: Swift.Equatable {
+    /// Specifies the Region where the bucket resides. For a list of all the Amazon S3 supported location constraints by Region, see [Regions and Endpoints](https://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region). Buckets in Region us-east-1 have a LocationConstraint of null.
+    public var locationConstraint: S3ClientTypes.BucketLocationConstraint?
+
+    public init(
+        locationConstraint: S3ClientTypes.BucketLocationConstraint? = nil
+    )
+    {
+        self.locationConstraint = locationConstraint
+    }
+}
+
+struct GetBucketLoggingInputBody: Swift.Equatable {
+}
+
+extension GetBucketLoggingInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
 extension GetBucketLoggingInput: ClientRuntime.HeaderProvider {
     public var headers: ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
@@ -8826,12 +8835,6 @@ extension GetBucketLoggingInput: ClientRuntime.QueryItemProvider {
     }
 }
 
-extension GetBucketLoggingInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
-    }
-}
-
 public struct GetBucketLoggingInput: Swift.Equatable {
     /// The bucket name for which to get the logging information.
     /// This member is required.
@@ -8849,12 +8852,34 @@ public struct GetBucketLoggingInput: Swift.Equatable {
     }
 }
 
-struct GetBucketLoggingInputBody: Swift.Equatable {
+extension GetBucketLoggingInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
 }
 
-extension GetBucketLoggingInputBody: Swift.Decodable {
+struct GetBucketLoggingOutputBody: Swift.Equatable {
+    let loggingEnabled: S3ClientTypes.LoggingEnabled?
+}
+
+extension GetBucketLoggingOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case loggingEnabled = "LoggingEnabled"
+    }
 
     public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let loggingEnabledDecoded = try containerValues.decodeIfPresent(S3ClientTypes.LoggingEnabled.self, forKey: .loggingEnabled)
+        loggingEnabled = loggingEnabledDecoded
+    }
+}
+
+enum GetBucketLoggingOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -8882,28 +8907,12 @@ public struct GetBucketLoggingOutput: Swift.Equatable {
     }
 }
 
-struct GetBucketLoggingOutputBody: Swift.Equatable {
-    let loggingEnabled: S3ClientTypes.LoggingEnabled?
+struct GetBucketMetricsConfigurationInputBody: Swift.Equatable {
 }
 
-extension GetBucketLoggingOutputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case loggingEnabled = "LoggingEnabled"
-    }
+extension GetBucketMetricsConfigurationInputBody: Swift.Decodable {
 
     public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let loggingEnabledDecoded = try containerValues.decodeIfPresent(S3ClientTypes.LoggingEnabled.self, forKey: .loggingEnabled)
-        loggingEnabled = loggingEnabledDecoded
-    }
-}
-
-enum GetBucketLoggingOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
-        }
     }
 }
 
@@ -8934,12 +8943,6 @@ extension GetBucketMetricsConfigurationInput: ClientRuntime.QueryItemProvider {
     }
 }
 
-extension GetBucketMetricsConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
-    }
-}
-
 public struct GetBucketMetricsConfigurationInput: Swift.Equatable {
     /// The name of the bucket containing the metrics configuration to retrieve.
     /// This member is required.
@@ -8962,35 +8965,9 @@ public struct GetBucketMetricsConfigurationInput: Swift.Equatable {
     }
 }
 
-struct GetBucketMetricsConfigurationInputBody: Swift.Equatable {
-}
-
-extension GetBucketMetricsConfigurationInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-extension GetBucketMetricsConfigurationOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: S3ClientTypes.MetricsConfiguration = try responseDecoder.decode(responseBody: data)
-            self.metricsConfiguration = output
-        } else {
-            self.metricsConfiguration = nil
-        }
-    }
-}
-
-public struct GetBucketMetricsConfigurationOutput: Swift.Equatable {
-    /// Specifies the metrics configuration.
-    public var metricsConfiguration: S3ClientTypes.MetricsConfiguration?
-
-    public init(
-        metricsConfiguration: S3ClientTypes.MetricsConfiguration? = nil
-    )
-    {
-        self.metricsConfiguration = metricsConfiguration
+extension GetBucketMetricsConfigurationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
     }
 }
 
@@ -9019,6 +8996,38 @@ enum GetBucketMetricsConfigurationOutputError: ClientRuntime.HttpResponseErrorBi
     }
 }
 
+extension GetBucketMetricsConfigurationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: S3ClientTypes.MetricsConfiguration = try responseDecoder.decode(responseBody: data)
+            self.metricsConfiguration = output
+        } else {
+            self.metricsConfiguration = nil
+        }
+    }
+}
+
+public struct GetBucketMetricsConfigurationOutput: Swift.Equatable {
+    /// Specifies the metrics configuration.
+    public var metricsConfiguration: S3ClientTypes.MetricsConfiguration?
+
+    public init(
+        metricsConfiguration: S3ClientTypes.MetricsConfiguration? = nil
+    )
+    {
+        self.metricsConfiguration = metricsConfiguration
+    }
+}
+
+struct GetBucketNotificationConfigurationInputBody: Swift.Equatable {
+}
+
+extension GetBucketNotificationConfigurationInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
 extension GetBucketNotificationConfigurationInput: ClientRuntime.HeaderProvider {
     public var headers: ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
@@ -9039,12 +9048,6 @@ extension GetBucketNotificationConfigurationInput: ClientRuntime.QueryItemProvid
     }
 }
 
-extension GetBucketNotificationConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
-    }
-}
-
 public struct GetBucketNotificationConfigurationInput: Swift.Equatable {
     /// The name of the bucket for which to get the notification configuration. To use this API operation against an access point, provide the alias of the access point in place of the bucket name. To use this API operation against an Object Lambda access point, provide the alias of the Object Lambda access point in place of the bucket name. If the Object Lambda access point alias in a request is not valid, the error code InvalidAccessPointAliasError is returned. For more information about InvalidAccessPointAliasError, see [List of Error Codes](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#ErrorCodeList).
     /// This member is required.
@@ -9062,55 +9065,9 @@ public struct GetBucketNotificationConfigurationInput: Swift.Equatable {
     }
 }
 
-struct GetBucketNotificationConfigurationInputBody: Swift.Equatable {
-}
-
-extension GetBucketNotificationConfigurationInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-extension GetBucketNotificationConfigurationOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetBucketNotificationConfigurationOutputBody = try responseDecoder.decode(responseBody: data)
-            self.eventBridgeConfiguration = output.eventBridgeConfiguration
-            self.lambdaFunctionConfigurations = output.lambdaFunctionConfigurations
-            self.queueConfigurations = output.queueConfigurations
-            self.topicConfigurations = output.topicConfigurations
-        } else {
-            self.eventBridgeConfiguration = nil
-            self.lambdaFunctionConfigurations = nil
-            self.queueConfigurations = nil
-            self.topicConfigurations = nil
-        }
-    }
-}
-
-/// A container for specifying the notification configuration of the bucket. If this element is empty, notifications are turned off for the bucket.
-public struct GetBucketNotificationConfigurationOutput: Swift.Equatable {
-    /// Enables delivery of events to Amazon EventBridge.
-    public var eventBridgeConfiguration: S3ClientTypes.EventBridgeConfiguration?
-    /// Describes the Lambda functions to invoke and the events for which to invoke them.
-    public var lambdaFunctionConfigurations: [S3ClientTypes.LambdaFunctionConfiguration]?
-    /// The Amazon Simple Queue Service queues to publish messages to and the events for which to publish messages.
-    public var queueConfigurations: [S3ClientTypes.QueueConfiguration]?
-    /// The topic to which notifications are sent and the events for which notifications are generated.
-    public var topicConfigurations: [S3ClientTypes.TopicConfiguration]?
-
-    public init(
-        eventBridgeConfiguration: S3ClientTypes.EventBridgeConfiguration? = nil,
-        lambdaFunctionConfigurations: [S3ClientTypes.LambdaFunctionConfiguration]? = nil,
-        queueConfigurations: [S3ClientTypes.QueueConfiguration]? = nil,
-        topicConfigurations: [S3ClientTypes.TopicConfiguration]? = nil
-    )
-    {
-        self.eventBridgeConfiguration = eventBridgeConfiguration
-        self.lambdaFunctionConfigurations = lambdaFunctionConfigurations
-        self.queueConfigurations = queueConfigurations
-        self.topicConfigurations = topicConfigurations
+extension GetBucketNotificationConfigurationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
     }
 }
 
@@ -9199,6 +9156,58 @@ enum GetBucketNotificationConfigurationOutputError: ClientRuntime.HttpResponseEr
     }
 }
 
+extension GetBucketNotificationConfigurationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetBucketNotificationConfigurationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.eventBridgeConfiguration = output.eventBridgeConfiguration
+            self.lambdaFunctionConfigurations = output.lambdaFunctionConfigurations
+            self.queueConfigurations = output.queueConfigurations
+            self.topicConfigurations = output.topicConfigurations
+        } else {
+            self.eventBridgeConfiguration = nil
+            self.lambdaFunctionConfigurations = nil
+            self.queueConfigurations = nil
+            self.topicConfigurations = nil
+        }
+    }
+}
+
+/// A container for specifying the notification configuration of the bucket. If this element is empty, notifications are turned off for the bucket.
+public struct GetBucketNotificationConfigurationOutput: Swift.Equatable {
+    /// Enables delivery of events to Amazon EventBridge.
+    public var eventBridgeConfiguration: S3ClientTypes.EventBridgeConfiguration?
+    /// Describes the Lambda functions to invoke and the events for which to invoke them.
+    public var lambdaFunctionConfigurations: [S3ClientTypes.LambdaFunctionConfiguration]?
+    /// The Amazon Simple Queue Service queues to publish messages to and the events for which to publish messages.
+    public var queueConfigurations: [S3ClientTypes.QueueConfiguration]?
+    /// The topic to which notifications are sent and the events for which notifications are generated.
+    public var topicConfigurations: [S3ClientTypes.TopicConfiguration]?
+
+    public init(
+        eventBridgeConfiguration: S3ClientTypes.EventBridgeConfiguration? = nil,
+        lambdaFunctionConfigurations: [S3ClientTypes.LambdaFunctionConfiguration]? = nil,
+        queueConfigurations: [S3ClientTypes.QueueConfiguration]? = nil,
+        topicConfigurations: [S3ClientTypes.TopicConfiguration]? = nil
+    )
+    {
+        self.eventBridgeConfiguration = eventBridgeConfiguration
+        self.lambdaFunctionConfigurations = lambdaFunctionConfigurations
+        self.queueConfigurations = queueConfigurations
+        self.topicConfigurations = topicConfigurations
+    }
+}
+
+struct GetBucketOwnershipControlsInputBody: Swift.Equatable {
+}
+
+extension GetBucketOwnershipControlsInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
 extension GetBucketOwnershipControlsInput: ClientRuntime.HeaderProvider {
     public var headers: ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
@@ -9219,12 +9228,6 @@ extension GetBucketOwnershipControlsInput: ClientRuntime.QueryItemProvider {
     }
 }
 
-extension GetBucketOwnershipControlsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
-    }
-}
-
 public struct GetBucketOwnershipControlsInput: Swift.Equatable {
     /// The name of the Amazon S3 bucket whose OwnershipControls you want to retrieve.
     /// This member is required.
@@ -9242,35 +9245,9 @@ public struct GetBucketOwnershipControlsInput: Swift.Equatable {
     }
 }
 
-struct GetBucketOwnershipControlsInputBody: Swift.Equatable {
-}
-
-extension GetBucketOwnershipControlsInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-extension GetBucketOwnershipControlsOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: S3ClientTypes.OwnershipControls = try responseDecoder.decode(responseBody: data)
-            self.ownershipControls = output
-        } else {
-            self.ownershipControls = nil
-        }
-    }
-}
-
-public struct GetBucketOwnershipControlsOutput: Swift.Equatable {
-    /// The OwnershipControls (BucketOwnerEnforced, BucketOwnerPreferred, or ObjectWriter) currently in effect for this Amazon S3 bucket.
-    public var ownershipControls: S3ClientTypes.OwnershipControls?
-
-    public init(
-        ownershipControls: S3ClientTypes.OwnershipControls? = nil
-    )
-    {
-        self.ownershipControls = ownershipControls
+extension GetBucketOwnershipControlsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
     }
 }
 
@@ -9299,6 +9276,38 @@ enum GetBucketOwnershipControlsOutputError: ClientRuntime.HttpResponseErrorBindi
     }
 }
 
+extension GetBucketOwnershipControlsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: S3ClientTypes.OwnershipControls = try responseDecoder.decode(responseBody: data)
+            self.ownershipControls = output
+        } else {
+            self.ownershipControls = nil
+        }
+    }
+}
+
+public struct GetBucketOwnershipControlsOutput: Swift.Equatable {
+    /// The OwnershipControls (BucketOwnerEnforced, BucketOwnerPreferred, or ObjectWriter) currently in effect for this Amazon S3 bucket.
+    public var ownershipControls: S3ClientTypes.OwnershipControls?
+
+    public init(
+        ownershipControls: S3ClientTypes.OwnershipControls? = nil
+    )
+    {
+        self.ownershipControls = ownershipControls
+    }
+}
+
+struct GetBucketPolicyInputBody: Swift.Equatable {
+}
+
+extension GetBucketPolicyInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
 extension GetBucketPolicyInput: ClientRuntime.HeaderProvider {
     public var headers: ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
@@ -9319,12 +9328,6 @@ extension GetBucketPolicyInput: ClientRuntime.QueryItemProvider {
     }
 }
 
-extension GetBucketPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
-    }
-}
-
 public struct GetBucketPolicyInput: Swift.Equatable {
     /// The bucket name for which to get the bucket policy. To use this API operation against an access point, provide the alias of the access point in place of the bucket name. To use this API operation against an Object Lambda access point, provide the alias of the Object Lambda access point in place of the bucket name. If the Object Lambda access point alias in a request is not valid, the error code InvalidAccessPointAliasError is returned. For more information about InvalidAccessPointAliasError, see [List of Error Codes](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#ErrorCodeList).
     /// This member is required.
@@ -9342,34 +9345,9 @@ public struct GetBucketPolicyInput: Swift.Equatable {
     }
 }
 
-struct GetBucketPolicyInputBody: Swift.Equatable {
-}
-
-extension GetBucketPolicyInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-extension GetBucketPolicyOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let output = Swift.String(data: data, encoding: .utf8) {
-            self.policy = output
-        } else {
-            self.policy = nil
-        }
-    }
-}
-
-public struct GetBucketPolicyOutput: Swift.Equatable {
-    /// The bucket policy as a JSON document.
-    public var policy: Swift.String?
-
-    public init(
-        policy: Swift.String? = nil
-    )
-    {
-        self.policy = policy
+extension GetBucketPolicyInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
     }
 }
 
@@ -9398,6 +9376,37 @@ enum GetBucketPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension GetBucketPolicyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let output = Swift.String(data: data, encoding: .utf8) {
+            self.policy = output
+        } else {
+            self.policy = nil
+        }
+    }
+}
+
+public struct GetBucketPolicyOutput: Swift.Equatable {
+    /// The bucket policy as a JSON document.
+    public var policy: Swift.String?
+
+    public init(
+        policy: Swift.String? = nil
+    )
+    {
+        self.policy = policy
+    }
+}
+
+struct GetBucketPolicyStatusInputBody: Swift.Equatable {
+}
+
+extension GetBucketPolicyStatusInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
 extension GetBucketPolicyStatusInput: ClientRuntime.HeaderProvider {
     public var headers: ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
@@ -9418,12 +9427,6 @@ extension GetBucketPolicyStatusInput: ClientRuntime.QueryItemProvider {
     }
 }
 
-extension GetBucketPolicyStatusInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
-    }
-}
-
 public struct GetBucketPolicyStatusInput: Swift.Equatable {
     /// The name of the Amazon S3 bucket whose policy status you want to retrieve.
     /// This member is required.
@@ -9441,35 +9444,9 @@ public struct GetBucketPolicyStatusInput: Swift.Equatable {
     }
 }
 
-struct GetBucketPolicyStatusInputBody: Swift.Equatable {
-}
-
-extension GetBucketPolicyStatusInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-extension GetBucketPolicyStatusOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: S3ClientTypes.PolicyStatus = try responseDecoder.decode(responseBody: data)
-            self.policyStatus = output
-        } else {
-            self.policyStatus = nil
-        }
-    }
-}
-
-public struct GetBucketPolicyStatusOutput: Swift.Equatable {
-    /// The policy status for the specified bucket.
-    public var policyStatus: S3ClientTypes.PolicyStatus?
-
-    public init(
-        policyStatus: S3ClientTypes.PolicyStatus? = nil
-    )
-    {
-        self.policyStatus = policyStatus
+extension GetBucketPolicyStatusInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
     }
 }
 
@@ -9498,6 +9475,38 @@ enum GetBucketPolicyStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension GetBucketPolicyStatusOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: S3ClientTypes.PolicyStatus = try responseDecoder.decode(responseBody: data)
+            self.policyStatus = output
+        } else {
+            self.policyStatus = nil
+        }
+    }
+}
+
+public struct GetBucketPolicyStatusOutput: Swift.Equatable {
+    /// The policy status for the specified bucket.
+    public var policyStatus: S3ClientTypes.PolicyStatus?
+
+    public init(
+        policyStatus: S3ClientTypes.PolicyStatus? = nil
+    )
+    {
+        self.policyStatus = policyStatus
+    }
+}
+
+struct GetBucketReplicationInputBody: Swift.Equatable {
+}
+
+extension GetBucketReplicationInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
 extension GetBucketReplicationInput: ClientRuntime.HeaderProvider {
     public var headers: ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
@@ -9518,12 +9527,6 @@ extension GetBucketReplicationInput: ClientRuntime.QueryItemProvider {
     }
 }
 
-extension GetBucketReplicationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
-    }
-}
-
 public struct GetBucketReplicationInput: Swift.Equatable {
     /// The bucket name for which to get the replication information.
     /// This member is required.
@@ -9541,35 +9544,9 @@ public struct GetBucketReplicationInput: Swift.Equatable {
     }
 }
 
-struct GetBucketReplicationInputBody: Swift.Equatable {
-}
-
-extension GetBucketReplicationInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-extension GetBucketReplicationOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: S3ClientTypes.ReplicationConfiguration = try responseDecoder.decode(responseBody: data)
-            self.replicationConfiguration = output
-        } else {
-            self.replicationConfiguration = nil
-        }
-    }
-}
-
-public struct GetBucketReplicationOutput: Swift.Equatable {
-    /// A container for replication rules. You can add up to 1,000 rules. The maximum size of a replication configuration is 2 MB.
-    public var replicationConfiguration: S3ClientTypes.ReplicationConfiguration?
-
-    public init(
-        replicationConfiguration: S3ClientTypes.ReplicationConfiguration? = nil
-    )
-    {
-        self.replicationConfiguration = replicationConfiguration
+extension GetBucketReplicationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
     }
 }
 
@@ -9598,6 +9575,38 @@ enum GetBucketReplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension GetBucketReplicationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: S3ClientTypes.ReplicationConfiguration = try responseDecoder.decode(responseBody: data)
+            self.replicationConfiguration = output
+        } else {
+            self.replicationConfiguration = nil
+        }
+    }
+}
+
+public struct GetBucketReplicationOutput: Swift.Equatable {
+    /// A container for replication rules. You can add up to 1,000 rules. The maximum size of a replication configuration is 2 MB.
+    public var replicationConfiguration: S3ClientTypes.ReplicationConfiguration?
+
+    public init(
+        replicationConfiguration: S3ClientTypes.ReplicationConfiguration? = nil
+    )
+    {
+        self.replicationConfiguration = replicationConfiguration
+    }
+}
+
+struct GetBucketRequestPaymentInputBody: Swift.Equatable {
+}
+
+extension GetBucketRequestPaymentInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
 extension GetBucketRequestPaymentInput: ClientRuntime.HeaderProvider {
     public var headers: ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
@@ -9618,12 +9627,6 @@ extension GetBucketRequestPaymentInput: ClientRuntime.QueryItemProvider {
     }
 }
 
-extension GetBucketRequestPaymentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
-    }
-}
-
 public struct GetBucketRequestPaymentInput: Swift.Equatable {
     /// The name of the bucket for which to get the payment request configuration
     /// This member is required.
@@ -9641,36 +9644,9 @@ public struct GetBucketRequestPaymentInput: Swift.Equatable {
     }
 }
 
-struct GetBucketRequestPaymentInputBody: Swift.Equatable {
-}
-
-extension GetBucketRequestPaymentInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-extension GetBucketRequestPaymentOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetBucketRequestPaymentOutputBody = try responseDecoder.decode(responseBody: data)
-            self.payer = output.payer
-        } else {
-            self.payer = nil
-        }
-    }
-}
-
-public struct GetBucketRequestPaymentOutput: Swift.Equatable {
-    /// Specifies who pays for the download and request fees.
-    public var payer: S3ClientTypes.Payer?
-
-    public init(
-        payer: S3ClientTypes.Payer? = nil
-    )
-    {
-        self.payer = payer
+extension GetBucketRequestPaymentInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
     }
 }
 
@@ -9699,6 +9675,39 @@ enum GetBucketRequestPaymentOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
+extension GetBucketRequestPaymentOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetBucketRequestPaymentOutputBody = try responseDecoder.decode(responseBody: data)
+            self.payer = output.payer
+        } else {
+            self.payer = nil
+        }
+    }
+}
+
+public struct GetBucketRequestPaymentOutput: Swift.Equatable {
+    /// Specifies who pays for the download and request fees.
+    public var payer: S3ClientTypes.Payer?
+
+    public init(
+        payer: S3ClientTypes.Payer? = nil
+    )
+    {
+        self.payer = payer
+    }
+}
+
+struct GetBucketTaggingInputBody: Swift.Equatable {
+}
+
+extension GetBucketTaggingInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
 extension GetBucketTaggingInput: ClientRuntime.HeaderProvider {
     public var headers: ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
@@ -9719,12 +9728,6 @@ extension GetBucketTaggingInput: ClientRuntime.QueryItemProvider {
     }
 }
 
-extension GetBucketTaggingInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
-    }
-}
-
 public struct GetBucketTaggingInput: Swift.Equatable {
     /// The name of the bucket for which to get the tagging information.
     /// This member is required.
@@ -9742,37 +9745,9 @@ public struct GetBucketTaggingInput: Swift.Equatable {
     }
 }
 
-struct GetBucketTaggingInputBody: Swift.Equatable {
-}
-
-extension GetBucketTaggingInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-extension GetBucketTaggingOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetBucketTaggingOutputBody = try responseDecoder.decode(responseBody: data)
-            self.tagSet = output.tagSet
-        } else {
-            self.tagSet = nil
-        }
-    }
-}
-
-public struct GetBucketTaggingOutput: Swift.Equatable {
-    /// Contains the tag set.
-    /// This member is required.
-    public var tagSet: [S3ClientTypes.Tag]?
-
-    public init(
-        tagSet: [S3ClientTypes.Tag]? = nil
-    )
-    {
-        self.tagSet = tagSet
+extension GetBucketTaggingInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
     }
 }
 
@@ -9818,6 +9793,40 @@ enum GetBucketTaggingOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension GetBucketTaggingOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetBucketTaggingOutputBody = try responseDecoder.decode(responseBody: data)
+            self.tagSet = output.tagSet
+        } else {
+            self.tagSet = nil
+        }
+    }
+}
+
+public struct GetBucketTaggingOutput: Swift.Equatable {
+    /// Contains the tag set.
+    /// This member is required.
+    public var tagSet: [S3ClientTypes.Tag]?
+
+    public init(
+        tagSet: [S3ClientTypes.Tag]? = nil
+    )
+    {
+        self.tagSet = tagSet
+    }
+}
+
+struct GetBucketVersioningInputBody: Swift.Equatable {
+}
+
+extension GetBucketVersioningInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
 extension GetBucketVersioningInput: ClientRuntime.HeaderProvider {
     public var headers: ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
@@ -9838,12 +9847,6 @@ extension GetBucketVersioningInput: ClientRuntime.QueryItemProvider {
     }
 }
 
-extension GetBucketVersioningInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
-    }
-}
-
 public struct GetBucketVersioningInput: Swift.Equatable {
     /// The name of the bucket for which to get the versioning information.
     /// This member is required.
@@ -9861,12 +9864,38 @@ public struct GetBucketVersioningInput: Swift.Equatable {
     }
 }
 
-struct GetBucketVersioningInputBody: Swift.Equatable {
+extension GetBucketVersioningInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
 }
 
-extension GetBucketVersioningInputBody: Swift.Decodable {
+struct GetBucketVersioningOutputBody: Swift.Equatable {
+    let status: S3ClientTypes.BucketVersioningStatus?
+    let mfaDelete: S3ClientTypes.MFADeleteStatus?
+}
+
+extension GetBucketVersioningOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case mfaDelete = "MfaDelete"
+        case status = "Status"
+    }
 
     public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let statusDecoded = try containerValues.decodeIfPresent(S3ClientTypes.BucketVersioningStatus.self, forKey: .status)
+        status = statusDecoded
+        let mfaDeleteDecoded = try containerValues.decodeIfPresent(S3ClientTypes.MFADeleteStatus.self, forKey: .mfaDelete)
+        mfaDelete = mfaDeleteDecoded
+    }
+}
+
+enum GetBucketVersioningOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -9900,32 +9929,12 @@ public struct GetBucketVersioningOutput: Swift.Equatable {
     }
 }
 
-struct GetBucketVersioningOutputBody: Swift.Equatable {
-    let status: S3ClientTypes.BucketVersioningStatus?
-    let mfaDelete: S3ClientTypes.MFADeleteStatus?
+struct GetBucketWebsiteInputBody: Swift.Equatable {
 }
 
-extension GetBucketVersioningOutputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case mfaDelete = "MfaDelete"
-        case status = "Status"
-    }
+extension GetBucketWebsiteInputBody: Swift.Decodable {
 
     public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let statusDecoded = try containerValues.decodeIfPresent(S3ClientTypes.BucketVersioningStatus.self, forKey: .status)
-        status = statusDecoded
-        let mfaDeleteDecoded = try containerValues.decodeIfPresent(S3ClientTypes.MFADeleteStatus.self, forKey: .mfaDelete)
-        mfaDelete = mfaDeleteDecoded
-    }
-}
-
-enum GetBucketVersioningOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
-        }
     }
 }
 
@@ -9949,12 +9958,6 @@ extension GetBucketWebsiteInput: ClientRuntime.QueryItemProvider {
     }
 }
 
-extension GetBucketWebsiteInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
-    }
-}
-
 public struct GetBucketWebsiteInput: Swift.Equatable {
     /// The bucket name for which to get the website configuration.
     /// This member is required.
@@ -9972,54 +9975,9 @@ public struct GetBucketWebsiteInput: Swift.Equatable {
     }
 }
 
-struct GetBucketWebsiteInputBody: Swift.Equatable {
-}
-
-extension GetBucketWebsiteInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-extension GetBucketWebsiteOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetBucketWebsiteOutputBody = try responseDecoder.decode(responseBody: data)
-            self.errorDocument = output.errorDocument
-            self.indexDocument = output.indexDocument
-            self.redirectAllRequestsTo = output.redirectAllRequestsTo
-            self.routingRules = output.routingRules
-        } else {
-            self.errorDocument = nil
-            self.indexDocument = nil
-            self.redirectAllRequestsTo = nil
-            self.routingRules = nil
-        }
-    }
-}
-
-public struct GetBucketWebsiteOutput: Swift.Equatable {
-    /// The object key name of the website error document to use for 4XX class errors.
-    public var errorDocument: S3ClientTypes.ErrorDocument?
-    /// The name of the index document for the website (for example index.html).
-    public var indexDocument: S3ClientTypes.IndexDocument?
-    /// Specifies the redirect behavior of all requests to a website endpoint of an Amazon S3 bucket.
-    public var redirectAllRequestsTo: S3ClientTypes.RedirectAllRequestsTo?
-    /// Rules that define when a redirect is applied and the redirect behavior.
-    public var routingRules: [S3ClientTypes.RoutingRule]?
-
-    public init(
-        errorDocument: S3ClientTypes.ErrorDocument? = nil,
-        indexDocument: S3ClientTypes.IndexDocument? = nil,
-        redirectAllRequestsTo: S3ClientTypes.RedirectAllRequestsTo? = nil,
-        routingRules: [S3ClientTypes.RoutingRule]? = nil
-    )
-    {
-        self.errorDocument = errorDocument
-        self.indexDocument = indexDocument
-        self.redirectAllRequestsTo = redirectAllRequestsTo
-        self.routingRules = routingRules
+extension GetBucketWebsiteInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
     }
 }
 
@@ -10077,6 +10035,57 @@ enum GetBucketWebsiteOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension GetBucketWebsiteOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetBucketWebsiteOutputBody = try responseDecoder.decode(responseBody: data)
+            self.errorDocument = output.errorDocument
+            self.indexDocument = output.indexDocument
+            self.redirectAllRequestsTo = output.redirectAllRequestsTo
+            self.routingRules = output.routingRules
+        } else {
+            self.errorDocument = nil
+            self.indexDocument = nil
+            self.redirectAllRequestsTo = nil
+            self.routingRules = nil
+        }
+    }
+}
+
+public struct GetBucketWebsiteOutput: Swift.Equatable {
+    /// The object key name of the website error document to use for 4XX class errors.
+    public var errorDocument: S3ClientTypes.ErrorDocument?
+    /// The name of the index document for the website (for example index.html).
+    public var indexDocument: S3ClientTypes.IndexDocument?
+    /// Specifies the redirect behavior of all requests to a website endpoint of an Amazon S3 bucket.
+    public var redirectAllRequestsTo: S3ClientTypes.RedirectAllRequestsTo?
+    /// Rules that define when a redirect is applied and the redirect behavior.
+    public var routingRules: [S3ClientTypes.RoutingRule]?
+
+    public init(
+        errorDocument: S3ClientTypes.ErrorDocument? = nil,
+        indexDocument: S3ClientTypes.IndexDocument? = nil,
+        redirectAllRequestsTo: S3ClientTypes.RedirectAllRequestsTo? = nil,
+        routingRules: [S3ClientTypes.RoutingRule]? = nil
+    )
+    {
+        self.errorDocument = errorDocument
+        self.indexDocument = indexDocument
+        self.redirectAllRequestsTo = redirectAllRequestsTo
+        self.routingRules = routingRules
+    }
+}
+
+struct GetObjectAclInputBody: Swift.Equatable {
+}
+
+extension GetObjectAclInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
 extension GetObjectAclInput: ClientRuntime.HeaderProvider {
     public var headers: ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
@@ -10101,15 +10110,6 @@ extension GetObjectAclInput: ClientRuntime.QueryItemProvider {
             }
             return items
         }
-    }
-}
-
-extension GetObjectAclInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let key = key else {
-            return nil
-        }
-        return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
@@ -10143,51 +10143,12 @@ public struct GetObjectAclInput: Swift.Equatable {
     }
 }
 
-struct GetObjectAclInputBody: Swift.Equatable {
-}
-
-extension GetObjectAclInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-extension GetObjectAclOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
-            self.requestCharged = S3ClientTypes.RequestCharged(rawValue: requestChargedHeaderValue)
-        } else {
-            self.requestCharged = nil
+extension GetObjectAclInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let key = key else {
+            return nil
         }
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetObjectAclOutputBody = try responseDecoder.decode(responseBody: data)
-            self.grants = output.grants
-            self.owner = output.owner
-        } else {
-            self.grants = nil
-            self.owner = nil
-        }
-    }
-}
-
-public struct GetObjectAclOutput: Swift.Equatable {
-    /// A list of grants.
-    public var grants: [S3ClientTypes.Grant]?
-    /// Container for the bucket owner's display name and ID.
-    public var owner: S3ClientTypes.Owner?
-    /// If present, indicates that the requester was successfully charged for the request.
-    public var requestCharged: S3ClientTypes.RequestCharged?
-
-    public init(
-        grants: [S3ClientTypes.Grant]? = nil,
-        owner: S3ClientTypes.Owner? = nil,
-        requestCharged: S3ClientTypes.RequestCharged? = nil
-    )
-    {
-        self.grants = grants
-        self.owner = owner
-        self.requestCharged = requestCharged
+        return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
@@ -10235,6 +10196,54 @@ enum GetObjectAclOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "NoSuchKey": return try await NoSuchKey(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
         }
+    }
+}
+
+extension GetObjectAclOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
+            self.requestCharged = S3ClientTypes.RequestCharged(rawValue: requestChargedHeaderValue)
+        } else {
+            self.requestCharged = nil
+        }
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetObjectAclOutputBody = try responseDecoder.decode(responseBody: data)
+            self.grants = output.grants
+            self.owner = output.owner
+        } else {
+            self.grants = nil
+            self.owner = nil
+        }
+    }
+}
+
+public struct GetObjectAclOutput: Swift.Equatable {
+    /// A list of grants.
+    public var grants: [S3ClientTypes.Grant]?
+    /// Container for the bucket owner's display name and ID.
+    public var owner: S3ClientTypes.Owner?
+    /// If present, indicates that the requester was successfully charged for the request.
+    public var requestCharged: S3ClientTypes.RequestCharged?
+
+    public init(
+        grants: [S3ClientTypes.Grant]? = nil,
+        owner: S3ClientTypes.Owner? = nil,
+        requestCharged: S3ClientTypes.RequestCharged? = nil
+    )
+    {
+        self.grants = grants
+        self.owner = owner
+        self.requestCharged = requestCharged
+    }
+}
+
+struct GetObjectAttributesInputBody: Swift.Equatable {
+}
+
+extension GetObjectAttributesInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
@@ -10287,15 +10296,6 @@ extension GetObjectAttributesInput: ClientRuntime.QueryItemProvider {
             }
             return items
         }
-    }
-}
-
-extension GetObjectAttributesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let key = key else {
-            return nil
-        }
-        return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
@@ -10354,12 +10354,54 @@ public struct GetObjectAttributesInput: Swift.Equatable {
     }
 }
 
-struct GetObjectAttributesInputBody: Swift.Equatable {
+extension GetObjectAttributesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let key = key else {
+            return nil
+        }
+        return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
+    }
 }
 
-extension GetObjectAttributesInputBody: Swift.Decodable {
+struct GetObjectAttributesOutputBody: Swift.Equatable {
+    let eTag: Swift.String?
+    let checksum: S3ClientTypes.Checksum?
+    let objectParts: S3ClientTypes.GetObjectAttributesParts?
+    let storageClass: S3ClientTypes.StorageClass?
+    let objectSize: Swift.Int
+}
+
+extension GetObjectAttributesOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case checksum = "Checksum"
+        case eTag = "ETag"
+        case objectParts = "ObjectParts"
+        case objectSize = "ObjectSize"
+        case storageClass = "StorageClass"
+    }
 
     public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let eTagDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eTag)
+        eTag = eTagDecoded
+        let checksumDecoded = try containerValues.decodeIfPresent(S3ClientTypes.Checksum.self, forKey: .checksum)
+        checksum = checksumDecoded
+        let objectPartsDecoded = try containerValues.decodeIfPresent(S3ClientTypes.GetObjectAttributesParts.self, forKey: .objectParts)
+        objectParts = objectPartsDecoded
+        let storageClassDecoded = try containerValues.decodeIfPresent(S3ClientTypes.StorageClass.self, forKey: .storageClass)
+        storageClass = storageClassDecoded
+        let objectSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .objectSize) ?? 0
+        objectSize = objectSizeDecoded
+    }
+}
+
+enum GetObjectAttributesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
+        switch restXMLError.errorCode {
+            case "NoSuchKey": return try await NoSuchKey(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -10444,48 +10486,6 @@ public struct GetObjectAttributesOutput: Swift.Equatable {
         self.requestCharged = requestCharged
         self.storageClass = storageClass
         self.versionId = versionId
-    }
-}
-
-struct GetObjectAttributesOutputBody: Swift.Equatable {
-    let eTag: Swift.String?
-    let checksum: S3ClientTypes.Checksum?
-    let objectParts: S3ClientTypes.GetObjectAttributesParts?
-    let storageClass: S3ClientTypes.StorageClass?
-    let objectSize: Swift.Int
-}
-
-extension GetObjectAttributesOutputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case checksum = "Checksum"
-        case eTag = "ETag"
-        case objectParts = "ObjectParts"
-        case objectSize = "ObjectSize"
-        case storageClass = "StorageClass"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let eTagDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eTag)
-        eTag = eTagDecoded
-        let checksumDecoded = try containerValues.decodeIfPresent(S3ClientTypes.Checksum.self, forKey: .checksum)
-        checksum = checksumDecoded
-        let objectPartsDecoded = try containerValues.decodeIfPresent(S3ClientTypes.GetObjectAttributesParts.self, forKey: .objectParts)
-        objectParts = objectPartsDecoded
-        let storageClassDecoded = try containerValues.decodeIfPresent(S3ClientTypes.StorageClass.self, forKey: .storageClass)
-        storageClass = storageClassDecoded
-        let objectSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .objectSize) ?? 0
-        objectSize = objectSizeDecoded
-    }
-}
-
-enum GetObjectAttributesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
-        switch restXMLError.errorCode {
-            case "NoSuchKey": return try await NoSuchKey(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
-        }
     }
 }
 
@@ -10613,6 +10613,15 @@ extension S3ClientTypes {
         }
     }
 
+}
+
+struct GetObjectInputBody: Swift.Equatable {
+}
+
+extension GetObjectInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
 }
 
 extension GetObjectInput: Swift.CustomDebugStringConvertible {
@@ -10883,15 +10892,6 @@ extension GetObjectInput: ClientRuntime.QueryItemProvider {
     }
 }
 
-extension GetObjectInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let key = key else {
-            return nil
-        }
-        return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
-    }
-}
-
 public struct GetObjectInput: Swift.Equatable {
     /// The bucket name containing the object. When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html) in the Amazon S3 User Guide. When using an Object Lambda access point the hostname takes the form AccessPointName-AccountId.s3-object-lambda.Region.amazonaws.com. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see [What is S3 on Outposts?](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide.
     /// This member is required.
@@ -10986,10 +10986,19 @@ public struct GetObjectInput: Swift.Equatable {
     }
 }
 
-struct GetObjectInputBody: Swift.Equatable {
+extension GetObjectInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let key = key else {
+            return nil
+        }
+        return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
+    }
 }
 
-extension GetObjectInputBody: Swift.Decodable {
+struct GetObjectLegalHoldInputBody: Swift.Equatable {
+}
+
+extension GetObjectLegalHoldInputBody: Swift.Decodable {
 
     public init(from decoder: Swift.Decoder) throws {
     }
@@ -11019,15 +11028,6 @@ extension GetObjectLegalHoldInput: ClientRuntime.QueryItemProvider {
             }
             return items
         }
-    }
-}
-
-extension GetObjectLegalHoldInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let key = key else {
-            return nil
-        }
-        return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
@@ -11061,35 +11061,12 @@ public struct GetObjectLegalHoldInput: Swift.Equatable {
     }
 }
 
-struct GetObjectLegalHoldInputBody: Swift.Equatable {
-}
-
-extension GetObjectLegalHoldInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-extension GetObjectLegalHoldOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: S3ClientTypes.ObjectLockLegalHold = try responseDecoder.decode(responseBody: data)
-            self.legalHold = output
-        } else {
-            self.legalHold = nil
+extension GetObjectLegalHoldInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let key = key else {
+            return nil
         }
-    }
-}
-
-public struct GetObjectLegalHoldOutput: Swift.Equatable {
-    /// The current legal hold status for the specified object.
-    public var legalHold: S3ClientTypes.ObjectLockLegalHold?
-
-    public init(
-        legalHold: S3ClientTypes.ObjectLockLegalHold? = nil
-    )
-    {
-        self.legalHold = legalHold
+        return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
@@ -11118,6 +11095,38 @@ enum GetObjectLegalHoldOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension GetObjectLegalHoldOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: S3ClientTypes.ObjectLockLegalHold = try responseDecoder.decode(responseBody: data)
+            self.legalHold = output
+        } else {
+            self.legalHold = nil
+        }
+    }
+}
+
+public struct GetObjectLegalHoldOutput: Swift.Equatable {
+    /// The current legal hold status for the specified object.
+    public var legalHold: S3ClientTypes.ObjectLockLegalHold?
+
+    public init(
+        legalHold: S3ClientTypes.ObjectLockLegalHold? = nil
+    )
+    {
+        self.legalHold = legalHold
+    }
+}
+
+struct GetObjectLockConfigurationInputBody: Swift.Equatable {
+}
+
+extension GetObjectLockConfigurationInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
 extension GetObjectLockConfigurationInput: ClientRuntime.HeaderProvider {
     public var headers: ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
@@ -11138,12 +11147,6 @@ extension GetObjectLockConfigurationInput: ClientRuntime.QueryItemProvider {
     }
 }
 
-extension GetObjectLockConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
-    }
-}
-
 public struct GetObjectLockConfigurationInput: Swift.Equatable {
     /// The bucket whose Object Lock configuration you want to retrieve. When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html) in the Amazon S3 User Guide.
     /// This member is required.
@@ -11161,35 +11164,9 @@ public struct GetObjectLockConfigurationInput: Swift.Equatable {
     }
 }
 
-struct GetObjectLockConfigurationInputBody: Swift.Equatable {
-}
-
-extension GetObjectLockConfigurationInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-extension GetObjectLockConfigurationOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: S3ClientTypes.ObjectLockConfiguration = try responseDecoder.decode(responseBody: data)
-            self.objectLockConfiguration = output
-        } else {
-            self.objectLockConfiguration = nil
-        }
-    }
-}
-
-public struct GetObjectLockConfigurationOutput: Swift.Equatable {
-    /// The specified bucket's Object Lock configuration.
-    public var objectLockConfiguration: S3ClientTypes.ObjectLockConfiguration?
-
-    public init(
-        objectLockConfiguration: S3ClientTypes.ObjectLockConfiguration? = nil
-    )
-    {
-        self.objectLockConfiguration = objectLockConfiguration
+extension GetObjectLockConfigurationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
     }
 }
 
@@ -11218,9 +11195,67 @@ enum GetObjectLockConfigurationOutputError: ClientRuntime.HttpResponseErrorBindi
     }
 }
 
+extension GetObjectLockConfigurationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: S3ClientTypes.ObjectLockConfiguration = try responseDecoder.decode(responseBody: data)
+            self.objectLockConfiguration = output
+        } else {
+            self.objectLockConfiguration = nil
+        }
+    }
+}
+
+public struct GetObjectLockConfigurationOutput: Swift.Equatable {
+    /// The specified bucket's Object Lock configuration.
+    public var objectLockConfiguration: S3ClientTypes.ObjectLockConfiguration?
+
+    public init(
+        objectLockConfiguration: S3ClientTypes.ObjectLockConfiguration? = nil
+    )
+    {
+        self.objectLockConfiguration = objectLockConfiguration
+    }
+}
+
+struct GetObjectOutputBody: Swift.Equatable {
+    let body: ClientRuntime.ByteStream?
+}
+
+extension GetObjectOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case body = "Body"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        if containerValues.contains(.body) {
+            do {
+                let bodyDecoded = try containerValues.decodeIfPresent(ClientRuntime.ByteStream.self, forKey: .body)
+                body = bodyDecoded
+            } catch {
+                body = ClientRuntime.ByteStream.from(data: "".data(using: .utf8)!)
+            }
+        } else {
+            body = nil
+        }
+    }
+}
+
 extension GetObjectOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "GetObjectOutput(acceptRanges: \(Swift.String(describing: acceptRanges)), body: \(Swift.String(describing: body)), bucketKeyEnabled: \(Swift.String(describing: bucketKeyEnabled)), cacheControl: \(Swift.String(describing: cacheControl)), checksumCRC32: \(Swift.String(describing: checksumCRC32)), checksumCRC32C: \(Swift.String(describing: checksumCRC32C)), checksumSHA1: \(Swift.String(describing: checksumSHA1)), checksumSHA256: \(Swift.String(describing: checksumSHA256)), contentDisposition: \(Swift.String(describing: contentDisposition)), contentEncoding: \(Swift.String(describing: contentEncoding)), contentLanguage: \(Swift.String(describing: contentLanguage)), contentLength: \(Swift.String(describing: contentLength)), contentRange: \(Swift.String(describing: contentRange)), contentType: \(Swift.String(describing: contentType)), deleteMarker: \(Swift.String(describing: deleteMarker)), eTag: \(Swift.String(describing: eTag)), expiration: \(Swift.String(describing: expiration)), expires: \(Swift.String(describing: expires)), lastModified: \(Swift.String(describing: lastModified)), metadata: \(Swift.String(describing: metadata)), missingMeta: \(Swift.String(describing: missingMeta)), objectLockLegalHoldStatus: \(Swift.String(describing: objectLockLegalHoldStatus)), objectLockMode: \(Swift.String(describing: objectLockMode)), objectLockRetainUntilDate: \(Swift.String(describing: objectLockRetainUntilDate)), partsCount: \(Swift.String(describing: partsCount)), replicationStatus: \(Swift.String(describing: replicationStatus)), requestCharged: \(Swift.String(describing: requestCharged)), restore: \(Swift.String(describing: restore)), sseCustomerAlgorithm: \(Swift.String(describing: sseCustomerAlgorithm)), sseCustomerKeyMD5: \(Swift.String(describing: sseCustomerKeyMD5)), serverSideEncryption: \(Swift.String(describing: serverSideEncryption)), storageClass: \(Swift.String(describing: storageClass)), tagCount: \(Swift.String(describing: tagCount)), versionId: \(Swift.String(describing: versionId)), websiteRedirectLocation: \(Swift.String(describing: websiteRedirectLocation)), ssekmsKeyId: \"CONTENT_REDACTED\")"}
+}
+
+enum GetObjectOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidObjectState": return try await InvalidObjectState(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2)
+            case "NoSuchKey": return try await NoSuchKey(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
+        }
+    }
 }
 
 extension GetObjectOutput: ClientRuntime.HttpResponseBinding {
@@ -11570,38 +11605,12 @@ public struct GetObjectOutput: Swift.Equatable {
     }
 }
 
-struct GetObjectOutputBody: Swift.Equatable {
-    let body: ClientRuntime.ByteStream?
+struct GetObjectRetentionInputBody: Swift.Equatable {
 }
 
-extension GetObjectOutputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case body = "Body"
-    }
+extension GetObjectRetentionInputBody: Swift.Decodable {
 
     public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        if containerValues.contains(.body) {
-            do {
-                let bodyDecoded = try containerValues.decodeIfPresent(ClientRuntime.ByteStream.self, forKey: .body)
-                body = bodyDecoded
-            } catch {
-                body = ClientRuntime.ByteStream.from(data: "".data(using: .utf8)!)
-            }
-        } else {
-            body = nil
-        }
-    }
-}
-
-enum GetObjectOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
-        switch restXMLError.errorCode {
-            case "InvalidObjectState": return try await InvalidObjectState(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2)
-            case "NoSuchKey": return try await NoSuchKey(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
-        }
     }
 }
 
@@ -11629,15 +11638,6 @@ extension GetObjectRetentionInput: ClientRuntime.QueryItemProvider {
             }
             return items
         }
-    }
-}
-
-extension GetObjectRetentionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let key = key else {
-            return nil
-        }
-        return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
@@ -11671,35 +11671,12 @@ public struct GetObjectRetentionInput: Swift.Equatable {
     }
 }
 
-struct GetObjectRetentionInputBody: Swift.Equatable {
-}
-
-extension GetObjectRetentionInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-extension GetObjectRetentionOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: S3ClientTypes.ObjectLockRetention = try responseDecoder.decode(responseBody: data)
-            self.retention = output
-        } else {
-            self.retention = nil
+extension GetObjectRetentionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let key = key else {
+            return nil
         }
-    }
-}
-
-public struct GetObjectRetentionOutput: Swift.Equatable {
-    /// The container element for an object's retention settings.
-    public var retention: S3ClientTypes.ObjectLockRetention?
-
-    public init(
-        retention: S3ClientTypes.ObjectLockRetention? = nil
-    )
-    {
-        self.retention = retention
+        return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
@@ -11728,6 +11705,38 @@ enum GetObjectRetentionOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension GetObjectRetentionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: S3ClientTypes.ObjectLockRetention = try responseDecoder.decode(responseBody: data)
+            self.retention = output
+        } else {
+            self.retention = nil
+        }
+    }
+}
+
+public struct GetObjectRetentionOutput: Swift.Equatable {
+    /// The container element for an object's retention settings.
+    public var retention: S3ClientTypes.ObjectLockRetention?
+
+    public init(
+        retention: S3ClientTypes.ObjectLockRetention? = nil
+    )
+    {
+        self.retention = retention
+    }
+}
+
+struct GetObjectTaggingInputBody: Swift.Equatable {
+}
+
+extension GetObjectTaggingInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
 extension GetObjectTaggingInput: ClientRuntime.HeaderProvider {
     public var headers: ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
@@ -11752,15 +11761,6 @@ extension GetObjectTaggingInput: ClientRuntime.QueryItemProvider {
             }
             return items
         }
-    }
-}
-
-extension GetObjectTaggingInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let key = key else {
-            return nil
-        }
-        return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
@@ -11794,46 +11794,12 @@ public struct GetObjectTaggingInput: Swift.Equatable {
     }
 }
 
-struct GetObjectTaggingInputBody: Swift.Equatable {
-}
-
-extension GetObjectTaggingInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-extension GetObjectTaggingOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let versionIdHeaderValue = httpResponse.headers.value(for: "x-amz-version-id") {
-            self.versionId = versionIdHeaderValue
-        } else {
-            self.versionId = nil
+extension GetObjectTaggingInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let key = key else {
+            return nil
         }
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetObjectTaggingOutputBody = try responseDecoder.decode(responseBody: data)
-            self.tagSet = output.tagSet
-        } else {
-            self.tagSet = nil
-        }
-    }
-}
-
-public struct GetObjectTaggingOutput: Swift.Equatable {
-    /// Contains the tag set.
-    /// This member is required.
-    public var tagSet: [S3ClientTypes.Tag]?
-    /// The versionId of the object for which you got the tagging information.
-    public var versionId: Swift.String?
-
-    public init(
-        tagSet: [S3ClientTypes.Tag]? = nil,
-        versionId: Swift.String? = nil
-    )
-    {
-        self.tagSet = tagSet
-        self.versionId = versionId
+        return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
@@ -11879,6 +11845,49 @@ enum GetObjectTaggingOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension GetObjectTaggingOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let versionIdHeaderValue = httpResponse.headers.value(for: "x-amz-version-id") {
+            self.versionId = versionIdHeaderValue
+        } else {
+            self.versionId = nil
+        }
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetObjectTaggingOutputBody = try responseDecoder.decode(responseBody: data)
+            self.tagSet = output.tagSet
+        } else {
+            self.tagSet = nil
+        }
+    }
+}
+
+public struct GetObjectTaggingOutput: Swift.Equatable {
+    /// Contains the tag set.
+    /// This member is required.
+    public var tagSet: [S3ClientTypes.Tag]?
+    /// The versionId of the object for which you got the tagging information.
+    public var versionId: Swift.String?
+
+    public init(
+        tagSet: [S3ClientTypes.Tag]? = nil,
+        versionId: Swift.String? = nil
+    )
+    {
+        self.tagSet = tagSet
+        self.versionId = versionId
+    }
+}
+
+struct GetObjectTorrentInputBody: Swift.Equatable {
+}
+
+extension GetObjectTorrentInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
 extension GetObjectTorrentInput: ClientRuntime.HeaderProvider {
     public var headers: ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
@@ -11899,15 +11908,6 @@ extension GetObjectTorrentInput: ClientRuntime.QueryItemProvider {
             items.append(ClientRuntime.URLQueryItem(name: "torrent", value: nil))
             return items
         }
-    }
-}
-
-extension GetObjectTorrentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let key = key else {
-            return nil
-        }
-        return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
@@ -11937,12 +11937,45 @@ public struct GetObjectTorrentInput: Swift.Equatable {
     }
 }
 
-struct GetObjectTorrentInputBody: Swift.Equatable {
+extension GetObjectTorrentInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let key = key else {
+            return nil
+        }
+        return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
+    }
 }
 
-extension GetObjectTorrentInputBody: Swift.Decodable {
+struct GetObjectTorrentOutputBody: Swift.Equatable {
+    let body: ClientRuntime.ByteStream?
+}
+
+extension GetObjectTorrentOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case body = "Body"
+    }
 
     public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        if containerValues.contains(.body) {
+            do {
+                let bodyDecoded = try containerValues.decodeIfPresent(ClientRuntime.ByteStream.self, forKey: .body)
+                body = bodyDecoded
+            } catch {
+                body = ClientRuntime.ByteStream.from(data: "".data(using: .utf8)!)
+            }
+        } else {
+            body = nil
+        }
+    }
+}
+
+enum GetObjectTorrentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -11980,36 +12013,12 @@ public struct GetObjectTorrentOutput: Swift.Equatable {
     }
 }
 
-struct GetObjectTorrentOutputBody: Swift.Equatable {
-    let body: ClientRuntime.ByteStream?
+struct GetPublicAccessBlockInputBody: Swift.Equatable {
 }
 
-extension GetObjectTorrentOutputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case body = "Body"
-    }
+extension GetPublicAccessBlockInputBody: Swift.Decodable {
 
     public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        if containerValues.contains(.body) {
-            do {
-                let bodyDecoded = try containerValues.decodeIfPresent(ClientRuntime.ByteStream.self, forKey: .body)
-                body = bodyDecoded
-            } catch {
-                body = ClientRuntime.ByteStream.from(data: "".data(using: .utf8)!)
-            }
-        } else {
-            body = nil
-        }
-    }
-}
-
-enum GetObjectTorrentOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
-        }
     }
 }
 
@@ -12033,12 +12042,6 @@ extension GetPublicAccessBlockInput: ClientRuntime.QueryItemProvider {
     }
 }
 
-extension GetPublicAccessBlockInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
-    }
-}
-
 public struct GetPublicAccessBlockInput: Swift.Equatable {
     /// The name of the Amazon S3 bucket whose PublicAccessBlock configuration you want to retrieve.
     /// This member is required.
@@ -12056,35 +12059,9 @@ public struct GetPublicAccessBlockInput: Swift.Equatable {
     }
 }
 
-struct GetPublicAccessBlockInputBody: Swift.Equatable {
-}
-
-extension GetPublicAccessBlockInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-extension GetPublicAccessBlockOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: S3ClientTypes.PublicAccessBlockConfiguration = try responseDecoder.decode(responseBody: data)
-            self.publicAccessBlockConfiguration = output
-        } else {
-            self.publicAccessBlockConfiguration = nil
-        }
-    }
-}
-
-public struct GetPublicAccessBlockOutput: Swift.Equatable {
-    /// The PublicAccessBlock configuration currently in effect for this Amazon S3 bucket.
-    public var publicAccessBlockConfiguration: S3ClientTypes.PublicAccessBlockConfiguration?
-
-    public init(
-        publicAccessBlockConfiguration: S3ClientTypes.PublicAccessBlockConfiguration? = nil
-    )
-    {
-        self.publicAccessBlockConfiguration = publicAccessBlockConfiguration
+extension GetPublicAccessBlockInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
     }
 }
 
@@ -12110,6 +12087,29 @@ enum GetPublicAccessBlockOutputError: ClientRuntime.HttpResponseErrorBinding {
         switch restXMLError.errorCode {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
         }
+    }
+}
+
+extension GetPublicAccessBlockOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: S3ClientTypes.PublicAccessBlockConfiguration = try responseDecoder.decode(responseBody: data)
+            self.publicAccessBlockConfiguration = output
+        } else {
+            self.publicAccessBlockConfiguration = nil
+        }
+    }
+}
+
+public struct GetPublicAccessBlockOutput: Swift.Equatable {
+    /// The PublicAccessBlock configuration currently in effect for this Amazon S3 bucket.
+    public var publicAccessBlockConfiguration: S3ClientTypes.PublicAccessBlockConfiguration?
+
+    public init(
+        publicAccessBlockConfiguration: S3ClientTypes.PublicAccessBlockConfiguration? = nil
+    )
+    {
+        self.publicAccessBlockConfiguration = publicAccessBlockConfiguration
     }
 }
 
@@ -12209,26 +12209,6 @@ extension S3ClientTypes.Grant: ClientRuntime.DynamicNodeEncoding {
         }
         return .element
     }
-}
-
-extension S3ClientTypes {
-    /// Container for grant information.
-    public struct Grant: Swift.Equatable {
-        /// The person being granted permissions.
-        public var grantee: S3ClientTypes.Grantee?
-        /// Specifies the permission given to the grantee.
-        public var permission: S3ClientTypes.Permission?
-
-        public init(
-            grantee: S3ClientTypes.Grantee? = nil,
-            permission: S3ClientTypes.Permission? = nil
-        )
-        {
-            self.grantee = grantee
-            self.permission = permission
-        }
-    }
-
 }
 
 extension S3ClientTypes.Grantee: Swift.Codable {
@@ -12351,6 +12331,35 @@ extension S3ClientTypes {
 
 }
 
+extension S3ClientTypes {
+    /// Container for grant information.
+    public struct Grant: Swift.Equatable {
+        /// The person being granted permissions.
+        public var grantee: S3ClientTypes.Grantee?
+        /// Specifies the permission given to the grantee.
+        public var permission: S3ClientTypes.Permission?
+
+        public init(
+            grantee: S3ClientTypes.Grantee? = nil,
+            permission: S3ClientTypes.Permission? = nil
+        )
+        {
+            self.grantee = grantee
+            self.permission = permission
+        }
+    }
+
+}
+
+struct HeadBucketInputBody: Swift.Equatable {
+}
+
+extension HeadBucketInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
 extension HeadBucketInput: ClientRuntime.HeaderProvider {
     public var headers: ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
@@ -12358,12 +12367,6 @@ extension HeadBucketInput: ClientRuntime.HeaderProvider {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
         return items
-    }
-}
-
-extension HeadBucketInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
     }
 }
 
@@ -12384,12 +12387,19 @@ public struct HeadBucketInput: Swift.Equatable {
     }
 }
 
-struct HeadBucketInputBody: Swift.Equatable {
+extension HeadBucketInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
 }
 
-extension HeadBucketInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
+enum HeadBucketOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
+        switch restXMLError.errorCode {
+            case "NotFound": return try await NotFound(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -12403,13 +12413,12 @@ public struct HeadBucketOutput: Swift.Equatable {
     public init() { }
 }
 
-enum HeadBucketOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
-        switch restXMLError.errorCode {
-            case "NotFound": return try await NotFound(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
-        }
+struct HeadObjectInputBody: Swift.Equatable {
+}
+
+extension HeadObjectInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
@@ -12472,15 +12481,6 @@ extension HeadObjectInput: ClientRuntime.QueryItemProvider {
             }
             return items
         }
-    }
-}
-
-extension HeadObjectInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let key = key else {
-            return nil
-        }
-        return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
@@ -12554,18 +12554,28 @@ public struct HeadObjectInput: Swift.Equatable {
     }
 }
 
-struct HeadObjectInputBody: Swift.Equatable {
-}
-
-extension HeadObjectInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
+extension HeadObjectInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let key = key else {
+            return nil
+        }
+        return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
 extension HeadObjectOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "HeadObjectOutput(acceptRanges: \(Swift.String(describing: acceptRanges)), archiveStatus: \(Swift.String(describing: archiveStatus)), bucketKeyEnabled: \(Swift.String(describing: bucketKeyEnabled)), cacheControl: \(Swift.String(describing: cacheControl)), checksumCRC32: \(Swift.String(describing: checksumCRC32)), checksumCRC32C: \(Swift.String(describing: checksumCRC32C)), checksumSHA1: \(Swift.String(describing: checksumSHA1)), checksumSHA256: \(Swift.String(describing: checksumSHA256)), contentDisposition: \(Swift.String(describing: contentDisposition)), contentEncoding: \(Swift.String(describing: contentEncoding)), contentLanguage: \(Swift.String(describing: contentLanguage)), contentLength: \(Swift.String(describing: contentLength)), contentType: \(Swift.String(describing: contentType)), deleteMarker: \(Swift.String(describing: deleteMarker)), eTag: \(Swift.String(describing: eTag)), expiration: \(Swift.String(describing: expiration)), expires: \(Swift.String(describing: expires)), lastModified: \(Swift.String(describing: lastModified)), metadata: \(Swift.String(describing: metadata)), missingMeta: \(Swift.String(describing: missingMeta)), objectLockLegalHoldStatus: \(Swift.String(describing: objectLockLegalHoldStatus)), objectLockMode: \(Swift.String(describing: objectLockMode)), objectLockRetainUntilDate: \(Swift.String(describing: objectLockRetainUntilDate)), partsCount: \(Swift.String(describing: partsCount)), replicationStatus: \(Swift.String(describing: replicationStatus)), requestCharged: \(Swift.String(describing: requestCharged)), restore: \(Swift.String(describing: restore)), sseCustomerAlgorithm: \(Swift.String(describing: sseCustomerAlgorithm)), sseCustomerKeyMD5: \(Swift.String(describing: sseCustomerKeyMD5)), serverSideEncryption: \(Swift.String(describing: serverSideEncryption)), storageClass: \(Swift.String(describing: storageClass)), versionId: \(Swift.String(describing: versionId)), websiteRedirectLocation: \(Swift.String(describing: websiteRedirectLocation)), ssekmsKeyId: \"CONTENT_REDACTED\")"}
+}
+
+enum HeadObjectOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
+        switch restXMLError.errorCode {
+            case "NotFound": return try await NotFound(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
+        }
+    }
 }
 
 extension HeadObjectOutput: ClientRuntime.HttpResponseBinding {
@@ -12900,16 +12910,6 @@ public struct HeadObjectOutput: Swift.Equatable {
         self.storageClass = storageClass
         self.versionId = versionId
         self.websiteRedirectLocation = websiteRedirectLocation
-    }
-}
-
-enum HeadObjectOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
-        switch restXMLError.errorCode {
-            case "NotFound": return try await NotFound(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
-        }
     }
 }
 
@@ -13441,6 +13441,26 @@ extension S3ClientTypes {
     }
 }
 
+struct InvalidObjectStateBody: Swift.Equatable {
+    let storageClass: S3ClientTypes.StorageClass?
+    let accessTier: S3ClientTypes.IntelligentTieringAccessTier?
+}
+
+extension InvalidObjectStateBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accessTier = "AccessTier"
+        case storageClass = "StorageClass"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let storageClassDecoded = try containerValues.decodeIfPresent(S3ClientTypes.StorageClass.self, forKey: .storageClass)
+        storageClass = storageClassDecoded
+        let accessTierDecoded = try containerValues.decodeIfPresent(S3ClientTypes.IntelligentTieringAccessTier.self, forKey: .accessTier)
+        accessTier = accessTierDecoded
+    }
+}
+
 extension InvalidObjectState {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil, requestID2: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
@@ -13483,26 +13503,6 @@ public struct InvalidObjectState: ClientRuntime.ModeledError, AWSClientRuntime.A
     {
         self.properties.accessTier = accessTier
         self.properties.storageClass = storageClass
-    }
-}
-
-struct InvalidObjectStateBody: Swift.Equatable {
-    let storageClass: S3ClientTypes.StorageClass?
-    let accessTier: S3ClientTypes.IntelligentTieringAccessTier?
-}
-
-extension InvalidObjectStateBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case accessTier = "AccessTier"
-        case storageClass = "StorageClass"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let storageClassDecoded = try containerValues.decodeIfPresent(S3ClientTypes.StorageClass.self, forKey: .storageClass)
-        storageClass = storageClassDecoded
-        let accessTierDecoded = try containerValues.decodeIfPresent(S3ClientTypes.IntelligentTieringAccessTier.self, forKey: .accessTier)
-        accessTier = accessTierDecoded
     }
 }
 
@@ -14444,6 +14444,112 @@ extension S3ClientTypes {
 
 }
 
+extension S3ClientTypes.LifecycleRuleAndOperator: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case objectSizeGreaterThan = "ObjectSizeGreaterThan"
+        case objectSizeLessThan = "ObjectSizeLessThan"
+        case `prefix` = "Prefix"
+        case tags = "Tag"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if encoder.codingPath.isEmpty {
+            try container.encode("http://s3.amazonaws.com/doc/2006-03-01/", forKey: ClientRuntime.Key("xmlns"))
+        }
+        if objectSizeGreaterThan != 0 {
+            try container.encode(objectSizeGreaterThan, forKey: ClientRuntime.Key("ObjectSizeGreaterThan"))
+        }
+        if objectSizeLessThan != 0 {
+            try container.encode(objectSizeLessThan, forKey: ClientRuntime.Key("ObjectSizeLessThan"))
+        }
+        if let `prefix` = `prefix` {
+            try container.encode(`prefix`, forKey: ClientRuntime.Key("Prefix"))
+        }
+        if let tags = tags {
+            if tags.isEmpty {
+                var tagsContainer = container.nestedUnkeyedContainer(forKey: ClientRuntime.Key("Tag"))
+                try tagsContainer.encodeNil()
+            } else {
+                for tag0 in tags {
+                    var tagsContainer0 = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Tag"))
+                    try tagsContainer0.encode(tag0, forKey: ClientRuntime.Key(""))
+                }
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let prefixDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .prefix)
+        `prefix` = prefixDecoded
+        if containerValues.contains(.tags) {
+            let tagsWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CodingKeys.self, forKey: .tags)
+            if tagsWrappedContainer != nil {
+                let tagsContainer = try containerValues.decodeIfPresent([S3ClientTypes.Tag].self, forKey: .tags)
+                var tagsBuffer:[S3ClientTypes.Tag]? = nil
+                if let tagsContainer = tagsContainer {
+                    tagsBuffer = [S3ClientTypes.Tag]()
+                    for structureContainer0 in tagsContainer {
+                        tagsBuffer?.append(structureContainer0)
+                    }
+                }
+                tags = tagsBuffer
+            } else {
+                tags = []
+            }
+        } else {
+            tags = nil
+        }
+        let objectSizeGreaterThanDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .objectSizeGreaterThan) ?? 0
+        objectSizeGreaterThan = objectSizeGreaterThanDecoded
+        let objectSizeLessThanDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .objectSizeLessThan) ?? 0
+        objectSizeLessThan = objectSizeLessThanDecoded
+    }
+}
+
+extension S3ClientTypes.LifecycleRuleAndOperator: ClientRuntime.DynamicNodeEncoding {
+    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
+        let xmlNamespaceValues = [
+            "xmlns"
+        ]
+        if let key = key as? ClientRuntime.Key {
+            if xmlNamespaceValues.contains(key.stringValue) {
+                return .attribute
+            }
+        }
+        return .element
+    }
+}
+
+extension S3ClientTypes {
+    /// This is used in a Lifecycle Rule Filter to apply a logical AND to two or more predicates. The Lifecycle Rule will apply to any object matching all of the predicates configured inside the And operator.
+    public struct LifecycleRuleAndOperator: Swift.Equatable {
+        /// Minimum object size to which the rule applies.
+        public var objectSizeGreaterThan: Swift.Int
+        /// Maximum object size to which the rule applies.
+        public var objectSizeLessThan: Swift.Int
+        /// Prefix identifying one or more objects to which the rule applies.
+        public var `prefix`: Swift.String?
+        /// All of these tags must exist in the object's tag set in order for the rule to apply.
+        public var tags: [S3ClientTypes.Tag]?
+
+        public init(
+            objectSizeGreaterThan: Swift.Int = 0,
+            objectSizeLessThan: Swift.Int = 0,
+            `prefix`: Swift.String? = nil,
+            tags: [S3ClientTypes.Tag]? = nil
+        )
+        {
+            self.objectSizeGreaterThan = objectSizeGreaterThan
+            self.objectSizeLessThan = objectSizeLessThan
+            self.`prefix` = `prefix`
+            self.tags = tags
+        }
+    }
+
+}
+
 extension S3ClientTypes.LifecycleRule: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case abortIncompleteMultipartUpload = "AbortIncompleteMultipartUpload"
@@ -14576,162 +14682,6 @@ extension S3ClientTypes.LifecycleRule: ClientRuntime.DynamicNodeEncoding {
     }
 }
 
-extension S3ClientTypes {
-    /// A lifecycle rule for individual objects in an Amazon S3 bucket. For more information see, [Managing your storage lifecycle](https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-lifecycle-mgmt.html) in the Amazon S3 User Guide.
-    public struct LifecycleRule: Swift.Equatable {
-        /// Specifies the days since the initiation of an incomplete multipart upload that Amazon S3 will wait before permanently removing all parts of the upload. For more information, see [ Aborting Incomplete Multipart Uploads Using a Bucket Lifecycle Configuration](https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuoverview.html#mpu-abort-incomplete-mpu-lifecycle-config) in the Amazon S3 User Guide.
-        public var abortIncompleteMultipartUpload: S3ClientTypes.AbortIncompleteMultipartUpload?
-        /// Specifies the expiration for the lifecycle of the object in the form of date, days and, whether the object has a delete marker.
-        public var expiration: S3ClientTypes.LifecycleExpiration?
-        /// The Filter is used to identify objects that a Lifecycle Rule applies to. A Filter must have exactly one of Prefix, Tag, or And specified. Filter is required if the LifecycleRule does not contain a Prefix element.
-        public var filter: S3ClientTypes.LifecycleRuleFilter?
-        /// Unique identifier for the rule. The value cannot be longer than 255 characters.
-        public var id: Swift.String?
-        /// Specifies when noncurrent object versions expire. Upon expiration, Amazon S3 permanently deletes the noncurrent object versions. You set this lifecycle configuration action on a bucket that has versioning enabled (or suspended) to request that Amazon S3 delete noncurrent object versions at a specific period in the object's lifetime.
-        public var noncurrentVersionExpiration: S3ClientTypes.NoncurrentVersionExpiration?
-        /// Specifies the transition rule for the lifecycle rule that describes when noncurrent objects transition to a specific storage class. If your bucket is versioning-enabled (or versioning is suspended), you can set this action to request that Amazon S3 transition noncurrent object versions to a specific storage class at a set period in the object's lifetime.
-        public var noncurrentVersionTransitions: [S3ClientTypes.NoncurrentVersionTransition]?
-        /// Prefix identifying one or more objects to which the rule applies. This is no longer used; use Filter instead. Replacement must be made for object keys containing special characters (such as carriage returns) when using XML requests. For more information, see [ XML related object key constraints](https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-keys.html#object-key-xml-related-constraints).
-        @available(*, deprecated)
-        public var `prefix`: Swift.String?
-        /// If 'Enabled', the rule is currently being applied. If 'Disabled', the rule is not currently being applied.
-        /// This member is required.
-        public var status: S3ClientTypes.ExpirationStatus?
-        /// Specifies when an Amazon S3 object transitions to a specified storage class.
-        public var transitions: [S3ClientTypes.Transition]?
-
-        public init(
-            abortIncompleteMultipartUpload: S3ClientTypes.AbortIncompleteMultipartUpload? = nil,
-            expiration: S3ClientTypes.LifecycleExpiration? = nil,
-            filter: S3ClientTypes.LifecycleRuleFilter? = nil,
-            id: Swift.String? = nil,
-            noncurrentVersionExpiration: S3ClientTypes.NoncurrentVersionExpiration? = nil,
-            noncurrentVersionTransitions: [S3ClientTypes.NoncurrentVersionTransition]? = nil,
-            `prefix`: Swift.String? = nil,
-            status: S3ClientTypes.ExpirationStatus? = nil,
-            transitions: [S3ClientTypes.Transition]? = nil
-        )
-        {
-            self.abortIncompleteMultipartUpload = abortIncompleteMultipartUpload
-            self.expiration = expiration
-            self.filter = filter
-            self.id = id
-            self.noncurrentVersionExpiration = noncurrentVersionExpiration
-            self.noncurrentVersionTransitions = noncurrentVersionTransitions
-            self.`prefix` = `prefix`
-            self.status = status
-            self.transitions = transitions
-        }
-    }
-
-}
-
-extension S3ClientTypes.LifecycleRuleAndOperator: Swift.Codable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case objectSizeGreaterThan = "ObjectSizeGreaterThan"
-        case objectSizeLessThan = "ObjectSizeLessThan"
-        case `prefix` = "Prefix"
-        case tags = "Tag"
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if encoder.codingPath.isEmpty {
-            try container.encode("http://s3.amazonaws.com/doc/2006-03-01/", forKey: ClientRuntime.Key("xmlns"))
-        }
-        if objectSizeGreaterThan != 0 {
-            try container.encode(objectSizeGreaterThan, forKey: ClientRuntime.Key("ObjectSizeGreaterThan"))
-        }
-        if objectSizeLessThan != 0 {
-            try container.encode(objectSizeLessThan, forKey: ClientRuntime.Key("ObjectSizeLessThan"))
-        }
-        if let `prefix` = `prefix` {
-            try container.encode(`prefix`, forKey: ClientRuntime.Key("Prefix"))
-        }
-        if let tags = tags {
-            if tags.isEmpty {
-                var tagsContainer = container.nestedUnkeyedContainer(forKey: ClientRuntime.Key("Tag"))
-                try tagsContainer.encodeNil()
-            } else {
-                for tag0 in tags {
-                    var tagsContainer0 = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Tag"))
-                    try tagsContainer0.encode(tag0, forKey: ClientRuntime.Key(""))
-                }
-            }
-        }
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let prefixDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .prefix)
-        `prefix` = prefixDecoded
-        if containerValues.contains(.tags) {
-            let tagsWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CodingKeys.self, forKey: .tags)
-            if tagsWrappedContainer != nil {
-                let tagsContainer = try containerValues.decodeIfPresent([S3ClientTypes.Tag].self, forKey: .tags)
-                var tagsBuffer:[S3ClientTypes.Tag]? = nil
-                if let tagsContainer = tagsContainer {
-                    tagsBuffer = [S3ClientTypes.Tag]()
-                    for structureContainer0 in tagsContainer {
-                        tagsBuffer?.append(structureContainer0)
-                    }
-                }
-                tags = tagsBuffer
-            } else {
-                tags = []
-            }
-        } else {
-            tags = nil
-        }
-        let objectSizeGreaterThanDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .objectSizeGreaterThan) ?? 0
-        objectSizeGreaterThan = objectSizeGreaterThanDecoded
-        let objectSizeLessThanDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .objectSizeLessThan) ?? 0
-        objectSizeLessThan = objectSizeLessThanDecoded
-    }
-}
-
-extension S3ClientTypes.LifecycleRuleAndOperator: ClientRuntime.DynamicNodeEncoding {
-    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
-        let xmlNamespaceValues = [
-            "xmlns"
-        ]
-        if let key = key as? ClientRuntime.Key {
-            if xmlNamespaceValues.contains(key.stringValue) {
-                return .attribute
-            }
-        }
-        return .element
-    }
-}
-
-extension S3ClientTypes {
-    /// This is used in a Lifecycle Rule Filter to apply a logical AND to two or more predicates. The Lifecycle Rule will apply to any object matching all of the predicates configured inside the And operator.
-    public struct LifecycleRuleAndOperator: Swift.Equatable {
-        /// Minimum object size to which the rule applies.
-        public var objectSizeGreaterThan: Swift.Int
-        /// Maximum object size to which the rule applies.
-        public var objectSizeLessThan: Swift.Int
-        /// Prefix identifying one or more objects to which the rule applies.
-        public var `prefix`: Swift.String?
-        /// All of these tags must exist in the object's tag set in order for the rule to apply.
-        public var tags: [S3ClientTypes.Tag]?
-
-        public init(
-            objectSizeGreaterThan: Swift.Int = 0,
-            objectSizeLessThan: Swift.Int = 0,
-            `prefix`: Swift.String? = nil,
-            tags: [S3ClientTypes.Tag]? = nil
-        )
-        {
-            self.objectSizeGreaterThan = objectSizeGreaterThan
-            self.objectSizeLessThan = objectSizeLessThan
-            self.`prefix` = `prefix`
-            self.tags = tags
-        }
-    }
-
-}
-
 extension S3ClientTypes.LifecycleRuleFilter: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case and = "And"
@@ -14803,6 +14753,65 @@ extension S3ClientTypes {
 
 }
 
+extension S3ClientTypes {
+    /// A lifecycle rule for individual objects in an Amazon S3 bucket. For more information see, [Managing your storage lifecycle](https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-lifecycle-mgmt.html) in the Amazon S3 User Guide.
+    public struct LifecycleRule: Swift.Equatable {
+        /// Specifies the days since the initiation of an incomplete multipart upload that Amazon S3 will wait before permanently removing all parts of the upload. For more information, see [ Aborting Incomplete Multipart Uploads Using a Bucket Lifecycle Configuration](https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuoverview.html#mpu-abort-incomplete-mpu-lifecycle-config) in the Amazon S3 User Guide.
+        public var abortIncompleteMultipartUpload: S3ClientTypes.AbortIncompleteMultipartUpload?
+        /// Specifies the expiration for the lifecycle of the object in the form of date, days and, whether the object has a delete marker.
+        public var expiration: S3ClientTypes.LifecycleExpiration?
+        /// The Filter is used to identify objects that a Lifecycle Rule applies to. A Filter must have exactly one of Prefix, Tag, or And specified. Filter is required if the LifecycleRule does not contain a Prefix element.
+        public var filter: S3ClientTypes.LifecycleRuleFilter?
+        /// Unique identifier for the rule. The value cannot be longer than 255 characters.
+        public var id: Swift.String?
+        /// Specifies when noncurrent object versions expire. Upon expiration, Amazon S3 permanently deletes the noncurrent object versions. You set this lifecycle configuration action on a bucket that has versioning enabled (or suspended) to request that Amazon S3 delete noncurrent object versions at a specific period in the object's lifetime.
+        public var noncurrentVersionExpiration: S3ClientTypes.NoncurrentVersionExpiration?
+        /// Specifies the transition rule for the lifecycle rule that describes when noncurrent objects transition to a specific storage class. If your bucket is versioning-enabled (or versioning is suspended), you can set this action to request that Amazon S3 transition noncurrent object versions to a specific storage class at a set period in the object's lifetime.
+        public var noncurrentVersionTransitions: [S3ClientTypes.NoncurrentVersionTransition]?
+        /// Prefix identifying one or more objects to which the rule applies. This is no longer used; use Filter instead. Replacement must be made for object keys containing special characters (such as carriage returns) when using XML requests. For more information, see [ XML related object key constraints](https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-keys.html#object-key-xml-related-constraints).
+        @available(*, deprecated)
+        public var `prefix`: Swift.String?
+        /// If 'Enabled', the rule is currently being applied. If 'Disabled', the rule is not currently being applied.
+        /// This member is required.
+        public var status: S3ClientTypes.ExpirationStatus?
+        /// Specifies when an Amazon S3 object transitions to a specified storage class.
+        public var transitions: [S3ClientTypes.Transition]?
+
+        public init(
+            abortIncompleteMultipartUpload: S3ClientTypes.AbortIncompleteMultipartUpload? = nil,
+            expiration: S3ClientTypes.LifecycleExpiration? = nil,
+            filter: S3ClientTypes.LifecycleRuleFilter? = nil,
+            id: Swift.String? = nil,
+            noncurrentVersionExpiration: S3ClientTypes.NoncurrentVersionExpiration? = nil,
+            noncurrentVersionTransitions: [S3ClientTypes.NoncurrentVersionTransition]? = nil,
+            `prefix`: Swift.String? = nil,
+            status: S3ClientTypes.ExpirationStatus? = nil,
+            transitions: [S3ClientTypes.Transition]? = nil
+        )
+        {
+            self.abortIncompleteMultipartUpload = abortIncompleteMultipartUpload
+            self.expiration = expiration
+            self.filter = filter
+            self.id = id
+            self.noncurrentVersionExpiration = noncurrentVersionExpiration
+            self.noncurrentVersionTransitions = noncurrentVersionTransitions
+            self.`prefix` = `prefix`
+            self.status = status
+            self.transitions = transitions
+        }
+    }
+
+}
+
+struct ListBucketAnalyticsConfigurationsInputBody: Swift.Equatable {
+}
+
+extension ListBucketAnalyticsConfigurationsInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
 extension ListBucketAnalyticsConfigurationsInput: ClientRuntime.HeaderProvider {
     public var headers: ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
@@ -14828,12 +14837,6 @@ extension ListBucketAnalyticsConfigurationsInput: ClientRuntime.QueryItemProvide
     }
 }
 
-extension ListBucketAnalyticsConfigurationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
-    }
-}
-
 public struct ListBucketAnalyticsConfigurationsInput: Swift.Equatable {
     /// The name of the bucket from which analytics configurations are retrieved.
     /// This member is required.
@@ -14855,54 +14858,9 @@ public struct ListBucketAnalyticsConfigurationsInput: Swift.Equatable {
     }
 }
 
-struct ListBucketAnalyticsConfigurationsInputBody: Swift.Equatable {
-}
-
-extension ListBucketAnalyticsConfigurationsInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-extension ListBucketAnalyticsConfigurationsOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: ListBucketAnalyticsConfigurationsOutputBody = try responseDecoder.decode(responseBody: data)
-            self.analyticsConfigurationList = output.analyticsConfigurationList
-            self.continuationToken = output.continuationToken
-            self.isTruncated = output.isTruncated
-            self.nextContinuationToken = output.nextContinuationToken
-        } else {
-            self.analyticsConfigurationList = nil
-            self.continuationToken = nil
-            self.isTruncated = false
-            self.nextContinuationToken = nil
-        }
-    }
-}
-
-public struct ListBucketAnalyticsConfigurationsOutput: Swift.Equatable {
-    /// The list of analytics configurations for a bucket.
-    public var analyticsConfigurationList: [S3ClientTypes.AnalyticsConfiguration]?
-    /// The marker that is used as a starting point for this analytics configuration list response. This value is present if it was sent in the request.
-    public var continuationToken: Swift.String?
-    /// Indicates whether the returned list of analytics configurations is complete. A value of true indicates that the list is not complete and the NextContinuationToken will be provided for a subsequent request.
-    public var isTruncated: Swift.Bool
-    /// NextContinuationToken is sent when isTruncated is true, which indicates that there are more analytics configurations to list. The next request must include this NextContinuationToken. The token is obfuscated and is not a usable value.
-    public var nextContinuationToken: Swift.String?
-
-    public init(
-        analyticsConfigurationList: [S3ClientTypes.AnalyticsConfiguration]? = nil,
-        continuationToken: Swift.String? = nil,
-        isTruncated: Swift.Bool = false,
-        nextContinuationToken: Swift.String? = nil
-    )
-    {
-        self.analyticsConfigurationList = analyticsConfigurationList
-        self.continuationToken = continuationToken
-        self.isTruncated = isTruncated
-        self.nextContinuationToken = nextContinuationToken
+extension ListBucketAnalyticsConfigurationsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
     }
 }
 
@@ -14959,6 +14917,57 @@ enum ListBucketAnalyticsConfigurationsOutputError: ClientRuntime.HttpResponseErr
     }
 }
 
+extension ListBucketAnalyticsConfigurationsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListBucketAnalyticsConfigurationsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.analyticsConfigurationList = output.analyticsConfigurationList
+            self.continuationToken = output.continuationToken
+            self.isTruncated = output.isTruncated
+            self.nextContinuationToken = output.nextContinuationToken
+        } else {
+            self.analyticsConfigurationList = nil
+            self.continuationToken = nil
+            self.isTruncated = false
+            self.nextContinuationToken = nil
+        }
+    }
+}
+
+public struct ListBucketAnalyticsConfigurationsOutput: Swift.Equatable {
+    /// The list of analytics configurations for a bucket.
+    public var analyticsConfigurationList: [S3ClientTypes.AnalyticsConfiguration]?
+    /// The marker that is used as a starting point for this analytics configuration list response. This value is present if it was sent in the request.
+    public var continuationToken: Swift.String?
+    /// Indicates whether the returned list of analytics configurations is complete. A value of true indicates that the list is not complete and the NextContinuationToken will be provided for a subsequent request.
+    public var isTruncated: Swift.Bool
+    /// NextContinuationToken is sent when isTruncated is true, which indicates that there are more analytics configurations to list. The next request must include this NextContinuationToken. The token is obfuscated and is not a usable value.
+    public var nextContinuationToken: Swift.String?
+
+    public init(
+        analyticsConfigurationList: [S3ClientTypes.AnalyticsConfiguration]? = nil,
+        continuationToken: Swift.String? = nil,
+        isTruncated: Swift.Bool = false,
+        nextContinuationToken: Swift.String? = nil
+    )
+    {
+        self.analyticsConfigurationList = analyticsConfigurationList
+        self.continuationToken = continuationToken
+        self.isTruncated = isTruncated
+        self.nextContinuationToken = nextContinuationToken
+    }
+}
+
+struct ListBucketIntelligentTieringConfigurationsInputBody: Swift.Equatable {
+}
+
+extension ListBucketIntelligentTieringConfigurationsInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
 extension ListBucketIntelligentTieringConfigurationsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -14971,12 +14980,6 @@ extension ListBucketIntelligentTieringConfigurationsInput: ClientRuntime.QueryIt
             }
             return items
         }
-    }
-}
-
-extension ListBucketIntelligentTieringConfigurationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
     }
 }
 
@@ -14997,54 +15000,9 @@ public struct ListBucketIntelligentTieringConfigurationsInput: Swift.Equatable {
     }
 }
 
-struct ListBucketIntelligentTieringConfigurationsInputBody: Swift.Equatable {
-}
-
-extension ListBucketIntelligentTieringConfigurationsInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-extension ListBucketIntelligentTieringConfigurationsOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: ListBucketIntelligentTieringConfigurationsOutputBody = try responseDecoder.decode(responseBody: data)
-            self.continuationToken = output.continuationToken
-            self.intelligentTieringConfigurationList = output.intelligentTieringConfigurationList
-            self.isTruncated = output.isTruncated
-            self.nextContinuationToken = output.nextContinuationToken
-        } else {
-            self.continuationToken = nil
-            self.intelligentTieringConfigurationList = nil
-            self.isTruncated = false
-            self.nextContinuationToken = nil
-        }
-    }
-}
-
-public struct ListBucketIntelligentTieringConfigurationsOutput: Swift.Equatable {
-    /// The ContinuationToken that represents a placeholder from where this request should begin.
-    public var continuationToken: Swift.String?
-    /// The list of S3 Intelligent-Tiering configurations for a bucket.
-    public var intelligentTieringConfigurationList: [S3ClientTypes.IntelligentTieringConfiguration]?
-    /// Indicates whether the returned list of analytics configurations is complete. A value of true indicates that the list is not complete and the NextContinuationToken will be provided for a subsequent request.
-    public var isTruncated: Swift.Bool
-    /// The marker used to continue this inventory configuration listing. Use the NextContinuationToken from this response to continue the listing in a subsequent request. The continuation token is an opaque value that Amazon S3 understands.
-    public var nextContinuationToken: Swift.String?
-
-    public init(
-        continuationToken: Swift.String? = nil,
-        intelligentTieringConfigurationList: [S3ClientTypes.IntelligentTieringConfiguration]? = nil,
-        isTruncated: Swift.Bool = false,
-        nextContinuationToken: Swift.String? = nil
-    )
-    {
-        self.continuationToken = continuationToken
-        self.intelligentTieringConfigurationList = intelligentTieringConfigurationList
-        self.isTruncated = isTruncated
-        self.nextContinuationToken = nextContinuationToken
+extension ListBucketIntelligentTieringConfigurationsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
     }
 }
 
@@ -15101,6 +15059,57 @@ enum ListBucketIntelligentTieringConfigurationsOutputError: ClientRuntime.HttpRe
     }
 }
 
+extension ListBucketIntelligentTieringConfigurationsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListBucketIntelligentTieringConfigurationsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.continuationToken = output.continuationToken
+            self.intelligentTieringConfigurationList = output.intelligentTieringConfigurationList
+            self.isTruncated = output.isTruncated
+            self.nextContinuationToken = output.nextContinuationToken
+        } else {
+            self.continuationToken = nil
+            self.intelligentTieringConfigurationList = nil
+            self.isTruncated = false
+            self.nextContinuationToken = nil
+        }
+    }
+}
+
+public struct ListBucketIntelligentTieringConfigurationsOutput: Swift.Equatable {
+    /// The ContinuationToken that represents a placeholder from where this request should begin.
+    public var continuationToken: Swift.String?
+    /// The list of S3 Intelligent-Tiering configurations for a bucket.
+    public var intelligentTieringConfigurationList: [S3ClientTypes.IntelligentTieringConfiguration]?
+    /// Indicates whether the returned list of analytics configurations is complete. A value of true indicates that the list is not complete and the NextContinuationToken will be provided for a subsequent request.
+    public var isTruncated: Swift.Bool
+    /// The marker used to continue this inventory configuration listing. Use the NextContinuationToken from this response to continue the listing in a subsequent request. The continuation token is an opaque value that Amazon S3 understands.
+    public var nextContinuationToken: Swift.String?
+
+    public init(
+        continuationToken: Swift.String? = nil,
+        intelligentTieringConfigurationList: [S3ClientTypes.IntelligentTieringConfiguration]? = nil,
+        isTruncated: Swift.Bool = false,
+        nextContinuationToken: Swift.String? = nil
+    )
+    {
+        self.continuationToken = continuationToken
+        self.intelligentTieringConfigurationList = intelligentTieringConfigurationList
+        self.isTruncated = isTruncated
+        self.nextContinuationToken = nextContinuationToken
+    }
+}
+
+struct ListBucketInventoryConfigurationsInputBody: Swift.Equatable {
+}
+
+extension ListBucketInventoryConfigurationsInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
 extension ListBucketInventoryConfigurationsInput: ClientRuntime.HeaderProvider {
     public var headers: ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
@@ -15126,12 +15135,6 @@ extension ListBucketInventoryConfigurationsInput: ClientRuntime.QueryItemProvide
     }
 }
 
-extension ListBucketInventoryConfigurationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
-    }
-}
-
 public struct ListBucketInventoryConfigurationsInput: Swift.Equatable {
     /// The name of the bucket containing the inventory configurations to retrieve.
     /// This member is required.
@@ -15153,54 +15156,9 @@ public struct ListBucketInventoryConfigurationsInput: Swift.Equatable {
     }
 }
 
-struct ListBucketInventoryConfigurationsInputBody: Swift.Equatable {
-}
-
-extension ListBucketInventoryConfigurationsInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-extension ListBucketInventoryConfigurationsOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: ListBucketInventoryConfigurationsOutputBody = try responseDecoder.decode(responseBody: data)
-            self.continuationToken = output.continuationToken
-            self.inventoryConfigurationList = output.inventoryConfigurationList
-            self.isTruncated = output.isTruncated
-            self.nextContinuationToken = output.nextContinuationToken
-        } else {
-            self.continuationToken = nil
-            self.inventoryConfigurationList = nil
-            self.isTruncated = false
-            self.nextContinuationToken = nil
-        }
-    }
-}
-
-public struct ListBucketInventoryConfigurationsOutput: Swift.Equatable {
-    /// If sent in the request, the marker that is used as a starting point for this inventory configuration list response.
-    public var continuationToken: Swift.String?
-    /// The list of inventory configurations for a bucket.
-    public var inventoryConfigurationList: [S3ClientTypes.InventoryConfiguration]?
-    /// Tells whether the returned list of inventory configurations is complete. A value of true indicates that the list is not complete and the NextContinuationToken is provided for a subsequent request.
-    public var isTruncated: Swift.Bool
-    /// The marker used to continue this inventory configuration listing. Use the NextContinuationToken from this response to continue the listing in a subsequent request. The continuation token is an opaque value that Amazon S3 understands.
-    public var nextContinuationToken: Swift.String?
-
-    public init(
-        continuationToken: Swift.String? = nil,
-        inventoryConfigurationList: [S3ClientTypes.InventoryConfiguration]? = nil,
-        isTruncated: Swift.Bool = false,
-        nextContinuationToken: Swift.String? = nil
-    )
-    {
-        self.continuationToken = continuationToken
-        self.inventoryConfigurationList = inventoryConfigurationList
-        self.isTruncated = isTruncated
-        self.nextContinuationToken = nextContinuationToken
+extension ListBucketInventoryConfigurationsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
     }
 }
 
@@ -15257,6 +15215,57 @@ enum ListBucketInventoryConfigurationsOutputError: ClientRuntime.HttpResponseErr
     }
 }
 
+extension ListBucketInventoryConfigurationsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListBucketInventoryConfigurationsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.continuationToken = output.continuationToken
+            self.inventoryConfigurationList = output.inventoryConfigurationList
+            self.isTruncated = output.isTruncated
+            self.nextContinuationToken = output.nextContinuationToken
+        } else {
+            self.continuationToken = nil
+            self.inventoryConfigurationList = nil
+            self.isTruncated = false
+            self.nextContinuationToken = nil
+        }
+    }
+}
+
+public struct ListBucketInventoryConfigurationsOutput: Swift.Equatable {
+    /// If sent in the request, the marker that is used as a starting point for this inventory configuration list response.
+    public var continuationToken: Swift.String?
+    /// The list of inventory configurations for a bucket.
+    public var inventoryConfigurationList: [S3ClientTypes.InventoryConfiguration]?
+    /// Tells whether the returned list of inventory configurations is complete. A value of true indicates that the list is not complete and the NextContinuationToken is provided for a subsequent request.
+    public var isTruncated: Swift.Bool
+    /// The marker used to continue this inventory configuration listing. Use the NextContinuationToken from this response to continue the listing in a subsequent request. The continuation token is an opaque value that Amazon S3 understands.
+    public var nextContinuationToken: Swift.String?
+
+    public init(
+        continuationToken: Swift.String? = nil,
+        inventoryConfigurationList: [S3ClientTypes.InventoryConfiguration]? = nil,
+        isTruncated: Swift.Bool = false,
+        nextContinuationToken: Swift.String? = nil
+    )
+    {
+        self.continuationToken = continuationToken
+        self.inventoryConfigurationList = inventoryConfigurationList
+        self.isTruncated = isTruncated
+        self.nextContinuationToken = nextContinuationToken
+    }
+}
+
+struct ListBucketMetricsConfigurationsInputBody: Swift.Equatable {
+}
+
+extension ListBucketMetricsConfigurationsInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
 extension ListBucketMetricsConfigurationsInput: ClientRuntime.HeaderProvider {
     public var headers: ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
@@ -15282,12 +15291,6 @@ extension ListBucketMetricsConfigurationsInput: ClientRuntime.QueryItemProvider 
     }
 }
 
-extension ListBucketMetricsConfigurationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
-    }
-}
-
 public struct ListBucketMetricsConfigurationsInput: Swift.Equatable {
     /// The name of the bucket containing the metrics configurations to retrieve.
     /// This member is required.
@@ -15309,54 +15312,9 @@ public struct ListBucketMetricsConfigurationsInput: Swift.Equatable {
     }
 }
 
-struct ListBucketMetricsConfigurationsInputBody: Swift.Equatable {
-}
-
-extension ListBucketMetricsConfigurationsInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-extension ListBucketMetricsConfigurationsOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: ListBucketMetricsConfigurationsOutputBody = try responseDecoder.decode(responseBody: data)
-            self.continuationToken = output.continuationToken
-            self.isTruncated = output.isTruncated
-            self.metricsConfigurationList = output.metricsConfigurationList
-            self.nextContinuationToken = output.nextContinuationToken
-        } else {
-            self.continuationToken = nil
-            self.isTruncated = false
-            self.metricsConfigurationList = nil
-            self.nextContinuationToken = nil
-        }
-    }
-}
-
-public struct ListBucketMetricsConfigurationsOutput: Swift.Equatable {
-    /// The marker that is used as a starting point for this metrics configuration list response. This value is present if it was sent in the request.
-    public var continuationToken: Swift.String?
-    /// Indicates whether the returned list of metrics configurations is complete. A value of true indicates that the list is not complete and the NextContinuationToken will be provided for a subsequent request.
-    public var isTruncated: Swift.Bool
-    /// The list of metrics configurations for a bucket.
-    public var metricsConfigurationList: [S3ClientTypes.MetricsConfiguration]?
-    /// The marker used to continue a metrics configuration listing that has been truncated. Use the NextContinuationToken from a previously truncated list response to continue the listing. The continuation token is an opaque value that Amazon S3 understands.
-    public var nextContinuationToken: Swift.String?
-
-    public init(
-        continuationToken: Swift.String? = nil,
-        isTruncated: Swift.Bool = false,
-        metricsConfigurationList: [S3ClientTypes.MetricsConfiguration]? = nil,
-        nextContinuationToken: Swift.String? = nil
-    )
-    {
-        self.continuationToken = continuationToken
-        self.isTruncated = isTruncated
-        self.metricsConfigurationList = metricsConfigurationList
-        self.nextContinuationToken = nextContinuationToken
+extension ListBucketMetricsConfigurationsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
     }
 }
 
@@ -15413,15 +15371,46 @@ enum ListBucketMetricsConfigurationsOutputError: ClientRuntime.HttpResponseError
     }
 }
 
-extension ListBucketsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
+extension ListBucketMetricsConfigurationsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListBucketMetricsConfigurationsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.continuationToken = output.continuationToken
+            self.isTruncated = output.isTruncated
+            self.metricsConfigurationList = output.metricsConfigurationList
+            self.nextContinuationToken = output.nextContinuationToken
+        } else {
+            self.continuationToken = nil
+            self.isTruncated = false
+            self.metricsConfigurationList = nil
+            self.nextContinuationToken = nil
+        }
     }
 }
 
-public struct ListBucketsInput: Swift.Equatable {
+public struct ListBucketMetricsConfigurationsOutput: Swift.Equatable {
+    /// The marker that is used as a starting point for this metrics configuration list response. This value is present if it was sent in the request.
+    public var continuationToken: Swift.String?
+    /// Indicates whether the returned list of metrics configurations is complete. A value of true indicates that the list is not complete and the NextContinuationToken will be provided for a subsequent request.
+    public var isTruncated: Swift.Bool
+    /// The list of metrics configurations for a bucket.
+    public var metricsConfigurationList: [S3ClientTypes.MetricsConfiguration]?
+    /// The marker used to continue a metrics configuration listing that has been truncated. Use the NextContinuationToken from a previously truncated list response to continue the listing. The continuation token is an opaque value that Amazon S3 understands.
+    public var nextContinuationToken: Swift.String?
 
-    public init() { }
+    public init(
+        continuationToken: Swift.String? = nil,
+        isTruncated: Swift.Bool = false,
+        metricsConfigurationList: [S3ClientTypes.MetricsConfiguration]? = nil,
+        nextContinuationToken: Swift.String? = nil
+    )
+    {
+        self.continuationToken = continuationToken
+        self.isTruncated = isTruncated
+        self.metricsConfigurationList = metricsConfigurationList
+        self.nextContinuationToken = nextContinuationToken
+    }
 }
 
 struct ListBucketsInputBody: Swift.Equatable {
@@ -15433,33 +15422,14 @@ extension ListBucketsInputBody: Swift.Decodable {
     }
 }
 
-extension ListBucketsOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: ListBucketsOutputBody = try responseDecoder.decode(responseBody: data)
-            self.buckets = output.buckets
-            self.owner = output.owner
-        } else {
-            self.buckets = nil
-            self.owner = nil
-        }
-    }
+public struct ListBucketsInput: Swift.Equatable {
+
+    public init() { }
 }
 
-public struct ListBucketsOutput: Swift.Equatable {
-    /// The list of buckets owned by the requester.
-    public var buckets: [S3ClientTypes.Bucket]?
-    /// The owner of the buckets listed.
-    public var owner: S3ClientTypes.Owner?
-
-    public init(
-        buckets: [S3ClientTypes.Bucket]? = nil,
-        owner: S3ClientTypes.Owner? = nil
-    )
-    {
-        self.buckets = buckets
-        self.owner = owner
+extension ListBucketsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
     }
 }
 
@@ -15506,6 +15476,45 @@ enum ListBucketsOutputError: ClientRuntime.HttpResponseErrorBinding {
         switch restXMLError.errorCode {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
         }
+    }
+}
+
+extension ListBucketsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListBucketsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.buckets = output.buckets
+            self.owner = output.owner
+        } else {
+            self.buckets = nil
+            self.owner = nil
+        }
+    }
+}
+
+public struct ListBucketsOutput: Swift.Equatable {
+    /// The list of buckets owned by the requester.
+    public var buckets: [S3ClientTypes.Bucket]?
+    /// The owner of the buckets listed.
+    public var owner: S3ClientTypes.Owner?
+
+    public init(
+        buckets: [S3ClientTypes.Bucket]? = nil,
+        owner: S3ClientTypes.Owner? = nil
+    )
+    {
+        self.buckets = buckets
+        self.owner = owner
+    }
+}
+
+struct ListMultipartUploadsInputBody: Swift.Equatable {
+}
+
+extension ListMultipartUploadsInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
@@ -15556,12 +15565,6 @@ extension ListMultipartUploadsInput: ClientRuntime.QueryItemProvider {
     }
 }
 
-extension ListMultipartUploadsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
-    }
-}
-
 public struct ListMultipartUploadsInput: Swift.Equatable {
     /// The name of the bucket to which the multipart upload was initiated. When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html) in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see [What is S3 on Outposts?](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide.
     /// This member is required.
@@ -15607,111 +15610,9 @@ public struct ListMultipartUploadsInput: Swift.Equatable {
     }
 }
 
-struct ListMultipartUploadsInputBody: Swift.Equatable {
-}
-
-extension ListMultipartUploadsInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-extension ListMultipartUploadsOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
-            self.requestCharged = S3ClientTypes.RequestCharged(rawValue: requestChargedHeaderValue)
-        } else {
-            self.requestCharged = nil
-        }
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: ListMultipartUploadsOutputBody = try responseDecoder.decode(responseBody: data)
-            self.`prefix` = output.`prefix`
-            self.bucket = output.bucket
-            self.commonPrefixes = output.commonPrefixes
-            self.delimiter = output.delimiter
-            self.encodingType = output.encodingType
-            self.isTruncated = output.isTruncated
-            self.keyMarker = output.keyMarker
-            self.maxUploads = output.maxUploads
-            self.nextKeyMarker = output.nextKeyMarker
-            self.nextUploadIdMarker = output.nextUploadIdMarker
-            self.uploadIdMarker = output.uploadIdMarker
-            self.uploads = output.uploads
-        } else {
-            self.bucket = nil
-            self.commonPrefixes = nil
-            self.delimiter = nil
-            self.encodingType = nil
-            self.isTruncated = false
-            self.keyMarker = nil
-            self.maxUploads = 0
-            self.nextKeyMarker = nil
-            self.nextUploadIdMarker = nil
-            self.`prefix` = nil
-            self.uploadIdMarker = nil
-            self.uploads = nil
-        }
-    }
-}
-
-public struct ListMultipartUploadsOutput: Swift.Equatable {
-    /// The name of the bucket to which the multipart upload was initiated. Does not return the access point ARN or access point alias if used.
-    public var bucket: Swift.String?
-    /// If you specify a delimiter in the request, then the result returns each distinct key prefix containing the delimiter in a CommonPrefixes element. The distinct key prefixes are returned in the Prefix child element.
-    public var commonPrefixes: [S3ClientTypes.CommonPrefix]?
-    /// Contains the delimiter you specified in the request. If you don't specify a delimiter in your request, this element is absent from the response.
-    public var delimiter: Swift.String?
-    /// Encoding type used by Amazon S3 to encode object keys in the response. If you specify the encoding-type request parameter, Amazon S3 includes this element in the response, and returns encoded key name values in the following response elements: Delimiter, KeyMarker, Prefix, NextKeyMarker, Key.
-    public var encodingType: S3ClientTypes.EncodingType?
-    /// Indicates whether the returned list of multipart uploads is truncated. A value of true indicates that the list was truncated. The list can be truncated if the number of multipart uploads exceeds the limit allowed or specified by max uploads.
-    public var isTruncated: Swift.Bool
-    /// The key at or after which the listing began.
-    public var keyMarker: Swift.String?
-    /// Maximum number of multipart uploads that could have been included in the response.
-    public var maxUploads: Swift.Int
-    /// When a list is truncated, this element specifies the value that should be used for the key-marker request parameter in a subsequent request.
-    public var nextKeyMarker: Swift.String?
-    /// When a list is truncated, this element specifies the value that should be used for the upload-id-marker request parameter in a subsequent request.
-    public var nextUploadIdMarker: Swift.String?
-    /// When a prefix is provided in the request, this field contains the specified prefix. The result contains only keys starting with the specified prefix.
-    public var `prefix`: Swift.String?
-    /// If present, indicates that the requester was successfully charged for the request.
-    public var requestCharged: S3ClientTypes.RequestCharged?
-    /// Upload ID after which listing began.
-    public var uploadIdMarker: Swift.String?
-    /// Container for elements related to a particular multipart upload. A response can contain zero or more Upload elements.
-    public var uploads: [S3ClientTypes.MultipartUpload]?
-
-    public init(
-        bucket: Swift.String? = nil,
-        commonPrefixes: [S3ClientTypes.CommonPrefix]? = nil,
-        delimiter: Swift.String? = nil,
-        encodingType: S3ClientTypes.EncodingType? = nil,
-        isTruncated: Swift.Bool = false,
-        keyMarker: Swift.String? = nil,
-        maxUploads: Swift.Int = 0,
-        nextKeyMarker: Swift.String? = nil,
-        nextUploadIdMarker: Swift.String? = nil,
-        `prefix`: Swift.String? = nil,
-        requestCharged: S3ClientTypes.RequestCharged? = nil,
-        uploadIdMarker: Swift.String? = nil,
-        uploads: [S3ClientTypes.MultipartUpload]? = nil
-    )
-    {
-        self.bucket = bucket
-        self.commonPrefixes = commonPrefixes
-        self.delimiter = delimiter
-        self.encodingType = encodingType
-        self.isTruncated = isTruncated
-        self.keyMarker = keyMarker
-        self.maxUploads = maxUploads
-        self.nextKeyMarker = nextKeyMarker
-        self.nextUploadIdMarker = nextUploadIdMarker
-        self.`prefix` = `prefix`
-        self.requestCharged = requestCharged
-        self.uploadIdMarker = uploadIdMarker
-        self.uploads = uploads
+extension ListMultipartUploadsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
     }
 }
 
@@ -15816,6 +15717,727 @@ enum ListMultipartUploadsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension ListMultipartUploadsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
+            self.requestCharged = S3ClientTypes.RequestCharged(rawValue: requestChargedHeaderValue)
+        } else {
+            self.requestCharged = nil
+        }
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListMultipartUploadsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.`prefix` = output.`prefix`
+            self.bucket = output.bucket
+            self.commonPrefixes = output.commonPrefixes
+            self.delimiter = output.delimiter
+            self.encodingType = output.encodingType
+            self.isTruncated = output.isTruncated
+            self.keyMarker = output.keyMarker
+            self.maxUploads = output.maxUploads
+            self.nextKeyMarker = output.nextKeyMarker
+            self.nextUploadIdMarker = output.nextUploadIdMarker
+            self.uploadIdMarker = output.uploadIdMarker
+            self.uploads = output.uploads
+        } else {
+            self.bucket = nil
+            self.commonPrefixes = nil
+            self.delimiter = nil
+            self.encodingType = nil
+            self.isTruncated = false
+            self.keyMarker = nil
+            self.maxUploads = 0
+            self.nextKeyMarker = nil
+            self.nextUploadIdMarker = nil
+            self.`prefix` = nil
+            self.uploadIdMarker = nil
+            self.uploads = nil
+        }
+    }
+}
+
+public struct ListMultipartUploadsOutput: Swift.Equatable {
+    /// The name of the bucket to which the multipart upload was initiated. Does not return the access point ARN or access point alias if used.
+    public var bucket: Swift.String?
+    /// If you specify a delimiter in the request, then the result returns each distinct key prefix containing the delimiter in a CommonPrefixes element. The distinct key prefixes are returned in the Prefix child element.
+    public var commonPrefixes: [S3ClientTypes.CommonPrefix]?
+    /// Contains the delimiter you specified in the request. If you don't specify a delimiter in your request, this element is absent from the response.
+    public var delimiter: Swift.String?
+    /// Encoding type used by Amazon S3 to encode object keys in the response. If you specify the encoding-type request parameter, Amazon S3 includes this element in the response, and returns encoded key name values in the following response elements: Delimiter, KeyMarker, Prefix, NextKeyMarker, Key.
+    public var encodingType: S3ClientTypes.EncodingType?
+    /// Indicates whether the returned list of multipart uploads is truncated. A value of true indicates that the list was truncated. The list can be truncated if the number of multipart uploads exceeds the limit allowed or specified by max uploads.
+    public var isTruncated: Swift.Bool
+    /// The key at or after which the listing began.
+    public var keyMarker: Swift.String?
+    /// Maximum number of multipart uploads that could have been included in the response.
+    public var maxUploads: Swift.Int
+    /// When a list is truncated, this element specifies the value that should be used for the key-marker request parameter in a subsequent request.
+    public var nextKeyMarker: Swift.String?
+    /// When a list is truncated, this element specifies the value that should be used for the upload-id-marker request parameter in a subsequent request.
+    public var nextUploadIdMarker: Swift.String?
+    /// When a prefix is provided in the request, this field contains the specified prefix. The result contains only keys starting with the specified prefix.
+    public var `prefix`: Swift.String?
+    /// If present, indicates that the requester was successfully charged for the request.
+    public var requestCharged: S3ClientTypes.RequestCharged?
+    /// Upload ID after which listing began.
+    public var uploadIdMarker: Swift.String?
+    /// Container for elements related to a particular multipart upload. A response can contain zero or more Upload elements.
+    public var uploads: [S3ClientTypes.MultipartUpload]?
+
+    public init(
+        bucket: Swift.String? = nil,
+        commonPrefixes: [S3ClientTypes.CommonPrefix]? = nil,
+        delimiter: Swift.String? = nil,
+        encodingType: S3ClientTypes.EncodingType? = nil,
+        isTruncated: Swift.Bool = false,
+        keyMarker: Swift.String? = nil,
+        maxUploads: Swift.Int = 0,
+        nextKeyMarker: Swift.String? = nil,
+        nextUploadIdMarker: Swift.String? = nil,
+        `prefix`: Swift.String? = nil,
+        requestCharged: S3ClientTypes.RequestCharged? = nil,
+        uploadIdMarker: Swift.String? = nil,
+        uploads: [S3ClientTypes.MultipartUpload]? = nil
+    )
+    {
+        self.bucket = bucket
+        self.commonPrefixes = commonPrefixes
+        self.delimiter = delimiter
+        self.encodingType = encodingType
+        self.isTruncated = isTruncated
+        self.keyMarker = keyMarker
+        self.maxUploads = maxUploads
+        self.nextKeyMarker = nextKeyMarker
+        self.nextUploadIdMarker = nextUploadIdMarker
+        self.`prefix` = `prefix`
+        self.requestCharged = requestCharged
+        self.uploadIdMarker = uploadIdMarker
+        self.uploads = uploads
+    }
+}
+
+struct ListObjectsInputBody: Swift.Equatable {
+}
+
+extension ListObjectsInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListObjectsInput: ClientRuntime.HeaderProvider {
+    public var headers: ClientRuntime.Headers {
+        var items = ClientRuntime.Headers()
+        if let expectedBucketOwner = expectedBucketOwner {
+            items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
+        }
+        if let optionalObjectAttributes = optionalObjectAttributes {
+            optionalObjectAttributes.forEach { headerValue in
+                items.add(Header(name: "x-amz-optional-object-attributes", value: quoteHeaderValue(Swift.String(headerValue.rawValue))))
+            }
+        }
+        if let requestPayer = requestPayer {
+            items.add(Header(name: "x-amz-request-payer", value: Swift.String(requestPayer.rawValue)))
+        }
+        return items
+    }
+}
+
+extension ListObjectsInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let delimiter = delimiter {
+                let delimiterQueryItem = ClientRuntime.URLQueryItem(name: "delimiter".urlPercentEncoding(), value: Swift.String(delimiter).urlPercentEncoding())
+                items.append(delimiterQueryItem)
+            }
+            if let encodingType = encodingType {
+                let encodingTypeQueryItem = ClientRuntime.URLQueryItem(name: "encoding-type".urlPercentEncoding(), value: Swift.String(encodingType.rawValue).urlPercentEncoding())
+                items.append(encodingTypeQueryItem)
+            }
+            if let marker = marker {
+                let markerQueryItem = ClientRuntime.URLQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+                items.append(markerQueryItem)
+            }
+            if let `prefix` = `prefix` {
+                let prefixQueryItem = ClientRuntime.URLQueryItem(name: "prefix".urlPercentEncoding(), value: Swift.String(`prefix`).urlPercentEncoding())
+                items.append(prefixQueryItem)
+            }
+            if let maxKeys = maxKeys {
+                let maxKeysQueryItem = ClientRuntime.URLQueryItem(name: "max-keys".urlPercentEncoding(), value: Swift.String(maxKeys).urlPercentEncoding())
+                items.append(maxKeysQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+public struct ListObjectsInput: Swift.Equatable {
+    /// The name of the bucket containing the objects. When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html) in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see [What is S3 on Outposts?](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide.
+    /// This member is required.
+    public var bucket: Swift.String?
+    /// A delimiter is a character that you use to group keys.
+    public var delimiter: Swift.String?
+    /// Requests Amazon S3 to encode the object keys in the response and specifies the encoding method to use. An object key can contain any Unicode character; however, the XML 1.0 parser cannot parse some characters, such as characters with an ASCII value from 0 to 10. For characters that are not supported in XML 1.0, you can add this parameter to request that Amazon S3 encode the keys in the response.
+    public var encodingType: S3ClientTypes.EncodingType?
+    /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
+    public var expectedBucketOwner: Swift.String?
+    /// Marker is where you want Amazon S3 to start listing from. Amazon S3 starts listing after this specified key. Marker can be any key in the bucket.
+    public var marker: Swift.String?
+    /// Sets the maximum number of keys returned in the response. By default, the action returns up to 1,000 key names. The response might contain fewer keys but will never contain more.
+    public var maxKeys: Swift.Int?
+    /// Specifies the optional fields that you want returned in the response. Fields that you do not specify are not returned.
+    public var optionalObjectAttributes: [S3ClientTypes.OptionalObjectAttributes]?
+    /// Limits the response to keys that begin with the specified prefix.
+    public var `prefix`: Swift.String?
+    /// Confirms that the requester knows that she or he will be charged for the list objects request. Bucket owners need not specify this parameter in their requests.
+    public var requestPayer: S3ClientTypes.RequestPayer?
+
+    public init(
+        bucket: Swift.String? = nil,
+        delimiter: Swift.String? = nil,
+        encodingType: S3ClientTypes.EncodingType? = nil,
+        expectedBucketOwner: Swift.String? = nil,
+        marker: Swift.String? = nil,
+        maxKeys: Swift.Int? = nil,
+        optionalObjectAttributes: [S3ClientTypes.OptionalObjectAttributes]? = nil,
+        `prefix`: Swift.String? = nil,
+        requestPayer: S3ClientTypes.RequestPayer? = nil
+    )
+    {
+        self.bucket = bucket
+        self.delimiter = delimiter
+        self.encodingType = encodingType
+        self.expectedBucketOwner = expectedBucketOwner
+        self.marker = marker
+        self.maxKeys = maxKeys
+        self.optionalObjectAttributes = optionalObjectAttributes
+        self.`prefix` = `prefix`
+        self.requestPayer = requestPayer
+    }
+}
+
+extension ListObjectsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+struct ListObjectsOutputBody: Swift.Equatable {
+    let isTruncated: Swift.Bool
+    let marker: Swift.String?
+    let nextMarker: Swift.String?
+    let contents: [S3ClientTypes.Object]?
+    let name: Swift.String?
+    let `prefix`: Swift.String?
+    let delimiter: Swift.String?
+    let maxKeys: Swift.Int
+    let commonPrefixes: [S3ClientTypes.CommonPrefix]?
+    let encodingType: S3ClientTypes.EncodingType?
+}
+
+extension ListObjectsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case commonPrefixes = "CommonPrefixes"
+        case contents = "Contents"
+        case delimiter = "Delimiter"
+        case encodingType = "EncodingType"
+        case isTruncated = "IsTruncated"
+        case marker = "Marker"
+        case maxKeys = "MaxKeys"
+        case name = "Name"
+        case nextMarker = "NextMarker"
+        case `prefix` = "Prefix"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let isTruncatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isTruncated) ?? false
+        isTruncated = isTruncatedDecoded
+        let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
+        marker = markerDecoded
+        let nextMarkerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextMarker)
+        nextMarker = nextMarkerDecoded
+        if containerValues.contains(.contents) {
+            let contentsWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CodingKeys.self, forKey: .contents)
+            if contentsWrappedContainer != nil {
+                let contentsContainer = try containerValues.decodeIfPresent([S3ClientTypes.Object].self, forKey: .contents)
+                var contentsBuffer:[S3ClientTypes.Object]? = nil
+                if let contentsContainer = contentsContainer {
+                    contentsBuffer = [S3ClientTypes.Object]()
+                    for structureContainer0 in contentsContainer {
+                        contentsBuffer?.append(structureContainer0)
+                    }
+                }
+                contents = contentsBuffer
+            } else {
+                contents = []
+            }
+        } else {
+            contents = nil
+        }
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let prefixDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .prefix)
+        `prefix` = prefixDecoded
+        let delimiterDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .delimiter)
+        delimiter = delimiterDecoded
+        let maxKeysDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxKeys) ?? 0
+        maxKeys = maxKeysDecoded
+        if containerValues.contains(.commonPrefixes) {
+            let commonPrefixesWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CodingKeys.self, forKey: .commonPrefixes)
+            if commonPrefixesWrappedContainer != nil {
+                let commonPrefixesContainer = try containerValues.decodeIfPresent([S3ClientTypes.CommonPrefix].self, forKey: .commonPrefixes)
+                var commonPrefixesBuffer:[S3ClientTypes.CommonPrefix]? = nil
+                if let commonPrefixesContainer = commonPrefixesContainer {
+                    commonPrefixesBuffer = [S3ClientTypes.CommonPrefix]()
+                    for structureContainer0 in commonPrefixesContainer {
+                        commonPrefixesBuffer?.append(structureContainer0)
+                    }
+                }
+                commonPrefixes = commonPrefixesBuffer
+            } else {
+                commonPrefixes = []
+            }
+        } else {
+            commonPrefixes = nil
+        }
+        let encodingTypeDecoded = try containerValues.decodeIfPresent(S3ClientTypes.EncodingType.self, forKey: .encodingType)
+        encodingType = encodingTypeDecoded
+    }
+}
+
+enum ListObjectsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
+        switch restXMLError.errorCode {
+            case "NoSuchBucket": return try await NoSuchBucket(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
+extension ListObjectsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
+            self.requestCharged = S3ClientTypes.RequestCharged(rawValue: requestChargedHeaderValue)
+        } else {
+            self.requestCharged = nil
+        }
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListObjectsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.`prefix` = output.`prefix`
+            self.commonPrefixes = output.commonPrefixes
+            self.contents = output.contents
+            self.delimiter = output.delimiter
+            self.encodingType = output.encodingType
+            self.isTruncated = output.isTruncated
+            self.marker = output.marker
+            self.maxKeys = output.maxKeys
+            self.name = output.name
+            self.nextMarker = output.nextMarker
+        } else {
+            self.commonPrefixes = nil
+            self.contents = nil
+            self.delimiter = nil
+            self.encodingType = nil
+            self.isTruncated = false
+            self.marker = nil
+            self.maxKeys = 0
+            self.name = nil
+            self.nextMarker = nil
+            self.`prefix` = nil
+        }
+    }
+}
+
+public struct ListObjectsOutput: Swift.Equatable {
+    /// All of the keys (up to 1,000) rolled up in a common prefix count as a single return when calculating the number of returns. A response can contain CommonPrefixes only if you specify a delimiter. CommonPrefixes contains all (if there are any) keys between Prefix and the next occurrence of the string specified by the delimiter. CommonPrefixes lists keys that act like subdirectories in the directory specified by Prefix. For example, if the prefix is notes/ and the delimiter is a slash (/), as in notes/summer/july, the common prefix is notes/summer/. All of the keys that roll up into a common prefix count as a single return when calculating the number of returns.
+    public var commonPrefixes: [S3ClientTypes.CommonPrefix]?
+    /// Metadata about each object returned.
+    public var contents: [S3ClientTypes.Object]?
+    /// Causes keys that contain the same string between the prefix and the first occurrence of the delimiter to be rolled up into a single result element in the CommonPrefixes collection. These rolled-up keys are not returned elsewhere in the response. Each rolled-up result counts as only one return against the MaxKeys value.
+    public var delimiter: Swift.String?
+    /// Encoding type used by Amazon S3 to encode object keys in the response.
+    public var encodingType: S3ClientTypes.EncodingType?
+    /// A flag that indicates whether Amazon S3 returned all of the results that satisfied the search criteria.
+    public var isTruncated: Swift.Bool
+    /// Indicates where in the bucket listing begins. Marker is included in the response if it was sent with the request.
+    public var marker: Swift.String?
+    /// The maximum number of keys returned in the response body.
+    public var maxKeys: Swift.Int
+    /// The bucket name.
+    public var name: Swift.String?
+    /// When the response is truncated (the IsTruncated element value in the response is true), you can use the key name in this field as the marker parameter in the subsequent request to get the next set of objects. Amazon S3 lists objects in alphabetical order. This element is returned only if you have the delimiter request parameter specified. If the response does not include the NextMarker element and it is truncated, you can use the value of the last Key element in the response as the marker parameter in the subsequent request to get the next set of object keys.
+    public var nextMarker: Swift.String?
+    /// Keys that begin with the indicated prefix.
+    public var `prefix`: Swift.String?
+    /// If present, indicates that the requester was successfully charged for the request.
+    public var requestCharged: S3ClientTypes.RequestCharged?
+
+    public init(
+        commonPrefixes: [S3ClientTypes.CommonPrefix]? = nil,
+        contents: [S3ClientTypes.Object]? = nil,
+        delimiter: Swift.String? = nil,
+        encodingType: S3ClientTypes.EncodingType? = nil,
+        isTruncated: Swift.Bool = false,
+        marker: Swift.String? = nil,
+        maxKeys: Swift.Int = 0,
+        name: Swift.String? = nil,
+        nextMarker: Swift.String? = nil,
+        `prefix`: Swift.String? = nil,
+        requestCharged: S3ClientTypes.RequestCharged? = nil
+    )
+    {
+        self.commonPrefixes = commonPrefixes
+        self.contents = contents
+        self.delimiter = delimiter
+        self.encodingType = encodingType
+        self.isTruncated = isTruncated
+        self.marker = marker
+        self.maxKeys = maxKeys
+        self.name = name
+        self.nextMarker = nextMarker
+        self.`prefix` = `prefix`
+        self.requestCharged = requestCharged
+    }
+}
+
+struct ListObjectsV2InputBody: Swift.Equatable {
+}
+
+extension ListObjectsV2InputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListObjectsV2Input: ClientRuntime.HeaderProvider {
+    public var headers: ClientRuntime.Headers {
+        var items = ClientRuntime.Headers()
+        if let expectedBucketOwner = expectedBucketOwner {
+            items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
+        }
+        if let optionalObjectAttributes = optionalObjectAttributes {
+            optionalObjectAttributes.forEach { headerValue in
+                items.add(Header(name: "x-amz-optional-object-attributes", value: quoteHeaderValue(Swift.String(headerValue.rawValue))))
+            }
+        }
+        if let requestPayer = requestPayer {
+            items.add(Header(name: "x-amz-request-payer", value: Swift.String(requestPayer.rawValue)))
+        }
+        return items
+    }
+}
+
+extension ListObjectsV2Input: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "list-type", value: "2"))
+            if let continuationToken = continuationToken {
+                let continuationTokenQueryItem = ClientRuntime.URLQueryItem(name: "continuation-token".urlPercentEncoding(), value: Swift.String(continuationToken).urlPercentEncoding())
+                items.append(continuationTokenQueryItem)
+            }
+            if let delimiter = delimiter {
+                let delimiterQueryItem = ClientRuntime.URLQueryItem(name: "delimiter".urlPercentEncoding(), value: Swift.String(delimiter).urlPercentEncoding())
+                items.append(delimiterQueryItem)
+            }
+            if let fetchOwner = fetchOwner {
+                let fetchOwnerQueryItem = ClientRuntime.URLQueryItem(name: "fetch-owner".urlPercentEncoding(), value: Swift.String(fetchOwner).urlPercentEncoding())
+                items.append(fetchOwnerQueryItem)
+            }
+            if let encodingType = encodingType {
+                let encodingTypeQueryItem = ClientRuntime.URLQueryItem(name: "encoding-type".urlPercentEncoding(), value: Swift.String(encodingType.rawValue).urlPercentEncoding())
+                items.append(encodingTypeQueryItem)
+            }
+            if let startAfter = startAfter {
+                let startAfterQueryItem = ClientRuntime.URLQueryItem(name: "start-after".urlPercentEncoding(), value: Swift.String(startAfter).urlPercentEncoding())
+                items.append(startAfterQueryItem)
+            }
+            if let `prefix` = `prefix` {
+                let prefixQueryItem = ClientRuntime.URLQueryItem(name: "prefix".urlPercentEncoding(), value: Swift.String(`prefix`).urlPercentEncoding())
+                items.append(prefixQueryItem)
+            }
+            if let maxKeys = maxKeys {
+                let maxKeysQueryItem = ClientRuntime.URLQueryItem(name: "max-keys".urlPercentEncoding(), value: Swift.String(maxKeys).urlPercentEncoding())
+                items.append(maxKeysQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+public struct ListObjectsV2Input: Swift.Equatable {
+    /// Bucket name to list. When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html) in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see [What is S3 on Outposts?](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide.
+    /// This member is required.
+    public var bucket: Swift.String?
+    /// ContinuationToken indicates to Amazon S3 that the list is being continued on this bucket with a token. ContinuationToken is obfuscated and is not a real key.
+    public var continuationToken: Swift.String?
+    /// A delimiter is a character that you use to group keys.
+    public var delimiter: Swift.String?
+    /// Encoding type used by Amazon S3 to encode object keys in the response.
+    public var encodingType: S3ClientTypes.EncodingType?
+    /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
+    public var expectedBucketOwner: Swift.String?
+    /// The owner field is not present in ListObjectsV2 by default. If you want to return the owner field with each key in the result, then set the FetchOwner field to true.
+    public var fetchOwner: Swift.Bool?
+    /// Sets the maximum number of keys returned in the response. By default, the action returns up to 1,000 key names. The response might contain fewer keys but will never contain more.
+    public var maxKeys: Swift.Int?
+    /// Specifies the optional fields that you want returned in the response. Fields that you do not specify are not returned.
+    public var optionalObjectAttributes: [S3ClientTypes.OptionalObjectAttributes]?
+    /// Limits the response to keys that begin with the specified prefix.
+    public var `prefix`: Swift.String?
+    /// Confirms that the requester knows that she or he will be charged for the list objects request in V2 style. Bucket owners need not specify this parameter in their requests.
+    public var requestPayer: S3ClientTypes.RequestPayer?
+    /// StartAfter is where you want Amazon S3 to start listing from. Amazon S3 starts listing after this specified key. StartAfter can be any key in the bucket.
+    public var startAfter: Swift.String?
+
+    public init(
+        bucket: Swift.String? = nil,
+        continuationToken: Swift.String? = nil,
+        delimiter: Swift.String? = nil,
+        encodingType: S3ClientTypes.EncodingType? = nil,
+        expectedBucketOwner: Swift.String? = nil,
+        fetchOwner: Swift.Bool? = nil,
+        maxKeys: Swift.Int? = nil,
+        optionalObjectAttributes: [S3ClientTypes.OptionalObjectAttributes]? = nil,
+        `prefix`: Swift.String? = nil,
+        requestPayer: S3ClientTypes.RequestPayer? = nil,
+        startAfter: Swift.String? = nil
+    )
+    {
+        self.bucket = bucket
+        self.continuationToken = continuationToken
+        self.delimiter = delimiter
+        self.encodingType = encodingType
+        self.expectedBucketOwner = expectedBucketOwner
+        self.fetchOwner = fetchOwner
+        self.maxKeys = maxKeys
+        self.optionalObjectAttributes = optionalObjectAttributes
+        self.`prefix` = `prefix`
+        self.requestPayer = requestPayer
+        self.startAfter = startAfter
+    }
+}
+
+extension ListObjectsV2Input: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+struct ListObjectsV2OutputBody: Swift.Equatable {
+    let isTruncated: Swift.Bool
+    let contents: [S3ClientTypes.Object]?
+    let name: Swift.String?
+    let `prefix`: Swift.String?
+    let delimiter: Swift.String?
+    let maxKeys: Swift.Int
+    let commonPrefixes: [S3ClientTypes.CommonPrefix]?
+    let encodingType: S3ClientTypes.EncodingType?
+    let keyCount: Swift.Int
+    let continuationToken: Swift.String?
+    let nextContinuationToken: Swift.String?
+    let startAfter: Swift.String?
+}
+
+extension ListObjectsV2OutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case commonPrefixes = "CommonPrefixes"
+        case contents = "Contents"
+        case continuationToken = "ContinuationToken"
+        case delimiter = "Delimiter"
+        case encodingType = "EncodingType"
+        case isTruncated = "IsTruncated"
+        case keyCount = "KeyCount"
+        case maxKeys = "MaxKeys"
+        case name = "Name"
+        case nextContinuationToken = "NextContinuationToken"
+        case `prefix` = "Prefix"
+        case startAfter = "StartAfter"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let isTruncatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isTruncated) ?? false
+        isTruncated = isTruncatedDecoded
+        if containerValues.contains(.contents) {
+            let contentsWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CodingKeys.self, forKey: .contents)
+            if contentsWrappedContainer != nil {
+                let contentsContainer = try containerValues.decodeIfPresent([S3ClientTypes.Object].self, forKey: .contents)
+                var contentsBuffer:[S3ClientTypes.Object]? = nil
+                if let contentsContainer = contentsContainer {
+                    contentsBuffer = [S3ClientTypes.Object]()
+                    for structureContainer0 in contentsContainer {
+                        contentsBuffer?.append(structureContainer0)
+                    }
+                }
+                contents = contentsBuffer
+            } else {
+                contents = []
+            }
+        } else {
+            contents = nil
+        }
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let prefixDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .prefix)
+        `prefix` = prefixDecoded
+        let delimiterDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .delimiter)
+        delimiter = delimiterDecoded
+        let maxKeysDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxKeys) ?? 0
+        maxKeys = maxKeysDecoded
+        if containerValues.contains(.commonPrefixes) {
+            let commonPrefixesWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CodingKeys.self, forKey: .commonPrefixes)
+            if commonPrefixesWrappedContainer != nil {
+                let commonPrefixesContainer = try containerValues.decodeIfPresent([S3ClientTypes.CommonPrefix].self, forKey: .commonPrefixes)
+                var commonPrefixesBuffer:[S3ClientTypes.CommonPrefix]? = nil
+                if let commonPrefixesContainer = commonPrefixesContainer {
+                    commonPrefixesBuffer = [S3ClientTypes.CommonPrefix]()
+                    for structureContainer0 in commonPrefixesContainer {
+                        commonPrefixesBuffer?.append(structureContainer0)
+                    }
+                }
+                commonPrefixes = commonPrefixesBuffer
+            } else {
+                commonPrefixes = []
+            }
+        } else {
+            commonPrefixes = nil
+        }
+        let encodingTypeDecoded = try containerValues.decodeIfPresent(S3ClientTypes.EncodingType.self, forKey: .encodingType)
+        encodingType = encodingTypeDecoded
+        let keyCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .keyCount) ?? 0
+        keyCount = keyCountDecoded
+        let continuationTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .continuationToken)
+        continuationToken = continuationTokenDecoded
+        let nextContinuationTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextContinuationToken)
+        nextContinuationToken = nextContinuationTokenDecoded
+        let startAfterDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .startAfter)
+        startAfter = startAfterDecoded
+    }
+}
+
+enum ListObjectsV2OutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
+        switch restXMLError.errorCode {
+            case "NoSuchBucket": return try await NoSuchBucket(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
+extension ListObjectsV2Output: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
+            self.requestCharged = S3ClientTypes.RequestCharged(rawValue: requestChargedHeaderValue)
+        } else {
+            self.requestCharged = nil
+        }
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListObjectsV2OutputBody = try responseDecoder.decode(responseBody: data)
+            self.`prefix` = output.`prefix`
+            self.commonPrefixes = output.commonPrefixes
+            self.contents = output.contents
+            self.continuationToken = output.continuationToken
+            self.delimiter = output.delimiter
+            self.encodingType = output.encodingType
+            self.isTruncated = output.isTruncated
+            self.keyCount = output.keyCount
+            self.maxKeys = output.maxKeys
+            self.name = output.name
+            self.nextContinuationToken = output.nextContinuationToken
+            self.startAfter = output.startAfter
+        } else {
+            self.commonPrefixes = nil
+            self.contents = nil
+            self.continuationToken = nil
+            self.delimiter = nil
+            self.encodingType = nil
+            self.isTruncated = false
+            self.keyCount = 0
+            self.maxKeys = 0
+            self.name = nil
+            self.nextContinuationToken = nil
+            self.`prefix` = nil
+            self.startAfter = nil
+        }
+    }
+}
+
+public struct ListObjectsV2Output: Swift.Equatable {
+    /// All of the keys (up to 1,000) rolled up into a common prefix count as a single return when calculating the number of returns. A response can contain CommonPrefixes only if you specify a delimiter. CommonPrefixes contains all (if there are any) keys between Prefix and the next occurrence of the string specified by a delimiter. CommonPrefixes lists keys that act like subdirectories in the directory specified by Prefix. For example, if the prefix is notes/ and the delimiter is a slash (/) as in notes/summer/july, the common prefix is notes/summer/. All of the keys that roll up into a common prefix count as a single return when calculating the number of returns.
+    public var commonPrefixes: [S3ClientTypes.CommonPrefix]?
+    /// Metadata about each object returned.
+    public var contents: [S3ClientTypes.Object]?
+    /// If ContinuationToken was sent with the request, it is included in the response.
+    public var continuationToken: Swift.String?
+    /// Causes keys that contain the same string between the prefix and the first occurrence of the delimiter to be rolled up into a single result element in the CommonPrefixes collection. These rolled-up keys are not returned elsewhere in the response. Each rolled-up result counts as only one return against the MaxKeys value.
+    public var delimiter: Swift.String?
+    /// Encoding type used by Amazon S3 to encode object key names in the XML response. If you specify the encoding-type request parameter, Amazon S3 includes this element in the response, and returns encoded key name values in the following response elements: Delimiter, Prefix, Key, and StartAfter.
+    public var encodingType: S3ClientTypes.EncodingType?
+    /// Set to false if all of the results were returned. Set to true if more keys are available to return. If the number of results exceeds that specified by MaxKeys, all of the results might not be returned.
+    public var isTruncated: Swift.Bool
+    /// KeyCount is the number of keys returned with this request. KeyCount will always be less than or equal to the MaxKeys field. For example, if you ask for 50 keys, your result will include 50 keys or fewer.
+    public var keyCount: Swift.Int
+    /// Sets the maximum number of keys returned in the response. By default, the action returns up to 1,000 key names. The response might contain fewer keys but will never contain more.
+    public var maxKeys: Swift.Int
+    /// The bucket name. When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html) in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see [What is S3 on Outposts?](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide.
+    public var name: Swift.String?
+    /// NextContinuationToken is sent when isTruncated is true, which means there are more keys in the bucket that can be listed. The next list requests to Amazon S3 can be continued with this NextContinuationToken. NextContinuationToken is obfuscated and is not a real key
+    public var nextContinuationToken: Swift.String?
+    /// Keys that begin with the indicated prefix.
+    public var `prefix`: Swift.String?
+    /// If present, indicates that the requester was successfully charged for the request.
+    public var requestCharged: S3ClientTypes.RequestCharged?
+    /// If StartAfter was sent with the request, it is included in the response.
+    public var startAfter: Swift.String?
+
+    public init(
+        commonPrefixes: [S3ClientTypes.CommonPrefix]? = nil,
+        contents: [S3ClientTypes.Object]? = nil,
+        continuationToken: Swift.String? = nil,
+        delimiter: Swift.String? = nil,
+        encodingType: S3ClientTypes.EncodingType? = nil,
+        isTruncated: Swift.Bool = false,
+        keyCount: Swift.Int = 0,
+        maxKeys: Swift.Int = 0,
+        name: Swift.String? = nil,
+        nextContinuationToken: Swift.String? = nil,
+        `prefix`: Swift.String? = nil,
+        requestCharged: S3ClientTypes.RequestCharged? = nil,
+        startAfter: Swift.String? = nil
+    )
+    {
+        self.commonPrefixes = commonPrefixes
+        self.contents = contents
+        self.continuationToken = continuationToken
+        self.delimiter = delimiter
+        self.encodingType = encodingType
+        self.isTruncated = isTruncated
+        self.keyCount = keyCount
+        self.maxKeys = maxKeys
+        self.name = name
+        self.nextContinuationToken = nextContinuationToken
+        self.`prefix` = `prefix`
+        self.requestCharged = requestCharged
+        self.startAfter = startAfter
+    }
+}
+
+struct ListObjectVersionsInputBody: Swift.Equatable {
+}
+
+extension ListObjectVersionsInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
 extension ListObjectVersionsInput: ClientRuntime.HeaderProvider {
     public var headers: ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
@@ -15868,12 +16490,6 @@ extension ListObjectVersionsInput: ClientRuntime.QueryItemProvider {
     }
 }
 
-extension ListObjectVersionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
-    }
-}
-
 public struct ListObjectVersionsInput: Swift.Equatable {
     /// The bucket name that contains the objects.
     /// This member is required.
@@ -15923,117 +16539,9 @@ public struct ListObjectVersionsInput: Swift.Equatable {
     }
 }
 
-struct ListObjectVersionsInputBody: Swift.Equatable {
-}
-
-extension ListObjectVersionsInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-extension ListObjectVersionsOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
-            self.requestCharged = S3ClientTypes.RequestCharged(rawValue: requestChargedHeaderValue)
-        } else {
-            self.requestCharged = nil
-        }
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: ListObjectVersionsOutputBody = try responseDecoder.decode(responseBody: data)
-            self.`prefix` = output.`prefix`
-            self.commonPrefixes = output.commonPrefixes
-            self.deleteMarkers = output.deleteMarkers
-            self.delimiter = output.delimiter
-            self.encodingType = output.encodingType
-            self.isTruncated = output.isTruncated
-            self.keyMarker = output.keyMarker
-            self.maxKeys = output.maxKeys
-            self.name = output.name
-            self.nextKeyMarker = output.nextKeyMarker
-            self.nextVersionIdMarker = output.nextVersionIdMarker
-            self.versionIdMarker = output.versionIdMarker
-            self.versions = output.versions
-        } else {
-            self.commonPrefixes = nil
-            self.deleteMarkers = nil
-            self.delimiter = nil
-            self.encodingType = nil
-            self.isTruncated = false
-            self.keyMarker = nil
-            self.maxKeys = 0
-            self.name = nil
-            self.nextKeyMarker = nil
-            self.nextVersionIdMarker = nil
-            self.`prefix` = nil
-            self.versionIdMarker = nil
-            self.versions = nil
-        }
-    }
-}
-
-public struct ListObjectVersionsOutput: Swift.Equatable {
-    /// All of the keys rolled up into a common prefix count as a single return when calculating the number of returns.
-    public var commonPrefixes: [S3ClientTypes.CommonPrefix]?
-    /// Container for an object that is a delete marker.
-    public var deleteMarkers: [S3ClientTypes.DeleteMarkerEntry]?
-    /// The delimiter grouping the included keys. A delimiter is a character that you specify to group keys. All keys that contain the same string between the prefix and the first occurrence of the delimiter are grouped under a single result element in CommonPrefixes. These groups are counted as one result against the max-keys limitation. These keys are not returned elsewhere in the response.
-    public var delimiter: Swift.String?
-    /// Encoding type used by Amazon S3 to encode object key names in the XML response. If you specify the encoding-type request parameter, Amazon S3 includes this element in the response, and returns encoded key name values in the following response elements: KeyMarker, NextKeyMarker, Prefix, Key, and Delimiter.
-    public var encodingType: S3ClientTypes.EncodingType?
-    /// A flag that indicates whether Amazon S3 returned all of the results that satisfied the search criteria. If your results were truncated, you can make a follow-up paginated request by using the NextKeyMarker and NextVersionIdMarker response parameters as a starting place in another request to return the rest of the results.
-    public var isTruncated: Swift.Bool
-    /// Marks the last key returned in a truncated response.
-    public var keyMarker: Swift.String?
-    /// Specifies the maximum number of objects to return.
-    public var maxKeys: Swift.Int
-    /// The bucket name.
-    public var name: Swift.String?
-    /// When the number of responses exceeds the value of MaxKeys, NextKeyMarker specifies the first key not returned that satisfies the search criteria. Use this value for the key-marker request parameter in a subsequent request.
-    public var nextKeyMarker: Swift.String?
-    /// When the number of responses exceeds the value of MaxKeys, NextVersionIdMarker specifies the first object version not returned that satisfies the search criteria. Use this value for the version-id-marker request parameter in a subsequent request.
-    public var nextVersionIdMarker: Swift.String?
-    /// Selects objects that start with the value supplied by this parameter.
-    public var `prefix`: Swift.String?
-    /// If present, indicates that the requester was successfully charged for the request.
-    public var requestCharged: S3ClientTypes.RequestCharged?
-    /// Marks the last version of the key returned in a truncated response.
-    public var versionIdMarker: Swift.String?
-    /// Container for version information.
-    public var versions: [S3ClientTypes.ObjectVersion]?
-
-    public init(
-        commonPrefixes: [S3ClientTypes.CommonPrefix]? = nil,
-        deleteMarkers: [S3ClientTypes.DeleteMarkerEntry]? = nil,
-        delimiter: Swift.String? = nil,
-        encodingType: S3ClientTypes.EncodingType? = nil,
-        isTruncated: Swift.Bool = false,
-        keyMarker: Swift.String? = nil,
-        maxKeys: Swift.Int = 0,
-        name: Swift.String? = nil,
-        nextKeyMarker: Swift.String? = nil,
-        nextVersionIdMarker: Swift.String? = nil,
-        `prefix`: Swift.String? = nil,
-        requestCharged: S3ClientTypes.RequestCharged? = nil,
-        versionIdMarker: Swift.String? = nil,
-        versions: [S3ClientTypes.ObjectVersion]? = nil
-    )
-    {
-        self.commonPrefixes = commonPrefixes
-        self.deleteMarkers = deleteMarkers
-        self.delimiter = delimiter
-        self.encodingType = encodingType
-        self.isTruncated = isTruncated
-        self.keyMarker = keyMarker
-        self.maxKeys = maxKeys
-        self.name = name
-        self.nextKeyMarker = nextKeyMarker
-        self.nextVersionIdMarker = nextVersionIdMarker
-        self.`prefix` = `prefix`
-        self.requestCharged = requestCharged
-        self.versionIdMarker = versionIdMarker
-        self.versions = versions
+extension ListObjectVersionsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
     }
 }
 
@@ -16158,114 +16666,7 @@ enum ListObjectVersionsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListObjectsInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
-        if let expectedBucketOwner = expectedBucketOwner {
-            items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
-        }
-        if let optionalObjectAttributes = optionalObjectAttributes {
-            optionalObjectAttributes.forEach { headerValue in
-                items.add(Header(name: "x-amz-optional-object-attributes", value: quoteHeaderValue(Swift.String(headerValue.rawValue))))
-            }
-        }
-        if let requestPayer = requestPayer {
-            items.add(Header(name: "x-amz-request-payer", value: Swift.String(requestPayer.rawValue)))
-        }
-        return items
-    }
-}
-
-extension ListObjectsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let delimiter = delimiter {
-                let delimiterQueryItem = ClientRuntime.URLQueryItem(name: "delimiter".urlPercentEncoding(), value: Swift.String(delimiter).urlPercentEncoding())
-                items.append(delimiterQueryItem)
-            }
-            if let encodingType = encodingType {
-                let encodingTypeQueryItem = ClientRuntime.URLQueryItem(name: "encoding-type".urlPercentEncoding(), value: Swift.String(encodingType.rawValue).urlPercentEncoding())
-                items.append(encodingTypeQueryItem)
-            }
-            if let marker = marker {
-                let markerQueryItem = ClientRuntime.URLQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
-                items.append(markerQueryItem)
-            }
-            if let `prefix` = `prefix` {
-                let prefixQueryItem = ClientRuntime.URLQueryItem(name: "prefix".urlPercentEncoding(), value: Swift.String(`prefix`).urlPercentEncoding())
-                items.append(prefixQueryItem)
-            }
-            if let maxKeys = maxKeys {
-                let maxKeysQueryItem = ClientRuntime.URLQueryItem(name: "max-keys".urlPercentEncoding(), value: Swift.String(maxKeys).urlPercentEncoding())
-                items.append(maxKeysQueryItem)
-            }
-            return items
-        }
-    }
-}
-
-extension ListObjectsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
-    }
-}
-
-public struct ListObjectsInput: Swift.Equatable {
-    /// The name of the bucket containing the objects. When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html) in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see [What is S3 on Outposts?](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide.
-    /// This member is required.
-    public var bucket: Swift.String?
-    /// A delimiter is a character that you use to group keys.
-    public var delimiter: Swift.String?
-    /// Requests Amazon S3 to encode the object keys in the response and specifies the encoding method to use. An object key can contain any Unicode character; however, the XML 1.0 parser cannot parse some characters, such as characters with an ASCII value from 0 to 10. For characters that are not supported in XML 1.0, you can add this parameter to request that Amazon S3 encode the keys in the response.
-    public var encodingType: S3ClientTypes.EncodingType?
-    /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
-    public var expectedBucketOwner: Swift.String?
-    /// Marker is where you want Amazon S3 to start listing from. Amazon S3 starts listing after this specified key. Marker can be any key in the bucket.
-    public var marker: Swift.String?
-    /// Sets the maximum number of keys returned in the response. By default, the action returns up to 1,000 key names. The response might contain fewer keys but will never contain more.
-    public var maxKeys: Swift.Int?
-    /// Specifies the optional fields that you want returned in the response. Fields that you do not specify are not returned.
-    public var optionalObjectAttributes: [S3ClientTypes.OptionalObjectAttributes]?
-    /// Limits the response to keys that begin with the specified prefix.
-    public var `prefix`: Swift.String?
-    /// Confirms that the requester knows that she or he will be charged for the list objects request. Bucket owners need not specify this parameter in their requests.
-    public var requestPayer: S3ClientTypes.RequestPayer?
-
-    public init(
-        bucket: Swift.String? = nil,
-        delimiter: Swift.String? = nil,
-        encodingType: S3ClientTypes.EncodingType? = nil,
-        expectedBucketOwner: Swift.String? = nil,
-        marker: Swift.String? = nil,
-        maxKeys: Swift.Int? = nil,
-        optionalObjectAttributes: [S3ClientTypes.OptionalObjectAttributes]? = nil,
-        `prefix`: Swift.String? = nil,
-        requestPayer: S3ClientTypes.RequestPayer? = nil
-    )
-    {
-        self.bucket = bucket
-        self.delimiter = delimiter
-        self.encodingType = encodingType
-        self.expectedBucketOwner = expectedBucketOwner
-        self.marker = marker
-        self.maxKeys = maxKeys
-        self.optionalObjectAttributes = optionalObjectAttributes
-        self.`prefix` = `prefix`
-        self.requestPayer = requestPayer
-    }
-}
-
-struct ListObjectsInputBody: Swift.Equatable {
-}
-
-extension ListObjectsInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-extension ListObjectsOutput: ClientRuntime.HttpResponseBinding {
+extension ListObjectVersionsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
             self.requestCharged = S3ClientTypes.RequestCharged(rawValue: requestChargedHeaderValue)
@@ -16274,500 +16675,108 @@ extension ListObjectsOutput: ClientRuntime.HttpResponseBinding {
         }
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
-            let output: ListObjectsOutputBody = try responseDecoder.decode(responseBody: data)
+            let output: ListObjectVersionsOutputBody = try responseDecoder.decode(responseBody: data)
             self.`prefix` = output.`prefix`
             self.commonPrefixes = output.commonPrefixes
-            self.contents = output.contents
+            self.deleteMarkers = output.deleteMarkers
             self.delimiter = output.delimiter
             self.encodingType = output.encodingType
             self.isTruncated = output.isTruncated
-            self.marker = output.marker
+            self.keyMarker = output.keyMarker
             self.maxKeys = output.maxKeys
             self.name = output.name
-            self.nextMarker = output.nextMarker
+            self.nextKeyMarker = output.nextKeyMarker
+            self.nextVersionIdMarker = output.nextVersionIdMarker
+            self.versionIdMarker = output.versionIdMarker
+            self.versions = output.versions
         } else {
             self.commonPrefixes = nil
-            self.contents = nil
+            self.deleteMarkers = nil
             self.delimiter = nil
             self.encodingType = nil
             self.isTruncated = false
-            self.marker = nil
+            self.keyMarker = nil
             self.maxKeys = 0
             self.name = nil
-            self.nextMarker = nil
+            self.nextKeyMarker = nil
+            self.nextVersionIdMarker = nil
             self.`prefix` = nil
+            self.versionIdMarker = nil
+            self.versions = nil
         }
     }
 }
 
-public struct ListObjectsOutput: Swift.Equatable {
-    /// All of the keys (up to 1,000) rolled up in a common prefix count as a single return when calculating the number of returns. A response can contain CommonPrefixes only if you specify a delimiter. CommonPrefixes contains all (if there are any) keys between Prefix and the next occurrence of the string specified by the delimiter. CommonPrefixes lists keys that act like subdirectories in the directory specified by Prefix. For example, if the prefix is notes/ and the delimiter is a slash (/), as in notes/summer/july, the common prefix is notes/summer/. All of the keys that roll up into a common prefix count as a single return when calculating the number of returns.
+public struct ListObjectVersionsOutput: Swift.Equatable {
+    /// All of the keys rolled up into a common prefix count as a single return when calculating the number of returns.
     public var commonPrefixes: [S3ClientTypes.CommonPrefix]?
-    /// Metadata about each object returned.
-    public var contents: [S3ClientTypes.Object]?
-    /// Causes keys that contain the same string between the prefix and the first occurrence of the delimiter to be rolled up into a single result element in the CommonPrefixes collection. These rolled-up keys are not returned elsewhere in the response. Each rolled-up result counts as only one return against the MaxKeys value.
+    /// Container for an object that is a delete marker.
+    public var deleteMarkers: [S3ClientTypes.DeleteMarkerEntry]?
+    /// The delimiter grouping the included keys. A delimiter is a character that you specify to group keys. All keys that contain the same string between the prefix and the first occurrence of the delimiter are grouped under a single result element in CommonPrefixes. These groups are counted as one result against the max-keys limitation. These keys are not returned elsewhere in the response.
     public var delimiter: Swift.String?
-    /// Encoding type used by Amazon S3 to encode object keys in the response.
+    /// Encoding type used by Amazon S3 to encode object key names in the XML response. If you specify the encoding-type request parameter, Amazon S3 includes this element in the response, and returns encoded key name values in the following response elements: KeyMarker, NextKeyMarker, Prefix, Key, and Delimiter.
     public var encodingType: S3ClientTypes.EncodingType?
-    /// A flag that indicates whether Amazon S3 returned all of the results that satisfied the search criteria.
+    /// A flag that indicates whether Amazon S3 returned all of the results that satisfied the search criteria. If your results were truncated, you can make a follow-up paginated request by using the NextKeyMarker and NextVersionIdMarker response parameters as a starting place in another request to return the rest of the results.
     public var isTruncated: Swift.Bool
-    /// Indicates where in the bucket listing begins. Marker is included in the response if it was sent with the request.
-    public var marker: Swift.String?
-    /// The maximum number of keys returned in the response body.
+    /// Marks the last key returned in a truncated response.
+    public var keyMarker: Swift.String?
+    /// Specifies the maximum number of objects to return.
     public var maxKeys: Swift.Int
     /// The bucket name.
     public var name: Swift.String?
-    /// When the response is truncated (the IsTruncated element value in the response is true), you can use the key name in this field as the marker parameter in the subsequent request to get the next set of objects. Amazon S3 lists objects in alphabetical order. This element is returned only if you have the delimiter request parameter specified. If the response does not include the NextMarker element and it is truncated, you can use the value of the last Key element in the response as the marker parameter in the subsequent request to get the next set of object keys.
-    public var nextMarker: Swift.String?
-    /// Keys that begin with the indicated prefix.
+    /// When the number of responses exceeds the value of MaxKeys, NextKeyMarker specifies the first key not returned that satisfies the search criteria. Use this value for the key-marker request parameter in a subsequent request.
+    public var nextKeyMarker: Swift.String?
+    /// When the number of responses exceeds the value of MaxKeys, NextVersionIdMarker specifies the first object version not returned that satisfies the search criteria. Use this value for the version-id-marker request parameter in a subsequent request.
+    public var nextVersionIdMarker: Swift.String?
+    /// Selects objects that start with the value supplied by this parameter.
     public var `prefix`: Swift.String?
     /// If present, indicates that the requester was successfully charged for the request.
     public var requestCharged: S3ClientTypes.RequestCharged?
+    /// Marks the last version of the key returned in a truncated response.
+    public var versionIdMarker: Swift.String?
+    /// Container for version information.
+    public var versions: [S3ClientTypes.ObjectVersion]?
 
     public init(
         commonPrefixes: [S3ClientTypes.CommonPrefix]? = nil,
-        contents: [S3ClientTypes.Object]? = nil,
+        deleteMarkers: [S3ClientTypes.DeleteMarkerEntry]? = nil,
         delimiter: Swift.String? = nil,
         encodingType: S3ClientTypes.EncodingType? = nil,
         isTruncated: Swift.Bool = false,
-        marker: Swift.String? = nil,
+        keyMarker: Swift.String? = nil,
         maxKeys: Swift.Int = 0,
         name: Swift.String? = nil,
-        nextMarker: Swift.String? = nil,
-        `prefix`: Swift.String? = nil,
-        requestCharged: S3ClientTypes.RequestCharged? = nil
-    )
-    {
-        self.commonPrefixes = commonPrefixes
-        self.contents = contents
-        self.delimiter = delimiter
-        self.encodingType = encodingType
-        self.isTruncated = isTruncated
-        self.marker = marker
-        self.maxKeys = maxKeys
-        self.name = name
-        self.nextMarker = nextMarker
-        self.`prefix` = `prefix`
-        self.requestCharged = requestCharged
-    }
-}
-
-struct ListObjectsOutputBody: Swift.Equatable {
-    let isTruncated: Swift.Bool
-    let marker: Swift.String?
-    let nextMarker: Swift.String?
-    let contents: [S3ClientTypes.Object]?
-    let name: Swift.String?
-    let `prefix`: Swift.String?
-    let delimiter: Swift.String?
-    let maxKeys: Swift.Int
-    let commonPrefixes: [S3ClientTypes.CommonPrefix]?
-    let encodingType: S3ClientTypes.EncodingType?
-}
-
-extension ListObjectsOutputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case commonPrefixes = "CommonPrefixes"
-        case contents = "Contents"
-        case delimiter = "Delimiter"
-        case encodingType = "EncodingType"
-        case isTruncated = "IsTruncated"
-        case marker = "Marker"
-        case maxKeys = "MaxKeys"
-        case name = "Name"
-        case nextMarker = "NextMarker"
-        case `prefix` = "Prefix"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let isTruncatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isTruncated) ?? false
-        isTruncated = isTruncatedDecoded
-        let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
-        marker = markerDecoded
-        let nextMarkerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextMarker)
-        nextMarker = nextMarkerDecoded
-        if containerValues.contains(.contents) {
-            let contentsWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CodingKeys.self, forKey: .contents)
-            if contentsWrappedContainer != nil {
-                let contentsContainer = try containerValues.decodeIfPresent([S3ClientTypes.Object].self, forKey: .contents)
-                var contentsBuffer:[S3ClientTypes.Object]? = nil
-                if let contentsContainer = contentsContainer {
-                    contentsBuffer = [S3ClientTypes.Object]()
-                    for structureContainer0 in contentsContainer {
-                        contentsBuffer?.append(structureContainer0)
-                    }
-                }
-                contents = contentsBuffer
-            } else {
-                contents = []
-            }
-        } else {
-            contents = nil
-        }
-        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
-        name = nameDecoded
-        let prefixDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .prefix)
-        `prefix` = prefixDecoded
-        let delimiterDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .delimiter)
-        delimiter = delimiterDecoded
-        let maxKeysDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxKeys) ?? 0
-        maxKeys = maxKeysDecoded
-        if containerValues.contains(.commonPrefixes) {
-            let commonPrefixesWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CodingKeys.self, forKey: .commonPrefixes)
-            if commonPrefixesWrappedContainer != nil {
-                let commonPrefixesContainer = try containerValues.decodeIfPresent([S3ClientTypes.CommonPrefix].self, forKey: .commonPrefixes)
-                var commonPrefixesBuffer:[S3ClientTypes.CommonPrefix]? = nil
-                if let commonPrefixesContainer = commonPrefixesContainer {
-                    commonPrefixesBuffer = [S3ClientTypes.CommonPrefix]()
-                    for structureContainer0 in commonPrefixesContainer {
-                        commonPrefixesBuffer?.append(structureContainer0)
-                    }
-                }
-                commonPrefixes = commonPrefixesBuffer
-            } else {
-                commonPrefixes = []
-            }
-        } else {
-            commonPrefixes = nil
-        }
-        let encodingTypeDecoded = try containerValues.decodeIfPresent(S3ClientTypes.EncodingType.self, forKey: .encodingType)
-        encodingType = encodingTypeDecoded
-    }
-}
-
-enum ListObjectsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
-        switch restXMLError.errorCode {
-            case "NoSuchBucket": return try await NoSuchBucket(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-extension ListObjectsV2Input: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
-        if let expectedBucketOwner = expectedBucketOwner {
-            items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
-        }
-        if let optionalObjectAttributes = optionalObjectAttributes {
-            optionalObjectAttributes.forEach { headerValue in
-                items.add(Header(name: "x-amz-optional-object-attributes", value: quoteHeaderValue(Swift.String(headerValue.rawValue))))
-            }
-        }
-        if let requestPayer = requestPayer {
-            items.add(Header(name: "x-amz-request-payer", value: Swift.String(requestPayer.rawValue)))
-        }
-        return items
-    }
-}
-
-extension ListObjectsV2Input: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "list-type", value: "2"))
-            if let continuationToken = continuationToken {
-                let continuationTokenQueryItem = ClientRuntime.URLQueryItem(name: "continuation-token".urlPercentEncoding(), value: Swift.String(continuationToken).urlPercentEncoding())
-                items.append(continuationTokenQueryItem)
-            }
-            if let delimiter = delimiter {
-                let delimiterQueryItem = ClientRuntime.URLQueryItem(name: "delimiter".urlPercentEncoding(), value: Swift.String(delimiter).urlPercentEncoding())
-                items.append(delimiterQueryItem)
-            }
-            if let fetchOwner = fetchOwner {
-                let fetchOwnerQueryItem = ClientRuntime.URLQueryItem(name: "fetch-owner".urlPercentEncoding(), value: Swift.String(fetchOwner).urlPercentEncoding())
-                items.append(fetchOwnerQueryItem)
-            }
-            if let encodingType = encodingType {
-                let encodingTypeQueryItem = ClientRuntime.URLQueryItem(name: "encoding-type".urlPercentEncoding(), value: Swift.String(encodingType.rawValue).urlPercentEncoding())
-                items.append(encodingTypeQueryItem)
-            }
-            if let startAfter = startAfter {
-                let startAfterQueryItem = ClientRuntime.URLQueryItem(name: "start-after".urlPercentEncoding(), value: Swift.String(startAfter).urlPercentEncoding())
-                items.append(startAfterQueryItem)
-            }
-            if let `prefix` = `prefix` {
-                let prefixQueryItem = ClientRuntime.URLQueryItem(name: "prefix".urlPercentEncoding(), value: Swift.String(`prefix`).urlPercentEncoding())
-                items.append(prefixQueryItem)
-            }
-            if let maxKeys = maxKeys {
-                let maxKeysQueryItem = ClientRuntime.URLQueryItem(name: "max-keys".urlPercentEncoding(), value: Swift.String(maxKeys).urlPercentEncoding())
-                items.append(maxKeysQueryItem)
-            }
-            return items
-        }
-    }
-}
-
-extension ListObjectsV2Input: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
-    }
-}
-
-public struct ListObjectsV2Input: Swift.Equatable {
-    /// Bucket name to list. When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html) in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see [What is S3 on Outposts?](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide.
-    /// This member is required.
-    public var bucket: Swift.String?
-    /// ContinuationToken indicates to Amazon S3 that the list is being continued on this bucket with a token. ContinuationToken is obfuscated and is not a real key.
-    public var continuationToken: Swift.String?
-    /// A delimiter is a character that you use to group keys.
-    public var delimiter: Swift.String?
-    /// Encoding type used by Amazon S3 to encode object keys in the response.
-    public var encodingType: S3ClientTypes.EncodingType?
-    /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
-    public var expectedBucketOwner: Swift.String?
-    /// The owner field is not present in ListObjectsV2 by default. If you want to return the owner field with each key in the result, then set the FetchOwner field to true.
-    public var fetchOwner: Swift.Bool?
-    /// Sets the maximum number of keys returned in the response. By default, the action returns up to 1,000 key names. The response might contain fewer keys but will never contain more.
-    public var maxKeys: Swift.Int?
-    /// Specifies the optional fields that you want returned in the response. Fields that you do not specify are not returned.
-    public var optionalObjectAttributes: [S3ClientTypes.OptionalObjectAttributes]?
-    /// Limits the response to keys that begin with the specified prefix.
-    public var `prefix`: Swift.String?
-    /// Confirms that the requester knows that she or he will be charged for the list objects request in V2 style. Bucket owners need not specify this parameter in their requests.
-    public var requestPayer: S3ClientTypes.RequestPayer?
-    /// StartAfter is where you want Amazon S3 to start listing from. Amazon S3 starts listing after this specified key. StartAfter can be any key in the bucket.
-    public var startAfter: Swift.String?
-
-    public init(
-        bucket: Swift.String? = nil,
-        continuationToken: Swift.String? = nil,
-        delimiter: Swift.String? = nil,
-        encodingType: S3ClientTypes.EncodingType? = nil,
-        expectedBucketOwner: Swift.String? = nil,
-        fetchOwner: Swift.Bool? = nil,
-        maxKeys: Swift.Int? = nil,
-        optionalObjectAttributes: [S3ClientTypes.OptionalObjectAttributes]? = nil,
-        `prefix`: Swift.String? = nil,
-        requestPayer: S3ClientTypes.RequestPayer? = nil,
-        startAfter: Swift.String? = nil
-    )
-    {
-        self.bucket = bucket
-        self.continuationToken = continuationToken
-        self.delimiter = delimiter
-        self.encodingType = encodingType
-        self.expectedBucketOwner = expectedBucketOwner
-        self.fetchOwner = fetchOwner
-        self.maxKeys = maxKeys
-        self.optionalObjectAttributes = optionalObjectAttributes
-        self.`prefix` = `prefix`
-        self.requestPayer = requestPayer
-        self.startAfter = startAfter
-    }
-}
-
-struct ListObjectsV2InputBody: Swift.Equatable {
-}
-
-extension ListObjectsV2InputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-extension ListObjectsV2Output: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
-            self.requestCharged = S3ClientTypes.RequestCharged(rawValue: requestChargedHeaderValue)
-        } else {
-            self.requestCharged = nil
-        }
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: ListObjectsV2OutputBody = try responseDecoder.decode(responseBody: data)
-            self.`prefix` = output.`prefix`
-            self.commonPrefixes = output.commonPrefixes
-            self.contents = output.contents
-            self.continuationToken = output.continuationToken
-            self.delimiter = output.delimiter
-            self.encodingType = output.encodingType
-            self.isTruncated = output.isTruncated
-            self.keyCount = output.keyCount
-            self.maxKeys = output.maxKeys
-            self.name = output.name
-            self.nextContinuationToken = output.nextContinuationToken
-            self.startAfter = output.startAfter
-        } else {
-            self.commonPrefixes = nil
-            self.contents = nil
-            self.continuationToken = nil
-            self.delimiter = nil
-            self.encodingType = nil
-            self.isTruncated = false
-            self.keyCount = 0
-            self.maxKeys = 0
-            self.name = nil
-            self.nextContinuationToken = nil
-            self.`prefix` = nil
-            self.startAfter = nil
-        }
-    }
-}
-
-public struct ListObjectsV2Output: Swift.Equatable {
-    /// All of the keys (up to 1,000) rolled up into a common prefix count as a single return when calculating the number of returns. A response can contain CommonPrefixes only if you specify a delimiter. CommonPrefixes contains all (if there are any) keys between Prefix and the next occurrence of the string specified by a delimiter. CommonPrefixes lists keys that act like subdirectories in the directory specified by Prefix. For example, if the prefix is notes/ and the delimiter is a slash (/) as in notes/summer/july, the common prefix is notes/summer/. All of the keys that roll up into a common prefix count as a single return when calculating the number of returns.
-    public var commonPrefixes: [S3ClientTypes.CommonPrefix]?
-    /// Metadata about each object returned.
-    public var contents: [S3ClientTypes.Object]?
-    /// If ContinuationToken was sent with the request, it is included in the response.
-    public var continuationToken: Swift.String?
-    /// Causes keys that contain the same string between the prefix and the first occurrence of the delimiter to be rolled up into a single result element in the CommonPrefixes collection. These rolled-up keys are not returned elsewhere in the response. Each rolled-up result counts as only one return against the MaxKeys value.
-    public var delimiter: Swift.String?
-    /// Encoding type used by Amazon S3 to encode object key names in the XML response. If you specify the encoding-type request parameter, Amazon S3 includes this element in the response, and returns encoded key name values in the following response elements: Delimiter, Prefix, Key, and StartAfter.
-    public var encodingType: S3ClientTypes.EncodingType?
-    /// Set to false if all of the results were returned. Set to true if more keys are available to return. If the number of results exceeds that specified by MaxKeys, all of the results might not be returned.
-    public var isTruncated: Swift.Bool
-    /// KeyCount is the number of keys returned with this request. KeyCount will always be less than or equal to the MaxKeys field. For example, if you ask for 50 keys, your result will include 50 keys or fewer.
-    public var keyCount: Swift.Int
-    /// Sets the maximum number of keys returned in the response. By default, the action returns up to 1,000 key names. The response might contain fewer keys but will never contain more.
-    public var maxKeys: Swift.Int
-    /// The bucket name. When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html) in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see [What is S3 on Outposts?](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide.
-    public var name: Swift.String?
-    /// NextContinuationToken is sent when isTruncated is true, which means there are more keys in the bucket that can be listed. The next list requests to Amazon S3 can be continued with this NextContinuationToken. NextContinuationToken is obfuscated and is not a real key
-    public var nextContinuationToken: Swift.String?
-    /// Keys that begin with the indicated prefix.
-    public var `prefix`: Swift.String?
-    /// If present, indicates that the requester was successfully charged for the request.
-    public var requestCharged: S3ClientTypes.RequestCharged?
-    /// If StartAfter was sent with the request, it is included in the response.
-    public var startAfter: Swift.String?
-
-    public init(
-        commonPrefixes: [S3ClientTypes.CommonPrefix]? = nil,
-        contents: [S3ClientTypes.Object]? = nil,
-        continuationToken: Swift.String? = nil,
-        delimiter: Swift.String? = nil,
-        encodingType: S3ClientTypes.EncodingType? = nil,
-        isTruncated: Swift.Bool = false,
-        keyCount: Swift.Int = 0,
-        maxKeys: Swift.Int = 0,
-        name: Swift.String? = nil,
-        nextContinuationToken: Swift.String? = nil,
+        nextKeyMarker: Swift.String? = nil,
+        nextVersionIdMarker: Swift.String? = nil,
         `prefix`: Swift.String? = nil,
         requestCharged: S3ClientTypes.RequestCharged? = nil,
-        startAfter: Swift.String? = nil
+        versionIdMarker: Swift.String? = nil,
+        versions: [S3ClientTypes.ObjectVersion]? = nil
     )
     {
         self.commonPrefixes = commonPrefixes
-        self.contents = contents
-        self.continuationToken = continuationToken
+        self.deleteMarkers = deleteMarkers
         self.delimiter = delimiter
         self.encodingType = encodingType
         self.isTruncated = isTruncated
-        self.keyCount = keyCount
+        self.keyMarker = keyMarker
         self.maxKeys = maxKeys
         self.name = name
-        self.nextContinuationToken = nextContinuationToken
+        self.nextKeyMarker = nextKeyMarker
+        self.nextVersionIdMarker = nextVersionIdMarker
         self.`prefix` = `prefix`
         self.requestCharged = requestCharged
-        self.startAfter = startAfter
+        self.versionIdMarker = versionIdMarker
+        self.versions = versions
     }
 }
 
-struct ListObjectsV2OutputBody: Swift.Equatable {
-    let isTruncated: Swift.Bool
-    let contents: [S3ClientTypes.Object]?
-    let name: Swift.String?
-    let `prefix`: Swift.String?
-    let delimiter: Swift.String?
-    let maxKeys: Swift.Int
-    let commonPrefixes: [S3ClientTypes.CommonPrefix]?
-    let encodingType: S3ClientTypes.EncodingType?
-    let keyCount: Swift.Int
-    let continuationToken: Swift.String?
-    let nextContinuationToken: Swift.String?
-    let startAfter: Swift.String?
+struct ListPartsInputBody: Swift.Equatable {
 }
 
-extension ListObjectsV2OutputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case commonPrefixes = "CommonPrefixes"
-        case contents = "Contents"
-        case continuationToken = "ContinuationToken"
-        case delimiter = "Delimiter"
-        case encodingType = "EncodingType"
-        case isTruncated = "IsTruncated"
-        case keyCount = "KeyCount"
-        case maxKeys = "MaxKeys"
-        case name = "Name"
-        case nextContinuationToken = "NextContinuationToken"
-        case `prefix` = "Prefix"
-        case startAfter = "StartAfter"
-    }
+extension ListPartsInputBody: Swift.Decodable {
 
     public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let isTruncatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isTruncated) ?? false
-        isTruncated = isTruncatedDecoded
-        if containerValues.contains(.contents) {
-            let contentsWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CodingKeys.self, forKey: .contents)
-            if contentsWrappedContainer != nil {
-                let contentsContainer = try containerValues.decodeIfPresent([S3ClientTypes.Object].self, forKey: .contents)
-                var contentsBuffer:[S3ClientTypes.Object]? = nil
-                if let contentsContainer = contentsContainer {
-                    contentsBuffer = [S3ClientTypes.Object]()
-                    for structureContainer0 in contentsContainer {
-                        contentsBuffer?.append(structureContainer0)
-                    }
-                }
-                contents = contentsBuffer
-            } else {
-                contents = []
-            }
-        } else {
-            contents = nil
-        }
-        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
-        name = nameDecoded
-        let prefixDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .prefix)
-        `prefix` = prefixDecoded
-        let delimiterDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .delimiter)
-        delimiter = delimiterDecoded
-        let maxKeysDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxKeys) ?? 0
-        maxKeys = maxKeysDecoded
-        if containerValues.contains(.commonPrefixes) {
-            let commonPrefixesWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CodingKeys.self, forKey: .commonPrefixes)
-            if commonPrefixesWrappedContainer != nil {
-                let commonPrefixesContainer = try containerValues.decodeIfPresent([S3ClientTypes.CommonPrefix].self, forKey: .commonPrefixes)
-                var commonPrefixesBuffer:[S3ClientTypes.CommonPrefix]? = nil
-                if let commonPrefixesContainer = commonPrefixesContainer {
-                    commonPrefixesBuffer = [S3ClientTypes.CommonPrefix]()
-                    for structureContainer0 in commonPrefixesContainer {
-                        commonPrefixesBuffer?.append(structureContainer0)
-                    }
-                }
-                commonPrefixes = commonPrefixesBuffer
-            } else {
-                commonPrefixes = []
-            }
-        } else {
-            commonPrefixes = nil
-        }
-        let encodingTypeDecoded = try containerValues.decodeIfPresent(S3ClientTypes.EncodingType.self, forKey: .encodingType)
-        encodingType = encodingTypeDecoded
-        let keyCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .keyCount) ?? 0
-        keyCount = keyCountDecoded
-        let continuationTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .continuationToken)
-        continuationToken = continuationTokenDecoded
-        let nextContinuationTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextContinuationToken)
-        nextContinuationToken = nextContinuationTokenDecoded
-        let startAfterDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .startAfter)
-        startAfter = startAfterDecoded
-    }
-}
-
-enum ListObjectsV2OutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
-        switch restXMLError.errorCode {
-            case "NoSuchBucket": return try await NoSuchBucket(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
-        }
     }
 }
 
@@ -16822,15 +16831,6 @@ extension ListPartsInput: ClientRuntime.QueryItemProvider {
     }
 }
 
-extension ListPartsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let key = key else {
-            return nil
-        }
-        return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
-    }
-}
-
 public struct ListPartsInput: Swift.Equatable {
     /// The name of the bucket to which the parts are being uploaded. When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html) in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see [What is S3 on Outposts?](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide.
     /// This member is required.
@@ -16882,12 +16882,97 @@ public struct ListPartsInput: Swift.Equatable {
     }
 }
 
-struct ListPartsInputBody: Swift.Equatable {
+extension ListPartsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let key = key else {
+            return nil
+        }
+        return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
+    }
 }
 
-extension ListPartsInputBody: Swift.Decodable {
+struct ListPartsOutputBody: Swift.Equatable {
+    let bucket: Swift.String?
+    let key: Swift.String?
+    let uploadId: Swift.String?
+    let partNumberMarker: Swift.String?
+    let nextPartNumberMarker: Swift.String?
+    let maxParts: Swift.Int
+    let isTruncated: Swift.Bool
+    let parts: [S3ClientTypes.Part]?
+    let initiator: S3ClientTypes.Initiator?
+    let owner: S3ClientTypes.Owner?
+    let storageClass: S3ClientTypes.StorageClass?
+    let checksumAlgorithm: S3ClientTypes.ChecksumAlgorithm?
+}
+
+extension ListPartsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bucket = "Bucket"
+        case checksumAlgorithm = "ChecksumAlgorithm"
+        case initiator = "Initiator"
+        case isTruncated = "IsTruncated"
+        case key = "Key"
+        case maxParts = "MaxParts"
+        case nextPartNumberMarker = "NextPartNumberMarker"
+        case owner = "Owner"
+        case partNumberMarker = "PartNumberMarker"
+        case parts = "Part"
+        case storageClass = "StorageClass"
+        case uploadId = "UploadId"
+    }
 
     public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let bucketDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bucket)
+        bucket = bucketDecoded
+        let keyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .key)
+        key = keyDecoded
+        let uploadIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .uploadId)
+        uploadId = uploadIdDecoded
+        let partNumberMarkerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .partNumberMarker)
+        partNumberMarker = partNumberMarkerDecoded
+        let nextPartNumberMarkerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextPartNumberMarker)
+        nextPartNumberMarker = nextPartNumberMarkerDecoded
+        let maxPartsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxParts) ?? 0
+        maxParts = maxPartsDecoded
+        let isTruncatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isTruncated) ?? false
+        isTruncated = isTruncatedDecoded
+        if containerValues.contains(.parts) {
+            let partsWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CodingKeys.self, forKey: .parts)
+            if partsWrappedContainer != nil {
+                let partsContainer = try containerValues.decodeIfPresent([S3ClientTypes.Part].self, forKey: .parts)
+                var partsBuffer:[S3ClientTypes.Part]? = nil
+                if let partsContainer = partsContainer {
+                    partsBuffer = [S3ClientTypes.Part]()
+                    for structureContainer0 in partsContainer {
+                        partsBuffer?.append(structureContainer0)
+                    }
+                }
+                parts = partsBuffer
+            } else {
+                parts = []
+            }
+        } else {
+            parts = nil
+        }
+        let initiatorDecoded = try containerValues.decodeIfPresent(S3ClientTypes.Initiator.self, forKey: .initiator)
+        initiator = initiatorDecoded
+        let ownerDecoded = try containerValues.decodeIfPresent(S3ClientTypes.Owner.self, forKey: .owner)
+        owner = ownerDecoded
+        let storageClassDecoded = try containerValues.decodeIfPresent(S3ClientTypes.StorageClass.self, forKey: .storageClass)
+        storageClass = storageClassDecoded
+        let checksumAlgorithmDecoded = try containerValues.decodeIfPresent(S3ClientTypes.ChecksumAlgorithm.self, forKey: .checksumAlgorithm)
+        checksumAlgorithm = checksumAlgorithmDecoded
+    }
+}
+
+enum ListPartsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -17008,91 +17093,6 @@ public struct ListPartsOutput: Swift.Equatable {
     }
 }
 
-struct ListPartsOutputBody: Swift.Equatable {
-    let bucket: Swift.String?
-    let key: Swift.String?
-    let uploadId: Swift.String?
-    let partNumberMarker: Swift.String?
-    let nextPartNumberMarker: Swift.String?
-    let maxParts: Swift.Int
-    let isTruncated: Swift.Bool
-    let parts: [S3ClientTypes.Part]?
-    let initiator: S3ClientTypes.Initiator?
-    let owner: S3ClientTypes.Owner?
-    let storageClass: S3ClientTypes.StorageClass?
-    let checksumAlgorithm: S3ClientTypes.ChecksumAlgorithm?
-}
-
-extension ListPartsOutputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case bucket = "Bucket"
-        case checksumAlgorithm = "ChecksumAlgorithm"
-        case initiator = "Initiator"
-        case isTruncated = "IsTruncated"
-        case key = "Key"
-        case maxParts = "MaxParts"
-        case nextPartNumberMarker = "NextPartNumberMarker"
-        case owner = "Owner"
-        case partNumberMarker = "PartNumberMarker"
-        case parts = "Part"
-        case storageClass = "StorageClass"
-        case uploadId = "UploadId"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let bucketDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bucket)
-        bucket = bucketDecoded
-        let keyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .key)
-        key = keyDecoded
-        let uploadIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .uploadId)
-        uploadId = uploadIdDecoded
-        let partNumberMarkerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .partNumberMarker)
-        partNumberMarker = partNumberMarkerDecoded
-        let nextPartNumberMarkerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextPartNumberMarker)
-        nextPartNumberMarker = nextPartNumberMarkerDecoded
-        let maxPartsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxParts) ?? 0
-        maxParts = maxPartsDecoded
-        let isTruncatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isTruncated) ?? false
-        isTruncated = isTruncatedDecoded
-        if containerValues.contains(.parts) {
-            let partsWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CodingKeys.self, forKey: .parts)
-            if partsWrappedContainer != nil {
-                let partsContainer = try containerValues.decodeIfPresent([S3ClientTypes.Part].self, forKey: .parts)
-                var partsBuffer:[S3ClientTypes.Part]? = nil
-                if let partsContainer = partsContainer {
-                    partsBuffer = [S3ClientTypes.Part]()
-                    for structureContainer0 in partsContainer {
-                        partsBuffer?.append(structureContainer0)
-                    }
-                }
-                parts = partsBuffer
-            } else {
-                parts = []
-            }
-        } else {
-            parts = nil
-        }
-        let initiatorDecoded = try containerValues.decodeIfPresent(S3ClientTypes.Initiator.self, forKey: .initiator)
-        initiator = initiatorDecoded
-        let ownerDecoded = try containerValues.decodeIfPresent(S3ClientTypes.Owner.self, forKey: .owner)
-        owner = ownerDecoded
-        let storageClassDecoded = try containerValues.decodeIfPresent(S3ClientTypes.StorageClass.self, forKey: .storageClass)
-        storageClass = storageClassDecoded
-        let checksumAlgorithmDecoded = try containerValues.decodeIfPresent(S3ClientTypes.ChecksumAlgorithm.self, forKey: .checksumAlgorithm)
-        checksumAlgorithm = checksumAlgorithmDecoded
-    }
-}
-
-enum ListPartsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
 extension S3ClientTypes.LoggingEnabled: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case targetBucket = "TargetBucket"
@@ -17188,70 +17188,6 @@ extension S3ClientTypes {
 }
 
 extension S3ClientTypes {
-    public enum MFADelete: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
-        case disabled
-        case enabled
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [MFADelete] {
-            return [
-                .disabled,
-                .enabled,
-                .sdkUnknown("")
-            ]
-        }
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-        public var rawValue: Swift.String {
-            switch self {
-            case .disabled: return "Disabled"
-            case .enabled: return "Enabled"
-            case let .sdkUnknown(s): return s
-            }
-        }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = MFADelete(rawValue: rawValue) ?? MFADelete.sdkUnknown(rawValue)
-        }
-    }
-}
-
-extension S3ClientTypes {
-    public enum MFADeleteStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
-        case disabled
-        case enabled
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [MFADeleteStatus] {
-            return [
-                .disabled,
-                .enabled,
-                .sdkUnknown("")
-            ]
-        }
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-        public var rawValue: Swift.String {
-            switch self {
-            case .disabled: return "Disabled"
-            case .enabled: return "Enabled"
-            case let .sdkUnknown(s): return s
-            }
-        }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = MFADeleteStatus(rawValue: rawValue) ?? MFADeleteStatus.sdkUnknown(rawValue)
-        }
-    }
-}
-
-extension S3ClientTypes {
     public enum MetadataDirective: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case copy
         case replace
@@ -17340,69 +17276,6 @@ extension S3ClientTypes {
         {
             self.name = name
             self.value = value
-        }
-    }
-
-}
-
-extension S3ClientTypes.Metrics: Swift.Codable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case eventThreshold = "EventThreshold"
-        case status = "Status"
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if encoder.codingPath.isEmpty {
-            try container.encode("http://s3.amazonaws.com/doc/2006-03-01/", forKey: ClientRuntime.Key("xmlns"))
-        }
-        if let eventThreshold = eventThreshold {
-            try container.encode(eventThreshold, forKey: ClientRuntime.Key("EventThreshold"))
-        }
-        if let status = status {
-            try container.encode(status, forKey: ClientRuntime.Key("Status"))
-        }
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let statusDecoded = try containerValues.decodeIfPresent(S3ClientTypes.MetricsStatus.self, forKey: .status)
-        status = statusDecoded
-        let eventThresholdDecoded = try containerValues.decodeIfPresent(S3ClientTypes.ReplicationTimeValue.self, forKey: .eventThreshold)
-        eventThreshold = eventThresholdDecoded
-    }
-}
-
-extension S3ClientTypes.Metrics: ClientRuntime.DynamicNodeEncoding {
-    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
-        let xmlNamespaceValues = [
-            "xmlns"
-        ]
-        if let key = key as? ClientRuntime.Key {
-            if xmlNamespaceValues.contains(key.stringValue) {
-                return .attribute
-            }
-        }
-        return .element
-    }
-}
-
-extension S3ClientTypes {
-    /// A container specifying replication metrics-related settings enabling replication metrics and events.
-    public struct Metrics: Swift.Equatable {
-        /// A container specifying the time threshold for emitting the s3:Replication:OperationMissedThreshold event.
-        public var eventThreshold: S3ClientTypes.ReplicationTimeValue?
-        /// Specifies whether the replication metrics are enabled.
-        /// This member is required.
-        public var status: S3ClientTypes.MetricsStatus?
-
-        public init(
-            eventThreshold: S3ClientTypes.ReplicationTimeValue? = nil,
-            status: S3ClientTypes.MetricsStatus? = nil
-        )
-        {
-            self.eventThreshold = eventThreshold
-            self.status = status
         }
     }
 
@@ -17504,6 +17377,34 @@ extension S3ClientTypes {
 
 }
 
+extension S3ClientTypes.Metrics: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case eventThreshold = "EventThreshold"
+        case status = "Status"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if encoder.codingPath.isEmpty {
+            try container.encode("http://s3.amazonaws.com/doc/2006-03-01/", forKey: ClientRuntime.Key("xmlns"))
+        }
+        if let eventThreshold = eventThreshold {
+            try container.encode(eventThreshold, forKey: ClientRuntime.Key("EventThreshold"))
+        }
+        if let status = status {
+            try container.encode(status, forKey: ClientRuntime.Key("Status"))
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let statusDecoded = try containerValues.decodeIfPresent(S3ClientTypes.MetricsStatus.self, forKey: .status)
+        status = statusDecoded
+        let eventThresholdDecoded = try containerValues.decodeIfPresent(S3ClientTypes.ReplicationTimeValue.self, forKey: .eventThreshold)
+        eventThreshold = eventThresholdDecoded
+    }
+}
+
 extension S3ClientTypes.MetricsConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case filter = "Filter"
@@ -17565,6 +17466,20 @@ extension S3ClientTypes {
         }
     }
 
+}
+
+extension S3ClientTypes.Metrics: ClientRuntime.DynamicNodeEncoding {
+    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
+        let xmlNamespaceValues = [
+            "xmlns"
+        ]
+        if let key = key as? ClientRuntime.Key {
+            if xmlNamespaceValues.contains(key.stringValue) {
+                return .attribute
+            }
+        }
+        return .element
+    }
 }
 
 extension S3ClientTypes.MetricsFilter: Swift.Codable {
@@ -17658,6 +17573,91 @@ extension S3ClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = MetricsStatus(rawValue: rawValue) ?? MetricsStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension S3ClientTypes {
+    /// A container specifying replication metrics-related settings enabling replication metrics and events.
+    public struct Metrics: Swift.Equatable {
+        /// A container specifying the time threshold for emitting the s3:Replication:OperationMissedThreshold event.
+        public var eventThreshold: S3ClientTypes.ReplicationTimeValue?
+        /// Specifies whether the replication metrics are enabled.
+        /// This member is required.
+        public var status: S3ClientTypes.MetricsStatus?
+
+        public init(
+            eventThreshold: S3ClientTypes.ReplicationTimeValue? = nil,
+            status: S3ClientTypes.MetricsStatus? = nil
+        )
+        {
+            self.eventThreshold = eventThreshold
+            self.status = status
+        }
+    }
+
+}
+
+extension S3ClientTypes {
+    public enum MFADeleteStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MFADeleteStatus] {
+            return [
+                .disabled,
+                .enabled,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "Disabled"
+            case .enabled: return "Enabled"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = MFADeleteStatus(rawValue: rawValue) ?? MFADeleteStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension S3ClientTypes {
+    public enum MFADelete: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MFADelete] {
+            return [
+                .disabled,
+                .enabled,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "Disabled"
+            case .enabled: return "Enabled"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = MFADelete(rawValue: rawValue) ?? MFADelete.sdkUnknown(rawValue)
         }
     }
 }
@@ -17772,75 +17772,6 @@ extension S3ClientTypes {
         }
     }
 
-}
-
-extension NoSuchBucket {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil, requestID2: Swift.String? = nil) async throws {
-        self.httpResponse = httpResponse
-        self.requestID = requestID
-        self.message = message
-        self.requestID2 = requestID2
-    }
-}
-
-/// The specified bucket does not exist.
-public struct NoSuchBucket: ClientRuntime.ModeledError, AWSClientRuntime.AWSS3ServiceError, ClientRuntime.HTTPError, Swift.Error {
-    public static var typeName: Swift.String { "NoSuchBucket" }
-    public static var fault: ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = HttpResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-    public internal(set) var requestID2: Swift.String?
-
-    public init() { }
-}
-
-extension NoSuchKey {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil, requestID2: Swift.String? = nil) async throws {
-        self.httpResponse = httpResponse
-        self.requestID = requestID
-        self.message = message
-        self.requestID2 = requestID2
-    }
-}
-
-/// The specified key does not exist.
-public struct NoSuchKey: ClientRuntime.ModeledError, AWSClientRuntime.AWSS3ServiceError, ClientRuntime.HTTPError, Swift.Error {
-    public static var typeName: Swift.String { "NoSuchKey" }
-    public static var fault: ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = HttpResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-    public internal(set) var requestID2: Swift.String?
-
-    public init() { }
-}
-
-extension NoSuchUpload {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil, requestID2: Swift.String? = nil) async throws {
-        self.httpResponse = httpResponse
-        self.requestID = requestID
-        self.message = message
-        self.requestID2 = requestID2
-    }
-}
-
-/// The specified multipart upload does not exist.
-public struct NoSuchUpload: ClientRuntime.ModeledError, AWSClientRuntime.AWSS3ServiceError, ClientRuntime.HTTPError, Swift.Error {
-    public static var typeName: Swift.String { "NoSuchUpload" }
-    public static var fault: ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = HttpResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-    public internal(set) var requestID2: Swift.String?
-
-    public init() { }
 }
 
 extension S3ClientTypes.NoncurrentVersionExpiration: Swift.Codable {
@@ -17975,6 +17906,75 @@ extension S3ClientTypes {
         }
     }
 
+}
+
+extension NoSuchBucket {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil, requestID2: Swift.String? = nil) async throws {
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+        self.requestID2 = requestID2
+    }
+}
+
+/// The specified bucket does not exist.
+public struct NoSuchBucket: ClientRuntime.ModeledError, AWSClientRuntime.AWSS3ServiceError, ClientRuntime.HTTPError, Swift.Error {
+    public static var typeName: Swift.String { "NoSuchBucket" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+    public internal(set) var requestID2: Swift.String?
+
+    public init() { }
+}
+
+extension NoSuchKey {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil, requestID2: Swift.String? = nil) async throws {
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+        self.requestID2 = requestID2
+    }
+}
+
+/// The specified key does not exist.
+public struct NoSuchKey: ClientRuntime.ModeledError, AWSClientRuntime.AWSS3ServiceError, ClientRuntime.HTTPError, Swift.Error {
+    public static var typeName: Swift.String { "NoSuchKey" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+    public internal(set) var requestID2: Swift.String?
+
+    public init() { }
+}
+
+extension NoSuchUpload {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil, requestID2: Swift.String? = nil) async throws {
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+        self.requestID2 = requestID2
+    }
+}
+
+/// The specified multipart upload does not exist.
+public struct NoSuchUpload: ClientRuntime.ModeledError, AWSClientRuntime.AWSS3ServiceError, ClientRuntime.HTTPError, Swift.Error {
+    public static var typeName: Swift.String { "NoSuchUpload" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+    public internal(set) var requestID2: Swift.String?
+
+    public init() { }
 }
 
 extension NotFound {
@@ -18126,34 +18126,6 @@ extension S3ClientTypes.NotificationConfiguration: ClientRuntime.DynamicNodeEnco
     }
 }
 
-extension S3ClientTypes {
-    /// A container for specifying the notification configuration of the bucket. If this element is empty, notifications are turned off for the bucket.
-    public struct NotificationConfiguration: Swift.Equatable {
-        /// Enables delivery of events to Amazon EventBridge.
-        public var eventBridgeConfiguration: S3ClientTypes.EventBridgeConfiguration?
-        /// Describes the Lambda functions to invoke and the events for which to invoke them.
-        public var lambdaFunctionConfigurations: [S3ClientTypes.LambdaFunctionConfiguration]?
-        /// The Amazon Simple Queue Service queues to publish messages to and the events for which to publish messages.
-        public var queueConfigurations: [S3ClientTypes.QueueConfiguration]?
-        /// The topic to which notifications are sent and the events for which notifications are generated.
-        public var topicConfigurations: [S3ClientTypes.TopicConfiguration]?
-
-        public init(
-            eventBridgeConfiguration: S3ClientTypes.EventBridgeConfiguration? = nil,
-            lambdaFunctionConfigurations: [S3ClientTypes.LambdaFunctionConfiguration]? = nil,
-            queueConfigurations: [S3ClientTypes.QueueConfiguration]? = nil,
-            topicConfigurations: [S3ClientTypes.TopicConfiguration]? = nil
-        )
-        {
-            self.eventBridgeConfiguration = eventBridgeConfiguration
-            self.lambdaFunctionConfigurations = lambdaFunctionConfigurations
-            self.queueConfigurations = queueConfigurations
-            self.topicConfigurations = topicConfigurations
-        }
-    }
-
-}
-
 extension S3ClientTypes.NotificationConfigurationFilter: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case key = "S3Key"
@@ -18206,153 +18178,29 @@ extension S3ClientTypes {
 
 }
 
-extension S3ClientTypes.Object: Swift.Codable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case checksumAlgorithm = "ChecksumAlgorithm"
-        case eTag = "ETag"
-        case key = "Key"
-        case lastModified = "LastModified"
-        case owner = "Owner"
-        case restoreStatus = "RestoreStatus"
-        case size = "Size"
-        case storageClass = "StorageClass"
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if encoder.codingPath.isEmpty {
-            try container.encode("http://s3.amazonaws.com/doc/2006-03-01/", forKey: ClientRuntime.Key("xmlns"))
-        }
-        if let checksumAlgorithm = checksumAlgorithm {
-            if checksumAlgorithm.isEmpty {
-                var checksumAlgorithmContainer = container.nestedUnkeyedContainer(forKey: ClientRuntime.Key("ChecksumAlgorithm"))
-                try checksumAlgorithmContainer.encodeNil()
-            } else {
-                for checksumalgorithm0 in checksumAlgorithm {
-                    var checksumAlgorithmContainer0 = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("checksumAlgorithm"))
-                    try checksumAlgorithmContainer0.encode(checksumalgorithm0, forKey: ClientRuntime.Key(""))
-                }
-            }
-        }
-        if let eTag = eTag {
-            try container.encode(eTag, forKey: ClientRuntime.Key("ETag"))
-        }
-        if let key = key {
-            try container.encode(key, forKey: ClientRuntime.Key("Key"))
-        }
-        if let lastModified = lastModified {
-            try container.encodeTimestamp(lastModified, format: .dateTime, forKey: ClientRuntime.Key("LastModified"))
-        }
-        if let owner = owner {
-            try container.encode(owner, forKey: ClientRuntime.Key("Owner"))
-        }
-        if let restoreStatus = restoreStatus {
-            try container.encode(restoreStatus, forKey: ClientRuntime.Key("RestoreStatus"))
-        }
-        if size != 0 {
-            try container.encode(size, forKey: ClientRuntime.Key("Size"))
-        }
-        if let storageClass = storageClass {
-            try container.encode(storageClass, forKey: ClientRuntime.Key("StorageClass"))
-        }
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let keyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .key)
-        key = keyDecoded
-        let lastModifiedDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .lastModified)
-        lastModified = lastModifiedDecoded
-        let eTagDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eTag)
-        eTag = eTagDecoded
-        if containerValues.contains(.checksumAlgorithm) {
-            let checksumAlgorithmWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CodingKeys.self, forKey: .checksumAlgorithm)
-            if checksumAlgorithmWrappedContainer != nil {
-                let checksumAlgorithmContainer = try containerValues.decodeIfPresent([S3ClientTypes.ChecksumAlgorithm].self, forKey: .checksumAlgorithm)
-                var checksumAlgorithmBuffer:[S3ClientTypes.ChecksumAlgorithm]? = nil
-                if let checksumAlgorithmContainer = checksumAlgorithmContainer {
-                    checksumAlgorithmBuffer = [S3ClientTypes.ChecksumAlgorithm]()
-                    for enumContainer0 in checksumAlgorithmContainer {
-                        checksumAlgorithmBuffer?.append(enumContainer0)
-                    }
-                }
-                checksumAlgorithm = checksumAlgorithmBuffer
-            } else {
-                checksumAlgorithm = []
-            }
-        } else {
-            checksumAlgorithm = nil
-        }
-        let sizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .size) ?? 0
-        size = sizeDecoded
-        let storageClassDecoded = try containerValues.decodeIfPresent(S3ClientTypes.ObjectStorageClass.self, forKey: .storageClass)
-        storageClass = storageClassDecoded
-        let ownerDecoded = try containerValues.decodeIfPresent(S3ClientTypes.Owner.self, forKey: .owner)
-        owner = ownerDecoded
-        let restoreStatusDecoded = try containerValues.decodeIfPresent(S3ClientTypes.RestoreStatus.self, forKey: .restoreStatus)
-        restoreStatus = restoreStatusDecoded
-    }
-}
-
-extension S3ClientTypes.Object: ClientRuntime.DynamicNodeEncoding {
-    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
-        let xmlNamespaceValues = [
-            "xmlns"
-        ]
-        if let key = key as? ClientRuntime.Key {
-            if xmlNamespaceValues.contains(key.stringValue) {
-                return .attribute
-            }
-        }
-        return .element
-    }
-}
-
 extension S3ClientTypes {
-    /// An object consists of data and its descriptive metadata.
-    public struct Object: Swift.Equatable {
-        /// The algorithm that was used to create a checksum of the object.
-        public var checksumAlgorithm: [S3ClientTypes.ChecksumAlgorithm]?
-        /// The entity tag is a hash of the object. The ETag reflects changes only to the contents of an object, not its metadata. The ETag may or may not be an MD5 digest of the object data. Whether or not it is depends on how the object was created and how it is encrypted as described below:
-        ///
-        /// * Objects created by the PUT Object, POST Object, or Copy operation, or through the Amazon Web Services Management Console, and are encrypted by SSE-S3 or plaintext, have ETags that are an MD5 digest of their object data.
-        ///
-        /// * Objects created by the PUT Object, POST Object, or Copy operation, or through the Amazon Web Services Management Console, and are encrypted by SSE-C or SSE-KMS, have ETags that are not an MD5 digest of their object data.
-        ///
-        /// * If an object is created by either the Multipart Upload or Part Copy operation, the ETag is not an MD5 digest, regardless of the method of encryption. If an object is larger than 16 MB, the Amazon Web Services Management Console will upload or copy that object as a Multipart Upload, and therefore the ETag will not be an MD5 digest.
-        public var eTag: Swift.String?
-        /// The name that you assign to an object. You use the object key to retrieve the object.
-        public var key: Swift.String?
-        /// Creation date of the object.
-        public var lastModified: ClientRuntime.Date?
-        /// The owner of the object
-        public var owner: S3ClientTypes.Owner?
-        /// Specifies the restoration status of an object. Objects in certain storage classes must be restored before they can be retrieved. For more information about these storage classes and how to work with archived objects, see [ Working with archived objects](https://docs.aws.amazon.com/AmazonS3/latest/userguide/archived-objects.html) in the Amazon S3 User Guide.
-        public var restoreStatus: S3ClientTypes.RestoreStatus?
-        /// Size in bytes of the object
-        public var size: Swift.Int
-        /// The class of storage used to store the object.
-        public var storageClass: S3ClientTypes.ObjectStorageClass?
+    /// A container for specifying the notification configuration of the bucket. If this element is empty, notifications are turned off for the bucket.
+    public struct NotificationConfiguration: Swift.Equatable {
+        /// Enables delivery of events to Amazon EventBridge.
+        public var eventBridgeConfiguration: S3ClientTypes.EventBridgeConfiguration?
+        /// Describes the Lambda functions to invoke and the events for which to invoke them.
+        public var lambdaFunctionConfigurations: [S3ClientTypes.LambdaFunctionConfiguration]?
+        /// The Amazon Simple Queue Service queues to publish messages to and the events for which to publish messages.
+        public var queueConfigurations: [S3ClientTypes.QueueConfiguration]?
+        /// The topic to which notifications are sent and the events for which notifications are generated.
+        public var topicConfigurations: [S3ClientTypes.TopicConfiguration]?
 
         public init(
-            checksumAlgorithm: [S3ClientTypes.ChecksumAlgorithm]? = nil,
-            eTag: Swift.String? = nil,
-            key: Swift.String? = nil,
-            lastModified: ClientRuntime.Date? = nil,
-            owner: S3ClientTypes.Owner? = nil,
-            restoreStatus: S3ClientTypes.RestoreStatus? = nil,
-            size: Swift.Int = 0,
-            storageClass: S3ClientTypes.ObjectStorageClass? = nil
+            eventBridgeConfiguration: S3ClientTypes.EventBridgeConfiguration? = nil,
+            lambdaFunctionConfigurations: [S3ClientTypes.LambdaFunctionConfiguration]? = nil,
+            queueConfigurations: [S3ClientTypes.QueueConfiguration]? = nil,
+            topicConfigurations: [S3ClientTypes.TopicConfiguration]? = nil
         )
         {
-            self.checksumAlgorithm = checksumAlgorithm
-            self.eTag = eTag
-            self.key = key
-            self.lastModified = lastModified
-            self.owner = owner
-            self.restoreStatus = restoreStatus
-            self.size = size
-            self.storageClass = storageClass
+            self.eventBridgeConfiguration = eventBridgeConfiguration
+            self.lambdaFunctionConfigurations = lambdaFunctionConfigurations
+            self.queueConfigurations = queueConfigurations
+            self.topicConfigurations = topicConfigurations
         }
     }
 
@@ -18466,6 +18314,108 @@ extension S3ClientTypes {
             let rawValue = try container.decode(RawValue.self)
             self = ObjectCannedACL(rawValue: rawValue) ?? ObjectCannedACL.sdkUnknown(rawValue)
         }
+    }
+}
+
+extension S3ClientTypes.Object: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case checksumAlgorithm = "ChecksumAlgorithm"
+        case eTag = "ETag"
+        case key = "Key"
+        case lastModified = "LastModified"
+        case owner = "Owner"
+        case restoreStatus = "RestoreStatus"
+        case size = "Size"
+        case storageClass = "StorageClass"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if encoder.codingPath.isEmpty {
+            try container.encode("http://s3.amazonaws.com/doc/2006-03-01/", forKey: ClientRuntime.Key("xmlns"))
+        }
+        if let checksumAlgorithm = checksumAlgorithm {
+            if checksumAlgorithm.isEmpty {
+                var checksumAlgorithmContainer = container.nestedUnkeyedContainer(forKey: ClientRuntime.Key("ChecksumAlgorithm"))
+                try checksumAlgorithmContainer.encodeNil()
+            } else {
+                for checksumalgorithm0 in checksumAlgorithm {
+                    var checksumAlgorithmContainer0 = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("checksumAlgorithm"))
+                    try checksumAlgorithmContainer0.encode(checksumalgorithm0, forKey: ClientRuntime.Key(""))
+                }
+            }
+        }
+        if let eTag = eTag {
+            try container.encode(eTag, forKey: ClientRuntime.Key("ETag"))
+        }
+        if let key = key {
+            try container.encode(key, forKey: ClientRuntime.Key("Key"))
+        }
+        if let lastModified = lastModified {
+            try container.encodeTimestamp(lastModified, format: .dateTime, forKey: ClientRuntime.Key("LastModified"))
+        }
+        if let owner = owner {
+            try container.encode(owner, forKey: ClientRuntime.Key("Owner"))
+        }
+        if let restoreStatus = restoreStatus {
+            try container.encode(restoreStatus, forKey: ClientRuntime.Key("RestoreStatus"))
+        }
+        if size != 0 {
+            try container.encode(size, forKey: ClientRuntime.Key("Size"))
+        }
+        if let storageClass = storageClass {
+            try container.encode(storageClass, forKey: ClientRuntime.Key("StorageClass"))
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let keyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .key)
+        key = keyDecoded
+        let lastModifiedDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .lastModified)
+        lastModified = lastModifiedDecoded
+        let eTagDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eTag)
+        eTag = eTagDecoded
+        if containerValues.contains(.checksumAlgorithm) {
+            let checksumAlgorithmWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CodingKeys.self, forKey: .checksumAlgorithm)
+            if checksumAlgorithmWrappedContainer != nil {
+                let checksumAlgorithmContainer = try containerValues.decodeIfPresent([S3ClientTypes.ChecksumAlgorithm].self, forKey: .checksumAlgorithm)
+                var checksumAlgorithmBuffer:[S3ClientTypes.ChecksumAlgorithm]? = nil
+                if let checksumAlgorithmContainer = checksumAlgorithmContainer {
+                    checksumAlgorithmBuffer = [S3ClientTypes.ChecksumAlgorithm]()
+                    for enumContainer0 in checksumAlgorithmContainer {
+                        checksumAlgorithmBuffer?.append(enumContainer0)
+                    }
+                }
+                checksumAlgorithm = checksumAlgorithmBuffer
+            } else {
+                checksumAlgorithm = []
+            }
+        } else {
+            checksumAlgorithm = nil
+        }
+        let sizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .size) ?? 0
+        size = sizeDecoded
+        let storageClassDecoded = try containerValues.decodeIfPresent(S3ClientTypes.ObjectStorageClass.self, forKey: .storageClass)
+        storageClass = storageClassDecoded
+        let ownerDecoded = try containerValues.decodeIfPresent(S3ClientTypes.Owner.self, forKey: .owner)
+        owner = ownerDecoded
+        let restoreStatusDecoded = try containerValues.decodeIfPresent(S3ClientTypes.RestoreStatus.self, forKey: .restoreStatus)
+        restoreStatus = restoreStatusDecoded
+    }
+}
+
+extension S3ClientTypes.Object: ClientRuntime.DynamicNodeEncoding {
+    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
+        let xmlNamespaceValues = [
+            "xmlns"
+        ]
+        if let key = key as? ClientRuntime.Key {
+            if xmlNamespaceValues.contains(key.stringValue) {
+                return .attribute
+            }
+        }
+        return .element
     }
 }
 
@@ -18660,22 +18610,6 @@ extension S3ClientTypes.ObjectLockLegalHold: ClientRuntime.DynamicNodeEncoding {
 }
 
 extension S3ClientTypes {
-    /// A legal hold configuration for an object.
-    public struct ObjectLockLegalHold: Swift.Equatable {
-        /// Indicates whether the specified object has a legal hold in place.
-        public var status: S3ClientTypes.ObjectLockLegalHoldStatus?
-
-        public init(
-            status: S3ClientTypes.ObjectLockLegalHoldStatus? = nil
-        )
-        {
-            self.status = status
-        }
-    }
-
-}
-
-extension S3ClientTypes {
     public enum ObjectLockLegalHoldStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case off
         case on
@@ -18705,6 +18639,22 @@ extension S3ClientTypes {
             self = ObjectLockLegalHoldStatus(rawValue: rawValue) ?? ObjectLockLegalHoldStatus.sdkUnknown(rawValue)
         }
     }
+}
+
+extension S3ClientTypes {
+    /// A legal hold configuration for an object.
+    public struct ObjectLockLegalHold: Swift.Equatable {
+        /// Indicates whether the specified object has a legal hold in place.
+        public var status: S3ClientTypes.ObjectLockLegalHoldStatus?
+
+        public init(
+            status: S3ClientTypes.ObjectLockLegalHoldStatus? = nil
+        )
+        {
+            self.status = status
+        }
+    }
+
 }
 
 extension S3ClientTypes {
@@ -18782,26 +18732,6 @@ extension S3ClientTypes.ObjectLockRetention: ClientRuntime.DynamicNodeEncoding {
 }
 
 extension S3ClientTypes {
-    /// A Retention configuration for an object.
-    public struct ObjectLockRetention: Swift.Equatable {
-        /// Indicates the Retention mode for the specified object.
-        public var mode: S3ClientTypes.ObjectLockRetentionMode?
-        /// The date on which this Object Lock Retention will expire.
-        public var retainUntilDate: ClientRuntime.Date?
-
-        public init(
-            mode: S3ClientTypes.ObjectLockRetentionMode? = nil,
-            retainUntilDate: ClientRuntime.Date? = nil
-        )
-        {
-            self.mode = mode
-            self.retainUntilDate = retainUntilDate
-        }
-    }
-
-}
-
-extension S3ClientTypes {
     public enum ObjectLockRetentionMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case compliance
         case governance
@@ -18831,6 +18761,26 @@ extension S3ClientTypes {
             self = ObjectLockRetentionMode(rawValue: rawValue) ?? ObjectLockRetentionMode.sdkUnknown(rawValue)
         }
     }
+}
+
+extension S3ClientTypes {
+    /// A Retention configuration for an object.
+    public struct ObjectLockRetention: Swift.Equatable {
+        /// Indicates the Retention mode for the specified object.
+        public var mode: S3ClientTypes.ObjectLockRetentionMode?
+        /// The date on which this Object Lock Retention will expire.
+        public var retainUntilDate: ClientRuntime.Date?
+
+        public init(
+            mode: S3ClientTypes.ObjectLockRetentionMode? = nil,
+            retainUntilDate: ClientRuntime.Date? = nil
+        )
+        {
+            self.mode = mode
+            self.retainUntilDate = retainUntilDate
+        }
+    }
+
 }
 
 extension S3ClientTypes.ObjectLockRule: Swift.Codable {
@@ -19102,6 +19052,56 @@ extension S3ClientTypes {
     }
 }
 
+extension S3ClientTypes {
+    /// An object consists of data and its descriptive metadata.
+    public struct Object: Swift.Equatable {
+        /// The algorithm that was used to create a checksum of the object.
+        public var checksumAlgorithm: [S3ClientTypes.ChecksumAlgorithm]?
+        /// The entity tag is a hash of the object. The ETag reflects changes only to the contents of an object, not its metadata. The ETag may or may not be an MD5 digest of the object data. Whether or not it is depends on how the object was created and how it is encrypted as described below:
+        ///
+        /// * Objects created by the PUT Object, POST Object, or Copy operation, or through the Amazon Web Services Management Console, and are encrypted by SSE-S3 or plaintext, have ETags that are an MD5 digest of their object data.
+        ///
+        /// * Objects created by the PUT Object, POST Object, or Copy operation, or through the Amazon Web Services Management Console, and are encrypted by SSE-C or SSE-KMS, have ETags that are not an MD5 digest of their object data.
+        ///
+        /// * If an object is created by either the Multipart Upload or Part Copy operation, the ETag is not an MD5 digest, regardless of the method of encryption. If an object is larger than 16 MB, the Amazon Web Services Management Console will upload or copy that object as a Multipart Upload, and therefore the ETag will not be an MD5 digest.
+        public var eTag: Swift.String?
+        /// The name that you assign to an object. You use the object key to retrieve the object.
+        public var key: Swift.String?
+        /// Creation date of the object.
+        public var lastModified: ClientRuntime.Date?
+        /// The owner of the object
+        public var owner: S3ClientTypes.Owner?
+        /// Specifies the restoration status of an object. Objects in certain storage classes must be restored before they can be retrieved. For more information about these storage classes and how to work with archived objects, see [ Working with archived objects](https://docs.aws.amazon.com/AmazonS3/latest/userguide/archived-objects.html) in the Amazon S3 User Guide.
+        public var restoreStatus: S3ClientTypes.RestoreStatus?
+        /// Size in bytes of the object
+        public var size: Swift.Int
+        /// The class of storage used to store the object.
+        public var storageClass: S3ClientTypes.ObjectStorageClass?
+
+        public init(
+            checksumAlgorithm: [S3ClientTypes.ChecksumAlgorithm]? = nil,
+            eTag: Swift.String? = nil,
+            key: Swift.String? = nil,
+            lastModified: ClientRuntime.Date? = nil,
+            owner: S3ClientTypes.Owner? = nil,
+            restoreStatus: S3ClientTypes.RestoreStatus? = nil,
+            size: Swift.Int = 0,
+            storageClass: S3ClientTypes.ObjectStorageClass? = nil
+        )
+        {
+            self.checksumAlgorithm = checksumAlgorithm
+            self.eTag = eTag
+            self.key = key
+            self.lastModified = lastModified
+            self.owner = owner
+            self.restoreStatus = restoreStatus
+            self.size = size
+            self.storageClass = storageClass
+        }
+    }
+
+}
+
 extension S3ClientTypes.ObjectVersion: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case checksumAlgorithm = "ChecksumAlgorithm"
@@ -19217,6 +19217,35 @@ extension S3ClientTypes.ObjectVersion: ClientRuntime.DynamicNodeEncoding {
 }
 
 extension S3ClientTypes {
+    public enum ObjectVersionStorageClass: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case standard
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ObjectVersionStorageClass] {
+            return [
+                .standard,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .standard: return "STANDARD"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ObjectVersionStorageClass(rawValue: rawValue) ?? ObjectVersionStorageClass.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension S3ClientTypes {
     /// The version of an object.
     public struct ObjectVersion: Swift.Equatable {
         /// The algorithm that was used to create a checksum of the object.
@@ -19266,35 +19295,6 @@ extension S3ClientTypes {
         }
     }
 
-}
-
-extension S3ClientTypes {
-    public enum ObjectVersionStorageClass: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
-        case standard
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ObjectVersionStorageClass] {
-            return [
-                .standard,
-                .sdkUnknown("")
-            ]
-        }
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-        public var rawValue: Swift.String {
-            switch self {
-            case .standard: return "STANDARD"
-            case let .sdkUnknown(s): return s
-            }
-        }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = ObjectVersionStorageClass(rawValue: rawValue) ?? ObjectVersionStorageClass.sdkUnknown(rawValue)
-        }
-    }
 }
 
 extension S3ClientTypes {
@@ -19483,42 +19483,6 @@ extension S3ClientTypes.Owner: ClientRuntime.DynamicNodeEncoding {
 }
 
 extension S3ClientTypes {
-    /// Container for the owner's display name and ID.
-    public struct Owner: Swift.Equatable {
-        /// Container for the display name of the owner. This value is only supported in the following Amazon Web Services Regions:
-        ///
-        /// * US East (N. Virginia)
-        ///
-        /// * US West (N. California)
-        ///
-        /// * US West (Oregon)
-        ///
-        /// * Asia Pacific (Singapore)
-        ///
-        /// * Asia Pacific (Sydney)
-        ///
-        /// * Asia Pacific (Tokyo)
-        ///
-        /// * Europe (Ireland)
-        ///
-        /// * South America (São Paulo)
-        public var displayName: Swift.String?
-        /// Container for the ID of the owner.
-        public var id: Swift.String?
-
-        public init(
-            displayName: Swift.String? = nil,
-            id: Swift.String? = nil
-        )
-        {
-            self.displayName = displayName
-            self.id = id
-        }
-    }
-
-}
-
-extension S3ClientTypes {
     public enum OwnerOverride: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case destination
         case sdkUnknown(Swift.String)
@@ -19607,23 +19571,6 @@ extension S3ClientTypes.OwnershipControls: ClientRuntime.DynamicNodeEncoding {
     }
 }
 
-extension S3ClientTypes {
-    /// The container element for a bucket's ownership controls.
-    public struct OwnershipControls: Swift.Equatable {
-        /// The container element for an ownership control rule.
-        /// This member is required.
-        public var rules: [S3ClientTypes.OwnershipControlsRule]?
-
-        public init(
-            rules: [S3ClientTypes.OwnershipControlsRule]? = nil
-        )
-        {
-            self.rules = rules
-        }
-    }
-
-}
-
 extension S3ClientTypes.OwnershipControlsRule: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case objectOwnership = "ObjectOwnership"
@@ -19672,6 +19619,59 @@ extension S3ClientTypes {
         )
         {
             self.objectOwnership = objectOwnership
+        }
+    }
+
+}
+
+extension S3ClientTypes {
+    /// The container element for a bucket's ownership controls.
+    public struct OwnershipControls: Swift.Equatable {
+        /// The container element for an ownership control rule.
+        /// This member is required.
+        public var rules: [S3ClientTypes.OwnershipControlsRule]?
+
+        public init(
+            rules: [S3ClientTypes.OwnershipControlsRule]? = nil
+        )
+        {
+            self.rules = rules
+        }
+    }
+
+}
+
+extension S3ClientTypes {
+    /// Container for the owner's display name and ID.
+    public struct Owner: Swift.Equatable {
+        /// Container for the display name of the owner. This value is only supported in the following Amazon Web Services Regions:
+        ///
+        /// * US East (N. Virginia)
+        ///
+        /// * US West (N. California)
+        ///
+        /// * US West (Oregon)
+        ///
+        /// * Asia Pacific (Singapore)
+        ///
+        /// * Asia Pacific (Sydney)
+        ///
+        /// * Asia Pacific (Tokyo)
+        ///
+        /// * Europe (Ireland)
+        ///
+        /// * South America (São Paulo)
+        public var displayName: Swift.String?
+        /// Container for the ID of the owner.
+        public var id: Swift.String?
+
+        public init(
+            displayName: Swift.String? = nil,
+            id: Swift.String? = nil
+        )
+        {
+            self.displayName = displayName
+            self.id = id
         }
     }
 
@@ -19990,30 +19990,6 @@ extension S3ClientTypes.Progress: ClientRuntime.DynamicNodeEncoding {
     }
 }
 
-extension S3ClientTypes {
-    /// This data type contains information about progress of an operation.
-    public struct Progress: Swift.Equatable {
-        /// The current number of uncompressed object bytes processed.
-        public var bytesProcessed: Swift.Int
-        /// The current number of bytes of records payload data returned.
-        public var bytesReturned: Swift.Int
-        /// The current number of object bytes scanned.
-        public var bytesScanned: Swift.Int
-
-        public init(
-            bytesProcessed: Swift.Int = 0,
-            bytesReturned: Swift.Int = 0,
-            bytesScanned: Swift.Int = 0
-        )
-        {
-            self.bytesProcessed = bytesProcessed
-            self.bytesReturned = bytesReturned
-            self.bytesScanned = bytesScanned
-        }
-    }
-
-}
-
 extension S3ClientTypes.ProgressEvent: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case details = "Details"
@@ -20061,6 +20037,30 @@ extension S3ClientTypes {
         )
         {
             self.details = details
+        }
+    }
+
+}
+
+extension S3ClientTypes {
+    /// This data type contains information about progress of an operation.
+    public struct Progress: Swift.Equatable {
+        /// The current number of uncompressed object bytes processed.
+        public var bytesProcessed: Swift.Int
+        /// The current number of bytes of records payload data returned.
+        public var bytesReturned: Swift.Int
+        /// The current number of object bytes scanned.
+        public var bytesScanned: Swift.Int
+
+        public init(
+            bytesProcessed: Swift.Int = 0,
+            bytesReturned: Swift.Int = 0,
+            bytesScanned: Swift.Int = 0
+        )
+        {
+            self.bytesProcessed = bytesProcessed
+            self.bytesReturned = bytesReturned
+            self.bytesScanned = bytesScanned
         }
     }
 
@@ -20189,6 +20189,22 @@ extension S3ClientTypes {
 
 }
 
+struct PutBucketAccelerateConfigurationInputBody: Swift.Equatable {
+    let accelerateConfiguration: S3ClientTypes.AccelerateConfiguration?
+}
+
+extension PutBucketAccelerateConfigurationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accelerateConfiguration = "AccelerateConfiguration"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let accelerateConfigurationDecoded = try containerValues.decodeIfPresent(S3ClientTypes.AccelerateConfiguration.self, forKey: .accelerateConfiguration)
+        accelerateConfiguration = accelerateConfigurationDecoded
+    }
+}
+
 public struct PutBucketAccelerateConfigurationInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "PutBucketAccelerateConfigurationInputBodyMiddleware"
 
@@ -20281,12 +20297,6 @@ extension PutBucketAccelerateConfigurationInput: ClientRuntime.QueryItemProvider
     }
 }
 
-extension PutBucketAccelerateConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
-    }
-}
-
 public struct PutBucketAccelerateConfigurationInput: Swift.Equatable {
     /// Container for setting the transfer acceleration state.
     /// This member is required.
@@ -20313,19 +20323,18 @@ public struct PutBucketAccelerateConfigurationInput: Swift.Equatable {
     }
 }
 
-struct PutBucketAccelerateConfigurationInputBody: Swift.Equatable {
-    let accelerateConfiguration: S3ClientTypes.AccelerateConfiguration?
+extension PutBucketAccelerateConfigurationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
 }
 
-extension PutBucketAccelerateConfigurationInputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case accelerateConfiguration = "AccelerateConfiguration"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let accelerateConfigurationDecoded = try containerValues.decodeIfPresent(S3ClientTypes.AccelerateConfiguration.self, forKey: .accelerateConfiguration)
-        accelerateConfiguration = accelerateConfigurationDecoded
+enum PutBucketAccelerateConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -20339,12 +20348,19 @@ public struct PutBucketAccelerateConfigurationOutput: Swift.Equatable {
     public init() { }
 }
 
-enum PutBucketAccelerateConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
-        }
+struct PutBucketAclInputBody: Swift.Equatable {
+    let accessControlPolicy: S3ClientTypes.AccessControlPolicy?
+}
+
+extension PutBucketAclInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accessControlPolicy = "AccessControlPolicy"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let accessControlPolicyDecoded = try containerValues.decodeIfPresent(S3ClientTypes.AccessControlPolicy.self, forKey: .accessControlPolicy)
+        accessControlPolicy = accessControlPolicyDecoded
     }
 }
 
@@ -20461,12 +20477,6 @@ extension PutBucketAclInput: ClientRuntime.QueryItemProvider {
     }
 }
 
-extension PutBucketAclInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
-    }
-}
-
 public struct PutBucketAclInput: Swift.Equatable {
     /// Contains the elements that set the ACL permissions for an object per grantee.
     public var accessControlPolicy: S3ClientTypes.AccessControlPolicy?
@@ -20520,19 +20530,18 @@ public struct PutBucketAclInput: Swift.Equatable {
     }
 }
 
-struct PutBucketAclInputBody: Swift.Equatable {
-    let accessControlPolicy: S3ClientTypes.AccessControlPolicy?
+extension PutBucketAclInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
 }
 
-extension PutBucketAclInputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case accessControlPolicy = "AccessControlPolicy"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let accessControlPolicyDecoded = try containerValues.decodeIfPresent(S3ClientTypes.AccessControlPolicy.self, forKey: .accessControlPolicy)
-        accessControlPolicy = accessControlPolicyDecoded
+enum PutBucketAclOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -20546,12 +20555,19 @@ public struct PutBucketAclOutput: Swift.Equatable {
     public init() { }
 }
 
-enum PutBucketAclOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
-        }
+struct PutBucketAnalyticsConfigurationInputBody: Swift.Equatable {
+    let analyticsConfiguration: S3ClientTypes.AnalyticsConfiguration?
+}
+
+extension PutBucketAnalyticsConfigurationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case analyticsConfiguration = "AnalyticsConfiguration"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let analyticsConfigurationDecoded = try containerValues.decodeIfPresent(S3ClientTypes.AnalyticsConfiguration.self, forKey: .analyticsConfiguration)
+        analyticsConfiguration = analyticsConfigurationDecoded
     }
 }
 
@@ -20650,12 +20666,6 @@ extension PutBucketAnalyticsConfigurationInput: ClientRuntime.QueryItemProvider 
     }
 }
 
-extension PutBucketAnalyticsConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
-    }
-}
-
 public struct PutBucketAnalyticsConfigurationInput: Swift.Equatable {
     /// The configuration and any analyses for the analytics filter.
     /// This member is required.
@@ -20683,19 +20693,18 @@ public struct PutBucketAnalyticsConfigurationInput: Swift.Equatable {
     }
 }
 
-struct PutBucketAnalyticsConfigurationInputBody: Swift.Equatable {
-    let analyticsConfiguration: S3ClientTypes.AnalyticsConfiguration?
+extension PutBucketAnalyticsConfigurationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
 }
 
-extension PutBucketAnalyticsConfigurationInputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case analyticsConfiguration = "AnalyticsConfiguration"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let analyticsConfigurationDecoded = try containerValues.decodeIfPresent(S3ClientTypes.AnalyticsConfiguration.self, forKey: .analyticsConfiguration)
-        analyticsConfiguration = analyticsConfigurationDecoded
+enum PutBucketAnalyticsConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -20709,12 +20718,19 @@ public struct PutBucketAnalyticsConfigurationOutput: Swift.Equatable {
     public init() { }
 }
 
-enum PutBucketAnalyticsConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
-        }
+struct PutBucketCorsInputBody: Swift.Equatable {
+    let corsConfiguration: S3ClientTypes.CORSConfiguration?
+}
+
+extension PutBucketCorsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case corsConfiguration = "CORSConfiguration"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let corsConfigurationDecoded = try containerValues.decodeIfPresent(S3ClientTypes.CORSConfiguration.self, forKey: .corsConfiguration)
+        corsConfiguration = corsConfigurationDecoded
     }
 }
 
@@ -20813,12 +20829,6 @@ extension PutBucketCorsInput: ClientRuntime.QueryItemProvider {
     }
 }
 
-extension PutBucketCorsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
-    }
-}
-
 public struct PutBucketCorsInput: Swift.Equatable {
     /// Specifies the bucket impacted by the corsconfiguration.
     /// This member is required.
@@ -20849,19 +20859,18 @@ public struct PutBucketCorsInput: Swift.Equatable {
     }
 }
 
-struct PutBucketCorsInputBody: Swift.Equatable {
-    let corsConfiguration: S3ClientTypes.CORSConfiguration?
+extension PutBucketCorsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
 }
 
-extension PutBucketCorsInputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case corsConfiguration = "CORSConfiguration"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let corsConfigurationDecoded = try containerValues.decodeIfPresent(S3ClientTypes.CORSConfiguration.self, forKey: .corsConfiguration)
-        corsConfiguration = corsConfigurationDecoded
+enum PutBucketCorsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -20875,12 +20884,19 @@ public struct PutBucketCorsOutput: Swift.Equatable {
     public init() { }
 }
 
-enum PutBucketCorsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
-        }
+struct PutBucketEncryptionInputBody: Swift.Equatable {
+    let serverSideEncryptionConfiguration: S3ClientTypes.ServerSideEncryptionConfiguration?
+}
+
+extension PutBucketEncryptionInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case serverSideEncryptionConfiguration = "ServerSideEncryptionConfiguration"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let serverSideEncryptionConfigurationDecoded = try containerValues.decodeIfPresent(S3ClientTypes.ServerSideEncryptionConfiguration.self, forKey: .serverSideEncryptionConfiguration)
+        serverSideEncryptionConfiguration = serverSideEncryptionConfigurationDecoded
     }
 }
 
@@ -20979,12 +20995,6 @@ extension PutBucketEncryptionInput: ClientRuntime.QueryItemProvider {
     }
 }
 
-extension PutBucketEncryptionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
-    }
-}
-
 public struct PutBucketEncryptionInput: Swift.Equatable {
     /// Specifies default encryption for a bucket using server-side encryption with different key options. By default, all buckets have a default encryption configuration that uses server-side encryption with Amazon S3 managed keys (SSE-S3). You can optionally configure default encryption for a bucket by using server-side encryption with an Amazon Web Services KMS key (SSE-KMS) or a customer-provided key (SSE-C). For information about the bucket default encryption feature, see [Amazon S3 Bucket Default Encryption](https://docs.aws.amazon.com/AmazonS3/latest/dev/bucket-encryption.html) in the Amazon S3 User Guide.
     /// This member is required.
@@ -21015,19 +21025,18 @@ public struct PutBucketEncryptionInput: Swift.Equatable {
     }
 }
 
-struct PutBucketEncryptionInputBody: Swift.Equatable {
-    let serverSideEncryptionConfiguration: S3ClientTypes.ServerSideEncryptionConfiguration?
+extension PutBucketEncryptionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
 }
 
-extension PutBucketEncryptionInputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case serverSideEncryptionConfiguration = "ServerSideEncryptionConfiguration"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let serverSideEncryptionConfigurationDecoded = try containerValues.decodeIfPresent(S3ClientTypes.ServerSideEncryptionConfiguration.self, forKey: .serverSideEncryptionConfiguration)
-        serverSideEncryptionConfiguration = serverSideEncryptionConfigurationDecoded
+enum PutBucketEncryptionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -21041,12 +21050,19 @@ public struct PutBucketEncryptionOutput: Swift.Equatable {
     public init() { }
 }
 
-enum PutBucketEncryptionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
-        }
+struct PutBucketIntelligentTieringConfigurationInputBody: Swift.Equatable {
+    let intelligentTieringConfiguration: S3ClientTypes.IntelligentTieringConfiguration?
+}
+
+extension PutBucketIntelligentTieringConfigurationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case intelligentTieringConfiguration = "IntelligentTieringConfiguration"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let intelligentTieringConfigurationDecoded = try containerValues.decodeIfPresent(S3ClientTypes.IntelligentTieringConfiguration.self, forKey: .intelligentTieringConfiguration)
+        intelligentTieringConfiguration = intelligentTieringConfigurationDecoded
     }
 }
 
@@ -21135,12 +21151,6 @@ extension PutBucketIntelligentTieringConfigurationInput: ClientRuntime.QueryItem
     }
 }
 
-extension PutBucketIntelligentTieringConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
-    }
-}
-
 public struct PutBucketIntelligentTieringConfigurationInput: Swift.Equatable {
     /// The name of the Amazon S3 bucket whose configuration you want to modify or retrieve.
     /// This member is required.
@@ -21164,19 +21174,18 @@ public struct PutBucketIntelligentTieringConfigurationInput: Swift.Equatable {
     }
 }
 
-struct PutBucketIntelligentTieringConfigurationInputBody: Swift.Equatable {
-    let intelligentTieringConfiguration: S3ClientTypes.IntelligentTieringConfiguration?
+extension PutBucketIntelligentTieringConfigurationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
 }
 
-extension PutBucketIntelligentTieringConfigurationInputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case intelligentTieringConfiguration = "IntelligentTieringConfiguration"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let intelligentTieringConfigurationDecoded = try containerValues.decodeIfPresent(S3ClientTypes.IntelligentTieringConfiguration.self, forKey: .intelligentTieringConfiguration)
-        intelligentTieringConfiguration = intelligentTieringConfigurationDecoded
+enum PutBucketIntelligentTieringConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -21190,12 +21199,19 @@ public struct PutBucketIntelligentTieringConfigurationOutput: Swift.Equatable {
     public init() { }
 }
 
-enum PutBucketIntelligentTieringConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
-        }
+struct PutBucketInventoryConfigurationInputBody: Swift.Equatable {
+    let inventoryConfiguration: S3ClientTypes.InventoryConfiguration?
+}
+
+extension PutBucketInventoryConfigurationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case inventoryConfiguration = "InventoryConfiguration"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let inventoryConfigurationDecoded = try containerValues.decodeIfPresent(S3ClientTypes.InventoryConfiguration.self, forKey: .inventoryConfiguration)
+        inventoryConfiguration = inventoryConfigurationDecoded
     }
 }
 
@@ -21294,12 +21310,6 @@ extension PutBucketInventoryConfigurationInput: ClientRuntime.QueryItemProvider 
     }
 }
 
-extension PutBucketInventoryConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
-    }
-}
-
 public struct PutBucketInventoryConfigurationInput: Swift.Equatable {
     /// The name of the bucket where the inventory configuration will be stored.
     /// This member is required.
@@ -21327,19 +21337,18 @@ public struct PutBucketInventoryConfigurationInput: Swift.Equatable {
     }
 }
 
-struct PutBucketInventoryConfigurationInputBody: Swift.Equatable {
-    let inventoryConfiguration: S3ClientTypes.InventoryConfiguration?
+extension PutBucketInventoryConfigurationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
 }
 
-extension PutBucketInventoryConfigurationInputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case inventoryConfiguration = "InventoryConfiguration"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let inventoryConfigurationDecoded = try containerValues.decodeIfPresent(S3ClientTypes.InventoryConfiguration.self, forKey: .inventoryConfiguration)
-        inventoryConfiguration = inventoryConfigurationDecoded
+enum PutBucketInventoryConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -21353,12 +21362,19 @@ public struct PutBucketInventoryConfigurationOutput: Swift.Equatable {
     public init() { }
 }
 
-enum PutBucketInventoryConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
-        }
+struct PutBucketLifecycleConfigurationInputBody: Swift.Equatable {
+    let lifecycleConfiguration: S3ClientTypes.BucketLifecycleConfiguration?
+}
+
+extension PutBucketLifecycleConfigurationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case lifecycleConfiguration = "LifecycleConfiguration"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let lifecycleConfigurationDecoded = try containerValues.decodeIfPresent(S3ClientTypes.BucketLifecycleConfiguration.self, forKey: .lifecycleConfiguration)
+        lifecycleConfiguration = lifecycleConfigurationDecoded
     }
 }
 
@@ -21454,12 +21470,6 @@ extension PutBucketLifecycleConfigurationInput: ClientRuntime.QueryItemProvider 
     }
 }
 
-extension PutBucketLifecycleConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
-    }
-}
-
 public struct PutBucketLifecycleConfigurationInput: Swift.Equatable {
     /// The name of the bucket for which to set the configuration.
     /// This member is required.
@@ -21485,19 +21495,18 @@ public struct PutBucketLifecycleConfigurationInput: Swift.Equatable {
     }
 }
 
-struct PutBucketLifecycleConfigurationInputBody: Swift.Equatable {
-    let lifecycleConfiguration: S3ClientTypes.BucketLifecycleConfiguration?
+extension PutBucketLifecycleConfigurationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
 }
 
-extension PutBucketLifecycleConfigurationInputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case lifecycleConfiguration = "LifecycleConfiguration"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let lifecycleConfigurationDecoded = try containerValues.decodeIfPresent(S3ClientTypes.BucketLifecycleConfiguration.self, forKey: .lifecycleConfiguration)
-        lifecycleConfiguration = lifecycleConfigurationDecoded
+enum PutBucketLifecycleConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -21511,12 +21520,19 @@ public struct PutBucketLifecycleConfigurationOutput: Swift.Equatable {
     public init() { }
 }
 
-enum PutBucketLifecycleConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
-        }
+struct PutBucketLoggingInputBody: Swift.Equatable {
+    let bucketLoggingStatus: S3ClientTypes.BucketLoggingStatus?
+}
+
+extension PutBucketLoggingInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bucketLoggingStatus = "BucketLoggingStatus"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let bucketLoggingStatusDecoded = try containerValues.decodeIfPresent(S3ClientTypes.BucketLoggingStatus.self, forKey: .bucketLoggingStatus)
+        bucketLoggingStatus = bucketLoggingStatusDecoded
     }
 }
 
@@ -21615,12 +21631,6 @@ extension PutBucketLoggingInput: ClientRuntime.QueryItemProvider {
     }
 }
 
-extension PutBucketLoggingInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
-    }
-}
-
 public struct PutBucketLoggingInput: Swift.Equatable {
     /// The name of the bucket for which to set the logging parameters.
     /// This member is required.
@@ -21651,19 +21661,18 @@ public struct PutBucketLoggingInput: Swift.Equatable {
     }
 }
 
-struct PutBucketLoggingInputBody: Swift.Equatable {
-    let bucketLoggingStatus: S3ClientTypes.BucketLoggingStatus?
+extension PutBucketLoggingInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
 }
 
-extension PutBucketLoggingInputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case bucketLoggingStatus = "BucketLoggingStatus"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let bucketLoggingStatusDecoded = try containerValues.decodeIfPresent(S3ClientTypes.BucketLoggingStatus.self, forKey: .bucketLoggingStatus)
-        bucketLoggingStatus = bucketLoggingStatusDecoded
+enum PutBucketLoggingOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -21677,12 +21686,19 @@ public struct PutBucketLoggingOutput: Swift.Equatable {
     public init() { }
 }
 
-enum PutBucketLoggingOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
-        }
+struct PutBucketMetricsConfigurationInputBody: Swift.Equatable {
+    let metricsConfiguration: S3ClientTypes.MetricsConfiguration?
+}
+
+extension PutBucketMetricsConfigurationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case metricsConfiguration = "MetricsConfiguration"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let metricsConfigurationDecoded = try containerValues.decodeIfPresent(S3ClientTypes.MetricsConfiguration.self, forKey: .metricsConfiguration)
+        metricsConfiguration = metricsConfigurationDecoded
     }
 }
 
@@ -21781,12 +21797,6 @@ extension PutBucketMetricsConfigurationInput: ClientRuntime.QueryItemProvider {
     }
 }
 
-extension PutBucketMetricsConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
-    }
-}
-
 public struct PutBucketMetricsConfigurationInput: Swift.Equatable {
     /// The name of the bucket for which the metrics configuration is set.
     /// This member is required.
@@ -21814,19 +21824,18 @@ public struct PutBucketMetricsConfigurationInput: Swift.Equatable {
     }
 }
 
-struct PutBucketMetricsConfigurationInputBody: Swift.Equatable {
-    let metricsConfiguration: S3ClientTypes.MetricsConfiguration?
+extension PutBucketMetricsConfigurationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
 }
 
-extension PutBucketMetricsConfigurationInputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case metricsConfiguration = "MetricsConfiguration"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let metricsConfigurationDecoded = try containerValues.decodeIfPresent(S3ClientTypes.MetricsConfiguration.self, forKey: .metricsConfiguration)
-        metricsConfiguration = metricsConfigurationDecoded
+enum PutBucketMetricsConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -21840,12 +21849,19 @@ public struct PutBucketMetricsConfigurationOutput: Swift.Equatable {
     public init() { }
 }
 
-enum PutBucketMetricsConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
-        }
+struct PutBucketNotificationConfigurationInputBody: Swift.Equatable {
+    let notificationConfiguration: S3ClientTypes.NotificationConfiguration?
+}
+
+extension PutBucketNotificationConfigurationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case notificationConfiguration = "NotificationConfiguration"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let notificationConfigurationDecoded = try containerValues.decodeIfPresent(S3ClientTypes.NotificationConfiguration.self, forKey: .notificationConfiguration)
+        notificationConfiguration = notificationConfigurationDecoded
     }
 }
 
@@ -21941,12 +21957,6 @@ extension PutBucketNotificationConfigurationInput: ClientRuntime.QueryItemProvid
     }
 }
 
-extension PutBucketNotificationConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
-    }
-}
-
 public struct PutBucketNotificationConfigurationInput: Swift.Equatable {
     /// The name of the bucket.
     /// This member is required.
@@ -21973,19 +21983,18 @@ public struct PutBucketNotificationConfigurationInput: Swift.Equatable {
     }
 }
 
-struct PutBucketNotificationConfigurationInputBody: Swift.Equatable {
-    let notificationConfiguration: S3ClientTypes.NotificationConfiguration?
+extension PutBucketNotificationConfigurationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
 }
 
-extension PutBucketNotificationConfigurationInputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case notificationConfiguration = "NotificationConfiguration"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let notificationConfigurationDecoded = try containerValues.decodeIfPresent(S3ClientTypes.NotificationConfiguration.self, forKey: .notificationConfiguration)
-        notificationConfiguration = notificationConfigurationDecoded
+enum PutBucketNotificationConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -21999,12 +22008,19 @@ public struct PutBucketNotificationConfigurationOutput: Swift.Equatable {
     public init() { }
 }
 
-enum PutBucketNotificationConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
-        }
+struct PutBucketOwnershipControlsInputBody: Swift.Equatable {
+    let ownershipControls: S3ClientTypes.OwnershipControls?
+}
+
+extension PutBucketOwnershipControlsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case ownershipControls = "OwnershipControls"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let ownershipControlsDecoded = try containerValues.decodeIfPresent(S3ClientTypes.OwnershipControls.self, forKey: .ownershipControls)
+        ownershipControls = ownershipControlsDecoded
     }
 }
 
@@ -22100,12 +22116,6 @@ extension PutBucketOwnershipControlsInput: ClientRuntime.QueryItemProvider {
     }
 }
 
-extension PutBucketOwnershipControlsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
-    }
-}
-
 public struct PutBucketOwnershipControlsInput: Swift.Equatable {
     /// The name of the Amazon S3 bucket whose OwnershipControls you want to set.
     /// This member is required.
@@ -22132,19 +22142,18 @@ public struct PutBucketOwnershipControlsInput: Swift.Equatable {
     }
 }
 
-struct PutBucketOwnershipControlsInputBody: Swift.Equatable {
-    let ownershipControls: S3ClientTypes.OwnershipControls?
+extension PutBucketOwnershipControlsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
 }
 
-extension PutBucketOwnershipControlsInputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case ownershipControls = "OwnershipControls"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let ownershipControlsDecoded = try containerValues.decodeIfPresent(S3ClientTypes.OwnershipControls.self, forKey: .ownershipControls)
-        ownershipControls = ownershipControlsDecoded
+enum PutBucketOwnershipControlsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -22158,12 +22167,19 @@ public struct PutBucketOwnershipControlsOutput: Swift.Equatable {
     public init() { }
 }
 
-enum PutBucketOwnershipControlsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
-        }
+struct PutBucketPolicyInputBody: Swift.Equatable {
+    let policy: Swift.String?
+}
+
+extension PutBucketPolicyInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case policy = "Policy"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let policyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policy)
+        policy = policyDecoded
     }
 }
 
@@ -22252,12 +22268,6 @@ extension PutBucketPolicyInput: ClientRuntime.QueryItemProvider {
     }
 }
 
-extension PutBucketPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
-    }
-}
-
 public struct PutBucketPolicyInput: Swift.Equatable {
     /// The name of the bucket.
     /// This member is required.
@@ -22292,19 +22302,18 @@ public struct PutBucketPolicyInput: Swift.Equatable {
     }
 }
 
-struct PutBucketPolicyInputBody: Swift.Equatable {
-    let policy: Swift.String?
+extension PutBucketPolicyInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
 }
 
-extension PutBucketPolicyInputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case policy = "Policy"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let policyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policy)
-        policy = policyDecoded
+enum PutBucketPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -22318,12 +22327,19 @@ public struct PutBucketPolicyOutput: Swift.Equatable {
     public init() { }
 }
 
-enum PutBucketPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
-        }
+struct PutBucketReplicationInputBody: Swift.Equatable {
+    let replicationConfiguration: S3ClientTypes.ReplicationConfiguration?
+}
+
+extension PutBucketReplicationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case replicationConfiguration = "ReplicationConfiguration"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let replicationConfigurationDecoded = try containerValues.decodeIfPresent(S3ClientTypes.ReplicationConfiguration.self, forKey: .replicationConfiguration)
+        replicationConfiguration = replicationConfigurationDecoded
     }
 }
 
@@ -22425,12 +22441,6 @@ extension PutBucketReplicationInput: ClientRuntime.QueryItemProvider {
     }
 }
 
-extension PutBucketReplicationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
-    }
-}
-
 public struct PutBucketReplicationInput: Swift.Equatable {
     /// The name of the bucket
     /// This member is required.
@@ -22465,19 +22475,18 @@ public struct PutBucketReplicationInput: Swift.Equatable {
     }
 }
 
-struct PutBucketReplicationInputBody: Swift.Equatable {
-    let replicationConfiguration: S3ClientTypes.ReplicationConfiguration?
+extension PutBucketReplicationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
 }
 
-extension PutBucketReplicationInputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case replicationConfiguration = "ReplicationConfiguration"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let replicationConfigurationDecoded = try containerValues.decodeIfPresent(S3ClientTypes.ReplicationConfiguration.self, forKey: .replicationConfiguration)
-        replicationConfiguration = replicationConfigurationDecoded
+enum PutBucketReplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -22491,12 +22500,19 @@ public struct PutBucketReplicationOutput: Swift.Equatable {
     public init() { }
 }
 
-enum PutBucketReplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
-        }
+struct PutBucketRequestPaymentInputBody: Swift.Equatable {
+    let requestPaymentConfiguration: S3ClientTypes.RequestPaymentConfiguration?
+}
+
+extension PutBucketRequestPaymentInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case requestPaymentConfiguration = "RequestPaymentConfiguration"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let requestPaymentConfigurationDecoded = try containerValues.decodeIfPresent(S3ClientTypes.RequestPaymentConfiguration.self, forKey: .requestPaymentConfiguration)
+        requestPaymentConfiguration = requestPaymentConfigurationDecoded
     }
 }
 
@@ -22595,12 +22611,6 @@ extension PutBucketRequestPaymentInput: ClientRuntime.QueryItemProvider {
     }
 }
 
-extension PutBucketRequestPaymentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
-    }
-}
-
 public struct PutBucketRequestPaymentInput: Swift.Equatable {
     /// The bucket name.
     /// This member is required.
@@ -22631,19 +22641,18 @@ public struct PutBucketRequestPaymentInput: Swift.Equatable {
     }
 }
 
-struct PutBucketRequestPaymentInputBody: Swift.Equatable {
-    let requestPaymentConfiguration: S3ClientTypes.RequestPaymentConfiguration?
+extension PutBucketRequestPaymentInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
 }
 
-extension PutBucketRequestPaymentInputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case requestPaymentConfiguration = "RequestPaymentConfiguration"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let requestPaymentConfigurationDecoded = try containerValues.decodeIfPresent(S3ClientTypes.RequestPaymentConfiguration.self, forKey: .requestPaymentConfiguration)
-        requestPaymentConfiguration = requestPaymentConfigurationDecoded
+enum PutBucketRequestPaymentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -22657,12 +22666,19 @@ public struct PutBucketRequestPaymentOutput: Swift.Equatable {
     public init() { }
 }
 
-enum PutBucketRequestPaymentOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
-        }
+struct PutBucketTaggingInputBody: Swift.Equatable {
+    let tagging: S3ClientTypes.Tagging?
+}
+
+extension PutBucketTaggingInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case tagging = "Tagging"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let taggingDecoded = try containerValues.decodeIfPresent(S3ClientTypes.Tagging.self, forKey: .tagging)
+        tagging = taggingDecoded
     }
 }
 
@@ -22761,12 +22777,6 @@ extension PutBucketTaggingInput: ClientRuntime.QueryItemProvider {
     }
 }
 
-extension PutBucketTaggingInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
-    }
-}
-
 public struct PutBucketTaggingInput: Swift.Equatable {
     /// The bucket name.
     /// This member is required.
@@ -22797,19 +22807,18 @@ public struct PutBucketTaggingInput: Swift.Equatable {
     }
 }
 
-struct PutBucketTaggingInputBody: Swift.Equatable {
-    let tagging: S3ClientTypes.Tagging?
+extension PutBucketTaggingInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
 }
 
-extension PutBucketTaggingInputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case tagging = "Tagging"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let taggingDecoded = try containerValues.decodeIfPresent(S3ClientTypes.Tagging.self, forKey: .tagging)
-        tagging = taggingDecoded
+enum PutBucketTaggingOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -22823,12 +22832,19 @@ public struct PutBucketTaggingOutput: Swift.Equatable {
     public init() { }
 }
 
-enum PutBucketTaggingOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
-        }
+struct PutBucketVersioningInputBody: Swift.Equatable {
+    let versioningConfiguration: S3ClientTypes.VersioningConfiguration?
+}
+
+extension PutBucketVersioningInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case versioningConfiguration = "VersioningConfiguration"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let versioningConfigurationDecoded = try containerValues.decodeIfPresent(S3ClientTypes.VersioningConfiguration.self, forKey: .versioningConfiguration)
+        versioningConfiguration = versioningConfigurationDecoded
     }
 }
 
@@ -22930,12 +22946,6 @@ extension PutBucketVersioningInput: ClientRuntime.QueryItemProvider {
     }
 }
 
-extension PutBucketVersioningInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
-    }
-}
-
 public struct PutBucketVersioningInput: Swift.Equatable {
     /// The bucket name.
     /// This member is required.
@@ -22970,19 +22980,18 @@ public struct PutBucketVersioningInput: Swift.Equatable {
     }
 }
 
-struct PutBucketVersioningInputBody: Swift.Equatable {
-    let versioningConfiguration: S3ClientTypes.VersioningConfiguration?
+extension PutBucketVersioningInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
 }
 
-extension PutBucketVersioningInputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case versioningConfiguration = "VersioningConfiguration"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let versioningConfigurationDecoded = try containerValues.decodeIfPresent(S3ClientTypes.VersioningConfiguration.self, forKey: .versioningConfiguration)
-        versioningConfiguration = versioningConfigurationDecoded
+enum PutBucketVersioningOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -22996,12 +23005,19 @@ public struct PutBucketVersioningOutput: Swift.Equatable {
     public init() { }
 }
 
-enum PutBucketVersioningOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
-        }
+struct PutBucketWebsiteInputBody: Swift.Equatable {
+    let websiteConfiguration: S3ClientTypes.WebsiteConfiguration?
+}
+
+extension PutBucketWebsiteInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case websiteConfiguration = "WebsiteConfiguration"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let websiteConfigurationDecoded = try containerValues.decodeIfPresent(S3ClientTypes.WebsiteConfiguration.self, forKey: .websiteConfiguration)
+        websiteConfiguration = websiteConfigurationDecoded
     }
 }
 
@@ -23100,12 +23116,6 @@ extension PutBucketWebsiteInput: ClientRuntime.QueryItemProvider {
     }
 }
 
-extension PutBucketWebsiteInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
-    }
-}
-
 public struct PutBucketWebsiteInput: Swift.Equatable {
     /// The bucket name.
     /// This member is required.
@@ -23136,19 +23146,18 @@ public struct PutBucketWebsiteInput: Swift.Equatable {
     }
 }
 
-struct PutBucketWebsiteInputBody: Swift.Equatable {
-    let websiteConfiguration: S3ClientTypes.WebsiteConfiguration?
+extension PutBucketWebsiteInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
 }
 
-extension PutBucketWebsiteInputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case websiteConfiguration = "WebsiteConfiguration"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let websiteConfigurationDecoded = try containerValues.decodeIfPresent(S3ClientTypes.WebsiteConfiguration.self, forKey: .websiteConfiguration)
-        websiteConfiguration = websiteConfigurationDecoded
+enum PutBucketWebsiteOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -23162,12 +23171,19 @@ public struct PutBucketWebsiteOutput: Swift.Equatable {
     public init() { }
 }
 
-enum PutBucketWebsiteOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
-        }
+struct PutObjectAclInputBody: Swift.Equatable {
+    let accessControlPolicy: S3ClientTypes.AccessControlPolicy?
+}
+
+extension PutObjectAclInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accessControlPolicy = "AccessControlPolicy"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let accessControlPolicyDecoded = try containerValues.decodeIfPresent(S3ClientTypes.AccessControlPolicy.self, forKey: .accessControlPolicy)
+        accessControlPolicy = accessControlPolicyDecoded
     }
 }
 
@@ -23291,15 +23307,6 @@ extension PutObjectAclInput: ClientRuntime.QueryItemProvider {
     }
 }
 
-extension PutObjectAclInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let key = key else {
-            return nil
-        }
-        return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
-    }
-}
-
 public struct PutObjectAclInput: Swift.Equatable {
     /// Contains the elements that set the ACL permissions for an object per grantee.
     public var accessControlPolicy: S3ClientTypes.AccessControlPolicy?
@@ -23366,19 +23373,22 @@ public struct PutObjectAclInput: Swift.Equatable {
     }
 }
 
-struct PutObjectAclInputBody: Swift.Equatable {
-    let accessControlPolicy: S3ClientTypes.AccessControlPolicy?
+extension PutObjectAclInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let key = key else {
+            return nil
+        }
+        return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
+    }
 }
 
-extension PutObjectAclInputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case accessControlPolicy = "AccessControlPolicy"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let accessControlPolicyDecoded = try containerValues.decodeIfPresent(S3ClientTypes.AccessControlPolicy.self, forKey: .accessControlPolicy)
-        accessControlPolicy = accessControlPolicyDecoded
+enum PutObjectAclOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
+        switch restXMLError.errorCode {
+            case "NoSuchKey": return try await NoSuchKey(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -23404,12 +23414,26 @@ public struct PutObjectAclOutput: Swift.Equatable {
     }
 }
 
-enum PutObjectAclOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
-        switch restXMLError.errorCode {
-            case "NoSuchKey": return try await NoSuchKey(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
+struct PutObjectInputBody: Swift.Equatable {
+    let body: ClientRuntime.ByteStream?
+}
+
+extension PutObjectInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case body = "Body"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        if containerValues.contains(.body) {
+            do {
+                let bodyDecoded = try containerValues.decodeIfPresent(ClientRuntime.ByteStream.self, forKey: .body)
+                body = bodyDecoded
+            } catch {
+                body = ClientRuntime.ByteStream.from(data: "".data(using: .utf8)!)
+            }
+        } else {
+            body = nil
         }
     }
 }
@@ -23719,15 +23743,6 @@ extension PutObjectInput: ClientRuntime.QueryItemProvider {
     }
 }
 
-extension PutObjectInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let key = key else {
-            return nil
-        }
-        return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
-    }
-}
-
 public struct PutObjectInput: Swift.Equatable {
     /// The canned ACL to apply to the object. For more information, see [Canned ACL](https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html#CannedACL). This action is not supported by Amazon S3 on Outposts.
     public var acl: S3ClientTypes.ObjectCannedACL?
@@ -23886,27 +23901,28 @@ public struct PutObjectInput: Swift.Equatable {
     }
 }
 
-struct PutObjectInputBody: Swift.Equatable {
-    let body: ClientRuntime.ByteStream?
+extension PutObjectInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let key = key else {
+            return nil
+        }
+        return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
+    }
 }
 
-extension PutObjectInputBody: Swift.Decodable {
+struct PutObjectLegalHoldInputBody: Swift.Equatable {
+    let legalHold: S3ClientTypes.ObjectLockLegalHold?
+}
+
+extension PutObjectLegalHoldInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case body = "Body"
+        case legalHold = "LegalHold"
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        if containerValues.contains(.body) {
-            do {
-                let bodyDecoded = try containerValues.decodeIfPresent(ClientRuntime.ByteStream.self, forKey: .body)
-                body = bodyDecoded
-            } catch {
-                body = ClientRuntime.ByteStream.from(data: "".data(using: .utf8)!)
-            }
-        } else {
-            body = nil
-        }
+        let legalHoldDecoded = try containerValues.decodeIfPresent(S3ClientTypes.ObjectLockLegalHold.self, forKey: .legalHold)
+        legalHold = legalHoldDecoded
     }
 }
 
@@ -24012,15 +24028,6 @@ extension PutObjectLegalHoldInput: ClientRuntime.QueryItemProvider {
     }
 }
 
-extension PutObjectLegalHoldInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let key = key else {
-            return nil
-        }
-        return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
-    }
-}
-
 public struct PutObjectLegalHoldInput: Swift.Equatable {
     /// The bucket name containing the object that you want to place a legal hold on. When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html) in the Amazon S3 User Guide.
     /// This member is required.
@@ -24063,19 +24070,21 @@ public struct PutObjectLegalHoldInput: Swift.Equatable {
     }
 }
 
-struct PutObjectLegalHoldInputBody: Swift.Equatable {
-    let legalHold: S3ClientTypes.ObjectLockLegalHold?
+extension PutObjectLegalHoldInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let key = key else {
+            return nil
+        }
+        return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
+    }
 }
 
-extension PutObjectLegalHoldInputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case legalHold = "LegalHold"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let legalHoldDecoded = try containerValues.decodeIfPresent(S3ClientTypes.ObjectLockLegalHold.self, forKey: .legalHold)
-        legalHold = legalHoldDecoded
+enum PutObjectLegalHoldOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -24101,12 +24110,19 @@ public struct PutObjectLegalHoldOutput: Swift.Equatable {
     }
 }
 
-enum PutObjectLegalHoldOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
-        }
+struct PutObjectLockConfigurationInputBody: Swift.Equatable {
+    let objectLockConfiguration: S3ClientTypes.ObjectLockConfiguration?
+}
+
+extension PutObjectLockConfigurationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case objectLockConfiguration = "ObjectLockConfiguration"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let objectLockConfigurationDecoded = try containerValues.decodeIfPresent(S3ClientTypes.ObjectLockConfiguration.self, forKey: .objectLockConfiguration)
+        objectLockConfiguration = objectLockConfigurationDecoded
     }
 }
 
@@ -24211,12 +24227,6 @@ extension PutObjectLockConfigurationInput: ClientRuntime.QueryItemProvider {
     }
 }
 
-extension PutObjectLockConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
-    }
-}
-
 public struct PutObjectLockConfigurationInput: Swift.Equatable {
     /// The bucket whose Object Lock configuration you want to create or replace.
     /// This member is required.
@@ -24254,19 +24264,18 @@ public struct PutObjectLockConfigurationInput: Swift.Equatable {
     }
 }
 
-struct PutObjectLockConfigurationInputBody: Swift.Equatable {
-    let objectLockConfiguration: S3ClientTypes.ObjectLockConfiguration?
+extension PutObjectLockConfigurationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
 }
 
-extension PutObjectLockConfigurationInputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case objectLockConfiguration = "ObjectLockConfiguration"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let objectLockConfigurationDecoded = try containerValues.decodeIfPresent(S3ClientTypes.ObjectLockConfiguration.self, forKey: .objectLockConfiguration)
-        objectLockConfiguration = objectLockConfigurationDecoded
+enum PutObjectLockConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -24292,18 +24301,18 @@ public struct PutObjectLockConfigurationOutput: Swift.Equatable {
     }
 }
 
-enum PutObjectLockConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+extension PutObjectOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "PutObjectOutput(bucketKeyEnabled: \(Swift.String(describing: bucketKeyEnabled)), checksumCRC32: \(Swift.String(describing: checksumCRC32)), checksumCRC32C: \(Swift.String(describing: checksumCRC32C)), checksumSHA1: \(Swift.String(describing: checksumSHA1)), checksumSHA256: \(Swift.String(describing: checksumSHA256)), eTag: \(Swift.String(describing: eTag)), expiration: \(Swift.String(describing: expiration)), requestCharged: \(Swift.String(describing: requestCharged)), sseCustomerAlgorithm: \(Swift.String(describing: sseCustomerAlgorithm)), sseCustomerKeyMD5: \(Swift.String(describing: sseCustomerKeyMD5)), serverSideEncryption: \(Swift.String(describing: serverSideEncryption)), versionId: \(Swift.String(describing: versionId)), ssekmsEncryptionContext: \"CONTENT_REDACTED\", ssekmsKeyId: \"CONTENT_REDACTED\")"}
+}
+
+enum PutObjectOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         switch restXMLError.errorCode {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
         }
     }
-}
-
-extension PutObjectOutput: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "PutObjectOutput(bucketKeyEnabled: \(Swift.String(describing: bucketKeyEnabled)), checksumCRC32: \(Swift.String(describing: checksumCRC32)), checksumCRC32C: \(Swift.String(describing: checksumCRC32C)), checksumSHA1: \(Swift.String(describing: checksumSHA1)), checksumSHA256: \(Swift.String(describing: checksumSHA256)), eTag: \(Swift.String(describing: eTag)), expiration: \(Swift.String(describing: expiration)), requestCharged: \(Swift.String(describing: requestCharged)), sseCustomerAlgorithm: \(Swift.String(describing: sseCustomerAlgorithm)), sseCustomerKeyMD5: \(Swift.String(describing: sseCustomerKeyMD5)), serverSideEncryption: \(Swift.String(describing: serverSideEncryption)), versionId: \(Swift.String(describing: versionId)), ssekmsEncryptionContext: \"CONTENT_REDACTED\", ssekmsKeyId: \"CONTENT_REDACTED\")"}
 }
 
 extension PutObjectOutput: ClientRuntime.HttpResponseBinding {
@@ -24445,12 +24454,19 @@ public struct PutObjectOutput: Swift.Equatable {
     }
 }
 
-enum PutObjectOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
-        }
+struct PutObjectRetentionInputBody: Swift.Equatable {
+    let retention: S3ClientTypes.ObjectLockRetention?
+}
+
+extension PutObjectRetentionInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case retention = "Retention"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let retentionDecoded = try containerValues.decodeIfPresent(S3ClientTypes.ObjectLockRetention.self, forKey: .retention)
+        retention = retentionDecoded
     }
 }
 
@@ -24559,15 +24575,6 @@ extension PutObjectRetentionInput: ClientRuntime.QueryItemProvider {
     }
 }
 
-extension PutObjectRetentionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let key = key else {
-            return nil
-        }
-        return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
-    }
-}
-
 public struct PutObjectRetentionInput: Swift.Equatable {
     /// The bucket name that contains the object you want to apply this Object Retention configuration to. When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html) in the Amazon S3 User Guide.
     /// This member is required.
@@ -24614,19 +24621,21 @@ public struct PutObjectRetentionInput: Swift.Equatable {
     }
 }
 
-struct PutObjectRetentionInputBody: Swift.Equatable {
-    let retention: S3ClientTypes.ObjectLockRetention?
+extension PutObjectRetentionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let key = key else {
+            return nil
+        }
+        return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
+    }
 }
 
-extension PutObjectRetentionInputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case retention = "Retention"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let retentionDecoded = try containerValues.decodeIfPresent(S3ClientTypes.ObjectLockRetention.self, forKey: .retention)
-        retention = retentionDecoded
+enum PutObjectRetentionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -24652,12 +24661,19 @@ public struct PutObjectRetentionOutput: Swift.Equatable {
     }
 }
 
-enum PutObjectRetentionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
-        }
+struct PutObjectTaggingInputBody: Swift.Equatable {
+    let tagging: S3ClientTypes.Tagging?
+}
+
+extension PutObjectTaggingInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case tagging = "Tagging"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let taggingDecoded = try containerValues.decodeIfPresent(S3ClientTypes.Tagging.self, forKey: .tagging)
+        tagging = taggingDecoded
     }
 }
 
@@ -24763,15 +24779,6 @@ extension PutObjectTaggingInput: ClientRuntime.QueryItemProvider {
     }
 }
 
-extension PutObjectTaggingInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let key = key else {
-            return nil
-        }
-        return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
-    }
-}
-
 public struct PutObjectTaggingInput: Swift.Equatable {
     /// The bucket name containing the object. When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html) in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see [What is S3 on Outposts?](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide.
     /// This member is required.
@@ -24815,19 +24822,21 @@ public struct PutObjectTaggingInput: Swift.Equatable {
     }
 }
 
-struct PutObjectTaggingInputBody: Swift.Equatable {
-    let tagging: S3ClientTypes.Tagging?
+extension PutObjectTaggingInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let key = key else {
+            return nil
+        }
+        return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
+    }
 }
 
-extension PutObjectTaggingInputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case tagging = "Tagging"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let taggingDecoded = try containerValues.decodeIfPresent(S3ClientTypes.Tagging.self, forKey: .tagging)
-        tagging = taggingDecoded
+enum PutObjectTaggingOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -24853,12 +24862,19 @@ public struct PutObjectTaggingOutput: Swift.Equatable {
     }
 }
 
-enum PutObjectTaggingOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
-        }
+struct PutPublicAccessBlockInputBody: Swift.Equatable {
+    let publicAccessBlockConfiguration: S3ClientTypes.PublicAccessBlockConfiguration?
+}
+
+extension PutPublicAccessBlockInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case publicAccessBlockConfiguration = "PublicAccessBlockConfiguration"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let publicAccessBlockConfigurationDecoded = try containerValues.decodeIfPresent(S3ClientTypes.PublicAccessBlockConfiguration.self, forKey: .publicAccessBlockConfiguration)
+        publicAccessBlockConfiguration = publicAccessBlockConfigurationDecoded
     }
 }
 
@@ -24957,12 +24973,6 @@ extension PutPublicAccessBlockInput: ClientRuntime.QueryItemProvider {
     }
 }
 
-extension PutPublicAccessBlockInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/"
-    }
-}
-
 public struct PutPublicAccessBlockInput: Swift.Equatable {
     /// The name of the Amazon S3 bucket whose PublicAccessBlock configuration you want to set.
     /// This member is required.
@@ -24993,19 +25003,18 @@ public struct PutPublicAccessBlockInput: Swift.Equatable {
     }
 }
 
-struct PutPublicAccessBlockInputBody: Swift.Equatable {
-    let publicAccessBlockConfiguration: S3ClientTypes.PublicAccessBlockConfiguration?
+extension PutPublicAccessBlockInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
 }
 
-extension PutPublicAccessBlockInputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case publicAccessBlockConfiguration = "PublicAccessBlockConfiguration"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let publicAccessBlockConfigurationDecoded = try containerValues.decodeIfPresent(S3ClientTypes.PublicAccessBlockConfiguration.self, forKey: .publicAccessBlockConfiguration)
-        publicAccessBlockConfiguration = publicAccessBlockConfigurationDecoded
+enum PutPublicAccessBlockOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -25017,15 +25026,6 @@ extension PutPublicAccessBlockOutput: ClientRuntime.HttpResponseBinding {
 public struct PutPublicAccessBlockOutput: Swift.Equatable {
 
     public init() { }
-}
-
-enum PutPublicAccessBlockOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
-        }
-    }
 }
 
 extension S3ClientTypes.QueueConfiguration: Swift.Codable {
@@ -25228,6 +25228,69 @@ extension S3ClientTypes {
 
 }
 
+extension S3ClientTypes.RedirectAllRequestsTo: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case hostName = "HostName"
+        case `protocol` = "Protocol"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if encoder.codingPath.isEmpty {
+            try container.encode("http://s3.amazonaws.com/doc/2006-03-01/", forKey: ClientRuntime.Key("xmlns"))
+        }
+        if let hostName = hostName {
+            try container.encode(hostName, forKey: ClientRuntime.Key("HostName"))
+        }
+        if let `protocol` = `protocol` {
+            try container.encode(`protocol`, forKey: ClientRuntime.Key("Protocol"))
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let hostNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .hostName)
+        hostName = hostNameDecoded
+        let protocolDecoded = try containerValues.decodeIfPresent(S3ClientTypes.ModelProtocol.self, forKey: .protocol)
+        `protocol` = protocolDecoded
+    }
+}
+
+extension S3ClientTypes.RedirectAllRequestsTo: ClientRuntime.DynamicNodeEncoding {
+    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
+        let xmlNamespaceValues = [
+            "xmlns"
+        ]
+        if let key = key as? ClientRuntime.Key {
+            if xmlNamespaceValues.contains(key.stringValue) {
+                return .attribute
+            }
+        }
+        return .element
+    }
+}
+
+extension S3ClientTypes {
+    /// Specifies the redirect behavior of all requests to a website endpoint of an Amazon S3 bucket.
+    public struct RedirectAllRequestsTo: Swift.Equatable {
+        /// Name of the host where requests are redirected.
+        /// This member is required.
+        public var hostName: Swift.String?
+        /// Protocol to use when redirecting requests. The default is the protocol that is used in the original request.
+        public var `protocol`: S3ClientTypes.ModelProtocol?
+
+        public init(
+            hostName: Swift.String? = nil,
+            `protocol`: S3ClientTypes.ModelProtocol? = nil
+        )
+        {
+            self.hostName = hostName
+            self.`protocol` = `protocol`
+        }
+    }
+
+}
+
 extension S3ClientTypes.Redirect: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case hostName = "HostName"
@@ -25320,69 +25383,6 @@ extension S3ClientTypes {
 
 }
 
-extension S3ClientTypes.RedirectAllRequestsTo: Swift.Codable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case hostName = "HostName"
-        case `protocol` = "Protocol"
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if encoder.codingPath.isEmpty {
-            try container.encode("http://s3.amazonaws.com/doc/2006-03-01/", forKey: ClientRuntime.Key("xmlns"))
-        }
-        if let hostName = hostName {
-            try container.encode(hostName, forKey: ClientRuntime.Key("HostName"))
-        }
-        if let `protocol` = `protocol` {
-            try container.encode(`protocol`, forKey: ClientRuntime.Key("Protocol"))
-        }
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let hostNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .hostName)
-        hostName = hostNameDecoded
-        let protocolDecoded = try containerValues.decodeIfPresent(S3ClientTypes.ModelProtocol.self, forKey: .protocol)
-        `protocol` = protocolDecoded
-    }
-}
-
-extension S3ClientTypes.RedirectAllRequestsTo: ClientRuntime.DynamicNodeEncoding {
-    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
-        let xmlNamespaceValues = [
-            "xmlns"
-        ]
-        if let key = key as? ClientRuntime.Key {
-            if xmlNamespaceValues.contains(key.stringValue) {
-                return .attribute
-            }
-        }
-        return .element
-    }
-}
-
-extension S3ClientTypes {
-    /// Specifies the redirect behavior of all requests to a website endpoint of an Amazon S3 bucket.
-    public struct RedirectAllRequestsTo: Swift.Equatable {
-        /// Name of the host where requests are redirected.
-        /// This member is required.
-        public var hostName: Swift.String?
-        /// Protocol to use when redirecting requests. The default is the protocol that is used in the original request.
-        public var `protocol`: S3ClientTypes.ModelProtocol?
-
-        public init(
-            hostName: Swift.String? = nil,
-            `protocol`: S3ClientTypes.ModelProtocol? = nil
-        )
-        {
-            self.hostName = hostName
-            self.`protocol` = `protocol`
-        }
-    }
-
-}
-
 extension S3ClientTypes.ReplicaModifications: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case status = "Status"
@@ -25420,23 +25420,6 @@ extension S3ClientTypes.ReplicaModifications: ClientRuntime.DynamicNodeEncoding 
 }
 
 extension S3ClientTypes {
-    /// A filter that you can specify for selection for modifications on replicas. Amazon S3 doesn't replicate replica modifications by default. In the latest version of replication configuration (when Filter is specified), you can specify this element and set the status to Enabled to replicate modifications on replicas. If you don't specify the Filter element, Amazon S3 assumes that the replication configuration is the earlier version, V1. In the earlier version, this element is not allowed.
-    public struct ReplicaModifications: Swift.Equatable {
-        /// Specifies whether Amazon S3 replicates modifications on replicas.
-        /// This member is required.
-        public var status: S3ClientTypes.ReplicaModificationsStatus?
-
-        public init(
-            status: S3ClientTypes.ReplicaModificationsStatus? = nil
-        )
-        {
-            self.status = status
-        }
-    }
-
-}
-
-extension S3ClientTypes {
     public enum ReplicaModificationsStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case disabled
         case enabled
@@ -25466,6 +25449,23 @@ extension S3ClientTypes {
             self = ReplicaModificationsStatus(rawValue: rawValue) ?? ReplicaModificationsStatus.sdkUnknown(rawValue)
         }
     }
+}
+
+extension S3ClientTypes {
+    /// A filter that you can specify for selection for modifications on replicas. Amazon S3 doesn't replicate replica modifications by default. In the latest version of replication configuration (when Filter is specified), you can specify this element and set the status to Enabled to replicate modifications on replicas. If you don't specify the Filter element, Amazon S3 assumes that the replication configuration is the earlier version, V1. In the earlier version, this element is not allowed.
+    public struct ReplicaModifications: Swift.Equatable {
+        /// Specifies whether Amazon S3 replicates modifications on replicas.
+        /// This member is required.
+        public var status: S3ClientTypes.ReplicaModificationsStatus?
+
+        public init(
+            status: S3ClientTypes.ReplicaModificationsStatus? = nil
+        )
+        {
+            self.status = status
+        }
+    }
+
 }
 
 extension S3ClientTypes.ReplicationConfiguration: Swift.Codable {
@@ -25551,141 +25551,6 @@ extension S3ClientTypes {
         {
             self.role = role
             self.rules = rules
-        }
-    }
-
-}
-
-extension S3ClientTypes.ReplicationRule: Swift.Codable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case deleteMarkerReplication = "DeleteMarkerReplication"
-        case destination = "Destination"
-        case existingObjectReplication = "ExistingObjectReplication"
-        case filter = "Filter"
-        case id = "ID"
-        case `prefix` = "Prefix"
-        case priority = "Priority"
-        case sourceSelectionCriteria = "SourceSelectionCriteria"
-        case status = "Status"
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if encoder.codingPath.isEmpty {
-            try container.encode("http://s3.amazonaws.com/doc/2006-03-01/", forKey: ClientRuntime.Key("xmlns"))
-        }
-        if let deleteMarkerReplication = deleteMarkerReplication {
-            try container.encode(deleteMarkerReplication, forKey: ClientRuntime.Key("DeleteMarkerReplication"))
-        }
-        if let destination = destination {
-            try container.encode(destination, forKey: ClientRuntime.Key("Destination"))
-        }
-        if let existingObjectReplication = existingObjectReplication {
-            try container.encode(existingObjectReplication, forKey: ClientRuntime.Key("ExistingObjectReplication"))
-        }
-        if let filter = filter {
-            try container.encode(filter, forKey: ClientRuntime.Key("Filter"))
-        }
-        if let id = id {
-            try container.encode(id, forKey: ClientRuntime.Key("ID"))
-        }
-        if let `prefix` = `prefix` {
-            try container.encode(`prefix`, forKey: ClientRuntime.Key("Prefix"))
-        }
-        if priority != 0 {
-            try container.encode(priority, forKey: ClientRuntime.Key("Priority"))
-        }
-        if let sourceSelectionCriteria = sourceSelectionCriteria {
-            try container.encode(sourceSelectionCriteria, forKey: ClientRuntime.Key("SourceSelectionCriteria"))
-        }
-        if let status = status {
-            try container.encode(status, forKey: ClientRuntime.Key("Status"))
-        }
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
-        id = idDecoded
-        let priorityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .priority) ?? 0
-        priority = priorityDecoded
-        let prefixDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .prefix)
-        `prefix` = prefixDecoded
-        let filterDecoded = try containerValues.decodeIfPresent(S3ClientTypes.ReplicationRuleFilter.self, forKey: .filter)
-        filter = filterDecoded
-        let statusDecoded = try containerValues.decodeIfPresent(S3ClientTypes.ReplicationRuleStatus.self, forKey: .status)
-        status = statusDecoded
-        let sourceSelectionCriteriaDecoded = try containerValues.decodeIfPresent(S3ClientTypes.SourceSelectionCriteria.self, forKey: .sourceSelectionCriteria)
-        sourceSelectionCriteria = sourceSelectionCriteriaDecoded
-        let existingObjectReplicationDecoded = try containerValues.decodeIfPresent(S3ClientTypes.ExistingObjectReplication.self, forKey: .existingObjectReplication)
-        existingObjectReplication = existingObjectReplicationDecoded
-        let destinationDecoded = try containerValues.decodeIfPresent(S3ClientTypes.Destination.self, forKey: .destination)
-        destination = destinationDecoded
-        let deleteMarkerReplicationDecoded = try containerValues.decodeIfPresent(S3ClientTypes.DeleteMarkerReplication.self, forKey: .deleteMarkerReplication)
-        deleteMarkerReplication = deleteMarkerReplicationDecoded
-    }
-}
-
-extension S3ClientTypes.ReplicationRule: ClientRuntime.DynamicNodeEncoding {
-    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
-        let xmlNamespaceValues = [
-            "xmlns"
-        ]
-        if let key = key as? ClientRuntime.Key {
-            if xmlNamespaceValues.contains(key.stringValue) {
-                return .attribute
-            }
-        }
-        return .element
-    }
-}
-
-extension S3ClientTypes {
-    /// Specifies which Amazon S3 objects to replicate and where to store the replicas.
-    public struct ReplicationRule: Swift.Equatable {
-        /// Specifies whether Amazon S3 replicates delete markers. If you specify a Filter in your replication configuration, you must also include a DeleteMarkerReplication element. If your Filter includes a Tag element, the DeleteMarkerReplicationStatus must be set to Disabled, because Amazon S3 does not support replicating delete markers for tag-based rules. For an example configuration, see [Basic Rule Configuration](https://docs.aws.amazon.com/AmazonS3/latest/dev/replication-add-config.html#replication-config-min-rule-config). For more information about delete marker replication, see [Basic Rule Configuration](https://docs.aws.amazon.com/AmazonS3/latest/dev/delete-marker-replication.html). If you are using an earlier version of the replication configuration, Amazon S3 handles replication of delete markers differently. For more information, see [Backward Compatibility](https://docs.aws.amazon.com/AmazonS3/latest/dev/replication-add-config.html#replication-backward-compat-considerations).
-        public var deleteMarkerReplication: S3ClientTypes.DeleteMarkerReplication?
-        /// A container for information about the replication destination and its configurations including enabling the S3 Replication Time Control (S3 RTC).
-        /// This member is required.
-        public var destination: S3ClientTypes.Destination?
-        /// Optional configuration to replicate existing source bucket objects. For more information, see [Replicating Existing Objects](https://docs.aws.amazon.com/AmazonS3/latest/dev/replication-what-is-isnot-replicated.html#existing-object-replication) in the Amazon S3 User Guide.
-        public var existingObjectReplication: S3ClientTypes.ExistingObjectReplication?
-        /// A filter that identifies the subset of objects to which the replication rule applies. A Filter must specify exactly one Prefix, Tag, or an And child element.
-        public var filter: S3ClientTypes.ReplicationRuleFilter?
-        /// A unique identifier for the rule. The maximum value is 255 characters.
-        public var id: Swift.String?
-        /// An object key name prefix that identifies the object or objects to which the rule applies. The maximum prefix length is 1,024 characters. To include all objects in a bucket, specify an empty string. Replacement must be made for object keys containing special characters (such as carriage returns) when using XML requests. For more information, see [ XML related object key constraints](https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-keys.html#object-key-xml-related-constraints).
-        @available(*, deprecated)
-        public var `prefix`: Swift.String?
-        /// The priority indicates which rule has precedence whenever two or more replication rules conflict. Amazon S3 will attempt to replicate objects according to all replication rules. However, if there are two or more rules with the same destination bucket, then objects will be replicated according to the rule with the highest priority. The higher the number, the higher the priority. For more information, see [Replication](https://docs.aws.amazon.com/AmazonS3/latest/dev/replication.html) in the Amazon S3 User Guide.
-        public var priority: Swift.Int
-        /// A container that describes additional filters for identifying the source objects that you want to replicate. You can choose to enable or disable the replication of these objects. Currently, Amazon S3 supports only the filter that you can specify for objects created with server-side encryption using a customer managed key stored in Amazon Web Services Key Management Service (SSE-KMS).
-        public var sourceSelectionCriteria: S3ClientTypes.SourceSelectionCriteria?
-        /// Specifies whether the rule is enabled.
-        /// This member is required.
-        public var status: S3ClientTypes.ReplicationRuleStatus?
-
-        public init(
-            deleteMarkerReplication: S3ClientTypes.DeleteMarkerReplication? = nil,
-            destination: S3ClientTypes.Destination? = nil,
-            existingObjectReplication: S3ClientTypes.ExistingObjectReplication? = nil,
-            filter: S3ClientTypes.ReplicationRuleFilter? = nil,
-            id: Swift.String? = nil,
-            `prefix`: Swift.String? = nil,
-            priority: Swift.Int = 0,
-            sourceSelectionCriteria: S3ClientTypes.SourceSelectionCriteria? = nil,
-            status: S3ClientTypes.ReplicationRuleStatus? = nil
-        )
-        {
-            self.deleteMarkerReplication = deleteMarkerReplication
-            self.destination = destination
-            self.existingObjectReplication = existingObjectReplication
-            self.filter = filter
-            self.id = id
-            self.`prefix` = `prefix`
-            self.priority = priority
-            self.sourceSelectionCriteria = sourceSelectionCriteria
-            self.status = status
         }
     }
 
@@ -25781,6 +25646,90 @@ extension S3ClientTypes {
 
 }
 
+extension S3ClientTypes.ReplicationRule: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case deleteMarkerReplication = "DeleteMarkerReplication"
+        case destination = "Destination"
+        case existingObjectReplication = "ExistingObjectReplication"
+        case filter = "Filter"
+        case id = "ID"
+        case `prefix` = "Prefix"
+        case priority = "Priority"
+        case sourceSelectionCriteria = "SourceSelectionCriteria"
+        case status = "Status"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if encoder.codingPath.isEmpty {
+            try container.encode("http://s3.amazonaws.com/doc/2006-03-01/", forKey: ClientRuntime.Key("xmlns"))
+        }
+        if let deleteMarkerReplication = deleteMarkerReplication {
+            try container.encode(deleteMarkerReplication, forKey: ClientRuntime.Key("DeleteMarkerReplication"))
+        }
+        if let destination = destination {
+            try container.encode(destination, forKey: ClientRuntime.Key("Destination"))
+        }
+        if let existingObjectReplication = existingObjectReplication {
+            try container.encode(existingObjectReplication, forKey: ClientRuntime.Key("ExistingObjectReplication"))
+        }
+        if let filter = filter {
+            try container.encode(filter, forKey: ClientRuntime.Key("Filter"))
+        }
+        if let id = id {
+            try container.encode(id, forKey: ClientRuntime.Key("ID"))
+        }
+        if let `prefix` = `prefix` {
+            try container.encode(`prefix`, forKey: ClientRuntime.Key("Prefix"))
+        }
+        if priority != 0 {
+            try container.encode(priority, forKey: ClientRuntime.Key("Priority"))
+        }
+        if let sourceSelectionCriteria = sourceSelectionCriteria {
+            try container.encode(sourceSelectionCriteria, forKey: ClientRuntime.Key("SourceSelectionCriteria"))
+        }
+        if let status = status {
+            try container.encode(status, forKey: ClientRuntime.Key("Status"))
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let priorityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .priority) ?? 0
+        priority = priorityDecoded
+        let prefixDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .prefix)
+        `prefix` = prefixDecoded
+        let filterDecoded = try containerValues.decodeIfPresent(S3ClientTypes.ReplicationRuleFilter.self, forKey: .filter)
+        filter = filterDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(S3ClientTypes.ReplicationRuleStatus.self, forKey: .status)
+        status = statusDecoded
+        let sourceSelectionCriteriaDecoded = try containerValues.decodeIfPresent(S3ClientTypes.SourceSelectionCriteria.self, forKey: .sourceSelectionCriteria)
+        sourceSelectionCriteria = sourceSelectionCriteriaDecoded
+        let existingObjectReplicationDecoded = try containerValues.decodeIfPresent(S3ClientTypes.ExistingObjectReplication.self, forKey: .existingObjectReplication)
+        existingObjectReplication = existingObjectReplicationDecoded
+        let destinationDecoded = try containerValues.decodeIfPresent(S3ClientTypes.Destination.self, forKey: .destination)
+        destination = destinationDecoded
+        let deleteMarkerReplicationDecoded = try containerValues.decodeIfPresent(S3ClientTypes.DeleteMarkerReplication.self, forKey: .deleteMarkerReplication)
+        deleteMarkerReplication = deleteMarkerReplicationDecoded
+    }
+}
+
+extension S3ClientTypes.ReplicationRule: ClientRuntime.DynamicNodeEncoding {
+    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
+        let xmlNamespaceValues = [
+            "xmlns"
+        ]
+        if let key = key as? ClientRuntime.Key {
+            if xmlNamespaceValues.contains(key.stringValue) {
+                return .attribute
+            }
+        }
+        return .element
+    }
+}
+
 extension S3ClientTypes.ReplicationRuleFilter: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case and = "And"
@@ -25873,6 +25822,57 @@ extension S3ClientTypes {
 }
 
 extension S3ClientTypes {
+    /// Specifies which Amazon S3 objects to replicate and where to store the replicas.
+    public struct ReplicationRule: Swift.Equatable {
+        /// Specifies whether Amazon S3 replicates delete markers. If you specify a Filter in your replication configuration, you must also include a DeleteMarkerReplication element. If your Filter includes a Tag element, the DeleteMarkerReplicationStatus must be set to Disabled, because Amazon S3 does not support replicating delete markers for tag-based rules. For an example configuration, see [Basic Rule Configuration](https://docs.aws.amazon.com/AmazonS3/latest/dev/replication-add-config.html#replication-config-min-rule-config). For more information about delete marker replication, see [Basic Rule Configuration](https://docs.aws.amazon.com/AmazonS3/latest/dev/delete-marker-replication.html). If you are using an earlier version of the replication configuration, Amazon S3 handles replication of delete markers differently. For more information, see [Backward Compatibility](https://docs.aws.amazon.com/AmazonS3/latest/dev/replication-add-config.html#replication-backward-compat-considerations).
+        public var deleteMarkerReplication: S3ClientTypes.DeleteMarkerReplication?
+        /// A container for information about the replication destination and its configurations including enabling the S3 Replication Time Control (S3 RTC).
+        /// This member is required.
+        public var destination: S3ClientTypes.Destination?
+        /// Optional configuration to replicate existing source bucket objects. For more information, see [Replicating Existing Objects](https://docs.aws.amazon.com/AmazonS3/latest/dev/replication-what-is-isnot-replicated.html#existing-object-replication) in the Amazon S3 User Guide.
+        public var existingObjectReplication: S3ClientTypes.ExistingObjectReplication?
+        /// A filter that identifies the subset of objects to which the replication rule applies. A Filter must specify exactly one Prefix, Tag, or an And child element.
+        public var filter: S3ClientTypes.ReplicationRuleFilter?
+        /// A unique identifier for the rule. The maximum value is 255 characters.
+        public var id: Swift.String?
+        /// An object key name prefix that identifies the object or objects to which the rule applies. The maximum prefix length is 1,024 characters. To include all objects in a bucket, specify an empty string. Replacement must be made for object keys containing special characters (such as carriage returns) when using XML requests. For more information, see [ XML related object key constraints](https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-keys.html#object-key-xml-related-constraints).
+        @available(*, deprecated)
+        public var `prefix`: Swift.String?
+        /// The priority indicates which rule has precedence whenever two or more replication rules conflict. Amazon S3 will attempt to replicate objects according to all replication rules. However, if there are two or more rules with the same destination bucket, then objects will be replicated according to the rule with the highest priority. The higher the number, the higher the priority. For more information, see [Replication](https://docs.aws.amazon.com/AmazonS3/latest/dev/replication.html) in the Amazon S3 User Guide.
+        public var priority: Swift.Int
+        /// A container that describes additional filters for identifying the source objects that you want to replicate. You can choose to enable or disable the replication of these objects. Currently, Amazon S3 supports only the filter that you can specify for objects created with server-side encryption using a customer managed key stored in Amazon Web Services Key Management Service (SSE-KMS).
+        public var sourceSelectionCriteria: S3ClientTypes.SourceSelectionCriteria?
+        /// Specifies whether the rule is enabled.
+        /// This member is required.
+        public var status: S3ClientTypes.ReplicationRuleStatus?
+
+        public init(
+            deleteMarkerReplication: S3ClientTypes.DeleteMarkerReplication? = nil,
+            destination: S3ClientTypes.Destination? = nil,
+            existingObjectReplication: S3ClientTypes.ExistingObjectReplication? = nil,
+            filter: S3ClientTypes.ReplicationRuleFilter? = nil,
+            id: Swift.String? = nil,
+            `prefix`: Swift.String? = nil,
+            priority: Swift.Int = 0,
+            sourceSelectionCriteria: S3ClientTypes.SourceSelectionCriteria? = nil,
+            status: S3ClientTypes.ReplicationRuleStatus? = nil
+        )
+        {
+            self.deleteMarkerReplication = deleteMarkerReplication
+            self.destination = destination
+            self.existingObjectReplication = existingObjectReplication
+            self.filter = filter
+            self.id = id
+            self.`prefix` = `prefix`
+            self.priority = priority
+            self.sourceSelectionCriteria = sourceSelectionCriteria
+            self.status = status
+        }
+    }
+
+}
+
+extension S3ClientTypes {
     public enum ReplicationStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case complete
         case completed
@@ -25956,28 +25956,6 @@ extension S3ClientTypes.ReplicationTime: ClientRuntime.DynamicNodeEncoding {
 }
 
 extension S3ClientTypes {
-    /// A container specifying S3 Replication Time Control (S3 RTC) related information, including whether S3 RTC is enabled and the time when all objects and operations on objects must be replicated. Must be specified together with a Metrics block.
-    public struct ReplicationTime: Swift.Equatable {
-        /// Specifies whether the replication time is enabled.
-        /// This member is required.
-        public var status: S3ClientTypes.ReplicationTimeStatus?
-        /// A container specifying the time by which replication should be complete for all objects and operations on objects.
-        /// This member is required.
-        public var time: S3ClientTypes.ReplicationTimeValue?
-
-        public init(
-            status: S3ClientTypes.ReplicationTimeStatus? = nil,
-            time: S3ClientTypes.ReplicationTimeValue? = nil
-        )
-        {
-            self.status = status
-            self.time = time
-        }
-    }
-
-}
-
-extension S3ClientTypes {
     public enum ReplicationTimeStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case disabled
         case enabled
@@ -26007,6 +25985,28 @@ extension S3ClientTypes {
             self = ReplicationTimeStatus(rawValue: rawValue) ?? ReplicationTimeStatus.sdkUnknown(rawValue)
         }
     }
+}
+
+extension S3ClientTypes {
+    /// A container specifying S3 Replication Time Control (S3 RTC) related information, including whether S3 RTC is enabled and the time when all objects and operations on objects must be replicated. Must be specified together with a Metrics block.
+    public struct ReplicationTime: Swift.Equatable {
+        /// Specifies whether the replication time is enabled.
+        /// This member is required.
+        public var status: S3ClientTypes.ReplicationTimeStatus?
+        /// A container specifying the time by which replication should be complete for all objects and operations on objects.
+        /// This member is required.
+        public var time: S3ClientTypes.ReplicationTimeValue?
+
+        public init(
+            status: S3ClientTypes.ReplicationTimeStatus? = nil,
+            time: S3ClientTypes.ReplicationTimeValue? = nil
+        )
+        {
+            self.status = status
+            self.time = time
+        }
+    }
+
 }
 
 extension S3ClientTypes.ReplicationTimeValue: Swift.Codable {
@@ -26226,6 +26226,22 @@ extension S3ClientTypes {
 
 }
 
+struct RestoreObjectInputBody: Swift.Equatable {
+    let restoreRequest: S3ClientTypes.RestoreRequest?
+}
+
+extension RestoreObjectInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case restoreRequest = "RestoreRequest"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let restoreRequestDecoded = try containerValues.decodeIfPresent(S3ClientTypes.RestoreRequest.self, forKey: .restoreRequest)
+        restoreRequest = restoreRequestDecoded
+    }
+}
+
 public struct RestoreObjectInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "RestoreObjectInputBodyMiddleware"
 
@@ -26326,15 +26342,6 @@ extension RestoreObjectInput: ClientRuntime.QueryItemProvider {
     }
 }
 
-extension RestoreObjectInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let key = key else {
-            return nil
-        }
-        return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
-    }
-}
-
 public struct RestoreObjectInput: Swift.Equatable {
     /// The bucket name containing the object to restore. When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html) in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see [What is S3 on Outposts?](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide.
     /// This member is required.
@@ -26373,19 +26380,22 @@ public struct RestoreObjectInput: Swift.Equatable {
     }
 }
 
-struct RestoreObjectInputBody: Swift.Equatable {
-    let restoreRequest: S3ClientTypes.RestoreRequest?
+extension RestoreObjectInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let key = key else {
+            return nil
+        }
+        return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
+    }
 }
 
-extension RestoreObjectInputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case restoreRequest = "RestoreRequest"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let restoreRequestDecoded = try containerValues.decodeIfPresent(S3ClientTypes.RestoreRequest.self, forKey: .restoreRequest)
-        restoreRequest = restoreRequestDecoded
+enum RestoreObjectOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
+        switch restXMLError.errorCode {
+            case "ObjectAlreadyInActiveTierError": return try await ObjectAlreadyInActiveTierError(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -26417,16 +26427,6 @@ public struct RestoreObjectOutput: Swift.Equatable {
     {
         self.requestCharged = requestCharged
         self.restoreOutputPath = restoreOutputPath
-    }
-}
-
-enum RestoreObjectOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
-        switch restXMLError.errorCode {
-            case "ObjectAlreadyInActiveTierError": return try await ObjectAlreadyInActiveTierError(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
-        }
     }
 }
 
@@ -26936,82 +26936,6 @@ extension S3ClientTypes {
 
 }
 
-extension S3ClientTypes.SSEKMS: Swift.Codable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case keyId = "KeyId"
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if encoder.codingPath.isEmpty {
-            try container.encode("http://s3.amazonaws.com/doc/2006-03-01/", forKey: ClientRuntime.Key("xmlns"))
-        }
-        if let keyId = keyId {
-            try container.encode(keyId, forKey: ClientRuntime.Key("KeyId"))
-        }
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let keyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .keyId)
-        keyId = keyIdDecoded
-    }
-}
-
-extension S3ClientTypes.SSEKMS: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "SSEKMS(keyId: \"CONTENT_REDACTED\")"}
-}
-
-extension S3ClientTypes.SSEKMS: ClientRuntime.DynamicNodeEncoding {
-    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
-        let xmlNamespaceValues = [
-            "xmlns"
-        ]
-        if let key = key as? ClientRuntime.Key {
-            if xmlNamespaceValues.contains(key.stringValue) {
-                return .attribute
-            }
-        }
-        return .element
-    }
-}
-
-extension S3ClientTypes {
-    /// Specifies the use of SSE-KMS to encrypt delivered inventory reports.
-    public struct SSEKMS: Swift.Equatable {
-        /// Specifies the ID of the Key Management Service (KMS) symmetric encryption customer managed key to use for encrypting inventory reports.
-        /// This member is required.
-        public var keyId: Swift.String?
-
-        public init(
-            keyId: Swift.String? = nil
-        )
-        {
-            self.keyId = keyId
-        }
-    }
-
-}
-
-extension S3ClientTypes.SSES3: Swift.Codable {
-
-    public func encode(to encoder: Swift.Encoder) throws {
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-extension S3ClientTypes {
-    /// Specifies the use of SSE-S3 to encrypt delivered inventory reports.
-    public struct SSES3: Swift.Equatable {
-
-        public init() { }
-    }
-
-}
-
 extension S3ClientTypes.ScanRange: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case end = "End"
@@ -27096,6 +27020,42 @@ extension S3ClientTypes {
         case sdkUnknown(Swift.String)
     }
 
+}
+
+struct SelectObjectContentInputBody: Swift.Equatable {
+    let expression: Swift.String?
+    let expressionType: S3ClientTypes.ExpressionType?
+    let requestProgress: S3ClientTypes.RequestProgress?
+    let inputSerialization: S3ClientTypes.InputSerialization?
+    let outputSerialization: S3ClientTypes.OutputSerialization?
+    let scanRange: S3ClientTypes.ScanRange?
+}
+
+extension SelectObjectContentInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case expression = "Expression"
+        case expressionType = "ExpressionType"
+        case inputSerialization = "InputSerialization"
+        case outputSerialization = "OutputSerialization"
+        case requestProgress = "RequestProgress"
+        case scanRange = "ScanRange"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let expressionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .expression)
+        expression = expressionDecoded
+        let expressionTypeDecoded = try containerValues.decodeIfPresent(S3ClientTypes.ExpressionType.self, forKey: .expressionType)
+        expressionType = expressionTypeDecoded
+        let requestProgressDecoded = try containerValues.decodeIfPresent(S3ClientTypes.RequestProgress.self, forKey: .requestProgress)
+        requestProgress = requestProgressDecoded
+        let inputSerializationDecoded = try containerValues.decodeIfPresent(S3ClientTypes.InputSerialization.self, forKey: .inputSerialization)
+        inputSerialization = inputSerializationDecoded
+        let outputSerializationDecoded = try containerValues.decodeIfPresent(S3ClientTypes.OutputSerialization.self, forKey: .outputSerialization)
+        outputSerialization = outputSerializationDecoded
+        let scanRangeDecoded = try containerValues.decodeIfPresent(S3ClientTypes.ScanRange.self, forKey: .scanRange)
+        scanRange = scanRangeDecoded
+    }
 }
 
 extension SelectObjectContentInput: Swift.CustomDebugStringConvertible {
@@ -27184,15 +27144,6 @@ extension SelectObjectContentInput: ClientRuntime.QueryItemProvider {
     }
 }
 
-extension SelectObjectContentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let key = key else {
-            return nil
-        }
-        return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
-    }
-}
-
 /// Request to filter the contents of an Amazon S3 object based on a simple Structured Query Language (SQL) statement. In the request, along with the SQL expression, you must specify a data serialization format (JSON or CSV) of the object. Amazon S3 uses this to parse object data into records. It returns only records that match the specified SQL expression. You must also specify the data serialization format for the response. For more information, see [S3Select API Documentation](https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectSELECTContent.html).
 public struct SelectObjectContentInput: Swift.Equatable {
     /// The S3 bucket.
@@ -27262,39 +27213,21 @@ public struct SelectObjectContentInput: Swift.Equatable {
     }
 }
 
-struct SelectObjectContentInputBody: Swift.Equatable {
-    let expression: Swift.String?
-    let expressionType: S3ClientTypes.ExpressionType?
-    let requestProgress: S3ClientTypes.RequestProgress?
-    let inputSerialization: S3ClientTypes.InputSerialization?
-    let outputSerialization: S3ClientTypes.OutputSerialization?
-    let scanRange: S3ClientTypes.ScanRange?
+extension SelectObjectContentInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let key = key else {
+            return nil
+        }
+        return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
+    }
 }
 
-extension SelectObjectContentInputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case expression = "Expression"
-        case expressionType = "ExpressionType"
-        case inputSerialization = "InputSerialization"
-        case outputSerialization = "OutputSerialization"
-        case requestProgress = "RequestProgress"
-        case scanRange = "ScanRange"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let expressionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .expression)
-        expression = expressionDecoded
-        let expressionTypeDecoded = try containerValues.decodeIfPresent(S3ClientTypes.ExpressionType.self, forKey: .expressionType)
-        expressionType = expressionTypeDecoded
-        let requestProgressDecoded = try containerValues.decodeIfPresent(S3ClientTypes.RequestProgress.self, forKey: .requestProgress)
-        requestProgress = requestProgressDecoded
-        let inputSerializationDecoded = try containerValues.decodeIfPresent(S3ClientTypes.InputSerialization.self, forKey: .inputSerialization)
-        inputSerialization = inputSerializationDecoded
-        let outputSerializationDecoded = try containerValues.decodeIfPresent(S3ClientTypes.OutputSerialization.self, forKey: .outputSerialization)
-        outputSerialization = outputSerializationDecoded
-        let scanRangeDecoded = try containerValues.decodeIfPresent(S3ClientTypes.ScanRange.self, forKey: .scanRange)
-        scanRange = scanRangeDecoded
+enum SelectObjectContentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -27319,15 +27252,6 @@ public struct SelectObjectContentOutput: Swift.Equatable {
     )
     {
         self.payload = payload
-    }
-}
-
-enum SelectObjectContentOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
-        }
     }
 }
 
@@ -27415,41 +27339,6 @@ extension S3ClientTypes {
         }
     }
 
-}
-
-extension S3ClientTypes {
-    public enum ServerSideEncryption: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
-        case aes256
-        case awsKms
-        case awsKmsDsse
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ServerSideEncryption] {
-            return [
-                .aes256,
-                .awsKms,
-                .awsKmsDsse,
-                .sdkUnknown("")
-            ]
-        }
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-        public var rawValue: Swift.String {
-            switch self {
-            case .aes256: return "AES256"
-            case .awsKms: return "aws:kms"
-            case .awsKmsDsse: return "aws:kms:dsse"
-            case let .sdkUnknown(s): return s
-            }
-        }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = ServerSideEncryption(rawValue: rawValue) ?? ServerSideEncryption.sdkUnknown(rawValue)
-        }
-    }
 }
 
 extension S3ClientTypes.ServerSideEncryptionByDefault: Swift.Codable {
@@ -27668,6 +27557,41 @@ extension S3ClientTypes {
 
 }
 
+extension S3ClientTypes {
+    public enum ServerSideEncryption: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case aes256
+        case awsKms
+        case awsKmsDsse
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ServerSideEncryption] {
+            return [
+                .aes256,
+                .awsKms,
+                .awsKmsDsse,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .aes256: return "AES256"
+            case .awsKms: return "aws:kms"
+            case .awsKmsDsse: return "aws:kms:dsse"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ServerSideEncryption(rawValue: rawValue) ?? ServerSideEncryption.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension S3ClientTypes.SourceSelectionCriteria: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case replicaModifications = "ReplicaModifications"
@@ -27730,6 +27654,47 @@ extension S3ClientTypes {
 
 }
 
+extension S3ClientTypes.SSEKMS: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case keyId = "KeyId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if encoder.codingPath.isEmpty {
+            try container.encode("http://s3.amazonaws.com/doc/2006-03-01/", forKey: ClientRuntime.Key("xmlns"))
+        }
+        if let keyId = keyId {
+            try container.encode(keyId, forKey: ClientRuntime.Key("KeyId"))
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let keyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .keyId)
+        keyId = keyIdDecoded
+    }
+}
+
+extension S3ClientTypes.SSEKMS: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "SSEKMS(keyId: \"CONTENT_REDACTED\")"}
+}
+
+extension S3ClientTypes.SSEKMS: ClientRuntime.DynamicNodeEncoding {
+    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
+        let xmlNamespaceValues = [
+            "xmlns"
+        ]
+        if let key = key as? ClientRuntime.Key {
+            if xmlNamespaceValues.contains(key.stringValue) {
+                return .attribute
+            }
+        }
+        return .element
+    }
+}
+
 extension S3ClientTypes.SseKmsEncryptedObjects: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case status = "Status"
@@ -27767,23 +27732,6 @@ extension S3ClientTypes.SseKmsEncryptedObjects: ClientRuntime.DynamicNodeEncodin
 }
 
 extension S3ClientTypes {
-    /// A container for filter information for the selection of S3 objects encrypted with Amazon Web Services KMS.
-    public struct SseKmsEncryptedObjects: Swift.Equatable {
-        /// Specifies whether Amazon S3 replicates objects created with server-side encryption using an Amazon Web Services KMS key stored in Amazon Web Services Key Management Service.
-        /// This member is required.
-        public var status: S3ClientTypes.SseKmsEncryptedObjectsStatus?
-
-        public init(
-            status: S3ClientTypes.SseKmsEncryptedObjectsStatus? = nil
-        )
-        {
-            self.status = status
-        }
-    }
-
-}
-
-extension S3ClientTypes {
     public enum SseKmsEncryptedObjectsStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case disabled
         case enabled
@@ -27813,6 +27761,58 @@ extension S3ClientTypes {
             self = SseKmsEncryptedObjectsStatus(rawValue: rawValue) ?? SseKmsEncryptedObjectsStatus.sdkUnknown(rawValue)
         }
     }
+}
+
+extension S3ClientTypes {
+    /// A container for filter information for the selection of S3 objects encrypted with Amazon Web Services KMS.
+    public struct SseKmsEncryptedObjects: Swift.Equatable {
+        /// Specifies whether Amazon S3 replicates objects created with server-side encryption using an Amazon Web Services KMS key stored in Amazon Web Services Key Management Service.
+        /// This member is required.
+        public var status: S3ClientTypes.SseKmsEncryptedObjectsStatus?
+
+        public init(
+            status: S3ClientTypes.SseKmsEncryptedObjectsStatus? = nil
+        )
+        {
+            self.status = status
+        }
+    }
+
+}
+
+extension S3ClientTypes {
+    /// Specifies the use of SSE-KMS to encrypt delivered inventory reports.
+    public struct SSEKMS: Swift.Equatable {
+        /// Specifies the ID of the Key Management Service (KMS) symmetric encryption customer managed key to use for encrypting inventory reports.
+        /// This member is required.
+        public var keyId: Swift.String?
+
+        public init(
+            keyId: Swift.String? = nil
+        )
+        {
+            self.keyId = keyId
+        }
+    }
+
+}
+
+extension S3ClientTypes.SSES3: Swift.Codable {
+
+    public func encode(to encoder: Swift.Encoder) throws {
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension S3ClientTypes {
+    /// Specifies the use of SSE-S3 to encrypt delivered inventory reports.
+    public struct SSES3: Swift.Equatable {
+
+        public init() { }
+    }
+
 }
 
 extension S3ClientTypes.Stats: Swift.Codable {
@@ -27861,30 +27861,6 @@ extension S3ClientTypes.Stats: ClientRuntime.DynamicNodeEncoding {
         }
         return .element
     }
-}
-
-extension S3ClientTypes {
-    /// Container for the stats details.
-    public struct Stats: Swift.Equatable {
-        /// The total number of uncompressed object bytes processed.
-        public var bytesProcessed: Swift.Int
-        /// The total number of bytes of records payload data returned.
-        public var bytesReturned: Swift.Int
-        /// The total number of object bytes scanned.
-        public var bytesScanned: Swift.Int
-
-        public init(
-            bytesProcessed: Swift.Int = 0,
-            bytesReturned: Swift.Int = 0,
-            bytesScanned: Swift.Int = 0
-        )
-        {
-            self.bytesProcessed = bytesProcessed
-            self.bytesReturned = bytesReturned
-            self.bytesScanned = bytesScanned
-        }
-    }
-
 }
 
 extension S3ClientTypes.StatsEvent: Swift.Codable {
@@ -27940,59 +27916,27 @@ extension S3ClientTypes {
 }
 
 extension S3ClientTypes {
-    public enum StorageClass: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
-        case deepArchive
-        case glacier
-        case glacierIr
-        case intelligentTiering
-        case onezoneIa
-        case outposts
-        case reducedRedundancy
-        case snow
-        case standard
-        case standardIa
-        case sdkUnknown(Swift.String)
+    /// Container for the stats details.
+    public struct Stats: Swift.Equatable {
+        /// The total number of uncompressed object bytes processed.
+        public var bytesProcessed: Swift.Int
+        /// The total number of bytes of records payload data returned.
+        public var bytesReturned: Swift.Int
+        /// The total number of object bytes scanned.
+        public var bytesScanned: Swift.Int
 
-        public static var allCases: [StorageClass] {
-            return [
-                .deepArchive,
-                .glacier,
-                .glacierIr,
-                .intelligentTiering,
-                .onezoneIa,
-                .outposts,
-                .reducedRedundancy,
-                .snow,
-                .standard,
-                .standardIa,
-                .sdkUnknown("")
-            ]
-        }
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-        public var rawValue: Swift.String {
-            switch self {
-            case .deepArchive: return "DEEP_ARCHIVE"
-            case .glacier: return "GLACIER"
-            case .glacierIr: return "GLACIER_IR"
-            case .intelligentTiering: return "INTELLIGENT_TIERING"
-            case .onezoneIa: return "ONEZONE_IA"
-            case .outposts: return "OUTPOSTS"
-            case .reducedRedundancy: return "REDUCED_REDUNDANCY"
-            case .snow: return "SNOW"
-            case .standard: return "STANDARD"
-            case .standardIa: return "STANDARD_IA"
-            case let .sdkUnknown(s): return s
-            }
-        }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = StorageClass(rawValue: rawValue) ?? StorageClass.sdkUnknown(rawValue)
+        public init(
+            bytesProcessed: Swift.Int = 0,
+            bytesReturned: Swift.Int = 0,
+            bytesScanned: Swift.Int = 0
+        )
+        {
+            self.bytesProcessed = bytesProcessed
+            self.bytesReturned = bytesReturned
+            self.bytesScanned = bytesScanned
         }
     }
+
 }
 
 extension S3ClientTypes.StorageClassAnalysis: Swift.Codable {
@@ -28015,36 +27959,6 @@ extension S3ClientTypes.StorageClassAnalysis: Swift.Codable {
         let dataExportDecoded = try containerValues.decodeIfPresent(S3ClientTypes.StorageClassAnalysisDataExport.self, forKey: .dataExport)
         dataExport = dataExportDecoded
     }
-}
-
-extension S3ClientTypes.StorageClassAnalysis: ClientRuntime.DynamicNodeEncoding {
-    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
-        let xmlNamespaceValues = [
-            "xmlns"
-        ]
-        if let key = key as? ClientRuntime.Key {
-            if xmlNamespaceValues.contains(key.stringValue) {
-                return .attribute
-            }
-        }
-        return .element
-    }
-}
-
-extension S3ClientTypes {
-    /// Specifies data related to access patterns to be collected and made available to analyze the tradeoffs between different storage classes for an Amazon S3 bucket.
-    public struct StorageClassAnalysis: Swift.Equatable {
-        /// Specifies how data related to the storage class analysis for an Amazon S3 bucket should be exported.
-        public var dataExport: S3ClientTypes.StorageClassAnalysisDataExport?
-
-        public init(
-            dataExport: S3ClientTypes.StorageClassAnalysisDataExport? = nil
-        )
-        {
-            self.dataExport = dataExport
-        }
-    }
-
 }
 
 extension S3ClientTypes.StorageClassAnalysisDataExport: Swift.Codable {
@@ -28111,6 +28025,20 @@ extension S3ClientTypes {
 
 }
 
+extension S3ClientTypes.StorageClassAnalysis: ClientRuntime.DynamicNodeEncoding {
+    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
+        let xmlNamespaceValues = [
+            "xmlns"
+        ]
+        if let key = key as? ClientRuntime.Key {
+            if xmlNamespaceValues.contains(key.stringValue) {
+                return .attribute
+            }
+        }
+        return .element
+    }
+}
+
 extension S3ClientTypes {
     public enum StorageClassAnalysisSchemaVersion: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case v1
@@ -28136,6 +28064,78 @@ extension S3ClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = StorageClassAnalysisSchemaVersion(rawValue: rawValue) ?? StorageClassAnalysisSchemaVersion.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension S3ClientTypes {
+    /// Specifies data related to access patterns to be collected and made available to analyze the tradeoffs between different storage classes for an Amazon S3 bucket.
+    public struct StorageClassAnalysis: Swift.Equatable {
+        /// Specifies how data related to the storage class analysis for an Amazon S3 bucket should be exported.
+        public var dataExport: S3ClientTypes.StorageClassAnalysisDataExport?
+
+        public init(
+            dataExport: S3ClientTypes.StorageClassAnalysisDataExport? = nil
+        )
+        {
+            self.dataExport = dataExport
+        }
+    }
+
+}
+
+extension S3ClientTypes {
+    public enum StorageClass: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case deepArchive
+        case glacier
+        case glacierIr
+        case intelligentTiering
+        case onezoneIa
+        case outposts
+        case reducedRedundancy
+        case snow
+        case standard
+        case standardIa
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [StorageClass] {
+            return [
+                .deepArchive,
+                .glacier,
+                .glacierIr,
+                .intelligentTiering,
+                .onezoneIa,
+                .outposts,
+                .reducedRedundancy,
+                .snow,
+                .standard,
+                .standardIa,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .deepArchive: return "DEEP_ARCHIVE"
+            case .glacier: return "GLACIER"
+            case .glacierIr: return "GLACIER_IR"
+            case .intelligentTiering: return "INTELLIGENT_TIERING"
+            case .onezoneIa: return "ONEZONE_IA"
+            case .outposts: return "OUTPOSTS"
+            case .reducedRedundancy: return "REDUCED_REDUNDANCY"
+            case .snow: return "SNOW"
+            case .standard: return "STANDARD"
+            case .standardIa: return "STANDARD_IA"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = StorageClass(rawValue: rawValue) ?? StorageClass.sdkUnknown(rawValue)
         }
     }
 }
@@ -28182,28 +28182,6 @@ extension S3ClientTypes.Tag: ClientRuntime.DynamicNodeEncoding {
     }
 }
 
-extension S3ClientTypes {
-    /// A container of a key value name pair.
-    public struct Tag: Swift.Equatable {
-        /// Name of the object key.
-        /// This member is required.
-        public var key: Swift.String?
-        /// Value of the tag.
-        /// This member is required.
-        public var value: Swift.String?
-
-        public init(
-            key: Swift.String? = nil,
-            value: Swift.String? = nil
-        )
-        {
-            self.key = key
-            self.value = value
-        }
-    }
-
-}
-
 extension S3ClientTypes.Tagging: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case tagSet = "TagSet"
@@ -28246,6 +28224,38 @@ extension S3ClientTypes.Tagging: Swift.Codable {
     }
 }
 
+extension S3ClientTypes {
+    public enum TaggingDirective: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case copy
+        case replace
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TaggingDirective] {
+            return [
+                .copy,
+                .replace,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .copy: return "COPY"
+            case .replace: return "REPLACE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = TaggingDirective(rawValue: rawValue) ?? TaggingDirective.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension S3ClientTypes.Tagging: ClientRuntime.DynamicNodeEncoding {
     public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
         let xmlNamespaceValues = [
@@ -28278,35 +28288,25 @@ extension S3ClientTypes {
 }
 
 extension S3ClientTypes {
-    public enum TaggingDirective: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
-        case copy
-        case replace
-        case sdkUnknown(Swift.String)
+    /// A container of a key value name pair.
+    public struct Tag: Swift.Equatable {
+        /// Name of the object key.
+        /// This member is required.
+        public var key: Swift.String?
+        /// Value of the tag.
+        /// This member is required.
+        public var value: Swift.String?
 
-        public static var allCases: [TaggingDirective] {
-            return [
-                .copy,
-                .replace,
-                .sdkUnknown("")
-            ]
-        }
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-        public var rawValue: Swift.String {
-            switch self {
-            case .copy: return "COPY"
-            case .replace: return "REPLACE"
-            case let .sdkUnknown(s): return s
-            }
-        }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = TaggingDirective(rawValue: rawValue) ?? TaggingDirective.sdkUnknown(rawValue)
+        public init(
+            key: Swift.String? = nil,
+            value: Swift.String? = nil
+        )
+        {
+            self.key = key
+            self.value = value
         }
     }
+
 }
 
 extension S3ClientTypes.TargetGrant: Swift.Codable {
@@ -28374,41 +28374,6 @@ extension S3ClientTypes {
 
 }
 
-extension S3ClientTypes {
-    public enum Tier: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
-        case bulk
-        case expedited
-        case standard
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [Tier] {
-            return [
-                .bulk,
-                .expedited,
-                .standard,
-                .sdkUnknown("")
-            ]
-        }
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-        public var rawValue: Swift.String {
-            switch self {
-            case .bulk: return "Bulk"
-            case .expedited: return "Expedited"
-            case .standard: return "Standard"
-            case let .sdkUnknown(s): return s
-            }
-        }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = Tier(rawValue: rawValue) ?? Tier.sdkUnknown(rawValue)
-        }
-    }
-}
-
 extension S3ClientTypes.Tiering: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accessTier = "AccessTier"
@@ -28471,6 +28436,41 @@ extension S3ClientTypes {
         }
     }
 
+}
+
+extension S3ClientTypes {
+    public enum Tier: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case bulk
+        case expedited
+        case standard
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Tier] {
+            return [
+                .bulk,
+                .expedited,
+                .standard,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .bulk: return "Bulk"
+            case .expedited: return "Expedited"
+            case .standard: return "Standard"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = Tier(rawValue: rawValue) ?? Tier.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension S3ClientTypes.TopicConfiguration: Swift.Codable {
@@ -28630,30 +28630,6 @@ extension S3ClientTypes.Transition: ClientRuntime.DynamicNodeEncoding {
 }
 
 extension S3ClientTypes {
-    /// Specifies when an object transitions to a specified storage class. For more information about Amazon S3 lifecycle configuration rules, see [Transitioning Objects Using Amazon S3 Lifecycle](https://docs.aws.amazon.com/AmazonS3/latest/dev/lifecycle-transition-general-considerations.html) in the Amazon S3 User Guide.
-    public struct Transition: Swift.Equatable {
-        /// Indicates when objects are transitioned to the specified storage class. The date value must be in ISO 8601 format. The time is always midnight UTC.
-        public var date: ClientRuntime.Date?
-        /// Indicates the number of days after creation when objects are transitioned to the specified storage class. The value must be a positive integer.
-        public var days: Swift.Int
-        /// The storage class to which you want the object to transition.
-        public var storageClass: S3ClientTypes.TransitionStorageClass?
-
-        public init(
-            date: ClientRuntime.Date? = nil,
-            days: Swift.Int = 0,
-            storageClass: S3ClientTypes.TransitionStorageClass? = nil
-        )
-        {
-            self.date = date
-            self.days = days
-            self.storageClass = storageClass
-        }
-    }
-
-}
-
-extension S3ClientTypes {
     public enum TransitionStorageClass: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case deepArchive
         case glacier
@@ -28698,6 +28674,30 @@ extension S3ClientTypes {
 }
 
 extension S3ClientTypes {
+    /// Specifies when an object transitions to a specified storage class. For more information about Amazon S3 lifecycle configuration rules, see [Transitioning Objects Using Amazon S3 Lifecycle](https://docs.aws.amazon.com/AmazonS3/latest/dev/lifecycle-transition-general-considerations.html) in the Amazon S3 User Guide.
+    public struct Transition: Swift.Equatable {
+        /// Indicates when objects are transitioned to the specified storage class. The date value must be in ISO 8601 format. The time is always midnight UTC.
+        public var date: ClientRuntime.Date?
+        /// Indicates the number of days after creation when objects are transitioned to the specified storage class. The value must be a positive integer.
+        public var days: Swift.Int
+        /// The storage class to which you want the object to transition.
+        public var storageClass: S3ClientTypes.TransitionStorageClass?
+
+        public init(
+            date: ClientRuntime.Date? = nil,
+            days: Swift.Int = 0,
+            storageClass: S3ClientTypes.TransitionStorageClass? = nil
+        )
+        {
+            self.date = date
+            self.days = days
+            self.storageClass = storageClass
+        }
+    }
+
+}
+
+extension S3ClientTypes {
     public enum ModelType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case amazoncustomerbyemail
         case canonicaluser
@@ -28729,6 +28729,15 @@ extension S3ClientTypes {
             let rawValue = try container.decode(RawValue.self)
             self = ModelType(rawValue: rawValue) ?? ModelType.sdkUnknown(rawValue)
         }
+    }
+}
+
+struct UploadPartCopyInputBody: Swift.Equatable {
+}
+
+extension UploadPartCopyInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
     }
 }
 
@@ -28808,15 +28817,6 @@ extension UploadPartCopyInput: ClientRuntime.QueryItemProvider {
             items.append(uploadIdQueryItem)
             return items
         }
-    }
-}
-
-extension UploadPartCopyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let key = key else {
-            return nil
-        }
-        return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
@@ -28916,18 +28916,43 @@ public struct UploadPartCopyInput: Swift.Equatable {
     }
 }
 
-struct UploadPartCopyInputBody: Swift.Equatable {
+extension UploadPartCopyInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let key = key else {
+            return nil
+        }
+        return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
+    }
 }
 
-extension UploadPartCopyInputBody: Swift.Decodable {
+struct UploadPartCopyOutputBody: Swift.Equatable {
+    let copyPartResult: S3ClientTypes.CopyPartResult?
+}
+
+extension UploadPartCopyOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case copyPartResult = "CopyPartResult"
+    }
 
     public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let copyPartResultDecoded = try containerValues.decodeIfPresent(S3ClientTypes.CopyPartResult.self, forKey: .copyPartResult)
+        copyPartResult = copyPartResultDecoded
     }
 }
 
 extension UploadPartCopyOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "UploadPartCopyOutput(bucketKeyEnabled: \(Swift.String(describing: bucketKeyEnabled)), copyPartResult: \(Swift.String(describing: copyPartResult)), copySourceVersionId: \(Swift.String(describing: copySourceVersionId)), requestCharged: \(Swift.String(describing: requestCharged)), sseCustomerAlgorithm: \(Swift.String(describing: sseCustomerAlgorithm)), sseCustomerKeyMD5: \(Swift.String(describing: sseCustomerKeyMD5)), serverSideEncryption: \(Swift.String(describing: serverSideEncryption)), ssekmsKeyId: \"CONTENT_REDACTED\")"}
+}
+
+enum UploadPartCopyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
+        }
+    }
 }
 
 extension UploadPartCopyOutput: ClientRuntime.HttpResponseBinding {
@@ -29016,27 +29041,26 @@ public struct UploadPartCopyOutput: Swift.Equatable {
     }
 }
 
-struct UploadPartCopyOutputBody: Swift.Equatable {
-    let copyPartResult: S3ClientTypes.CopyPartResult?
+struct UploadPartInputBody: Swift.Equatable {
+    let body: ClientRuntime.ByteStream?
 }
 
-extension UploadPartCopyOutputBody: Swift.Decodable {
+extension UploadPartInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case copyPartResult = "CopyPartResult"
+        case body = "Body"
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let copyPartResultDecoded = try containerValues.decodeIfPresent(S3ClientTypes.CopyPartResult.self, forKey: .copyPartResult)
-        copyPartResult = copyPartResultDecoded
-    }
-}
-
-enum UploadPartCopyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
+        if containerValues.contains(.body) {
+            do {
+                let bodyDecoded = try containerValues.decodeIfPresent(ClientRuntime.ByteStream.self, forKey: .body)
+                body = bodyDecoded
+            } catch {
+                body = ClientRuntime.ByteStream.from(data: "".data(using: .utf8)!)
+            }
+        } else {
+            body = nil
         }
     }
 }
@@ -29216,15 +29240,6 @@ extension UploadPartInput: ClientRuntime.QueryItemProvider {
     }
 }
 
-extension UploadPartInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let key = key else {
-            return nil
-        }
-        return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
-    }
-}
-
 public struct UploadPartInput: Swift.Equatable {
     /// Object data.
     public var body: ClientRuntime.ByteStream?
@@ -29305,33 +29320,27 @@ public struct UploadPartInput: Swift.Equatable {
     }
 }
 
-struct UploadPartInputBody: Swift.Equatable {
-    let body: ClientRuntime.ByteStream?
-}
-
-extension UploadPartInputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case body = "Body"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        if containerValues.contains(.body) {
-            do {
-                let bodyDecoded = try containerValues.decodeIfPresent(ClientRuntime.ByteStream.self, forKey: .body)
-                body = bodyDecoded
-            } catch {
-                body = ClientRuntime.ByteStream.from(data: "".data(using: .utf8)!)
-            }
-        } else {
-            body = nil
+extension UploadPartInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let key = key else {
+            return nil
         }
+        return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
 extension UploadPartOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "UploadPartOutput(bucketKeyEnabled: \(Swift.String(describing: bucketKeyEnabled)), checksumCRC32: \(Swift.String(describing: checksumCRC32)), checksumCRC32C: \(Swift.String(describing: checksumCRC32C)), checksumSHA1: \(Swift.String(describing: checksumSHA1)), checksumSHA256: \(Swift.String(describing: checksumSHA256)), eTag: \(Swift.String(describing: eTag)), requestCharged: \(Swift.String(describing: requestCharged)), sseCustomerAlgorithm: \(Swift.String(describing: sseCustomerAlgorithm)), sseCustomerKeyMD5: \(Swift.String(describing: sseCustomerKeyMD5)), serverSideEncryption: \(Swift.String(describing: serverSideEncryption)), ssekmsKeyId: \"CONTENT_REDACTED\")"}
+}
+
+enum UploadPartOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
+        }
+    }
 }
 
 extension UploadPartOutput: ClientRuntime.HttpResponseBinding {
@@ -29443,15 +29452,6 @@ public struct UploadPartOutput: Swift.Equatable {
         self.sseCustomerAlgorithm = sseCustomerAlgorithm
         self.sseCustomerKeyMD5 = sseCustomerKeyMD5
         self.ssekmsKeyId = ssekmsKeyId
-    }
-}
-
-enum UploadPartOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
-        }
     }
 }
 
@@ -29617,6 +29617,30 @@ extension S3ClientTypes {
         }
     }
 
+}
+
+struct WriteGetObjectResponseInputBody: Swift.Equatable {
+    let body: ClientRuntime.ByteStream?
+}
+
+extension WriteGetObjectResponseInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case body = "Body"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        if containerValues.contains(.body) {
+            do {
+                let bodyDecoded = try containerValues.decodeIfPresent(ClientRuntime.ByteStream.self, forKey: .body)
+                body = bodyDecoded
+            } catch {
+                body = ClientRuntime.ByteStream.from(data: "".data(using: .utf8)!)
+            }
+        } else {
+            body = nil
+        }
+    }
 }
 
 public struct WriteGetObjectResponseInputBodyMiddleware: ClientRuntime.Middleware {
@@ -29812,12 +29836,6 @@ extension WriteGetObjectResponseInput: ClientRuntime.QueryItemProvider {
             items.append(ClientRuntime.URLQueryItem(name: "x-id", value: "WriteGetObjectResponse"))
             return items
         }
-    }
-}
-
-extension WriteGetObjectResponseInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/WriteGetObjectResponse"
     }
 }
 
@@ -30019,26 +30037,17 @@ public struct WriteGetObjectResponseInput: Swift.Equatable {
     }
 }
 
-struct WriteGetObjectResponseInputBody: Swift.Equatable {
-    let body: ClientRuntime.ByteStream?
+extension WriteGetObjectResponseInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/WriteGetObjectResponse"
+    }
 }
 
-extension WriteGetObjectResponseInputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case body = "Body"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        if containerValues.contains(.body) {
-            do {
-                let bodyDecoded = try containerValues.decodeIfPresent(ClientRuntime.ByteStream.self, forKey: .body)
-                body = bodyDecoded
-            } catch {
-                body = ClientRuntime.ByteStream.from(data: "".data(using: .utf8)!)
-            }
-        } else {
-            body = nil
+enum WriteGetObjectResponseOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
         }
     }
 }
@@ -30051,13 +30060,4 @@ extension WriteGetObjectResponseOutput: ClientRuntime.HttpResponseBinding {
 public struct WriteGetObjectResponseOutput: Swift.Equatable {
 
     public init() { }
-}
-
-enum WriteGetObjectResponseOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
-        }
-    }
 }

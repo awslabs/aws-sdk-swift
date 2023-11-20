@@ -20,8 +20,10 @@ TOTAL_JOBS="$3"
 # convert comma separated list to array
 IGNORE=($(echo $4 | tr ',' '\n'))
 
-# setup directory
-mkdir -p ./docs/$VERSION
+# setup output directory, ensure it exists & is empty
+OUTPUT_DIR=./docs
+mkdir -p $OUTPUT_DIR
+rm -rf $OUTPUT_DIR/*
 
 echo "Dumping packages"
 dump=$(swift package dump-package)
@@ -51,18 +53,39 @@ for package in $packages; do
     # lowercase package name
     package_lowercase=$(echo $package | tr '[:upper:]' '[:lower:]')
 
-    # generate docs
-    echo "Generating docs for $package"
-    swift package --allow-writing-to-directory ./docs \
+    # create output-path
+    mkdir -p ./docs/$package_lowercase/$VERSION
+
+    # generate docs for version
+    echo "Generating docs for $package $VERSION"
+    swift package --allow-writing-to-directory $OUTPUT_DIR \
             generate-documentation --target $package \
             --disable-indexing \
             --transform-for-static-hosting \
-            --hosting-base-path $VERSION/$package_lowercase \
-            --output-path ./docs/$VERSION/$package_lowercase
+            --output-path $OUTPUT_DIR/$package_lowercase-$VERSION.doccarchive \
+            --hosting-base-path swift/$package_lowercase/$VERSION
+
+    # break if swift package generate-documentation fails
+    if [ $? -ne 0 ]; then
+        echo "Failed to generate docs for $package $VERSION"
+        exit 1
+    fi
+
+    # create output-path
+    mkdir -p ./docs/$package_lowercase/latest
+
+    # generate docs for latest
+    echo "Generating docs for $package latest"
+    swift package --allow-writing-to-directory $OUTPUT_DIR \
+            generate-documentation --target $package \
+            --disable-indexing \
+            --transform-for-static-hosting \
+            --output-path $OUTPUT_DIR/$package_lowercase-latest.doccarchive \
+            --hosting-base-path swift/$package_lowercase/latest
     
     # break if swift package generate-documentation fails
     if [ $? -ne 0 ]; then
-        echo "Failed to generate docs for $package"
+        echo "Failed to generate docs for $package latest"
         exit 1
     fi
 
