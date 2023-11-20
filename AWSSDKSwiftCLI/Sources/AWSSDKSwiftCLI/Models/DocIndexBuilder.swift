@@ -67,7 +67,7 @@ struct DocIndexBuilder {
     private func buildServiceIndex() -> String {
         return services.map { service in
             let urlService = service.lowercased(with: Locale(identifier: "en_US_POSIX"))
-            return "[\(service)](https://dwdoxo7kdzlaf.cloudfront.net/swift/\(urlService)/latest/documentation/\(urlService))\n"
+            return "[\(service)](../../../../swift/\(urlService)/latest/documentation/\(urlService))\n"
             }.joined(separator: "\n")
     }
 }
