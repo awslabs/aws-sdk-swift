@@ -28,9 +28,10 @@ rm -rf Tests/Services/*
 # Merge the newly built models
 ./scripts/mergeModels.sh Sources/Services
 
-# Regenerate the package manifest
+# Regenerate the package manifest and doc index
 cd AWSSDKSwiftCLI
 swift run AWSSDKSwiftCLI generate-package-manifest ..
+swift run AWSSDKSwiftCLI generate-doc-index ..
 cd ..
 
 # If on Mac, open Xcode to the newly refreshed SDK

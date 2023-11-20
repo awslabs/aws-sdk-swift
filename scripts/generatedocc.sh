@@ -8,6 +8,61 @@ usage() {
     echo " ./scripts/generatedocc 0.7.0 0 16 AWSBatch,AWSIoTAnalytics"
 }
 
+generateDocs() {
+    package=$1
+    VERSION=$2
+
+    # lowercase package name
+    package_lowercase=$(echo $package | tr '[:upper:]' '[:lower:]')
+
+    # create output-path
+    mkdir -p ./docs/$package_lowercase/$VERSION
+
+    # generate docs for version
+    echo "Generating docs for $package $VERSION"
+    swift package --allow-writing-to-directory $OUTPUT_DIR \
+            generate-documentation --target $package \
+            --disable-indexing \
+            --transform-for-static-hosting \
+            --output-path $OUTPUT_DIR/$package_lowercase-$VERSION.doccarchive \
+            --hosting-base-path swift/$package_lowercase/$VERSION
+
+    # break if swift package generate-documentation fails
+    if [ $? -ne 0 ]; then
+        echo "Failed to generate docs for $package $VERSION"
+        exit 1
+    fi
+
+    # sync to AWSS3, adding the new version
+    echo "Syncing doccarchive to S3 for $package $VERSION"
+    aws s3 sync --quiet $OUTPUT_DIR/$package_lowercase-$VERSION.doccarchive s3://docs-spike/$package_lowercase-$VERSION.doccarchive
+    echo "Syncing complete"
+
+    # create output-path
+    mkdir -p ./docs/$package_lowercase/latest
+
+    # generate docs for latest
+    echo "Generating docs for $package latest"
+    swift package --allow-writing-to-directory $OUTPUT_DIR \
+            generate-documentation --target $package \
+            --disable-indexing \
+            --transform-for-static-hosting \
+            --output-path $OUTPUT_DIR/$package_lowercase-latest.doccarchive \
+            --hosting-base-path swift/$package_lowercase/latest
+
+    # break if swift package generate-documentation fails
+    if [ $? -ne 0 ]; then
+        echo "Failed to generate docs for $package latest"
+        exit 1
+    fi
+
+    # sync to AWSS3, replacing the previous "latest"
+    echo "Syncing doccarchive to S3 for $package latest"
+    aws s3 sync --delete --quiet $OUTPUT_DIR/$package_lowercase-latest.doccarchive s3://docs-spike/$package_lowercase-latest.doccarchive
+    echo "Syncing complete"
+
+}
+
 if [ $# -ne 4 ]; then
     usage
     exit 1
@@ -31,6 +86,10 @@ dump=$(swift package dump-package)
 echo "Finding packages"
 packages=$(echo $dump |  jq '.products[].name')
 
+if [ $CURRENT_JOB -eq 0 ]; then
+  generateDocs "AWSSDKForSwift" "$VERSION"
+fi
+
 # loop through each package with index
 current=0
 for package in $packages; do
@@ -50,44 +109,8 @@ for package in $packages; do
         continue
     fi
 
-    # lowercase package name
-    package_lowercase=$(echo $package | tr '[:upper:]' '[:lower:]')
-
-    # create output-path
-    mkdir -p ./docs/$package_lowercase/$VERSION
-
-    # generate docs for version
-    echo "Generating docs for $package $VERSION"
-    swift package --allow-writing-to-directory $OUTPUT_DIR \
-            generate-documentation --target $package \
-            --disable-indexing \
-            --transform-for-static-hosting \
-            --output-path $OUTPUT_DIR/$package_lowercase-$VERSION.doccarchive \
-            --hosting-base-path swift/$package_lowercase/$VERSION
-
-    # break if swift package generate-documentation fails
-    if [ $? -ne 0 ]; then
-        echo "Failed to generate docs for $package $VERSION"
-        exit 1
-    fi
-
-    # create output-path
-    mkdir -p ./docs/$package_lowercase/latest
-
-    # generate docs for latest
-    echo "Generating docs for $package latest"
-    swift package --allow-writing-to-directory $OUTPUT_DIR \
-            generate-documentation --target $package \
-            --disable-indexing \
-            --transform-for-static-hosting \
-            --output-path $OUTPUT_DIR/$package_lowercase-latest.doccarchive \
-            --hosting-base-path swift/$package_lowercase/latest
-    
-    # break if swift package generate-documentation fails
-    if [ $? -ne 0 ]; then
-        echo "Failed to generate docs for $package latest"
-        exit 1
-    fi
+    generateDocs "$package" "$VERSION"
 
     current=$((current + 1))
 done
+

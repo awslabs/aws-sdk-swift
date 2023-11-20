@@ -67,7 +67,7 @@ struct DocIndexBuilder {
     /// - Returns: A pragma mark comment to provide separation between the non-generated (base) and generated content
     private func buildServiceIndex() -> String {
         return services.map { service in
-            "[\(service)](https://dochost.com/swift/docs/\(service)\n"
+            "[\(service)](https://dwdoxo7kdzlaf.cloudfront.net/swift/\(service)/latest/documentation/\(service))\n"
         }.joined(separator: "\n")
     }
 }

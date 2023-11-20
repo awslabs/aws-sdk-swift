@@ -9,3 +9,13 @@ A pure-Swift SDK for accessing all published AWS services.
 This SDK is open-source.  Code is available on Github [here](https://github.com/awslabs/aws-sdk-swift).
 
 ## Service Documentation
+
+
+[AWSDynamoDB](https://dwdoxo7kdzlaf.cloudfront.net/swift/AWSDynamoDB/latest/documentation/AWSDynamoDB)
+
+[AWSS3](https://dwdoxo7kdzlaf.cloudfront.net/swift/AWSS3/latest/documentation/AWSS3)
+
+[AWSSTS](https://dwdoxo7kdzlaf.cloudfront.net/swift/AWSSTS/latest/documentation/AWSSTS)
+
+
+

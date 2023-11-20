@@ -44,7 +44,7 @@ struct GenerateDocIndexCommand: ParsableCommand {
     ///
     /// - Parameter contents: The contents of the doc index.
     func saveDocIndex(_ contents: String) throws {
-        let docIndexFileName = "Sources/Core/AWSSDKForSwift/AWSSDKForSwift.md"
+        let docIndexFileName = "Sources/Core/AWSSDKForSwift/Documentation.docc/AWSSDKForSwift.md"
         log("Saving doc index to \(docIndexFileName)...")
         try contents.write(
             toFile: docIndexFileName,
