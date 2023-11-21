@@ -1,5 +1,9 @@
 #!/bin/bash
 # generate docs for all packages in a swift package
+
+# Create temporary dir for staging docs
+OUTPUT_DIR=`mktemp -d`
+
 usage() {
     echo "Usage:"
     echo "  ./scripts/generatedocc [version] [currentJob] [totalJobs] [ignorelist]" 
@@ -16,12 +20,14 @@ generateDocs() {
     package_lowercase=$(echo $package | tr '[:upper:]' '[:lower:]')
 
     # create output-path
-    mkdir -p ./docs/$package_lowercase/$VERSION
+    mkdir -p $OUTPUT_DIR/$package_lowercase/$VERSION
 
     # generate docs for version
     echo "Generating docs for $package $VERSION"
-    swift package --allow-writing-to-directory $OUTPUT_DIR \
-            generate-documentation --target $package \
+    swift package \
+            --allow-writing-to-directory $OUTPUT_DIR \
+            generate-documentation \
+            --target $package \
             --disable-indexing \
             --transform-for-static-hosting \
             --output-path $OUTPUT_DIR/$package_lowercase-$VERSION.doccarchive \
@@ -40,13 +46,18 @@ generateDocs() {
     aws s3 sync --quiet $OUTPUT_DIR/$package_lowercase-$VERSION.doccarchive s3://docs-spike/$package_lowercase-$VERSION.doccarchive
     echo "Syncing complete"
 
+    # delete temp files
+    rm -rf $OUTPUT_DIR
+
     # create output-path
-    mkdir -p ./docs/$package_lowercase/latest
+    mkdir -p $OUTPUT_DIR/$package_lowercase/latest
 
     # generate docs for latest
     echo "Generating docs for $package latest..."
-    swift package --allow-writing-to-directory $OUTPUT_DIR \
-            generate-documentation --target $package \
+    swift package \
+            --allow-writing-to-directory $OUTPUT_DIR \
+            generate-documentation \
+            --target $package \
             --disable-indexing \
             --transform-for-static-hosting \
             --output-path $OUTPUT_DIR/$package_lowercase-latest.doccarchive \
@@ -72,6 +83,9 @@ generateDocs() {
         echo "Syncing complete"
     fi
 
+    # delete temp files
+    rm -rf $OUTPUT_DIR
+
     # generate invalidation for latest
     echo "Invalidating $package latest..."
     aws cloudfront create-invalidation --distribution-id "$DISTRIBUTION_ID" --paths "/$package_lowercase-latest.doccarchive/*"
@@ -96,11 +110,6 @@ TOTAL_JOBS="$3"
 
 # convert comma separated list to array
 IGNORE=($(echo $4 | tr ',' '\n'))
-
-# setup output directory, ensure it exists & is empty
-OUTPUT_DIR=./docs
-mkdir -p $OUTPUT_DIR
-rm -rf $OUTPUT_DIR/*
 
 echo "Dumping packages"
 dump=$(swift package dump-package)
