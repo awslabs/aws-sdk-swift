@@ -108,10 +108,6 @@ dump=$(swift package dump-package)
 echo "Finding packages"
 packages=$(echo $dump |  jq '.products[].name')
 
-if [ $CURRENT_JOB -eq 0 ]; then
-  generateDocs "AWSSDKForSwift" "$VERSION"
-fi
-
 # loop through each package with index
 current=0
 for package in $packages; do
@@ -135,4 +131,9 @@ for package in $packages; do
 
     current=$((current + 1))
 done
+
+# Write the index last
+if [ $CURRENT_JOB -eq 0 ]; then
+  generateDocs "AWSSDKForSwift" "$VERSION"
+fi
 
