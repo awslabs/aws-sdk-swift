@@ -19,9 +19,10 @@ class AWSQueryOperationStackTest {
         val context = setupTests("awsquery/query-empty-input-output.smithy", "aws.protocoltests.query#AwsQuery")
         val contents = getFileContents(context.manifest, "/Example/QueryProtocolClient.swift")
         contents.shouldSyntacticSanityCheck()
-        val expectedContents =
-            """
+        val expectedContents = """
 extension QueryProtocolClient: QueryProtocolClientProtocol {
+    /// Performs the `NoInputAndOutput` operation on the `AwsQuery` service.
+    ///
     /// This is a very cool operation.
     ///
     /// - Parameter NoInputAndOutputInput : [no documentation found]
@@ -57,7 +58,8 @@ extension QueryProtocolClient: QueryProtocolClientProtocol {
         return result
     }
 
-}"""
+}
+"""
         contents.shouldContainOnlyOnce(expectedContents)
     }
 
