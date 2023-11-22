@@ -3,40 +3,33 @@ import AWSClientRuntime
 import ClientRuntime
 
 extension AddPermissionInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case awsAccountIds = "AWSAccountIds"
+        case actions = "Actions"
+        case label = "Label"
+        case queueUrl = "QueueUrl"
+    }
+
     public func encode(to encoder: Swift.Encoder) throws {
-        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let awsAccountIds = awsAccountIds {
-            if !awsAccountIds.isEmpty {
-                for (index0, string0) in awsAccountIds.enumerated() {
-                    var awsAccountIdsContainer0 = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("AWSAccountId.\(index0.advanced(by: 1))"))
-                    try awsAccountIdsContainer0.encode(string0, forKey: ClientRuntime.Key(""))
-                }
-            }
-            else {
-                var awsAccountIdsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("AWSAccountId"))
-                try awsAccountIdsContainer.encode("", forKey: ClientRuntime.Key(""))
+            var awsAccountIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .awsAccountIds)
+            for string0 in awsAccountIds {
+                try awsAccountIdsContainer.encode(string0)
             }
         }
         if let actions = actions {
-            if !actions.isEmpty {
-                for (index0, string0) in actions.enumerated() {
-                    var actionsContainer0 = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("ActionName.\(index0.advanced(by: 1))"))
-                    try actionsContainer0.encode(string0, forKey: ClientRuntime.Key(""))
-                }
-            }
-            else {
-                var actionsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("ActionName"))
-                try actionsContainer.encode("", forKey: ClientRuntime.Key(""))
+            var actionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .actions)
+            for string0 in actions {
+                try actionsContainer.encode(string0)
             }
         }
-        if let label = label {
-            try container.encode(label, forKey: ClientRuntime.Key("Label"))
+        if let label = self.label {
+            try encodeContainer.encode(label, forKey: .label)
         }
-        if let queueUrl = queueUrl {
-            try container.encode(queueUrl, forKey: ClientRuntime.Key("QueueUrl"))
+        if let queueUrl = self.queueUrl {
+            try encodeContainer.encode(queueUrl, forKey: .queueUrl)
         }
-        try container.encode("AddPermission", forKey:ClientRuntime.Key("Action"))
-        try container.encode("2012-11-05", forKey:ClientRuntime.Key("Version"))
     }
 }
 
@@ -84,8 +77,8 @@ struct AddPermissionInputBody: Swift.Equatable {
 
 extension AddPermissionInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case awsAccountIds = "AWSAccountId"
-        case actions = "ActionName"
+        case awsAccountIds = "AWSAccountIds"
+        case actions = "Actions"
         case label = "Label"
         case queueUrl = "QueueUrl"
     }
@@ -96,42 +89,28 @@ extension AddPermissionInputBody: Swift.Decodable {
         queueUrl = queueUrlDecoded
         let labelDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .label)
         label = labelDecoded
-        if containerValues.contains(.awsAccountIds) {
-            let awsAccountIdsWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CodingKeys.self, forKey: .awsAccountIds)
-            if awsAccountIdsWrappedContainer != nil {
-                let awsAccountIdsContainer = try containerValues.decodeIfPresent([Swift.String].self, forKey: .awsAccountIds)
-                var awsAccountIdsBuffer:[Swift.String]? = nil
-                if let awsAccountIdsContainer = awsAccountIdsContainer {
-                    awsAccountIdsBuffer = [Swift.String]()
-                    for stringContainer0 in awsAccountIdsContainer {
-                        awsAccountIdsBuffer?.append(stringContainer0)
-                    }
+        let awsAccountIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .awsAccountIds)
+        var awsAccountIdsDecoded0:[Swift.String]? = nil
+        if let awsAccountIdsContainer = awsAccountIdsContainer {
+            awsAccountIdsDecoded0 = [Swift.String]()
+            for string0 in awsAccountIdsContainer {
+                if let string0 = string0 {
+                    awsAccountIdsDecoded0?.append(string0)
                 }
-                awsAccountIds = awsAccountIdsBuffer
-            } else {
-                awsAccountIds = []
             }
-        } else {
-            awsAccountIds = nil
         }
-        if containerValues.contains(.actions) {
-            let actionsWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CodingKeys.self, forKey: .actions)
-            if actionsWrappedContainer != nil {
-                let actionsContainer = try containerValues.decodeIfPresent([Swift.String].self, forKey: .actions)
-                var actionsBuffer:[Swift.String]? = nil
-                if let actionsContainer = actionsContainer {
-                    actionsBuffer = [Swift.String]()
-                    for stringContainer0 in actionsContainer {
-                        actionsBuffer?.append(stringContainer0)
-                    }
+        awsAccountIds = awsAccountIdsDecoded0
+        let actionsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .actions)
+        var actionsDecoded0:[Swift.String]? = nil
+        if let actionsContainer = actionsContainer {
+            actionsDecoded0 = [Swift.String]()
+            for string0 in actionsContainer {
+                if let string0 = string0 {
+                    actionsDecoded0?.append(string0)
                 }
-                actions = actionsBuffer
-            } else {
-                actions = []
             }
-        } else {
-            actions = nil
         }
+        actions = actionsDecoded0
     }
 }
 
@@ -147,16 +126,29 @@ public struct AddPermissionOutput: Swift.Equatable {
 
 enum AddPermissionOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "OverLimit": return try await OverLimit(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidAddress": return try await InvalidAddress(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidSecurity": return try await InvalidSecurity(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OverLimit": return try await OverLimit(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AWS.SimpleQueueService.NonExistentQueue": return try await QueueDoesNotExist(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RequestThrottled": return try await RequestThrottled(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AWS.SimpleQueueService.UnsupportedOperation": return try await UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
 extension BatchEntryIdsNotDistinct {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: BatchEntryIdsNotDistinctBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
         self.httpResponse = httpResponse
         self.requestID = requestID
         self.message = message
@@ -165,6 +157,12 @@ extension BatchEntryIdsNotDistinct {
 
 /// Two or more batch entries in the request have the same Id.
 public struct BatchEntryIdsNotDistinct: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
     public static var typeName: Swift.String { "AWS.SimpleQueueService.BatchEntryIdsNotDistinct" }
     public static var fault: ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
@@ -173,11 +171,39 @@ public struct BatchEntryIdsNotDistinct: ClientRuntime.ModeledError, AWSClientRun
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
-    public init() { }
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct BatchEntryIdsNotDistinctBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension BatchEntryIdsNotDistinctBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
 }
 
 extension BatchRequestTooLong {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: BatchRequestTooLongBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
         self.httpResponse = httpResponse
         self.requestID = requestID
         self.message = message
@@ -186,6 +212,12 @@ extension BatchRequestTooLong {
 
 /// The length of all the messages put together is more than the limit.
 public struct BatchRequestTooLong: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
     public static var typeName: Swift.String { "AWS.SimpleQueueService.BatchRequestTooLong" }
     public static var fault: ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
@@ -194,7 +226,28 @@ public struct BatchRequestTooLong: ClientRuntime.ModeledError, AWSClientRuntime.
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
-    public init() { }
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct BatchRequestTooLongBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension BatchRequestTooLongBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
 }
 
 extension SQSClientTypes.BatchResultErrorEntry: Swift.Codable {
@@ -206,18 +259,18 @@ extension SQSClientTypes.BatchResultErrorEntry: Swift.Codable {
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
-        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if let code = code {
-            try container.encode(code, forKey: ClientRuntime.Key("Code"))
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let code = self.code {
+            try encodeContainer.encode(code, forKey: .code)
         }
-        if let id = id {
-            try container.encode(id, forKey: ClientRuntime.Key("Id"))
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
         }
-        if let message = message {
-            try container.encode(message, forKey: ClientRuntime.Key("Message"))
+        if let message = self.message {
+            try encodeContainer.encode(message, forKey: .message)
         }
         if senderFault != false {
-            try container.encode(senderFault, forKey: ClientRuntime.Key("SenderFault"))
+            try encodeContainer.encode(senderFault, forKey: .senderFault)
         }
     }
 
@@ -266,13 +319,15 @@ extension SQSClientTypes {
 }
 
 extension CancelMessageMoveTaskInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case taskHandle = "TaskHandle"
+    }
+
     public func encode(to encoder: Swift.Encoder) throws {
-        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if let taskHandle = taskHandle {
-            try container.encode(taskHandle, forKey: ClientRuntime.Key("TaskHandle"))
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let taskHandle = self.taskHandle {
+            try encodeContainer.encode(taskHandle, forKey: .taskHandle)
         }
-        try container.encode("CancelMessageMoveTask", forKey:ClientRuntime.Key("Action"))
-        try container.encode("2012-11-05", forKey:ClientRuntime.Key("Version"))
     }
 }
 
@@ -345,8 +400,7 @@ extension CancelMessageMoveTaskOutputBody: Swift.Decodable {
     }
 
     public init(from decoder: Swift.Decoder) throws {
-        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
-        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CancelMessageMoveTaskResult"))
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let approximateNumberOfMessagesMovedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .approximateNumberOfMessagesMoved) ?? 0
         approximateNumberOfMessagesMoved = approximateNumberOfMessagesMovedDecoded
     }
@@ -354,35 +408,36 @@ extension CancelMessageMoveTaskOutputBody: Swift.Decodable {
 
 enum CancelMessageMoveTaskOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "AWS.SimpleQueueService.UnsupportedOperation": return try await UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidAddress": return try await InvalidAddress(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidSecurity": return try await InvalidSecurity(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RequestThrottled": return try await RequestThrottled(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AWS.SimpleQueueService.UnsupportedOperation": return try await UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
 extension ChangeMessageVisibilityBatchInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case entries = "Entries"
+        case queueUrl = "QueueUrl"
+    }
+
     public func encode(to encoder: Swift.Encoder) throws {
-        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let entries = entries {
-            if !entries.isEmpty {
-                for (index0, changemessagevisibilitybatchrequestentry0) in entries.enumerated() {
-                    var entriesContainer0 = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("ChangeMessageVisibilityBatchRequestEntry.\(index0.advanced(by: 1))"))
-                    try entriesContainer0.encode(changemessagevisibilitybatchrequestentry0, forKey: ClientRuntime.Key(""))
-                }
-            }
-            else {
-                var entriesContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("ChangeMessageVisibilityBatchRequestEntry"))
-                try entriesContainer.encode("", forKey: ClientRuntime.Key(""))
+            var entriesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .entries)
+            for changemessagevisibilitybatchrequestentry0 in entries {
+                try entriesContainer.encode(changemessagevisibilitybatchrequestentry0)
             }
         }
-        if let queueUrl = queueUrl {
-            try container.encode(queueUrl, forKey: ClientRuntime.Key("QueueUrl"))
+        if let queueUrl = self.queueUrl {
+            try encodeContainer.encode(queueUrl, forKey: .queueUrl)
         }
-        try container.encode("ChangeMessageVisibilityBatch", forKey:ClientRuntime.Key("Action"))
-        try container.encode("2012-11-05", forKey:ClientRuntime.Key("Version"))
     }
 }
 
@@ -418,7 +473,7 @@ struct ChangeMessageVisibilityBatchInputBody: Swift.Equatable {
 
 extension ChangeMessageVisibilityBatchInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case entries = "ChangeMessageVisibilityBatchRequestEntry"
+        case entries = "Entries"
         case queueUrl = "QueueUrl"
     }
 
@@ -426,24 +481,17 @@ extension ChangeMessageVisibilityBatchInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let queueUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .queueUrl)
         queueUrl = queueUrlDecoded
-        if containerValues.contains(.entries) {
-            let entriesWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CodingKeys.self, forKey: .entries)
-            if entriesWrappedContainer != nil {
-                let entriesContainer = try containerValues.decodeIfPresent([SQSClientTypes.ChangeMessageVisibilityBatchRequestEntry].self, forKey: .entries)
-                var entriesBuffer:[SQSClientTypes.ChangeMessageVisibilityBatchRequestEntry]? = nil
-                if let entriesContainer = entriesContainer {
-                    entriesBuffer = [SQSClientTypes.ChangeMessageVisibilityBatchRequestEntry]()
-                    for structureContainer0 in entriesContainer {
-                        entriesBuffer?.append(structureContainer0)
-                    }
+        let entriesContainer = try containerValues.decodeIfPresent([SQSClientTypes.ChangeMessageVisibilityBatchRequestEntry?].self, forKey: .entries)
+        var entriesDecoded0:[SQSClientTypes.ChangeMessageVisibilityBatchRequestEntry]? = nil
+        if let entriesContainer = entriesContainer {
+            entriesDecoded0 = [SQSClientTypes.ChangeMessageVisibilityBatchRequestEntry]()
+            for structure0 in entriesContainer {
+                if let structure0 = structure0 {
+                    entriesDecoded0?.append(structure0)
                 }
-                entries = entriesBuffer
-            } else {
-                entries = []
             }
-        } else {
-            entries = nil
         }
+        entries = entriesDecoded0
     }
 }
 
@@ -487,61 +535,52 @@ struct ChangeMessageVisibilityBatchOutputBody: Swift.Equatable {
 
 extension ChangeMessageVisibilityBatchOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case failed = "BatchResultErrorEntry"
-        case successful = "ChangeMessageVisibilityBatchResultEntry"
+        case failed = "Failed"
+        case successful = "Successful"
     }
 
     public init(from decoder: Swift.Decoder) throws {
-        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
-        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ChangeMessageVisibilityBatchResult"))
-        if containerValues.contains(.successful) {
-            let successfulWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CodingKeys.self, forKey: .successful)
-            if successfulWrappedContainer != nil {
-                let successfulContainer = try containerValues.decodeIfPresent([SQSClientTypes.ChangeMessageVisibilityBatchResultEntry].self, forKey: .successful)
-                var successfulBuffer:[SQSClientTypes.ChangeMessageVisibilityBatchResultEntry]? = nil
-                if let successfulContainer = successfulContainer {
-                    successfulBuffer = [SQSClientTypes.ChangeMessageVisibilityBatchResultEntry]()
-                    for structureContainer0 in successfulContainer {
-                        successfulBuffer?.append(structureContainer0)
-                    }
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let successfulContainer = try containerValues.decodeIfPresent([SQSClientTypes.ChangeMessageVisibilityBatchResultEntry?].self, forKey: .successful)
+        var successfulDecoded0:[SQSClientTypes.ChangeMessageVisibilityBatchResultEntry]? = nil
+        if let successfulContainer = successfulContainer {
+            successfulDecoded0 = [SQSClientTypes.ChangeMessageVisibilityBatchResultEntry]()
+            for structure0 in successfulContainer {
+                if let structure0 = structure0 {
+                    successfulDecoded0?.append(structure0)
                 }
-                successful = successfulBuffer
-            } else {
-                successful = []
             }
-        } else {
-            successful = nil
         }
-        if containerValues.contains(.failed) {
-            let failedWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CodingKeys.self, forKey: .failed)
-            if failedWrappedContainer != nil {
-                let failedContainer = try containerValues.decodeIfPresent([SQSClientTypes.BatchResultErrorEntry].self, forKey: .failed)
-                var failedBuffer:[SQSClientTypes.BatchResultErrorEntry]? = nil
-                if let failedContainer = failedContainer {
-                    failedBuffer = [SQSClientTypes.BatchResultErrorEntry]()
-                    for structureContainer0 in failedContainer {
-                        failedBuffer?.append(structureContainer0)
-                    }
+        successful = successfulDecoded0
+        let failedContainer = try containerValues.decodeIfPresent([SQSClientTypes.BatchResultErrorEntry?].self, forKey: .failed)
+        var failedDecoded0:[SQSClientTypes.BatchResultErrorEntry]? = nil
+        if let failedContainer = failedContainer {
+            failedDecoded0 = [SQSClientTypes.BatchResultErrorEntry]()
+            for structure0 in failedContainer {
+                if let structure0 = structure0 {
+                    failedDecoded0?.append(structure0)
                 }
-                failed = failedBuffer
-            } else {
-                failed = []
             }
-        } else {
-            failed = nil
         }
+        failed = failedDecoded0
     }
 }
 
 enum ChangeMessageVisibilityBatchOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "AWS.SimpleQueueService.BatchEntryIdsNotDistinct": return try await BatchEntryIdsNotDistinct(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "AWS.SimpleQueueService.EmptyBatchRequest": return try await EmptyBatchRequest(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "AWS.SimpleQueueService.InvalidBatchEntryId": return try await InvalidBatchEntryId(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "AWS.SimpleQueueService.TooManyEntriesInBatchRequest": return try await TooManyEntriesInBatchRequest(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AWS.SimpleQueueService.BatchEntryIdsNotDistinct": return try await BatchEntryIdsNotDistinct(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AWS.SimpleQueueService.EmptyBatchRequest": return try await EmptyBatchRequest(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidAddress": return try await InvalidAddress(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AWS.SimpleQueueService.InvalidBatchEntryId": return try await InvalidBatchEntryId(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidSecurity": return try await InvalidSecurity(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AWS.SimpleQueueService.NonExistentQueue": return try await QueueDoesNotExist(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RequestThrottled": return try await RequestThrottled(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AWS.SimpleQueueService.TooManyEntriesInBatchRequest": return try await TooManyEntriesInBatchRequest(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AWS.SimpleQueueService.UnsupportedOperation": return try await UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
@@ -554,15 +593,15 @@ extension SQSClientTypes.ChangeMessageVisibilityBatchRequestEntry: Swift.Codable
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
-        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if let id = id {
-            try container.encode(id, forKey: ClientRuntime.Key("Id"))
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
         }
-        if let receiptHandle = receiptHandle {
-            try container.encode(receiptHandle, forKey: ClientRuntime.Key("ReceiptHandle"))
+        if let receiptHandle = self.receiptHandle {
+            try encodeContainer.encode(receiptHandle, forKey: .receiptHandle)
         }
-        if visibilityTimeout != 0 {
-            try container.encode(visibilityTimeout, forKey: ClientRuntime.Key("VisibilityTimeout"))
+        if let visibilityTimeout = self.visibilityTimeout {
+            try encodeContainer.encode(visibilityTimeout, forKey: .visibilityTimeout)
         }
     }
 
@@ -572,7 +611,7 @@ extension SQSClientTypes.ChangeMessageVisibilityBatchRequestEntry: Swift.Codable
         id = idDecoded
         let receiptHandleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .receiptHandle)
         receiptHandle = receiptHandleDecoded
-        let visibilityTimeoutDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .visibilityTimeout) ?? 0
+        let visibilityTimeoutDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .visibilityTimeout)
         visibilityTimeout = visibilityTimeoutDecoded
     }
 }
@@ -587,12 +626,12 @@ extension SQSClientTypes {
         /// This member is required.
         public var receiptHandle: Swift.String?
         /// The new value (in seconds) for the message's visibility timeout.
-        public var visibilityTimeout: Swift.Int
+        public var visibilityTimeout: Swift.Int?
 
         public init(
             id: Swift.String? = nil,
             receiptHandle: Swift.String? = nil,
-            visibilityTimeout: Swift.Int = 0
+            visibilityTimeout: Swift.Int? = nil
         )
         {
             self.id = id
@@ -609,9 +648,9 @@ extension SQSClientTypes.ChangeMessageVisibilityBatchResultEntry: Swift.Codable 
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
-        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if let id = id {
-            try container.encode(id, forKey: ClientRuntime.Key("Id"))
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
         }
     }
 
@@ -640,19 +679,23 @@ extension SQSClientTypes {
 }
 
 extension ChangeMessageVisibilityInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case queueUrl = "QueueUrl"
+        case receiptHandle = "ReceiptHandle"
+        case visibilityTimeout = "VisibilityTimeout"
+    }
+
     public func encode(to encoder: Swift.Encoder) throws {
-        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if let queueUrl = queueUrl {
-            try container.encode(queueUrl, forKey: ClientRuntime.Key("QueueUrl"))
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let queueUrl = self.queueUrl {
+            try encodeContainer.encode(queueUrl, forKey: .queueUrl)
         }
-        if let receiptHandle = receiptHandle {
-            try container.encode(receiptHandle, forKey: ClientRuntime.Key("ReceiptHandle"))
+        if let receiptHandle = self.receiptHandle {
+            try encodeContainer.encode(receiptHandle, forKey: .receiptHandle)
         }
-        if let visibilityTimeout = visibilityTimeout {
-            try container.encode(visibilityTimeout, forKey: ClientRuntime.Key("VisibilityTimeout"))
+        if let visibilityTimeout = self.visibilityTimeout {
+            try encodeContainer.encode(visibilityTimeout, forKey: .visibilityTimeout)
         }
-        try container.encode("ChangeMessageVisibility", forKey:ClientRuntime.Key("Action"))
-        try container.encode("2012-11-05", forKey:ClientRuntime.Key("Version"))
     }
 }
 
@@ -704,7 +747,7 @@ extension ChangeMessageVisibilityInputBody: Swift.Decodable {
         queueUrl = queueUrlDecoded
         let receiptHandleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .receiptHandle)
         receiptHandle = receiptHandleDecoded
-        let visibilityTimeoutDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .visibilityTimeout) ?? 0
+        let visibilityTimeoutDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .visibilityTimeout)
         visibilityTimeout = visibilityTimeoutDecoded
     }
 }
@@ -721,49 +764,45 @@ public struct ChangeMessageVisibilityOutput: Swift.Equatable {
 
 enum ChangeMessageVisibilityOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "AWS.SimpleQueueService.MessageNotInflight": return try await MessageNotInflight(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ReceiptHandleIsInvalid": return try await ReceiptHandleIsInvalid(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidAddress": return try await InvalidAddress(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidSecurity": return try await InvalidSecurity(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AWS.SimpleQueueService.MessageNotInflight": return try await MessageNotInflight(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AWS.SimpleQueueService.NonExistentQueue": return try await QueueDoesNotExist(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ReceiptHandleIsInvalid": return try await ReceiptHandleIsInvalid(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RequestThrottled": return try await RequestThrottled(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AWS.SimpleQueueService.UnsupportedOperation": return try await UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
 extension CreateQueueInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case attributes = "Attributes"
+        case queueName = "QueueName"
+        case tags
+    }
+
     public func encode(to encoder: Swift.Encoder) throws {
-        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let attributes = attributes {
-            if !attributes.isEmpty {
-                for (index0, element0) in attributes.sorted(by: { $0.key < $1.key }).enumerated() {
-                    let queueattributenameKey0 = element0.key
-                    let stringValue0 = element0.value
-                    var nestedContainer0 = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Attribute.\(index0.advanced(by: 1))"))
-                    var keyContainer0 = nestedContainer0.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Name"))
-                    try keyContainer0.encode(queueattributenameKey0, forKey: ClientRuntime.Key(""))
-                    var valueContainer0 = nestedContainer0.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Value"))
-                    try valueContainer0.encode(stringValue0, forKey: ClientRuntime.Key(""))
-                }
+            var attributesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .attributes)
+            for (dictKey0, queueAttributeMap0) in attributes {
+                try attributesContainer.encode(queueAttributeMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
-        if let queueName = queueName {
-            try container.encode(queueName, forKey: ClientRuntime.Key("QueueName"))
+        if let queueName = self.queueName {
+            try encodeContainer.encode(queueName, forKey: .queueName)
         }
         if let tags = tags {
-            if !tags.isEmpty {
-                for (index0, element0) in tags.sorted(by: { $0.key < $1.key }).enumerated() {
-                    let tagkeyKey0 = element0.key
-                    let tagvalueValue0 = element0.value
-                    var nestedContainer0 = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Tag.\(index0.advanced(by: 1))"))
-                    var keyContainer0 = nestedContainer0.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Key"))
-                    try keyContainer0.encode(tagkeyKey0, forKey: ClientRuntime.Key(""))
-                    var valueContainer0 = nestedContainer0.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Value"))
-                    try valueContainer0.encode(tagvalueValue0, forKey: ClientRuntime.Key(""))
-                }
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
-        try container.encode("CreateQueue", forKey:ClientRuntime.Key("Action"))
-        try container.encode("2012-11-05", forKey:ClientRuntime.Key("Version"))
     }
 }
 
@@ -912,59 +951,43 @@ public struct CreateQueueInput: Swift.Equatable {
 
 struct CreateQueueInputBody: Swift.Equatable {
     let queueName: Swift.String?
-    let tags: [Swift.String:Swift.String]?
     let attributes: [Swift.String:Swift.String]?
+    let tags: [Swift.String:Swift.String]?
 }
 
 extension CreateQueueInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case attributes = "Attribute"
+        case attributes = "Attributes"
         case queueName = "QueueName"
-        case tags = "Tag"
+        case tags
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let queueNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .queueName)
         queueName = queueNameDecoded
-        if containerValues.contains(.tags) {
-            struct KeyVal0{struct Key{}; struct Value{}}
-            let tagsWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: ClientRuntime.MapEntry<Swift.String, Swift.String, KeyVal0.Key, KeyVal0.Value>.CodingKeys.self, forKey: .tags)
-            if tagsWrappedContainer != nil {
-                let tagsContainer = try containerValues.decodeIfPresent([ClientRuntime.MapKeyValue<Swift.String, Swift.String, KeyVal0.Key, KeyVal0.Value>].self, forKey: .tags)
-                var tagsBuffer: [Swift.String:Swift.String]? = nil
-                if let tagsContainer = tagsContainer {
-                    tagsBuffer = [Swift.String:Swift.String]()
-                    for stringContainer0 in tagsContainer {
-                        tagsBuffer?[stringContainer0.key] = stringContainer0.value
-                    }
+        let attributesContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .attributes)
+        var attributesDecoded0: [Swift.String:Swift.String]? = nil
+        if let attributesContainer = attributesContainer {
+            attributesDecoded0 = [Swift.String:Swift.String]()
+            for (key0, string0) in attributesContainer {
+                if let string0 = string0 {
+                    attributesDecoded0?[key0] = string0
                 }
-                tags = tagsBuffer
-            } else {
-                tags = [:]
             }
-        } else {
-            tags = nil
         }
-        if containerValues.contains(.attributes) {
-            struct KeyVal0{struct Name{}; struct Value{}}
-            let attributesWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: ClientRuntime.MapEntry<Swift.String, Swift.String, KeyVal0.Name, KeyVal0.Value>.CodingKeys.self, forKey: .attributes)
-            if attributesWrappedContainer != nil {
-                let attributesContainer = try containerValues.decodeIfPresent([ClientRuntime.MapKeyValue<Swift.String, Swift.String, KeyVal0.Name, KeyVal0.Value>].self, forKey: .attributes)
-                var attributesBuffer: [Swift.String:Swift.String]? = nil
-                if let attributesContainer = attributesContainer {
-                    attributesBuffer = [Swift.String:Swift.String]()
-                    for stringContainer0 in attributesContainer {
-                        attributesBuffer?[stringContainer0.key] = stringContainer0.value
-                    }
+        attributes = attributesDecoded0
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
                 }
-                attributes = attributesBuffer
-            } else {
-                attributes = [:]
             }
-        } else {
-            attributes = nil
         }
+        tags = tagsDecoded0
     }
 }
 
@@ -1003,8 +1026,7 @@ extension CreateQueueOutputBody: Swift.Decodable {
     }
 
     public init(from decoder: Swift.Decoder) throws {
-        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
-        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CreateQueueResult"))
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let queueUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .queueUrl)
         queueUrl = queueUrlDecoded
     }
@@ -1012,35 +1034,39 @@ extension CreateQueueOutputBody: Swift.Decodable {
 
 enum CreateQueueOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "AWS.SimpleQueueService.QueueDeletedRecently": return try await QueueDeletedRecently(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "QueueAlreadyExists": return try await QueueNameExists(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidAddress": return try await InvalidAddress(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidAttributeName": return try await InvalidAttributeName(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidAttributeValue": return try await InvalidAttributeValue(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidSecurity": return try await InvalidSecurity(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AWS.SimpleQueueService.QueueDeletedRecently": return try await QueueDeletedRecently(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "QueueAlreadyExists": return try await QueueNameExists(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RequestThrottled": return try await RequestThrottled(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AWS.SimpleQueueService.UnsupportedOperation": return try await UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
 extension DeleteMessageBatchInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case entries = "Entries"
+        case queueUrl = "QueueUrl"
+    }
+
     public func encode(to encoder: Swift.Encoder) throws {
-        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let entries = entries {
-            if !entries.isEmpty {
-                for (index0, deletemessagebatchrequestentry0) in entries.enumerated() {
-                    var entriesContainer0 = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("DeleteMessageBatchRequestEntry.\(index0.advanced(by: 1))"))
-                    try entriesContainer0.encode(deletemessagebatchrequestentry0, forKey: ClientRuntime.Key(""))
-                }
-            }
-            else {
-                var entriesContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("DeleteMessageBatchRequestEntry"))
-                try entriesContainer.encode("", forKey: ClientRuntime.Key(""))
+            var entriesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .entries)
+            for deletemessagebatchrequestentry0 in entries {
+                try entriesContainer.encode(deletemessagebatchrequestentry0)
             }
         }
-        if let queueUrl = queueUrl {
-            try container.encode(queueUrl, forKey: ClientRuntime.Key("QueueUrl"))
+        if let queueUrl = self.queueUrl {
+            try encodeContainer.encode(queueUrl, forKey: .queueUrl)
         }
-        try container.encode("DeleteMessageBatch", forKey:ClientRuntime.Key("Action"))
-        try container.encode("2012-11-05", forKey:ClientRuntime.Key("Version"))
     }
 }
 
@@ -1076,7 +1102,7 @@ struct DeleteMessageBatchInputBody: Swift.Equatable {
 
 extension DeleteMessageBatchInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case entries = "DeleteMessageBatchRequestEntry"
+        case entries = "Entries"
         case queueUrl = "QueueUrl"
     }
 
@@ -1084,24 +1110,17 @@ extension DeleteMessageBatchInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let queueUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .queueUrl)
         queueUrl = queueUrlDecoded
-        if containerValues.contains(.entries) {
-            let entriesWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CodingKeys.self, forKey: .entries)
-            if entriesWrappedContainer != nil {
-                let entriesContainer = try containerValues.decodeIfPresent([SQSClientTypes.DeleteMessageBatchRequestEntry].self, forKey: .entries)
-                var entriesBuffer:[SQSClientTypes.DeleteMessageBatchRequestEntry]? = nil
-                if let entriesContainer = entriesContainer {
-                    entriesBuffer = [SQSClientTypes.DeleteMessageBatchRequestEntry]()
-                    for structureContainer0 in entriesContainer {
-                        entriesBuffer?.append(structureContainer0)
-                    }
+        let entriesContainer = try containerValues.decodeIfPresent([SQSClientTypes.DeleteMessageBatchRequestEntry?].self, forKey: .entries)
+        var entriesDecoded0:[SQSClientTypes.DeleteMessageBatchRequestEntry]? = nil
+        if let entriesContainer = entriesContainer {
+            entriesDecoded0 = [SQSClientTypes.DeleteMessageBatchRequestEntry]()
+            for structure0 in entriesContainer {
+                if let structure0 = structure0 {
+                    entriesDecoded0?.append(structure0)
                 }
-                entries = entriesBuffer
-            } else {
-                entries = []
             }
-        } else {
-            entries = nil
         }
+        entries = entriesDecoded0
     }
 }
 
@@ -1145,61 +1164,52 @@ struct DeleteMessageBatchOutputBody: Swift.Equatable {
 
 extension DeleteMessageBatchOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case failed = "BatchResultErrorEntry"
-        case successful = "DeleteMessageBatchResultEntry"
+        case failed = "Failed"
+        case successful = "Successful"
     }
 
     public init(from decoder: Swift.Decoder) throws {
-        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
-        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DeleteMessageBatchResult"))
-        if containerValues.contains(.successful) {
-            let successfulWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CodingKeys.self, forKey: .successful)
-            if successfulWrappedContainer != nil {
-                let successfulContainer = try containerValues.decodeIfPresent([SQSClientTypes.DeleteMessageBatchResultEntry].self, forKey: .successful)
-                var successfulBuffer:[SQSClientTypes.DeleteMessageBatchResultEntry]? = nil
-                if let successfulContainer = successfulContainer {
-                    successfulBuffer = [SQSClientTypes.DeleteMessageBatchResultEntry]()
-                    for structureContainer0 in successfulContainer {
-                        successfulBuffer?.append(structureContainer0)
-                    }
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let successfulContainer = try containerValues.decodeIfPresent([SQSClientTypes.DeleteMessageBatchResultEntry?].self, forKey: .successful)
+        var successfulDecoded0:[SQSClientTypes.DeleteMessageBatchResultEntry]? = nil
+        if let successfulContainer = successfulContainer {
+            successfulDecoded0 = [SQSClientTypes.DeleteMessageBatchResultEntry]()
+            for structure0 in successfulContainer {
+                if let structure0 = structure0 {
+                    successfulDecoded0?.append(structure0)
                 }
-                successful = successfulBuffer
-            } else {
-                successful = []
             }
-        } else {
-            successful = nil
         }
-        if containerValues.contains(.failed) {
-            let failedWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CodingKeys.self, forKey: .failed)
-            if failedWrappedContainer != nil {
-                let failedContainer = try containerValues.decodeIfPresent([SQSClientTypes.BatchResultErrorEntry].self, forKey: .failed)
-                var failedBuffer:[SQSClientTypes.BatchResultErrorEntry]? = nil
-                if let failedContainer = failedContainer {
-                    failedBuffer = [SQSClientTypes.BatchResultErrorEntry]()
-                    for structureContainer0 in failedContainer {
-                        failedBuffer?.append(structureContainer0)
-                    }
+        successful = successfulDecoded0
+        let failedContainer = try containerValues.decodeIfPresent([SQSClientTypes.BatchResultErrorEntry?].self, forKey: .failed)
+        var failedDecoded0:[SQSClientTypes.BatchResultErrorEntry]? = nil
+        if let failedContainer = failedContainer {
+            failedDecoded0 = [SQSClientTypes.BatchResultErrorEntry]()
+            for structure0 in failedContainer {
+                if let structure0 = structure0 {
+                    failedDecoded0?.append(structure0)
                 }
-                failed = failedBuffer
-            } else {
-                failed = []
             }
-        } else {
-            failed = nil
         }
+        failed = failedDecoded0
     }
 }
 
 enum DeleteMessageBatchOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "AWS.SimpleQueueService.BatchEntryIdsNotDistinct": return try await BatchEntryIdsNotDistinct(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "AWS.SimpleQueueService.EmptyBatchRequest": return try await EmptyBatchRequest(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "AWS.SimpleQueueService.InvalidBatchEntryId": return try await InvalidBatchEntryId(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "AWS.SimpleQueueService.TooManyEntriesInBatchRequest": return try await TooManyEntriesInBatchRequest(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AWS.SimpleQueueService.BatchEntryIdsNotDistinct": return try await BatchEntryIdsNotDistinct(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AWS.SimpleQueueService.EmptyBatchRequest": return try await EmptyBatchRequest(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidAddress": return try await InvalidAddress(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AWS.SimpleQueueService.InvalidBatchEntryId": return try await InvalidBatchEntryId(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidSecurity": return try await InvalidSecurity(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AWS.SimpleQueueService.NonExistentQueue": return try await QueueDoesNotExist(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RequestThrottled": return try await RequestThrottled(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AWS.SimpleQueueService.TooManyEntriesInBatchRequest": return try await TooManyEntriesInBatchRequest(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AWS.SimpleQueueService.UnsupportedOperation": return try await UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
@@ -1211,12 +1221,12 @@ extension SQSClientTypes.DeleteMessageBatchRequestEntry: Swift.Codable {
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
-        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if let id = id {
-            try container.encode(id, forKey: ClientRuntime.Key("Id"))
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
         }
-        if let receiptHandle = receiptHandle {
-            try container.encode(receiptHandle, forKey: ClientRuntime.Key("ReceiptHandle"))
+        if let receiptHandle = self.receiptHandle {
+            try encodeContainer.encode(receiptHandle, forKey: .receiptHandle)
         }
     }
 
@@ -1257,9 +1267,9 @@ extension SQSClientTypes.DeleteMessageBatchResultEntry: Swift.Codable {
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
-        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if let id = id {
-            try container.encode(id, forKey: ClientRuntime.Key("Id"))
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
         }
     }
 
@@ -1288,16 +1298,19 @@ extension SQSClientTypes {
 }
 
 extension DeleteMessageInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case queueUrl = "QueueUrl"
+        case receiptHandle = "ReceiptHandle"
+    }
+
     public func encode(to encoder: Swift.Encoder) throws {
-        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if let queueUrl = queueUrl {
-            try container.encode(queueUrl, forKey: ClientRuntime.Key("QueueUrl"))
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let queueUrl = self.queueUrl {
+            try encodeContainer.encode(queueUrl, forKey: .queueUrl)
         }
-        if let receiptHandle = receiptHandle {
-            try container.encode(receiptHandle, forKey: ClientRuntime.Key("ReceiptHandle"))
+        if let receiptHandle = self.receiptHandle {
+            try encodeContainer.encode(receiptHandle, forKey: .receiptHandle)
         }
-        try container.encode("DeleteMessage", forKey:ClientRuntime.Key("Action"))
-        try container.encode("2012-11-05", forKey:ClientRuntime.Key("Version"))
     }
 }
 
@@ -1358,23 +1371,31 @@ public struct DeleteMessageOutput: Swift.Equatable {
 
 enum DeleteMessageOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "InvalidIdFormat": return try await InvalidIdFormat(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ReceiptHandleIsInvalid": return try await ReceiptHandleIsInvalid(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidAddress": return try await InvalidAddress(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidIdFormat": return try await InvalidIdFormat(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidSecurity": return try await InvalidSecurity(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AWS.SimpleQueueService.NonExistentQueue": return try await QueueDoesNotExist(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ReceiptHandleIsInvalid": return try await ReceiptHandleIsInvalid(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RequestThrottled": return try await RequestThrottled(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AWS.SimpleQueueService.UnsupportedOperation": return try await UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
 extension DeleteQueueInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case queueUrl = "QueueUrl"
+    }
+
     public func encode(to encoder: Swift.Encoder) throws {
-        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if let queueUrl = queueUrl {
-            try container.encode(queueUrl, forKey: ClientRuntime.Key("QueueUrl"))
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let queueUrl = self.queueUrl {
+            try encodeContainer.encode(queueUrl, forKey: .queueUrl)
         }
-        try container.encode("DeleteQueue", forKey:ClientRuntime.Key("Action"))
-        try container.encode("2012-11-05", forKey:ClientRuntime.Key("Version"))
     }
 }
 
@@ -1426,15 +1447,28 @@ public struct DeleteQueueOutput: Swift.Equatable {
 
 enum DeleteQueueOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidAddress": return try await InvalidAddress(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidSecurity": return try await InvalidSecurity(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AWS.SimpleQueueService.NonExistentQueue": return try await QueueDoesNotExist(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RequestThrottled": return try await RequestThrottled(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AWS.SimpleQueueService.UnsupportedOperation": return try await UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
 extension EmptyBatchRequest {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: EmptyBatchRequestBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
         self.httpResponse = httpResponse
         self.requestID = requestID
         self.message = message
@@ -1443,6 +1477,12 @@ extension EmptyBatchRequest {
 
 /// The batch request doesn't contain any entries.
 public struct EmptyBatchRequest: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
     public static var typeName: Swift.String { "AWS.SimpleQueueService.EmptyBatchRequest" }
     public static var fault: ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
@@ -1451,29 +1491,47 @@ public struct EmptyBatchRequest: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
-    public init() { }
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct EmptyBatchRequestBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension EmptyBatchRequestBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
 }
 
 extension GetQueueAttributesInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case attributeNames = "AttributeNames"
+        case queueUrl = "QueueUrl"
+    }
+
     public func encode(to encoder: Swift.Encoder) throws {
-        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let attributeNames = attributeNames {
-            if !attributeNames.isEmpty {
-                for (index0, queueattributename0) in attributeNames.enumerated() {
-                    var attributeNamesContainer0 = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("AttributeName.\(index0.advanced(by: 1))"))
-                    try attributeNamesContainer0.encode(queueattributename0, forKey: ClientRuntime.Key(""))
-                }
-            }
-            else {
-                var attributeNamesContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("AttributeName"))
-                try attributeNamesContainer.encode("", forKey: ClientRuntime.Key(""))
+            var attributeNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attributeNames)
+            for queueattributename0 in attributeNames {
+                try attributeNamesContainer.encode(queueattributename0.rawValue)
             }
         }
-        if let queueUrl = queueUrl {
-            try container.encode(queueUrl, forKey: ClientRuntime.Key("QueueUrl"))
+        if let queueUrl = self.queueUrl {
+            try encodeContainer.encode(queueUrl, forKey: .queueUrl)
         }
-        try container.encode("GetQueueAttributes", forKey:ClientRuntime.Key("Action"))
-        try container.encode("2012-11-05", forKey:ClientRuntime.Key("Version"))
     }
 }
 
@@ -1597,7 +1655,7 @@ struct GetQueueAttributesInputBody: Swift.Equatable {
 
 extension GetQueueAttributesInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case attributeNames = "AttributeName"
+        case attributeNames = "AttributeNames"
         case queueUrl = "QueueUrl"
     }
 
@@ -1605,24 +1663,17 @@ extension GetQueueAttributesInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let queueUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .queueUrl)
         queueUrl = queueUrlDecoded
-        if containerValues.contains(.attributeNames) {
-            let attributeNamesWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CodingKeys.self, forKey: .attributeNames)
-            if attributeNamesWrappedContainer != nil {
-                let attributeNamesContainer = try containerValues.decodeIfPresent([SQSClientTypes.QueueAttributeName].self, forKey: .attributeNames)
-                var attributeNamesBuffer:[SQSClientTypes.QueueAttributeName]? = nil
-                if let attributeNamesContainer = attributeNamesContainer {
-                    attributeNamesBuffer = [SQSClientTypes.QueueAttributeName]()
-                    for enumContainer0 in attributeNamesContainer {
-                        attributeNamesBuffer?.append(enumContainer0)
-                    }
+        let attributeNamesContainer = try containerValues.decodeIfPresent([SQSClientTypes.QueueAttributeName?].self, forKey: .attributeNames)
+        var attributeNamesDecoded0:[SQSClientTypes.QueueAttributeName]? = nil
+        if let attributeNamesContainer = attributeNamesContainer {
+            attributeNamesDecoded0 = [SQSClientTypes.QueueAttributeName]()
+            for enum0 in attributeNamesContainer {
+                if let enum0 = enum0 {
+                    attributeNamesDecoded0?.append(enum0)
                 }
-                attributeNames = attributeNamesBuffer
-            } else {
-                attributeNames = []
             }
-        } else {
-            attributeNames = nil
         }
+        attributeNames = attributeNamesDecoded0
     }
 }
 
@@ -1657,55 +1708,55 @@ struct GetQueueAttributesOutputBody: Swift.Equatable {
 
 extension GetQueueAttributesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case attributes = "Attribute"
+        case attributes = "Attributes"
     }
 
     public init(from decoder: Swift.Decoder) throws {
-        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
-        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("GetQueueAttributesResult"))
-        if containerValues.contains(.attributes) {
-            struct KeyVal0{struct Name{}; struct Value{}}
-            let attributesWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: ClientRuntime.MapEntry<Swift.String, Swift.String, KeyVal0.Name, KeyVal0.Value>.CodingKeys.self, forKey: .attributes)
-            if attributesWrappedContainer != nil {
-                let attributesContainer = try containerValues.decodeIfPresent([ClientRuntime.MapKeyValue<Swift.String, Swift.String, KeyVal0.Name, KeyVal0.Value>].self, forKey: .attributes)
-                var attributesBuffer: [Swift.String:Swift.String]? = nil
-                if let attributesContainer = attributesContainer {
-                    attributesBuffer = [Swift.String:Swift.String]()
-                    for stringContainer0 in attributesContainer {
-                        attributesBuffer?[stringContainer0.key] = stringContainer0.value
-                    }
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let attributesContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .attributes)
+        var attributesDecoded0: [Swift.String:Swift.String]? = nil
+        if let attributesContainer = attributesContainer {
+            attributesDecoded0 = [Swift.String:Swift.String]()
+            for (key0, string0) in attributesContainer {
+                if let string0 = string0 {
+                    attributesDecoded0?[key0] = string0
                 }
-                attributes = attributesBuffer
-            } else {
-                attributes = [:]
             }
-        } else {
-            attributes = nil
         }
+        attributes = attributesDecoded0
     }
 }
 
 enum GetQueueAttributesOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "InvalidAttributeName": return try await InvalidAttributeName(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidAddress": return try await InvalidAddress(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidAttributeName": return try await InvalidAttributeName(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidSecurity": return try await InvalidSecurity(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AWS.SimpleQueueService.NonExistentQueue": return try await QueueDoesNotExist(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RequestThrottled": return try await RequestThrottled(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AWS.SimpleQueueService.UnsupportedOperation": return try await UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
 extension GetQueueUrlInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case queueName = "QueueName"
+        case queueOwnerAWSAccountId = "QueueOwnerAWSAccountId"
+    }
+
     public func encode(to encoder: Swift.Encoder) throws {
-        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if let queueName = queueName {
-            try container.encode(queueName, forKey: ClientRuntime.Key("QueueName"))
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let queueName = self.queueName {
+            try encodeContainer.encode(queueName, forKey: .queueName)
         }
-        if let queueOwnerAWSAccountId = queueOwnerAWSAccountId {
-            try container.encode(queueOwnerAWSAccountId, forKey: ClientRuntime.Key("QueueOwnerAWSAccountId"))
+        if let queueOwnerAWSAccountId = self.queueOwnerAWSAccountId {
+            try encodeContainer.encode(queueOwnerAWSAccountId, forKey: .queueOwnerAWSAccountId)
         }
-        try container.encode("GetQueueUrl", forKey:ClientRuntime.Key("Action"))
-        try container.encode("2012-11-05", forKey:ClientRuntime.Key("Version"))
     }
 }
 
@@ -1788,8 +1839,7 @@ extension GetQueueUrlOutputBody: Swift.Decodable {
     }
 
     public init(from decoder: Swift.Decoder) throws {
-        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
-        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("GetQueueUrlResult"))
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let queueUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .queueUrl)
         queueUrl = queueUrlDecoded
     }
@@ -1797,16 +1847,83 @@ extension GetQueueUrlOutputBody: Swift.Decodable {
 
 enum GetQueueUrlOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "AWS.SimpleQueueService.NonExistentQueue": return try await QueueDoesNotExist(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidAddress": return try await InvalidAddress(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidSecurity": return try await InvalidSecurity(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AWS.SimpleQueueService.NonExistentQueue": return try await QueueDoesNotExist(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RequestThrottled": return try await RequestThrottled(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AWS.SimpleQueueService.UnsupportedOperation": return try await UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
+    }
+}
+
+extension InvalidAddress {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: InvalidAddressBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// The accountId is invalid.
+public struct InvalidAddress: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidAddress" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct InvalidAddressBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension InvalidAddressBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
     }
 }
 
 extension InvalidAttributeName {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: InvalidAttributeNameBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
         self.httpResponse = httpResponse
         self.requestID = requestID
         self.message = message
@@ -1815,6 +1932,12 @@ extension InvalidAttributeName {
 
 /// The specified attribute doesn't exist.
 public struct InvalidAttributeName: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
     public static var typeName: Swift.String { "InvalidAttributeName" }
     public static var fault: ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
@@ -1823,11 +1946,94 @@ public struct InvalidAttributeName: ClientRuntime.ModeledError, AWSClientRuntime
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
-    public init() { }
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct InvalidAttributeNameBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension InvalidAttributeNameBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension InvalidAttributeValue {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: InvalidAttributeValueBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// A queue attribute value is invalid.
+public struct InvalidAttributeValue: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidAttributeValue" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct InvalidAttributeValueBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension InvalidAttributeValueBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
 }
 
 extension InvalidBatchEntryId {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: InvalidBatchEntryIdBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
         self.httpResponse = httpResponse
         self.requestID = requestID
         self.message = message
@@ -1836,6 +2042,12 @@ extension InvalidBatchEntryId {
 
 /// The Id of a batch entry in a batch request doesn't abide by the specification.
 public struct InvalidBatchEntryId: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
     public static var typeName: Swift.String { "AWS.SimpleQueueService.InvalidBatchEntryId" }
     public static var fault: ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
@@ -1844,7 +2056,28 @@ public struct InvalidBatchEntryId: ClientRuntime.ModeledError, AWSClientRuntime.
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
-    public init() { }
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct InvalidBatchEntryIdBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension InvalidBatchEntryIdBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
 }
 
 extension InvalidIdFormat {
@@ -1856,6 +2089,7 @@ extension InvalidIdFormat {
 }
 
 /// The specified receipt handle isn't valid for the current version.
+@available(*, deprecated, message: "exception has been included in ReceiptHandleIsInvalid")
 public struct InvalidIdFormat: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
     public static var typeName: Swift.String { "InvalidIdFormat" }
     public static var fault: ErrorFault { .client }
@@ -1870,6 +2104,13 @@ public struct InvalidIdFormat: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
 
 extension InvalidMessageContents {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: InvalidMessageContentsBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
         self.httpResponse = httpResponse
         self.requestID = requestID
         self.message = message
@@ -1878,6 +2119,12 @@ extension InvalidMessageContents {
 
 /// The message contains characters outside the allowed set.
 public struct InvalidMessageContents: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
     public static var typeName: Swift.String { "InvalidMessageContents" }
     public static var fault: ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
@@ -1886,23 +2133,492 @@ public struct InvalidMessageContents: ClientRuntime.ModeledError, AWSClientRunti
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
-    public init() { }
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct InvalidMessageContentsBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension InvalidMessageContentsBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension InvalidSecurity {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: InvalidSecurityBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// When the request to a queue is not HTTPS and SigV4.
+public struct InvalidSecurity: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidSecurity" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct InvalidSecurityBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension InvalidSecurityBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension KmsAccessDenied {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: KmsAccessDeniedBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// The caller doesn't have the required KMS access.
+public struct KmsAccessDenied: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "KMS.AccessDeniedException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct KmsAccessDeniedBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension KmsAccessDeniedBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension KmsDisabled {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: KmsDisabledBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// The request was denied due to request throttling.
+public struct KmsDisabled: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "KMS.DisabledException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct KmsDisabledBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension KmsDisabledBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension KmsInvalidKeyUsage {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: KmsInvalidKeyUsageBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// The request was rejected for one of the following reasons:
+///
+/// * The KeyUsage value of the KMS key is incompatible with the API operation.
+///
+/// * The encryption algorithm or signing algorithm specified for the operation is incompatible with the type of key material in the KMS key (KeySpec).
+public struct KmsInvalidKeyUsage: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "KMS.InvalidKeyUsageException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct KmsInvalidKeyUsageBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension KmsInvalidKeyUsageBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension KmsInvalidState {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: KmsInvalidStateBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// The request was rejected because the state of the specified resource is not valid for this request.
+public struct KmsInvalidState: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "KMS.InvalidStateException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct KmsInvalidStateBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension KmsInvalidStateBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension KmsNotFound {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: KmsNotFoundBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// The request was rejected because the specified entity or resource could not be found.
+public struct KmsNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "KMS.NotFoundException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct KmsNotFoundBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension KmsNotFoundBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension KmsOptInRequired {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: KmsOptInRequiredBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// The request was rejected because the specified key policy isn't syntactically or semantically correct.
+public struct KmsOptInRequired: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "KMS.OptInRequired" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct KmsOptInRequiredBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension KmsOptInRequiredBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension KmsThrottled {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: KmsThrottledBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// Amazon Web Services KMS throttles requests for the following conditions.
+public struct KmsThrottled: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "KMS.ThrottlingException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct KmsThrottledBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension KmsThrottledBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
 }
 
 extension ListDeadLetterSourceQueuesInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case queueUrl = "QueueUrl"
+    }
+
     public func encode(to encoder: Swift.Encoder) throws {
-        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if let maxResults = maxResults {
-            try container.encode(maxResults, forKey: ClientRuntime.Key("MaxResults"))
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
-        if let nextToken = nextToken {
-            try container.encode(nextToken, forKey: ClientRuntime.Key("NextToken"))
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
         }
-        if let queueUrl = queueUrl {
-            try container.encode(queueUrl, forKey: ClientRuntime.Key("QueueUrl"))
+        if let queueUrl = self.queueUrl {
+            try encodeContainer.encode(queueUrl, forKey: .queueUrl)
         }
-        try container.encode("ListDeadLetterSourceQueues", forKey:ClientRuntime.Key("Action"))
-        try container.encode("2012-11-05", forKey:ClientRuntime.Key("Version"))
     }
 }
 
@@ -1998,30 +2714,22 @@ struct ListDeadLetterSourceQueuesOutputBody: Swift.Equatable {
 extension ListDeadLetterSourceQueuesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
-        case queueUrls = "QueueUrl"
+        case queueUrls
     }
 
     public init(from decoder: Swift.Decoder) throws {
-        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
-        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ListDeadLetterSourceQueuesResult"))
-        if containerValues.contains(.queueUrls) {
-            let queueUrlsWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CodingKeys.self, forKey: .queueUrls)
-            if queueUrlsWrappedContainer != nil {
-                let queueUrlsContainer = try containerValues.decodeIfPresent([Swift.String].self, forKey: .queueUrls)
-                var queueUrlsBuffer:[Swift.String]? = nil
-                if let queueUrlsContainer = queueUrlsContainer {
-                    queueUrlsBuffer = [Swift.String]()
-                    for stringContainer0 in queueUrlsContainer {
-                        queueUrlsBuffer?.append(stringContainer0)
-                    }
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let queueUrlsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .queueUrls)
+        var queueUrlsDecoded0:[Swift.String]? = nil
+        if let queueUrlsContainer = queueUrlsContainer {
+            queueUrlsDecoded0 = [Swift.String]()
+            for string0 in queueUrlsContainer {
+                if let string0 = string0 {
+                    queueUrlsDecoded0?.append(string0)
                 }
-                queueUrls = queueUrlsBuffer
-            } else {
-                queueUrls = []
             }
-        } else {
-            queueUrls = nil
         }
+        queueUrls = queueUrlsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
     }
@@ -2029,25 +2737,33 @@ extension ListDeadLetterSourceQueuesOutputBody: Swift.Decodable {
 
 enum ListDeadLetterSourceQueuesOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "AWS.SimpleQueueService.NonExistentQueue": return try await QueueDoesNotExist(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidAddress": return try await InvalidAddress(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidSecurity": return try await InvalidSecurity(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AWS.SimpleQueueService.NonExistentQueue": return try await QueueDoesNotExist(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RequestThrottled": return try await RequestThrottled(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AWS.SimpleQueueService.UnsupportedOperation": return try await UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
 extension ListMessageMoveTasksInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults = "MaxResults"
+        case sourceArn = "SourceArn"
+    }
+
     public func encode(to encoder: Swift.Encoder) throws {
-        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if let maxResults = maxResults {
-            try container.encode(maxResults, forKey: ClientRuntime.Key("MaxResults"))
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
-        if let sourceArn = sourceArn {
-            try container.encode(sourceArn, forKey: ClientRuntime.Key("SourceArn"))
+        if let sourceArn = self.sourceArn {
+            try encodeContainer.encode(sourceArn, forKey: .sourceArn)
         }
-        try container.encode("ListMessageMoveTasks", forKey:ClientRuntime.Key("Action"))
-        try container.encode("2012-11-05", forKey:ClientRuntime.Key("Version"))
     }
 }
 
@@ -2089,7 +2805,7 @@ extension ListMessageMoveTasksInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let sourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceArn)
         sourceArn = sourceArnDecoded
-        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults) ?? 0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
     }
 }
@@ -2124,40 +2840,36 @@ struct ListMessageMoveTasksOutputBody: Swift.Equatable {
 
 extension ListMessageMoveTasksOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case results = "ListMessageMoveTasksResultEntry"
+        case results = "Results"
     }
 
     public init(from decoder: Swift.Decoder) throws {
-        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
-        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ListMessageMoveTasksResult"))
-        if containerValues.contains(.results) {
-            let resultsWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CodingKeys.self, forKey: .results)
-            if resultsWrappedContainer != nil {
-                let resultsContainer = try containerValues.decodeIfPresent([SQSClientTypes.ListMessageMoveTasksResultEntry].self, forKey: .results)
-                var resultsBuffer:[SQSClientTypes.ListMessageMoveTasksResultEntry]? = nil
-                if let resultsContainer = resultsContainer {
-                    resultsBuffer = [SQSClientTypes.ListMessageMoveTasksResultEntry]()
-                    for structureContainer0 in resultsContainer {
-                        resultsBuffer?.append(structureContainer0)
-                    }
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resultsContainer = try containerValues.decodeIfPresent([SQSClientTypes.ListMessageMoveTasksResultEntry?].self, forKey: .results)
+        var resultsDecoded0:[SQSClientTypes.ListMessageMoveTasksResultEntry]? = nil
+        if let resultsContainer = resultsContainer {
+            resultsDecoded0 = [SQSClientTypes.ListMessageMoveTasksResultEntry]()
+            for structure0 in resultsContainer {
+                if let structure0 = structure0 {
+                    resultsDecoded0?.append(structure0)
                 }
-                results = resultsBuffer
-            } else {
-                results = []
             }
-        } else {
-            results = nil
         }
+        results = resultsDecoded0
     }
 }
 
 enum ListMessageMoveTasksOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "AWS.SimpleQueueService.UnsupportedOperation": return try await UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidAddress": return try await InvalidAddress(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidSecurity": return try await InvalidSecurity(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RequestThrottled": return try await RequestThrottled(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AWS.SimpleQueueService.UnsupportedOperation": return try await UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
@@ -2176,33 +2888,33 @@ extension SQSClientTypes.ListMessageMoveTasksResultEntry: Swift.Codable {
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
-        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if approximateNumberOfMessagesMoved != 0 {
-            try container.encode(approximateNumberOfMessagesMoved, forKey: ClientRuntime.Key("ApproximateNumberOfMessagesMoved"))
+            try encodeContainer.encode(approximateNumberOfMessagesMoved, forKey: .approximateNumberOfMessagesMoved)
         }
-        if approximateNumberOfMessagesToMove != 0 {
-            try container.encode(approximateNumberOfMessagesToMove, forKey: ClientRuntime.Key("ApproximateNumberOfMessagesToMove"))
+        if let approximateNumberOfMessagesToMove = self.approximateNumberOfMessagesToMove {
+            try encodeContainer.encode(approximateNumberOfMessagesToMove, forKey: .approximateNumberOfMessagesToMove)
         }
-        if let destinationArn = destinationArn {
-            try container.encode(destinationArn, forKey: ClientRuntime.Key("DestinationArn"))
+        if let destinationArn = self.destinationArn {
+            try encodeContainer.encode(destinationArn, forKey: .destinationArn)
         }
-        if let failureReason = failureReason {
-            try container.encode(failureReason, forKey: ClientRuntime.Key("FailureReason"))
+        if let failureReason = self.failureReason {
+            try encodeContainer.encode(failureReason, forKey: .failureReason)
         }
-        if maxNumberOfMessagesPerSecond != 0 {
-            try container.encode(maxNumberOfMessagesPerSecond, forKey: ClientRuntime.Key("MaxNumberOfMessagesPerSecond"))
+        if let maxNumberOfMessagesPerSecond = self.maxNumberOfMessagesPerSecond {
+            try encodeContainer.encode(maxNumberOfMessagesPerSecond, forKey: .maxNumberOfMessagesPerSecond)
         }
-        if let sourceArn = sourceArn {
-            try container.encode(sourceArn, forKey: ClientRuntime.Key("SourceArn"))
+        if let sourceArn = self.sourceArn {
+            try encodeContainer.encode(sourceArn, forKey: .sourceArn)
         }
         if startedTimestamp != 0 {
-            try container.encode(startedTimestamp, forKey: ClientRuntime.Key("StartedTimestamp"))
+            try encodeContainer.encode(startedTimestamp, forKey: .startedTimestamp)
         }
-        if let status = status {
-            try container.encode(status, forKey: ClientRuntime.Key("Status"))
+        if let status = self.status {
+            try encodeContainer.encode(status, forKey: .status)
         }
-        if let taskHandle = taskHandle {
-            try container.encode(taskHandle, forKey: ClientRuntime.Key("TaskHandle"))
+        if let taskHandle = self.taskHandle {
+            try encodeContainer.encode(taskHandle, forKey: .taskHandle)
         }
     }
 
@@ -2216,11 +2928,11 @@ extension SQSClientTypes.ListMessageMoveTasksResultEntry: Swift.Codable {
         sourceArn = sourceArnDecoded
         let destinationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .destinationArn)
         destinationArn = destinationArnDecoded
-        let maxNumberOfMessagesPerSecondDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxNumberOfMessagesPerSecond) ?? 0
+        let maxNumberOfMessagesPerSecondDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxNumberOfMessagesPerSecond)
         maxNumberOfMessagesPerSecond = maxNumberOfMessagesPerSecondDecoded
         let approximateNumberOfMessagesMovedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .approximateNumberOfMessagesMoved) ?? 0
         approximateNumberOfMessagesMoved = approximateNumberOfMessagesMovedDecoded
-        let approximateNumberOfMessagesToMoveDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .approximateNumberOfMessagesToMove) ?? 0
+        let approximateNumberOfMessagesToMoveDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .approximateNumberOfMessagesToMove)
         approximateNumberOfMessagesToMove = approximateNumberOfMessagesToMoveDecoded
         let failureReasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .failureReason)
         failureReason = failureReasonDecoded
@@ -2235,13 +2947,13 @@ extension SQSClientTypes {
         /// The approximate number of messages already moved to the destination queue.
         public var approximateNumberOfMessagesMoved: Swift.Int
         /// The number of messages to be moved from the source queue. This number is obtained at the time of starting the message movement task.
-        public var approximateNumberOfMessagesToMove: Swift.Int
+        public var approximateNumberOfMessagesToMove: Swift.Int?
         /// The ARN of the destination queue if it has been specified in the StartMessageMoveTask request. If a DestinationArn has not been specified in the StartMessageMoveTask request, this field value will be NULL.
         public var destinationArn: Swift.String?
         /// The task failure reason (only included if the task status is FAILED).
         public var failureReason: Swift.String?
         /// The number of messages to be moved per second (the message movement rate), if it has been specified in the StartMessageMoveTask request. If a MaxNumberOfMessagesPerSecond has not been specified in the StartMessageMoveTask request, this field value will be NULL.
-        public var maxNumberOfMessagesPerSecond: Swift.Int
+        public var maxNumberOfMessagesPerSecond: Swift.Int?
         /// The ARN of the queue that contains the messages to be moved to another queue.
         public var sourceArn: Swift.String?
         /// The timestamp of starting the message movement task.
@@ -2253,10 +2965,10 @@ extension SQSClientTypes {
 
         public init(
             approximateNumberOfMessagesMoved: Swift.Int = 0,
-            approximateNumberOfMessagesToMove: Swift.Int = 0,
+            approximateNumberOfMessagesToMove: Swift.Int? = nil,
             destinationArn: Swift.String? = nil,
             failureReason: Swift.String? = nil,
-            maxNumberOfMessagesPerSecond: Swift.Int = 0,
+            maxNumberOfMessagesPerSecond: Swift.Int? = nil,
             sourceArn: Swift.String? = nil,
             startedTimestamp: Swift.Int = 0,
             status: Swift.String? = nil,
@@ -2278,13 +2990,15 @@ extension SQSClientTypes {
 }
 
 extension ListQueueTagsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case queueUrl = "QueueUrl"
+    }
+
     public func encode(to encoder: Swift.Encoder) throws {
-        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if let queueUrl = queueUrl {
-            try container.encode(queueUrl, forKey: ClientRuntime.Key("QueueUrl"))
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let queueUrl = self.queueUrl {
+            try encodeContainer.encode(queueUrl, forKey: .queueUrl)
         }
-        try container.encode("ListQueueTags", forKey:ClientRuntime.Key("Action"))
-        try container.encode("2012-11-05", forKey:ClientRuntime.Key("Version"))
     }
 }
 
@@ -2353,57 +3067,58 @@ struct ListQueueTagsOutputBody: Swift.Equatable {
 
 extension ListQueueTagsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case tags = "Tag"
+        case tags = "Tags"
     }
 
     public init(from decoder: Swift.Decoder) throws {
-        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
-        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ListQueueTagsResult"))
-        if containerValues.contains(.tags) {
-            struct KeyVal0{struct Key{}; struct Value{}}
-            let tagsWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: ClientRuntime.MapEntry<Swift.String, Swift.String, KeyVal0.Key, KeyVal0.Value>.CodingKeys.self, forKey: .tags)
-            if tagsWrappedContainer != nil {
-                let tagsContainer = try containerValues.decodeIfPresent([ClientRuntime.MapKeyValue<Swift.String, Swift.String, KeyVal0.Key, KeyVal0.Value>].self, forKey: .tags)
-                var tagsBuffer: [Swift.String:Swift.String]? = nil
-                if let tagsContainer = tagsContainer {
-                    tagsBuffer = [Swift.String:Swift.String]()
-                    for stringContainer0 in tagsContainer {
-                        tagsBuffer?[stringContainer0.key] = stringContainer0.value
-                    }
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
                 }
-                tags = tagsBuffer
-            } else {
-                tags = [:]
             }
-        } else {
-            tags = nil
         }
+        tags = tagsDecoded0
     }
 }
 
 enum ListQueueTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidAddress": return try await InvalidAddress(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidSecurity": return try await InvalidSecurity(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AWS.SimpleQueueService.NonExistentQueue": return try await QueueDoesNotExist(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RequestThrottled": return try await RequestThrottled(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AWS.SimpleQueueService.UnsupportedOperation": return try await UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
 extension ListQueuesInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case queueNamePrefix = "QueueNamePrefix"
+    }
+
     public func encode(to encoder: Swift.Encoder) throws {
-        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if let maxResults = maxResults {
-            try container.encode(maxResults, forKey: ClientRuntime.Key("MaxResults"))
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
-        if let nextToken = nextToken {
-            try container.encode(nextToken, forKey: ClientRuntime.Key("NextToken"))
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
         }
-        if let queueNamePrefix = queueNamePrefix {
-            try container.encode(queueNamePrefix, forKey: ClientRuntime.Key("QueueNamePrefix"))
+        if let queueNamePrefix = self.queueNamePrefix {
+            try encodeContainer.encode(queueNamePrefix, forKey: .queueNamePrefix)
         }
-        try container.encode("ListQueues", forKey:ClientRuntime.Key("Action"))
-        try container.encode("2012-11-05", forKey:ClientRuntime.Key("Version"))
     }
 }
 
@@ -2490,104 +3205,87 @@ public struct ListQueuesOutput: Swift.Equatable {
 }
 
 struct ListQueuesOutputBody: Swift.Equatable {
-    let nextToken: Swift.String?
     let queueUrls: [Swift.String]?
+    let nextToken: Swift.String?
 }
 
 extension ListQueuesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nextToken = "NextToken"
-        case queueUrls = "QueueUrl"
+        case queueUrls = "QueueUrls"
     }
 
     public init(from decoder: Swift.Decoder) throws {
-        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
-        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ListQueuesResult"))
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let queueUrlsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .queueUrls)
+        var queueUrlsDecoded0:[Swift.String]? = nil
+        if let queueUrlsContainer = queueUrlsContainer {
+            queueUrlsDecoded0 = [Swift.String]()
+            for string0 in queueUrlsContainer {
+                if let string0 = string0 {
+                    queueUrlsDecoded0?.append(string0)
+                }
+            }
+        }
+        queueUrls = queueUrlsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
-        if containerValues.contains(.queueUrls) {
-            let queueUrlsWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CodingKeys.self, forKey: .queueUrls)
-            if queueUrlsWrappedContainer != nil {
-                let queueUrlsContainer = try containerValues.decodeIfPresent([Swift.String].self, forKey: .queueUrls)
-                var queueUrlsBuffer:[Swift.String]? = nil
-                if let queueUrlsContainer = queueUrlsContainer {
-                    queueUrlsBuffer = [Swift.String]()
-                    for stringContainer0 in queueUrlsContainer {
-                        queueUrlsBuffer?.append(stringContainer0)
-                    }
-                }
-                queueUrls = queueUrlsBuffer
-            } else {
-                queueUrls = []
-            }
-        } else {
-            queueUrls = nil
-        }
     }
 }
 
 enum ListQueuesOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidAddress": return try await InvalidAddress(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidSecurity": return try await InvalidSecurity(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RequestThrottled": return try await RequestThrottled(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AWS.SimpleQueueService.UnsupportedOperation": return try await UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
 extension SQSClientTypes.Message: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case attributes = "Attribute"
+        case attributes = "Attributes"
         case body = "Body"
         case md5OfBody = "MD5OfBody"
         case md5OfMessageAttributes = "MD5OfMessageAttributes"
-        case messageAttributes = "MessageAttribute"
+        case messageAttributes = "MessageAttributes"
         case messageId = "MessageId"
         case receiptHandle = "ReceiptHandle"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
-        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let attributes = attributes {
-            if !attributes.isEmpty {
-                for (index0, element0) in attributes.sorted(by: { $0.key < $1.key }).enumerated() {
-                    let messagesystemattributenameKey0 = element0.key
-                    let stringValue0 = element0.value
-                    var nestedContainer0 = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Attribute.\(index0.advanced(by: 1))"))
-                    var keyContainer0 = nestedContainer0.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Name"))
-                    try keyContainer0.encode(messagesystemattributenameKey0, forKey: ClientRuntime.Key(""))
-                    var valueContainer0 = nestedContainer0.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Value"))
-                    try valueContainer0.encode(stringValue0, forKey: ClientRuntime.Key(""))
-                }
+            var attributesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .attributes)
+            for (dictKey0, messageSystemAttributeMap0) in attributes {
+                try attributesContainer.encode(messageSystemAttributeMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
-        if let body = body {
-            try container.encode(body, forKey: ClientRuntime.Key("Body"))
+        if let body = self.body {
+            try encodeContainer.encode(body, forKey: .body)
         }
-        if let md5OfBody = md5OfBody {
-            try container.encode(md5OfBody, forKey: ClientRuntime.Key("MD5OfBody"))
+        if let md5OfBody = self.md5OfBody {
+            try encodeContainer.encode(md5OfBody, forKey: .md5OfBody)
         }
-        if let md5OfMessageAttributes = md5OfMessageAttributes {
-            try container.encode(md5OfMessageAttributes, forKey: ClientRuntime.Key("MD5OfMessageAttributes"))
+        if let md5OfMessageAttributes = self.md5OfMessageAttributes {
+            try encodeContainer.encode(md5OfMessageAttributes, forKey: .md5OfMessageAttributes)
         }
         if let messageAttributes = messageAttributes {
-            if !messageAttributes.isEmpty {
-                for (index0, element0) in messageAttributes.sorted(by: { $0.key < $1.key }).enumerated() {
-                    let stringKey0 = element0.key
-                    let messageattributevalueValue0 = element0.value
-                    var nestedContainer0 = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("MessageAttribute.\(index0.advanced(by: 1))"))
-                    var keyContainer0 = nestedContainer0.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Name"))
-                    try keyContainer0.encode(stringKey0, forKey: ClientRuntime.Key(""))
-                    var valueContainer0 = nestedContainer0.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Value"))
-                    try valueContainer0.encode(messageattributevalueValue0, forKey: ClientRuntime.Key(""))
-                }
+            var messageAttributesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .messageAttributes)
+            for (dictKey0, messageBodyAttributeMap0) in messageAttributes {
+                try messageAttributesContainer.encode(messageBodyAttributeMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
-        if let messageId = messageId {
-            try container.encode(messageId, forKey: ClientRuntime.Key("MessageId"))
+        if let messageId = self.messageId {
+            try encodeContainer.encode(messageId, forKey: .messageId)
         }
-        if let receiptHandle = receiptHandle {
-            try container.encode(receiptHandle, forKey: ClientRuntime.Key("ReceiptHandle"))
+        if let receiptHandle = self.receiptHandle {
+            try encodeContainer.encode(receiptHandle, forKey: .receiptHandle)
         }
     }
 
@@ -2601,46 +3299,30 @@ extension SQSClientTypes.Message: Swift.Codable {
         md5OfBody = md5OfBodyDecoded
         let bodyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .body)
         body = bodyDecoded
-        if containerValues.contains(.attributes) {
-            struct KeyVal0{struct Name{}; struct Value{}}
-            let attributesWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: ClientRuntime.MapEntry<Swift.String, Swift.String, KeyVal0.Name, KeyVal0.Value>.CodingKeys.self, forKey: .attributes)
-            if attributesWrappedContainer != nil {
-                let attributesContainer = try containerValues.decodeIfPresent([ClientRuntime.MapKeyValue<Swift.String, Swift.String, KeyVal0.Name, KeyVal0.Value>].self, forKey: .attributes)
-                var attributesBuffer: [Swift.String:Swift.String]? = nil
-                if let attributesContainer = attributesContainer {
-                    attributesBuffer = [Swift.String:Swift.String]()
-                    for stringContainer0 in attributesContainer {
-                        attributesBuffer?[stringContainer0.key] = stringContainer0.value
-                    }
+        let attributesContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .attributes)
+        var attributesDecoded0: [Swift.String:Swift.String]? = nil
+        if let attributesContainer = attributesContainer {
+            attributesDecoded0 = [Swift.String:Swift.String]()
+            for (key0, string0) in attributesContainer {
+                if let string0 = string0 {
+                    attributesDecoded0?[key0] = string0
                 }
-                attributes = attributesBuffer
-            } else {
-                attributes = [:]
             }
-        } else {
-            attributes = nil
         }
+        attributes = attributesDecoded0
         let md5OfMessageAttributesDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .md5OfMessageAttributes)
         md5OfMessageAttributes = md5OfMessageAttributesDecoded
-        if containerValues.contains(.messageAttributes) {
-            struct KeyVal0{struct Name{}; struct Value{}}
-            let messageAttributesWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: ClientRuntime.MapEntry<Swift.String, SQSClientTypes.MessageAttributeValue, KeyVal0.Name, KeyVal0.Value>.CodingKeys.self, forKey: .messageAttributes)
-            if messageAttributesWrappedContainer != nil {
-                let messageAttributesContainer = try containerValues.decodeIfPresent([ClientRuntime.MapKeyValue<Swift.String, SQSClientTypes.MessageAttributeValue, KeyVal0.Name, KeyVal0.Value>].self, forKey: .messageAttributes)
-                var messageAttributesBuffer: [Swift.String:SQSClientTypes.MessageAttributeValue]? = nil
-                if let messageAttributesContainer = messageAttributesContainer {
-                    messageAttributesBuffer = [Swift.String:SQSClientTypes.MessageAttributeValue]()
-                    for structureContainer0 in messageAttributesContainer {
-                        messageAttributesBuffer?[structureContainer0.key] = structureContainer0.value
-                    }
+        let messageAttributesContainer = try containerValues.decodeIfPresent([Swift.String: SQSClientTypes.MessageAttributeValue?].self, forKey: .messageAttributes)
+        var messageAttributesDecoded0: [Swift.String:SQSClientTypes.MessageAttributeValue]? = nil
+        if let messageAttributesContainer = messageAttributesContainer {
+            messageAttributesDecoded0 = [Swift.String:SQSClientTypes.MessageAttributeValue]()
+            for (key0, messageattributevalue0) in messageAttributesContainer {
+                if let messageattributevalue0 = messageattributevalue0 {
+                    messageAttributesDecoded0?[key0] = messageattributevalue0
                 }
-                messageAttributes = messageAttributesBuffer
-            } else {
-                messageAttributes = [:]
             }
-        } else {
-            messageAttributes = nil
         }
+        messageAttributes = messageAttributesDecoded0
     }
 }
 
@@ -2703,46 +3385,35 @@ extension SQSClientTypes {
 
 extension SQSClientTypes.MessageAttributeValue: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case binaryListValues = "BinaryListValue"
+        case binaryListValues = "BinaryListValues"
         case binaryValue = "BinaryValue"
         case dataType = "DataType"
-        case stringListValues = "StringListValue"
+        case stringListValues = "StringListValues"
         case stringValue = "StringValue"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
-        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let binaryListValues = binaryListValues {
-            if !binaryListValues.isEmpty {
-                for (index0, binary0) in binaryListValues.enumerated() {
-                    try container.encode(binary0.base64EncodedString(), forKey: ClientRuntime.Key("BinaryListValue.\(index0.advanced(by: 1))"))
-                }
-            }
-            else {
-                var binaryListValuesContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("BinaryListValue"))
-                try binaryListValuesContainer.encode("", forKey: ClientRuntime.Key(""))
+            var binaryListValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .binaryListValues)
+            for binary0 in binaryListValues {
+                try binaryListValuesContainer.encode(binary0.base64EncodedString())
             }
         }
-        if let binaryValue = binaryValue {
-            try container.encode(binaryValue.base64EncodedString(), forKey: ClientRuntime.Key("BinaryValue"))
+        if let binaryValue = self.binaryValue {
+            try encodeContainer.encode(binaryValue.base64EncodedString(), forKey: .binaryValue)
         }
-        if let dataType = dataType {
-            try container.encode(dataType, forKey: ClientRuntime.Key("DataType"))
+        if let dataType = self.dataType {
+            try encodeContainer.encode(dataType, forKey: .dataType)
         }
         if let stringListValues = stringListValues {
-            if !stringListValues.isEmpty {
-                for (index0, string0) in stringListValues.enumerated() {
-                    var stringListValuesContainer0 = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("StringListValue.\(index0.advanced(by: 1))"))
-                    try stringListValuesContainer0.encode(string0, forKey: ClientRuntime.Key(""))
-                }
-            }
-            else {
-                var stringListValuesContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("StringListValue"))
-                try stringListValuesContainer.encode("", forKey: ClientRuntime.Key(""))
+            var stringListValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .stringListValues)
+            for string0 in stringListValues {
+                try stringListValuesContainer.encode(string0)
             }
         }
-        if let stringValue = stringValue {
-            try container.encode(stringValue, forKey: ClientRuntime.Key("StringValue"))
+        if let stringValue = self.stringValue {
+            try encodeContainer.encode(stringValue, forKey: .stringValue)
         }
     }
 
@@ -2750,52 +3421,30 @@ extension SQSClientTypes.MessageAttributeValue: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let stringValueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stringValue)
         stringValue = stringValueDecoded
-        if containerValues.contains(.binaryValue) {
-            do {
-                let binaryValueDecoded = try containerValues.decodeIfPresent(ClientRuntime.Data.self, forKey: .binaryValue)
-                binaryValue = binaryValueDecoded
-            } catch {
-                binaryValue = "".data(using: .utf8)
-            }
-        } else {
-            binaryValue = nil
-        }
-        if containerValues.contains(.stringListValues) {
-            let stringListValuesWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CodingKeys.self, forKey: .stringListValues)
-            if stringListValuesWrappedContainer != nil {
-                let stringListValuesContainer = try containerValues.decodeIfPresent([Swift.String].self, forKey: .stringListValues)
-                var stringListValuesBuffer:[Swift.String]? = nil
-                if let stringListValuesContainer = stringListValuesContainer {
-                    stringListValuesBuffer = [Swift.String]()
-                    for stringContainer0 in stringListValuesContainer {
-                        stringListValuesBuffer?.append(stringContainer0)
-                    }
+        let binaryValueDecoded = try containerValues.decodeIfPresent(ClientRuntime.Data.self, forKey: .binaryValue)
+        binaryValue = binaryValueDecoded
+        let stringListValuesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .stringListValues)
+        var stringListValuesDecoded0:[Swift.String]? = nil
+        if let stringListValuesContainer = stringListValuesContainer {
+            stringListValuesDecoded0 = [Swift.String]()
+            for string0 in stringListValuesContainer {
+                if let string0 = string0 {
+                    stringListValuesDecoded0?.append(string0)
                 }
-                stringListValues = stringListValuesBuffer
-            } else {
-                stringListValues = []
             }
-        } else {
-            stringListValues = nil
         }
-        if containerValues.contains(.binaryListValues) {
-            let binaryListValuesWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CodingKeys.self, forKey: .binaryListValues)
-            if binaryListValuesWrappedContainer != nil {
-                let binaryListValuesContainer = try containerValues.decodeIfPresent([ClientRuntime.Data].self, forKey: .binaryListValues)
-                var binaryListValuesBuffer:[ClientRuntime.Data]? = nil
-                if let binaryListValuesContainer = binaryListValuesContainer {
-                    binaryListValuesBuffer = [ClientRuntime.Data]()
-                    for blobContainer0 in binaryListValuesContainer {
-                        binaryListValuesBuffer?.append(blobContainer0)
-                    }
+        stringListValues = stringListValuesDecoded0
+        let binaryListValuesContainer = try containerValues.decodeIfPresent([ClientRuntime.Data?].self, forKey: .binaryListValues)
+        var binaryListValuesDecoded0:[ClientRuntime.Data]? = nil
+        if let binaryListValuesContainer = binaryListValuesContainer {
+            binaryListValuesDecoded0 = [ClientRuntime.Data]()
+            for blob0 in binaryListValuesContainer {
+                if let blob0 = blob0 {
+                    binaryListValuesDecoded0?.append(blob0)
                 }
-                binaryListValues = binaryListValuesBuffer
-            } else {
-                binaryListValues = []
             }
-        } else {
-            binaryListValues = nil
         }
+        binaryListValues = binaryListValuesDecoded0
         let dataTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dataType)
         dataType = dataTypeDecoded
     }
@@ -2939,46 +3588,35 @@ extension SQSClientTypes {
 
 extension SQSClientTypes.MessageSystemAttributeValue: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case binaryListValues = "BinaryListValue"
+        case binaryListValues = "BinaryListValues"
         case binaryValue = "BinaryValue"
         case dataType = "DataType"
-        case stringListValues = "StringListValue"
+        case stringListValues = "StringListValues"
         case stringValue = "StringValue"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
-        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let binaryListValues = binaryListValues {
-            if !binaryListValues.isEmpty {
-                for (index0, binary0) in binaryListValues.enumerated() {
-                    try container.encode(binary0.base64EncodedString(), forKey: ClientRuntime.Key("BinaryListValue.\(index0.advanced(by: 1))"))
-                }
-            }
-            else {
-                var binaryListValuesContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("BinaryListValue"))
-                try binaryListValuesContainer.encode("", forKey: ClientRuntime.Key(""))
+            var binaryListValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .binaryListValues)
+            for binary0 in binaryListValues {
+                try binaryListValuesContainer.encode(binary0.base64EncodedString())
             }
         }
-        if let binaryValue = binaryValue {
-            try container.encode(binaryValue.base64EncodedString(), forKey: ClientRuntime.Key("BinaryValue"))
+        if let binaryValue = self.binaryValue {
+            try encodeContainer.encode(binaryValue.base64EncodedString(), forKey: .binaryValue)
         }
-        if let dataType = dataType {
-            try container.encode(dataType, forKey: ClientRuntime.Key("DataType"))
+        if let dataType = self.dataType {
+            try encodeContainer.encode(dataType, forKey: .dataType)
         }
         if let stringListValues = stringListValues {
-            if !stringListValues.isEmpty {
-                for (index0, string0) in stringListValues.enumerated() {
-                    var stringListValuesContainer0 = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("StringListValue.\(index0.advanced(by: 1))"))
-                    try stringListValuesContainer0.encode(string0, forKey: ClientRuntime.Key(""))
-                }
-            }
-            else {
-                var stringListValuesContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("StringListValue"))
-                try stringListValuesContainer.encode("", forKey: ClientRuntime.Key(""))
+            var stringListValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .stringListValues)
+            for string0 in stringListValues {
+                try stringListValuesContainer.encode(string0)
             }
         }
-        if let stringValue = stringValue {
-            try container.encode(stringValue, forKey: ClientRuntime.Key("StringValue"))
+        if let stringValue = self.stringValue {
+            try encodeContainer.encode(stringValue, forKey: .stringValue)
         }
     }
 
@@ -2986,52 +3624,30 @@ extension SQSClientTypes.MessageSystemAttributeValue: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let stringValueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stringValue)
         stringValue = stringValueDecoded
-        if containerValues.contains(.binaryValue) {
-            do {
-                let binaryValueDecoded = try containerValues.decodeIfPresent(ClientRuntime.Data.self, forKey: .binaryValue)
-                binaryValue = binaryValueDecoded
-            } catch {
-                binaryValue = "".data(using: .utf8)
-            }
-        } else {
-            binaryValue = nil
-        }
-        if containerValues.contains(.stringListValues) {
-            let stringListValuesWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CodingKeys.self, forKey: .stringListValues)
-            if stringListValuesWrappedContainer != nil {
-                let stringListValuesContainer = try containerValues.decodeIfPresent([Swift.String].self, forKey: .stringListValues)
-                var stringListValuesBuffer:[Swift.String]? = nil
-                if let stringListValuesContainer = stringListValuesContainer {
-                    stringListValuesBuffer = [Swift.String]()
-                    for stringContainer0 in stringListValuesContainer {
-                        stringListValuesBuffer?.append(stringContainer0)
-                    }
+        let binaryValueDecoded = try containerValues.decodeIfPresent(ClientRuntime.Data.self, forKey: .binaryValue)
+        binaryValue = binaryValueDecoded
+        let stringListValuesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .stringListValues)
+        var stringListValuesDecoded0:[Swift.String]? = nil
+        if let stringListValuesContainer = stringListValuesContainer {
+            stringListValuesDecoded0 = [Swift.String]()
+            for string0 in stringListValuesContainer {
+                if let string0 = string0 {
+                    stringListValuesDecoded0?.append(string0)
                 }
-                stringListValues = stringListValuesBuffer
-            } else {
-                stringListValues = []
             }
-        } else {
-            stringListValues = nil
         }
-        if containerValues.contains(.binaryListValues) {
-            let binaryListValuesWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CodingKeys.self, forKey: .binaryListValues)
-            if binaryListValuesWrappedContainer != nil {
-                let binaryListValuesContainer = try containerValues.decodeIfPresent([ClientRuntime.Data].self, forKey: .binaryListValues)
-                var binaryListValuesBuffer:[ClientRuntime.Data]? = nil
-                if let binaryListValuesContainer = binaryListValuesContainer {
-                    binaryListValuesBuffer = [ClientRuntime.Data]()
-                    for blobContainer0 in binaryListValuesContainer {
-                        binaryListValuesBuffer?.append(blobContainer0)
-                    }
+        stringListValues = stringListValuesDecoded0
+        let binaryListValuesContainer = try containerValues.decodeIfPresent([ClientRuntime.Data?].self, forKey: .binaryListValues)
+        var binaryListValuesDecoded0:[ClientRuntime.Data]? = nil
+        if let binaryListValuesContainer = binaryListValuesContainer {
+            binaryListValuesDecoded0 = [ClientRuntime.Data]()
+            for blob0 in binaryListValuesContainer {
+                if let blob0 = blob0 {
+                    binaryListValuesDecoded0?.append(blob0)
                 }
-                binaryListValues = binaryListValuesBuffer
-            } else {
-                binaryListValues = []
             }
-        } else {
-            binaryListValues = nil
         }
+        binaryListValues = binaryListValuesDecoded0
         let dataTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dataType)
         dataType = dataTypeDecoded
     }
@@ -3072,6 +3688,13 @@ extension SQSClientTypes {
 
 extension OverLimit {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: OverLimitBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
         self.httpResponse = httpResponse
         self.requestID = requestID
         self.message = message
@@ -3080,6 +3703,12 @@ extension OverLimit {
 
 /// The specified action violates a limit. For example, ReceiveMessage returns this error if the maximum number of in flight messages is reached and AddPermission returns this error if the maximum number of permissions for the queue is reached.
 public struct OverLimit: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
     public static var typeName: Swift.String { "OverLimit" }
     public static var fault: ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
@@ -3088,11 +3717,39 @@ public struct OverLimit: ClientRuntime.ModeledError, AWSClientRuntime.AWSService
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
-    public init() { }
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct OverLimitBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension OverLimitBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
 }
 
 extension PurgeQueueInProgress {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: PurgeQueueInProgressBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
         self.httpResponse = httpResponse
         self.requestID = requestID
         self.message = message
@@ -3101,6 +3758,12 @@ extension PurgeQueueInProgress {
 
 /// Indicates that the specified queue previously received a PurgeQueue request within the last 60 seconds (the time it can take to delete the messages in the queue).
 public struct PurgeQueueInProgress: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
     public static var typeName: Swift.String { "AWS.SimpleQueueService.PurgeQueueInProgress" }
     public static var fault: ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
@@ -3109,17 +3772,40 @@ public struct PurgeQueueInProgress: ClientRuntime.ModeledError, AWSClientRuntime
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
-    public init() { }
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct PurgeQueueInProgressBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension PurgeQueueInProgressBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
 }
 
 extension PurgeQueueInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case queueUrl = "QueueUrl"
+    }
+
     public func encode(to encoder: Swift.Encoder) throws {
-        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if let queueUrl = queueUrl {
-            try container.encode(queueUrl, forKey: ClientRuntime.Key("QueueUrl"))
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let queueUrl = self.queueUrl {
+            try encodeContainer.encode(queueUrl, forKey: .queueUrl)
         }
-        try container.encode("PurgeQueue", forKey:ClientRuntime.Key("Action"))
-        try container.encode("2012-11-05", forKey:ClientRuntime.Key("Version"))
     }
 }
 
@@ -3171,11 +3857,16 @@ public struct PurgeQueueOutput: Swift.Equatable {
 
 enum PurgeQueueOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "AWS.SimpleQueueService.PurgeQueueInProgress": return try await PurgeQueueInProgress(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "AWS.SimpleQueueService.NonExistentQueue": return try await QueueDoesNotExist(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidAddress": return try await InvalidAddress(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidSecurity": return try await InvalidSecurity(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AWS.SimpleQueueService.PurgeQueueInProgress": return try await PurgeQueueInProgress(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AWS.SimpleQueueService.NonExistentQueue": return try await QueueDoesNotExist(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RequestThrottled": return try await RequestThrottled(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AWS.SimpleQueueService.UnsupportedOperation": return try await UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
@@ -3274,6 +3965,13 @@ extension SQSClientTypes {
 
 extension QueueDeletedRecently {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: QueueDeletedRecentlyBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
         self.httpResponse = httpResponse
         self.requestID = requestID
         self.message = message
@@ -3282,6 +3980,12 @@ extension QueueDeletedRecently {
 
 /// You must wait 60 seconds after deleting a queue before you can create another queue with the same name.
 public struct QueueDeletedRecently: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
     public static var typeName: Swift.String { "AWS.SimpleQueueService.QueueDeletedRecently" }
     public static var fault: ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
@@ -3290,11 +3994,39 @@ public struct QueueDeletedRecently: ClientRuntime.ModeledError, AWSClientRuntime
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
-    public init() { }
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct QueueDeletedRecentlyBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension QueueDeletedRecentlyBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
 }
 
 extension QueueDoesNotExist {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: QueueDoesNotExistBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
         self.httpResponse = httpResponse
         self.requestID = requestID
         self.message = message
@@ -3303,6 +4035,12 @@ extension QueueDoesNotExist {
 
 /// The specified queue doesn't exist.
 public struct QueueDoesNotExist: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
     public static var typeName: Swift.String { "AWS.SimpleQueueService.NonExistentQueue" }
     public static var fault: ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
@@ -3311,11 +4049,39 @@ public struct QueueDoesNotExist: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
-    public init() { }
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct QueueDoesNotExistBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension QueueDoesNotExistBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
 }
 
 extension QueueNameExists {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: QueueNameExistsBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
         self.httpResponse = httpResponse
         self.requestID = requestID
         self.message = message
@@ -3324,6 +4090,12 @@ extension QueueNameExists {
 
 /// A queue with this name already exists. Amazon SQS returns this error only if the request includes attributes whose values differ from those of the existing queue.
 public struct QueueNameExists: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
     public static var typeName: Swift.String { "QueueAlreadyExists" }
     public static var fault: ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
@@ -3332,11 +4104,39 @@ public struct QueueNameExists: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
-    public init() { }
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct QueueNameExistsBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension QueueNameExistsBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
 }
 
 extension ReceiptHandleIsInvalid {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ReceiptHandleIsInvalidBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
         self.httpResponse = httpResponse
         self.requestID = requestID
         self.message = message
@@ -3345,6 +4145,12 @@ extension ReceiptHandleIsInvalid {
 
 /// The specified receipt handle isn't valid.
 public struct ReceiptHandleIsInvalid: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
     public static var typeName: Swift.String { "ReceiptHandleIsInvalid" }
     public static var fault: ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
@@ -3353,53 +4159,70 @@ public struct ReceiptHandleIsInvalid: ClientRuntime.ModeledError, AWSClientRunti
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
-    public init() { }
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct ReceiptHandleIsInvalidBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension ReceiptHandleIsInvalidBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
 }
 
 extension ReceiveMessageInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case attributeNames = "AttributeNames"
+        case maxNumberOfMessages = "MaxNumberOfMessages"
+        case messageAttributeNames = "MessageAttributeNames"
+        case queueUrl = "QueueUrl"
+        case receiveRequestAttemptId = "ReceiveRequestAttemptId"
+        case visibilityTimeout = "VisibilityTimeout"
+        case waitTimeSeconds = "WaitTimeSeconds"
+    }
+
     public func encode(to encoder: Swift.Encoder) throws {
-        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let attributeNames = attributeNames {
-            if !attributeNames.isEmpty {
-                for (index0, queueattributename0) in attributeNames.enumerated() {
-                    var attributeNamesContainer0 = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("AttributeName.\(index0.advanced(by: 1))"))
-                    try attributeNamesContainer0.encode(queueattributename0, forKey: ClientRuntime.Key(""))
-                }
-            }
-            else {
-                var attributeNamesContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("AttributeName"))
-                try attributeNamesContainer.encode("", forKey: ClientRuntime.Key(""))
+            var attributeNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attributeNames)
+            for queueattributename0 in attributeNames {
+                try attributeNamesContainer.encode(queueattributename0.rawValue)
             }
         }
-        if let maxNumberOfMessages = maxNumberOfMessages {
-            try container.encode(maxNumberOfMessages, forKey: ClientRuntime.Key("MaxNumberOfMessages"))
+        if let maxNumberOfMessages = self.maxNumberOfMessages {
+            try encodeContainer.encode(maxNumberOfMessages, forKey: .maxNumberOfMessages)
         }
         if let messageAttributeNames = messageAttributeNames {
-            if !messageAttributeNames.isEmpty {
-                for (index0, messageattributename0) in messageAttributeNames.enumerated() {
-                    var messageAttributeNamesContainer0 = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("MessageAttributeName.\(index0.advanced(by: 1))"))
-                    try messageAttributeNamesContainer0.encode(messageattributename0, forKey: ClientRuntime.Key(""))
-                }
-            }
-            else {
-                var messageAttributeNamesContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("MessageAttributeName"))
-                try messageAttributeNamesContainer.encode("", forKey: ClientRuntime.Key(""))
+            var messageAttributeNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .messageAttributeNames)
+            for messageattributename0 in messageAttributeNames {
+                try messageAttributeNamesContainer.encode(messageattributename0)
             }
         }
-        if let queueUrl = queueUrl {
-            try container.encode(queueUrl, forKey: ClientRuntime.Key("QueueUrl"))
+        if let queueUrl = self.queueUrl {
+            try encodeContainer.encode(queueUrl, forKey: .queueUrl)
         }
-        if let receiveRequestAttemptId = receiveRequestAttemptId {
-            try container.encode(receiveRequestAttemptId, forKey: ClientRuntime.Key("ReceiveRequestAttemptId"))
+        if let receiveRequestAttemptId = self.receiveRequestAttemptId {
+            try encodeContainer.encode(receiveRequestAttemptId, forKey: .receiveRequestAttemptId)
         }
-        if let visibilityTimeout = visibilityTimeout {
-            try container.encode(visibilityTimeout, forKey: ClientRuntime.Key("VisibilityTimeout"))
+        if let visibilityTimeout = self.visibilityTimeout {
+            try encodeContainer.encode(visibilityTimeout, forKey: .visibilityTimeout)
         }
-        if let waitTimeSeconds = waitTimeSeconds {
-            try container.encode(waitTimeSeconds, forKey: ClientRuntime.Key("WaitTimeSeconds"))
+        if let waitTimeSeconds = self.waitTimeSeconds {
+            try encodeContainer.encode(waitTimeSeconds, forKey: .waitTimeSeconds)
         }
-        try container.encode("ReceiveMessage", forKey:ClientRuntime.Key("Action"))
-        try container.encode("2012-11-05", forKey:ClientRuntime.Key("Version"))
     }
 }
 
@@ -3516,9 +4339,9 @@ struct ReceiveMessageInputBody: Swift.Equatable {
 
 extension ReceiveMessageInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case attributeNames = "AttributeName"
+        case attributeNames = "AttributeNames"
         case maxNumberOfMessages = "MaxNumberOfMessages"
-        case messageAttributeNames = "MessageAttributeName"
+        case messageAttributeNames = "MessageAttributeNames"
         case queueUrl = "QueueUrl"
         case receiveRequestAttemptId = "ReceiveRequestAttemptId"
         case visibilityTimeout = "VisibilityTimeout"
@@ -3529,47 +4352,33 @@ extension ReceiveMessageInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let queueUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .queueUrl)
         queueUrl = queueUrlDecoded
-        if containerValues.contains(.attributeNames) {
-            let attributeNamesWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CodingKeys.self, forKey: .attributeNames)
-            if attributeNamesWrappedContainer != nil {
-                let attributeNamesContainer = try containerValues.decodeIfPresent([SQSClientTypes.QueueAttributeName].self, forKey: .attributeNames)
-                var attributeNamesBuffer:[SQSClientTypes.QueueAttributeName]? = nil
-                if let attributeNamesContainer = attributeNamesContainer {
-                    attributeNamesBuffer = [SQSClientTypes.QueueAttributeName]()
-                    for enumContainer0 in attributeNamesContainer {
-                        attributeNamesBuffer?.append(enumContainer0)
-                    }
+        let attributeNamesContainer = try containerValues.decodeIfPresent([SQSClientTypes.QueueAttributeName?].self, forKey: .attributeNames)
+        var attributeNamesDecoded0:[SQSClientTypes.QueueAttributeName]? = nil
+        if let attributeNamesContainer = attributeNamesContainer {
+            attributeNamesDecoded0 = [SQSClientTypes.QueueAttributeName]()
+            for enum0 in attributeNamesContainer {
+                if let enum0 = enum0 {
+                    attributeNamesDecoded0?.append(enum0)
                 }
-                attributeNames = attributeNamesBuffer
-            } else {
-                attributeNames = []
             }
-        } else {
-            attributeNames = nil
         }
-        if containerValues.contains(.messageAttributeNames) {
-            let messageAttributeNamesWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CodingKeys.self, forKey: .messageAttributeNames)
-            if messageAttributeNamesWrappedContainer != nil {
-                let messageAttributeNamesContainer = try containerValues.decodeIfPresent([Swift.String].self, forKey: .messageAttributeNames)
-                var messageAttributeNamesBuffer:[Swift.String]? = nil
-                if let messageAttributeNamesContainer = messageAttributeNamesContainer {
-                    messageAttributeNamesBuffer = [Swift.String]()
-                    for stringContainer0 in messageAttributeNamesContainer {
-                        messageAttributeNamesBuffer?.append(stringContainer0)
-                    }
+        attributeNames = attributeNamesDecoded0
+        let messageAttributeNamesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .messageAttributeNames)
+        var messageAttributeNamesDecoded0:[Swift.String]? = nil
+        if let messageAttributeNamesContainer = messageAttributeNamesContainer {
+            messageAttributeNamesDecoded0 = [Swift.String]()
+            for string0 in messageAttributeNamesContainer {
+                if let string0 = string0 {
+                    messageAttributeNamesDecoded0?.append(string0)
                 }
-                messageAttributeNames = messageAttributeNamesBuffer
-            } else {
-                messageAttributeNames = []
             }
-        } else {
-            messageAttributeNames = nil
         }
-        let maxNumberOfMessagesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxNumberOfMessages) ?? 0
+        messageAttributeNames = messageAttributeNamesDecoded0
+        let maxNumberOfMessagesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxNumberOfMessages)
         maxNumberOfMessages = maxNumberOfMessagesDecoded
-        let visibilityTimeoutDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .visibilityTimeout) ?? 0
+        let visibilityTimeoutDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .visibilityTimeout)
         visibilityTimeout = visibilityTimeoutDecoded
-        let waitTimeSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .waitTimeSeconds) ?? 0
+        let waitTimeSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .waitTimeSeconds)
         waitTimeSeconds = waitTimeSecondsDecoded
         let receiveRequestAttemptIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .receiveRequestAttemptId)
         receiveRequestAttemptId = receiveRequestAttemptIdDecoded
@@ -3607,54 +4416,62 @@ struct ReceiveMessageOutputBody: Swift.Equatable {
 
 extension ReceiveMessageOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case messages = "Message"
+        case messages = "Messages"
     }
 
     public init(from decoder: Swift.Decoder) throws {
-        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
-        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ReceiveMessageResult"))
-        if containerValues.contains(.messages) {
-            let messagesWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CodingKeys.self, forKey: .messages)
-            if messagesWrappedContainer != nil {
-                let messagesContainer = try containerValues.decodeIfPresent([SQSClientTypes.Message].self, forKey: .messages)
-                var messagesBuffer:[SQSClientTypes.Message]? = nil
-                if let messagesContainer = messagesContainer {
-                    messagesBuffer = [SQSClientTypes.Message]()
-                    for structureContainer0 in messagesContainer {
-                        messagesBuffer?.append(structureContainer0)
-                    }
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messagesContainer = try containerValues.decodeIfPresent([SQSClientTypes.Message?].self, forKey: .messages)
+        var messagesDecoded0:[SQSClientTypes.Message]? = nil
+        if let messagesContainer = messagesContainer {
+            messagesDecoded0 = [SQSClientTypes.Message]()
+            for structure0 in messagesContainer {
+                if let structure0 = structure0 {
+                    messagesDecoded0?.append(structure0)
                 }
-                messages = messagesBuffer
-            } else {
-                messages = []
             }
-        } else {
-            messages = nil
         }
+        messages = messagesDecoded0
     }
 }
 
 enum ReceiveMessageOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "OverLimit": return try await OverLimit(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidAddress": return try await InvalidAddress(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidSecurity": return try await InvalidSecurity(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KMS.AccessDeniedException": return try await KmsAccessDenied(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KMS.DisabledException": return try await KmsDisabled(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KMS.InvalidKeyUsageException": return try await KmsInvalidKeyUsage(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KMS.InvalidStateException": return try await KmsInvalidState(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KMS.NotFoundException": return try await KmsNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KMS.OptInRequired": return try await KmsOptInRequired(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KMS.ThrottlingException": return try await KmsThrottled(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OverLimit": return try await OverLimit(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AWS.SimpleQueueService.NonExistentQueue": return try await QueueDoesNotExist(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RequestThrottled": return try await RequestThrottled(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AWS.SimpleQueueService.UnsupportedOperation": return try await UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
 extension RemovePermissionInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case label = "Label"
+        case queueUrl = "QueueUrl"
+    }
+
     public func encode(to encoder: Swift.Encoder) throws {
-        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if let label = label {
-            try container.encode(label, forKey: ClientRuntime.Key("Label"))
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let label = self.label {
+            try encodeContainer.encode(label, forKey: .label)
         }
-        if let queueUrl = queueUrl {
-            try container.encode(queueUrl, forKey: ClientRuntime.Key("QueueUrl"))
+        if let queueUrl = self.queueUrl {
+            try encodeContainer.encode(queueUrl, forKey: .queueUrl)
         }
-        try container.encode("RemovePermission", forKey:ClientRuntime.Key("Action"))
-        try container.encode("2012-11-05", forKey:ClientRuntime.Key("Version"))
     }
 }
 
@@ -3715,15 +4532,89 @@ public struct RemovePermissionOutput: Swift.Equatable {
 
 enum RemovePermissionOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidAddress": return try await InvalidAddress(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidSecurity": return try await InvalidSecurity(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AWS.SimpleQueueService.NonExistentQueue": return try await QueueDoesNotExist(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RequestThrottled": return try await RequestThrottled(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AWS.SimpleQueueService.UnsupportedOperation": return try await UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
+    }
+}
+
+extension RequestThrottled {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: RequestThrottledBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// The request was denied due to request throttling.
+///
+/// * The rate of requests per second exceeds the Amazon Web Services KMS request quota for an account and Region.
+///
+/// * A burst or sustained high rate of requests to change the state of the same KMS key. This condition is often known as a "hot key."
+///
+/// * Requests for operations on KMS keys in a Amazon Web Services CloudHSM key store might be throttled at a lower-than-expected rate when the Amazon Web Services CloudHSM cluster associated with the Amazon Web Services CloudHSM key store is processing numerous commands, including those unrelated to the Amazon Web Services CloudHSM key store.
+public struct RequestThrottled: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "RequestThrottled" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct RequestThrottledBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension RequestThrottledBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
     }
 }
 
 extension ResourceNotFoundException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
         self.httpResponse = httpResponse
         self.requestID = requestID
         self.message = message
@@ -3732,6 +4623,12 @@ extension ResourceNotFoundException {
 
 /// One or more specified resources don't exist.
 public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
     public static var typeName: Swift.String { "ResourceNotFoundException" }
     public static var fault: ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
@@ -3740,29 +4637,47 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
-    public init() { }
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct ResourceNotFoundExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension ResourceNotFoundExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
 }
 
 extension SendMessageBatchInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case entries = "Entries"
+        case queueUrl = "QueueUrl"
+    }
+
     public func encode(to encoder: Swift.Encoder) throws {
-        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let entries = entries {
-            if !entries.isEmpty {
-                for (index0, sendmessagebatchrequestentry0) in entries.enumerated() {
-                    var entriesContainer0 = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("SendMessageBatchRequestEntry.\(index0.advanced(by: 1))"))
-                    try entriesContainer0.encode(sendmessagebatchrequestentry0, forKey: ClientRuntime.Key(""))
-                }
-            }
-            else {
-                var entriesContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("SendMessageBatchRequestEntry"))
-                try entriesContainer.encode("", forKey: ClientRuntime.Key(""))
+            var entriesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .entries)
+            for sendmessagebatchrequestentry0 in entries {
+                try entriesContainer.encode(sendmessagebatchrequestentry0)
             }
         }
-        if let queueUrl = queueUrl {
-            try container.encode(queueUrl, forKey: ClientRuntime.Key("QueueUrl"))
+        if let queueUrl = self.queueUrl {
+            try encodeContainer.encode(queueUrl, forKey: .queueUrl)
         }
-        try container.encode("SendMessageBatch", forKey:ClientRuntime.Key("Action"))
-        try container.encode("2012-11-05", forKey:ClientRuntime.Key("Version"))
     }
 }
 
@@ -3798,7 +4713,7 @@ struct SendMessageBatchInputBody: Swift.Equatable {
 
 extension SendMessageBatchInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case entries = "SendMessageBatchRequestEntry"
+        case entries = "Entries"
         case queueUrl = "QueueUrl"
     }
 
@@ -3806,24 +4721,17 @@ extension SendMessageBatchInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let queueUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .queueUrl)
         queueUrl = queueUrlDecoded
-        if containerValues.contains(.entries) {
-            let entriesWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CodingKeys.self, forKey: .entries)
-            if entriesWrappedContainer != nil {
-                let entriesContainer = try containerValues.decodeIfPresent([SQSClientTypes.SendMessageBatchRequestEntry].self, forKey: .entries)
-                var entriesBuffer:[SQSClientTypes.SendMessageBatchRequestEntry]? = nil
-                if let entriesContainer = entriesContainer {
-                    entriesBuffer = [SQSClientTypes.SendMessageBatchRequestEntry]()
-                    for structureContainer0 in entriesContainer {
-                        entriesBuffer?.append(structureContainer0)
-                    }
+        let entriesContainer = try containerValues.decodeIfPresent([SQSClientTypes.SendMessageBatchRequestEntry?].self, forKey: .entries)
+        var entriesDecoded0:[SQSClientTypes.SendMessageBatchRequestEntry]? = nil
+        if let entriesContainer = entriesContainer {
+            entriesDecoded0 = [SQSClientTypes.SendMessageBatchRequestEntry]()
+            for structure0 in entriesContainer {
+                if let structure0 = structure0 {
+                    entriesDecoded0?.append(structure0)
                 }
-                entries = entriesBuffer
-            } else {
-                entries = []
             }
-        } else {
-            entries = nil
         }
+        entries = entriesDecoded0
     }
 }
 
@@ -3867,63 +4775,60 @@ struct SendMessageBatchOutputBody: Swift.Equatable {
 
 extension SendMessageBatchOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case failed = "BatchResultErrorEntry"
-        case successful = "SendMessageBatchResultEntry"
+        case failed = "Failed"
+        case successful = "Successful"
     }
 
     public init(from decoder: Swift.Decoder) throws {
-        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
-        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("SendMessageBatchResult"))
-        if containerValues.contains(.successful) {
-            let successfulWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CodingKeys.self, forKey: .successful)
-            if successfulWrappedContainer != nil {
-                let successfulContainer = try containerValues.decodeIfPresent([SQSClientTypes.SendMessageBatchResultEntry].self, forKey: .successful)
-                var successfulBuffer:[SQSClientTypes.SendMessageBatchResultEntry]? = nil
-                if let successfulContainer = successfulContainer {
-                    successfulBuffer = [SQSClientTypes.SendMessageBatchResultEntry]()
-                    for structureContainer0 in successfulContainer {
-                        successfulBuffer?.append(structureContainer0)
-                    }
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let successfulContainer = try containerValues.decodeIfPresent([SQSClientTypes.SendMessageBatchResultEntry?].self, forKey: .successful)
+        var successfulDecoded0:[SQSClientTypes.SendMessageBatchResultEntry]? = nil
+        if let successfulContainer = successfulContainer {
+            successfulDecoded0 = [SQSClientTypes.SendMessageBatchResultEntry]()
+            for structure0 in successfulContainer {
+                if let structure0 = structure0 {
+                    successfulDecoded0?.append(structure0)
                 }
-                successful = successfulBuffer
-            } else {
-                successful = []
             }
-        } else {
-            successful = nil
         }
-        if containerValues.contains(.failed) {
-            let failedWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CodingKeys.self, forKey: .failed)
-            if failedWrappedContainer != nil {
-                let failedContainer = try containerValues.decodeIfPresent([SQSClientTypes.BatchResultErrorEntry].self, forKey: .failed)
-                var failedBuffer:[SQSClientTypes.BatchResultErrorEntry]? = nil
-                if let failedContainer = failedContainer {
-                    failedBuffer = [SQSClientTypes.BatchResultErrorEntry]()
-                    for structureContainer0 in failedContainer {
-                        failedBuffer?.append(structureContainer0)
-                    }
+        successful = successfulDecoded0
+        let failedContainer = try containerValues.decodeIfPresent([SQSClientTypes.BatchResultErrorEntry?].self, forKey: .failed)
+        var failedDecoded0:[SQSClientTypes.BatchResultErrorEntry]? = nil
+        if let failedContainer = failedContainer {
+            failedDecoded0 = [SQSClientTypes.BatchResultErrorEntry]()
+            for structure0 in failedContainer {
+                if let structure0 = structure0 {
+                    failedDecoded0?.append(structure0)
                 }
-                failed = failedBuffer
-            } else {
-                failed = []
             }
-        } else {
-            failed = nil
         }
+        failed = failedDecoded0
     }
 }
 
 enum SendMessageBatchOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "AWS.SimpleQueueService.BatchEntryIdsNotDistinct": return try await BatchEntryIdsNotDistinct(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "AWS.SimpleQueueService.BatchRequestTooLong": return try await BatchRequestTooLong(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "AWS.SimpleQueueService.EmptyBatchRequest": return try await EmptyBatchRequest(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "AWS.SimpleQueueService.InvalidBatchEntryId": return try await InvalidBatchEntryId(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "AWS.SimpleQueueService.TooManyEntriesInBatchRequest": return try await TooManyEntriesInBatchRequest(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "AWS.SimpleQueueService.UnsupportedOperation": return try await UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AWS.SimpleQueueService.BatchEntryIdsNotDistinct": return try await BatchEntryIdsNotDistinct(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AWS.SimpleQueueService.BatchRequestTooLong": return try await BatchRequestTooLong(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AWS.SimpleQueueService.EmptyBatchRequest": return try await EmptyBatchRequest(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidAddress": return try await InvalidAddress(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AWS.SimpleQueueService.InvalidBatchEntryId": return try await InvalidBatchEntryId(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidSecurity": return try await InvalidSecurity(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KMS.AccessDeniedException": return try await KmsAccessDenied(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KMS.DisabledException": return try await KmsDisabled(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KMS.InvalidKeyUsageException": return try await KmsInvalidKeyUsage(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KMS.InvalidStateException": return try await KmsInvalidState(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KMS.NotFoundException": return try await KmsNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KMS.OptInRequired": return try await KmsOptInRequired(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KMS.ThrottlingException": return try await KmsThrottled(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AWS.SimpleQueueService.NonExistentQueue": return try await QueueDoesNotExist(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RequestThrottled": return try await RequestThrottled(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AWS.SimpleQueueService.TooManyEntriesInBatchRequest": return try await TooManyEntriesInBatchRequest(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AWS.SimpleQueueService.UnsupportedOperation": return try await UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
@@ -3932,54 +4837,40 @@ extension SQSClientTypes.SendMessageBatchRequestEntry: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case delaySeconds = "DelaySeconds"
         case id = "Id"
-        case messageAttributes = "MessageAttribute"
+        case messageAttributes = "MessageAttributes"
         case messageBody = "MessageBody"
         case messageDeduplicationId = "MessageDeduplicationId"
         case messageGroupId = "MessageGroupId"
-        case messageSystemAttributes = "MessageSystemAttribute"
+        case messageSystemAttributes = "MessageSystemAttributes"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
-        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if delaySeconds != 0 {
-            try container.encode(delaySeconds, forKey: ClientRuntime.Key("DelaySeconds"))
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let delaySeconds = self.delaySeconds {
+            try encodeContainer.encode(delaySeconds, forKey: .delaySeconds)
         }
-        if let id = id {
-            try container.encode(id, forKey: ClientRuntime.Key("Id"))
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
         }
         if let messageAttributes = messageAttributes {
-            if !messageAttributes.isEmpty {
-                for (index0, element0) in messageAttributes.sorted(by: { $0.key < $1.key }).enumerated() {
-                    let stringKey0 = element0.key
-                    let messageattributevalueValue0 = element0.value
-                    var nestedContainer0 = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("MessageAttribute.\(index0.advanced(by: 1))"))
-                    var keyContainer0 = nestedContainer0.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Name"))
-                    try keyContainer0.encode(stringKey0, forKey: ClientRuntime.Key(""))
-                    var valueContainer0 = nestedContainer0.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Value"))
-                    try valueContainer0.encode(messageattributevalueValue0, forKey: ClientRuntime.Key(""))
-                }
+            var messageAttributesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .messageAttributes)
+            for (dictKey0, messageBodyAttributeMap0) in messageAttributes {
+                try messageAttributesContainer.encode(messageBodyAttributeMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
-        if let messageBody = messageBody {
-            try container.encode(messageBody, forKey: ClientRuntime.Key("MessageBody"))
+        if let messageBody = self.messageBody {
+            try encodeContainer.encode(messageBody, forKey: .messageBody)
         }
-        if let messageDeduplicationId = messageDeduplicationId {
-            try container.encode(messageDeduplicationId, forKey: ClientRuntime.Key("MessageDeduplicationId"))
+        if let messageDeduplicationId = self.messageDeduplicationId {
+            try encodeContainer.encode(messageDeduplicationId, forKey: .messageDeduplicationId)
         }
-        if let messageGroupId = messageGroupId {
-            try container.encode(messageGroupId, forKey: ClientRuntime.Key("MessageGroupId"))
+        if let messageGroupId = self.messageGroupId {
+            try encodeContainer.encode(messageGroupId, forKey: .messageGroupId)
         }
         if let messageSystemAttributes = messageSystemAttributes {
-            if !messageSystemAttributes.isEmpty {
-                for (index0, element0) in messageSystemAttributes.sorted(by: { $0.key < $1.key }).enumerated() {
-                    let messagesystemattributenameforsendsKey0 = element0.key
-                    let messagesystemattributevalueValue0 = element0.value
-                    var nestedContainer0 = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("MessageSystemAttribute.\(index0.advanced(by: 1))"))
-                    var keyContainer0 = nestedContainer0.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Name"))
-                    try keyContainer0.encode(messagesystemattributenameforsendsKey0, forKey: ClientRuntime.Key(""))
-                    var valueContainer0 = nestedContainer0.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Value"))
-                    try valueContainer0.encode(messagesystemattributevalueValue0, forKey: ClientRuntime.Key(""))
-                }
+            var messageSystemAttributesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .messageSystemAttributes)
+            for (dictKey0, messageBodySystemAttributeMap0) in messageSystemAttributes {
+                try messageSystemAttributesContainer.encode(messageBodySystemAttributeMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -3990,46 +4881,30 @@ extension SQSClientTypes.SendMessageBatchRequestEntry: Swift.Codable {
         id = idDecoded
         let messageBodyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .messageBody)
         messageBody = messageBodyDecoded
-        let delaySecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .delaySeconds) ?? 0
+        let delaySecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .delaySeconds)
         delaySeconds = delaySecondsDecoded
-        if containerValues.contains(.messageAttributes) {
-            struct KeyVal0{struct Name{}; struct Value{}}
-            let messageAttributesWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: ClientRuntime.MapEntry<Swift.String, SQSClientTypes.MessageAttributeValue, KeyVal0.Name, KeyVal0.Value>.CodingKeys.self, forKey: .messageAttributes)
-            if messageAttributesWrappedContainer != nil {
-                let messageAttributesContainer = try containerValues.decodeIfPresent([ClientRuntime.MapKeyValue<Swift.String, SQSClientTypes.MessageAttributeValue, KeyVal0.Name, KeyVal0.Value>].self, forKey: .messageAttributes)
-                var messageAttributesBuffer: [Swift.String:SQSClientTypes.MessageAttributeValue]? = nil
-                if let messageAttributesContainer = messageAttributesContainer {
-                    messageAttributesBuffer = [Swift.String:SQSClientTypes.MessageAttributeValue]()
-                    for structureContainer0 in messageAttributesContainer {
-                        messageAttributesBuffer?[structureContainer0.key] = structureContainer0.value
-                    }
+        let messageAttributesContainer = try containerValues.decodeIfPresent([Swift.String: SQSClientTypes.MessageAttributeValue?].self, forKey: .messageAttributes)
+        var messageAttributesDecoded0: [Swift.String:SQSClientTypes.MessageAttributeValue]? = nil
+        if let messageAttributesContainer = messageAttributesContainer {
+            messageAttributesDecoded0 = [Swift.String:SQSClientTypes.MessageAttributeValue]()
+            for (key0, messageattributevalue0) in messageAttributesContainer {
+                if let messageattributevalue0 = messageattributevalue0 {
+                    messageAttributesDecoded0?[key0] = messageattributevalue0
                 }
-                messageAttributes = messageAttributesBuffer
-            } else {
-                messageAttributes = [:]
             }
-        } else {
-            messageAttributes = nil
         }
-        if containerValues.contains(.messageSystemAttributes) {
-            struct KeyVal0{struct Name{}; struct Value{}}
-            let messageSystemAttributesWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: ClientRuntime.MapEntry<Swift.String, SQSClientTypes.MessageSystemAttributeValue, KeyVal0.Name, KeyVal0.Value>.CodingKeys.self, forKey: .messageSystemAttributes)
-            if messageSystemAttributesWrappedContainer != nil {
-                let messageSystemAttributesContainer = try containerValues.decodeIfPresent([ClientRuntime.MapKeyValue<Swift.String, SQSClientTypes.MessageSystemAttributeValue, KeyVal0.Name, KeyVal0.Value>].self, forKey: .messageSystemAttributes)
-                var messageSystemAttributesBuffer: [Swift.String:SQSClientTypes.MessageSystemAttributeValue]? = nil
-                if let messageSystemAttributesContainer = messageSystemAttributesContainer {
-                    messageSystemAttributesBuffer = [Swift.String:SQSClientTypes.MessageSystemAttributeValue]()
-                    for structureContainer0 in messageSystemAttributesContainer {
-                        messageSystemAttributesBuffer?[structureContainer0.key] = structureContainer0.value
-                    }
+        messageAttributes = messageAttributesDecoded0
+        let messageSystemAttributesContainer = try containerValues.decodeIfPresent([Swift.String: SQSClientTypes.MessageSystemAttributeValue?].self, forKey: .messageSystemAttributes)
+        var messageSystemAttributesDecoded0: [Swift.String:SQSClientTypes.MessageSystemAttributeValue]? = nil
+        if let messageSystemAttributesContainer = messageSystemAttributesContainer {
+            messageSystemAttributesDecoded0 = [Swift.String:SQSClientTypes.MessageSystemAttributeValue]()
+            for (key0, messagesystemattributevalue0) in messageSystemAttributesContainer {
+                if let messagesystemattributevalue0 = messagesystemattributevalue0 {
+                    messageSystemAttributesDecoded0?[key0] = messagesystemattributevalue0
                 }
-                messageSystemAttributes = messageSystemAttributesBuffer
-            } else {
-                messageSystemAttributes = [:]
             }
-        } else {
-            messageSystemAttributes = nil
         }
+        messageSystemAttributes = messageSystemAttributesDecoded0
         let messageDeduplicationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .messageDeduplicationId)
         messageDeduplicationId = messageDeduplicationIdDecoded
         let messageGroupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .messageGroupId)
@@ -4041,7 +4916,7 @@ extension SQSClientTypes {
     /// Contains the details of a single Amazon SQS message along with an Id.
     public struct SendMessageBatchRequestEntry: Swift.Equatable {
         /// The length of time, in seconds, for which a specific message is delayed. Valid values: 0 to 900. Maximum: 15 minutes. Messages with a positive DelaySeconds value become available for processing after the delay period is finished. If you don't specify a value, the default value for the queue is applied. When you set FifoQueue, you can't set DelaySeconds per message. You can set this parameter only on a queue level.
-        public var delaySeconds: Swift.Int
+        public var delaySeconds: Swift.Int?
         /// An identifier for a message in this batch used to communicate the result. The Ids of a batch request need to be unique within a request. This identifier can have up to 80 characters. The following characters are accepted: alphanumeric characters, hyphens(-), and underscores (_).
         /// This member is required.
         public var id: Swift.String?
@@ -4089,7 +4964,7 @@ extension SQSClientTypes {
         public var messageSystemAttributes: [Swift.String:SQSClientTypes.MessageSystemAttributeValue]?
 
         public init(
-            delaySeconds: Swift.Int = 0,
+            delaySeconds: Swift.Int? = nil,
             id: Swift.String? = nil,
             messageAttributes: [Swift.String:SQSClientTypes.MessageAttributeValue]? = nil,
             messageBody: Swift.String? = nil,
@@ -4121,24 +4996,24 @@ extension SQSClientTypes.SendMessageBatchResultEntry: Swift.Codable {
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
-        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if let id = id {
-            try container.encode(id, forKey: ClientRuntime.Key("Id"))
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
         }
-        if let md5OfMessageAttributes = md5OfMessageAttributes {
-            try container.encode(md5OfMessageAttributes, forKey: ClientRuntime.Key("MD5OfMessageAttributes"))
+        if let md5OfMessageAttributes = self.md5OfMessageAttributes {
+            try encodeContainer.encode(md5OfMessageAttributes, forKey: .md5OfMessageAttributes)
         }
-        if let md5OfMessageBody = md5OfMessageBody {
-            try container.encode(md5OfMessageBody, forKey: ClientRuntime.Key("MD5OfMessageBody"))
+        if let md5OfMessageBody = self.md5OfMessageBody {
+            try encodeContainer.encode(md5OfMessageBody, forKey: .md5OfMessageBody)
         }
-        if let md5OfMessageSystemAttributes = md5OfMessageSystemAttributes {
-            try container.encode(md5OfMessageSystemAttributes, forKey: ClientRuntime.Key("MD5OfMessageSystemAttributes"))
+        if let md5OfMessageSystemAttributes = self.md5OfMessageSystemAttributes {
+            try encodeContainer.encode(md5OfMessageSystemAttributes, forKey: .md5OfMessageSystemAttributes)
         }
-        if let messageId = messageId {
-            try container.encode(messageId, forKey: ClientRuntime.Key("MessageId"))
+        if let messageId = self.messageId {
+            try encodeContainer.encode(messageId, forKey: .messageId)
         }
-        if let sequenceNumber = sequenceNumber {
-            try container.encode(sequenceNumber, forKey: ClientRuntime.Key("SequenceNumber"))
+        if let sequenceNumber = self.sequenceNumber {
+            try encodeContainer.encode(sequenceNumber, forKey: .sequenceNumber)
         }
     }
 
@@ -4199,51 +5074,45 @@ extension SQSClientTypes {
 }
 
 extension SendMessageInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case delaySeconds = "DelaySeconds"
+        case messageAttributes = "MessageAttributes"
+        case messageBody = "MessageBody"
+        case messageDeduplicationId = "MessageDeduplicationId"
+        case messageGroupId = "MessageGroupId"
+        case messageSystemAttributes = "MessageSystemAttributes"
+        case queueUrl = "QueueUrl"
+    }
+
     public func encode(to encoder: Swift.Encoder) throws {
-        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if let delaySeconds = delaySeconds {
-            try container.encode(delaySeconds, forKey: ClientRuntime.Key("DelaySeconds"))
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let delaySeconds = self.delaySeconds {
+            try encodeContainer.encode(delaySeconds, forKey: .delaySeconds)
         }
         if let messageAttributes = messageAttributes {
-            if !messageAttributes.isEmpty {
-                for (index0, element0) in messageAttributes.sorted(by: { $0.key < $1.key }).enumerated() {
-                    let stringKey0 = element0.key
-                    let messageattributevalueValue0 = element0.value
-                    var nestedContainer0 = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("MessageAttribute.\(index0.advanced(by: 1))"))
-                    var keyContainer0 = nestedContainer0.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Name"))
-                    try keyContainer0.encode(stringKey0, forKey: ClientRuntime.Key(""))
-                    var valueContainer0 = nestedContainer0.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Value"))
-                    try valueContainer0.encode(messageattributevalueValue0, forKey: ClientRuntime.Key(""))
-                }
+            var messageAttributesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .messageAttributes)
+            for (dictKey0, messageBodyAttributeMap0) in messageAttributes {
+                try messageAttributesContainer.encode(messageBodyAttributeMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
-        if let messageBody = messageBody {
-            try container.encode(messageBody, forKey: ClientRuntime.Key("MessageBody"))
+        if let messageBody = self.messageBody {
+            try encodeContainer.encode(messageBody, forKey: .messageBody)
         }
-        if let messageDeduplicationId = messageDeduplicationId {
-            try container.encode(messageDeduplicationId, forKey: ClientRuntime.Key("MessageDeduplicationId"))
+        if let messageDeduplicationId = self.messageDeduplicationId {
+            try encodeContainer.encode(messageDeduplicationId, forKey: .messageDeduplicationId)
         }
-        if let messageGroupId = messageGroupId {
-            try container.encode(messageGroupId, forKey: ClientRuntime.Key("MessageGroupId"))
+        if let messageGroupId = self.messageGroupId {
+            try encodeContainer.encode(messageGroupId, forKey: .messageGroupId)
         }
         if let messageSystemAttributes = messageSystemAttributes {
-            if !messageSystemAttributes.isEmpty {
-                for (index0, element0) in messageSystemAttributes.sorted(by: { $0.key < $1.key }).enumerated() {
-                    let messagesystemattributenameforsendsKey0 = element0.key
-                    let messagesystemattributevalueValue0 = element0.value
-                    var nestedContainer0 = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("MessageSystemAttribute.\(index0.advanced(by: 1))"))
-                    var keyContainer0 = nestedContainer0.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Name"))
-                    try keyContainer0.encode(messagesystemattributenameforsendsKey0, forKey: ClientRuntime.Key(""))
-                    var valueContainer0 = nestedContainer0.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Value"))
-                    try valueContainer0.encode(messagesystemattributevalueValue0, forKey: ClientRuntime.Key(""))
-                }
+            var messageSystemAttributesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .messageSystemAttributes)
+            for (dictKey0, messageBodySystemAttributeMap0) in messageSystemAttributes {
+                try messageSystemAttributesContainer.encode(messageBodySystemAttributeMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
-        if let queueUrl = queueUrl {
-            try container.encode(queueUrl, forKey: ClientRuntime.Key("QueueUrl"))
+        if let queueUrl = self.queueUrl {
+            try encodeContainer.encode(queueUrl, forKey: .queueUrl)
         }
-        try container.encode("SendMessage", forKey:ClientRuntime.Key("Action"))
-        try container.encode("2012-11-05", forKey:ClientRuntime.Key("Version"))
     }
 }
 
@@ -4336,11 +5205,11 @@ struct SendMessageInputBody: Swift.Equatable {
 extension SendMessageInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case delaySeconds = "DelaySeconds"
-        case messageAttributes = "MessageAttribute"
+        case messageAttributes = "MessageAttributes"
         case messageBody = "MessageBody"
         case messageDeduplicationId = "MessageDeduplicationId"
         case messageGroupId = "MessageGroupId"
-        case messageSystemAttributes = "MessageSystemAttribute"
+        case messageSystemAttributes = "MessageSystemAttributes"
         case queueUrl = "QueueUrl"
     }
 
@@ -4350,46 +5219,30 @@ extension SendMessageInputBody: Swift.Decodable {
         queueUrl = queueUrlDecoded
         let messageBodyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .messageBody)
         messageBody = messageBodyDecoded
-        let delaySecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .delaySeconds) ?? 0
+        let delaySecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .delaySeconds)
         delaySeconds = delaySecondsDecoded
-        if containerValues.contains(.messageAttributes) {
-            struct KeyVal0{struct Name{}; struct Value{}}
-            let messageAttributesWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: ClientRuntime.MapEntry<Swift.String, SQSClientTypes.MessageAttributeValue, KeyVal0.Name, KeyVal0.Value>.CodingKeys.self, forKey: .messageAttributes)
-            if messageAttributesWrappedContainer != nil {
-                let messageAttributesContainer = try containerValues.decodeIfPresent([ClientRuntime.MapKeyValue<Swift.String, SQSClientTypes.MessageAttributeValue, KeyVal0.Name, KeyVal0.Value>].self, forKey: .messageAttributes)
-                var messageAttributesBuffer: [Swift.String:SQSClientTypes.MessageAttributeValue]? = nil
-                if let messageAttributesContainer = messageAttributesContainer {
-                    messageAttributesBuffer = [Swift.String:SQSClientTypes.MessageAttributeValue]()
-                    for structureContainer0 in messageAttributesContainer {
-                        messageAttributesBuffer?[structureContainer0.key] = structureContainer0.value
-                    }
+        let messageAttributesContainer = try containerValues.decodeIfPresent([Swift.String: SQSClientTypes.MessageAttributeValue?].self, forKey: .messageAttributes)
+        var messageAttributesDecoded0: [Swift.String:SQSClientTypes.MessageAttributeValue]? = nil
+        if let messageAttributesContainer = messageAttributesContainer {
+            messageAttributesDecoded0 = [Swift.String:SQSClientTypes.MessageAttributeValue]()
+            for (key0, messageattributevalue0) in messageAttributesContainer {
+                if let messageattributevalue0 = messageattributevalue0 {
+                    messageAttributesDecoded0?[key0] = messageattributevalue0
                 }
-                messageAttributes = messageAttributesBuffer
-            } else {
-                messageAttributes = [:]
             }
-        } else {
-            messageAttributes = nil
         }
-        if containerValues.contains(.messageSystemAttributes) {
-            struct KeyVal0{struct Name{}; struct Value{}}
-            let messageSystemAttributesWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: ClientRuntime.MapEntry<Swift.String, SQSClientTypes.MessageSystemAttributeValue, KeyVal0.Name, KeyVal0.Value>.CodingKeys.self, forKey: .messageSystemAttributes)
-            if messageSystemAttributesWrappedContainer != nil {
-                let messageSystemAttributesContainer = try containerValues.decodeIfPresent([ClientRuntime.MapKeyValue<Swift.String, SQSClientTypes.MessageSystemAttributeValue, KeyVal0.Name, KeyVal0.Value>].self, forKey: .messageSystemAttributes)
-                var messageSystemAttributesBuffer: [Swift.String:SQSClientTypes.MessageSystemAttributeValue]? = nil
-                if let messageSystemAttributesContainer = messageSystemAttributesContainer {
-                    messageSystemAttributesBuffer = [Swift.String:SQSClientTypes.MessageSystemAttributeValue]()
-                    for structureContainer0 in messageSystemAttributesContainer {
-                        messageSystemAttributesBuffer?[structureContainer0.key] = structureContainer0.value
-                    }
+        messageAttributes = messageAttributesDecoded0
+        let messageSystemAttributesContainer = try containerValues.decodeIfPresent([Swift.String: SQSClientTypes.MessageSystemAttributeValue?].self, forKey: .messageSystemAttributes)
+        var messageSystemAttributesDecoded0: [Swift.String:SQSClientTypes.MessageSystemAttributeValue]? = nil
+        if let messageSystemAttributesContainer = messageSystemAttributesContainer {
+            messageSystemAttributesDecoded0 = [Swift.String:SQSClientTypes.MessageSystemAttributeValue]()
+            for (key0, messagesystemattributevalue0) in messageSystemAttributesContainer {
+                if let messagesystemattributevalue0 = messagesystemattributevalue0 {
+                    messageSystemAttributesDecoded0?[key0] = messagesystemattributevalue0
                 }
-                messageSystemAttributes = messageSystemAttributesBuffer
-            } else {
-                messageSystemAttributes = [:]
             }
-        } else {
-            messageSystemAttributes = nil
         }
+        messageSystemAttributes = messageSystemAttributesDecoded0
         let messageDeduplicationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .messageDeduplicationId)
         messageDeduplicationId = messageDeduplicationIdDecoded
         let messageGroupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .messageGroupId)
@@ -4464,8 +5317,7 @@ extension SendMessageOutputBody: Swift.Decodable {
     }
 
     public init(from decoder: Swift.Decoder) throws {
-        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
-        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("SendMessageResult"))
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let md5OfMessageBodyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .md5OfMessageBody)
         md5OfMessageBody = md5OfMessageBodyDecoded
         let md5OfMessageAttributesDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .md5OfMessageAttributes)
@@ -4481,36 +5333,44 @@ extension SendMessageOutputBody: Swift.Decodable {
 
 enum SendMessageOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "InvalidMessageContents": return try await InvalidMessageContents(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "AWS.SimpleQueueService.UnsupportedOperation": return try await UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidAddress": return try await InvalidAddress(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidMessageContents": return try await InvalidMessageContents(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidSecurity": return try await InvalidSecurity(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KMS.AccessDeniedException": return try await KmsAccessDenied(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KMS.DisabledException": return try await KmsDisabled(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KMS.InvalidKeyUsageException": return try await KmsInvalidKeyUsage(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KMS.InvalidStateException": return try await KmsInvalidState(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KMS.NotFoundException": return try await KmsNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KMS.OptInRequired": return try await KmsOptInRequired(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KMS.ThrottlingException": return try await KmsThrottled(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AWS.SimpleQueueService.NonExistentQueue": return try await QueueDoesNotExist(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RequestThrottled": return try await RequestThrottled(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AWS.SimpleQueueService.UnsupportedOperation": return try await UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
 extension SetQueueAttributesInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case attributes = "Attributes"
+        case queueUrl = "QueueUrl"
+    }
+
     public func encode(to encoder: Swift.Encoder) throws {
-        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let attributes = attributes {
-            if !attributes.isEmpty {
-                for (index0, element0) in attributes.sorted(by: { $0.key < $1.key }).enumerated() {
-                    let queueattributenameKey0 = element0.key
-                    let stringValue0 = element0.value
-                    var nestedContainer0 = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Attribute.\(index0.advanced(by: 1))"))
-                    var keyContainer0 = nestedContainer0.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Name"))
-                    try keyContainer0.encode(queueattributenameKey0, forKey: ClientRuntime.Key(""))
-                    var valueContainer0 = nestedContainer0.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Value"))
-                    try valueContainer0.encode(stringValue0, forKey: ClientRuntime.Key(""))
-                }
+            var attributesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .attributes)
+            for (dictKey0, queueAttributeMap0) in attributes {
+                try attributesContainer.encode(queueAttributeMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
-        if let queueUrl = queueUrl {
-            try container.encode(queueUrl, forKey: ClientRuntime.Key("QueueUrl"))
+        if let queueUrl = self.queueUrl {
+            try encodeContainer.encode(queueUrl, forKey: .queueUrl)
         }
-        try container.encode("SetQueueAttributes", forKey:ClientRuntime.Key("Action"))
-        try container.encode("2012-11-05", forKey:ClientRuntime.Key("Version"))
     }
 }
 
@@ -4639,7 +5499,7 @@ struct SetQueueAttributesInputBody: Swift.Equatable {
 
 extension SetQueueAttributesInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case attributes = "Attribute"
+        case attributes = "Attributes"
         case queueUrl = "QueueUrl"
     }
 
@@ -4647,25 +5507,17 @@ extension SetQueueAttributesInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let queueUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .queueUrl)
         queueUrl = queueUrlDecoded
-        if containerValues.contains(.attributes) {
-            struct KeyVal0{struct Name{}; struct Value{}}
-            let attributesWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: ClientRuntime.MapEntry<Swift.String, Swift.String, KeyVal0.Name, KeyVal0.Value>.CodingKeys.self, forKey: .attributes)
-            if attributesWrappedContainer != nil {
-                let attributesContainer = try containerValues.decodeIfPresent([ClientRuntime.MapKeyValue<Swift.String, Swift.String, KeyVal0.Name, KeyVal0.Value>].self, forKey: .attributes)
-                var attributesBuffer: [Swift.String:Swift.String]? = nil
-                if let attributesContainer = attributesContainer {
-                    attributesBuffer = [Swift.String:Swift.String]()
-                    for stringContainer0 in attributesContainer {
-                        attributesBuffer?[stringContainer0.key] = stringContainer0.value
-                    }
+        let attributesContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .attributes)
+        var attributesDecoded0: [Swift.String:Swift.String]? = nil
+        if let attributesContainer = attributesContainer {
+            attributesDecoded0 = [Swift.String:Swift.String]()
+            for (key0, string0) in attributesContainer {
+                if let string0 = string0 {
+                    attributesDecoded0?[key0] = string0
                 }
-                attributes = attributesBuffer
-            } else {
-                attributes = [:]
             }
-        } else {
-            attributes = nil
         }
+        attributes = attributesDecoded0
     }
 }
 
@@ -4681,28 +5533,40 @@ public struct SetQueueAttributesOutput: Swift.Equatable {
 
 enum SetQueueAttributesOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "InvalidAttributeName": return try await InvalidAttributeName(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidAddress": return try await InvalidAddress(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidAttributeName": return try await InvalidAttributeName(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidAttributeValue": return try await InvalidAttributeValue(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidSecurity": return try await InvalidSecurity(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OverLimit": return try await OverLimit(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AWS.SimpleQueueService.NonExistentQueue": return try await QueueDoesNotExist(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RequestThrottled": return try await RequestThrottled(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AWS.SimpleQueueService.UnsupportedOperation": return try await UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
 extension StartMessageMoveTaskInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case destinationArn = "DestinationArn"
+        case maxNumberOfMessagesPerSecond = "MaxNumberOfMessagesPerSecond"
+        case sourceArn = "SourceArn"
+    }
+
     public func encode(to encoder: Swift.Encoder) throws {
-        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if let destinationArn = destinationArn {
-            try container.encode(destinationArn, forKey: ClientRuntime.Key("DestinationArn"))
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let destinationArn = self.destinationArn {
+            try encodeContainer.encode(destinationArn, forKey: .destinationArn)
         }
-        if let maxNumberOfMessagesPerSecond = maxNumberOfMessagesPerSecond {
-            try container.encode(maxNumberOfMessagesPerSecond, forKey: ClientRuntime.Key("MaxNumberOfMessagesPerSecond"))
+        if let maxNumberOfMessagesPerSecond = self.maxNumberOfMessagesPerSecond {
+            try encodeContainer.encode(maxNumberOfMessagesPerSecond, forKey: .maxNumberOfMessagesPerSecond)
         }
-        if let sourceArn = sourceArn {
-            try container.encode(sourceArn, forKey: ClientRuntime.Key("SourceArn"))
+        if let sourceArn = self.sourceArn {
+            try encodeContainer.encode(sourceArn, forKey: .sourceArn)
         }
-        try container.encode("StartMessageMoveTask", forKey:ClientRuntime.Key("Action"))
-        try container.encode("2012-11-05", forKey:ClientRuntime.Key("Version"))
     }
 }
 
@@ -4752,7 +5616,7 @@ extension StartMessageMoveTaskInputBody: Swift.Decodable {
         sourceArn = sourceArnDecoded
         let destinationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .destinationArn)
         destinationArn = destinationArnDecoded
-        let maxNumberOfMessagesPerSecondDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxNumberOfMessagesPerSecond) ?? 0
+        let maxNumberOfMessagesPerSecondDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxNumberOfMessagesPerSecond)
         maxNumberOfMessagesPerSecond = maxNumberOfMessagesPerSecondDecoded
     }
 }
@@ -4791,8 +5655,7 @@ extension StartMessageMoveTaskOutputBody: Swift.Decodable {
     }
 
     public init(from decoder: Swift.Decoder) throws {
-        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
-        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("StartMessageMoveTaskResult"))
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let taskHandleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .taskHandle)
         taskHandle = taskHandleDecoded
     }
@@ -4800,36 +5663,36 @@ extension StartMessageMoveTaskOutputBody: Swift.Decodable {
 
 enum StartMessageMoveTaskOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "AWS.SimpleQueueService.UnsupportedOperation": return try await UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidAddress": return try await InvalidAddress(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidSecurity": return try await InvalidSecurity(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RequestThrottled": return try await RequestThrottled(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AWS.SimpleQueueService.UnsupportedOperation": return try await UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
 extension TagQueueInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case queueUrl = "QueueUrl"
+        case tags = "Tags"
+    }
+
     public func encode(to encoder: Swift.Encoder) throws {
-        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if let queueUrl = queueUrl {
-            try container.encode(queueUrl, forKey: ClientRuntime.Key("QueueUrl"))
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let queueUrl = self.queueUrl {
+            try encodeContainer.encode(queueUrl, forKey: .queueUrl)
         }
         if let tags = tags {
-            if !tags.isEmpty {
-                for (index0, element0) in tags.sorted(by: { $0.key < $1.key }).enumerated() {
-                    let tagkeyKey0 = element0.key
-                    let tagvalueValue0 = element0.value
-                    var nestedContainer0 = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Tag.\(index0.advanced(by: 1))"))
-                    var keyContainer0 = nestedContainer0.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Key"))
-                    try keyContainer0.encode(tagkeyKey0, forKey: ClientRuntime.Key(""))
-                    var valueContainer0 = nestedContainer0.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Value"))
-                    try valueContainer0.encode(tagvalueValue0, forKey: ClientRuntime.Key(""))
-                }
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
-        try container.encode("TagQueue", forKey:ClientRuntime.Key("Action"))
-        try container.encode("2012-11-05", forKey:ClientRuntime.Key("Version"))
     }
 }
 
@@ -4865,32 +5728,24 @@ struct TagQueueInputBody: Swift.Equatable {
 extension TagQueueInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case queueUrl = "QueueUrl"
-        case tags = "Tag"
+        case tags = "Tags"
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let queueUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .queueUrl)
         queueUrl = queueUrlDecoded
-        if containerValues.contains(.tags) {
-            struct KeyVal0{struct Key{}; struct Value{}}
-            let tagsWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: ClientRuntime.MapEntry<Swift.String, Swift.String, KeyVal0.Key, KeyVal0.Value>.CodingKeys.self, forKey: .tags)
-            if tagsWrappedContainer != nil {
-                let tagsContainer = try containerValues.decodeIfPresent([ClientRuntime.MapKeyValue<Swift.String, Swift.String, KeyVal0.Key, KeyVal0.Value>].self, forKey: .tags)
-                var tagsBuffer: [Swift.String:Swift.String]? = nil
-                if let tagsContainer = tagsContainer {
-                    tagsBuffer = [Swift.String:Swift.String]()
-                    for stringContainer0 in tagsContainer {
-                        tagsBuffer?[stringContainer0.key] = stringContainer0.value
-                    }
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
                 }
-                tags = tagsBuffer
-            } else {
-                tags = [:]
             }
-        } else {
-            tags = nil
         }
+        tags = tagsDecoded0
     }
 }
 
@@ -4906,15 +5761,28 @@ public struct TagQueueOutput: Swift.Equatable {
 
 enum TagQueueOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidAddress": return try await InvalidAddress(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidSecurity": return try await InvalidSecurity(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AWS.SimpleQueueService.NonExistentQueue": return try await QueueDoesNotExist(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RequestThrottled": return try await RequestThrottled(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AWS.SimpleQueueService.UnsupportedOperation": return try await UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
 extension TooManyEntriesInBatchRequest {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: TooManyEntriesInBatchRequestBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
         self.httpResponse = httpResponse
         self.requestID = requestID
         self.message = message
@@ -4923,6 +5791,12 @@ extension TooManyEntriesInBatchRequest {
 
 /// The batch request contains more entries than permissible.
 public struct TooManyEntriesInBatchRequest: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
     public static var typeName: Swift.String { "AWS.SimpleQueueService.TooManyEntriesInBatchRequest" }
     public static var fault: ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
@@ -4931,11 +5805,39 @@ public struct TooManyEntriesInBatchRequest: ClientRuntime.ModeledError, AWSClien
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
-    public init() { }
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct TooManyEntriesInBatchRequestBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension TooManyEntriesInBatchRequestBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
 }
 
 extension UnsupportedOperation {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UnsupportedOperationBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
         self.httpResponse = httpResponse
         self.requestID = requestID
         self.message = message
@@ -4944,6 +5846,12 @@ extension UnsupportedOperation {
 
 /// Error code 400. Unsupported operation.
 public struct UnsupportedOperation: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
     public static var typeName: Swift.String { "AWS.SimpleQueueService.UnsupportedOperation" }
     public static var fault: ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
@@ -4952,29 +5860,47 @@ public struct UnsupportedOperation: ClientRuntime.ModeledError, AWSClientRuntime
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
-    public init() { }
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct UnsupportedOperationBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension UnsupportedOperationBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
 }
 
 extension UntagQueueInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case queueUrl = "QueueUrl"
+        case tagKeys = "TagKeys"
+    }
+
     public func encode(to encoder: Swift.Encoder) throws {
-        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if let queueUrl = queueUrl {
-            try container.encode(queueUrl, forKey: ClientRuntime.Key("QueueUrl"))
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let queueUrl = self.queueUrl {
+            try encodeContainer.encode(queueUrl, forKey: .queueUrl)
         }
         if let tagKeys = tagKeys {
-            if !tagKeys.isEmpty {
-                for (index0, tagkey0) in tagKeys.enumerated() {
-                    var tagKeysContainer0 = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("TagKey.\(index0.advanced(by: 1))"))
-                    try tagKeysContainer0.encode(tagkey0, forKey: ClientRuntime.Key(""))
-                }
-            }
-            else {
-                var tagKeysContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("TagKey"))
-                try tagKeysContainer.encode("", forKey: ClientRuntime.Key(""))
+            var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
+            for tagkey0 in tagKeys {
+                try tagKeysContainer.encode(tagkey0)
             }
         }
-        try container.encode("UntagQueue", forKey:ClientRuntime.Key("Action"))
-        try container.encode("2012-11-05", forKey:ClientRuntime.Key("Version"))
     }
 }
 
@@ -5010,31 +5936,24 @@ struct UntagQueueInputBody: Swift.Equatable {
 extension UntagQueueInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case queueUrl = "QueueUrl"
-        case tagKeys = "TagKey"
+        case tagKeys = "TagKeys"
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let queueUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .queueUrl)
         queueUrl = queueUrlDecoded
-        if containerValues.contains(.tagKeys) {
-            let tagKeysWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CodingKeys.self, forKey: .tagKeys)
-            if tagKeysWrappedContainer != nil {
-                let tagKeysContainer = try containerValues.decodeIfPresent([Swift.String].self, forKey: .tagKeys)
-                var tagKeysBuffer:[Swift.String]? = nil
-                if let tagKeysContainer = tagKeysContainer {
-                    tagKeysBuffer = [Swift.String]()
-                    for stringContainer0 in tagKeysContainer {
-                        tagKeysBuffer?.append(stringContainer0)
-                    }
+        let tagKeysContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .tagKeys)
+        var tagKeysDecoded0:[Swift.String]? = nil
+        if let tagKeysContainer = tagKeysContainer {
+            tagKeysDecoded0 = [Swift.String]()
+            for string0 in tagKeysContainer {
+                if let string0 = string0 {
+                    tagKeysDecoded0?.append(string0)
                 }
-                tagKeys = tagKeysBuffer
-            } else {
-                tagKeys = []
             }
-        } else {
-            tagKeys = nil
         }
+        tagKeys = tagKeysDecoded0
     }
 }
 
@@ -5050,9 +5969,15 @@ public struct UntagQueueOutput: Swift.Equatable {
 
 enum UntagQueueOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidAddress": return try await InvalidAddress(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidSecurity": return try await InvalidSecurity(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AWS.SimpleQueueService.NonExistentQueue": return try await QueueDoesNotExist(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RequestThrottled": return try await RequestThrottled(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AWS.SimpleQueueService.UnsupportedOperation": return try await UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
