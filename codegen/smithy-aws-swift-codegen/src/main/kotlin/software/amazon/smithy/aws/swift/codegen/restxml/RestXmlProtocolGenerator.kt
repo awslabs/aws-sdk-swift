@@ -33,6 +33,7 @@ class RestXmlProtocolGenerator : AWSHttpBindingProtocolGenerator() {
         AWSRestXMLHttpResponseBindingErrorGenerator(),
         AWSXMLHttpResponseBindingErrorInitGeneratorFactory()
     )
+    override val shouldRenderDecodableBodyStructForInputShapes = false
     override val serdeContext = serdeContextXML
     override val testsToIgnore = setOf(
         "S3DefaultAddressing",

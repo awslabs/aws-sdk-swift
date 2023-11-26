@@ -52,7 +52,18 @@ public protocol SQSClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `InvalidAddress` : The accountId is invalid.
+    /// - `InvalidSecurity` : When the request to a queue is not HTTPS and SigV4.
     /// - `OverLimit` : The specified action violates a limit. For example, ReceiveMessage returns this error if the maximum number of in flight messages is reached and AddPermission returns this error if the maximum number of permissions for the queue is reached.
+    /// - `QueueDoesNotExist` : The specified queue doesn't exist.
+    /// - `RequestThrottled` : The request was denied due to request throttling.
+    ///
+    /// * The rate of requests per second exceeds the Amazon Web Services KMS request quota for an account and Region.
+    ///
+    /// * A burst or sustained high rate of requests to change the state of the same KMS key. This condition is often known as a "hot key."
+    ///
+    /// * Requests for operations on KMS keys in a Amazon Web Services CloudHSM key store might be throttled at a lower-than-expected rate when the Amazon Web Services CloudHSM cluster associated with the Amazon Web Services CloudHSM key store is processing numerous commands, including those unrelated to the Amazon Web Services CloudHSM key store.
+    /// - `UnsupportedOperation` : Error code 400. Unsupported operation.
     func addPermission(input: AddPermissionInput) async throws -> AddPermissionOutput
     /// Cancels a specified message movement task. A message movement can only be cancelled when the current status is RUNNING. Cancelling a message movement task does not revert the messages that have already been moved. It can only stop the messages that have not been moved yet.
     ///
@@ -69,6 +80,15 @@ public protocol SQSClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `InvalidAddress` : The accountId is invalid.
+    /// - `InvalidSecurity` : When the request to a queue is not HTTPS and SigV4.
+    /// - `RequestThrottled` : The request was denied due to request throttling.
+    ///
+    /// * The rate of requests per second exceeds the Amazon Web Services KMS request quota for an account and Region.
+    ///
+    /// * A burst or sustained high rate of requests to change the state of the same KMS key. This condition is often known as a "hot key."
+    ///
+    /// * Requests for operations on KMS keys in a Amazon Web Services CloudHSM key store might be throttled at a lower-than-expected rate when the Amazon Web Services CloudHSM cluster associated with the Amazon Web Services CloudHSM key store is processing numerous commands, including those unrelated to the Amazon Web Services CloudHSM key store.
     /// - `ResourceNotFoundException` : One or more specified resources don't exist.
     /// - `UnsupportedOperation` : Error code 400. Unsupported operation.
     func cancelMessageMoveTask(input: CancelMessageMoveTaskInput) async throws -> CancelMessageMoveTaskOutput
@@ -90,8 +110,19 @@ public protocol SQSClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `InvalidAddress` : The accountId is invalid.
+    /// - `InvalidSecurity` : When the request to a queue is not HTTPS and SigV4.
     /// - `MessageNotInflight` : The specified message isn't in flight.
+    /// - `QueueDoesNotExist` : The specified queue doesn't exist.
     /// - `ReceiptHandleIsInvalid` : The specified receipt handle isn't valid.
+    /// - `RequestThrottled` : The request was denied due to request throttling.
+    ///
+    /// * The rate of requests per second exceeds the Amazon Web Services KMS request quota for an account and Region.
+    ///
+    /// * A burst or sustained high rate of requests to change the state of the same KMS key. This condition is often known as a "hot key."
+    ///
+    /// * Requests for operations on KMS keys in a Amazon Web Services CloudHSM key store might be throttled at a lower-than-expected rate when the Amazon Web Services CloudHSM cluster associated with the Amazon Web Services CloudHSM key store is processing numerous commands, including those unrelated to the Amazon Web Services CloudHSM key store.
+    /// - `UnsupportedOperation` : Error code 400. Unsupported operation.
     func changeMessageVisibility(input: ChangeMessageVisibilityInput) async throws -> ChangeMessageVisibilityOutput
     /// Changes the visibility timeout of multiple messages. This is a batch version of [ChangeMessageVisibility]. The result of the action on each message is reported individually in the response. You can send up to 10 [ChangeMessageVisibility] requests with each ChangeMessageVisibilityBatch action. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200.
     ///
@@ -104,8 +135,19 @@ public protocol SQSClientProtocol {
     /// __Possible Exceptions:__
     /// - `BatchEntryIdsNotDistinct` : Two or more batch entries in the request have the same Id.
     /// - `EmptyBatchRequest` : The batch request doesn't contain any entries.
+    /// - `InvalidAddress` : The accountId is invalid.
     /// - `InvalidBatchEntryId` : The Id of a batch entry in a batch request doesn't abide by the specification.
+    /// - `InvalidSecurity` : When the request to a queue is not HTTPS and SigV4.
+    /// - `QueueDoesNotExist` : The specified queue doesn't exist.
+    /// - `RequestThrottled` : The request was denied due to request throttling.
+    ///
+    /// * The rate of requests per second exceeds the Amazon Web Services KMS request quota for an account and Region.
+    ///
+    /// * A burst or sustained high rate of requests to change the state of the same KMS key. This condition is often known as a "hot key."
+    ///
+    /// * Requests for operations on KMS keys in a Amazon Web Services CloudHSM key store might be throttled at a lower-than-expected rate when the Amazon Web Services CloudHSM cluster associated with the Amazon Web Services CloudHSM key store is processing numerous commands, including those unrelated to the Amazon Web Services CloudHSM key store.
     /// - `TooManyEntriesInBatchRequest` : The batch request contains more entries than permissible.
+    /// - `UnsupportedOperation` : Error code 400. Unsupported operation.
     func changeMessageVisibilityBatch(input: ChangeMessageVisibilityBatchInput) async throws -> ChangeMessageVisibilityBatchOutput
     /// Creates a new standard or FIFO queue. You can pass one or more attributes in the request. Keep the following in mind:
     ///
@@ -132,8 +174,20 @@ public protocol SQSClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `InvalidAddress` : The accountId is invalid.
+    /// - `InvalidAttributeName` : The specified attribute doesn't exist.
+    /// - `InvalidAttributeValue` : A queue attribute value is invalid.
+    /// - `InvalidSecurity` : When the request to a queue is not HTTPS and SigV4.
     /// - `QueueDeletedRecently` : You must wait 60 seconds after deleting a queue before you can create another queue with the same name.
     /// - `QueueNameExists` : A queue with this name already exists. Amazon SQS returns this error only if the request includes attributes whose values differ from those of the existing queue.
+    /// - `RequestThrottled` : The request was denied due to request throttling.
+    ///
+    /// * The rate of requests per second exceeds the Amazon Web Services KMS request quota for an account and Region.
+    ///
+    /// * A burst or sustained high rate of requests to change the state of the same KMS key. This condition is often known as a "hot key."
+    ///
+    /// * Requests for operations on KMS keys in a Amazon Web Services CloudHSM key store might be throttled at a lower-than-expected rate when the Amazon Web Services CloudHSM cluster associated with the Amazon Web Services CloudHSM key store is processing numerous commands, including those unrelated to the Amazon Web Services CloudHSM key store.
+    /// - `UnsupportedOperation` : Error code 400. Unsupported operation.
     func createQueue(input: CreateQueueInput) async throws -> CreateQueueOutput
     /// Deletes the specified message from the specified queue. To select the message to delete, use the ReceiptHandle of the message (not the MessageId which you receive when you send the message). Amazon SQS can delete a message from a queue even if a visibility timeout setting causes the message to be locked by another consumer. Amazon SQS automatically deletes messages left in a queue longer than the retention period configured for the queue. The ReceiptHandle is associated with a specific instance of receiving a message. If you receive a message more than once, the ReceiptHandle is different each time you receive a message. When you use the DeleteMessage action, you must provide the most recently received ReceiptHandle for the message (otherwise, the request succeeds, but the message will not be deleted). For standard queues, it is possible to receive a message even after you delete it. This might happen on rare occasions if one of the servers which stores a copy of the message is unavailable when you send the request to delete the message. The copy remains on the server and might be returned to you during a subsequent receive request. You should ensure that your application is idempotent, so that receiving a message more than once does not cause issues.
     ///
@@ -144,8 +198,19 @@ public protocol SQSClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `InvalidAddress` : The accountId is invalid.
     /// - `InvalidIdFormat` : The specified receipt handle isn't valid for the current version.
+    /// - `InvalidSecurity` : When the request to a queue is not HTTPS and SigV4.
+    /// - `QueueDoesNotExist` : The specified queue doesn't exist.
     /// - `ReceiptHandleIsInvalid` : The specified receipt handle isn't valid.
+    /// - `RequestThrottled` : The request was denied due to request throttling.
+    ///
+    /// * The rate of requests per second exceeds the Amazon Web Services KMS request quota for an account and Region.
+    ///
+    /// * A burst or sustained high rate of requests to change the state of the same KMS key. This condition is often known as a "hot key."
+    ///
+    /// * Requests for operations on KMS keys in a Amazon Web Services CloudHSM key store might be throttled at a lower-than-expected rate when the Amazon Web Services CloudHSM cluster associated with the Amazon Web Services CloudHSM key store is processing numerous commands, including those unrelated to the Amazon Web Services CloudHSM key store.
+    /// - `UnsupportedOperation` : Error code 400. Unsupported operation.
     func deleteMessage(input: DeleteMessageInput) async throws -> DeleteMessageOutput
     /// Deletes up to ten messages from the specified queue. This is a batch version of [DeleteMessage]. The result of the action on each message is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200.
     ///
@@ -158,14 +223,40 @@ public protocol SQSClientProtocol {
     /// __Possible Exceptions:__
     /// - `BatchEntryIdsNotDistinct` : Two or more batch entries in the request have the same Id.
     /// - `EmptyBatchRequest` : The batch request doesn't contain any entries.
+    /// - `InvalidAddress` : The accountId is invalid.
     /// - `InvalidBatchEntryId` : The Id of a batch entry in a batch request doesn't abide by the specification.
+    /// - `InvalidSecurity` : When the request to a queue is not HTTPS and SigV4.
+    /// - `QueueDoesNotExist` : The specified queue doesn't exist.
+    /// - `RequestThrottled` : The request was denied due to request throttling.
+    ///
+    /// * The rate of requests per second exceeds the Amazon Web Services KMS request quota for an account and Region.
+    ///
+    /// * A burst or sustained high rate of requests to change the state of the same KMS key. This condition is often known as a "hot key."
+    ///
+    /// * Requests for operations on KMS keys in a Amazon Web Services CloudHSM key store might be throttled at a lower-than-expected rate when the Amazon Web Services CloudHSM cluster associated with the Amazon Web Services CloudHSM key store is processing numerous commands, including those unrelated to the Amazon Web Services CloudHSM key store.
     /// - `TooManyEntriesInBatchRequest` : The batch request contains more entries than permissible.
+    /// - `UnsupportedOperation` : Error code 400. Unsupported operation.
     func deleteMessageBatch(input: DeleteMessageBatchInput) async throws -> DeleteMessageBatchOutput
     /// Deletes the queue specified by the QueueUrl, regardless of the queue's contents. Be careful with the DeleteQueue action: When you delete a queue, any messages in the queue are no longer available. When you delete a queue, the deletion process takes up to 60 seconds. Requests you send involving that queue during the 60 seconds might succeed. For example, a [SendMessage] request might succeed, but after 60 seconds the queue and the message you sent no longer exist. When you delete a queue, you must wait at least 60 seconds before creating a queue with the same name. Cross-account permissions don't apply to this action. For more information, see [Grant cross-account permissions to a role and a username](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-customer-managed-policy-examples.html#grant-cross-account-permissions-to-role-and-user-name) in the Amazon SQS Developer Guide. The delete operation uses the HTTP GET verb.
     ///
     /// - Parameter DeleteQueueInput :
     ///
     /// - Returns: `DeleteQueueOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidAddress` : The accountId is invalid.
+    /// - `InvalidSecurity` : When the request to a queue is not HTTPS and SigV4.
+    /// - `QueueDoesNotExist` : The specified queue doesn't exist.
+    /// - `RequestThrottled` : The request was denied due to request throttling.
+    ///
+    /// * The rate of requests per second exceeds the Amazon Web Services KMS request quota for an account and Region.
+    ///
+    /// * A burst or sustained high rate of requests to change the state of the same KMS key. This condition is often known as a "hot key."
+    ///
+    /// * Requests for operations on KMS keys in a Amazon Web Services CloudHSM key store might be throttled at a lower-than-expected rate when the Amazon Web Services CloudHSM cluster associated with the Amazon Web Services CloudHSM key store is processing numerous commands, including those unrelated to the Amazon Web Services CloudHSM key store.
+    /// - `UnsupportedOperation` : Error code 400. Unsupported operation.
     func deleteQueue(input: DeleteQueueInput) async throws -> DeleteQueueOutput
     /// Gets attributes for the specified queue. To determine whether a queue is [FIFO](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/FIFO-queues.html), you can check whether QueueName ends with the .fifo suffix.
     ///
@@ -176,7 +267,18 @@ public protocol SQSClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `InvalidAddress` : The accountId is invalid.
     /// - `InvalidAttributeName` : The specified attribute doesn't exist.
+    /// - `InvalidSecurity` : When the request to a queue is not HTTPS and SigV4.
+    /// - `QueueDoesNotExist` : The specified queue doesn't exist.
+    /// - `RequestThrottled` : The request was denied due to request throttling.
+    ///
+    /// * The rate of requests per second exceeds the Amazon Web Services KMS request quota for an account and Region.
+    ///
+    /// * A burst or sustained high rate of requests to change the state of the same KMS key. This condition is often known as a "hot key."
+    ///
+    /// * Requests for operations on KMS keys in a Amazon Web Services CloudHSM key store might be throttled at a lower-than-expected rate when the Amazon Web Services CloudHSM cluster associated with the Amazon Web Services CloudHSM key store is processing numerous commands, including those unrelated to the Amazon Web Services CloudHSM key store.
+    /// - `UnsupportedOperation` : Error code 400. Unsupported operation.
     func getQueueAttributes(input: GetQueueAttributesInput) async throws -> GetQueueAttributesOutput
     /// Returns the URL of an existing Amazon SQS queue. To access a queue that belongs to another AWS account, use the QueueOwnerAWSAccountId parameter to specify the account ID of the queue's owner. The queue's owner must grant you permission to access the queue. For more information about shared queue access, see [AddPermission] or see [Allow Developers to Write Messages to a Shared Queue](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-writing-an-sqs-policy.html#write-messages-to-shared-queue) in the Amazon SQS Developer Guide.
     ///
@@ -187,7 +289,17 @@ public protocol SQSClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `InvalidAddress` : The accountId is invalid.
+    /// - `InvalidSecurity` : When the request to a queue is not HTTPS and SigV4.
     /// - `QueueDoesNotExist` : The specified queue doesn't exist.
+    /// - `RequestThrottled` : The request was denied due to request throttling.
+    ///
+    /// * The rate of requests per second exceeds the Amazon Web Services KMS request quota for an account and Region.
+    ///
+    /// * A burst or sustained high rate of requests to change the state of the same KMS key. This condition is often known as a "hot key."
+    ///
+    /// * Requests for operations on KMS keys in a Amazon Web Services CloudHSM key store might be throttled at a lower-than-expected rate when the Amazon Web Services CloudHSM cluster associated with the Amazon Web Services CloudHSM key store is processing numerous commands, including those unrelated to the Amazon Web Services CloudHSM key store.
+    /// - `UnsupportedOperation` : Error code 400. Unsupported operation.
     func getQueueUrl(input: GetQueueUrlInput) async throws -> GetQueueUrlOutput
     /// Returns a list of your queues that have the RedrivePolicy queue attribute configured with a dead-letter queue. The ListDeadLetterSourceQueues methods supports pagination. Set parameter MaxResults in the request to specify the maximum number of results to be returned in the response. If you do not set MaxResults, the response includes a maximum of 1,000 results. If you set MaxResults and there are additional results to display, the response includes a value for NextToken. Use NextToken as a parameter in your next request to ListDeadLetterSourceQueues to receive the next page of results. For more information about using dead-letter queues, see [Using Amazon SQS Dead-Letter Queues](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-dead-letter-queues.html) in the Amazon SQS Developer Guide.
     ///
@@ -198,7 +310,17 @@ public protocol SQSClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `InvalidAddress` : The accountId is invalid.
+    /// - `InvalidSecurity` : When the request to a queue is not HTTPS and SigV4.
     /// - `QueueDoesNotExist` : The specified queue doesn't exist.
+    /// - `RequestThrottled` : The request was denied due to request throttling.
+    ///
+    /// * The rate of requests per second exceeds the Amazon Web Services KMS request quota for an account and Region.
+    ///
+    /// * A burst or sustained high rate of requests to change the state of the same KMS key. This condition is often known as a "hot key."
+    ///
+    /// * Requests for operations on KMS keys in a Amazon Web Services CloudHSM key store might be throttled at a lower-than-expected rate when the Amazon Web Services CloudHSM cluster associated with the Amazon Web Services CloudHSM key store is processing numerous commands, including those unrelated to the Amazon Web Services CloudHSM key store.
+    /// - `UnsupportedOperation` : Error code 400. Unsupported operation.
     func listDeadLetterSourceQueues(input: ListDeadLetterSourceQueuesInput) async throws -> ListDeadLetterSourceQueuesOutput
     /// Gets the most recent message movement tasks (up to 10) under a specific source queue.
     ///
@@ -215,6 +337,15 @@ public protocol SQSClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `InvalidAddress` : The accountId is invalid.
+    /// - `InvalidSecurity` : When the request to a queue is not HTTPS and SigV4.
+    /// - `RequestThrottled` : The request was denied due to request throttling.
+    ///
+    /// * The rate of requests per second exceeds the Amazon Web Services KMS request quota for an account and Region.
+    ///
+    /// * A burst or sustained high rate of requests to change the state of the same KMS key. This condition is often known as a "hot key."
+    ///
+    /// * Requests for operations on KMS keys in a Amazon Web Services CloudHSM key store might be throttled at a lower-than-expected rate when the Amazon Web Services CloudHSM cluster associated with the Amazon Web Services CloudHSM key store is processing numerous commands, including those unrelated to the Amazon Web Services CloudHSM key store.
     /// - `ResourceNotFoundException` : One or more specified resources don't exist.
     /// - `UnsupportedOperation` : Error code 400. Unsupported operation.
     func listMessageMoveTasks(input: ListMessageMoveTasksInput) async throws -> ListMessageMoveTasksOutput
@@ -223,12 +354,41 @@ public protocol SQSClientProtocol {
     /// - Parameter ListQueuesInput :
     ///
     /// - Returns: `ListQueuesOutput` : A list of your queues.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidAddress` : The accountId is invalid.
+    /// - `InvalidSecurity` : When the request to a queue is not HTTPS and SigV4.
+    /// - `RequestThrottled` : The request was denied due to request throttling.
+    ///
+    /// * The rate of requests per second exceeds the Amazon Web Services KMS request quota for an account and Region.
+    ///
+    /// * A burst or sustained high rate of requests to change the state of the same KMS key. This condition is often known as a "hot key."
+    ///
+    /// * Requests for operations on KMS keys in a Amazon Web Services CloudHSM key store might be throttled at a lower-than-expected rate when the Amazon Web Services CloudHSM cluster associated with the Amazon Web Services CloudHSM key store is processing numerous commands, including those unrelated to the Amazon Web Services CloudHSM key store.
+    /// - `UnsupportedOperation` : Error code 400. Unsupported operation.
     func listQueues(input: ListQueuesInput) async throws -> ListQueuesOutput
     /// List all cost allocation tags added to the specified Amazon SQS queue. For an overview, see [Tagging Your Amazon SQS Queues](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-queue-tags.html) in the Amazon SQS Developer Guide. Cross-account permissions don't apply to this action. For more information, see [Grant cross-account permissions to a role and a username](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-customer-managed-policy-examples.html#grant-cross-account-permissions-to-role-and-user-name) in the Amazon SQS Developer Guide.
     ///
     /// - Parameter ListQueueTagsInput : [no documentation found]
     ///
     /// - Returns: `ListQueueTagsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidAddress` : The accountId is invalid.
+    /// - `InvalidSecurity` : When the request to a queue is not HTTPS and SigV4.
+    /// - `QueueDoesNotExist` : The specified queue doesn't exist.
+    /// - `RequestThrottled` : The request was denied due to request throttling.
+    ///
+    /// * The rate of requests per second exceeds the Amazon Web Services KMS request quota for an account and Region.
+    ///
+    /// * A burst or sustained high rate of requests to change the state of the same KMS key. This condition is often known as a "hot key."
+    ///
+    /// * Requests for operations on KMS keys in a Amazon Web Services CloudHSM key store might be throttled at a lower-than-expected rate when the Amazon Web Services CloudHSM cluster associated with the Amazon Web Services CloudHSM key store is processing numerous commands, including those unrelated to the Amazon Web Services CloudHSM key store.
+    /// - `UnsupportedOperation` : Error code 400. Unsupported operation.
     func listQueueTags(input: ListQueueTagsInput) async throws -> ListQueueTagsOutput
     /// Deletes available messages in a queue (including in-flight messages) specified by the QueueURL parameter. When you use the PurgeQueue action, you can't retrieve any messages deleted from a queue. The message deletion process takes up to 60 seconds. We recommend waiting for 60 seconds regardless of your queue's size. Messages sent to the queue before you call PurgeQueue might be received but are deleted within the next minute. Messages sent to the queue after you call PurgeQueue might be deleted while the queue is being purged.
     ///
@@ -239,8 +399,18 @@ public protocol SQSClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `InvalidAddress` : The accountId is invalid.
+    /// - `InvalidSecurity` : When the request to a queue is not HTTPS and SigV4.
     /// - `PurgeQueueInProgress` : Indicates that the specified queue previously received a PurgeQueue request within the last 60 seconds (the time it can take to delete the messages in the queue).
     /// - `QueueDoesNotExist` : The specified queue doesn't exist.
+    /// - `RequestThrottled` : The request was denied due to request throttling.
+    ///
+    /// * The rate of requests per second exceeds the Amazon Web Services KMS request quota for an account and Region.
+    ///
+    /// * A burst or sustained high rate of requests to change the state of the same KMS key. This condition is often known as a "hot key."
+    ///
+    /// * Requests for operations on KMS keys in a Amazon Web Services CloudHSM key store might be throttled at a lower-than-expected rate when the Amazon Web Services CloudHSM cluster associated with the Amazon Web Services CloudHSM key store is processing numerous commands, including those unrelated to the Amazon Web Services CloudHSM key store.
+    /// - `UnsupportedOperation` : Error code 400. Unsupported operation.
     func purgeQueue(input: PurgeQueueInput) async throws -> PurgeQueueOutput
     /// Retrieves one or more messages (up to 10), from the specified queue. Using the WaitTimeSeconds parameter enables long-poll support. For more information, see [Amazon SQS Long Polling](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-long-polling.html) in the Amazon SQS Developer Guide. Short poll is the default behavior where a weighted random set of machines is sampled on a ReceiveMessage call. Thus, only the messages on the sampled machines are returned. If the number of messages in the queue is small (fewer than 1,000), you most likely get fewer messages than you requested per ReceiveMessage call. If the number of messages in the queue is extremely small, you might not receive any messages in a particular ReceiveMessage response. If this happens, repeat the request. For each message returned, the response includes the following:
     ///
@@ -266,7 +436,29 @@ public protocol SQSClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `InvalidAddress` : The accountId is invalid.
+    /// - `InvalidSecurity` : When the request to a queue is not HTTPS and SigV4.
+    /// - `KmsAccessDenied` : The caller doesn't have the required KMS access.
+    /// - `KmsDisabled` : The request was denied due to request throttling.
+    /// - `KmsInvalidKeyUsage` : The request was rejected for one of the following reasons:
+    ///
+    /// * The KeyUsage value of the KMS key is incompatible with the API operation.
+    ///
+    /// * The encryption algorithm or signing algorithm specified for the operation is incompatible with the type of key material in the KMS key (KeySpec).
+    /// - `KmsInvalidState` : The request was rejected because the state of the specified resource is not valid for this request.
+    /// - `KmsNotFound` : The request was rejected because the specified entity or resource could not be found.
+    /// - `KmsOptInRequired` : The request was rejected because the specified key policy isn't syntactically or semantically correct.
+    /// - `KmsThrottled` : Amazon Web Services KMS throttles requests for the following conditions.
     /// - `OverLimit` : The specified action violates a limit. For example, ReceiveMessage returns this error if the maximum number of in flight messages is reached and AddPermission returns this error if the maximum number of permissions for the queue is reached.
+    /// - `QueueDoesNotExist` : The specified queue doesn't exist.
+    /// - `RequestThrottled` : The request was denied due to request throttling.
+    ///
+    /// * The rate of requests per second exceeds the Amazon Web Services KMS request quota for an account and Region.
+    ///
+    /// * A burst or sustained high rate of requests to change the state of the same KMS key. This condition is often known as a "hot key."
+    ///
+    /// * Requests for operations on KMS keys in a Amazon Web Services CloudHSM key store might be throttled at a lower-than-expected rate when the Amazon Web Services CloudHSM cluster associated with the Amazon Web Services CloudHSM key store is processing numerous commands, including those unrelated to the Amazon Web Services CloudHSM key store.
+    /// - `UnsupportedOperation` : Error code 400. Unsupported operation.
     func receiveMessage(input: ReceiveMessageInput) async throws -> ReceiveMessageOutput
     /// Revokes any permissions in the queue policy that matches the specified Label parameter.
     ///
@@ -279,6 +471,21 @@ public protocol SQSClientProtocol {
     /// - Parameter RemovePermissionInput :
     ///
     /// - Returns: `RemovePermissionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidAddress` : The accountId is invalid.
+    /// - `InvalidSecurity` : When the request to a queue is not HTTPS and SigV4.
+    /// - `QueueDoesNotExist` : The specified queue doesn't exist.
+    /// - `RequestThrottled` : The request was denied due to request throttling.
+    ///
+    /// * The rate of requests per second exceeds the Amazon Web Services KMS request quota for an account and Region.
+    ///
+    /// * A burst or sustained high rate of requests to change the state of the same KMS key. This condition is often known as a "hot key."
+    ///
+    /// * Requests for operations on KMS keys in a Amazon Web Services CloudHSM key store might be throttled at a lower-than-expected rate when the Amazon Web Services CloudHSM cluster associated with the Amazon Web Services CloudHSM key store is processing numerous commands, including those unrelated to the Amazon Web Services CloudHSM key store.
+    /// - `UnsupportedOperation` : Error code 400. Unsupported operation.
     func removePermission(input: RemovePermissionInput) async throws -> RemovePermissionOutput
     /// Delivers a message to the specified queue. A message can include only XML, JSON, and unformatted text. The following Unicode characters are allowed: #x9 | #xA | #xD | #x20 to #xD7FF | #xE000 to #xFFFD | #x10000 to #x10FFFF Any characters not included in this list will be rejected. For more information, see the [W3C specification for characters](http://www.w3.org/TR/REC-xml/#charsets).
     ///
@@ -289,7 +496,28 @@ public protocol SQSClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `InvalidAddress` : The accountId is invalid.
     /// - `InvalidMessageContents` : The message contains characters outside the allowed set.
+    /// - `InvalidSecurity` : When the request to a queue is not HTTPS and SigV4.
+    /// - `KmsAccessDenied` : The caller doesn't have the required KMS access.
+    /// - `KmsDisabled` : The request was denied due to request throttling.
+    /// - `KmsInvalidKeyUsage` : The request was rejected for one of the following reasons:
+    ///
+    /// * The KeyUsage value of the KMS key is incompatible with the API operation.
+    ///
+    /// * The encryption algorithm or signing algorithm specified for the operation is incompatible with the type of key material in the KMS key (KeySpec).
+    /// - `KmsInvalidState` : The request was rejected because the state of the specified resource is not valid for this request.
+    /// - `KmsNotFound` : The request was rejected because the specified entity or resource could not be found.
+    /// - `KmsOptInRequired` : The request was rejected because the specified key policy isn't syntactically or semantically correct.
+    /// - `KmsThrottled` : Amazon Web Services KMS throttles requests for the following conditions.
+    /// - `QueueDoesNotExist` : The specified queue doesn't exist.
+    /// - `RequestThrottled` : The request was denied due to request throttling.
+    ///
+    /// * The rate of requests per second exceeds the Amazon Web Services KMS request quota for an account and Region.
+    ///
+    /// * A burst or sustained high rate of requests to change the state of the same KMS key. This condition is often known as a "hot key."
+    ///
+    /// * Requests for operations on KMS keys in a Amazon Web Services CloudHSM key store might be throttled at a lower-than-expected rate when the Amazon Web Services CloudHSM cluster associated with the Amazon Web Services CloudHSM key store is processing numerous commands, including those unrelated to the Amazon Web Services CloudHSM key store.
     /// - `UnsupportedOperation` : Error code 400. Unsupported operation.
     func sendMessage(input: SendMessageInput) async throws -> SendMessageOutput
     /// You can use SendMessageBatch to send up to 10 messages to the specified queue by assigning either identical or different values to each message (or by not assigning values at all). This is a batch version of [SendMessage]. For a FIFO queue, multiple messages within a single batch are enqueued in the order they are sent. The result of sending each message is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200. The maximum allowed individual message size and the maximum total payload size (the sum of the individual lengths of all of the batched messages) are both 256 KiB (262,144 bytes). A message can include only XML, JSON, and unformatted text. The following Unicode characters are allowed: #x9 | #xA | #xD | #x20 to #xD7FF | #xE000 to #xFFFD | #x10000 to #x10FFFF Any characters not included in this list will be rejected. For more information, see the [W3C specification for characters](http://www.w3.org/TR/REC-xml/#charsets). If you don't specify the DelaySeconds parameter for an entry, Amazon SQS uses the default value for the queue.
@@ -304,7 +532,28 @@ public protocol SQSClientProtocol {
     /// - `BatchEntryIdsNotDistinct` : Two or more batch entries in the request have the same Id.
     /// - `BatchRequestTooLong` : The length of all the messages put together is more than the limit.
     /// - `EmptyBatchRequest` : The batch request doesn't contain any entries.
+    /// - `InvalidAddress` : The accountId is invalid.
     /// - `InvalidBatchEntryId` : The Id of a batch entry in a batch request doesn't abide by the specification.
+    /// - `InvalidSecurity` : When the request to a queue is not HTTPS and SigV4.
+    /// - `KmsAccessDenied` : The caller doesn't have the required KMS access.
+    /// - `KmsDisabled` : The request was denied due to request throttling.
+    /// - `KmsInvalidKeyUsage` : The request was rejected for one of the following reasons:
+    ///
+    /// * The KeyUsage value of the KMS key is incompatible with the API operation.
+    ///
+    /// * The encryption algorithm or signing algorithm specified for the operation is incompatible with the type of key material in the KMS key (KeySpec).
+    /// - `KmsInvalidState` : The request was rejected because the state of the specified resource is not valid for this request.
+    /// - `KmsNotFound` : The request was rejected because the specified entity or resource could not be found.
+    /// - `KmsOptInRequired` : The request was rejected because the specified key policy isn't syntactically or semantically correct.
+    /// - `KmsThrottled` : Amazon Web Services KMS throttles requests for the following conditions.
+    /// - `QueueDoesNotExist` : The specified queue doesn't exist.
+    /// - `RequestThrottled` : The request was denied due to request throttling.
+    ///
+    /// * The rate of requests per second exceeds the Amazon Web Services KMS request quota for an account and Region.
+    ///
+    /// * A burst or sustained high rate of requests to change the state of the same KMS key. This condition is often known as a "hot key."
+    ///
+    /// * Requests for operations on KMS keys in a Amazon Web Services CloudHSM key store might be throttled at a lower-than-expected rate when the Amazon Web Services CloudHSM cluster associated with the Amazon Web Services CloudHSM key store is processing numerous commands, including those unrelated to the Amazon Web Services CloudHSM key store.
     /// - `TooManyEntriesInBatchRequest` : The batch request contains more entries than permissible.
     /// - `UnsupportedOperation` : Error code 400. Unsupported operation.
     func sendMessageBatch(input: SendMessageBatchInput) async throws -> SendMessageBatchOutput
@@ -323,7 +572,20 @@ public protocol SQSClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `InvalidAddress` : The accountId is invalid.
     /// - `InvalidAttributeName` : The specified attribute doesn't exist.
+    /// - `InvalidAttributeValue` : A queue attribute value is invalid.
+    /// - `InvalidSecurity` : When the request to a queue is not HTTPS and SigV4.
+    /// - `OverLimit` : The specified action violates a limit. For example, ReceiveMessage returns this error if the maximum number of in flight messages is reached and AddPermission returns this error if the maximum number of permissions for the queue is reached.
+    /// - `QueueDoesNotExist` : The specified queue doesn't exist.
+    /// - `RequestThrottled` : The request was denied due to request throttling.
+    ///
+    /// * The rate of requests per second exceeds the Amazon Web Services KMS request quota for an account and Region.
+    ///
+    /// * A burst or sustained high rate of requests to change the state of the same KMS key. This condition is often known as a "hot key."
+    ///
+    /// * Requests for operations on KMS keys in a Amazon Web Services CloudHSM key store might be throttled at a lower-than-expected rate when the Amazon Web Services CloudHSM cluster associated with the Amazon Web Services CloudHSM key store is processing numerous commands, including those unrelated to the Amazon Web Services CloudHSM key store.
+    /// - `UnsupportedOperation` : Error code 400. Unsupported operation.
     func setQueueAttributes(input: SetQueueAttributesInput) async throws -> SetQueueAttributesOutput
     /// Starts an asynchronous task to move messages from a specified source queue to a specified destination queue.
     ///
@@ -342,6 +604,15 @@ public protocol SQSClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `InvalidAddress` : The accountId is invalid.
+    /// - `InvalidSecurity` : When the request to a queue is not HTTPS and SigV4.
+    /// - `RequestThrottled` : The request was denied due to request throttling.
+    ///
+    /// * The rate of requests per second exceeds the Amazon Web Services KMS request quota for an account and Region.
+    ///
+    /// * A burst or sustained high rate of requests to change the state of the same KMS key. This condition is often known as a "hot key."
+    ///
+    /// * Requests for operations on KMS keys in a Amazon Web Services CloudHSM key store might be throttled at a lower-than-expected rate when the Amazon Web Services CloudHSM cluster associated with the Amazon Web Services CloudHSM key store is processing numerous commands, including those unrelated to the Amazon Web Services CloudHSM key store.
     /// - `ResourceNotFoundException` : One or more specified resources don't exist.
     /// - `UnsupportedOperation` : Error code 400. Unsupported operation.
     func startMessageMoveTask(input: StartMessageMoveTaskInput) async throws -> StartMessageMoveTaskOutput
@@ -361,12 +632,42 @@ public protocol SQSClientProtocol {
     /// - Parameter TagQueueInput : [no documentation found]
     ///
     /// - Returns: `TagQueueOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidAddress` : The accountId is invalid.
+    /// - `InvalidSecurity` : When the request to a queue is not HTTPS and SigV4.
+    /// - `QueueDoesNotExist` : The specified queue doesn't exist.
+    /// - `RequestThrottled` : The request was denied due to request throttling.
+    ///
+    /// * The rate of requests per second exceeds the Amazon Web Services KMS request quota for an account and Region.
+    ///
+    /// * A burst or sustained high rate of requests to change the state of the same KMS key. This condition is often known as a "hot key."
+    ///
+    /// * Requests for operations on KMS keys in a Amazon Web Services CloudHSM key store might be throttled at a lower-than-expected rate when the Amazon Web Services CloudHSM cluster associated with the Amazon Web Services CloudHSM key store is processing numerous commands, including those unrelated to the Amazon Web Services CloudHSM key store.
+    /// - `UnsupportedOperation` : Error code 400. Unsupported operation.
     func tagQueue(input: TagQueueInput) async throws -> TagQueueOutput
     /// Remove cost allocation tags from the specified Amazon SQS queue. For an overview, see [Tagging Your Amazon SQS Queues](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-queue-tags.html) in the Amazon SQS Developer Guide. Cross-account permissions don't apply to this action. For more information, see [Grant cross-account permissions to a role and a username](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-customer-managed-policy-examples.html#grant-cross-account-permissions-to-role-and-user-name) in the Amazon SQS Developer Guide.
     ///
     /// - Parameter UntagQueueInput : [no documentation found]
     ///
     /// - Returns: `UntagQueueOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidAddress` : The accountId is invalid.
+    /// - `InvalidSecurity` : When the request to a queue is not HTTPS and SigV4.
+    /// - `QueueDoesNotExist` : The specified queue doesn't exist.
+    /// - `RequestThrottled` : The request was denied due to request throttling.
+    ///
+    /// * The rate of requests per second exceeds the Amazon Web Services KMS request quota for an account and Region.
+    ///
+    /// * A burst or sustained high rate of requests to change the state of the same KMS key. This condition is often known as a "hot key."
+    ///
+    /// * Requests for operations on KMS keys in a Amazon Web Services CloudHSM key store might be throttled at a lower-than-expected rate when the Amazon Web Services CloudHSM cluster associated with the Amazon Web Services CloudHSM key store is processing numerous commands, including those unrelated to the Amazon Web Services CloudHSM key store.
+    /// - `UnsupportedOperation` : Error code 400. Unsupported operation.
     func untagQueue(input: UntagQueueInput) async throws -> UntagQueueOutput
 }
 
