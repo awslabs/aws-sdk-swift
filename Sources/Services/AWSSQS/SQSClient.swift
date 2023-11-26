@@ -15,9 +15,13 @@ public class SQSClient {
 
     public init(config: SQSClient.SQSClientConfiguration) {
         client = ClientRuntime.SdkHttpClient(engine: config.httpClientEngine, config: config.httpClientConfiguration)
-        let encoder = ClientRuntime.FormURLEncoder()
+        let encoder = ClientRuntime.JSONEncoder()
+        encoder.dateEncodingStrategy = .secondsSince1970
+        encoder.nonConformingFloatEncodingStrategy = .convertToString(positiveInfinity: "Infinity", negativeInfinity: "-Infinity", nan: "NaN")
         self.encoder = config.encoder ?? encoder
-        let decoder = ClientRuntime.XMLDecoder()
+        let decoder = ClientRuntime.JSONDecoder()
+        decoder.dateDecodingStrategy = .secondsSince1970
+        decoder.nonConformingFloatDecodingStrategy = .convertFromString(positiveInfinity: "Infinity", negativeInfinity: "-Infinity", nan: "NaN")
         self.decoder = config.decoder ?? decoder
         self.config = config
     }
@@ -83,7 +87,18 @@ extension SQSClient: SQSClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `InvalidAddress` : The accountId is invalid.
+    /// - `InvalidSecurity` : When the request to a queue is not HTTPS and SigV4.
     /// - `OverLimit` : The specified action violates a limit. For example, ReceiveMessage returns this error if the maximum number of in flight messages is reached and AddPermission returns this error if the maximum number of permissions for the queue is reached.
+    /// - `QueueDoesNotExist` : The specified queue doesn't exist.
+    /// - `RequestThrottled` : The request was denied due to request throttling.
+    ///
+    /// * The rate of requests per second exceeds the Amazon Web Services KMS request quota for an account and Region.
+    ///
+    /// * A burst or sustained high rate of requests to change the state of the same KMS key. This condition is often known as a "hot key."
+    ///
+    /// * Requests for operations on KMS keys in a Amazon Web Services CloudHSM key store might be throttled at a lower-than-expected rate when the Amazon Web Services CloudHSM cluster associated with the Amazon Web Services CloudHSM key store is processing numerous commands, including those unrelated to the Amazon Web Services CloudHSM key store.
+    /// - `UnsupportedOperation` : Error code 400. Unsupported operation.
     public func addPermission(input: AddPermissionInput) async throws -> AddPermissionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -106,8 +121,9 @@ extension SQSClient: SQSClientProtocol {
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AddPermissionOutput, AddPermissionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<AddPermissionInput, AddPermissionOutput>(xAmzTarget: "AmazonSQS.AddPermission"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AddPermissionInput, AddPermissionOutput>(xmlName: "AddPermissionRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AddPermissionInput, AddPermissionOutput>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AddPermissionInput, AddPermissionOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AddPermissionOutput, AddPermissionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
@@ -133,6 +149,15 @@ extension SQSClient: SQSClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `InvalidAddress` : The accountId is invalid.
+    /// - `InvalidSecurity` : When the request to a queue is not HTTPS and SigV4.
+    /// - `RequestThrottled` : The request was denied due to request throttling.
+    ///
+    /// * The rate of requests per second exceeds the Amazon Web Services KMS request quota for an account and Region.
+    ///
+    /// * A burst or sustained high rate of requests to change the state of the same KMS key. This condition is often known as a "hot key."
+    ///
+    /// * Requests for operations on KMS keys in a Amazon Web Services CloudHSM key store might be throttled at a lower-than-expected rate when the Amazon Web Services CloudHSM cluster associated with the Amazon Web Services CloudHSM key store is processing numerous commands, including those unrelated to the Amazon Web Services CloudHSM key store.
     /// - `ResourceNotFoundException` : One or more specified resources don't exist.
     /// - `UnsupportedOperation` : Error code 400. Unsupported operation.
     public func cancelMessageMoveTask(input: CancelMessageMoveTaskInput) async throws -> CancelMessageMoveTaskOutput
@@ -157,8 +182,9 @@ extension SQSClient: SQSClientProtocol {
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CancelMessageMoveTaskOutput, CancelMessageMoveTaskOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CancelMessageMoveTaskInput, CancelMessageMoveTaskOutput>(xAmzTarget: "AmazonSQS.CancelMessageMoveTask"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CancelMessageMoveTaskInput, CancelMessageMoveTaskOutput>(xmlName: "CancelMessageMoveTaskRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CancelMessageMoveTaskInput, CancelMessageMoveTaskOutput>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CancelMessageMoveTaskInput, CancelMessageMoveTaskOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CancelMessageMoveTaskOutput, CancelMessageMoveTaskOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
@@ -187,8 +213,19 @@ extension SQSClient: SQSClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `InvalidAddress` : The accountId is invalid.
+    /// - `InvalidSecurity` : When the request to a queue is not HTTPS and SigV4.
     /// - `MessageNotInflight` : The specified message isn't in flight.
+    /// - `QueueDoesNotExist` : The specified queue doesn't exist.
     /// - `ReceiptHandleIsInvalid` : The specified receipt handle isn't valid.
+    /// - `RequestThrottled` : The request was denied due to request throttling.
+    ///
+    /// * The rate of requests per second exceeds the Amazon Web Services KMS request quota for an account and Region.
+    ///
+    /// * A burst or sustained high rate of requests to change the state of the same KMS key. This condition is often known as a "hot key."
+    ///
+    /// * Requests for operations on KMS keys in a Amazon Web Services CloudHSM key store might be throttled at a lower-than-expected rate when the Amazon Web Services CloudHSM cluster associated with the Amazon Web Services CloudHSM key store is processing numerous commands, including those unrelated to the Amazon Web Services CloudHSM key store.
+    /// - `UnsupportedOperation` : Error code 400. Unsupported operation.
     public func changeMessageVisibility(input: ChangeMessageVisibilityInput) async throws -> ChangeMessageVisibilityOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -211,8 +248,9 @@ extension SQSClient: SQSClientProtocol {
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ChangeMessageVisibilityOutput, ChangeMessageVisibilityOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ChangeMessageVisibilityInput, ChangeMessageVisibilityOutput>(xAmzTarget: "AmazonSQS.ChangeMessageVisibility"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ChangeMessageVisibilityInput, ChangeMessageVisibilityOutput>(xmlName: "ChangeMessageVisibilityRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ChangeMessageVisibilityInput, ChangeMessageVisibilityOutput>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ChangeMessageVisibilityInput, ChangeMessageVisibilityOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ChangeMessageVisibilityOutput, ChangeMessageVisibilityOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
@@ -234,8 +272,19 @@ extension SQSClient: SQSClientProtocol {
     /// __Possible Exceptions:__
     /// - `BatchEntryIdsNotDistinct` : Two or more batch entries in the request have the same Id.
     /// - `EmptyBatchRequest` : The batch request doesn't contain any entries.
+    /// - `InvalidAddress` : The accountId is invalid.
     /// - `InvalidBatchEntryId` : The Id of a batch entry in a batch request doesn't abide by the specification.
+    /// - `InvalidSecurity` : When the request to a queue is not HTTPS and SigV4.
+    /// - `QueueDoesNotExist` : The specified queue doesn't exist.
+    /// - `RequestThrottled` : The request was denied due to request throttling.
+    ///
+    /// * The rate of requests per second exceeds the Amazon Web Services KMS request quota for an account and Region.
+    ///
+    /// * A burst or sustained high rate of requests to change the state of the same KMS key. This condition is often known as a "hot key."
+    ///
+    /// * Requests for operations on KMS keys in a Amazon Web Services CloudHSM key store might be throttled at a lower-than-expected rate when the Amazon Web Services CloudHSM cluster associated with the Amazon Web Services CloudHSM key store is processing numerous commands, including those unrelated to the Amazon Web Services CloudHSM key store.
     /// - `TooManyEntriesInBatchRequest` : The batch request contains more entries than permissible.
+    /// - `UnsupportedOperation` : Error code 400. Unsupported operation.
     public func changeMessageVisibilityBatch(input: ChangeMessageVisibilityBatchInput) async throws -> ChangeMessageVisibilityBatchOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -258,8 +307,9 @@ extension SQSClient: SQSClientProtocol {
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ChangeMessageVisibilityBatchOutput, ChangeMessageVisibilityBatchOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ChangeMessageVisibilityBatchInput, ChangeMessageVisibilityBatchOutput>(xAmzTarget: "AmazonSQS.ChangeMessageVisibilityBatch"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ChangeMessageVisibilityBatchInput, ChangeMessageVisibilityBatchOutput>(xmlName: "ChangeMessageVisibilityBatchRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ChangeMessageVisibilityBatchInput, ChangeMessageVisibilityBatchOutput>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ChangeMessageVisibilityBatchInput, ChangeMessageVisibilityBatchOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ChangeMessageVisibilityBatchOutput, ChangeMessageVisibilityBatchOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
@@ -295,8 +345,20 @@ extension SQSClient: SQSClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `InvalidAddress` : The accountId is invalid.
+    /// - `InvalidAttributeName` : The specified attribute doesn't exist.
+    /// - `InvalidAttributeValue` : A queue attribute value is invalid.
+    /// - `InvalidSecurity` : When the request to a queue is not HTTPS and SigV4.
     /// - `QueueDeletedRecently` : You must wait 60 seconds after deleting a queue before you can create another queue with the same name.
     /// - `QueueNameExists` : A queue with this name already exists. Amazon SQS returns this error only if the request includes attributes whose values differ from those of the existing queue.
+    /// - `RequestThrottled` : The request was denied due to request throttling.
+    ///
+    /// * The rate of requests per second exceeds the Amazon Web Services KMS request quota for an account and Region.
+    ///
+    /// * A burst or sustained high rate of requests to change the state of the same KMS key. This condition is often known as a "hot key."
+    ///
+    /// * Requests for operations on KMS keys in a Amazon Web Services CloudHSM key store might be throttled at a lower-than-expected rate when the Amazon Web Services CloudHSM cluster associated with the Amazon Web Services CloudHSM key store is processing numerous commands, including those unrelated to the Amazon Web Services CloudHSM key store.
+    /// - `UnsupportedOperation` : Error code 400. Unsupported operation.
     public func createQueue(input: CreateQueueInput) async throws -> CreateQueueOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -319,8 +381,9 @@ extension SQSClient: SQSClientProtocol {
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateQueueOutput, CreateQueueOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateQueueInput, CreateQueueOutput>(xAmzTarget: "AmazonSQS.CreateQueue"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateQueueInput, CreateQueueOutput>(xmlName: "CreateQueueRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateQueueInput, CreateQueueOutput>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateQueueInput, CreateQueueOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateQueueOutput, CreateQueueOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
@@ -340,8 +403,19 @@ extension SQSClient: SQSClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `InvalidAddress` : The accountId is invalid.
     /// - `InvalidIdFormat` : The specified receipt handle isn't valid for the current version.
+    /// - `InvalidSecurity` : When the request to a queue is not HTTPS and SigV4.
+    /// - `QueueDoesNotExist` : The specified queue doesn't exist.
     /// - `ReceiptHandleIsInvalid` : The specified receipt handle isn't valid.
+    /// - `RequestThrottled` : The request was denied due to request throttling.
+    ///
+    /// * The rate of requests per second exceeds the Amazon Web Services KMS request quota for an account and Region.
+    ///
+    /// * A burst or sustained high rate of requests to change the state of the same KMS key. This condition is often known as a "hot key."
+    ///
+    /// * Requests for operations on KMS keys in a Amazon Web Services CloudHSM key store might be throttled at a lower-than-expected rate when the Amazon Web Services CloudHSM cluster associated with the Amazon Web Services CloudHSM key store is processing numerous commands, including those unrelated to the Amazon Web Services CloudHSM key store.
+    /// - `UnsupportedOperation` : Error code 400. Unsupported operation.
     public func deleteMessage(input: DeleteMessageInput) async throws -> DeleteMessageOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -364,8 +438,9 @@ extension SQSClient: SQSClientProtocol {
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteMessageOutput, DeleteMessageOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteMessageInput, DeleteMessageOutput>(xAmzTarget: "AmazonSQS.DeleteMessage"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteMessageInput, DeleteMessageOutput>(xmlName: "DeleteMessageRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteMessageInput, DeleteMessageOutput>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteMessageInput, DeleteMessageOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteMessageOutput, DeleteMessageOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
@@ -387,8 +462,19 @@ extension SQSClient: SQSClientProtocol {
     /// __Possible Exceptions:__
     /// - `BatchEntryIdsNotDistinct` : Two or more batch entries in the request have the same Id.
     /// - `EmptyBatchRequest` : The batch request doesn't contain any entries.
+    /// - `InvalidAddress` : The accountId is invalid.
     /// - `InvalidBatchEntryId` : The Id of a batch entry in a batch request doesn't abide by the specification.
+    /// - `InvalidSecurity` : When the request to a queue is not HTTPS and SigV4.
+    /// - `QueueDoesNotExist` : The specified queue doesn't exist.
+    /// - `RequestThrottled` : The request was denied due to request throttling.
+    ///
+    /// * The rate of requests per second exceeds the Amazon Web Services KMS request quota for an account and Region.
+    ///
+    /// * A burst or sustained high rate of requests to change the state of the same KMS key. This condition is often known as a "hot key."
+    ///
+    /// * Requests for operations on KMS keys in a Amazon Web Services CloudHSM key store might be throttled at a lower-than-expected rate when the Amazon Web Services CloudHSM cluster associated with the Amazon Web Services CloudHSM key store is processing numerous commands, including those unrelated to the Amazon Web Services CloudHSM key store.
     /// - `TooManyEntriesInBatchRequest` : The batch request contains more entries than permissible.
+    /// - `UnsupportedOperation` : Error code 400. Unsupported operation.
     public func deleteMessageBatch(input: DeleteMessageBatchInput) async throws -> DeleteMessageBatchOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -411,8 +497,9 @@ extension SQSClient: SQSClientProtocol {
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteMessageBatchOutput, DeleteMessageBatchOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteMessageBatchInput, DeleteMessageBatchOutput>(xAmzTarget: "AmazonSQS.DeleteMessageBatch"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteMessageBatchInput, DeleteMessageBatchOutput>(xmlName: "DeleteMessageBatchRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteMessageBatchInput, DeleteMessageBatchOutput>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteMessageBatchInput, DeleteMessageBatchOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteMessageBatchOutput, DeleteMessageBatchOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
@@ -428,6 +515,21 @@ extension SQSClient: SQSClientProtocol {
     /// - Parameter DeleteQueueInput :
     ///
     /// - Returns: `DeleteQueueOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidAddress` : The accountId is invalid.
+    /// - `InvalidSecurity` : When the request to a queue is not HTTPS and SigV4.
+    /// - `QueueDoesNotExist` : The specified queue doesn't exist.
+    /// - `RequestThrottled` : The request was denied due to request throttling.
+    ///
+    /// * The rate of requests per second exceeds the Amazon Web Services KMS request quota for an account and Region.
+    ///
+    /// * A burst or sustained high rate of requests to change the state of the same KMS key. This condition is often known as a "hot key."
+    ///
+    /// * Requests for operations on KMS keys in a Amazon Web Services CloudHSM key store might be throttled at a lower-than-expected rate when the Amazon Web Services CloudHSM cluster associated with the Amazon Web Services CloudHSM key store is processing numerous commands, including those unrelated to the Amazon Web Services CloudHSM key store.
+    /// - `UnsupportedOperation` : Error code 400. Unsupported operation.
     public func deleteQueue(input: DeleteQueueInput) async throws -> DeleteQueueOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -450,8 +552,9 @@ extension SQSClient: SQSClientProtocol {
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteQueueOutput, DeleteQueueOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteQueueInput, DeleteQueueOutput>(xAmzTarget: "AmazonSQS.DeleteQueue"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteQueueInput, DeleteQueueOutput>(xmlName: "DeleteQueueRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteQueueInput, DeleteQueueOutput>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteQueueInput, DeleteQueueOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteQueueOutput, DeleteQueueOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
@@ -471,7 +574,18 @@ extension SQSClient: SQSClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `InvalidAddress` : The accountId is invalid.
     /// - `InvalidAttributeName` : The specified attribute doesn't exist.
+    /// - `InvalidSecurity` : When the request to a queue is not HTTPS and SigV4.
+    /// - `QueueDoesNotExist` : The specified queue doesn't exist.
+    /// - `RequestThrottled` : The request was denied due to request throttling.
+    ///
+    /// * The rate of requests per second exceeds the Amazon Web Services KMS request quota for an account and Region.
+    ///
+    /// * A burst or sustained high rate of requests to change the state of the same KMS key. This condition is often known as a "hot key."
+    ///
+    /// * Requests for operations on KMS keys in a Amazon Web Services CloudHSM key store might be throttled at a lower-than-expected rate when the Amazon Web Services CloudHSM cluster associated with the Amazon Web Services CloudHSM key store is processing numerous commands, including those unrelated to the Amazon Web Services CloudHSM key store.
+    /// - `UnsupportedOperation` : Error code 400. Unsupported operation.
     public func getQueueAttributes(input: GetQueueAttributesInput) async throws -> GetQueueAttributesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -494,8 +608,9 @@ extension SQSClient: SQSClientProtocol {
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetQueueAttributesOutput, GetQueueAttributesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetQueueAttributesInput, GetQueueAttributesOutput>(xAmzTarget: "AmazonSQS.GetQueueAttributes"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetQueueAttributesInput, GetQueueAttributesOutput>(xmlName: "GetQueueAttributesRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetQueueAttributesInput, GetQueueAttributesOutput>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetQueueAttributesInput, GetQueueAttributesOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetQueueAttributesOutput, GetQueueAttributesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
@@ -515,7 +630,17 @@ extension SQSClient: SQSClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `InvalidAddress` : The accountId is invalid.
+    /// - `InvalidSecurity` : When the request to a queue is not HTTPS and SigV4.
     /// - `QueueDoesNotExist` : The specified queue doesn't exist.
+    /// - `RequestThrottled` : The request was denied due to request throttling.
+    ///
+    /// * The rate of requests per second exceeds the Amazon Web Services KMS request quota for an account and Region.
+    ///
+    /// * A burst or sustained high rate of requests to change the state of the same KMS key. This condition is often known as a "hot key."
+    ///
+    /// * Requests for operations on KMS keys in a Amazon Web Services CloudHSM key store might be throttled at a lower-than-expected rate when the Amazon Web Services CloudHSM cluster associated with the Amazon Web Services CloudHSM key store is processing numerous commands, including those unrelated to the Amazon Web Services CloudHSM key store.
+    /// - `UnsupportedOperation` : Error code 400. Unsupported operation.
     public func getQueueUrl(input: GetQueueUrlInput) async throws -> GetQueueUrlOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -538,8 +663,9 @@ extension SQSClient: SQSClientProtocol {
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetQueueUrlOutput, GetQueueUrlOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetQueueUrlInput, GetQueueUrlOutput>(xAmzTarget: "AmazonSQS.GetQueueUrl"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetQueueUrlInput, GetQueueUrlOutput>(xmlName: "GetQueueUrlRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetQueueUrlInput, GetQueueUrlOutput>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetQueueUrlInput, GetQueueUrlOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetQueueUrlOutput, GetQueueUrlOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
@@ -559,7 +685,17 @@ extension SQSClient: SQSClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `InvalidAddress` : The accountId is invalid.
+    /// - `InvalidSecurity` : When the request to a queue is not HTTPS and SigV4.
     /// - `QueueDoesNotExist` : The specified queue doesn't exist.
+    /// - `RequestThrottled` : The request was denied due to request throttling.
+    ///
+    /// * The rate of requests per second exceeds the Amazon Web Services KMS request quota for an account and Region.
+    ///
+    /// * A burst or sustained high rate of requests to change the state of the same KMS key. This condition is often known as a "hot key."
+    ///
+    /// * Requests for operations on KMS keys in a Amazon Web Services CloudHSM key store might be throttled at a lower-than-expected rate when the Amazon Web Services CloudHSM cluster associated with the Amazon Web Services CloudHSM key store is processing numerous commands, including those unrelated to the Amazon Web Services CloudHSM key store.
+    /// - `UnsupportedOperation` : Error code 400. Unsupported operation.
     public func listDeadLetterSourceQueues(input: ListDeadLetterSourceQueuesInput) async throws -> ListDeadLetterSourceQueuesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -582,8 +718,9 @@ extension SQSClient: SQSClientProtocol {
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListDeadLetterSourceQueuesOutput, ListDeadLetterSourceQueuesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListDeadLetterSourceQueuesInput, ListDeadLetterSourceQueuesOutput>(xAmzTarget: "AmazonSQS.ListDeadLetterSourceQueues"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListDeadLetterSourceQueuesInput, ListDeadLetterSourceQueuesOutput>(xmlName: "ListDeadLetterSourceQueuesRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListDeadLetterSourceQueuesInput, ListDeadLetterSourceQueuesOutput>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListDeadLetterSourceQueuesInput, ListDeadLetterSourceQueuesOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListDeadLetterSourceQueuesOutput, ListDeadLetterSourceQueuesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
@@ -609,6 +746,15 @@ extension SQSClient: SQSClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `InvalidAddress` : The accountId is invalid.
+    /// - `InvalidSecurity` : When the request to a queue is not HTTPS and SigV4.
+    /// - `RequestThrottled` : The request was denied due to request throttling.
+    ///
+    /// * The rate of requests per second exceeds the Amazon Web Services KMS request quota for an account and Region.
+    ///
+    /// * A burst or sustained high rate of requests to change the state of the same KMS key. This condition is often known as a "hot key."
+    ///
+    /// * Requests for operations on KMS keys in a Amazon Web Services CloudHSM key store might be throttled at a lower-than-expected rate when the Amazon Web Services CloudHSM cluster associated with the Amazon Web Services CloudHSM key store is processing numerous commands, including those unrelated to the Amazon Web Services CloudHSM key store.
     /// - `ResourceNotFoundException` : One or more specified resources don't exist.
     /// - `UnsupportedOperation` : Error code 400. Unsupported operation.
     public func listMessageMoveTasks(input: ListMessageMoveTasksInput) async throws -> ListMessageMoveTasksOutput
@@ -633,8 +779,9 @@ extension SQSClient: SQSClientProtocol {
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListMessageMoveTasksOutput, ListMessageMoveTasksOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListMessageMoveTasksInput, ListMessageMoveTasksOutput>(xAmzTarget: "AmazonSQS.ListMessageMoveTasks"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListMessageMoveTasksInput, ListMessageMoveTasksOutput>(xmlName: "ListMessageMoveTasksRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListMessageMoveTasksInput, ListMessageMoveTasksOutput>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListMessageMoveTasksInput, ListMessageMoveTasksOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListMessageMoveTasksOutput, ListMessageMoveTasksOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
@@ -650,6 +797,21 @@ extension SQSClient: SQSClientProtocol {
     /// - Parameter ListQueueTagsInput : [no documentation found]
     ///
     /// - Returns: `ListQueueTagsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidAddress` : The accountId is invalid.
+    /// - `InvalidSecurity` : When the request to a queue is not HTTPS and SigV4.
+    /// - `QueueDoesNotExist` : The specified queue doesn't exist.
+    /// - `RequestThrottled` : The request was denied due to request throttling.
+    ///
+    /// * The rate of requests per second exceeds the Amazon Web Services KMS request quota for an account and Region.
+    ///
+    /// * A burst or sustained high rate of requests to change the state of the same KMS key. This condition is often known as a "hot key."
+    ///
+    /// * Requests for operations on KMS keys in a Amazon Web Services CloudHSM key store might be throttled at a lower-than-expected rate when the Amazon Web Services CloudHSM cluster associated with the Amazon Web Services CloudHSM key store is processing numerous commands, including those unrelated to the Amazon Web Services CloudHSM key store.
+    /// - `UnsupportedOperation` : Error code 400. Unsupported operation.
     public func listQueueTags(input: ListQueueTagsInput) async throws -> ListQueueTagsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -672,8 +834,9 @@ extension SQSClient: SQSClientProtocol {
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListQueueTagsOutput, ListQueueTagsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListQueueTagsInput, ListQueueTagsOutput>(xAmzTarget: "AmazonSQS.ListQueueTags"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListQueueTagsInput, ListQueueTagsOutput>(xmlName: "ListQueueTagsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListQueueTagsInput, ListQueueTagsOutput>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListQueueTagsInput, ListQueueTagsOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListQueueTagsOutput, ListQueueTagsOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
@@ -689,6 +852,20 @@ extension SQSClient: SQSClientProtocol {
     /// - Parameter ListQueuesInput :
     ///
     /// - Returns: `ListQueuesOutput` : A list of your queues.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidAddress` : The accountId is invalid.
+    /// - `InvalidSecurity` : When the request to a queue is not HTTPS and SigV4.
+    /// - `RequestThrottled` : The request was denied due to request throttling.
+    ///
+    /// * The rate of requests per second exceeds the Amazon Web Services KMS request quota for an account and Region.
+    ///
+    /// * A burst or sustained high rate of requests to change the state of the same KMS key. This condition is often known as a "hot key."
+    ///
+    /// * Requests for operations on KMS keys in a Amazon Web Services CloudHSM key store might be throttled at a lower-than-expected rate when the Amazon Web Services CloudHSM cluster associated with the Amazon Web Services CloudHSM key store is processing numerous commands, including those unrelated to the Amazon Web Services CloudHSM key store.
+    /// - `UnsupportedOperation` : Error code 400. Unsupported operation.
     public func listQueues(input: ListQueuesInput) async throws -> ListQueuesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -711,8 +888,9 @@ extension SQSClient: SQSClientProtocol {
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListQueuesOutput, ListQueuesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListQueuesInput, ListQueuesOutput>(xAmzTarget: "AmazonSQS.ListQueues"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListQueuesInput, ListQueuesOutput>(xmlName: "ListQueuesRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListQueuesInput, ListQueuesOutput>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListQueuesInput, ListQueuesOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListQueuesOutput, ListQueuesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
@@ -732,8 +910,18 @@ extension SQSClient: SQSClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `InvalidAddress` : The accountId is invalid.
+    /// - `InvalidSecurity` : When the request to a queue is not HTTPS and SigV4.
     /// - `PurgeQueueInProgress` : Indicates that the specified queue previously received a PurgeQueue request within the last 60 seconds (the time it can take to delete the messages in the queue).
     /// - `QueueDoesNotExist` : The specified queue doesn't exist.
+    /// - `RequestThrottled` : The request was denied due to request throttling.
+    ///
+    /// * The rate of requests per second exceeds the Amazon Web Services KMS request quota for an account and Region.
+    ///
+    /// * A burst or sustained high rate of requests to change the state of the same KMS key. This condition is often known as a "hot key."
+    ///
+    /// * Requests for operations on KMS keys in a Amazon Web Services CloudHSM key store might be throttled at a lower-than-expected rate when the Amazon Web Services CloudHSM cluster associated with the Amazon Web Services CloudHSM key store is processing numerous commands, including those unrelated to the Amazon Web Services CloudHSM key store.
+    /// - `UnsupportedOperation` : Error code 400. Unsupported operation.
     public func purgeQueue(input: PurgeQueueInput) async throws -> PurgeQueueOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -756,8 +944,9 @@ extension SQSClient: SQSClientProtocol {
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PurgeQueueOutput, PurgeQueueOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PurgeQueueInput, PurgeQueueOutput>(xAmzTarget: "AmazonSQS.PurgeQueue"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PurgeQueueInput, PurgeQueueOutput>(xmlName: "PurgeQueueRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PurgeQueueInput, PurgeQueueOutput>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PurgeQueueInput, PurgeQueueOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PurgeQueueOutput, PurgeQueueOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
@@ -792,7 +981,29 @@ extension SQSClient: SQSClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `InvalidAddress` : The accountId is invalid.
+    /// - `InvalidSecurity` : When the request to a queue is not HTTPS and SigV4.
+    /// - `KmsAccessDenied` : The caller doesn't have the required KMS access.
+    /// - `KmsDisabled` : The request was denied due to request throttling.
+    /// - `KmsInvalidKeyUsage` : The request was rejected for one of the following reasons:
+    ///
+    /// * The KeyUsage value of the KMS key is incompatible with the API operation.
+    ///
+    /// * The encryption algorithm or signing algorithm specified for the operation is incompatible with the type of key material in the KMS key (KeySpec).
+    /// - `KmsInvalidState` : The request was rejected because the state of the specified resource is not valid for this request.
+    /// - `KmsNotFound` : The request was rejected because the specified entity or resource could not be found.
+    /// - `KmsOptInRequired` : The request was rejected because the specified key policy isn't syntactically or semantically correct.
+    /// - `KmsThrottled` : Amazon Web Services KMS throttles requests for the following conditions.
     /// - `OverLimit` : The specified action violates a limit. For example, ReceiveMessage returns this error if the maximum number of in flight messages is reached and AddPermission returns this error if the maximum number of permissions for the queue is reached.
+    /// - `QueueDoesNotExist` : The specified queue doesn't exist.
+    /// - `RequestThrottled` : The request was denied due to request throttling.
+    ///
+    /// * The rate of requests per second exceeds the Amazon Web Services KMS request quota for an account and Region.
+    ///
+    /// * A burst or sustained high rate of requests to change the state of the same KMS key. This condition is often known as a "hot key."
+    ///
+    /// * Requests for operations on KMS keys in a Amazon Web Services CloudHSM key store might be throttled at a lower-than-expected rate when the Amazon Web Services CloudHSM cluster associated with the Amazon Web Services CloudHSM key store is processing numerous commands, including those unrelated to the Amazon Web Services CloudHSM key store.
+    /// - `UnsupportedOperation` : Error code 400. Unsupported operation.
     public func receiveMessage(input: ReceiveMessageInput) async throws -> ReceiveMessageOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -815,8 +1026,9 @@ extension SQSClient: SQSClientProtocol {
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ReceiveMessageOutput, ReceiveMessageOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ReceiveMessageInput, ReceiveMessageOutput>(xAmzTarget: "AmazonSQS.ReceiveMessage"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ReceiveMessageInput, ReceiveMessageOutput>(xmlName: "ReceiveMessageRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ReceiveMessageInput, ReceiveMessageOutput>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ReceiveMessageInput, ReceiveMessageOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ReceiveMessageOutput, ReceiveMessageOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
@@ -838,6 +1050,21 @@ extension SQSClient: SQSClientProtocol {
     /// - Parameter RemovePermissionInput :
     ///
     /// - Returns: `RemovePermissionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidAddress` : The accountId is invalid.
+    /// - `InvalidSecurity` : When the request to a queue is not HTTPS and SigV4.
+    /// - `QueueDoesNotExist` : The specified queue doesn't exist.
+    /// - `RequestThrottled` : The request was denied due to request throttling.
+    ///
+    /// * The rate of requests per second exceeds the Amazon Web Services KMS request quota for an account and Region.
+    ///
+    /// * A burst or sustained high rate of requests to change the state of the same KMS key. This condition is often known as a "hot key."
+    ///
+    /// * Requests for operations on KMS keys in a Amazon Web Services CloudHSM key store might be throttled at a lower-than-expected rate when the Amazon Web Services CloudHSM cluster associated with the Amazon Web Services CloudHSM key store is processing numerous commands, including those unrelated to the Amazon Web Services CloudHSM key store.
+    /// - `UnsupportedOperation` : Error code 400. Unsupported operation.
     public func removePermission(input: RemovePermissionInput) async throws -> RemovePermissionOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -860,8 +1087,9 @@ extension SQSClient: SQSClientProtocol {
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RemovePermissionOutput, RemovePermissionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<RemovePermissionInput, RemovePermissionOutput>(xAmzTarget: "AmazonSQS.RemovePermission"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<RemovePermissionInput, RemovePermissionOutput>(xmlName: "RemovePermissionRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<RemovePermissionInput, RemovePermissionOutput>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<RemovePermissionInput, RemovePermissionOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RemovePermissionOutput, RemovePermissionOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
@@ -881,7 +1109,28 @@ extension SQSClient: SQSClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `InvalidAddress` : The accountId is invalid.
     /// - `InvalidMessageContents` : The message contains characters outside the allowed set.
+    /// - `InvalidSecurity` : When the request to a queue is not HTTPS and SigV4.
+    /// - `KmsAccessDenied` : The caller doesn't have the required KMS access.
+    /// - `KmsDisabled` : The request was denied due to request throttling.
+    /// - `KmsInvalidKeyUsage` : The request was rejected for one of the following reasons:
+    ///
+    /// * The KeyUsage value of the KMS key is incompatible with the API operation.
+    ///
+    /// * The encryption algorithm or signing algorithm specified for the operation is incompatible with the type of key material in the KMS key (KeySpec).
+    /// - `KmsInvalidState` : The request was rejected because the state of the specified resource is not valid for this request.
+    /// - `KmsNotFound` : The request was rejected because the specified entity or resource could not be found.
+    /// - `KmsOptInRequired` : The request was rejected because the specified key policy isn't syntactically or semantically correct.
+    /// - `KmsThrottled` : Amazon Web Services KMS throttles requests for the following conditions.
+    /// - `QueueDoesNotExist` : The specified queue doesn't exist.
+    /// - `RequestThrottled` : The request was denied due to request throttling.
+    ///
+    /// * The rate of requests per second exceeds the Amazon Web Services KMS request quota for an account and Region.
+    ///
+    /// * A burst or sustained high rate of requests to change the state of the same KMS key. This condition is often known as a "hot key."
+    ///
+    /// * Requests for operations on KMS keys in a Amazon Web Services CloudHSM key store might be throttled at a lower-than-expected rate when the Amazon Web Services CloudHSM cluster associated with the Amazon Web Services CloudHSM key store is processing numerous commands, including those unrelated to the Amazon Web Services CloudHSM key store.
     /// - `UnsupportedOperation` : Error code 400. Unsupported operation.
     public func sendMessage(input: SendMessageInput) async throws -> SendMessageOutput
     {
@@ -905,8 +1154,9 @@ extension SQSClient: SQSClientProtocol {
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SendMessageOutput, SendMessageOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<SendMessageInput, SendMessageOutput>(xAmzTarget: "AmazonSQS.SendMessage"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SendMessageInput, SendMessageOutput>(xmlName: "SendMessageRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SendMessageInput, SendMessageOutput>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SendMessageInput, SendMessageOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SendMessageOutput, SendMessageOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
@@ -929,7 +1179,28 @@ extension SQSClient: SQSClientProtocol {
     /// - `BatchEntryIdsNotDistinct` : Two or more batch entries in the request have the same Id.
     /// - `BatchRequestTooLong` : The length of all the messages put together is more than the limit.
     /// - `EmptyBatchRequest` : The batch request doesn't contain any entries.
+    /// - `InvalidAddress` : The accountId is invalid.
     /// - `InvalidBatchEntryId` : The Id of a batch entry in a batch request doesn't abide by the specification.
+    /// - `InvalidSecurity` : When the request to a queue is not HTTPS and SigV4.
+    /// - `KmsAccessDenied` : The caller doesn't have the required KMS access.
+    /// - `KmsDisabled` : The request was denied due to request throttling.
+    /// - `KmsInvalidKeyUsage` : The request was rejected for one of the following reasons:
+    ///
+    /// * The KeyUsage value of the KMS key is incompatible with the API operation.
+    ///
+    /// * The encryption algorithm or signing algorithm specified for the operation is incompatible with the type of key material in the KMS key (KeySpec).
+    /// - `KmsInvalidState` : The request was rejected because the state of the specified resource is not valid for this request.
+    /// - `KmsNotFound` : The request was rejected because the specified entity or resource could not be found.
+    /// - `KmsOptInRequired` : The request was rejected because the specified key policy isn't syntactically or semantically correct.
+    /// - `KmsThrottled` : Amazon Web Services KMS throttles requests for the following conditions.
+    /// - `QueueDoesNotExist` : The specified queue doesn't exist.
+    /// - `RequestThrottled` : The request was denied due to request throttling.
+    ///
+    /// * The rate of requests per second exceeds the Amazon Web Services KMS request quota for an account and Region.
+    ///
+    /// * A burst or sustained high rate of requests to change the state of the same KMS key. This condition is often known as a "hot key."
+    ///
+    /// * Requests for operations on KMS keys in a Amazon Web Services CloudHSM key store might be throttled at a lower-than-expected rate when the Amazon Web Services CloudHSM cluster associated with the Amazon Web Services CloudHSM key store is processing numerous commands, including those unrelated to the Amazon Web Services CloudHSM key store.
     /// - `TooManyEntriesInBatchRequest` : The batch request contains more entries than permissible.
     /// - `UnsupportedOperation` : Error code 400. Unsupported operation.
     public func sendMessageBatch(input: SendMessageBatchInput) async throws -> SendMessageBatchOutput
@@ -954,8 +1225,9 @@ extension SQSClient: SQSClientProtocol {
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SendMessageBatchOutput, SendMessageBatchOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<SendMessageBatchInput, SendMessageBatchOutput>(xAmzTarget: "AmazonSQS.SendMessageBatch"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SendMessageBatchInput, SendMessageBatchOutput>(xmlName: "SendMessageBatchRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SendMessageBatchInput, SendMessageBatchOutput>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SendMessageBatchInput, SendMessageBatchOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SendMessageBatchOutput, SendMessageBatchOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
@@ -981,7 +1253,20 @@ extension SQSClient: SQSClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `InvalidAddress` : The accountId is invalid.
     /// - `InvalidAttributeName` : The specified attribute doesn't exist.
+    /// - `InvalidAttributeValue` : A queue attribute value is invalid.
+    /// - `InvalidSecurity` : When the request to a queue is not HTTPS and SigV4.
+    /// - `OverLimit` : The specified action violates a limit. For example, ReceiveMessage returns this error if the maximum number of in flight messages is reached and AddPermission returns this error if the maximum number of permissions for the queue is reached.
+    /// - `QueueDoesNotExist` : The specified queue doesn't exist.
+    /// - `RequestThrottled` : The request was denied due to request throttling.
+    ///
+    /// * The rate of requests per second exceeds the Amazon Web Services KMS request quota for an account and Region.
+    ///
+    /// * A burst or sustained high rate of requests to change the state of the same KMS key. This condition is often known as a "hot key."
+    ///
+    /// * Requests for operations on KMS keys in a Amazon Web Services CloudHSM key store might be throttled at a lower-than-expected rate when the Amazon Web Services CloudHSM cluster associated with the Amazon Web Services CloudHSM key store is processing numerous commands, including those unrelated to the Amazon Web Services CloudHSM key store.
+    /// - `UnsupportedOperation` : Error code 400. Unsupported operation.
     public func setQueueAttributes(input: SetQueueAttributesInput) async throws -> SetQueueAttributesOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1004,8 +1289,9 @@ extension SQSClient: SQSClientProtocol {
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SetQueueAttributesOutput, SetQueueAttributesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<SetQueueAttributesInput, SetQueueAttributesOutput>(xAmzTarget: "AmazonSQS.SetQueueAttributes"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SetQueueAttributesInput, SetQueueAttributesOutput>(xmlName: "SetQueueAttributesRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SetQueueAttributesInput, SetQueueAttributesOutput>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SetQueueAttributesInput, SetQueueAttributesOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SetQueueAttributesOutput, SetQueueAttributesOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
@@ -1033,6 +1319,15 @@ extension SQSClient: SQSClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `InvalidAddress` : The accountId is invalid.
+    /// - `InvalidSecurity` : When the request to a queue is not HTTPS and SigV4.
+    /// - `RequestThrottled` : The request was denied due to request throttling.
+    ///
+    /// * The rate of requests per second exceeds the Amazon Web Services KMS request quota for an account and Region.
+    ///
+    /// * A burst or sustained high rate of requests to change the state of the same KMS key. This condition is often known as a "hot key."
+    ///
+    /// * Requests for operations on KMS keys in a Amazon Web Services CloudHSM key store might be throttled at a lower-than-expected rate when the Amazon Web Services CloudHSM cluster associated with the Amazon Web Services CloudHSM key store is processing numerous commands, including those unrelated to the Amazon Web Services CloudHSM key store.
     /// - `ResourceNotFoundException` : One or more specified resources don't exist.
     /// - `UnsupportedOperation` : Error code 400. Unsupported operation.
     public func startMessageMoveTask(input: StartMessageMoveTaskInput) async throws -> StartMessageMoveTaskOutput
@@ -1057,8 +1352,9 @@ extension SQSClient: SQSClientProtocol {
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartMessageMoveTaskOutput, StartMessageMoveTaskOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StartMessageMoveTaskInput, StartMessageMoveTaskOutput>(xAmzTarget: "AmazonSQS.StartMessageMoveTask"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartMessageMoveTaskInput, StartMessageMoveTaskOutput>(xmlName: "StartMessageMoveTaskRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartMessageMoveTaskInput, StartMessageMoveTaskOutput>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartMessageMoveTaskInput, StartMessageMoveTaskOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartMessageMoveTaskOutput, StartMessageMoveTaskOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
@@ -1085,6 +1381,21 @@ extension SQSClient: SQSClientProtocol {
     /// - Parameter TagQueueInput : [no documentation found]
     ///
     /// - Returns: `TagQueueOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidAddress` : The accountId is invalid.
+    /// - `InvalidSecurity` : When the request to a queue is not HTTPS and SigV4.
+    /// - `QueueDoesNotExist` : The specified queue doesn't exist.
+    /// - `RequestThrottled` : The request was denied due to request throttling.
+    ///
+    /// * The rate of requests per second exceeds the Amazon Web Services KMS request quota for an account and Region.
+    ///
+    /// * A burst or sustained high rate of requests to change the state of the same KMS key. This condition is often known as a "hot key."
+    ///
+    /// * Requests for operations on KMS keys in a Amazon Web Services CloudHSM key store might be throttled at a lower-than-expected rate when the Amazon Web Services CloudHSM cluster associated with the Amazon Web Services CloudHSM key store is processing numerous commands, including those unrelated to the Amazon Web Services CloudHSM key store.
+    /// - `UnsupportedOperation` : Error code 400. Unsupported operation.
     public func tagQueue(input: TagQueueInput) async throws -> TagQueueOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1107,8 +1418,9 @@ extension SQSClient: SQSClientProtocol {
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagQueueOutput, TagQueueOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<TagQueueInput, TagQueueOutput>(xAmzTarget: "AmazonSQS.TagQueue"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<TagQueueInput, TagQueueOutput>(xmlName: "TagQueueRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TagQueueInput, TagQueueOutput>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TagQueueInput, TagQueueOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagQueueOutput, TagQueueOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
@@ -1124,6 +1436,21 @@ extension SQSClient: SQSClientProtocol {
     /// - Parameter UntagQueueInput : [no documentation found]
     ///
     /// - Returns: `UntagQueueOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidAddress` : The accountId is invalid.
+    /// - `InvalidSecurity` : When the request to a queue is not HTTPS and SigV4.
+    /// - `QueueDoesNotExist` : The specified queue doesn't exist.
+    /// - `RequestThrottled` : The request was denied due to request throttling.
+    ///
+    /// * The rate of requests per second exceeds the Amazon Web Services KMS request quota for an account and Region.
+    ///
+    /// * A burst or sustained high rate of requests to change the state of the same KMS key. This condition is often known as a "hot key."
+    ///
+    /// * Requests for operations on KMS keys in a Amazon Web Services CloudHSM key store might be throttled at a lower-than-expected rate when the Amazon Web Services CloudHSM cluster associated with the Amazon Web Services CloudHSM key store is processing numerous commands, including those unrelated to the Amazon Web Services CloudHSM key store.
+    /// - `UnsupportedOperation` : Error code 400. Unsupported operation.
     public func untagQueue(input: UntagQueueInput) async throws -> UntagQueueOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1146,8 +1473,9 @@ extension SQSClient: SQSClientProtocol {
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagQueueOutput, UntagQueueOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UntagQueueInput, UntagQueueOutput>(xAmzTarget: "AmazonSQS.UntagQueue"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UntagQueueInput, UntagQueueOutput>(xmlName: "UntagQueueRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UntagQueueInput, UntagQueueOutput>(contentType: "application/x-www-form-urlencoded"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UntagQueueInput, UntagQueueOutput>(contentType: "application/x-amz-json-1.0"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagQueueOutput, UntagQueueOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
