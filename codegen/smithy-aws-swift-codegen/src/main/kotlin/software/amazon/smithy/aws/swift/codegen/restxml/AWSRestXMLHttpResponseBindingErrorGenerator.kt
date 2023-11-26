@@ -80,10 +80,9 @@ class AWSRestXMLHttpResponseBindingErrorGenerator : HttpResponseBindingErrorGene
                 addImport(SwiftDependency.CLIENT_RUNTIME.target)
 
                 openBlock(
-                    "enum \$L: \$N {",
+                    "enum \$L {",
                     "}",
-                    operationErrorName,
-                    ClientRuntimeTypes.Http.HttpResponseErrorBinding
+                    operationErrorName
                 ) {
                     openBlock(
                         "static func makeError(httpResponse: \$N, decoder: \$D) async throws -> \$N {", "}",

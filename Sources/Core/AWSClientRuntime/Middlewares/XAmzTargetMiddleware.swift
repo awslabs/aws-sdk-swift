@@ -3,7 +3,7 @@
 import ClientRuntime
 
 public struct XAmzTargetMiddleware<OperationStackInput,
-                                   OperationStackOutput: HttpResponseBinding>: Middleware {
+                                   OperationStackOutput>: Middleware {
     public let id: String = "XAmzTargetHeader"
 
     let xAmzTarget: String

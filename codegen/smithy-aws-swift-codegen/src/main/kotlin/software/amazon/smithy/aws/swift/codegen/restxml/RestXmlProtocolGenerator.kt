@@ -11,7 +11,6 @@ import software.amazon.smithy.model.shapes.MemberShape
 import software.amazon.smithy.model.shapes.Shape
 import software.amazon.smithy.model.shapes.ShapeId
 import software.amazon.smithy.model.traits.TimestampFormatTrait
-import software.amazon.smithy.swift.codegen.SwiftTypes
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.codingKeys.CodingKeysCustomizationXmlName
@@ -19,6 +18,7 @@ import software.amazon.smithy.swift.codegen.integration.codingKeys.CodingKeysGen
 import software.amazon.smithy.swift.codegen.integration.codingKeys.DefaultCodingKeysGenerator
 import software.amazon.smithy.swift.codegen.integration.httpResponse.HttpResponseGenerator
 import software.amazon.smithy.swift.codegen.integration.serde.json.StructEncodeXMLGenerator
+import software.amazon.smithy.swift.codegen.integration.serde.xml.StructDecodeXMLGenerator
 import software.amazon.smithy.swift.codegen.model.ShapeMetadata
 
 class RestXmlProtocolGenerator : AWSHttpBindingProtocolGenerator() {
@@ -49,9 +49,9 @@ class RestXmlProtocolGenerator : AWSHttpBindingProtocolGenerator() {
         "S3OperationNoErrorWrappingResponse"
     )
 
-    override val codableProtocol = SwiftTypes.Protocols.Decodable
+    override val codableProtocol = null
     override val encodableProtocol = null
-    override val decodableProtocol = SwiftTypes.Protocols.Decodable
+    override val decodableProtocol = null
 
     override fun renderStructEncode(
         ctx: ProtocolGenerator.GenerationContext,
@@ -68,13 +68,14 @@ class RestXmlProtocolGenerator : AWSHttpBindingProtocolGenerator() {
 
     override fun renderStructDecode(
         ctx: ProtocolGenerator.GenerationContext,
+        shapeContainingMembers: Shape,
         shapeMetadata: Map<ShapeMetadata, Any>,
         members: List<MemberShape>,
         writer: SwiftWriter,
         defaultTimestampFormat: TimestampFormatTrait.Format,
         path: String
     ) {
-        val decoder = RestXmlStructDecodeXMLGenerator(ctx, members, shapeMetadata, writer, defaultTimestampFormat)
+        val decoder = StructDecodeXMLGenerator(ctx, shapeContainingMembers, members, shapeMetadata, writer, defaultTimestampFormat)
         decoder.render()
     }
 }

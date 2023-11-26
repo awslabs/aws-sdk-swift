@@ -16,6 +16,7 @@ import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.model.shapes.Shape
 import software.amazon.smithy.model.shapes.ShapeId
 import software.amazon.smithy.model.traits.TimestampFormatTrait
+import software.amazon.smithy.swift.codegen.SwiftTypes
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.HttpBindingResolver
 import software.amazon.smithy.swift.codegen.integration.HttpProtocolUnitTestGenerator
@@ -54,6 +55,9 @@ class Ec2QueryProtocolGenerator : AWSHttpBindingProtocolGenerator() {
         "SDKAppliedContentEncoding_ec2Query",
         "SDKAppendsGzipAndIgnoresHttpProvidedEncoding_ec2Query"
     )
+    override val codableProtocol = SwiftTypes.Protocols.Encodable
+    override val decodableProtocol = null
+
     override fun renderStructEncode(
         ctx: ProtocolGenerator.GenerationContext,
         shapeContainingMembers: Shape,
@@ -70,13 +74,14 @@ class Ec2QueryProtocolGenerator : AWSHttpBindingProtocolGenerator() {
 
     override fun renderStructDecode(
         ctx: ProtocolGenerator.GenerationContext,
+        shapeContainingMembers: Shape,
         shapeMetadata: Map<ShapeMetadata, Any>,
         members: List<MemberShape>,
         writer: SwiftWriter,
         defaultTimestampFormat: TimestampFormatTrait.Format,
         path: String
     ) {
-        val decoder = StructDecodeXMLGenerator(ctx, members, mapOf(), writer, defaultTimestampFormat)
+        val decoder = StructDecodeXMLGenerator(ctx, shapeContainingMembers, members, mapOf(), writer, defaultTimestampFormat)
         decoder.render()
     }
 
