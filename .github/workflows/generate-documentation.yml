@@ -56,5 +56,5 @@ jobs:
           fi
       - name: Generate docs
         run: |
-          DOCS_BUCKET="$CD_API_REFS_BUCKET_NAME" \
+          DOCS_BUCKET=${{ secrets.CD_API_REFS_BUCKET_NAME }} \
           ./scripts/generatedocc.sh "$VERSION" ${{ matrix.job }} ${{ strategy.job-total }} ${{ env.IGNORE }}
