@@ -43,7 +43,7 @@ generateDocs() {
 
     # sync to AWSS3, adding the new version
     echo "Syncing doccarchive to S3 for $package $VERSION"
-    aws s3 sync --quiet $OUTPUT_DIR/$package_lowercase-$VERSION.doccarchive s3://$DOCS_BUCKET/$package_lowercase-$VERSION.doccarchive
+    aws s3 sync --only-show-errors $OUTPUT_DIR/$package_lowercase-$VERSION.doccarchive s3://$DOCS_BUCKET/$package_lowercase-$VERSION.doccarchive
     echo "Syncing complete"
 
     # delete temp files
@@ -73,7 +73,7 @@ generateDocs() {
 
     # sync to AWSS3, replacing the previous "latest"
     echo "Syncing doccarchive to S3 for $package latest"
-    aws s3 sync --delete --quiet $OUTPUT_DIR/$package_lowercase-latest.doccarchive s3://$DOCS_BUCKET/$package_lowercase-latest.doccarchive
+    aws s3 sync --delete --only-show-errors $OUTPUT_DIR/$package_lowercase-latest.doccarchive s3://$DOCS_BUCKET/$package_lowercase-latest.doccarchive
 
     # break if S3 sync fails
     if [ $? -ne 0 ]; then
