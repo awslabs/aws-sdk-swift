@@ -193,6 +193,8 @@ extension EventStreamTestClientTypes.TestStream: ClientRuntime.MessageUnmarshall
         val contents = getFileContents(context.manifest, "/Example/EventStreamTestClient.swift")
         var expected = """
 extension EventStreamTestClient: EventStreamTestClientProtocol {
+    /// Performs the `TestStreamOp` operation on the `TestService` service.
+    ///
     /// This operation is cool.
     ///
     /// - Parameter TestStreamOpInput : [no documentation found]
@@ -239,7 +241,7 @@ extension EventStreamTestClient: EventStreamTestClientProtocol {
     }
 
 }
-        """.trimIndent()
+"""
         contents.shouldContainOnlyOnce(expected)
     }
 
