@@ -31,7 +31,7 @@ class EndpointResolverMiddleware(
     override val id: String = "EndpointResolverMiddleware"
 
     override val typeName =
-        "EndpointResolverMiddleware<$outputSymbol, $outputErrorSymbol>"
+        "EndpointResolverMiddleware<$outputSymbol>"
 
     override val properties: MutableMap<String, Symbol> = mutableMapOf(
         ENDPOINT_RESOLVER to AWSServiceTypes.EndpointResolver,

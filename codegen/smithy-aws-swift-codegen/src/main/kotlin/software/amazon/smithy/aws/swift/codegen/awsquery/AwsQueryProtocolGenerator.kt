@@ -24,6 +24,7 @@ import software.amazon.smithy.swift.codegen.integration.HttpProtocolUnitTestGene
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.codingKeys.CodingKeysCustomizationXmlName
 import software.amazon.smithy.swift.codegen.integration.codingKeys.DefaultCodingKeysGenerator
+import software.amazon.smithy.swift.codegen.integration.httpResponse.HttpResponseBindingOutputGenerator
 import software.amazon.smithy.swift.codegen.integration.httpResponse.HttpResponseGenerator
 import software.amazon.smithy.swift.codegen.integration.middlewares.ContentTypeMiddleware
 import software.amazon.smithy.swift.codegen.integration.middlewares.OperationInputBodyMiddleware
@@ -46,6 +47,7 @@ open class AwsQueryProtocolGenerator : AWSHttpBindingProtocolGenerator() {
     override val httpResponseGenerator = HttpResponseGenerator(
         unknownServiceErrorSymbol,
         defaultTimestampFormat,
+        HttpResponseBindingOutputGenerator(),
         AWSRestXMLHttpResponseBindingErrorGenerator(),
         AWSXMLHttpResponseBindingErrorInitGeneratorFactory()
     )

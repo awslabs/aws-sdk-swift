@@ -71,7 +71,7 @@ class OperationEndpointResolverMiddleware(
         }
         writer.write("let endpointParams = EndpointParams(${params.joinToString(separator = ", ")})")
         val middlewareParamsString = "endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams"
-        writer.write("$operationStackName.${middlewareStep.stringValue()}.intercept(position: ${position.stringValue()}, middleware: \$N<\$N, \$N>($middlewareParamsString))", AWSServiceTypes.EndpointResolverMiddleware, output, outputError)
+        writer.write("$operationStackName.${middlewareStep.stringValue()}.intercept(position: ${position.stringValue()}, middleware: \$N<\$N>($middlewareParamsString))", AWSServiceTypes.EndpointResolverMiddleware, output)
     }
 
     /**

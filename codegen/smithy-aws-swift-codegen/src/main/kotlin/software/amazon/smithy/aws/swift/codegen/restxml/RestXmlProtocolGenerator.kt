@@ -16,6 +16,7 @@ import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.codingKeys.CodingKeysCustomizationXmlName
 import software.amazon.smithy.swift.codegen.integration.codingKeys.CodingKeysGenerator
 import software.amazon.smithy.swift.codegen.integration.codingKeys.DefaultCodingKeysGenerator
+import software.amazon.smithy.swift.codegen.integration.httpResponse.HttpResponseBindingOutputGenerator
 import software.amazon.smithy.swift.codegen.integration.httpResponse.HttpResponseGenerator
 import software.amazon.smithy.swift.codegen.integration.serde.json.StructEncodeXMLGenerator
 import software.amazon.smithy.swift.codegen.integration.serde.xml.StructDecodeXMLGenerator
@@ -30,10 +31,12 @@ class RestXmlProtocolGenerator : AWSHttpBindingProtocolGenerator() {
     override val httpResponseGenerator = HttpResponseGenerator(
         unknownServiceErrorSymbol,
         defaultTimestampFormat,
+        HttpResponseBindingOutputGenerator(),
         AWSRestXMLHttpResponseBindingErrorGenerator(),
         AWSXMLHttpResponseBindingErrorInitGeneratorFactory()
     )
     override val shouldRenderDecodableBodyStructForInputShapes = false
+    override val shouldRenderCodingKeysForEncodable = false
     override val serdeContext = serdeContextXML
     override val testsToIgnore = setOf(
         "S3DefaultAddressing",
@@ -78,5 +81,9 @@ class RestXmlProtocolGenerator : AWSHttpBindingProtocolGenerator() {
     ) {
         val decoder = StructDecodeXMLGenerator(ctx, shapeContainingMembers, members, shapeMetadata, writer, defaultTimestampFormat)
         decoder.render()
+    }
+
+    override fun generateDeserializers(ctx: ProtocolGenerator.GenerationContext) {
+        // Not needed for restXML
     }
 }

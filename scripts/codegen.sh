@@ -30,7 +30,8 @@ rm -rf Tests/Services/*
 
 # Regenerate the package manifest
 cd AWSSDKSwiftCLI
-swift run AWSSDKSwiftCLI generate-package-manifest --include-integration-tests ../
+# swift run AWSSDKSwiftCLI generate-package-manifest --include-integration-tests ../
+swift run AWSSDKSwiftCLI generate-package-manifest ../
 cd ..
 
 # If on Mac, open Xcode to the newly refreshed SDK
