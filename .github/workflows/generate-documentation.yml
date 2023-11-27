@@ -32,7 +32,7 @@ jobs:
           aws-region: us-east-1
       - name: Install AWS CLI
         run: |
-          DEBIAN_FRONTEND="noninteractive" apt-get update && apt-get install -y tzdata keyboard-configuration
+          DEBIAN_FRONTEND="noninteractive" apt-get update
           apt-get -y install curl unzip
           curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
           unzip awscliv2.zip && ./aws/install
