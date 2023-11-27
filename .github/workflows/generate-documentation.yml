@@ -50,10 +50,11 @@ jobs:
           else
             # echo "Error: runs on a tag only"
             # exit(1)
-            echo "Assumed version number 0.0.1"
-            echo "VERSION=0.0.1" >> $GITHUB_OUTPUT
+            VERSION="0.0.1"
+            echo "Assumed version number $VERSION"
+            echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
           fi
       - name: Generate docs
         run: |
           DOCS_BUCKET="$CD_API_REFS_BUCKET_NAME" \
-          ./scripts/generatedocc.sh $VERSION ${{ matrix.job }} ${{ strategy.job-total }} ${{ env.IGNORE }}
+          ./scripts/generatedocc.sh "$VERSION" ${{ matrix.job }} ${{ strategy.job-total }} ${{ env.IGNORE }}
