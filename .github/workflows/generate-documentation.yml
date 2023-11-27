@@ -30,10 +30,10 @@ jobs:
         with:
           role-to-assume: ${{ secrets.CD_API_REFS_PUBLISH_ROLE_ARN }}
           aws-region: us-east-1
-      - name: Install AWS CLI
+      - name: Install AWS CLI and native dependencies
         run: |
           DEBIAN_FRONTEND="noninteractive" apt-get update
-          apt-get -y install curl unzip
+          apt-get -y install curl unzip openssl libssl-dev
           curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
           unzip awscliv2.zip && ./aws/install
       - name: Display user
