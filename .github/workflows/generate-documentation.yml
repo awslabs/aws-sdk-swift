@@ -1,12 +1,12 @@
 name: Generate Documentation
 
 on:
-  push:
-    tags:
-      - '0.0.*'
+  # push:
+    # tags:
+      # - '0.0.*'
   pull_request:
-    # release:
-      # types: [published]
+  # release:
+    # types: [published]
 
 permissions:
   id-token: write
