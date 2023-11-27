@@ -556,5 +556,5 @@ let servicesWithIntegrationTests: [String] = [
 servicesWithIntegrationTests.forEach(addIntegrationTestTarget)
 
 // Uncomment this line to enable protocol tests
-// addProtocolTests()
+addProtocolTests()
 
