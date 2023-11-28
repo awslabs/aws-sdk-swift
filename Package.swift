@@ -150,6 +150,7 @@ func addProtocolTests() {
 
     let protocolTests: [ProtocolTest] = [
         .init(name: "AWSRestJsonTestSDK", sourcePath: "\(baseDir)/aws-restjson"),
+        .init(name: "AWSRestJsonValidationTestSDK", sourcePath: "\(baseDir)/aws-restjson-validation"),
         .init(name: "AWSJson1_0TestSDK", sourcePath: "\(baseDir)/aws-json-10"),
         .init(name: "AWSJson1_1TestSDK", sourcePath: "\(baseDir)/aws-json-11"),
         .init(name: "RestXmlTestSDK", sourcePath: "\(baseDir)/rest-xml"),
@@ -556,5 +557,5 @@ let servicesWithIntegrationTests: [String] = [
 servicesWithIntegrationTests.forEach(addIntegrationTestTarget)
 
 // Uncomment this line to enable protocol tests
-addProtocolTests()
+// addProtocolTests()
 
