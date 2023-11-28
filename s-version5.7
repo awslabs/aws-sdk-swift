@@ -1,0 +1,24 @@
+$ swift run
+$ mkdir AWSCredentialTester
+$ cd AWSCredentialTester
+$ swift package init --type executable
+// swift-tools-version: 5.7
+
+import PackageDescription
+
+let package = Package(
+    name: "AWSCredentialTester",
+    platforms: [.macOS(.v10_15), .iOS(.v13)],
+    dependencies: [
+        .package(url: "https://github.com/awslabs/aws-sdk-swift.git", from: "0.16.0")
+    ],
+    targets: [
+        .executableTarget(
+            name: "AWSCredentialTester",
+            dependencies: [
+                .product(name: "AWSSTS", package: "aws-sdk-swift")
+            ],
+            path: "Sources"
+        )
+    ]
+)
