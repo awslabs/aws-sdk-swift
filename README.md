@@ -55,7 +55,7 @@ $ swift package init --type executable
 ```
 
 2. Edit your new package's `Package.swift` file to read:
-```
+```Swift
 // swift-tools-version: 5.7
 
 import PackageDescription
@@ -79,7 +79,7 @@ let package = Package(
 ```
 
 3. Edit your project's `Sources/main.swift` file to read:
-```
+```Swift
 import AWSSTS
 
 let client = try STSClient(region: "us-east-1")
@@ -122,7 +122,7 @@ want to access, and set the Xcode target next to each service.  Click "Add Packa
 ### Installing the AWS SDK for Swift into your Swift Package
 
 1. In your package's `Package.swift`, add AWS SDK for Swift as a package dependency:
-```
+```diff
 let package = Package(
     name: "MyPackage",
     dependencies: [
@@ -132,7 +132,7 @@ let package = Package(
 
 2. Add the specific AWS services you plan to use into the `dependencies` of one of the targets in your package's
 `Package.swift`.  To finish this example, you will need to add at least `AWS Secure Token Service (STS)` :
-```
+```diff
     targets: [
         .target(
             name: "MyTarget", 
