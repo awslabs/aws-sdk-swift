@@ -21,6 +21,8 @@ class AWSQueryOperationStackTest {
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
 extension QueryProtocolClient: QueryProtocolClientProtocol {
+    /// Performs the `NoInputAndOutput` operation on the `AwsQuery` service.
+    ///
     /// This is a very cool operation.
     ///
     /// - Parameter NoInputAndOutputInput : [no documentation found]
