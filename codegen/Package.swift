@@ -75,6 +75,7 @@ func appendLibTarget(name: String, path: String) {
                         name: "ClientRuntime",
                         package: "smithy-swift"
                     ),
+                    .product(name: "SmithyXML", package: "smithy-swift"),
                     .product(
                         name: "AWSClientRuntime",
                         package: "aws-sdk-swift"

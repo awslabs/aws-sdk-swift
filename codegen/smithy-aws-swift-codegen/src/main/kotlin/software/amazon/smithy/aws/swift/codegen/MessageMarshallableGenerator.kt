@@ -11,6 +11,8 @@ import software.amazon.smithy.swift.codegen.ClientRuntimeTypes
 import software.amazon.smithy.swift.codegen.SwiftDependency
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
+import software.amazon.smithy.swift.codegen.integration.serde.readwrite.DocumentWritingClosureUtils
+import software.amazon.smithy.swift.codegen.integration.serde.readwrite.WritingClosureUtils
 import software.amazon.smithy.swift.codegen.model.eventStreamEvents
 import software.amazon.smithy.swift.codegen.model.hasTrait
 
@@ -67,7 +69,9 @@ class MessageMarshallableGenerator(
                             unbound.isNotEmpty() -> {
                                 writer.addStringHeader(":content-type", payloadContentType)
                                 // get a payload serializer for the given members of the variant
-                                writer.write("payload = try encoder.encode(value)")
+                                val documentWritingClosure = DocumentWritingClosureUtils(ctx, writer).closure(variant)
+                                val valueWritingClosure = WritingClosureUtils(ctx, writer).writingClosure(variant)
+                                writer.write("payload = try \$L(value, \$L)", documentWritingClosure, valueWritingClosure)
                             }
                         }
                         writer.dedent()
@@ -115,7 +119,7 @@ class MessageMarshallableGenerator(
                     ClientRuntimeTypes.Serde.RequestEncoder,
                     ClientRuntimeTypes.EventStream.Message
                 ) {
-                    writer.write("fatalError(\"not implemented\")")
+                    writer.write("#error(\"Event streams not implemented for this protocol\")")
                 }
             }
         }
