@@ -31,7 +31,7 @@ jobs:
           ref: ${{ steps.comment-branch.outputs.head_ref }}
       - name: Select smithy-swift branch
         run: |
-          ORIGINAL_REPO_HEAD_REF="$GITHUB_HEAD_REF" \
+          ORIGINAL_REPO_HEAD_REF="${{ steps.comment-branch.outputs.head_ref }}" \
           DEPENDENCY_REPO_URL="https://github.com/smithy-lang/smithy-swift.git" \
           ./scripts/ci_steps/select_dependency_branch.sh
       - name: Checkout smithy-swift
