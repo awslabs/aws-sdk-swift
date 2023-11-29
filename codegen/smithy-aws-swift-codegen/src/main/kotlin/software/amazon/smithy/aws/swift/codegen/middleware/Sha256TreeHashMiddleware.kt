@@ -20,7 +20,6 @@ class Sha256TreeHashMiddleware(private val symbolProvider: SymbolProvider, priva
 
     override fun render(ctx: ProtocolGenerator.GenerationContext, writer: SwiftWriter, op: OperationShape, operationStackName: String) {
         val outputShape = MiddlewareShapeUtils.outputSymbol(symbolProvider, model, op)
-        val outputErrorShapeName = MiddlewareShapeUtils.outputErrorSymbolName(op)
-        writer.write("$operationStackName.${middlewareStep.stringValue()}.intercept(position: ${position.stringValue()}, middleware: \$N<\$N, $outputErrorShapeName>())", AWSClientRuntimeTypes.Core.Sha256TreeHashMiddleware, outputShape)
+        writer.write("$operationStackName.${middlewareStep.stringValue()}.intercept(position: ${position.stringValue()}, middleware: \$N<\$N>())", AWSClientRuntimeTypes.Core.Sha256TreeHashMiddleware, outputShape)
     }
 }

@@ -7,7 +7,7 @@
 
 import ClientRuntime
 
-public struct UserAgentMiddleware<OperationStackOutput: HttpResponseBinding>: Middleware {
+public struct UserAgentMiddleware<OperationStackOutput>: Middleware {
     public let id: String = "UserAgentHeader"
 
     private let X_AMZ_USER_AGENT: String = "x-amz-user-agent"

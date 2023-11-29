@@ -5,8 +5,7 @@ import AwsCommonRuntimeKit
 import ClientRuntime
 import AwsCCal
 
-public struct Sha256TreeHashMiddleware<OperationStackOutput: HttpResponseBinding,
-                                       OperationStackError: HttpResponseErrorBinding>: Middleware {
+public struct Sha256TreeHashMiddleware<OperationStackOutput>: Middleware {
     public let id: String = "Sha256TreeHash"
 
     private let X_AMZ_SHA256_TREE_HASH_HEADER_NAME = "X-Amz-Sha256-Tree-Hash"
@@ -104,5 +103,4 @@ public struct Sha256TreeHashMiddleware<OperationStackOutput: HttpResponseBinding
     public typealias MInput = SdkHttpRequestBuilder
     public typealias MOutput = OperationOutput<OperationStackOutput>
     public typealias Context = HttpContext
-    public typealias MError = OperationStackError
 }
