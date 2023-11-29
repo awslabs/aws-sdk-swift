@@ -67,9 +67,10 @@ class PresignableUrlIntegration(private val presignedOperations: Map<String, Set
         presignOperations.forEach { presignableOperation ->
             val op = ctx.model.expectShape<OperationShape>(presignableOperation.operationId)
             val inputType = op.input.get().getName()
+            val outputType = op.output.get().getName()
             delegator.useFileWriter("${ctx.settings.moduleName}/models/$inputType+Presigner.swift") { writer ->
                 val serviceConfig = AWSServiceConfig(writer, protocolGenerationContext)
-                renderPresigner(writer, ctx, delegator, op, inputType, serviceConfig)
+                renderPresigner(writer, ctx, delegator, op, inputType, outputType, serviceConfig)
             }
             // Expose presign-URL as a method for service client object
             val symbol = protocolGenerationContext.symbolProvider.toSymbol(protocolGenerationContext.service)
@@ -93,6 +94,7 @@ class PresignableUrlIntegration(private val presignedOperations: Map<String, Set
         delegator: SwiftDelegator,
         op: OperationShape,
         inputType: String,
+        outputType: String,
         serviceConfig: AWSServiceConfig
     ) {
         val serviceShape = ctx.model.expectShape<ServiceShape>(ctx.settings.service)
@@ -139,7 +141,8 @@ class PresignableUrlIntegration(private val presignedOperations: Map<String, Set
                 val builtRequestName = "builtRequest"
                 val presignedURL = "presignedURL"
                 writer.write(
-                    "let $requestBuilderName = try await $operationStackName.presignedRequest(context: context, input: input, next: \$N())",
+                    "let $requestBuilderName = try await $operationStackName.presignedRequest(context: context, input: input, output: \$L(), next: \$N())",
+                    outputType,
                     ClientRuntimeTypes.Middleware.NoopHandler
                 )
                 writer.openBlock("guard let $builtRequestName = $requestBuilderName?.build(), let $presignedURL = $builtRequestName.endpoint.url else {", "}") {
