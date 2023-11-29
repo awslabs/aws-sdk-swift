@@ -21,8 +21,8 @@ class PresignableUrlIntegrationTests {
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
         let sigv4Config = AWSClientRuntime.SigV4Config(signatureType: .requestQueryParams, expiration: expiration, unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SynthesizeSpeechOutput, SynthesizeSpeechOutputError>(config: sigv4Config))
-        """
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SynthesizeSpeechOutput>(config: sigv4Config))
+"""
         contents.shouldContainOnlyOnce(expectedContents)
     }
 
@@ -33,8 +33,8 @@ class PresignableUrlIntegrationTests {
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
         let sigv4Config = AWSClientRuntime.SigV4Config(signatureType: .requestQueryParams, useDoubleURIEncode: false, shouldNormalizeURIPath: false, expiration: expiration, unsignedBody: true, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetObjectOutput, GetObjectOutputError>(config: sigv4Config))
-        """
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetObjectOutput>(config: sigv4Config))
+"""
         contents.shouldContainOnlyOnce(expectedContents)
     }
 
@@ -45,8 +45,8 @@ class PresignableUrlIntegrationTests {
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
         let sigv4Config = AWSClientRuntime.SigV4Config(signatureType: .requestQueryParams, useDoubleURIEncode: false, shouldNormalizeURIPath: false, expiration: expiration, unsignedBody: true, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutObjectOutput, PutObjectOutputError>(config: sigv4Config))
-        """
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutObjectOutput>(config: sigv4Config))
+"""
         contents.shouldContainOnlyOnce(expectedContents)
     }
 
