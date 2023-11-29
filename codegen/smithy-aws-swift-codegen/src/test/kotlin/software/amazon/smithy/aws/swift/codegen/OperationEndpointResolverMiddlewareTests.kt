@@ -19,7 +19,7 @@ class OperationEndpointResolverMiddlewareTests {
         val context = setupGenerationContext("endpoints.smithy", "smithy.example#ExampleService")
         val operation = context.model.operationShapes.toList().first { it.id.name == "GetThing" }
         val middleware = OperationEndpointResolverMiddleware(context)
-        middleware.render(writer, operation, "operationStack")
+        middleware.render(context, writer, operation, "operationStack")
         var contents = writer.toString()
         val expected = """
             guard let region = config.region else {
