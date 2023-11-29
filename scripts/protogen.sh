@@ -25,6 +25,7 @@ rm -rf codegen/protocol-test-codegen-local/build
 
 # Delete the generated Package.swift for protocol test packages so they may be seen in Xcode
 rm codegen/protocol-test-codegen/build/smithyprojections/protocol-test-codegen/aws-restjson/swift-codegen/Package.swift
+rm codegen/protocol-test-codegen/build/smithyprojections/protocol-test-codegen/aws-restjson-validation/swift-codegen/Package.swift
 rm codegen/protocol-test-codegen/build/smithyprojections/protocol-test-codegen/aws-json-10/swift-codegen/Package.swift
 rm codegen/protocol-test-codegen/build/smithyprojections/protocol-test-codegen/aws-json-11/swift-codegen/Package.swift
 rm codegen/protocol-test-codegen/build/smithyprojections/protocol-test-codegen/rest-xml/swift-codegen/Package.swift
