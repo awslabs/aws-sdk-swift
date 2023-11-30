@@ -41,9 +41,15 @@ generateDocs() {
         echo "Generating docs complete"
     fi
 
+    # Delete any old version of this doccarchive
+    aws s3 rm --recursive --only-show-errors \
+      s3://$DOCS_BUCKET/$package-lowercase-$VERSION.doccarchive
+
     # copy to AWSS3, adding the new version
     echo "Copying doccarchive to S3 for $package_lowercase-$VERSION"
-    aws s3 cp --recursive --only-show-errors $OUTPUT_DIR/$package_lowercase-$VERSION.doccarchive s3://$DOCS_BUCKET/$package_lowercase-$VERSION.doccarchive
+    aws s3 cp --recursive --only-show-errors \
+      $OUTPUT_DIR/$package_lowercase-$VERSION.doccarchive \
+      s3://$DOCS_BUCKET/$package_lowercase-$VERSION.doccarchive
 
     # break if sync fails
     if [ $? -ne 0 ]; then
@@ -98,9 +104,4 @@ for package in $packages; do
 
     current=$((current + 1))
 done
-
-# Write the index last
-if [ $CURRENT_JOB -eq 0 ]; then
-  generateDocs "AWSSDKForSwift" "$VERSION"
-fi
 
