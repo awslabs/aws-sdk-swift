@@ -25,6 +25,9 @@ var package = Package(
 appendLibTarget(name: "AWSRestJsonTestSDK", path: "\(baseDir)/aws-restjson")
 appendTstTarget(name: "AWSRestJsonTestSDKTests", path: "\(baseDir)/aws-restjson", dependency: "AWSRestJsonTestSDK")
 
+appendLibTarget(name: "AWSRestJsonValidationTestSDK", path: "\(baseDir)/aws-restjson-validation")
+appendTstTarget(name: "AWSRestJsonValidationTestSDKTests", path: "\(baseDir)/aws-restjson-validation", dependency: "AWSRestJsonValidationTestSDK")
+
 appendLibTarget(name: "AWSJson1_0TestSDK", path: "\(baseDir)/aws-json-10")
 appendTstTarget(name: "AWSJson1_0TestSDKTests", path: "\(baseDir)/aws-json-10", dependency: "AWSJson1_0TestSDK")
 
@@ -72,6 +75,7 @@ func appendLibTarget(name: String, path: String) {
                         name: "ClientRuntime",
                         package: "smithy-swift"
                     ),
+                    .product(name: "SmithyXML", package: "smithy-swift"),
                     .product(
                         name: "AWSClientRuntime",
                         package: "aws-sdk-swift"

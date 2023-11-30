@@ -80,7 +80,7 @@ class SSOCredentialsProviderTests : XCTestCase {
     private func getIamIdentityCenterArn() async throws -> String {
         // Get IAM identity center instanceArn
         let listInstancesOutput = try await ssoClient.listInstances(input: ListInstancesInput())
-        guard let iamCenterInstances = listInstancesOutput.instances, let iamCenterArn = iamCenterInstances[0].instanceArn else {
+        guard let iamCenterInstances = listInstancesOutput.instances, !iamCenterInstances.isEmpty, let iamCenterArn = iamCenterInstances[0].instanceArn else {
             throw ClientError.dataNotFound("No IAM Identity Center instance found. Check AWS organization is enabled for the account.")
         }
         return iamCenterArn
