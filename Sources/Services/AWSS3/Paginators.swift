@@ -62,7 +62,7 @@ extension ListPartsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListPartsInput, Output == ListPartsOutput {
+extension PaginatorSequence where OperationStackInput == ListPartsInput, OperationStackOutput == ListPartsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listPartsPaginated`
     /// to access the nested member `[S3ClientTypes.Part]`
     /// - Returns: `[S3ClientTypes.Part]`
