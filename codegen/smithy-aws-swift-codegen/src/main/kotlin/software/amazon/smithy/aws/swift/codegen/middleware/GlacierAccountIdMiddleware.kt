@@ -22,7 +22,6 @@ class GlacierAccountIdMiddleware(private val model: Model, private val symbolPro
 
     override fun render(ctx: ProtocolGenerator.GenerationContext, writer: SwiftWriter, op: OperationShape, operationStackName: String) {
         val outputShapeName = MiddlewareShapeUtils.outputSymbol(symbolProvider, model, op).name
-        val outputErrorShapeName = MiddlewareShapeUtils.outputErrorSymbolName(op)
         val accountId = model.expectShape<StructureShape>(op.input.get()).members().first { it.memberName.lowercase() == "accountid" }
         writer.openBlock(
             "$operationStackName.${middlewareStep.stringValue()}.intercept(position: ${position.stringValue()}, id: \"${name}\") { (context, input, next) -> \$N<$outputShapeName> in", "}",
