@@ -22,6 +22,7 @@ jobs:
     container: swift:5.9-jammy
     env:
       IGNORE: xxx
+      # Remove the following before merge
       AWS_SWIFT_SDK_USE_MAIN_DEPS: 1
     steps:
       - name: Checkout Sources
@@ -51,7 +52,7 @@ jobs:
           else
             # echo "Error: runs on a tag only"
             # exit(1)
-            VERSION="0.0.4"
+            VERSION="0.0.5"
             echo "Assumed version number $VERSION"
             echo "VERSION=$VERSION" >> "$GITHUB_ENV"
           fi
@@ -66,8 +67,8 @@ jobs:
     steps:
       - name: Install AWS CLI
         run: |
-          DEBIAN_FRONTEND="noninteractive" apt-get update
-          apt-get -y install curl unzip
+          DEBIAN_FRONTEND="noninteractive" sudo apt-get update
+          sudo apt-get -y install curl unzip
           curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
           unzip awscliv2.zip && ./aws/install
       - name: Update Cloudfront key value store
