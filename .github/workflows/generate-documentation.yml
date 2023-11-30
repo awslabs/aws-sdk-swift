@@ -22,9 +22,10 @@ jobs:
     container: swift:5.9-jammy
     env:
       IGNORE: xxx
+      AWS_SWIFT_SDK_USE_MAIN_DEPS: 1
     steps:
       - name: Checkout Sources
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
