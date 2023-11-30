@@ -70,7 +70,7 @@ jobs:
           DEBIAN_FRONTEND="noninteractive" sudo apt-get update
           sudo apt-get -y install curl unzip
           curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-          unzip awscliv2.zip && ./aws/install --update
+          unzip awscliv2.zip && sudo ./aws/install --update
       - name: Update Cloudfront key value store
         run: |
           aws cloudfront-keyvaluestore --kvs-arn ${{ secrets.CF_CLOUDFRONT_KVS_ARN }} --key latest --value "$VERSION"
