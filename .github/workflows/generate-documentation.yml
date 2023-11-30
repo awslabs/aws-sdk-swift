@@ -73,4 +73,6 @@ jobs:
           unzip awscliv2.zip && sudo ./aws/install --update
       - name: Update Cloudfront key value store
         run: |
-          aws cloudfront-keyvaluestore --kvs-arn ${{ secrets.CF_CLOUDFRONT_KVS_ARN }} --key latest --value "$VERSION"
+          aws cloudfront-keyvaluestore put-key \
+            --kvs-arn ${{ secrets.CF_CLOUDFRONT_KVS_ARN }} \
+            --key latest --value "$VERSION"
