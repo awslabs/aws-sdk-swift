@@ -93,7 +93,7 @@ class AWSSigningMiddlewareTests {
             signingAlgorithm = SigningAlgorithm.SigV4
         )
         val subject = AWSSigningMiddleware(context.model, context.symbolProvider, params)
-        subject.render(writer, operation, stack)
+        subject.render(context, writer, operation, stack)
         val contents = writer.toString()
 
         contents.shouldContainOnlyOnce(expectedContents)
@@ -118,7 +118,7 @@ class AWSSigningMiddlewareTests {
             signingAlgorithm = SigningAlgorithm.SigV4
         )
         val subject = AWSSigningMiddleware(context.model, context.symbolProvider, params)
-        subject.render(writer, operation, stack)
+        subject.render(context, writer, operation, stack)
         val contents = writer.toString()
 
         contents.shouldContainOnlyOnce(expectedContents)
@@ -143,7 +143,7 @@ class AWSSigningMiddlewareTests {
             signingAlgorithm = SigningAlgorithm.SigV4
         )
         val subject = AWSSigningMiddleware(context.model, context.symbolProvider, params)
-        subject.render(writer, operation, stack)
+        subject.render(context, writer, operation, stack)
         val contents = writer.toString()
 
         contents.shouldContainOnlyOnce(expectedContents)
@@ -168,7 +168,7 @@ class AWSSigningMiddlewareTests {
             signingAlgorithm = SigningAlgorithm.SigV4
         )
         val sut = AWSSigningMiddleware(context.model, context.symbolProvider, params)
-        sut.render(writer, operation, stack)
+        sut.render(context, writer, operation, stack)
         val contents = writer.toString()
 
         contents.shouldContainOnlyOnce(expectedContents)
@@ -193,7 +193,7 @@ class AWSSigningMiddlewareTests {
             signingAlgorithm = SigningAlgorithm.SigV4
         )
         val subject = AWSSigningMiddleware(context.model, context.symbolProvider, params)
-        subject.render(writer, operation, stack)
+        subject.render(context, writer, operation, stack)
         val contents = writer.toString()
 
         contents.shouldContainOnlyOnce(expectedContents)
@@ -218,7 +218,7 @@ class AWSSigningMiddlewareTests {
             signingAlgorithm = SigningAlgorithm.SigV4
         )
         val subject = AWSSigningMiddleware(context.model, context.symbolProvider, params)
-        subject.render(writer, operation, stack)
+        subject.render(context, writer, operation, stack)
         val contents = writer.toString()
 
         contents.shouldContainOnlyOnce(expectedContents)
@@ -243,7 +243,7 @@ class AWSSigningMiddlewareTests {
             signingAlgorithm = SigningAlgorithm.SigV4
         )
         val subject = AWSSigningMiddleware(context.model, context.symbolProvider, params)
-        subject.render(writer, operation, stack)
+        subject.render(context, writer, operation, stack)
         val contents = writer.toString()
 
         contents.shouldContainOnlyOnce(expectedContents)

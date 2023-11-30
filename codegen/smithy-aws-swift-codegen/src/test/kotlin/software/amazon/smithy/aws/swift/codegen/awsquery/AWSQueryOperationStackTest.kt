@@ -20,16 +20,9 @@ class AWSQueryOperationStackTest {
         val contents = getFileContents(context.manifest, "/Example/QueryProtocolClient.swift")
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
-extension QueryProtocolClient: QueryProtocolClientProtocol {
-    /// Performs the `NoInputAndOutput` operation on the `AwsQuery` service.
-    ///
-    /// This is a very cool operation.
-    ///
-    /// - Parameter NoInputAndOutputInput : [no documentation found]
-    ///
-    /// - Returns: `NoInputAndOutputOutput` : [no documentation found]
     public func noInputAndOutput(input: NoInputAndOutputInput) async throws -> NoInputAndOutputOutput
     {
+        let encoder = self.encoder
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
                       .withDecoder(value: decoder)
@@ -48,7 +41,7 @@ extension QueryProtocolClient: QueryProtocolClientProtocol {
         let endpointParams = EndpointParams()
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<NoInputAndOutputOutput, NoInputAndOutputOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<NoInputAndOutputInput, NoInputAndOutputOutput>(xmlName: "NoInputAndOutputInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<NoInputAndOutputInput, NoInputAndOutputOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<NoInputAndOutputInput, NoInputAndOutputOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, NoInputAndOutputOutput, NoInputAndOutputOutputError>(options: config.retryStrategyOptions))
@@ -57,8 +50,6 @@ extension QueryProtocolClient: QueryProtocolClientProtocol {
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
-
-}
 """
         contents.shouldContainOnlyOnce(expectedContents)
     }

@@ -16,8 +16,6 @@ class AWSHttpProtocolRestXMLCustomizations : AWSHttpProtocolCustomizations() {
         val properties = mutableListOf<ClientProperty>()
         val requestEncoderOptions = mutableMapOf<String, String>()
         val responseDecoderOptions = mutableMapOf<String, String>()
-        requestEncoderOptions["dateEncodingStrategy"] = ".secondsSince1970"
-        requestEncoderOptions["nonConformingFloatEncodingStrategy"] = ".convertToString(positiveInfinity: \"Infinity\", negativeInfinity: \"-Infinity\", nan: \"NaN\")"
         responseDecoderOptions["dateDecodingStrategy"] = ".secondsSince1970"
         responseDecoderOptions["nonConformingFloatDecodingStrategy"] = ".convertFromString(positiveInfinity: \"Infinity\", negativeInfinity: \"-Infinity\", nan: \"NaN\")"
         responseDecoderOptions["trimValueWhitespaces"] = "false"

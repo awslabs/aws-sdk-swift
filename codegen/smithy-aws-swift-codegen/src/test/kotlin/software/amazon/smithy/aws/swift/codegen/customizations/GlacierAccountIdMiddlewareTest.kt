@@ -51,7 +51,7 @@ class GlacierAccountIdMiddlewareTest {
         val opStackName = "stack"
         val glacierMiddleware = GlacierAccountIdMiddleware(model, context.symbolProvider)
 
-        glacierMiddleware.render(writer, operationShape, opStackName)
+        glacierMiddleware.render(context, writer, operationShape, opStackName)
 
         val contents = writer.toString()
         val expectedContents = """

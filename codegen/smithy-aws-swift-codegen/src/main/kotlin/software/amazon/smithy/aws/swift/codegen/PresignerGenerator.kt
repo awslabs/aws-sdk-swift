@@ -103,7 +103,7 @@ class PresignerGenerator : SwiftIntegration {
                     operationMiddleware,
                     operationStackName
                 )
-                generator.render(op) { writer, _ ->
+                generator.render(serviceShape, op) { writer, _ ->
                     writer.write("return nil")
                 }
                 val requestBuilderName = "presignedRequestBuilder"
