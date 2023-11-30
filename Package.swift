@@ -202,8 +202,8 @@ addDependencies(
 )
 
 let serviceTargets: [String] = [
+    "AWSGlacier",
     "AWSKinesis",
-    "AWSS3",
     "AWSSTS",
     "AWSTranscribeStreaming",
 ]

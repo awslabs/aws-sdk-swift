@@ -11,9 +11,9 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 ## Service Documentation
 
 
-[AWSKinesis](../../../../swift/awskinesis/latest/documentation/awskinesis)
+[AWSGlacier](../../../../swift/awsglacier/latest/documentation/awsglacier)
 
-[AWSS3](../../../../swift/awss3/latest/documentation/awss3)
+[AWSKinesis](../../../../swift/awskinesis/latest/documentation/awskinesis)
 
 [AWSSTS](../../../../swift/awssts/latest/documentation/awssts)
 
