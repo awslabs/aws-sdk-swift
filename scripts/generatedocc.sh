@@ -43,15 +43,14 @@ generateDocs() {
 
     # copy to AWSS3, adding the new version
     echo "Copying doccarchive to S3 for $package_lowercase-$VERSION"
-    aws s3 cp --only-show-errors $OUTPUT_DIR/$package_lowercase-$VERSION.doccarchive s3://$DOCS_BUCKET/$package_lowercase-$VERSION.doccarchive
-    echo "Copying complete"
+    aws s3 cp --only-show-errors $OUTPUT_DIR/$package_lowercase-$VERSION.doccarchive/* s3://$DOCS_BUCKET/$package_lowercase-$VERSION.doccarchive
 
     # break if sync fails
     if [ $? -ne 0 ]; then
-        echo "Failed to sync $package_lowercase-$VERSION"
+        echo "Failed to copy $package_lowercase-$VERSION"
         exit 1
     else
-        echo "$package_lowercase-$VERSION synced successfully"
+        echo "$package_lowercase-$VERSION copied successfully"
     fi
 
     # delete temp files
