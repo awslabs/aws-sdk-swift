@@ -19,6 +19,8 @@ struct PackageManifestBuilder {
     let crtVersion: Version
     let services: [Service]
     let includeProtocolTests: Bool
+    let includeIntegrationTests: Bool
+    let excludeServiceTests: Bool
     let basePackageContents: () throws -> String
     
     init(
@@ -26,12 +28,16 @@ struct PackageManifestBuilder {
         crtVersion: Version,
         services: [Service],
         includeProtocolTests: Bool,
+        includeIntegrationTests: Bool,
+        excludeServiceTests: Bool,
         basePackageContents: @escaping () throws -> String
     ) {
         self.clientRuntimeVersion = clientRuntimeVersion
         self.crtVersion = crtVersion
         self.services = services
         self.includeProtocolTests = includeProtocolTests
+        self.includeIntegrationTests = includeIntegrationTests
+        self.excludeServiceTests = excludeServiceTests
         self.basePackageContents = basePackageContents
     }
     
@@ -39,9 +45,11 @@ struct PackageManifestBuilder {
         clientRuntimeVersion: Version,
         crtVersion: Version,
         services: [Service],
-        includeProtocolTests: Bool
+        includeProtocolTests: Bool,
+        includeIntegrationTests: Bool,
+        excludeServiceTests: Bool
     ) {
-        self.init(clientRuntimeVersion: clientRuntimeVersion, crtVersion: crtVersion, services: services, includeProtocolTests: includeProtocolTests) {
+        self.init(clientRuntimeVersion: clientRuntimeVersion, crtVersion: crtVersion, services: services, includeProtocolTests: includeProtocolTests, includeIntegrationTests: includeIntegrationTests, excludeServiceTests: excludeServiceTests) {
             // Returns the contents of the base package manifest stored in the bundle at `Resources/Package.Base.swift`
             let basePackageName = "Package.Base"
             
@@ -90,6 +98,8 @@ struct PackageManifestBuilder {
             buildIntegrationTestsTargets(),
             "",
             buildProtocolTests(),
+            "",
+            buildResolvedServices(),
             "\n"
         ]
         return contents.joined(separator: .newline)
@@ -139,12 +149,13 @@ struct PackageManifestBuilder {
         let propertyName = "serviceTargets"
         
         var lines: [String] = []
-        lines += ["let \(propertyName): [String] = ["]
+        lines += ["let \(propertyName) = ["]
         lines += services.map { "    \($0.name.wrappedInQuotes())," }
         lines += ["]"]
         lines += [""]
-        lines += ["\(propertyName).forEach(addServiceTarget)"]
-        
+        lines += ["// Uncomment this line to enable all services"]
+        lines += ["\(excludeServiceTests ? "// " : "")addAllServices()"]
+
         return lines.joined(separator: .newline)
     }
 
@@ -166,11 +177,12 @@ struct PackageManifestBuilder {
         let propertyName = "servicesWithIntegrationTests"
 
         var lines: [String] = []
-        lines += ["let \(propertyName): [String] = ["]
+        lines += ["let \(propertyName) = ["]
         lines += services.filter(\.includeIntegrationTests).map { "    \($0.name.wrappedInQuotes())," }
         lines += ["]"]
         lines += [""]
-        lines += ["\(propertyName).forEach(addIntegrationTestTarget)"]
+        lines += ["// Uncomment this line to enable integration tests"]
+        lines += ["\(includeIntegrationTests ? "" : "// ")addIntegrationTests()"]
 
         return lines.joined(separator: .newline)
     }
@@ -186,6 +198,12 @@ struct PackageManifestBuilder {
             "// Uncomment this line to enable protocol tests",
             (includeProtocolTests ? "" : "// ") + "addProtocolTests()"
 
+        ].joined(separator: .newline)
+    }
+
+    private func buildResolvedServices() -> String {
+        return [
+            "addResolvedTargets()"
         ].joined(separator: .newline)
     }
 }

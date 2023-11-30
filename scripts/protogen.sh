@@ -43,9 +43,9 @@ rm codegen/protocol-test-codegen-local/build/smithyprojections/protocol-test-cod
 rm codegen/protocol-test-codegen-local/build/smithyprojections/protocol-test-codegen-local/EventStream/swift-codegen/Package.swift
 rm codegen/protocol-test-codegen-local/build/smithyprojections/protocol-test-codegen-local/Waiters/swift-codegen/Package.swift
 
-# Regenerate the Package.swift with protocol tests included
+# Regenerate the Package.swift with protocol tests included and services excluded
 cd AWSSDKSwiftCLI
-swift run AWSSDKSwiftCLI generate-package-manifest --include-protocol-tests ..
+swift run AWSSDKSwiftCLI generate-package-manifest --include-protocol-tests --exclude-service-tests ..
 cd ..
 
 # If on Mac, reopen Xcode to the refreshed tests

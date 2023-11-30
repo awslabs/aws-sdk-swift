@@ -106,7 +106,7 @@ func addServiceTarget(_ name: String) {
 
 func addIntegrationTestTarget(_ name: String) {
     let integrationTestName = "\(name)IntegrationTests"
-    var additionalDependencies: [PackageDescription.Target.Dependency] = []
+    var additionalDependencies: [String] = []
     var exclusions: [String] = []
     switch name {
     case "AWSECS":
@@ -120,15 +120,32 @@ func addIntegrationTestTarget(_ name: String) {
     default:
         break
     }
+    integrationTestServices.insert(name)
+    additionalDependencies.forEach { integrationTestServices.insert($0) }
     package.targets += [
         .testTarget(
             name: integrationTestName,
-            dependencies: [.crt, .clientRuntime, .awsClientRuntime, .byName(name: name), .smithyTestUtils] + additionalDependencies,
+            dependencies: [.crt, .clientRuntime, .awsClientRuntime, .byName(name: name), .smithyTestUtils] + additionalDependencies.map { Target.Dependency.target(name: $0, condition: nil) },
             path: "./IntegrationTests/Services/\(integrationTestName)",
             exclude: exclusions,
             resources: [.process("Resources")]
         )
     ]
+}
+
+var enabledServices = Set<String>()
+
+func addAllServices() {
+    enabledServices = Set(serviceTargets)
+}
+
+var integrationTestServices = Set<String>()
+
+func addIntegrationTests() {
+    integrationTestServices = []
+    for service in servicesWithIntegrationTests {
+        addIntegrationTestTarget(service)
+    }
 }
 
 func addProtocolTests() {
@@ -179,4 +196,8 @@ func addProtocolTests() {
             )
         ]
     }
+}
+
+func addResolvedTargets() {
+    enabledServices.union(integrationTestServices).forEach(addServiceTarget)
 }

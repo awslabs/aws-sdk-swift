@@ -112,6 +112,7 @@ extension GeneratePackageManifest {
         services: [String]? = nil,
         includesIntegrationTests: Bool = false,
         includeProtocolTests: Bool = false,
+        excludeServiceTests: Bool = false,
         buildPackageManifest: @escaping BuildPackageManifest = { (_,_,_) throws -> String in "" }
     ) -> GeneratePackageManifest {
         GeneratePackageManifest(
@@ -122,6 +123,7 @@ extension GeneratePackageManifest {
             services: services,
             includeIntegrationTests: includesIntegrationTests,
             includeProtocolTests: includeProtocolTests,
+            excludeServiceTests: excludeServiceTests,
             buildPackageManifest: buildPackageManifest
         )
     }

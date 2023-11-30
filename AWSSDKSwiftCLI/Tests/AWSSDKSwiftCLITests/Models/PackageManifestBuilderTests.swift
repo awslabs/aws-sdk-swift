@@ -9,7 +9,7 @@
 import XCTest
 
 class PackageManifestBuilderTests: XCTestCase {
-    
+
     let expected = """
     <contents of base package>
     
@@ -27,7 +27,8 @@ class PackageManifestBuilderTests: XCTestCase {
         "D",
         "E",
     ]
-    
+
+    // Uncomment this line to enable service tests
     serviceTargets.forEach(addServiceTarget)
 
     let servicesWithIntegrationTests: [String] = [
@@ -41,7 +42,7 @@ class PackageManifestBuilderTests: XCTestCase {
     servicesWithIntegrationTests.forEach(addIntegrationTestTarget)
 
     // Uncomment this line to enable protocol tests
-    addProtocolTests()
+    // addProtocolTests()
     """
     
     func testBuild() {
@@ -49,7 +50,9 @@ class PackageManifestBuilderTests: XCTestCase {
             clientRuntimeVersion: .init("1.2.3"),
             crtVersion: .init("4.5.6"),
             services: ["A","B","C","D","E"].map { PackageManifestBuilder.Service(name: $0, includeIntegrationTests: true) },
-            includeProtocolTests: true,
+            includeProtocolTests: false,
+            includeIntegrationTests: false,
+            excludeServiceTests: false,
             basePackageContents: { "<contents of base package>" }
         )
         let result = try! subject.build()
