@@ -50,7 +50,7 @@ jobs:
           else
             # echo "Error: runs on a tag only"
             # exit(1)
-            VERSION="0.0.3"
+            VERSION="0.0.4"
             echo "Assumed version number $VERSION"
             echo "VERSION=$VERSION" >> "$GITHUB_ENV"
           fi
@@ -59,3 +59,16 @@ jobs:
           DOCS_BUCKET=${{ secrets.CD_API_REFS_BUCKET_NAME }} \
           DISTRIBUTION_ID=${{ secrets.CD_CLOUDFRONT_DISTRIBUTION_ID }} \
           ./scripts/generatedocc.sh "$VERSION" ${{ matrix.job }} ${{ strategy.job-total }} ${{ env.IGNORE }}
+  update-latest:
+    needs: generate-docs
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install AWS CLI
+        run: |
+          DEBIAN_FRONTEND="noninteractive" apt-get update
+          apt-get -y install curl unzip
+          curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+          unzip awscliv2.zip && ./aws/install
+      - name: Update Cloudfront key value store
+        run: |
+          aws cloudfront-keyvaluestore --kvs-arn ${{ secrets.CF_CLOUDFRONT_KVS_ARN }} --key latest --value "$VERSION"
