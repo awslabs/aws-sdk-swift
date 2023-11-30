@@ -43,7 +43,7 @@ generateDocs() {
 
     # copy to AWSS3, adding the new version
     echo "Copying doccarchive to S3 for $package_lowercase-$VERSION"
-    aws s3 cp --only-show-errors $OUTPUT_DIR/$package_lowercase-$VERSION.doccarchive/* s3://$DOCS_BUCKET/$package_lowercase-$VERSION.doccarchive
+    aws s3 cp --recursive --only-show-errors $OUTPUT_DIR/$package_lowercase-$VERSION.doccarchive s3://$DOCS_BUCKET/$package_lowercase-$VERSION.doccarchive
 
     # break if sync fails
     if [ $? -ne 0 ]; then
