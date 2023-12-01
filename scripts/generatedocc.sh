@@ -105,3 +105,7 @@ for package in $packages; do
     current=$((current + 1))
 done
 
+# Generate an index with the literal version "latest"
+if [ $CURRENT_JOB -eq 0 ]; then
+  generateDocs "awssdkforswift" "latest"
+fi
