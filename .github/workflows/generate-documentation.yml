@@ -39,13 +39,13 @@ jobs:
           if [[ $GITHUB_REF == refs/tags/* ]]; then
             echo "Tagged release"
             # get last part of GITHUB_REF separated by /
-            VERSION=$(echo $GITHUB_REF | tr '/' '\n' | tail -1)
+            VERSION=`echo $GITHUB_REF | tr '/' '\n' | tail -1`
             echo "Version: $VERSION"
             echo "VERSION=$VERSION" >> "$GITHUB_ENV"
             echo "version=$VERSION" >> "$GITHUB_OUTPUT"
           else
             echo "Error: runs on a tag only"
-            exit(1)
+            exit 1
           fi
       - name: Generate docs
         run: |
